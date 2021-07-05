@@ -1,0 +1,913 @@
+﻿
+@{
+    Layout = null;
+}
+
+@using WordVision.ec.Web.Areas.Registro.Models
+@model FormularioViewModel
+
+@using WordVision.ec.Web.Views.Shared.Components.Footer;
+@using WordVision.ec.Web.Views.Shared.Components.Title;
+@using WordVision.ec.Web.Views.Shared.Components.Sidebar;
+@using WordVision.ec.Web.Views.Shared.Components.Header;
+@using WordVision.ec.Web.Views.Shared.Components.Logout;
+@using WordVision.ec.Web.Views.Shared.Components.FormModal;
+@using WordVision.ec.Web.Views.Shared.Components.ImageModal;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>World Vision</title>
+    <partial name="_Styles" />
+</head>
+<body class="hold-transition sidebar-mini">
+    <form id="create-form" method="post" asp-controller="Formulario" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+        @Html.HiddenFor(x => x.Id, new { name = "Id", @Value = Model.Id })
+        @Html.HiddenFor(x => x.IdColaborador, new { name = "IdColaborador", @Value = Model.IdColaborador })
+        <div class="card card-info">
+            <div class="card-header card-header-int">
+                Actualización de datos
+            </div>
+            <div class="card-body">
+                <div class="container-fluid">
+
+                    <div class="texto-seccionpregunta">1. DATOS PERSONALES</div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label texto-pregunta">Apellido Paterno</label>
+                        <div class="col-md-4">
+                            <input type="text" asp-for="Colaboradores.Apellidos" name="Colaboradores.Apellidos" class="form-control">
+                            <span asp-validation-for="Colaboradores.Apellidos" class="text-danger"></span>
+                        </div>
+                        <label class="col-md-2 col-form-label texto-pregunta">Apellido Materno</label>
+                        <div class="col-md-4">
+                            <input type="text" asp-for="Colaboradores.ApellidoMaterno" name="Colaboradores.ApellidoMaterno" class="form-control">
+                            <span asp-validation-for="Colaboradores.ApellidoMaterno" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label texto-pregunta">Primer  Nombre</label>
+                        <div class="col-md-4">
+                            <input type="text" asp-for="Colaboradores.PrimerNombre" name="Colaboradores.PrimerNombre" class="form-control">
+                            <span asp-validation-for="Colaboradores.PrimerNombre" class="text-danger"></span>
+                        </div>
+                        <label class="col-md-2 col-form-label texto-pregunta">Segundo Nombre</label>
+                        <div class="col-md-4">
+                            <input type="text" asp-for="Colaboradores.SegundoNombre" name="Colaboradores.SegundoNombre" class="form-control">
+                            <span asp-validation-for="Colaboradores.SegundoNombre" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label texto-pregunta">Identificacion</label>
+                        <div class="col-md-4">
+                            <input type="text" asp-for="Colaboradores.Identificacion" name="Colaboradores.Identificacion" class="form-control">
+                            <span asp-validation-for="Colaboradores.Identificacion" class="text-danger"></span>
+                        </div>
+                        <label class="col-md-2 col-form-label texto-pregunta">Fecha Nacimiento</label>
+                        <div class="col-md-4">
+                            <input type="text" asp-for="FechaNacimiento" name="FechaNacimiento" id="FechaNacimiento" class="form-control">
+                            <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label texto-pregunta">Nacionalidad</label>
+                        <div class="col-md-4">
+                            <input type="text" asp-for="Nacionalidad" name="Nacionalidad" id="Nacionalidad" class="form-control">
+
+                            <span asp-validation-for="Nacionalidad" class="text-danger"></span>
+                        </div>
+
+
+                        <label class="col-md-2 col-form-label texto-pregunta">Estado Civil</label>
+                        <div class="col-md-4">
+                            <select asp-for="EstadoCivil" name="EstadoCivil" class="form-control">
+                                <option value="1">Casado</option>
+                                <option value="2">Soltero</option>
+                                <option value="3">Divorciado</option>
+                                <option value="4">Union Libre</option>
+                            </select>
+
+                            <span asp-validation-for="EstadoCivil" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    @*<div class="form-group row">
+            <label class="col-md-2 col-form-label texto-pregunta">Area</label>
+            <div class="col-md-4">
+                <select asp-for="Colaboradores.Area" name="Colaboradores.Area" class="form-control">
+                    <option value="AREA1">AREA1</option>
+                    <option value="AREA2">AREA2</option>
+                    <option value="AREA3">AREA3</option>
+                </select>
+                <span asp-validation-for="Area" class="text-danger"></span>
+            </div>
+
+
+            <label class="col-md-2 col-form-label texto-pregunta">Cargo</label>
+            <div class="col-md-4">
+                <select asp-for="Colaboradores.Cargo" name="Colaboradores.Cargo" class="form-control">
+                    <option value="CARGO1">CARGO1</option>
+                    <option value="CARGO2">CARGO2</option>
+                    <option value="CARGO3">CARGO3</option>
+                </select>
+
+                <span asp-validation-for="Cargo" class="text-danger"></span>
+            </div>
+
+
+        </div>*@
+                    <div class="form-group row">
+                        @*<label class="col-md-2 col-form-label texto-pregunta">Lugar de Trabajo</label>
+            <div class="col-md-4">
+                <select asp-for="Colaboradores.LugarTrabajo" name="Colaboradores.LugarTrabajo" class="form-control">
+                    <option value="LUGAR1">LUGAR1</option>
+                    <option value="LUGAR2">LUGAR2</option>
+                    <option value="LUGAR3">LUGAR3</option>
+                </select>
+
+                <span asp-validation-for="LugarTrabajo" class="text-danger"></span>
+            </div>*@
+                        <label class="col-md-2 col-form-label texto-pregunta">Formacion Academica</label>
+                        <div class="col-md-4">
+                            <select asp-for="FormacionAcademica" name="FormacionAcademica" class="form-control">
+                                <option value="1">Bachiller</option>
+                                <option value="2">Superior</option>
+                                <option value="3">Postgrado</option>
+                                <option value="4">Doctorado</option>
+                                <option value="5">Primaria</option>
+                            </select>
+                            <span asp-validation-for="FormacionAcademica" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="texto-seccionpregunta">
+                        2. DIRECCION PERMANENTE Y TELEFONO
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label texto-pregunta">RESIDENCIA PERMANENTE</label>
+
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label texto-pregunta">Pais</label>
+                        <div class="col-md-2">
+                            <select asp-for="PaisResidencia" name="PaisResidencia" class="form-control">
+                                <option value="ECUADOR">ECUADOR</option>
+                            </select>
+
+                            <span asp-validation-for="PaisResidencia" class="text-danger"></span>
+                        </div>
+                        <label class="col-md-2 col-form-label texto-pregunta">Provincia</label>
+                        <div class="col-md-2">
+                            <select asp-for="ProvinciaResidencia" name="ProvinciaResidencia" class="form-control">
+                                <option value='1'>AZUAY</option>
+                                <option value='2'>BOLIVAR</option>
+                                <option value='3'> CAÑAR</option>
+                                <option value='4'>CARCHI</option>
+                                <option value='5'> COTOPAXI</option>
+                                <option value='6'>CHIMBORAZO</option>
+                                <option value='7'>EL ORO</option>
+                                <option value='8'>ESMERALDAS</option>
+                                <option value='9'>GUAYAS</option>
+                                <option value='10'>IMBABURA</option>
+                                <option value='11'>LOJA </option>
+                                <option value='12'>LOS RIOS</option>
+                                <option value='13'>MANABI</option>
+                                <option value='14'> MORONA SANTIAGO</option>
+                                <option value='15'> NAPO</option>
+                                <option value='16'> PASTAZA</option>
+                                <option value='17'>PICHINCHA</option>
+                                <option value='18'>TUNGURAHUA</option>
+                                <option value='19'> ZAMORA CHINCHIPE</option>
+                                <option value='20'> GALAPAGOS</option>
+                                <option value='21'>SUCUMBIOS</option>
+                                <option value='22'> ORELLANA</option>
+                                <option value='23'>SANTO DOMINGO DE LOS TSACHILAS</option>
+                                <option value='24'>SANTA ELENA</option>
+                                <option value='25'>ZONAS NO DELIMITADAS</option>
+
+                            </select>
+                            <span asp-validation-for="ProvinciaResidencia" class="text-danger"></span>
+                        </div>
+                        <label class="col-md-2 col-form-label texto-pregunta">Ciudad</label>
+                        <div class="col-md-2">
+                            <select asp-for="CiudadResidencia" name="CiudadResidencia" class="form-control">
+                                <option value='1'>CUENCA</option>
+                                <option value='2'>GIRON</option>
+                                <option value='3'>GUALACEO</option>
+                                <option value='4'> NABON</option>
+                                <option value='5'>PAUTE</option>
+                                <option value='6'> PUCARA</option>
+                                <option value='7'> SAN FERNANDO</option>
+                                <option value='8'> SANTA ISABEL</option>
+                                <option value='9'> SIGSIG</option>
+                                <option value='10'> OÑA</option>
+                                <option value='11'>CHORDELEG</option>
+                                <option value='12'> EL PAN</option>
+                                <option value='13'> SEVILLA DE ORO</option>
+                                <option value='14'> GUACHAPALA</option>
+                                <option value='15'>CAMILO PONCE ENRIQUEZ</option>
+                                <option value='16'> GUARANDA</option>
+                                <option value='17'> CHILLANES</option>
+                                <option value='18'> CHIMBO</option>
+                                <option value='19'> ECHEANDIA</option>
+                                <option value='20'>SAN MIGUEL</option>
+                                <option value='21'> CALUMA </option>
+                                <option value='22'> LAS NAVES</option>
+                                <option value='23'>AZOGUES</option>
+                                <option value='24'> BIBLIAN</option>
+                                <option value='25'>CAÑAR</option>
+                                <option value='26'> LA TRONCAL</option>
+                                <option value='27'>EL TAMBO </option>
+                                <option value='28'> DELEG</option>
+                                <option value='29'>SUSCAL</option>
+                                <option value='30'> TULCAN</option>
+                                <option value='31'> BOLIVAR</option>
+                                <option value='32'> ESPEJO</option>
+                                <option value='33'> MIRA</option>
+                                <option value='34'>MONTUFAR</option>
+                                <option value='35'> SAN PEDRO DE HUACA</option>
+                                <option value='36'>LATACUNGA</option>
+                                <option value='37'>LA MANA</option>
+                                <option value='38'>PANGUA</option>
+                                <option value='39'> PUJILI</option>
+                                <option value='40'> SALCEDO</option>
+                                <option value='41'>SAQUISILI</option>
+                                <option value='42'>SIGCHOS</option>
+                                <option value='43'>RIOBAMBA</option>
+                                <option value='44'>ALAUSI</option>
+                                <option value='45'> COLTA</option>
+                                <option value='46'>CHAMBO</option>
+                                <option value='47'>CHUNCHI</option>
+                                <option value='48'>GUAMOTE</option>
+                                <option value='49'>GUANO</option>
+                                <option value='50'>PALLATANGA</option>
+                                <option value='51'> PENIPE</option>
+                                <option value='52'>CUMANDA</option>
+                                <option value='53'>MACHALA</option>
+                                <option value='54'>ARENILLAS</option>
+                                <option value='55'>ATAHUALPA</option>
+                                <option value='56'>BALSAS</option>
+                                <option value='57'>CHILLA</option>
+                                <option value='58'>EL GUABO</option>
+                                <option value='59'>HUAQUILLAS</option>
+                                <option value='60'>MARCABELI</option>
+                                <option value='61'>PASAJE</option>
+                                <option value='62'>PIÑAS</option>
+                                <option value='63'>PORTOVELO</option>
+                                <option value='64'>SANTA ROSA</option>
+                                <option value='65'>ZARUMA</option>
+                                <option value='66'>LAS LAJAS</option>
+                                <option value='67'> ESMERALDAS</option>
+                                <option value='68'>ELOY ALFARO</option>
+                                <option value='69'>MUISNE</option>
+                                <option value='70'>QUININDE</option>
+                                <option value='71'>SAN LORENZO</option>
+                                <option value='72'>ATACAMES</option>
+                                <option value='73'>RIOVERDE</option>
+                                <option value='74'>LA CONCORDIA</option>
+                                <option value='75'> GUAYAQUIL</option>
+                                <option value='76'>ALFREDO BAQUERIZO MORENO (JUJAN)</option>
+                                <option value='77'>BALAO</option>
+                                <option value='78'>BALZAR</option>
+                                <option value='79'>COLIMES</option>
+                                <option value='80'>DAULE</option>
+                                <option value='81'>DURAN</option>
+                                <option value='82'> EL EMPALME</option>
+                                <option value='83'>EL TRIUNFO</option>
+                                <option value='84'> MILAGRO</option>
+                                <option value='85'>NARANJAL</option>
+                                <option value='86'>NARANJITO</option>
+                                <option value='87'>PALESTINA</option>
+                                <option value='88'>PEDRO CARBO</option>
+                                <option value='89'>SAMBORONDON</option>
+                                <option value='90'> SANTA LUCIA</option>
+                                <option value='91'>SALITRE (URBINA JADO)</option>
+                                <option value='92'>SAN JACINTO DE YAGUACHI</option>
+                                <option value='93'> PLAYAS</option>
+                                <option value='94'>SIMON BOLIVAR</option>
+                                <option value='95'>CORONEL MARCELINO MARIDUEÑA</option>
+                                <option value='96'>LOMAS DE SARGENTILLO</option>
+                                <option value='97'>NOBOL</option>
+                                <option value='98'>GENERAL ANTONIO ELIZALDE </option>
+                                <option value='99'>ISIDRO AYORA </option>
+                                <option value='100'> IBARRA</option>
+                                <option value='101'>ANTONIO ANTE</option>
+                                <option value='102'>COTACACHI</option>
+                                <option value='103'>OTAVALO</option>
+                                <option value='104'>PIMAMPIRO</option>
+                                <option value='105'>SAN MIGUEL DE URCUQUI</option>
+                                <option value='106'> LOJA</option>
+                                <option value='107'>CALVAS</option>
+                                <option value='108'>CATAMAYO</option>
+                                <option value='109'>CELICA</option>
+                                <option value='110'>CHAGUARPAMBA</option>
+                                <option value='111'> ESPINDOLA</option>
+                                <option value='112'> GONZANAMA</option>
+                                <option value='113'>MACARA</option>
+                                <option value='114'>PALTAS</option>
+                                <option value='115'> PUYANGO</option>
+                                <option value='116'>SARAGURO</option>
+                                <option value='117'>SOZORANGA</option>
+                                <option value='118'>ZAPOTILLO</option>
+                                <option value='119'> PINDAL</option>
+                                <option value='120'>QUILANGA</option>
+                                <option value='121'>OLMEDO</option>
+                                <option value='122'>BABAHOYO</option>
+                                <option value='123'>BABA</option>
+                                <option value='124'> MONTALVO</option>
+                                <option value='125'>PUEBLOVIEJO</option>
+                                <option value='126'>QUEVEDO</option>
+                                <option value='127'>URDANETA</option>
+                                <option value='128'>VENTANAS</option>
+                                <option value='129'>VINCES</option>
+                                <option value='130'>PALENQUE</option>
+                                <option value='131'>BUENA FE</option>
+                                <option value='132'>VALENCIA</option>
+                                <option value='133'> MOCACHE</option>
+                                <option value='134'>QUINSALOMA</option>
+                                <option value='135'>PORTOVIEJO</option>
+                                <option value='136'>BOLIVAR</option>
+                                <option value='137'>CHONE</option>
+                                <option value='138'>EL CARMEN</option>
+                                <option value='139'> FLAVIO ALFARO</option>
+                                <option value='140'> JIPIJAPA</option>
+                                <option value='141'>JUNIN</option>
+                                <option value='142'> MANTA</option>
+                                <option value='143'> MONTECRISTI   </option>
+                                <option value='144'>PAJAN</option>
+                                <option value='145'> PICHINCHA</option>
+                                <option value='146'>ROCAFUERTE</option>
+                                <option value='147'>SANTA ANA</option>
+                                <option value='148'> SUCRE</option>
+                                <option value='149'> TOSAGUA</option>
+                                <option value='150'>24 DE MAYO</option>
+                                <option value='151'> PEDERNALES</option>
+                                <option value='152'>PUERTO LOPEZ</option>
+                                <option value='153'> JAMA</option>
+                                <option value='154'> JARAMIJO</option>
+                                <option value='155'>SAN VICENTE</option>
+                                <option value='156'>MORONA</option>
+                                <option value='157'> GUALAQUIZA</option>
+                                <option value='158'>LIMON INDANZA</option>
+                                <option value='159'>PALORA</option>
+                                <option value='160'>SANTIAGO</option>
+                                <option value='161'>SUCUA</option>
+                                <option value='162'> HUAMBOYA</option>
+                                <option value='163'>SAN JUAN BOSCO </option>
+                                <option value='164'>TAISHA </option>
+                                <option value='165'>LOGROÑO </option>
+                                <option value='166'>PABLO SEXTO</option>
+                                <option value='167'>CANTON TIWINTZA</option>
+                                <option value='168'>TENA</option>
+                                <option value='169'>ARCHIDONA</option>
+                                <option value='170'>EL CHACO</option>
+                                <option value='171'>QUIJOS</option>
+                                <option value='172'> CARLOS JULIO AROSEMENA TOLA</option>
+                                <option value='173'>PASTAZA</option>
+                                <option value='174'>MERA</option>
+                                <option value='175'> SANTA CLARA</option>
+                                <option value='176'> ARAJUNO</option>
+                                <option value='177'>QUITO</option>
+                                <option value='178'>CAYAMBE</option>
+                                <option value='179'> MEJIA</option>
+                                <option value='180'> PEDRO MONCAYO</option>
+                                <option value='181'>RUMIÑAHUI</option>
+                                <option value='182'> SAN MIGUEL DE LOS BANCOS</option>
+                                <option value='183'> PEDRO VICENTE MALDONADO</option>
+                                <option value='184'>PUERTO QUITO</option>
+                                <option value='185'>AMBATO</option>
+                                <option value='186'>BAÑOS DE AGUA SANTA</option>
+                                <option value='187'> CEVALLOS</option>
+                                <option value='188'> MOCHA</option>
+                                <option value='189'> PATATE</option>
+                                <option value='190'> QUERO</option>
+                                <option value='191'>SAN PEDRO DE PELILEO</option>
+                                <option value='192'>SANTIAGO DE PILLARO</option>
+                                <option value='193'>TISALEO</option>
+                                <option value='194'>ZAMORA</option>
+                                <option value='195'> CHINCHIPE</option>
+                                <option value='196'> NANGARITZA</option>
+                                <option value='197'> YACUAMBI</option>
+                                <option value='198'> YANTZAZA (YANZATZA)</option>
+                                <option value='199'> EL PANGUI</option>
+                                <option value='200'> CENTINELA DEL CONDOR</option>
+                                <option value='201'>PALANDA</option>
+                                <option value='202'>PAQUISHA </option>
+                                <option value='203'> SAN CRISTOBAL</option>
+                                <option value='204'> ISABELA</option>
+                                <option value='205'> SANTA CRUZ</option>
+                                <option value='206'> LAGO AGRIO</option>
+                                <option value='207'> GONZALO PIZARRO</option>
+                                <option value='208'> PUTUMAYO</option>
+                                <option value='209'>SHUSHUFINDI</option>
+                                <option value='210'> SUCUMBIOS</option>
+                                <option value='211'>CASCALES</option>
+                                <option value='212'>CUYABENO</option>
+                                <option value='213'>ORELLANA</option>
+                                <option value='214'>AGUARICO</option>
+                                <option value='215'> LA JOYA DE LOS SACHAS</option>
+                                <option value='216'> LORETO</option>
+                                <option value='217'>SANTO DOMINGO</option>
+                                <option value='218'> SANTA ELENA</option>
+                                <option value='219'> LA LIBERTAD</option>
+                                <option value='220'>SALINAS</option>
+                                <option value='221'>ZONAS NO DELIMITADAS</option>
+
+                            </select>
+                            <span asp-validation-for="CiudadResidencia" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label texto-pregunta">Calle Principal</label>
+                        <div class="col-md-2">
+                            <input type="text" asp-for="CalleResidencia" name="CalleResidencia" class="form-control">
+                            <span asp-validation-for="CalleResidencia" class="text-danger"></span>
+                        </div>
+                        <label class="col-md-2 col-form-label texto-pregunta">Numero</label>
+                        <div class="col-md-2">
+                            <input type="text" asp-for="NumCasaResidencia" name="NumCasaResidencia" class="form-control">
+                            <span asp-validation-for="NumCasaResidencia" class="text-danger"></span>
+                        </div>
+                        <label class="col-md-2 col-form-label texto-pregunta">Calle Secundaria</label>
+                        <div class="col-md-2">
+                            <input type="text" asp-for="CalleSecundariaResidencia" name="CalleSecundariaResidencia" class="form-control">
+                            <span asp-validation-for="CalleSecundariaResidencia" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label texto-pregunta">Conjunto/CasaN°/Depart.N°</label>
+                        <div class="col-md-2">
+                            <input type="text" asp-for="InfoResidencia" name="InfoResidencia" class="form-control">
+                            <span asp-validation-for="InfoResidencia" class="text-danger"></span>
+                        </div>
+                        <label class="col-md-2 col-form-label texto-pregunta">Sector</label>
+                        <div class="col-md-2">
+                            <input type="text" asp-for="SectorResidencia" name="SectorResidencia" class="form-control">
+                            <span asp-validation-for="SectorResidencia" class="text-danger"></span>
+                        </div>
+                        <label class="col-md-2 col-form-label texto-pregunta">Referencia</label>
+                        <div class="col-md-2">
+                            <input type="text" asp-for="ReferenciaResidencia" name="ReferenciaResidencia" class="form-control">
+                            <span asp-validation-for="ReferenciaResidencia" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label texto-pregunta">Teléfono Fijo: Area</label>
+                        <div class="col-md-1">
+                            <input type="text" asp-for="CodigoArea" name="CodigoArea" class="form-control">
+                            <span asp-validation-for="CodigoArea" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" asp-for="Telefono" name="Telefono" class="form-control">
+                            <span asp-validation-for="Telefono" class="text-danger"></span>
+                        </div>
+                        <label class="col-md-1 col-form-label texto-pregunta">Celular</label>
+                        <div class="col-md-2">
+                            <input type="text" asp-for="Celular" name="Celular" class="form-control">
+                            <span asp-validation-for="Celular" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label texto-pregunta">Correo Electrónico</label>
+                        <div class="col-md-4">
+                            <input type="text" asp-for="Colaboradores.Email" name="Colaboradores.Email" class="form-control">
+                            <span asp-validation-for="Colaboradores.Email" class="text-danger"></span>
+                        </div>
+
+                        <label class="col-md-3 col-form-label texto-pregunta">Datos de Cuenta Bancaria:</label>
+                        <div class="col-md-3">
+                            <input type="text" asp-for="CuentaBancaria" name="CuentaBancaria" class="form-control">
+                            <span asp-validation-for="CuentaBancaria" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="texto-seccionpregunta">
+                        3. REQUERIDO. SOLO PERSONAL DE OTROS PAISES; ADJUNTAR COPIA DE CÉDULA ECUATORIANA EN CASO DE TENERLA
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label texto-pregunta">Cédula No.</label>
+                        <div class="col-md-3">
+                            <input type="text" asp-for="CedulaExtranjero" name="CedulaExtranjero" class="form-control">
+                            <span asp-validation-for="CedulaExtranjero" class="text-danger"></span>
+                        </div>
+
+                        <label class="col-md-3 col-form-label texto-pregunta">Ciudadania</label>
+                        <div class="col-md-3">
+                            <input type="text" asp-for="CiudadaniaExtranjero" name="CiudadaniaExtranjero" class="form-control">
+                            <span asp-validation-for="CiudadaniaExtranjero" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label texto-pregunta">Fecha Vigencia de:</label>
+                        <div class="col-md-3">
+                            <input type="text" asp-for="VigenciaDesde" name="VigenciaDesde" id="VigenciaDesde" class="form-control">
+                            <span asp-validation-for="VigenciaDesde" class="text-danger"></span>
+                        </div>
+
+                        <label class="col-md-3 col-form-label texto-pregunta">Hasta</label>
+                        <div class="col-md-3">
+                            <input type="text" asp-for="VigenciaHasta" name="VigenciaHasta" id="VigenciaHasta" class="form-control">
+                            <span asp-validation-for="VigenciaHasta" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label texto-pregunta">Doble ciudadania</label>
+                        <div class="col-md-3">
+                            <select asp-for="DobleCiudadaniaSN" name="DobleCiudadaniaSN" class="form-control">
+                                <option value="0"></option>
+                                <option value="S">SI</option>
+                                <option value="N">NO</option>
+                            </select>
+                            <span asp-validation-for="DobleCiudadaniaSN" class="text-danger"></span>
+                        </div>
+
+                        <label class="col-md-3 col-form-label texto-pregunta">Si la respuesta es sí indique el país</label>
+                        <div class="col-md-3">
+
+                            <input type="text" asp-for="PaisCiudadania" name="PaisCiudadania" class="form-control">
+                            <span asp-validation-for="PaisCiudadania" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="texto-seccionpregunta">
+                        4. INFORMACIÓN DE DEPENDIENTES
+                    </div>
+                    @*<a onclick="jQueryModalGet('/registro/formulario/OnGetCreateOrEdit?id=0&idFormulario=@Model.Id&IdColaborador=@Model.IdColaborador&Tipo=D','Crea Dependiente')" class="btn bg-success">
+            <i class="fa fa-plus-square"></i> Agregar Dependiente
+        </a>*@
+                    <table id="colaboradorTable" class="table table-striped" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                @*<th>Id</th>
+                    <th>Tipo</th>*@
+                                <th>Apellidos</th>
+                                <th>Nombres</th>
+                                <th>Identificacion</th>
+                                <th>Fec.Nacimiento</th>
+                                <th>Celular</th>
+                                @*<th class="text-right">Acciones</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.FormularioTerceros != null)
+                            {
+
+                                @foreach (var colaborador in Model.FormularioTerceros.Where(x => x.Tipo == "D").ToList())
+                                {
+                                    <tr>
+                                        @*<td>
+                                @colaborador.Terceros.Id
+                            </td>
+                            <td>
+                                @colaborador.Terceros.Tipo
+                            </td>*@
+                                        <td>
+                                            @colaborador.Terceros.PrimerApellido @colaborador.Terceros.SegundoApellido
+                                        </td>
+                                        <td>
+                                            @colaborador.Terceros.PrimerNombre @colaborador.Terceros.SegundoNombre
+                                        </td>
+                                        <td>
+                                            @colaborador.Terceros.Identificacion
+                                        </td>
+                                        <td>
+                                            @if (colaborador.Terceros.FecNacimiento != null)
+                                                @colaborador.Terceros.FecNacimiento.Value.ToShortDateString()
+                                        </td>
+                                        <td>
+                                            @colaborador.Terceros.Celular
+                                        </td>
+                                        <!--<td class="text-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Action
+                            </button>
+                            <div class="dropdown-menu shadow animated--grow-in">
+
+                                <a onclick="jQueryModalGet('/registro/formulario/OnGetCreateOrEdit?id=@colaborador.Terceros.Id&idFormulario=@Model.Id&IdColaborador=@Model.IdColaborador&Tipo=D','Edita Dependiente')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Editar</a>
+                                <a onclick="jQueryModalGet('/registro/formulario/OnPostDelete?id=@colaborador.Terceros.Id&IdColaborador=@Model.IdColaborador','Eliminar Dependiente')" class="dropdown-item"><i class="fas fa-trash-alt"></i>  Eliminar</a>-->
+                                        @*<form id="form_delete_@colaborador.Terceros.Id" asp-area="registro" asp-controller="formulario" method="post" asp-action="OnPostDelete" asp-route-id="@colaborador.Terceros.Id" onsubmit="return jQueryModalDelete(this)">
+                                <a href="javascript:$('#form_delete_@colaborador.Terceros.Id').submit();" class="dropdown-item"><i class="fas fa-trash-alt"></i>  Eliminar</a>
+                            </form>*@
+
+                                        <!--</div>
+                            </div>
+                        </td>-->
+
+                                    </tr>
+                                }}
+
+
+                        </tbody>
+                    </table>
+
+
+                    <br />
+                    <div class="texto-seccionpregunta">
+                        5. SALUD
+                    </div>
+                    <div class="form-group row">
+
+                        <label class="col-md-3 col-form-label texto-pregunta">Tipo Sangre</label>
+                        <div class="col-md-3">
+                            <input type="text" asp-for="TipoSangre" name="TipoSangre" class="form-control">
+                            <span asp-validation-for="TipoSangre" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <label class="col-md-3 col-form-label texto-pregunta">Indicar prescripción médica (si la tiene)</label>
+                        <div class="col-md-9">
+                            <input type="text" asp-for="Preexistencia" name="Preexistencia" class="form-control">
+                            <span asp-validation-for="Preexistencia" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <label class="col-md-3 col-form-label texto-pregunta">Indicar alergias (si la tiene)</label>
+                        <div class="col-md-9">
+                            <input type="text" asp-for="Alergias" name="Alergias" class="form-control">
+                            <span asp-validation-for="Alergias" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="texto-seccionpregunta">
+                        6. CONTACTOS DE EMERGENCIA
+                    </div>
+                    @*<a onclick="jQueryModalGet('/registro/formulario/OnGetCreateOrEdit?id=0&idFormulario=@Model.Id&IdColaborador=@Model.IdColaborador&Tipo=C','Crea Contacto')" class="btn bg-success">
+            <i class="fa fa-plus-square"></i> Agregar Contacto
+        </a>*@
+                    <table id="colaboradorTable" class="table table-striped" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                @*<th>Id</th>*@
+                                @*<th>Tipo</th>*@
+                                <th>Apellidos</th>
+                                <th>Nombres</th>
+                                <th>Identificacion</th>
+                                <th>Fec.Nacimiento</th>
+                                <th>Celular</th>
+                                @*<th class="text-right">Acciones</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.FormularioTerceros != null)
+                            {
+
+                                @foreach (var colaborador in Model.FormularioTerceros.Where(x => x.Tipo == "C").ToList())
+                                {
+                                    <tr>
+                                        @*<td>
+                                @colaborador.Terceros.Id
+                            </td>
+                            <td>
+                                @colaborador.Terceros.Tipo
+                            </td>*@
+                                        <td>
+                                            @colaborador.Terceros.PrimerApellido @colaborador.Terceros.SegundoApellido
+                                        </td>
+                                        <td>
+                                            @colaborador.Terceros.PrimerNombre @colaborador.Terceros.SegundoNombre
+                                        </td>
+                                        <td>
+                                            @colaborador.Terceros.Identificacion
+                                        </td>
+                                        <td>
+                                            @if (colaborador.Terceros.FecNacimiento != null)
+                                                @colaborador.Terceros.FecNacimiento.Value.ToShortDateString()
+                                        </td>
+                                        <td>
+                                            @colaborador.Terceros.Celular
+                                        </td>
+                                        <!--<td class="text-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Action
+                            </button>
+                            <div class="dropdown-menu shadow animated--grow-in">
+
+                                <a onclick="jQueryModalGet('/registro/formulario/OnGetCreateOrEdit?id=@colaborador.Terceros.Id&idFormulario=@Model.Id&IdColaborador=@Model.IdColaborador&Tipo=C','Edita Dependiente')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Editar</a>
+                                <a onclick="jQueryModalGet('/registro/formulario/OnPostDelete?id=@colaborador.Terceros.Id&IdColaborador=@Model.IdColaborador','Eliminar Dependiente')" class="dropdown-item"><i class="fas fa-trash-alt"></i>  Eliminar</a>-->
+                                        @*<form id="form_delete_@colaborador.Terceros.Id" asp-area="registro" asp-controller="formulario" method="post" asp-action="OnPostDelete" asp-route-id="@colaborador.Terceros.Id" onsubmit="return jQueryModalDelete(this)">
+                                <a href="javascript:$('#form_delete_@colaborador.Terceros.Id').submit();" class="dropdown-item"><i class="fas fa-trash-alt"></i>  Eliminar</a>
+                            </form>*@
+
+                                        <!--</div>
+                            </div>
+                        </td>-->
+
+                                    </tr>
+                                }}
+
+
+                        </tbody>
+                    </table>
+
+
+                    <br />
+                    <div class="texto-seccionpregunta">
+                        7. INFORMACIÓN ADICIONAL
+                    </div>
+
+                     @Html.HiddenFor(x => x.Id, new { name = "IdFormulario", @Value = Model.Id })
+        <br />
+        <div id="divIdiomas">
+            <table id="idiomaTable" class="table table-striped" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        @*<th>Id</th>*@
+                        <th>Idioma</th>
+                        <th>% Escrito</th>
+                        <th>% Hablado</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Idiomas != null)
+                    {
+
+        @foreach (var colaborador in Model.Idiomas.ToList())
+        {
+    <tr id="@colaborador.Id">
+        @*<td>
+
+            @colaborador.Id
+        </td>*@
+        <td>
+
+            @colaborador.Nombre
+        </td>
+        <td>
+            @colaborador.Escrito
+        </td>
+        <td>
+            @colaborador.Hablado
+        </td>
+
+
+    </tr>
+}}
+
+
+                </tbody>
+            </table>
+        </div>
+
+    <br />
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label texto-pregunta">Creencia Religiosa</label>
+                        <div class="col-md-2">
+                            <input type="text" asp-for="CreenciaReligiosa" name="CreenciaReligiosa" class="form-control">
+                            <span asp-validation-for="CreenciaReligiosa" class="text-danger"></span>
+                        </div>
+                        <label class="col-md-2 col-form-label texto-pregunta">Iglesia en especial</label>
+                        <div class="col-md-3">
+                            <input type="text" asp-for="Iglesia" name="Iglesia" class="form-control">
+                            <span asp-validation-for="Iglesia" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-6 col-form-label texto-pregunta">Auto identificación Étnica (Indígena, Mestizo, Afro, etc.)</label>
+                        <div class="col-md-6">
+                            <input type="text" asp-for="Etnia" name="Etnia" class="form-control">
+                            <span asp-validation-for="Etnia" class="text-danger"></span>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label texto-pregunta">Tiene Discapacidad</label>
+                        <div class="col-md-2">
+                            <select asp-for="DiscapacidadSN" name="DiscapacidadSN" class="form-control">
+                                <option value="S">SI</option>
+                                <option value="N">NO</option>
+                            </select>
+                            <span asp-validation-for="DiscapacidadSN" class="text-danger"></span>
+                        </div>
+                        <label class="col-md-2 col-form-label texto-pregunta">Tipo de Discapacidad</label>
+                        <div class="col-md-2">
+                            <input type="text" asp-for="TipoDiscapacidad" name="TipoDiscapacidad" class="form-control">
+                            <span asp-validation-for="TipoDiscapacidad" class="text-danger"></span>
+                        </div>
+                        <label class="col-md-2 col-form-label texto-pregunta">Porcentaje</label>
+                        <div class="col-md-1">
+                            <input type="number" asp-for="PorcentajeDiscapacidad" name="PorcentajeDiscapacidad" class="form-control">
+                            <span asp-validation-for="PorcentajeDiscapacidad" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label texto-pregunta">Familiar Discapacidad</label>
+                        <div class="col-md-2">
+                            <select asp-for="FamiliaDiscapacidadSN" name="FamiliaDiscapacidadSN" class="form-control">
+                                <option value="S">SI</option>
+                                <option value="N">NO</option>
+                            </select>
+                            <span asp-validation-for="FamiliaDiscapacidadSN" class="text-danger"></span>
+                        </div>
+                        <label class="col-md-2 col-form-label texto-pregunta">Tipo de Discapacidad</label>
+                        <div class="col-md-2">
+                            <input type="text" asp-for="FamiliaTipoDiscapacidad" name="FamiliaTipoDiscapacidad" class="form-control">
+
+                            <span asp-validation-for="FamiliaTipoDiscapacidad" class="text-danger"></span>
+                        </div>
+                        <label class="col-md-2 col-form-label texto-pregunta">Porcentaje</label>
+                        <div class="col-md-1">
+                            <input type="number" asp-for="FamiliaPorcentajeDiscapacidad" name="FamiliaPorcentajeDiscapacidad" class="form-control">
+                            <span asp-validation-for="FamiliaPorcentajeDiscapacidad" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label texto-pregunta">Discapacidad</label>
+                        <div class="col-md-4">
+                            <input type="text" asp-for="FamiliaTipoDiscapacidad" name="FamiliaTipoDiscapacidad" class="form-control">
+                            <span asp-validation-for="FamiliaTipoDiscapacidad" class="text-danger"></span>
+                        </div>
+                        <label class="col-md-2 col-form-label texto-pregunta">Parentesco</label>
+                        <div class="col-md-4">
+                            <input type="text" asp-for="FamiliaDiscapacidadRelacion" name="FamiliaDiscapacidadRelacion" class="form-control">
+                            <span asp-validation-for="FamiliaDiscapacidadRelacion" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <br />
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="col-md-12"><span class="texto-simple">Firma del Colaborador</span></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*<div class="custom-file form-image">
+                <input accept=".png,.jpg,.jpeg,.gif,.tif"
+                       asp-for="@Model.Image"
+                       type="file" class="custom-file-input"
+                       onchange="document.getElementById('viewableImage').src = window.URL.createObjectURL(this.files[0])"
+                       id="customFile">
+                <label class="custom-file-label" for="customFile">Buscar imágen para Firmar el documento</label>
+            </div>*@
+                        @if (Model.Image != null && Model.Image.Length > 0)
+                        {
+                            <img id="viewableImage" class="viewableImage" asp-for="@Model.Image" style="object-fit: cover;padding-top: 10px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" alt> }
+                        else
+                        {
+                            <img id="viewableImage" class="viewableImage" style="object-fit: cover;padding-top:10px;" src="" alt>}
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="col-md-12"><span class="texto-simple">@Model.Colaboradores.Apellidos @Model.Colaboradores.ApellidoMaterno @Model.Colaboradores.PrimerNombre @Model.Colaboradores.SegundoNombre</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="col-md-12"><span class="texto-simple">@Model.Colaboradores.Identificacion</span></label>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            @if (Model.LastModifiedOn == null)
+                            {
+                                <label class="col-md-12"><span class="texto-simple">Fecha: @Model.CreatedOn</span></label>
+                            }
+                            else
+                            {
+                                    <label class="col-md-12"><span class="texto-simple">Fecha: @Model.LastModifiedOn</span></label>}
+                        </div>
+                    </div>
+                    @*<div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-success">Guardar y Firmar</button>
+            </div>
+        </div>*@
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <script>
+        $.validator.unobtrusive.parse(document);
+        $(function () {
+            $("#FechaNacimiento").datepicker({ dateFormat: 'dd-mm-yy' });
+            $("#VigenciaDesde").datepicker({ dateFormat: 'dd-mm-yy' });
+            $("#VigenciaHasta").datepicker({ dateFormat: 'dd-mm-yy' });
+
+        });
+
+    </script>
+
+    <partial name="_Scripts" />
+</body>
+</html>

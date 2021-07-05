@@ -1,0 +1,35 @@
+﻿@using WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
+@model SaludStep
+
+    <div class="container-fluid">
+
+        <div class="texto-seccionpregunta">
+            5. SALUD
+        </div>
+        <div class="form-group row">
+
+            <label class="col-md-3 col-form-label texto-pregunta">Tipo Sangre</label>
+            <div class="col-md-3">
+                <input type="text" asp-for="TipoSangre" name="TipoSangre" class="form-control">
+                <span asp-validation-for="TipoSangre" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+
+            <label class="col-md-3 col-form-label texto-pregunta">Indicar prescripción médica (si la tiene)</label>
+            <div class="col-md-9">
+                <input type="text" asp-for="Preexistencia" name="Preexistencia" class="form-control">
+                <span asp-validation-for="Preexistencia" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+
+            <label class="col-md-3 col-form-label texto-pregunta">Indicar alergias (si la tiene)</label>
+            <div class="col-md-9">
+                <input type="text" asp-for="Alergias" name="Alergias" class="form-control">
+                <span asp-validation-for="Alergias" class="text-danger"></span>
+            </div>
+        </div>
+
+
+    </div>

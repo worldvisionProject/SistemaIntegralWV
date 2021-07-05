@@ -1,0 +1,503 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Web.Areas.Planificacion.Models
+@model EstrategiaNacionalViewModel
+@{ ViewData["Title"] = localizer["Ciclo Estrategico"].Value + " " + ViewBag.Ciclo;
+    ViewData["Caption"] = localizer["Gestionar Ciclo Estrategico aquí"]; }
+<div class="card card-info">
+
+    <div class="card-header card-header-int">
+        Ciclo Estrategico
+        @*<div class="pull-right">
+                <a class="btn btn-primary" id="btnViewModel" href="/Institucions/Create">
+                    <i class="fa fa-plus-square"></i>
+                    Agregar
+                </a>
+
+            </div>*@
+    </div>
+
+    <div class="col-sm-12" style="padding:20px">
+        <form id="create-form" method="post" asp-controller="EstrategiaNacional" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 ">
+                        <nav>
+                            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Ciclo</a>
+                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Objetivo Nacional</a>
+                                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Objetivo Regional</a>
+                                <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Gestion</a>
+                            </div>
+                        </nav>
+                        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                @*CICLO ESTRATEGICO*@
+                                <div class="container-fluid">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-12">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">Ciclo Estrategico</label>
+
+                                                    <input type="text" asp-for="Nombre" name="Nombre" class="form-control">
+                                                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <div class="col-md-12">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">Meta Nacional</label>
+
+                                                    <textarea asp-for="MetaNacional" name="MetaNacional" class="form-control"></textarea>
+                                                    <span asp-validation-for="MetaNacional" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <div class="col-md-12">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">Meta de Bloque</label>
+
+                                                    <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control"></textarea>
+                                                    <span asp-validation-for="MetaRegional" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+
+                                                <div class="col-md-6">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">Estado</label>
+
+                                                    @*<select asp-for="Estado" name="Estado" class="form-control">
+            <option value="1">Abierto</option>
+            <option value="2">Cerrado</option>
+            <option value="3">Finalizado</option>
+        </select>*@
+                                                    @*@Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)ViewData["EstadoList"], new { @class = "form-control" })*@
+                                                    @Html.DropDownListFor(x=>x.Estado,  (IEnumerable<SelectListItem>)ViewBag.EstadoList,new { @class = "form-control" })
+                                                    <span asp-validation-for="Estado" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                @*OBJETIVO NACIONAL*@
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-2">
+                                                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id&categoria=1','Crear Objetivos')">
+                                                        <i class="fa fa-plus-square"></i>
+                                                        Agregar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @Html.HiddenFor(x => x.Id, new { name = "IdEstrategia", @Value = Model.Id })
+                                    <div id="divObjetivo">
+                                        <table id="objetivoTable" class="table table-striped" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    @*<th>Id</th>*@
+                                                    <th>Objetivo</th>
+                                                    <th>Area</th>
+                                                    @*<th>Responsable</th>*@
+                                                    <th>Dimension</th>
+                                                    <th class="acciones-th">Factor</th>
+                                                    <th class="acciones-th" style="width:15%">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model.ObjetivoEstrategicos != null)
+                                                {
+
+                                                    @foreach (var objetivo in Model.ObjetivoEstrategicos.Where(x => x.Categoria == "1").ToList())
+                                                    {
+                                                        <tr id="@objetivo.Id">
+
+                                                            <td>
+
+                                                                @objetivo.Descripcion
+                                                            </td>
+                                                            <td>
+                                                                @{
+                                                                    var selectedArea = (IEnumerable<SelectListItem>)ViewBag.AreaList;
+                                                                    string txtArea = selectedArea.Where(x => x.Value == objetivo.AreaPrioridad).FirstOrDefault().Text;
+                                                                }
+                                                                @txtArea
+                                                            </td>
+                                                            @*<td>
+                                                                    @objetivo.CargoResponsable
+                                                                </td>*@
+                                                        <td>
+                                                            @{
+                                                                var selectedDimension = (IEnumerable<SelectListItem>)ViewBag.DimensionesList;
+                                                                string txtDimension = selectedDimension.Where(x => x.Value == objetivo.Dimension).FirstOrDefault().Text;
+                                                            }
+                                                            @txtDimension
+                                                        </td>
+                                                            <td class="acciones-td">
+                                                                <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="Index" asp-route-id="@objetivo.Id" class="btn btn-info btn-xp"  title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i> </a>
+
+                                                                @*<button type="button" onclick="jQueryModalGet('/Planificacion/AnioFiscal/OnGetCreateOrEditIndicadores?id=@objetivo.Id','Factor Critico de Exito')" class="btn btn-danger btn-xp"><i class="fas fa-calendar"></i>  Factor</button>*@
+                                                            </td>
+                                                            <td class="acciones-td">
+                                                                <button type="button" title="Editar" class="btn btn-primary  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=@objetivo.Id&idEstrategia=@Model.Id&categoria=1','Editar Objetivos')">
+                                                                    <i class="fa fa-pencil-alt"></i>
+
+                                                                </button>
+                                                                <button type="button" title="Inactivar" onclick="EliminaFila(@objetivo.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                                                            </td>
+
+                                                        </tr>
+                                                    }}
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                @*OBJETIVO BLOQUE*@
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-2">
+                                                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id&categoria=2','Crear Objetivos')">
+                                                        <i class="fa fa-plus-square"></i>
+                                                        Agregar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @Html.HiddenFor(x => x.Id, new { name = "IdEstrategia", @Value = Model.Id })
+                                    <div id="divObjetivo">
+                                        <table id="objetivoTable" class="table table-striped" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    @*<th>Id</th>*@
+                                                    <th>Objetivo</th>
+                                                    <th>Area</th>
+                                                    <th>Responsable</th>
+                                                    <th>Dimension</th>
+                                                    <th class="acciones-th">Factor</th>
+                                                    <th class="acciones-th" style="width:15%">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model.ObjetivoEstrategicos != null)
+                                                {
+
+                                                    @foreach (var objetivo in Model.ObjetivoEstrategicos.Where(x => x.Categoria != "1").ToList())
+                                                    {
+                                                        <tr id="@objetivo.Id">
+
+                                                            <td>
+
+                                                                @objetivo.Descripcion
+                                                            </td>
+                                                            <td>
+                                                                @objetivo.AreaPrioridad
+                                                            </td>
+                                                            <td>
+                                                                @objetivo.CargoResponsable
+                                                            </td>
+                                                            <td>
+                                                                @objetivo.Dimension
+                                                            </td>
+                                                            <td class="acciones-th">
+                                                                <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="Index" asp-route-id="@objetivo.Id" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
+
+                                                            </td>
+                                                            <td class="acciones-th">
+                                                                <button type="button" title="Editar" class="btn btn-primary  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=@objetivo.Id&idEstrategia=@Model.Id&categoria=2','Editar Objetivos')">
+                                                                    <i class="fa fa-pencil-alt"></i>
+
+                                                                </button>
+                                                                <button type="button" onclick="EliminaFila(@objetivo.Id)" class="btn btn-danger btn-xp" title="Inactivar"><i class="fas fa-trash-alt"></i></button>
+
+                                                            </td>
+
+                                                        </tr>
+                                                    }}
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+                                @*GESTION*@
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                
+                                                <div class="col-md-2">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">Año</label>
+                                                    <input type="number" asp-for="AnioGestion" name="AnioGestion" class="form-control">
+                                                    <span asp-validation-for="AnioGestion" class="text-danger"></span>
+                                                </div>
+                                                
+                                                <div class="col-md-7">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">Descripcion</label>
+                                                    <input type="text" asp-for="DescGestion" name="DescGestion" class="form-control">
+                                                    <span asp-validation-for="DescGestion" class="text-danger"></span>
+                                                </div>
+                                                
+                                                <div class="col-md-3">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">Estado</label>
+                                                    <select asp-for="EstadoGestion" name="EstadoGestion" class="form-control">
+                                                        <option value="A">Activo</option>
+                                                        <option value="C">Cerrado</option>
+                                                        <option value="F">Finalizado</option>
+
+                                                    </select>
+                                                    <span asp-validation-for="EstadoGestion" class="text-danger"></span>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-md-4">
+                                                    <button type="button" id="btnadd" class="btn bg-primary" onclick="AgregaAF(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    @Html.HiddenFor(x => x.Id, new { name = "IdEstrategia", @Value = Model.Id })
+                                    <div id="divGestion">
+                                        <table id="gestionTable" class="table table-striped" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    @*<th>Id</th>*@
+                                                    <th>Año</th>
+                                                    <th>Descripcion</th>
+                                                    <th>Estado</th>
+
+                                                    <th class="acciones-th">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model.Gestiones != null)
+                                                {
+
+                                                    @foreach (var gestion in Model.Gestiones.ToList())
+                                                    {
+                                                        <tr id="@gestion.Id">
+
+                                                            <td>
+
+                                                                @gestion.Anio
+                                                            </td>
+                                                            <td>
+                                                                @gestion.Descripcion
+                                                            </td>
+                                                            <td>
+                                                                @gestion.Estado
+                                                            </td>
+
+                                                            <td class="acciones-td">
+                                                                <button type="button" onclick="EliminaFila(@gestion.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
+
+                                                            </td>
+
+                                                        </tr>
+                                                    }}
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <br />
+            <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script type="text/javascript" language=javascript>
+    //$.validator.unobtrusive.parse(document);
+    //$(function () {
+    //    $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+    //    //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
+    //    //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });
+
+    //});
+
+    //$("#BrandId").select2({
+    //    placeholder: "Select a Category",
+    //    theme: "bootstrap4",
+    //    escapeMarkup: function (m) {
+    //        return m;
+    //    }
+    //});
+
+
+       var num = 0;
+    function AgregaAF() {
+            let Anio = document.getElementById("AnioGestion").value;
+            let Descripcion = document.getElementById("DescGestion").value;
+            let Estado = document.getElementById("EstadoGestion").value;
+            let IdEstrategia = document.getElementById("Id").value;
+           
+            if (Descripcion.length == 0) {
+                alert("Ingrese la Gestion.");
+                return;
+            }
+
+
+            //agregamos tabla
+            let Tabla = document.getElementById("gestionTable");
+            let TR = document.createElement("tr");
+            TR.setAttribute('id', num);
+           // let TDId = document.createElement("td");
+            let TDAnio = document.createElement("td");
+            let TDDescripcion = document.createElement("td");
+            let TDEstado = document.createElement("td");
+            let TDEliminar = document.createElement("td");
+            TDEliminar.className = "text-right";
+            //let TDTotal = document.createElement("td");
+           // TR.appendChild(TDId);
+            TR.appendChild(TDAnio);
+            TR.appendChild(TDDescripcion);
+            TR.appendChild(TDEstado);
+            TR.appendChild(TDEliminar);
+            //TR.appendChild(TDTotal);
+           // TDId.innerHTML = num;
+            TDAnio.innerHTML = Anio;
+            TDDescripcion.innerHTML = Descripcion;
+            TDEstado.innerHTML = Estado;
+            TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i> </button>";
+            //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
+            Tabla.appendChild(TR);
+
+            //agregamos hiddens
+            let DivConceptos = document.getElementById("divGestion");
+            let HiddenIndex = document.createElement("input");
+            let HiddenAnio = document.createElement("input");
+            let HiddenDescripcion = document.createElement("input");
+            let HiddenEstado = document.createElement("input");
+            HiddenIndex.name = "gestion.Index";
+            HiddenIndex.value = num;
+            HiddenIndex.type = "hidden";
+            HiddenAnio.name = "gestion[" + num + "].Anio";
+            HiddenAnio.value = Anio;
+            HiddenAnio.type = "hidden";
+            HiddenDescripcion.name = "gestion[" + num + "].Descripcion";
+            HiddenDescripcion.value = Descripcion;
+            HiddenDescripcion.type = "hidden";
+            HiddenEstado.name = "gestion[" + num + "].Estado";
+            HiddenEstado.value = Estado;
+            HiddenEstado.type = "hidden";
+            DivConceptos.appendChild(HiddenIndex);
+            DivConceptos.appendChild(HiddenAnio);
+            DivConceptos.appendChild(HiddenDescripcion);
+            DivConceptos.appendChild(HiddenEstado);
+
+            document.getElementById("AnioGestion").value = "";
+            document.getElementById("DescGestion").value = "";
+            document.getElementById("EstadoGestion").value = "";
+
+            num++;
+
+
+
+            var GestionViewModel = {
+                Id:0,
+                Descripcion: Descripcion,
+                Anio: Anio,
+                Estado: Estado,
+                IdEstrategia: IdEstrategia
+
+            };
+
+        $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostCreateOrEdit", "Gestion", new { area = "Planificacion" })',
+            data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /* alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               alert('No Valid Data');
+            }
+        });
+
+        }
+
+    function deleteRow(id) {
+        $("#" + id).remove();
+    }
+
+    function EliminaFila(id) {
+
+        $("#" + id).remove();
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         @*$.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "Idioma", new { area = "Registro" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });*@
+    }
+
+</script>

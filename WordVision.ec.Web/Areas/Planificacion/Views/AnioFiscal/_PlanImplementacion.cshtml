@@ -1,0 +1,138 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Web.Areas.Planificacion.Models
+@model AnioFiscalViewModel
+
+@{
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <div class="d-sm-flex align-items-center justify-content-center">
+                        <h1 class="h3 mb-0 text-gray-800">@Model.Nombre</h1>
+                    </div>
+            
+                </div>
+            </div>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-md-12 ">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-form-label texto-pregunta">Meta</label>
+
+                            <textarea name="MetaNacional" class="form-control">@Model.MetaNacional</textarea>
+
+                        </div>
+                    </div>
+
+                  
+
+
+                    <div class="form-group row">
+                        <div class="col-md-12">
+
+                            <div id="divObjetivo">
+                                <table id="objetivoTable" class="table table-striped" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            @*<th>Id</th>*@
+                                            <th>Categoria</th>
+                                            <th>Area</th>
+                                            <th>Objetivo</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.ObjetivoEstrategicos != null)
+                                        {
+
+                                            @foreach (var objetivo in Model.ObjetivoEstrategicos.ToList())
+                                            {
+                                                <tr id="@objetivo.Id">
+
+                                                    <td>
+
+                                                        @objetivo.Categoria
+                                                    </td>
+                                                    <td>
+                                                        @objetivo.AreaPrioridad
+                                                    </td>
+                                                    <td>
+                                                        @objetivo.Descripcion
+                                                    </td>
+                                                    <td>
+                                                        <table id="objetivoTable" class="table table-striped" width="100%" cellspacing="0">
+                                                            <thead>
+                                                                <tr>
+                                                                    @*<th>Id</th>*@
+                                                                    <th>Factor critico de Éxito</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @*@if (objetivo.FactorCriticoExitos != null)
+                                                                {
+                                                                    @foreach (var indi in objetivo.FactorCriticoExitos)
+                                                                    {
+                                                                        <tr>
+                                                                            <td>@indi.FactorCritico</td>
+
+                                                                            <td>
+
+
+                                                                                <table id="objetivoTable" class="table table-striped" width="100%" cellspacing="0">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th>Indicador</th>
+                                                                                            <th>Linea Base</th>
+                                                                                            <th>Unidad Medida</th>
+                                                                                            <th>Meta</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        @if (indi.IndicadorEstrategicos != null)
+                                                                                        {
+                                                                                            @foreach (var indic in indi.IndicadorEstrategicos)
+                                                                                            {
+                                                                                                <tr>
+                                                                                                    <td>@indic.IndicadorResultado</td>
+                                                                                                    <td>@indic.LineaBase</td>
+                                                                                                    <td>@indic.UnidadMedida</td>
+                                                                                                    <td>@indic.Meta</td>
+                                                                                                </tr>
+                                                                                            }
+                                                                                        }
+                                                                                    </tbody>
+                                                                                </table>
+
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                }*@
+                                                            </tbody>
+                                                        </table>
+
+                                                    </td>
+                                                    <td>
+                                                    </td>
+
+
+
+                                                </tr>
+                                            }}
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

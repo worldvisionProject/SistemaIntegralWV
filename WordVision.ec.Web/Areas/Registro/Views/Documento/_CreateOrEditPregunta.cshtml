@@ -1,0 +1,91 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Web.Areas.Registro.Models
+@model PreguntaViewModel
+<form id="create-form" method="post" asp-controller="Documento" asp-action="OnPostCreateOrEditar" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-1">
+                    <label class="col-md-12 col-form-label">@localizer["Num."]</label>
+                    <input type="number" asp-for="NumPregunta" name="NumPregunta" class="form-control" />
+                    <span asp-validation-for="NumPregunta" class="text-danger"></span>
+                </div>
+                <div class="col-md-5">
+                    <label class="col-md-12 col-form-label">@localizer["Titulo"]</label>
+                    <input type="text" asp-for="Titulo" name="Titulo" class="form-control" />
+                    <span asp-validation-for="Titulo" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="col-md-12 col-form-label">@localizer["Descripcion"]</label>
+                    <textarea rows="1" asp-for="Descripcion" name="Descripcion" class="form-control"></textarea>
+                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label">@localizer["Desc Acepto"]</label>
+                    <textarea rows="1" asp-for="DescripcionAcepto" name="DescripcionAcepto" class="form-control"></textarea>
+                    <span asp-validation-for="DescripcionAcepto" class="text-danger"></span>
+                </div>
+
+            </div>
+
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="col-md-6 col-form-label">@localizer["Desc URL"]</label>
+                    <textarea rows="1" asp-for="DescripcionUrl1" name="DescripcionUrl1" class="form-control"></textarea>
+                    <span asp-validation-for="DescripcionUrl1" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="col-md-6 col-form-label">@localizer["URL1"]</label>
+                    <textarea rows="1" asp-for="Url1" name="Url1" class="form-control"></textarea>
+                    <span asp-validation-for="Url1" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="col-md-6 col-form-label">@localizer["Desc URL2"]</label>
+                    <textarea rows="1" asp-for="DescripcionUrl2" name="DescripcionUrl2" class="form-control"></textarea>
+                    <span asp-validation-for="DescripcionUrl2" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="col-md-6 col-form-label">@localizer["URL2"]</label>
+                    <textarea rows="1" asp-for="Url2" name="Url2" class="form-control"></textarea>
+                    <span asp-validation-for="Url2" class="text-danger"></span>
+                </div>
+                
+            </div>
+            <div class="form-group row">
+               
+                <div class="col-md-6">
+                    <label class="col-md-3 col-form-label">@localizer["Estado"]</label>
+
+                    <select asp-for="Estado" name="Estado" class="form-control">
+                        <option value="S">Activo</option>
+                        <option value="N">Inactivo</option>
+
+                    </select>
+                    <span asp-validation-for="Estado" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+        <button type="submit" class="btn btn-success">Grabar</button>
+        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+    </div>
+</form>
+<script type="text/javascript" language=javascript>$.validator.unobtrusive.parse(document);
+    //$("#BrandId").select2({
+    //    placeholder: "Select a Category",
+    //    theme: "bootstrap4",
+    //    escapeMarkup: function (m) {
+    //        return m;
+    //    }
+    //});</script>

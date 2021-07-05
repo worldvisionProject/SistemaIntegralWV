@@ -1,0 +1,52 @@
+﻿@{ 
+   ViewData["Title"] = localizer["Ciclo Fiscal"];
+   ViewData["Caption"] = localizer["Gestionar Ciclo Fiscal aquí"]; 
+ }
+@using WordVision.ec.Web.Areas.Planificacion.Models
+@model AnioFiscalViewModel
+<div class="card">
+
+    @*<div class="card-header">
+        Lista de Usuarios
+        <div class="pull-right">
+            <a class="btn btn-primary" id="btnViewModel" href="/Institucions/Create">
+                <i class="fa fa-plus-square"></i>
+                Agregar
+            </a>
+
+        </div>
+    </div>*@
+
+    <div class="col-sm-12" style="padding:20px">
+
+        <a asp-area="planificacion" asp-controller="aniofiscal" asp-action="OnGetCreateOrEdit" class="btn bg-success">
+            <i class="fa fa-plus-square"></i> Crear
+        </a>
+        @*<a id="reload" class="btn btn-primary text-white">
+                <i class="fa fas fa-bolt"></i>
+                Refrescar
+            </a>*@
+    </div>
+    <div id="viewAll" class="card-body table-responsive">
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>
+    $(document).ready(function () {
+            /*$("#colaboradorTable").DataTable();*/
+            loadData();
+            //$('#pdf').on('click', function () {
+            //    loadDataPdf();
+            //});
+    });
+        @*function loadDataPdf() {
+            $('#viewAll').load('/registro/formulario/FormularioPdf/@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value');
+        };*@
+        function loadData() {
+            $('#viewAll').load('/planificacion/AnioFiscal/LoadAll');
+        }</script>
+}

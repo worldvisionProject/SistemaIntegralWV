@@ -1,0 +1,67 @@
+﻿using AspNetCoreHero.Results;
+using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using WordVision.ec.Application.Interfaces.Repositories.Registro;
+
+namespace WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Update
+{
+    public class UpdateColaboradorCommand : IRequest<Result<int>>
+    {
+        public int Id { get; set; }
+        public string Apellidos { get; set; }
+        public string ApellidoMaterno { get; set; }
+        public string PrimerNombre { get; set; }
+
+        public string SegundoNombre { get; set; }
+
+        public string Identificacion { get; set; }
+
+        public string Email { get; set; }
+        public string Cargo { get; set; }
+
+        public string Area { get; set; }
+
+        public string LugarTrabajo { get; set; }
+        public class UpdateProductCommandHandler : IRequestHandler<UpdateColaboradorCommand, Result<int>>
+        {
+            private readonly IUnitOfWork _unitOfWork;
+            private readonly IColaboradorRepository _colaboradorRepository;
+
+            public UpdateProductCommandHandler(IColaboradorRepository colaboradorRepository, IUnitOfWork unitOfWork)
+            {
+                _colaboradorRepository = colaboradorRepository;
+                _unitOfWork = unitOfWork;
+            }
+
+            public async Task<Result<int>> Handle(UpdateColaboradorCommand command, CancellationToken cancellationToken)
+            {
+                var colaborador = await _colaboradorRepository.GetByIdAsync(command.Id);
+
+                if (colaborador == null)
+                {
+                    return Result<int>.Fail($"Colaborador no encontrado.");
+                }
+                else
+                {
+                    colaborador.Apellidos = command.Apellidos ?? colaborador.Apellidos;
+                    colaborador.ApellidoMaterno = command.ApellidoMaterno ?? colaborador.ApellidoMaterno;
+                    colaborador.PrimerNombre = command.PrimerNombre ?? colaborador.PrimerNombre;
+                    colaborador.SegundoNombre = command.SegundoNombre ?? colaborador.SegundoNombre;
+                    colaborador.Identificacion = command.Identificacion ?? colaborador.Identificacion;
+                    colaborador.Cargo = command.Cargo ?? colaborador.Cargo;
+                    colaborador.Area = command.Area ?? colaborador.Area;
+                    colaborador.LugarTrabajo = command.LugarTrabajo  ?? colaborador.LugarTrabajo;
+                    await _colaboradorRepository.UpdateAsync(colaborador);
+                    await _unitOfWork.Commit(cancellationToken);
+                    return Result<int>.Success(colaborador.Id);
+                }
+            }
+        }
+
+    }
+}

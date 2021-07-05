@@ -1,0 +1,176 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Web.Areas.Registro.Models
+@model TerceroViewModel
+<form id="create-form" method="post" asp-controller="Tercero" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+    @Html.HiddenFor(x => x.idFormulario, new { name = "Id", @Value = Model.Id })
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label>@localizer["Tipo"]</label>
+
+                    <input type="text" asp-for="Tipo" name="Tipo" class="form-control">
+                    <span asp-validation-for="Tipo" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label>@localizer["Identificacion"]</label>
+
+                    <input type="text" asp-for="Identificacion" name="Identificacion" class="form-control">
+                    <span asp-validation-for="Identificacion" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12">Apellido Paterno</label>
+
+                    <input type="text" as asp-for="PrimerApellido" name="PrimerApellido" class="form-control">
+                    <span asp-validation-for="PrimerApellido" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 ">Apellido Materno</label>
+
+                    <input type="text" as asp-for="SegundoApellido" name="SegundoApellido" class="form-control">
+                    <span asp-validation-for="SegundoApellido" class="text-danger"></span>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12">Primer Nombre</label>
+
+                    <input type="text" as asp-for="PrimerNombre" name="PrimerNombre" class="form-control">
+                    <span asp-validation-for="PrimerNombre" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12">Segundo Nombre</label>
+
+                    <input type="text" as asp-for="SegundoNombre" name="SegundoNombre" class="form-control">
+                    <span asp-validation-for="SegundoNombre" class="text-danger"></span>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="col-md-12">Fecha Nacimiento</label>
+
+                    <input type="text" as asp-for="FecNacimiento" name="FecNacimiento" class="form-control">
+                    <span asp-validation-for="FecNacimiento" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="col-md-12">Genero</label>
+
+                    <input type="text" as asp-for="Genero" name="Genero" class="form-control">
+                    <span asp-validation-for="Genero" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="col-md-12">Fecha Emision</label>
+
+                    <input type="text" as asp-for="VigDesde" name="VigDesde" class="form-control">
+                    <span asp-validation-for="VigDesde" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="col-md-12">Fecha Caducidad</label>
+
+                    <input type="text" as asp-for="VigHasta" name="VigHasta" class="form-control">
+                    <span asp-validation-for="VigHasta" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group row">
+                <div class="col-md-2">
+                    <label class="col-md-2 ">Cod.</label>
+
+                    <input type="text" as asp-for="CodigoArea" name="CodigoArea" class="form-control">
+                    <span asp-validation-for="CodigoArea" class="text-danger"></span>
+                </div>
+                <div class="col-md-5">
+                    <label class="col-md-2">Telefono</label>
+
+                    <input type="text" as asp-for="Telefono" name="Telefono" class="form-control">
+                    <span asp-validation-for="Telefono" class="text-danger"></span>
+                </div>
+                <div class="col-md-5">
+                    <label class="col-md-2 ">Celular</label>
+
+                    <input type="text" as asp-for="Celular" name="Celular" class="form-control">
+                    <span asp-validation-for="Celular" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-2 ">Email</label>
+
+                    <input type="text" as asp-for="Email" name="Email" class="form-control">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <br />
+    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+    </div>
+</form>
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+    $(function () {
+        $("#FecNacimiento").datepicker();
+        $("#VigDesde").datepicker();
+        $("#VigHasta").datepicker();
+   
+    });
+
+    $("#BrandId").select2({
+        placeholder: "Select a Category",
+        theme: "bootstrap4",
+        escapeMarkup: function (m) {
+            return m;
+        }
+    });
+</script>

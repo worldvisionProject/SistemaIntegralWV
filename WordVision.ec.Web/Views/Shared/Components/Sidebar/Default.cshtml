@@ -1,0 +1,411 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Security.Claims
+@inject IHtmlLocalizer<SharedResource> localizer
+    @*<script src="~/lib/jquery/jquery.min.js"></script>*@
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+    <aside id="sideBar" class="main-sidebar sidebar-dark-primary">
+        <a href="/" class="brand-link">
+            <img src="~/images/Logo.svg" id="brand-logo" alt="logo" class="brand-image img-circle"
+                 style="opacity: .8">
+            @*<span class="brand-text font-weight-light" style="font-size:0.8em!important">World Vision</span>*@
+        </a>
+        <div class="sidebar">
+            <nav class="mt-2" id="navigation">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                    @if (User.IsInRole("Tactico"))
+                    {
+                        <li class="nav-item">
+
+                            <p>
+                                @localizer["Ciclo Estrategico"]
+                                @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                            </p>
+                            <form id="select-form" method="get" asp-area="Planificacion" asp-controller="AnioFiscal" asp-action="PlanImplementacion" enctype="multipart/form-data">
+                                <div class="form-group row">
+                                    <div class="col-md-9">
+                                        <select class="custom-select custom-select-mb mb-12" id="ciclo" name="ciclo">
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="AgregaConcepto()">Ir</button>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <p>
+                                @localizer["Gestion"]
+                                @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                            </p>
+                            <form id="select-form" method="get" asp-area="Planificacion" asp-controller="AnioFiscal" asp-action="PlanImplementacion" enctype="multipart/form-data">
+                                <div class="form-group row">
+                                    <div class="col-md-9">
+                                        <select class="custom-select custom-select-mb mb-12" id="gestion" name="gestion">
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="IrGestion()">Ir</button>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </li>
+                    }
+
+
+
+                    @if (@User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value.ToUpper() == "PANGOS")
+                    {
+                        <li class="nav-item">
+                            <a is-active-route asp-area="Dashboard" asp-controller="Registro" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    @localizer["Dashboard"]
+                                    @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                </p>
+                            </a>
+                        </li>
+                    }
+
+                    @if (User.IsInRole("SuperAdmin"))
+                    {
+                        <li class="nav-header">@localizer["Admin"]</li>
+                        <li is-active-route asp-area="Admin" class="nav-item has-treeview">
+                            <a is-active-route asp-area="Admin" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    @localizer["Admin Settings"]
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="Admin" asp-controller="User" class="nav-link">
+                                        <i class="far fa-user-circle nav-icon"></i>
+                                        <p>@localizer["Users"]</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="Admin" asp-controller="Role" class="nav-link">
+                                        <i class="far fa-user-circle nav-icon"></i>
+                                        <p>@localizer["Roles"]</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        @*<li class="nav-header">@localizer["Master"]</li>
+            <li is-active-route asp-area="Utilities" class="nav-item has-treeview">
+                <a is-active-route asp-area="Maestro" asp-controller="Catalogo" class="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                        @localizer["Catalogos"]
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a is-active-route class="nav-link">
+                            <i class="far fa-file-archive nav-icon"></i>
+                            <p>@localizer["Document"]</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li is-active-route asp-area="Catalog" class="nav-item has-treeview">
+                <a is-active-route asp-area="Catalog" class="nav-link">
+                    <i class="nav-icon fas fa-archive"></i>
+                    <p>
+                        @localizer["Catalog"]
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a is-active-route asp-area="Catalog" asp-controller="Product" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>@localizer["Product"]</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a is-active-route asp-area="Catalog" asp-controller="Brand" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>@localizer["Brand"]</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>*@
+                    }
+
+                    @if (User.IsInRole("SuperAdmin"))
+                    {
+                        <li class="nav-item">
+                            <a is-active-route asp-area="Planificacion" asp-controller="EstrategiaNacional" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    @localizer["Ciclo Estrategico"]
+                                    @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                </p>
+                            </a>
+                        </li>
+                    }
+
+                    @if (User.IsInRole("SuperAdmin"))
+                    {
+                        <li class="nav-header">@localizer["Maestro"]</li>
+                        <li is-active-route asp-area="Utilities" class="nav-item has-treeview">
+                            <a is-active-route class="nav-link">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    @localizer["Catalogos"]
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="Maestro" asp-controller="Catalogo" class="nav-link">
+                                        <i class="far fa-file-archive nav-icon"></i>
+                                        <p>@localizer["Administrar"]</p>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </li>
+
+                    }
+
+                        <!--<li class="nav-item">
+        <a is-active-route asp-area="Registro" asp-controller="Colaborador" asp-action="Colaborador" class="nav-link">
+            <i class="nav-icon fas fa-id-card"></i>
+            <p>
+                @localizer["Datos del Colaborador"]-->
+                        @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                        <!--</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a is-active-route asp-area="Registro" asp-page="/Formulario/Wizard/Index" class="nav-link">
+                <i class="nav-icon fas fa-user-edit"></i>
+                <p>
+                    @localizer["Actualización de Datos"]-->
+                        @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                        <!--</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a is-active-route asp-area="Registro" asp-controller="Documento" asp-action="Index" asp-route-id="3" class="nav-link">
+                <i class="nav-icon fas fa-file"></i>
+                <p>
+                    @localizer["Documentos Claves"]-->
+                        @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                        <!--</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a is-active-route asp-area="Registro" asp-controller="Documento" asp-action="Index" asp-route-id="4" class="nav-link">
+                <i class="nav-icon fas fa-handshake"></i>
+                <p>
+                    @localizer["Actualización de Politicas"]-->
+                        @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                        <!--</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+            <a is-active-route asp-area="Registro" asp-controller="Formulario" asp-action="Index" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                    @localizer["Actualización de Datos w"]
+                    <span class="right badge badge-danger">@localizer["New"]</span>
+                </p>
+            </a>
+        </li>
+
+                <li class="nav-item">
+                    <a is-active-route asp-area="Registro" asp-controller="Documento" asp-action="Documento" class="nav-link">
+                        <i class="nav-icon fas fa-cubes"></i>
+                        <p>
+                            @localizer["Documentos Parametros"]
+                        </p>
+                    </a>
+                </li>-->
+                        @*<li class="nav-item">
+                <a is-active-route asp-area="Presupuesto" asp-controller="DatosLDR" asp-action="Index" class="nav-link">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        @localizer["LDR"]
+                        <span class="right badge badge-danger">@localizer["New"]</span>
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a is-active-route asp-area="Presupuesto" asp-controller="DatosT5" asp-action="Index" class="nav-link">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        @localizer["Lineamientos"]
+                        <span class="right badge badge-danger">@localizer["New"]</span>
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a is-active-route asp-area="Presupuesto" asp-controller="Presupuesto" asp-action="Presupuesto" class="nav-link">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        @localizer["Presupuesto"]
+                        <span class="right badge badge-danger">@localizer["New"]</span>
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a is-active-route asp-area="Presupuesto" asp-controller="Presupuesto" asp-action="Index" class="nav-link">
+                    <i class="nav-icon fas fa-th"></i>
+                    <p>
+                        @localizer["Reporte Presupuesto"]
+                        <span class="right badge badge-danger">@localizer["New"]</span>
+                    </p>
+                </a>
+            </li>*@
+                        @*<li class="nav-item">
+                <a is-active-route asp-area="Maestro" asp-controller="Estructura" asp-action="Index" class="nav-link">
+                    <i class="nav-icon fas fa-sitemap"></i>
+                    <p>
+                        @localizer["Organigrama"]
+
+                    </p>
+                </a>
+            </li>*@
+                        @if (@User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value.ToUpper() == "PANGOS")
+                        {
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Registro" asp-controller="Colaborador" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fas fa-building"></i>
+                                    <p>
+                                        @localizer["Colaboradores"]
+                                        @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                    </p>
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+
+
+                        }
+                    </ul>
+            </nav>
+        </div>
+    </aside>
+    <script>
+        $(document).ready(function () {
+
+            let select = $('#ciclo');
+            select.empty();
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("LoadEstrategias", "EstrategiaNacional", new { area = "Planificacion" })',
+            data: "{}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                data = JSON.parse(data);
+                /* alert(data);*/
+                select.empty().append('<option selected>Escoja el Ciclo </option>');
+                $.each(data, function (i, item) {
+                    //var mydata = data.d;
+                    //alert(mydata);
+                    select.append($("<option></option>").val(this['Value']).html(this['Text']));
+                });
+             },
+            error: function (msg) {
+                $("#dvAlerta > span").text("Error al llenar el combo");
+            }
+        });
+    });
+
+
+    function AgregaConcepto() {
+      //  alert(document.getElementById("ciclo").value);
+        var GestionViewModel = {
+            idEstrategico: document.getElementById("ciclo").value
+
+        };
+
+        $.ajax({
+            type: "get",
+            url:'@Url.Action("PlanImplementacion", "AnioFiscal", new { area = "Planificacion" })',
+            data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /* alert('Validooo');*/
+                $("#divContent").html(data);
+            },
+            error: function(xhr) {
+            //    alert('No Valid Data');
+            }
+        });
+
+
+        let select = $('#gestion');
+        select.empty();
+
+         $.ajax({
+            type: "get",
+            url:'@Url.Action("LoadGestiones", "Gestion", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+                data = JSON.parse(data);
+                /* alert(data);*/
+                select.empty().append('<option selected>Escoja</option>');
+                $.each(data, function (i, item) {
+                    //var mydata = data.d;
+                    //alert(mydata);
+                    select.append($("<option></option>").val(this['Id']).html(this['Descripcion']));
+                });
+            },
+            error: function(xhr) {
+            //    alert('No Valid Data');
+            }
+            });
+
+        }
+
+
+        function IrGestion() {
+            //  alert(document.getElementById("ciclo").value);
+            var GestionViewModel = {
+                idGestion: document.getElementById("gestion").value
+
+            };
+
+            $.ajax({
+                type: "get",
+                url: '@Url.Action("LoadAll", "Producto", new { area = "Planificacion" })',
+                data: GestionViewModel,
+                datatype: "json",
+                cache: false,
+                success: function (data) {
+                    /* alert('Validooo');*/
+                    $("#divContent").html(data);
+                },
+                error: function (xhr) {
+                    //    alert('No Valid Data');
+                }
+            });
+
+
+        }
+    </script>

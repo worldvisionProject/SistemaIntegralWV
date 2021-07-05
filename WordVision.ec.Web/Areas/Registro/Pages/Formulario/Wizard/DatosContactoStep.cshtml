@@ -1,0 +1,350 @@
+﻿@model WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard.DatosContactoStep
+
+
+        <div class="container-fluid">
+            <div asp-validation-summary="None" class="text-danger"></div>
+
+            <div class="texto-seccionpregunta">
+                2. DIRECCION PERMANENTE Y TELEFONO
+            </div>
+            <div class="form-group row">
+                <label class="col-md-12 col-form-label texto-pregunta">RESIDENCIA PERMANENTE</label>
+
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label texto-pregunta">Pais</label>
+                <div class="col-md-2">
+                    @*<select asp-for="PaisResidencia" name="PaisResidencia" class="form-control">
+                            <option value="ECUADOR">ECUADOR</option>
+                        </select>*@
+                    <input type="text" asp-for="PaisResidencia" name="PaisResidencia" class="form-control">
+
+                    <span asp-validation-for="PaisResidencia" class="text-danger"></span>
+                </div>
+                <label class="col-md-2 col-form-label texto-pregunta">Provincia</label>
+                <div class="col-md-2">
+                    <select asp-for="ProvinciaResidencia" name="ProvinciaResidencia" class="form-control">
+                        <option value='1'>AZUAY</option>
+                        <option value='2'>BOLIVAR</option>
+                        <option value='3'> CAÑAR</option>
+                        <option value='4'>CARCHI</option>
+                        <option value='5'> COTOPAXI</option>
+                        <option value='6'>CHIMBORAZO</option>
+                        <option value='7'>EL ORO</option>
+                        <option value='8'>ESMERALDAS</option>
+                        <option value='9'>GUAYAS</option>
+                        <option value='10'>IMBABURA</option>
+                        <option value='11'>LOJA </option>
+                        <option value='12'>LOS RIOS</option>
+                        <option value='13'>MANABI</option>
+                        <option value='14'> MORONA SANTIAGO</option>
+                        <option value='15'> NAPO</option>
+                        <option value='16'> PASTAZA</option>
+                        <option value='17'>PICHINCHA</option>
+                        <option value='18'>TUNGURAHUA</option>
+                        <option value='19'> ZAMORA CHINCHIPE</option>
+                        <option value='20'> GALAPAGOS</option>
+                        <option value='21'>SUCUMBIOS</option>
+                        <option value='22'> ORELLANA</option>
+                        <option value='23'>SANTO DOMINGO DE LOS TSACHILAS</option>
+                        <option value='24'>SANTA ELENA</option>
+                        <option value='25'>ZONAS NO DELIMITADAS</option>
+
+                    </select>
+                    <span asp-validation-for="ProvinciaResidencia" class="text-danger"></span>
+                </div>
+                <label class="col-md-2 col-form-label texto-pregunta">Ciudad</label>
+                <div class="col-md-2">
+                    <select asp-for="CiudadResidencia" name="CiudadResidencia" class="form-control">
+                        <option value='1'>CUENCA</option>
+                        <option value='2'>GIRON</option>
+                        <option value='3'>GUALACEO</option>
+                        <option value='4'> NABON</option>
+                        <option value='5'>PAUTE</option>
+                        <option value='6'> PUCARA</option>
+                        <option value='7'> SAN FERNANDO</option>
+                        <option value='8'> SANTA ISABEL</option>
+                        <option value='9'> SIGSIG</option>
+                        <option value='10'> OÑA</option>
+                        <option value='11'>CHORDELEG</option>
+                        <option value='12'> EL PAN</option>
+                        <option value='13'> SEVILLA DE ORO</option>
+                        <option value='14'> GUACHAPALA</option>
+                        <option value='15'>CAMILO PONCE ENRIQUEZ</option>
+                        <option value='16'> GUARANDA</option>
+                        <option value='17'> CHILLANES</option>
+                        <option value='18'> CHIMBO</option>
+                        <option value='19'> ECHEANDIA</option>
+                        <option value='20'>SAN MIGUEL</option>
+                        <option value='21'> CALUMA </option>
+                        <option value='22'> LAS NAVES</option>
+                        <option value='23'>AZOGUES</option>
+                        <option value='24'> BIBLIAN</option>
+                        <option value='25'>CAÑAR</option>
+                        <option value='26'> LA TRONCAL</option>
+                        <option value='27'>EL TAMBO </option>
+                        <option value='28'> DELEG</option>
+                        <option value='29'>SUSCAL</option>
+                        <option value='30'> TULCAN</option>
+                        <option value='31'> BOLIVAR</option>
+                        <option value='32'> ESPEJO</option>
+                        <option value='33'> MIRA</option>
+                        <option value='34'>MONTUFAR</option>
+                        <option value='35'> SAN PEDRO DE HUACA</option>
+                        <option value='36'>LATACUNGA</option>
+                        <option value='37'>LA MANA</option>
+                        <option value='38'>PANGUA</option>
+                        <option value='39'> PUJILI</option>
+                        <option value='40'> SALCEDO</option>
+                        <option value='41'>SAQUISILI</option>
+                        <option value='42'>SIGCHOS</option>
+                        <option value='43'>RIOBAMBA</option>
+                        <option value='44'>ALAUSI</option>
+                        <option value='45'> COLTA</option>
+                        <option value='46'>CHAMBO</option>
+                        <option value='47'>CHUNCHI</option>
+                        <option value='48'>GUAMOTE</option>
+                        <option value='49'>GUANO</option>
+                        <option value='50'>PALLATANGA</option>
+                        <option value='51'> PENIPE</option>
+                        <option value='52'>CUMANDA</option>
+                        <option value='53'>MACHALA</option>
+                        <option value='54'>ARENILLAS</option>
+                        <option value='55'>ATAHUALPA</option>
+                        <option value='56'>BALSAS</option>
+                        <option value='57'>CHILLA</option>
+                        <option value='58'>EL GUABO</option>
+                        <option value='59'>HUAQUILLAS</option>
+                        <option value='60'>MARCABELI</option>
+                        <option value='61'>PASAJE</option>
+                        <option value='62'>PIÑAS</option>
+                        <option value='63'>PORTOVELO</option>
+                        <option value='64'>SANTA ROSA</option>
+                        <option value='65'>ZARUMA</option>
+                        <option value='66'>LAS LAJAS</option>
+                        <option value='67'> ESMERALDAS</option>
+                        <option value='68'>ELOY ALFARO</option>
+                        <option value='69'>MUISNE</option>
+                        <option value='70'>QUININDE</option>
+                        <option value='71'>SAN LORENZO</option>
+                        <option value='72'>ATACAMES</option>
+                        <option value='73'>RIOVERDE</option>
+                        <option value='74'>LA CONCORDIA</option>
+                        <option value='75'> GUAYAQUIL</option>
+                        <option value='76'>ALFREDO BAQUERIZO MORENO (JUJAN)</option>
+                        <option value='77'>BALAO</option>
+                        <option value='78'>BALZAR</option>
+                        <option value='79'>COLIMES</option>
+                        <option value='80'>DAULE</option>
+                        <option value='81'>DURAN</option>
+                        <option value='82'> EL EMPALME</option>
+                        <option value='83'>EL TRIUNFO</option>
+                        <option value='84'> MILAGRO</option>
+                        <option value='85'>NARANJAL</option>
+                        <option value='86'>NARANJITO</option>
+                        <option value='87'>PALESTINA</option>
+                        <option value='88'>PEDRO CARBO</option>
+                        <option value='89'>SAMBORONDON</option>
+                        <option value='90'> SANTA LUCIA</option>
+                        <option value='91'>SALITRE (URBINA JADO)</option>
+                        <option value='92'>SAN JACINTO DE YAGUACHI</option>
+                        <option value='93'> PLAYAS</option>
+                        <option value='94'>SIMON BOLIVAR</option>
+                        <option value='95'>CORONEL MARCELINO MARIDUEÑA</option>
+                        <option value='96'>LOMAS DE SARGENTILLO</option>
+                        <option value='97'>NOBOL</option>
+                        <option value='98'>GENERAL ANTONIO ELIZALDE </option>
+                        <option value='99'>ISIDRO AYORA </option>
+                        <option value='100'> IBARRA</option>
+                        <option value='101'>ANTONIO ANTE</option>
+                        <option value='102'>COTACACHI</option>
+                        <option value='103'>OTAVALO</option>
+                        <option value='104'>PIMAMPIRO</option>
+                        <option value='105'>SAN MIGUEL DE URCUQUI</option>
+                        <option value='106'> LOJA</option>
+                        <option value='107'>CALVAS</option>
+                        <option value='108'>CATAMAYO</option>
+                        <option value='109'>CELICA</option>
+                        <option value='110'>CHAGUARPAMBA</option>
+                        <option value='111'> ESPINDOLA</option>
+                        <option value='112'> GONZANAMA</option>
+                        <option value='113'>MACARA</option>
+                        <option value='114'>PALTAS</option>
+                        <option value='115'> PUYANGO</option>
+                        <option value='116'>SARAGURO</option>
+                        <option value='117'>SOZORANGA</option>
+                        <option value='118'>ZAPOTILLO</option>
+                        <option value='119'> PINDAL</option>
+                        <option value='120'>QUILANGA</option>
+                        <option value='121'>OLMEDO</option>
+                        <option value='122'>BABAHOYO</option>
+                        <option value='123'>BABA</option>
+                        <option value='124'> MONTALVO</option>
+                        <option value='125'>PUEBLOVIEJO</option>
+                        <option value='126'>QUEVEDO</option>
+                        <option value='127'>URDANETA</option>
+                        <option value='128'>VENTANAS</option>
+                        <option value='129'>VINCES</option>
+                        <option value='130'>PALENQUE</option>
+                        <option value='131'>BUENA FE</option>
+                        <option value='132'>VALENCIA</option>
+                        <option value='133'> MOCACHE</option>
+                        <option value='134'>QUINSALOMA</option>
+                        <option value='135'>PORTOVIEJO</option>
+                        <option value='136'>BOLIVAR</option>
+                        <option value='137'>CHONE</option>
+                        <option value='138'>EL CARMEN</option>
+                        <option value='139'> FLAVIO ALFARO</option>
+                        <option value='140'> JIPIJAPA</option>
+                        <option value='141'>JUNIN</option>
+                        <option value='142'> MANTA</option>
+                        <option value='143'> MONTECRISTI   </option>
+                        <option value='144'>PAJAN</option>
+                        <option value='145'> PICHINCHA</option>
+                        <option value='146'>ROCAFUERTE</option>
+                        <option value='147'>SANTA ANA</option>
+                        <option value='148'> SUCRE</option>
+                        <option value='149'> TOSAGUA</option>
+                        <option value='150'>24 DE MAYO</option>
+                        <option value='151'> PEDERNALES</option>
+                        <option value='152'>PUERTO LOPEZ</option>
+                        <option value='153'> JAMA</option>
+                        <option value='154'> JARAMIJO</option>
+                        <option value='155'>SAN VICENTE</option>
+                        <option value='156'>MORONA</option>
+                        <option value='157'> GUALAQUIZA</option>
+                        <option value='158'>LIMON INDANZA</option>
+                        <option value='159'>PALORA</option>
+                        <option value='160'>SANTIAGO</option>
+                        <option value='161'>SUCUA</option>
+                        <option value='162'> HUAMBOYA</option>
+                        <option value='163'>SAN JUAN BOSCO </option>
+                        <option value='164'>TAISHA </option>
+                        <option value='165'>LOGROÑO </option>
+                        <option value='166'>PABLO SEXTO</option>
+                        <option value='167'>CANTON TIWINTZA</option>
+                        <option value='168'>TENA</option>
+                        <option value='169'>ARCHIDONA</option>
+                        <option value='170'>EL CHACO</option>
+                        <option value='171'>QUIJOS</option>
+                        <option value='172'> CARLOS JULIO AROSEMENA TOLA</option>
+                        <option value='173'>PASTAZA</option>
+                        <option value='174'>MERA</option>
+                        <option value='175'> SANTA CLARA</option>
+                        <option value='176'> ARAJUNO</option>
+                        <option value='177'>QUITO</option>
+                        <option value='178'>CAYAMBE</option>
+                        <option value='179'> MEJIA</option>
+                        <option value='180'> PEDRO MONCAYO</option>
+                        <option value='181'>RUMIÑAHUI</option>
+                        <option value='182'> SAN MIGUEL DE LOS BANCOS</option>
+                        <option value='183'> PEDRO VICENTE MALDONADO</option>
+                        <option value='184'>PUERTO QUITO</option>
+                        <option value='185'>AMBATO</option>
+                        <option value='186'>BAÑOS DE AGUA SANTA</option>
+                        <option value='187'> CEVALLOS</option>
+                        <option value='188'> MOCHA</option>
+                        <option value='189'> PATATE</option>
+                        <option value='190'> QUERO</option>
+                        <option value='191'>SAN PEDRO DE PELILEO</option>
+                        <option value='192'>SANTIAGO DE PILLARO</option>
+                        <option value='193'>TISALEO</option>
+                        <option value='194'>ZAMORA</option>
+                        <option value='195'> CHINCHIPE</option>
+                        <option value='196'> NANGARITZA</option>
+                        <option value='197'> YACUAMBI</option>
+                        <option value='198'> YANTZAZA (YANZATZA)</option>
+                        <option value='199'> EL PANGUI</option>
+                        <option value='200'> CENTINELA DEL CONDOR</option>
+                        <option value='201'>PALANDA</option>
+                        <option value='202'>PAQUISHA </option>
+                        <option value='203'> SAN CRISTOBAL</option>
+                        <option value='204'> ISABELA</option>
+                        <option value='205'> SANTA CRUZ</option>
+                        <option value='206'> LAGO AGRIO</option>
+                        <option value='207'> GONZALO PIZARRO</option>
+                        <option value='208'> PUTUMAYO</option>
+                        <option value='209'>SHUSHUFINDI</option>
+                        <option value='210'> SUCUMBIOS</option>
+                        <option value='211'>CASCALES</option>
+                        <option value='212'>CUYABENO</option>
+                        <option value='213'>ORELLANA</option>
+                        <option value='214'>AGUARICO</option>
+                        <option value='215'> LA JOYA DE LOS SACHAS</option>
+                        <option value='216'> LORETO</option>
+                        <option value='217'>SANTO DOMINGO</option>
+                        <option value='218'> SANTA ELENA</option>
+                        <option value='219'> LA LIBERTAD</option>
+                        <option value='220'>SALINAS</option>
+                        <option value='221'>ZONAS NO DELIMITADAS</option>
+
+                    </select>
+                    <span asp-validation-for="CiudadResidencia" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label texto-pregunta">Calle Principal</label>
+                <div class="col-md-2">
+                    <input type="text" asp-for="CalleResidencia" name="CalleResidencia" class="form-control">
+                    <span asp-validation-for="CalleResidencia" class="text-danger"></span>
+                </div>
+                <label class="col-md-2 col-form-label texto-pregunta">Numero</label>
+                <div class="col-md-2">
+                    <input type="text" asp-for="NumCasaResidencia" name="NumCasaResidencia" class="form-control">
+                    <span asp-validation-for="NumCasaResidencia" class="text-danger"></span>
+                </div>
+                <label class="col-md-2 col-form-label texto-pregunta">Calle Secundaria</label>
+                <div class="col-md-2">
+                    <input type="text" asp-for="CalleSecundariaResidencia" name="CalleSecundariaResidencia" class="form-control">
+                    <span asp-validation-for="CalleSecundariaResidencia" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label texto-pregunta">Conjunto/CasaN°/Depart.N°</label>
+                <div class="col-md-2">
+                    <input type="text" asp-for="InfoResidencia" name="InfoResidencia" class="form-control">
+                    <span asp-validation-for="InfoResidencia" class="text-danger"></span>
+                </div>
+                <label class="col-md-2 col-form-label texto-pregunta">Sector</label>
+                <div class="col-md-2">
+                    <input type="text" asp-for="SectorResidencia" name="SectorResidencia" class="form-control">
+                    <span asp-validation-for="SectorResidencia" class="text-danger"></span>
+                </div>
+                <label class="col-md-2 col-form-label texto-pregunta">Referencia</label>
+                <div class="col-md-2">
+                    <input type="text" asp-for="ReferenciaResidencia" name="ReferenciaResidencia" class="form-control">
+                    <span asp-validation-for="ReferenciaResidencia" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label texto-pregunta">Teléfono Fijo: Area</label>
+                <div class="col-md-1">
+                    <input type="text" asp-for="CodigoArea" name="CodigoArea" class="form-control">
+                    <span asp-validation-for="CodigoArea" class="text-danger"></span>
+                </div>
+                <div class="col-md-5">
+                    <input type="text" asp-for="Telefono" name="Telefono" class="form-control">
+                    <span asp-validation-for="Telefono" class="text-danger"></span>
+                </div>
+                <label class="col-md-2 col-form-label texto-pregunta">Celular</label>
+                <div class="col-md-2">
+                    <input type="text" asp-for="Celular" name="Celular" class="form-control">
+                    <span asp-validation-for="Celular" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label texto-pregunta">Correo Electrónico</label>
+                <div class="col-md-4">
+                    <input type="text" asp-for="Email" name="Email" class="form-control">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <label class="col-md-3 col-form-label texto-pregunta">Datos de Cuenta Bancaria:</label>
+                <div class="col-md-3">
+                    <input type="text" asp-for="CuentaBancaria" name="CuentaBancaria" class="form-control">
+                    <span asp-validation-for="CuentaBancaria" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+ 

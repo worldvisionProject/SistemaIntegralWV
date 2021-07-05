@@ -1,0 +1,153 @@
+﻿@using WordVision.ec.Web.Areas.Presupuesto.Models
+@model IEnumerable<DatosLDRViewModel>
+
+<form id="create-form" method="post" asp-controller="DatosLDR" asp-action="OnPostCreateOrEdit" asp-route-idColaborador="@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+
+    <div class="card card-info">
+        <div class="card-header card-header-int">
+          LDR
+        </div>
+        <div class="card-body">
+            <div class="table-responsive-md">
+                <table id="colaboradorTable" class="table table-striped" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Identificacion</th>
+                            <th>Nombres</th>
+                            <th>Area</th>
+                            <th>Cargo</th>
+                            <th>Ubicacion</th>
+                            <th>T0</th>
+                            @*<th>T1</th>
+        <th>T2</th>*@
+                            <th>T3</th>
+                            <th>T4</th>
+
+                            <th>T6</th>
+                            <th>T7</th>
+                            @*<th>T8</th>*@
+                            <th>T9</th>
+                            <th>Fijo/Eventual</th>
+                            <th width="5%">%LDR</th>
+
+                            @*@if ((AuthorizationService.AuthorizeAsync(User, Permissions.colaboradors.Delete)).Result.Succeeded
+           || (AuthorizationService.AuthorizeAsync(User, Permissions.colaboradors.Edit)).Result.Succeeded)
+        {*@
+
+                            @*}*@
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var colaborador in Model)
+                        {
+                        <tr>
+                            <td>
+                                @colaborador.Id
+                            </td>
+                            <td>
+                                @colaborador.Identificacion
+                            </td>
+                            <td>
+                                @colaborador.Nombres
+                            </td>
+                            <td>
+                                @colaborador.Area
+                            </td>
+                            <td>
+                                @colaborador.Cargo
+                            </td>
+                            <td>
+                                @colaborador.Ubicacion
+                            </td>
+                            <td>
+                                @colaborador.T0
+                            </td>
+                            @*<td>
+            @colaborador.T1
+        </td>
+        <td>
+            @colaborador.T2
+        </td>*@
+                            <td>
+                                @colaborador.T3
+                            </td>
+                            <td>
+                                @colaborador.T4
+                            </td>
+                            @*<td>
+            @colaborador.T5
+        </td>*@
+                            <td>
+                                @colaborador.T6
+                            </td>
+                            <td>
+                                @colaborador.T7
+                            </td>
+                            @*<td>
+            @colaborador.T8
+        </td>*@
+                            <td>
+                                @colaborador.T9
+                            </td>
+                            <td>
+                                @colaborador.FijoEventual
+                            </td>
+                            <td>
+                                <input type="text" asp-for="@colaborador.Ldr" name="Ldr" class="txtTable" />
+
+                            </td>
+
+
+
+
+                        </tr>
+}
+                    </tbody>
+                </table>
+            </div>
+            <br />
+                <div class="form-group">
+                    <div class="custom-file form-image">
+                        <input accept=".csv"
+                               name="Id"
+                               type="file" class="custom-file-input"
+                               id="customFile">
+                        <label class="custom-file-label" for="customFile">Seleccione CSV para cargar</label>
+                    </div>
+
+                </div>
+
+
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+</form>
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+    $(document).ready(function () {
+        $("#colaboradorTable").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            }
+        });
+    });
+    //$("#BrandId").select2({
+    //    placeholder: "Select a Category",
+    //    theme: "bootstrap4",
+    //    escapeMarkup: function (m) {
+    //        return m;
+    //    }
+    //});</script>

@@ -1,0 +1,32 @@
+﻿@{ @*ViewData["Title"] = localizer["colaboradors"];
+        ViewData["Caption"] = localizer["Manage colaboradors here"];*@ }
+@using WordVision.ec.Web.Areas.Maestro.Models
+@model CatalogoViewModel
+<div class="card">
+    <div class="col-sm-12" style="padding:20px">
+        @*@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Brands.Create)).Result.Succeeded)
+            {*@
+        <a onclick="jQueryModalGet('/Maestro/Catalogo/OnGetCreateOrEdit','Crear Catalogo')" class="btn bg-success">
+            <i class="fa fa-plus-square"></i> Create
+        </a>@*}*@
+
+        <a id="reload" class="btn btn-primary text-white">
+            <i class="fa fas fa-bolt"></i>
+            Reload
+        </a>
+    </div>
+</div>
+        <div id="viewAll" class="card-body card-body-card table-responsive">
+        </div>
+     
+        @section Scripts
+{
+            <script src="~/js/site.js"></script>
+            <script>
+    $(document).ready(function () {
+            loadData();
+    });
+        function loadData() {
+            $('#viewAll').load('/Maestro/Catalogo/LoadAll');
+        }</script>
+        }

@@ -1,0 +1,249 @@
+﻿@{
+    Layout = null;
+}
+@using WordVision.ec.Web.Areas.Registro.Models
+@model DocumentoViewModel
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <title>World Vision</title>
+        <partial name="_Styles" />
+    </head>
+    <body class="hold-transition sidebar-mini">
+        <form id="create-form" method="post" asp-controller="Documento" asp-action="OnPostCreateOrEdit" asp-route-idColaborador="@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+
+            <div class="card card-info">
+                <div class="card-header card-header-int">
+                    @Model.Titulo
+
+                </div>
+                <br />
+                <div class="card-body">
+                    <div class="container-fluid-card">
+                        <div class="row">
+                            <div class="col-md-12">
+                                Señores:
+                            </div>
+
+                        </div>
+                        <br />
+                        @if (Model.Id == 10)
+                        {
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Gente &#38; Cultura
+                                </div>
+                            </div>
+                            <br />
+                        }
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                FUNDACIÓN VISIÓN MUNDIAL ECUADOR
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                De mi consideración:
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.HiddenFor(x => x.Descripcion, new { id = "Descripcion" })
+                                @Html.HiddenFor(x => x.Id, new { id = "Id", @Value = Model.Id })
+                                <label class="col-md-12 col-form-label"><span class="texto-simple">@Model.Descripcion.Replace("{0}", Model.Colaborador).Replace("{1}", Model.Identificacion)</span></label>
+
+                            </div>
+                        </div>
+                        <br />
+                        @{ int i = 0;
+                            foreach (var pregunta in Model.Preguntas.OrderBy(c => c.NumPregunta))
+                            {
+                                string resp = "";
+                                foreach (var respuesta in Model.Respuestas)
+                                {
+                                    if (respuesta.IdPregunta == pregunta.Id)
+                                    {
+                                        resp = respuesta.DescRespuesta;
+                                        break;
+                                    }
+                                }
+                                //name = "itemIds[@i]"
+                                @Html.HiddenFor(x => x.Preguntas[i].Id, new { name = "Id" })
+                                @Html.HiddenFor(x => x.Preguntas[i].IdDocumento, new { name = "IdDocumento" })
+
+
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <label name="preguntas" class="col-md-12 col-form-label">@pregunta.Titulo</label>
+                                    </div>
+                                </div>
+
+                                @if (!String.IsNullOrEmpty(pregunta.Descripcion))
+                                {
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <label class="col-md-12"><span class="texto-simple">@pregunta.Descripcion</span></label>
+                                        </div>
+                                    </div>}
+
+                                @if (!String.IsNullOrEmpty(pregunta.DescripcionUrl1))
+                                {
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <a href="@pregunta.Url1">  <label class="col-md-12 col-form-label"><span class="texto-simple">@pregunta.DescripcionUrl1</span> </label> </a>
+                                        </div>
+                                    </div>}
+
+
+
+                                @*<div class="row">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-form-label"><span class="texto-simple">@pregunta.DescripcionAcepto</span></label>
+                        </div>
+                    </div>*@
+
+
+                                if (pregunta.NumPregunta >= 1)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            &nbsp; &nbsp;
+                                            @if (resp.Split("|")[0].Equals("TERCER"))
+                                            {
+                                                <input type="checkbox" name="Preguntas[@i].DescripcionUrl1" id="DescripcionUrl1[@i]" value="TERCER" checked="checked" />
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" name="Preguntas[@i].DescripcionUrl1" id="DescripcionUrl1[@i]" value="TERCER" />
+                                            }
+
+
+                                            <label>
+                                                &nbsp; &nbsp; DÉCIMO TERCER SUELDO
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            &nbsp; &nbsp;
+                                            @if (resp.Split("|").Length > 1)
+                                            {
+                                                @if (resp.Split("|")[1].Equals("CUARTO"))
+                                                {
+                                                    <input type="checkbox" name="Preguntas[@i].DescripcionUrl2" id="DescripcionUrl2[@i]" value="CUARTO" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" name="Preguntas[@i].DescripcionUrl2" id="DescripcionUrl2[@i]" value="CUARTO" />
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" name="Preguntas[@i].DescripcionUrl2" id="DescripcionUrl2[@i]" value="CUARTO" />
+                                            }
+                                            <label>
+                                                &nbsp; &nbsp; DÉCIMO CUARTO SUELDO
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <textarea rows="6" asp-for="Estado" name="Estado" class="form-control">resp</textarea>
+                                        </div>
+                                    </div>
+                                }
+
+
+                                <br />
+
+                                @if (!String.IsNullOrEmpty(pregunta.DescripcionUrl2))
+                                {
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <a href="@pregunta.Url2">  <label class="col-md-12 col-form-label"><span class="texto-simple">@pregunta.DescripcionUrl2</span></label> </a>
+                                        </div>
+                                    </div>}
+                                i = i + 1;
+                            } }
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="col-md-12"><span class="texto-simple">Atentamente</span></label>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="col-md-12"><span class="texto-simple">Firma del Colaborador</span></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        @if (Model.Image != null && Model.Image.Length > 0)
+                        {
+                            <img id="viewableImage" class="viewableImage" asp-for="@Model.Image" style="object-fit: cover;padding-top: 10px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" alt> @*<button onclick="document.getElementById('achimage').src = null;" type="button" style="margin-top:10px" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove Image</button>*@ }
+                        else
+                        {
+                            <img id="viewableImage" class="viewableImage" style="object-fit: cover;padding-top:10px;" src="" alt>}
+                    </div>
+
+
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="col-md-12"><span class="texto-simple">@Model.Colaborador</span></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="col-md-12"><span class="texto-simple">@Model.Identificacion</span></label>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            @if (Model.LastModifiedOn == null)
+                            {
+                                <label class="col-md-12"><span class="texto-simple">Fecha: @Model.CreatedOn</span></label>
+                            }
+                            else
+                            {
+                                <label class="col-md-12"><span class="texto-simple">Fecha: @Model.LastModifiedOn</span></label>}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </form>
+        <script type="text/javascript" language=javascript>
+            $.validator.unobtrusive.parse(document);
+                    //$("#BrandId").select2({
+                    //    placeholder: "Select a Category",
+                    //    theme: "bootstrap4",
+                    //    escapeMarkup: function (m) {
+                    //        return m;
+                    //    }
+                    //});</script>
+        <partial name="_Scripts" />
+    </body>
+</html>

@@ -1,0 +1,228 @@
+﻿@using WordVision.ec.Web.Areas.Registro.Models
+@model DocumentoViewModel
+<form id="create-form" method="post" asp-controller="Documento" asp-action="OnPostCreateOrEdit" asp-route-idColaborador="@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value" asp-route-poppup="N" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+
+    <div class="card card-info">
+        <div class="card-header card-header-int">
+            @Model.Titulo
+        </div>
+        <div class="card-body">
+            <div class="container-fluid-card">
+                @*<div class="row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label">@Model.Titulo</label>
+                </div>
+            </div>*@
+                @*@Html.HiddenFor(x => x.Id, new { id = "IdColaborador", @value = "@User.Claims.FirstOrDefault(x => x.Type == 'Id')?.Value" })*@
+
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.HiddenFor(x => x.Descripcion, new { id = "Descripcion" })
+                        @Html.HiddenFor(x => x.Id, new { id = "Id", @Value = Model.Id })
+                        <label class="col-md-12 col-form-label">@Model.Descripcion</label>
+                        <br />
+                        <br />
+                    </div>
+                </div>
+                @{ int i = 0;
+                    foreach (var pregunta in Model.Preguntas.OrderBy(c => c.NumPregunta))
+                    {
+                        string resp = "";
+                        foreach (var respuesta in Model.Respuestas)
+                        {
+                            if (respuesta.IdPregunta == pregunta.Id)
+                            {
+                                resp = respuesta.DescRespuesta;
+                                break;
+                            }
+                        }
+                        //name = "itemIds[@i]"
+                        @Html.HiddenFor(x => x.Preguntas[i].Id, new { name = "Id" })
+                        @Html.HiddenFor(x => x.Preguntas[i].IdDocumento, new { name = "IdDocumento" })
+
+                        if (pregunta.NumPregunta < 1000)
+                        {
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <label name="preguntas" class="col-md-12 col-form-label">@pregunta.NumPregunta.  @pregunta.Titulo</label>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <label name="preguntas" class="col-md-12 col-form-label">@pregunta.Titulo</label>
+                                </div>
+                            </div>
+                        }
+                        @if (!String.IsNullOrEmpty(pregunta.Descripcion))
+                        {
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <label class="col-md-12"><span class="texto-simple">@pregunta.Descripcion</span></label>
+                                </div>
+                            </div>}
+
+                        @if (!String.IsNullOrEmpty(pregunta.DescripcionUrl1))
+                        {
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @if (@pregunta.Url1.ToUpper().Contains("HTTP") || @pregunta.Url1.ToUpper().Contains("HTTPS"))
+                                    {
+                                        <a href="@pregunta.Url1" target="_blank" class="col-md-12 col-form-label">  @pregunta.DescripcionUrl1 </a>
+                                    }
+                                    else
+                                    {
+                                        @if (@pregunta.Id == 4)
+                                        {
+                                            <a href="@pregunta.Url1">  <label class="col-md-12 col-form-label"><span class="texto-simple">@pregunta.DescripcionUrl1</span> </label> </a>
+                                        }
+                                        else
+                                        {
+                                            <a onclick="jQueryModalGet('@pregunta.Url1','')" href="#">  <label class="col-md-12 col-form-label"><span class="texto-simple">@pregunta.DescripcionUrl1</span> </label> </a>}
+                                    }
+
+                                </div>
+                            </div>}
+
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="col-md-12 col-form-label"><span class="texto-simple">@pregunta.DescripcionAcepto</span></label>
+                            </div>
+                        </div>
+
+
+                        if (pregunta.NumPregunta < 1000)
+                        {
+                            <div class="row">
+                                <div class="col-md-2 flex">
+
+
+                                    <label>
+                                        SI&nbsp; &nbsp;
+                                    </label>
+                                    @if (resp.Equals("SI"))
+                                    {
+                                        <input type="radio" name="Preguntas[@i].Estado" id="Estado[@i]" value="SI" checked="checked" />
+                                    }
+                                    else
+                                    {
+                                        <input type="radio" name="Preguntas[@i].Estado" id="Estado[@i]" value="SI" />
+                                    }
+
+                                    @*@Html.RadioButtonFor(x => x.Preguntas[i].Estado, "SI", new {@checked="checked",@class="inputradio" })*@
+
+
+                                </div>
+                                <div class="col-md-2 flex">
+
+                                    <label>
+                                        NO&nbsp; &nbsp;
+                                    </label>
+                                    @if (resp.Equals("NO"))
+                                    {
+                                        <input type="radio" name="Preguntas[@i].Estado" id="Estado[@i]" value="NO" checked="checked" />
+                                    }
+                                    else
+                                    {
+                                        <input type="radio" name="Preguntas[@i].Estado" id="Estado[@i]" value="NO" />
+                                    }
+                                    @*@Html.RadioButtonFor(x => x.Preguntas[i].Estado, "NO",new {@class="inputradio" })*@
+
+
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <textarea rows="6" asp-for="Estado" name="Estado" class="form-control">resp</textarea>
+                                </div>
+                            </div>
+                        }
+
+
+
+
+                        @if (!String.IsNullOrEmpty(pregunta.DescripcionUrl2))
+                        {
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    @if (@pregunta.Url2.ToUpper().Contains("HTTP") || @pregunta.Url2.ToUpper().Contains("HTTPS"))
+                                    {
+                                        <a href="@pregunta.Url2" target="_blank">  <label class="col-md-12 col-form-label"><span class="texto-simple">@pregunta.DescripcionUrl2</span> </label> </a>
+                                    }
+                                    else
+                                    {
+                                        <a onclick="jQueryModalGet('@pregunta.Url2','')" href="#">  <label class="col-md-12 col-form-label"><span class="texto-simple">@pregunta.DescripcionUrl2</span></label> </a>
+                                    }
+                                </div>
+                            </div>}
+                        i = i + 1;
+                    } }
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="col-md-12"><span class="texto-simple">Firma del Colaborador</span></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="custom-file form-image">
+                    <input accept=".png,.jpg,.jpeg,.gif,.tif"
+                           asp-for="@Model.Image"
+                           type="file" class="custom-file-input"
+                           onchange="document.getElementById('viewableImage').src = window.URL.createObjectURL(this.files[0])"
+                           id="customFile">
+                    <label class="custom-file-label" for="customFile">Buscar imágen para Firmar el documento</label>
+                </div>
+               
+                @if (Model.Image != null && Model.Image.Length > 0)
+                {
+                    <img id="viewableImage" class="viewableImage" asp-for="@Model.Image" style="object-fit: cover;padding-top: 10px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" alt> @*<button onclick="document.getElementById('achimage').src = null;" type="button" style="margin-top:10px" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove Image</button>*@ }
+                else
+                {
+                    <img id="viewableImage" class="viewableImage" style="object-fit: cover;padding-top:10px;" src="" alt>
+                }
+            </div>
+           
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="col-md-12"><span class="texto-simple">@Model.Colaborador</span></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="col-md-12"><span class="texto-simple">@Model.Identificacion</span></label>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-success">Guardar y Firmar</button>
+                    <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+            </div>
+
+
+</form>
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+    //$("#BrandId").select2({
+    //    placeholder: "Select a Category",
+    //    theme: "bootstrap4",
+    //    escapeMarkup: function (m) {
+    //        return m;
+    //    }
+    //});</script>

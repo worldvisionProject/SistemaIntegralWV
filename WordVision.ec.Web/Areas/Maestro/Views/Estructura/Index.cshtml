@@ -1,0 +1,75 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="card card-info">
+    <div class="card-header card-header-int">
+        Organigrama
+    </div>
+    <div class="card-body">
+        <div class="container-fluid">
+            <div id="empChart" class="card-body card-body-card table-responsive">
+
+            </div>
+            </div>
+        </div>
+    </div>
+
+            @*<input type="button" id="btnLoadChart" value="Load Data" />*@
+
+            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+            <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+            <script type="text/javascript">
+                /* google.load("visualization", "1", { packages: ["orgchart"] });*/
+                google.charts.load('current', { packages: ["orgchart"] });
+                google.charts.setOnLoadCallback(drawEmpChart);
+
+                $('#btnLoadChart').click(function () {
+                    drawEmpChart();
+                });
+
+                function drawEmpChart() {
+                /*  alert("Processing");*/
+               /* $(document).ready(function () {*/
+                    $.ajax({
+                        type: "POST",
+                        url: "Estructura/LoadAll",
+                        data: '{}',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (empData) {
+                           /* alert(empData.length);*/
+
+                            var chartData = new google.visualization.DataTable();
+
+                            chartData.addColumn('string', 'Name');
+                            chartData.addColumn('string', 'Manager');
+                            chartData.addColumn('string', 'ToolTip');
+
+                            $.each(empData, function (index, row) {
+                                var reportID = row.reportaID.toString() == "0" ? '' : row.reportaID.toString();
+                                //if (row.colaboradores.length != 0) {
+                                //    alert(row.colaboradores[0].apellidos);
+                                //}
+                                var responsable = row.colaboradores.length != 0 ? row.colaboradores[0].apellidos.toString() + ' ' + row.colaboradores[0].apellidoMaterno.toString() + ' ' + row.colaboradores[0].primerNombre.toString() + ' ' + row.colaboradores[0].segundoNombre.toString() : 'NA';
+                                chartData.addRows([[{
+                                    v: row.id.toString(),
+                                    f: row.designacion+'<a href="mailto:' + row.designacion + '"><div><span>' + responsable + '</span></div></a>' //+ '<a href="mailto:' + row.designacion + '"><div>(<span>' + row.designacion + '</span>)</div><img height="50px" width="50px" src = "Photos/' + row.id + '.jpg" /></a>'
+                                }, reportID, row.designacion]]);
+                            });
+
+                            var chart = new google.visualization.OrgChart($("#empChart")[0]);
+                            chart.draw(chartData, { allowHtml: true, allowCollapse: true, size: 'small' });
+                            chart.collapse(2, true);
+                        },
+                        failure: function (xhr, status, error) {
+                            alert("Failure: " + xhr.responseText);
+                        },
+                        error: function (xhr, status, error) {
+                            alert("Error: " + xhr.responseText);
+                        }
+                    });
+                }
+            </script>

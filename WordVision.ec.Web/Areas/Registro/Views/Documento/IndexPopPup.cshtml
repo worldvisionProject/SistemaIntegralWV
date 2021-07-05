@@ -1,0 +1,25 @@
+﻿@{ @*ViewData["Title"] = localizer["colaboradors"];
+        ViewData["Caption"] = localizer["Manage colaboradors here"];*@ }
+@using WordVision.ec.Web.Areas.Registro.Models
+@model DocumentoViewModel
+@*<div class="card">*@
+
+<div id="viewAll" class="card-body card-body-card table-responsive">
+</div>
+@*</div>*@
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>
+    $(document).ready(function () {
+            /*$("#colaboradorTable").DataTable();*/
+            loadData();
+            //$('#reload').on('click', function () {
+            //    loadData();
+            //});
+        });
+        function loadData() {
+           // $('#viewAll').load('/registro/documento/LoadDocumento/@Model.Id'+'|'+'@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value');
+            $('#viewAll').load('/registro/documento/LoadDocumento?id=@Model.Id' + '|' + '@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value' +"&idColaborador=@Model.Ventana");
+         }</script>
+}

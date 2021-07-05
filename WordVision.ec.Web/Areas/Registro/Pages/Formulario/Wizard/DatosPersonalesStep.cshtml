@@ -1,0 +1,93 @@
+﻿@model WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard.DatosPersonalesStep
+
+
+
+<div class="container-fluid">
+
+    <div asp-validation-summary="None" class="text-danger"></div>
+    <div class="texto-seccionpregunta">1. DATOS PERSONALES</div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label texto-pregunta">Apellido Paterno</label>
+        <div class="col-md-4">
+            <input type="text" asp-for="Colaboradores.Apellidos" name="Colaboradores.Apellidos" class="form-control">
+            <span asp-validation-for="Colaboradores.Apellidos" class="text-danger"></span>
+        </div>
+        <label class="col-md-2 col-form-label texto-pregunta">Apellido Materno</label>
+        <div class="col-md-4">
+            <input type="text" asp-for="Colaboradores.ApellidoMaterno" name="Colaboradores.ApellidoMaterno" class="form-control">
+            <span asp-validation-for="Colaboradores.ApellidoMaterno" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label texto-pregunta">Primer  Nombre</label>
+        <div class="col-md-4">
+            <input type="text" asp-for="Colaboradores.PrimerNombre" name="Colaboradores.PrimerNombre" class="form-control">
+            <span asp-validation-for="Colaboradores.PrimerNombre" class="text-danger"></span>
+        </div>
+        <label class="col-md-2 col-form-label texto-pregunta">Segundo Nombre</label>
+        <div class="col-md-4">
+            <input type="text" asp-for="Colaboradores.SegundoNombre" name="Colaboradores.SegundoNombre" class="form-control">
+            <span asp-validation-for="Colaboradores.SegundoNombre" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label texto-pregunta">Identificacion</label>
+        <div class="col-md-4">
+            <input type="text" asp-for="Colaboradores.Identificacion" name="Colaboradores.Identificacion" class="form-control">
+            <span asp-validation-for="Colaboradores.Identificacion" class="text-danger"></span>
+        </div>
+        <label class="col-md-2 col-form-label texto-pregunta">Fecha Nacimiento</label>
+        <div class="col-md-4">
+            <input type="text" asp-for="FechaNacimiento"  class="form-control datepicker" data-date-format="mm/dd/yyyy" name="FechaNacimiento" id="FechaNacimiento" >
+            <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label texto-pregunta">Nacionalidad</label>
+        <div class="col-md-4">
+            <input type="text" asp-for="Nacionalidad" name="Nacionalidad" id="Nacionalidad" class="form-control">
+
+            <span asp-validation-for="Nacionalidad" class="text-danger"></span>
+        </div>
+
+
+        <label class="col-md-2 col-form-label texto-pregunta">Estado Civil</label>
+        <div class="col-md-4">
+            <select asp-for="EstadoCivil" name="EstadoCivil" class="form-control">
+                <option value="1">Casado</option>
+                <option value="2">Soltero</option>
+                <option value="3">Divorciado</option>
+                <option value="4">Union Libre</option>
+            </select>
+
+            <span asp-validation-for="EstadoCivil" class="text-danger"></span>
+        </div>
+    </div>
+
+
+
+    <div class="form-group row">
+
+        <label class="col-md-2 col-form-label texto-pregunta">Formacion Academica</label>
+        <div class="col-md-4">
+            <select asp-for="FormacionAcademica" name="FormacionAcademica" class="form-control">
+
+                <option value="1">Bachiller</option>
+                <option value="2">Superior</option>
+                <option value="3">Postgrado</option>
+                <option value="4">Doctorado</option>
+                <option value="5">Primaria</option>
+            </select>
+            <span asp-validation-for="FormacionAcademica" class="text-danger"></span>
+        </div>
+    </div>
+    <br />
+</div>
+<script>
+        $.validator.unobtrusive.parse(document);
+        $(function () {
+            $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+          
+        });
+
+</script>

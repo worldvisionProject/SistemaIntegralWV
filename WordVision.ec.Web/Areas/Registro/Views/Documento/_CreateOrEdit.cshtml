@@ -1,0 +1,113 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Web.Areas.Registro.Models
+@model DocumentoViewModel
+<form id="create-form" method="post" asp-controller="Documento" asp-action="OnPostCreateOrEditar" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="col-md-12 col-form-label">@localizer["Titulo"]</label>
+                    <input type="text" asp-for="Titulo" name="Titulo" class="form-control" />
+                    <span asp-validation-for="Titulo" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="col-md-12 col-form-label">@localizer["Descripcion"]</label>
+                    <textarea rows="1" asp-for="Descripcion" name="Descripcion" class="form-control"></textarea>
+                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="col-md-6 col-form-label">@localizer["Desc Acepto"]</label>
+                    <textarea rows="1" asp-for="DescripcionAcepto" name="DescripcionAcepto" class="form-control"></textarea>
+                    <span asp-validation-for="DescripcionAcepto" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="col-md-3 col-form-label">@localizer["Estado"]</label>
+
+                    <select asp-for="Estado" name="Estado" class="form-control">
+                        <option value="S">Activo</option>
+                        <option value="N">Inactivo</option>
+
+                    </select>
+                    <span asp-validation-for="Estado" class="text-danger"></span>
+                </div>
+            </div>
+
+            <br />
+            <div class="texto-seccionpregunta">
+               Preguntas
+            </div>
+            <a onclick="jQueryModalGet('/registro/documento/OnGetCreateOrEditPregunta','Crea Pregunta')" class="btn bg-success">
+                <i class="fa fa-plus-square"></i> Agregar Pregunta
+            </a>
+            <table id="preguntasTable" class="table table-striped" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Titulo</th>
+                        <th>Descripcion</th>
+                        <th class="text-right">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Preguntas != null)
+                    {
+
+                        @foreach (var colaborador in Model.Preguntas)
+                        {
+                            <tr>
+                                <td>
+                                    @colaborador.Id
+                                </td>
+                                <td>
+                                    @colaborador.Titulo
+                                </td>
+                                <td>
+                                    @colaborador.Descripcion
+                                </td>
+                                <td class="text-right">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Action
+                                        </button>
+                                        <div class="dropdown-menu shadow animated--grow-in">
+
+                                            <a onclick="jQueryModalGet('/registro/documento/OnGetCreateOrEditPregunta?idPregunta=@colaborador.Id','Edita Pregunta')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Editar</a>
+                                            <a onclick="jQueryModalGet('/registro/documento/OnPostDelete?id=@colaborador.Id','Eliminar Dependiente')" class="dropdown-item"><i class="fas fa-trash-alt"></i>  Eliminar</a>
+
+
+                                      @*<form id="form_delete_@colaborador.Terceros.Id" asp-area="registro" asp-controller="formulario" method="post" asp-action="OnPostDelete" asp-route-id="@colaborador.Terceros.Id" onsubmit="return jQueryModalDelete(this)">
+                                            <a href="javascript:$('#form_delete_@colaborador.Terceros.Id').submit();" class="dropdown-item"><i class="fas fa-trash-alt"></i>  Eliminar</a>
+                                        </form>*@
+
+                                        </div>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }}
+
+
+                </tbody>
+            </table>
+
+
+            <br />
+        </div>
+    </div>
+
+    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+        <button type="submit" class="btn btn-success">Grabar</button>
+        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+    </div>
+</form>
+<script type="text/javascript" language=javascript>$.validator.unobtrusive.parse(document);
+    //$("#BrandId").select2({
+    //    placeholder: "Select a Category",
+    //    theme: "bootstrap4",
+    //    escapeMarkup: function (m) {
+    //        return m;
+    //    }
+    //});</script>

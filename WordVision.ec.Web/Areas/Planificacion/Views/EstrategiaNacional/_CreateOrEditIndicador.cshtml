@@ -1,0 +1,225 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Web.Areas.Planificacion.Models
+@model FactorCriticoExitoViewModel
+
+
+<form id="create-form" method="post" asp-controller="Formulario" asp-action="OnPostCreateOrEditar" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta">Factor Crítico de Éxito / Resultado</label>
+
+                    <textarea asp-for="FactorCritico" name="FactorCritico" class="form-control"></textarea>
+                    <span asp-validation-for="FactorCritico" class="text-danger"></span>
+                </div>
+            </div>
+          
+            <div id="divObjetivo">
+                <table id="objetivoTable" class="table table-striped" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            @*<th>Id</th>*@
+                            <th>Indicador</th>
+                            <th>Medida</th>
+                            <th>Linea Base</th>
+                            <th>Meta</th>
+                            <th>Responsable</th>
+                            <th class="text-right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.IndicadorEstrategicos != null)
+                        {
+
+                            @foreach (var objetivo in Model.IndicadorEstrategicos.ToList())
+                            {
+                        <tr id="@objetivo.Id">
+
+                            <td>
+
+                                @objetivo.IndicadorResultado
+                            </td>
+                            <td>
+                                @objetivo.MedioVerificacion
+                            </td>
+                            <td>
+                                @objetivo.LineaBase
+                            </td>
+                            <td>
+                                @objetivo.Meta
+                            </td>
+                            <td>
+                                @objetivo.Responsable
+                            </td>
+                            
+                            <td class="text-right">
+                                <button type="button" onclick="EliminaFila(@objetivo.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i>  Eliminar</button>
+                                <button type="button" class="btn btn-primary  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/AnioFiscal/OnGetCreateOrEditObjetivo?id=@objetivo.Id','Editar Objetivos')">
+                                    <i class="fa fa-plus-square"></i>
+                                    Agregar
+                                </button>
+                            </td>
+
+                        </tr>
+                            }}
+
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <br />
+    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+    </div>
+</form>
+
+
+        
+        <script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+    $(function () {
+        $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+        //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
+        //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });
+
+    });
+
+    $("#BrandId").select2({
+        placeholder: "Select a Category",
+        theme: "bootstrap4",
+        escapeMarkup: function (m) {
+            return m;
+        }
+    });
+
+
+       var num = 0;
+        function AgregaConcepto() {
+            let Anio = document.getElementById("AnioGestion").value;
+            let Descripcion = document.getElementById("DescGestion").value;
+            let Estado = document.getElementById("EstadoGestion").value;
+            let IdEstrategia = document.getElementById("Id").value;
+
+            if (Anio.length == 0) {
+                alert("Ingrese la Gestion.");
+                return;
+            }
+
+
+            //agregamos tabla
+            let Tabla = document.getElementById("gestionTable");
+            let TR = document.createElement("tr");
+            TR.setAttribute('id', num);
+           // let TDId = document.createElement("td");
+            let TDAnio = document.createElement("td");
+            let TDDescripcion = document.createElement("td");
+            let TDEstado = document.createElement("td");
+            let TDEliminar = document.createElement("td");
+            TDEliminar.className = "text-right";
+            //let TDTotal = document.createElement("td");
+           // TR.appendChild(TDId);
+            TR.appendChild(TDAnio);
+            TR.appendChild(TDDescripcion);
+            TR.appendChild(TDEstado);
+            TR.appendChild(TDEliminar);
+            //TR.appendChild(TDTotal);
+           // TDId.innerHTML = num;
+            TDAnio.innerHTML = Anio;
+            TDDescripcion.innerHTML = Descripcion;
+            TDEstado.innerHTML = Estado;
+            TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i>  Eliminar</button>";
+            //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
+            Tabla.appendChild(TR);
+
+            //agregamos hiddens
+            let DivConceptos = document.getElementById("divGestion");
+            let HiddenIndex = document.createElement("input");
+            let HiddenAnio = document.createElement("input");
+            let HiddenDescripcion = document.createElement("input");
+            let HiddenEstado = document.createElement("input");
+            HiddenIndex.name = "gestion.Index";
+            HiddenIndex.value = num;
+            HiddenIndex.type = "hidden";
+            HiddenAnio.name = "gestion[" + num + "].Anio";
+            HiddenAnio.value = Anio;
+            HiddenAnio.type = "hidden";
+            HiddenDescripcion.name = "gestion[" + num + "].Descripcion";
+            HiddenDescripcion.value = Descripcion;
+            HiddenDescripcion.type = "hidden";
+            HiddenEstado.name = "gestion[" + num + "].Estado";
+            HiddenEstado.value = Estado;
+            HiddenEstado.type = "hidden";
+            DivConceptos.appendChild(HiddenIndex);
+            DivConceptos.appendChild(HiddenAnio);
+            DivConceptos.appendChild(HiddenDescripcion);
+            DivConceptos.appendChild(HiddenEstado);
+
+            document.getElementById("AnioGestion").value = "";
+            document.getElementById("DescGestion").value = "";
+            document.getElementById("EstadoGestion").value = "";
+
+            num++;
+
+
+
+            //var GestionViewModel = {
+            //    Anio: Nombre,
+            //    Descripcion: Hablado,
+            //    Estado: Escrito,
+            //    IdEstrategia: IdEstrategia
+
+            //};
+
+        @*$.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostCreateOrEdit", "Idioma", new { area = "Registro" })',
+            data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /* alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+            //    alert('No Valid Data');
+            }
+        });*@
+
+        }
+
+    function deleteRow(id) {
+        $("#" + id).remove();
+    }
+
+    function EliminaFila(id) {
+
+        $("#" + id).remove();
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         @*$.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "Idioma", new { area = "Registro" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });*@
+    }
+
+        </script>

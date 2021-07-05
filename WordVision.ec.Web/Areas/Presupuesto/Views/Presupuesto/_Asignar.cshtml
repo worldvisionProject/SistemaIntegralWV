@@ -1,0 +1,399 @@
+﻿@using WordVision.ec.Web.Areas.Presupuesto.Models
+@model AsignarViewModel
+
+<form id="create-form" method="post" asp-controller="Presupuesto" asp-action="OnPostCreateOrEdit"  onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+
+    <div class="card card-info">
+        <div class="card-header card-header-int">
+         Presupuesto
+        </div>
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label class="col-md-12 col-form-label">Lineamientos</label>
+
+                        @Html.DropDownListFor(m => m.IdT5, new SelectList(Model.T5Combo, "Codigo", "Nombre"), new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <label class="col-md-12 col-form-label">@localizer["Precio"]</label>
+
+                        <input type="text" asp-for="ValUnitario" name="ValUnitario"  id="ValUnitario" class="form-control" />
+                        <span asp-validation-for="ValUnitario" class="text-danger"></span>
+
+                    </div>
+
+
+                    <div class="col-md-2">
+
+                        <label class="col-md-12 col-form-label">@localizer["Cantidad"]</label>
+
+                        <input type="text" asp-for="Cantidad" name="Cantidad" id="cantidad" class="form-control" />
+                        <span asp-validation-for="Cantidad" class="text-danger"></span>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <label class="col-md-12 col-form-label">@localizer["Total"]</label>
+
+                        <input type="text" asp-for="Total" name="Total" id="Total" class="form-control" />
+                        <span asp-validation-for="Total" class="text-danger"></span>
+
+                    </div>
+
+
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2 flex">
+
+                        <label for="Tipo1">
+                            Nacional&nbsp;&nbsp;
+                        </label>
+
+                        <input class="" type="radio" id="Tipo1" value="T" name="Tipo">
+
+
+                    </div>
+                    <div class="col-md-2 flex">
+
+                        <label for="Tipo">
+                            Area&nbsp;&nbsp;
+                        </label>
+                        <input class="" type="radio" id="Tipo" value="A" name="Tipo">
+
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="col-md-12 col-form-label">@localizer["Mensual/Anual"]</label>
+                        <select asp-for="MesAnual" name="MesAnual" id="MesAnual" class="form-control">
+                            <option value=1>Mensual</option>
+                            <option value=2>Anual</option>
+                        </select>
+                        <span asp-validation-for="MesAnual" class="text-danger"></span>
+
+                    </div>
+
+
+                </div>
+                <div class="row" id="rowMes">
+                    <div class="col-md-12">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="Mes1" value="1">
+                            <label class="form-check-label" for="Mes1">Enero</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="Mes2" value="2">
+                            <label class="form-check-label" for="Mes2">Febrero</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="Mes3" value="3">
+                            <label class="form-check-label" for="Mes3">Marzo</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="Mes4" value="4">
+                            <label class="form-check-label" for="Mes4">Abril</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="Mes5" value="5">
+                            <label class="form-check-label" for="Mes5">Mayo</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="Mes6" value="6">
+                            <label class="form-check-label" for="Mes6">Junio</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="Mes7" value="7">
+                            <label class="form-check-label" for="Mes7">Julio</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="Mes8" value="8">
+                            <label class="form-check-label" for="Mes8">Agosto</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="Mes9" value="9">
+                            <label class="form-check-label" for="Mes9">Septi.</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="Mes10" value="10">
+                            <label class="form-check-label" for="Mes10">Octub.</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="Mes11" value="11">
+                            <label class="form-check-label" for="Mes11">Noviem.</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="Mes12" value="12">
+                            <label class="form-check-label" for="Mes12">Diciem.</label>
+                        </div>
+
+                    </div>
+                </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-success">Asignar</button>
+                        </div>
+                    </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="col-md-12 col-form-label">Area</label>
+
+                        <select asp-for="Area" name="Area" class="form-control">
+                            <Option Value='1'>Proteccion Y Desarrollo</Option>
+                            <Option Value='2'>Patrocinio</Option>
+                            <Option Value='3'>Pa Colta</Option>
+                            <Option Value='4'>Pa Pillaro</Option>
+                            <Option Value='5'>Pa Tiquizambi Tixan</Option>
+                            <Option Value='6'>Comunicaciones</Option>
+                            <Option Value='7'>Hea Y Seguridad Corporativa</Option>
+                            <Option Value='8'>Administracion Y Finanzas</Option>
+                            <Option Value='9'>Finanzas</Option>
+                            <Option Value='10'>Planeacion Y Presupuesto</Option>
+                            <Option Value='11'>Tecnologias De La Informacion</Option>
+                            <Option Value='12'>Gente Y Cultura</Option>
+                            <Option Value='13'>Cadena De Abastecimiento</Option>
+                            <Option Value='14'>Diseno, Monitoreo Y Evaluacion</Option>
+                            <Option Value='15'>Pa Riobamba</Option>
+                            <Option Value='16'>La Violeta</Option>
+                            <Option Value='17'>Administracion</Option>
+                            <Option Value='18'>Pa Chillanes</Option>
+                            <Option Value='19'>Pa Guano</Option>
+                            <Option Value='20'>Pa Pungala</Option>
+                            <Option Value='21'>Pa Quito Sur</Option>
+                            <Option Value='22'>Contabilidad</Option>
+                            <Option Value='23'>Region Costa</Option>
+                            <Option Value='24'>Region Sierra</Option>
+                            <Option Value='25'>Direccion Nacional</Option>
+                            <Option Value='26'>Marketing, Fundraising Y Comunicación</Option>
+                            <Option Value='27'>Proyecto Youth Ready</Option>
+                            <Option Value='28'>Pa Portoviejo</Option>
+                            <Option Value='29'>Pa Rio Verde</Option>
+                            <Option Value='30'>Pa Santa Ana</Option>
+                            <Option Value='31'>Pa Baba</Option>
+                            <Option Value='32'>Pa Flavio Alfaro</Option>
+                            <Option Value='33'>Pa Guayaquil</Option>
+                            <Option Value='34'>Pa Vinces</Option>
+                            <Option Value='35'>Gam (Grant Adquisition Management)</Option>
+                            <Option Value='36'>Cristianos Por La Niñez</Option>
+                            <Option Value='37'>Marketing Y Fundraising</Option>
+                            <Option Value='38'>Relaciones Eclesiales</Option>
+                            <Option Value='39'>Participacion Comunitaria Y Patrocinio</Option>
+                            <Option Value='40'>Acnur</Option>
+                            <Option Value='41'>Auditoria</Option>
+                            <Option Value='42'>Calidad Del Ministerio</Option>
+                            <Option Value='43'>Proyecto Especial Alpacas</Option>
+                            <Option Value='44'>Proyecto Jovenes</Option>
+
+
+                        </select>
+                    </div>
+                    <div class="col-md-6 objAbajo">
+                        <button type="submit" class="btn btn-success">Buscar</button>
+                    </div>
+
+                </div>
+                    <br />
+                    <table id="colaboradorTable" class="table table-striped" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th style="width: 15px;"><input id="selectall" type="checkbox"></th>
+                                
+                                
+                                @*<th>Identificacion</th>*@
+                                <th>Nombres</th>
+                                <th>Area</th>
+                                @*<th>Cargo</th>*@
+                                @*<th>Ubicacion</th>*@
+                                @*<th>T0</th>*@
+                                @*<th>T1</th>
+        <th>T2</th>*@
+                                @*<th>T3</th>
+        <th>T4</th>
+
+        <th>T6</th>
+        <th>T7</th>*@
+                                @*<th>T8</th>*@
+                                <th>T9</th>
+                                @*<th>Fijo/Eventual</th>*@
+                                @*<th>%LDR</th>*@
+
+                                @*@if ((AuthorizationService.AuthorizeAsync(User, Permissions.colaboradors.Delete)).Result.Succeeded
+           || (AuthorizationService.AuthorizeAsync(User, Permissions.colaboradors.Edit)).Result.Succeeded)
+        {*@
+
+                                @*}*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int i = 0;
+                                foreach (var colaborador in Model.LDRs)
+                                {
+
+                                    <tr>
+                                        <td>
+                                            @*@colaborador.Id*@
+                                            @Html.HiddenFor(x => x.LDRs[i].Identificacion)
+                                            @Html.HiddenFor(x => x.LDRs[i].Id)
+                                            @Html.HiddenFor(x => x.LDRs[i].Area)
+                                            @Html.HiddenFor(x => x.LDRs[i].Ldr)
+                                            @Html.CheckBoxFor(x => x.LDRs[i].select,new {@class= "selectall",@value=i })
+                                        </td>
+                                        @*<td>
+                                @colaborador.Identificacion
+
+                            </td>*@
+                                        <td>
+                                            @colaborador.Nombres
+                                        </td>
+                                        <td>
+                                            @colaborador.Area
+                                        </td>
+                                        @*<td>
+                                @colaborador.Cargo
+                            </td>*@
+                                        @*<td>
+                                @colaborador.Ubicacion
+                            </td>*@
+                                        @*<td>
+                                @colaborador.T0
+                            </td>*@
+                                        @*<td>
+                                @colaborador.T1
+                            </td>
+                            <td>
+                                @colaborador.T2
+                            </td>*@
+                                        @*<td>
+                                @colaborador.T3
+                            </td>
+                            <td>
+                                @colaborador.T4
+                            </td>*@
+                                        @*<td>
+                                @colaborador.T5
+                            </td>*@
+                                        @*<td>
+                                @colaborador.T6
+                            </td>
+                            <td>
+                                @colaborador.T7
+                            </td>*@
+
+                                        <td>
+                                            @colaborador.T9
+                                        </td>
+                                        @*<td>
+                                @colaborador.FijoEventual
+                            </td>*@
+                                        @*<td>
+                                @colaborador.Ldr
+                            </td>*@
+
+
+
+
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+
+            </div>
+    </div>
+
+
+</form>
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+    $(document).ready(function () {
+        $("#colaboradorTable").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            }
+        });
+
+        $("#MesAnual").change(function () {
+        
+            if (this.value == '1') {
+                $("#rowMes").show();
+            }
+            else {
+                $("#rowMes").hide();
+            }
+        }).change();
+
+
+        $('.selectall').click(function () {
+            var checked = $(".selectall:checked").length;
+            $("#cantidad").val(checked);
+          
+            //var arr = $('.selectall:checked').map(function () {
+            //    return this.value;
+            //}).get();
+
+            
+            //var str = arr.join(',');
+            //
+            //$('#arr').text(JSON.stringify(arr));
+
+            //$('#str').text(str);
+
+        });
+
+        $('#ValUnitario').on('change paste keyup', function (e) {
+            var input = $(this);
+            var val = input.val();
+          
+            $("#Total").val($("#cantidad").val() * val);
+        });
+
+        $('#cantidad').on('change paste keyup', function (e) {
+            var input = $(this);
+            var val = input.val();
+
+            $("#Total").val($("#ValUnitario").val() * val);
+        });
+
+        //Detectar click en el checkbox superior de la lista
+        $('#selectall').on('click', function () {
+            //verificar el estado de ese checkbox si esta marcado o no
+            var checked_status = this.checked;
+            var checked = $(".selectall:unchecked").length;
+           
+            $("#cantidad").val(checked);
+            /*
+             * asignarle ese estatus a cada uno de los checkbox
+             * que tengan la clase "selectall"
+            */
+            $(".selectall").each(function () {
+                this.checked = checked_status;
+            });
+        });
+
+
+    });
+    //$("#BrandId").select2({
+    //    placeholder: "Select a Category",
+    //    theme: "bootstrap4",
+    //    escapeMarkup: function (m) {
+    //        return m;
+    //    }
+    //});</script>

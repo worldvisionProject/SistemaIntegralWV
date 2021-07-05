@@ -1,0 +1,22 @@
+﻿@using WordVision.ec.Web.Areas.Presupuesto.Models
+@model AsignarViewModel
+@*<div class="card">*@
+    <div id="viewAll" class="card-body  card-body-card  table-responsive">
+    </div>
+    @*<a id="documentos" class="btn btn-primary text-white">
+        <i class="fa fas fa-bolt"></i>
+        Ir a Documentos Claves
+    </a>*@
+@*</div>*@
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>$(document).ready(function () {
+    loadData();
+    
+
+        });
+        function loadData() {
+            $('#viewAll').load('/presupuesto/presupuesto/LoadAsignar/@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value');
+        }</script>
+}

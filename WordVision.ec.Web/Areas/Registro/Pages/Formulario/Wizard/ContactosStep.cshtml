@@ -1,0 +1,95 @@
+﻿@using WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
+@model ContactosStep
+
+<div class="container-fluid">
+
+    <div class="texto-seccionpregunta">
+        6. CONTACTOS DE EMERGENCIA
+    </div>
+    <a onclick="jQueryModalGet('/registro/formulario/OnGetCreateOrEdit?id=0&idFormulario=@Model.Id&IdColaborador=@Model.IdColaborador&Tipo=C','Crea Contacto')" class="btn bg-success">
+        <i class="fa fa-plus-square"></i> Agregar Contacto
+    </a>
+    <br />
+    <br /> <br />
+    <table id="colaboradorTable" class="table table-striped" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Tipo</th>
+                <th>Apellidos</th>
+                <th>Nombres</th>
+                <th class="text-right">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.FormularioTerceros != null)
+            {
+
+@foreach (var colaborador in Model.FormularioTerceros.Where(x => x.Tipo == "C").ToList())
+{
+<tr id="@colaborador.Terceros.Id">
+    <td>
+        @colaborador.Terceros.Id
+    </td>
+    <td>
+        @colaborador.Terceros.Tipo
+    </td>
+    <td>
+        @colaborador.Terceros.PrimerApellido @colaborador.Terceros.SegundoApellido
+    </td>
+    <td>
+        @colaborador.Terceros.PrimerNombre @colaborador.Terceros.SegundoNombre
+    </td>
+    <td class="text-right">
+        @*<div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Action
+            </button>
+            <div class="dropdown-menu shadow animated--grow-in">*@
+
+        <button type="button" onclick="jQueryModalGet('/registro/formulario/OnGetCreateOrEdit?id=@colaborador.Terceros.Id&idFormulario=@Model.Id&IdColaborador=@Model.IdColaborador&Tipo=C','Edita Dependiente')" class="btn btn-info btn-xp"><i class="fas fa-pencil-alt"></i>  Editar</button>
+        <button type="button" onclick="EliminaFila(@colaborador.Terceros.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i>  Eliminar</button>
+
+
+        @*<form id="form_delete_@colaborador.Terceros.Id" asp-area="registro" asp-controller="formulario" method="post" asp-action="OnPostDelete" asp-route-id="@colaborador.Terceros.Id" onsubmit="return jQueryModalDelete(this)">
+                <a href="javascript:$('#form_delete_@colaborador.Terceros.Id').submit();" class="dropdown-item"><i class="fas fa-trash-alt"></i>  Eliminar</a>
+            </form>*@
+
+        @*</div>
+            </div>*@
+    </td>
+
+</tr>
+}}
+
+
+        </tbody>
+    </table>
+
+
+</div>
+<script>
+
+    function EliminaFila(id) {
+
+        $("#" + id).remove();
+
+        var IdiomaViewModel = {
+            id: id
+        };
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "formulario", new { area = "Registro" })',
+             data: IdiomaViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+    }
+</script>

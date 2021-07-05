@@ -1,0 +1,85 @@
+﻿@using WordVision.ec.Web.Areas.Planificacion.Models
+@model IEnumerable<EstrategiaNacionalViewModel>
+
+<table id="anioFiscalTable" class="table table-striped " width="100%" cellspacing="0">
+    <thead>
+        <tr>
+
+            <th data-priority="1">Nombre</th>
+            <th>Estado</th>
+            <th data-priority="2" class="acciones-th">Acciones</th>
+           
+        </tr>
+    </thead>
+    <tbody>
+      
+        @foreach (var anioFiscal in Model)
+        {
+        <tr>
+
+            <td>
+                @anioFiscal.Nombre
+            </td>
+            <td>
+                @{
+                    var selectedCity = (IEnumerable<SelectListItem>)ViewBag.EstadoList;
+                    string txt = selectedCity.Where(x => x.Value == anioFiscal.Estado).FirstOrDefault().Text;
+                }
+               
+                @*@anioFiscal.DescEstado*@
+
+                    
+                        @if (anioFiscal.Estado == "1")
+                        {
+                            <span class="badge badge-info">@txt</span> }
+                        else if (anioFiscal.Estado == "2")
+                        {
+                            <span class="badge badge-warning">@txt</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-success">@txt</span>
+                        }
+                 
+          
+            </td>
+
+            <td class="acciones-td">
+                <a asp-area="planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEdit" asp-route-id="@anioFiscal.Id" class="btn btn-warning btn-xp"><i class="fas fa-pencil-alt"></i></a>
+
+            </td>
+
+
+        </tr>
+        }
+    </tbody>
+</table>
+<script>
+
+    $(document).ready(function () {
+        var table = $("#colaboradorTable").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                "url": "../lib/datatables/language/Spanish.json"
+            },
+
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 }
+            ],
+            "info": false
+            //columnDefs: [
+            //    { responsivePriority: 1, targets: 0 },
+            //    { responsivePriority: 10001, targets: 4 },
+            //    { responsivePriority: 2, targets: -2 }
+            //]
+        });
+
+
+
+    });
+</script>

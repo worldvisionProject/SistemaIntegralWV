@@ -1,0 +1,51 @@
+﻿using AspNetCoreHero.Results;
+using AutoMapper;
+using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
+using WordVision.ec.Application.Interfaces.Repositories.Registro;
+using WordVision.ec.Domain.Entities.Planificacion;
+
+namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Create
+{
+  
+    public partial class CreateIndicadorEstrategicoCommand : IRequest<Result<int>>
+    {
+        public int Id { get; set; }
+        public string IndicadorResultado { get; set; }
+        public string MedioVerificacion { get; set; }
+        public int? Responsable { get; set; }
+        public int? UnidadMedida { get; set; }
+        public decimal? LineaBase { get; set; }
+        public decimal? Meta { get; set; }
+        public int IdFactorCritico { get; set; }
+    }
+
+    public class CreateIndicadorEstrategicoCommandHandler : IRequestHandler<CreateIndicadorEstrategicoCommand, Result<int>>
+    {
+        private readonly IIndicadorEstrategicoRepository _IndicadorEstrategicoRepository;
+        private readonly IMapper _mapper;
+
+        private IUnitOfWork _unitOfWork { get; set; }
+
+        public CreateIndicadorEstrategicoCommandHandler(IIndicadorEstrategicoRepository IndicadorEstrategicoRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _IndicadorEstrategicoRepository = IndicadorEstrategicoRepository;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+        }
+
+        public async Task<Result<int>> Handle(CreateIndicadorEstrategicoCommand request, CancellationToken cancellationToken)
+        {
+            var IndicadorEstrategico = _mapper.Map<IndicadorEstrategico>(request);
+            await _IndicadorEstrategicoRepository.InsertAsync(IndicadorEstrategico);
+            await _unitOfWork.Commit(cancellationToken);
+            return Result<int>.Success(IndicadorEstrategico.Id);
+        }
+    }
+}

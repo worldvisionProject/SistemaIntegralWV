@@ -1,0 +1,64 @@
+﻿@using WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
+@model OtrosPaisStep
+
+    <div class="container-fluid">
+        <div class="texto-seccionpregunta">
+            3. REQUERIDO. SOLO PERSONAL DE OTROS PAISES; ADJUNTAR COPIA DE CÉDULA ECUATORIANA EN CASO DE TENERLA
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label texto-pregunta">Cédula No.</label>
+            <div class="col-md-3">
+                <input type="text" asp-for="CedulaExtranjero" name="CedulaExtranjero" class="form-control">
+                <span asp-validation-for="CedulaExtranjero" class="text-danger"></span>
+            </div>
+
+            <label class="col-md-3 col-form-label texto-pregunta">Ciudadania</label>
+            <div class="col-md-3">
+                <input type="text" asp-for="CiudadaniaExtranjero" name="CiudadaniaExtranjero" class="form-control">
+                <span asp-validation-for="CiudadaniaExtranjero" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label texto-pregunta">Fecha Vigencia de:</label>
+            <div class="col-md-3">
+                <input type="text" asp-for="VigenciaDesde" name="VigenciaDesde" id="VigenciaDesde" class="form-control">
+                <span asp-validation-for="VigenciaDesde" class="text-danger"></span>
+            </div>
+
+            <label class="col-md-3 col-form-label texto-pregunta">Hasta</label>
+            <div class="col-md-3">
+                <input type="text" asp-for="VigenciaHasta" name="VigenciaHasta" id="VigenciaHasta" class="form-control">
+                <span asp-validation-for="VigenciaHasta" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label texto-pregunta">Doble ciudadania</label>
+            <div class="col-md-3">
+                <select asp-for="DobleCiudadaniaSN" name="DobleCiudadaniaSN" class="form-control">
+                    <option value="0"></option>
+                    <option value="S">SI</option>
+                    <option value="N">NO</option>
+                </select>
+                <span asp-validation-for="DobleCiudadaniaSN" class="text-danger"></span>
+            </div>
+
+            <label class="col-md-3 col-form-label texto-pregunta">Si la respuesta es sí indique el país</label>
+            <div class="col-md-3">
+
+                <input type="text" asp-for="PaisCiudadania" name="PaisCiudadania" class="form-control">
+                <span asp-validation-for="PaisCiudadania" class="text-danger"></span>
+            </div>
+        </div>
+
+
+    </div>
+    <script>
+        $.validator.unobtrusive.parse(document);
+        $(function () {
+            $("#FechaNacimiento").datepicker({ dateFormat: 'dd-mm-yy' });
+            $("#VigenciaDesde").datepicker({ dateFormat: 'dd-mm-yy' });
+            $("#VigenciaHasta").datepicker({ dateFormat: 'dd-mm-yy' });
+
+        });
+
+    </script>

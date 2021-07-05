@@ -1,0 +1,781 @@
+/*@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');*/
+
+html, body {
+    height: 100%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+app {
+    display: block;
+    height: 100%;
+}
+
+
+.header-logo {
+    flex-shrink: 0;
+    /* background-color: currentColor;
+     -webkit-mask: url('../images/Logo.svg');
+    mask: url('../images/Logo.svg');
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+        */
+    background-image: url('../images/Logo.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 180px;
+    height: 54px;
+}
+
+#blazor-error-ui {
+    background: inherit;
+    bottom: 0;
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 100001;
+}
+
+html, body {
+    height: 100%;
+    background-image: url('../images/estrategia-ti-marca-de-agua.jpg') !important;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+
+}
+img {
+  /*  opacity: 0.5;*/
+    align-items:center;
+}
+
+.main {
+    height: 100%;
+    background-image: url('../images/estrategia-ti-marca-de-agua.jpg') !important;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+}
+
+.card-header-int {
+    background-color: #FF8833 !important;
+    /* border-bottom: 1px solid #ff6b00;*/
+    color: white;
+    font-size: 20px;
+   /* padding: 0.4em;*/
+    padding: 8px 10px 8px 10px !important;
+    height: 45px;
+    /*  border-radius: 3px 3px 3px 3px;
+    box-shadow: 0px 0px 5px;*/
+}
+
+.card-header {
+    background-color: #F9F7F9;
+ 
+    /* border-bottom: 1px solid #ff6b00;*/
+}
+
+.card-info {
+    border: 1px solid #FF8833 !important;
+}
+
+.btn-default-login {
+    background-color: #FF8833 !important;
+    border-color: #FF8833;
+    color: #fff !important;
+    width: 100%;
+}
+
+
+.texto-simple {
+    font-size: inherit !important;
+    font-weight: normal !important;
+}
+
+.texto-seccionpregunta {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    text-decoration: underline;
+    padding: 0px 20px 20px 0px
+}
+
+.texto-pregunta {
+    font-size: inherit !important;
+    font-weight: normal !important;
+    padding: 0px 0px 2px 1px !important;
+}
+
+.brand-link .brand-image {
+    line-height: .8;
+    margin-left: .8rem;
+    margin-right: .5rem;
+    margin-top: -3px;
+    max-height: 53px;
+    width: auto !important;
+}
+
+.container-fluid-card {
+    padding: 10px !important;
+}
+
+.card-body-card {
+     padding: 0.05rem !important;
+}
+
+/*label {
+    display: block;
+    margin: .5em 0 0 0;
+}*/
+
+form input, form textarea {
+    display: block;
+}
+
+.inputradio {
+    display: inline;
+}
+
+#nav-link a.seleccionado {
+    background: #AEBD38;
+    color: #ffffff;
+}
+
+
+.validity {
+    /* width: 50px;*/
+    display: inline !important;
+}
+
+input[type="checkbox"]{
+    /*-ms-transform: scale(1.5);*/ /* IE 9 */
+    /*-webkit-transform: scale(1.5);*/ /* Chrome, Safari, Opera */
+    /*transform: scale(1.5);
+    display: inline;*/
+    /* remove standard background appearance */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* create custom radiobutton appearance */
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    padding: 2px;
+    /* background-color only for content */
+    background-clip: content-box;
+    border: 2px solid #FF8833;
+    background-color: #e7e6e7;
+   
+}
+
+    input[type="checkbox"]:checked {
+        background-color: #FF8833;
+    }
+
+input[type="radio"] {
+    /*-ms-transform: scale(1.5);*/ /* IE 9 */
+    /*-webkit-transform: scale(1.5);*/ /* Chrome, Safari, Opera */
+    /*transform: scale(1.5);
+    display: inline;*/
+    /* remove standard background appearance */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* create custom radiobutton appearance */
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    padding: 6px;
+    /* background-color only for content */
+    background-clip: content-box;
+    border: 2px solid #FF8833;
+    background-color: #e7e6e7;
+    border-radius: 50%;
+}
+    /* appearance for checked radiobutton */
+    input[type="radio"]:checked {
+        background-color: #FF8833;
+    }
+
+/* optional styles, I'm using this for centering radiobuttons */
+.flex {
+    display: flex;
+   /* align-items: center;*/
+    padding: 30px 20px;
+}
+.flexReport {
+    display: flex;
+    /* align-items: center;*/
+    padding: 10px 5px 5px 40px;
+}
+
+.objAbajo {
+    display: flex;
+    /* align-items: center;*/
+    padding: 38px 10px 1px;
+}
+
+.select-enabled {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 2px 30px 2px 2px;
+    border: none;
+    color: black;
+   background: transparent ;
+}
+
+#navigation /*> ul > li >*/ a.seleccionado {
+    background: #AEBD38;
+    color: #ffffff;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #ffffff;
+    background-color: #FF8833 !important;
+}
+
+.txtTable {
+    width: 100%;
+}
+
+.btn-success {
+    color: #ffffff;
+    background-color: #1CAFC9;
+    border-color: #1CAFC9;
+    box-shadow: none;
+}
+
+.bg-success {
+    background-color: #1CAFC9 !important;
+}
+
+.table th, .table td {
+    font-size: 14px !important;
+}
+
+
+.btnwizard {
+    display: inline-block;
+    font-weight: 400;
+    color: #858796;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    /* background-color: transparent; */
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    /* border-radius: .35rem; */
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.btn-redondo {
+    width: 45px;
+    height: 45px;
+    line-height: 10px;
+    display: inline-block;
+    border-radius: 100px;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    z-index: 2;
+    position: relative;
+    left: 0;
+    text-align: center;
+    font-size: 25px;
+}
+    .btn-redondo:hover {
+        color: white;
+        border: 2px solid #fff;
+        background-color: #2ED4E0;
+    }
+
+.btn-active {
+        color: white;
+        border: 2px solid #fff;
+        background-color: #2ED4E0;
+    }
+.btn-disabled {
+    border: 2px solid #e0e0e0;
+    background-color: #fff;
+    color: #007bff
+}
+/*INICIO WIZARD*/
+
+.wizard {
+    /*background: #f1f1f1;*/
+    padding: 0px 10px 10px 10px;
+}
+
+    .wizard .nav-tabs {
+        position: relative;
+        border: 0px;
+    }
+
+    .wizard > div.wizard-inner {
+        position: relative;
+    }
+
+.connecting-line {
+    height: 2px;
+    background: #e0e0e0;
+    position: absolute;
+    width: 100%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 89px;
+    z-index: 1;
+}
+
+.stepactive1 button {
+    float: left !important;
+}
+
+.stepactive2 button {
+    margin-right: 24% !important;
+}
+
+.stepactive3 button {
+    margin-left: 24% !important;
+}
+
+.stepactive4 button {
+    margin-left: 24% !important;
+}
+
+.stepactive5 button {
+    margin-left: 24% !important;
+}
+
+.stepactive6 button {
+    margin-left: 29% !important;
+}
+.stepactive7 button {
+    float: right !important;
+}
+.next-step:hover, .next-step, .prev-step:hover, .prev-step {
+    position: relative;
+    background-color: #2ED4E0;
+    font-size: 16px;
+    color: #FFFFFF;
+    margin-top: 30px;
+}
+
+span.round-tab {
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    display: inline-block;
+    border-radius: 100px;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    z-index: 2;
+    position: relative;
+    left: 0;
+    text-align: center;
+    font-size: 25px;
+}
+
+    span.round-tab i {
+        color: #555555;
+    }
+
+.wizard li.active span.round-tab {
+    background: #2ED4E0;
+    color: white;
+    border: 2px solid #fff;
+}
+
+    .wizard li.active span.round-tab i {
+        color: #5bc0de;
+    }
+
+span.round-tab:hover {
+    color: white;
+    border: 2px solid #fff;
+    background-color: #2ED4E0;
+}
+
+.wizard .nav-tabs > li {
+    width: 14.28%;
+}
+
+    .wizard .nav-tabs > li a {
+        width: 70px;
+        height: 70px;
+        margin: 0px auto;
+        border-radius: 100%;
+        padding: 0;
+    }
+
+        .wizard .nav-tabs > li a:hover {
+            background: transparent;
+        }
+
+.wizard .tab-pane {
+    position: relative;
+    padding-top: 15px;
+    border-top: 1px solid #fff;
+    margin-top: 30px;
+}
+
+@media( min-width : 320px ) and ( max-width : 360px ) {
+    span.round-tab {
+        font-size: 16px;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .wizard .nav-tabs > li a {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .wizard li.active:after {
+        content: " ";
+        position: absolute;
+        left: 35%;
+    }
+
+    .stepactive2 a {
+        margin-right: 20% !important;
+    }
+
+    .stepactive3 a {
+        margin-left: 20% !important;
+    }
+}
+
+/*FIN WIZARD*/
+
+/*TITLE*/
+
+/* Tooltip */
+
+
+/*.btn-redondo[data-title]:hover:after {
+    opacity: 1;
+    transition: all 0.1s ease 0.5s;
+    visibility: visible;
+}
+
+.btn-redondo[data-title]:after {
+    content: attr(data-title);
+    background-color: #333;
+    color: #fff;
+    font-size: 14px;
+    font-family: Raleway;
+    position: absolute;
+    padding: 3px 20px;
+    bottom: -1.6em;
+    left: 100%;
+    white-space: nowrap;
+    box-shadow: 1px 1px 3px #222222;
+    opacity: 0;
+    border: 1px solid #111111;
+    z-index: 99999;
+    visibility: hidden;
+    border-radius: 6px;
+}*/
+
+.btn-redondo[data-title] {
+    position: relative;
+}
+
+/*.btn-redondo[data-title] {
+    font-size: 30px;*/ /*optional styling*/
+
+    /*position: relative;*/
+
+
+    /*cursor: help;*/
+    /*}
+
+
+    */
+
+    .btn-redondo[data-title]:hover::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 13px;
+        display: inline-block;
+        color: #fff;
+        border: 8px solid transparent;
+        border-bottom: 8px solid #000;
+    }
+
+    .btn-redondo[data-title]:hover::before {
+        content: attr(data-title);
+        position: absolute;
+        /* top: -20px;*/
+        /*display: inline-block;*/
+        /* border-radius: 2px;*/
+        /* background: #000;*/
+
+        font-size: 12px;
+        font-family: sans-serif;
+        white-space: nowrap;
+        background-color: #000;
+        color: #FFFFFF;
+        border: 1px solid green;
+        padding: 5px 20px;
+        bottom: -1.99em;
+        left: 10%;
+        white-space: nowrap;
+        border-radius: 6px;
+    }
+
+.stepactive7[data-title]:hover::before {
+    content: attr(data-title);
+    position: absolute;
+    /* top: -20px;*/
+    /*display: inline-block;*/
+    /* border-radius: 2px;*/
+    /* background: #000;*/
+
+    font-size: 12px;
+    font-family: sans-serif;
+    white-space: nowrap;
+    background-color: #000;
+    color: #FFFFFF;
+    border: 1px solid green;
+    padding: 5px 20px;
+    bottom: -1.99em;
+    left: -280%;
+    white-space: nowrap;
+    border-radius: 6px;
+}
+
+/*title FIN*/
+
+.google-visualization-orgchart-table {
+    border-collapse: inherit !important;
+}
+
+.google-visualization-orgchart-node-medium {
+    font-size: 0.5em !important;
+}
+
+
+
+.hoverTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.hoverTable td {
+    padding: 7px;
+   /* border: #e0e0e0 1px solid;*/
+}
+/* Define the default color for all the table rows */
+.hoverTable tr {
+  /*  background: #b8d1f3;*/
+}
+    /* Define the hover highlight color for the table row */
+    .hoverTable tr:hover {
+        background-color: blue;
+    }
+
+
+.modal-header {
+    background-color: #ffa666 !important;
+    color: white !important;
+    padding: 8px 10px 8px 10px !important;
+    border-bottom: 4px solid #842e14 !important;
+}
+
+
+table {
+    overflow: hidden;
+    width: 100%;
+    border-collapse: collapse !important;
+}
+
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: red !important;
+    background-color: #ffa666 !important;
+    color:white !important;
+}
+
+/*td, th {
+    padding: 80px;
+    position: relative;
+    outline: 0;
+}*/
+
+body:not(.nohover) tbody tr:hover {
+    background-color: #ffe1cc;
+}
+
+/*td:hover::after,
+thead th:not(:empty):hover::after,
+td:focus::after,
+thead th:not(:empty):focus::after {
+    content: '';
+    height: 10000px;
+    left: 0;
+    position: absolute;
+    top: -5000px;
+    width: 100%;
+    z-index: -1;
+}*/
+
+/*td:hover::after,
+th:hover::after {
+    background-color: #ffa;
+}*/
+
+/*td:focus::after,
+th:focus::after {
+    background-color: lightblue;
+}*/
+
+/* Focus stuff for mobile */
+/*td:focus::before,
+tbody th:focus::before {
+    background-color: lightblue;
+    content: '';
+    height: 100%;
+    top: 0;
+    left: -5000px;
+    position: absolute;
+    width: 10000px;
+    z-index: -1;
+}
+*/
+
+div.container {
+    max-width: 1200px
+}
+
+.btn-xp {
+    padding: 0.25rem 0.35rem !important;
+    font-size: 0.85rem !important;
+    line-height: 1.5 !important;
+    border-radius: 0.25rem !important;
+    width: 30px;
+}
+
+
+.btn-google:hover {
+    background: #b22222;
+    color: #fff;
+}
+
+.btn-facebook:hover {
+    background: #2b4db1;
+    color: #fff;
+}
+
+.btn-twitter:hover {
+    background: #007bb6;
+    color: #fff;
+}
+
+.btn-microsoft:hover {
+    background: #00618E;
+    color: #fff;
+}
+
+.btn-facebook {
+    background: #305c99;
+    color: #fff;
+}
+
+.btn-twitter {
+    background: #00cdff;
+    color: #fff;
+}
+
+.btn-google {
+    background: #d24228;
+    color: #fff;
+}
+
+.btn-linkedin {
+    background: #007bb6;
+    color: #fff;
+}
+
+.btn-microsoft {
+    background: #007bb6;
+    color: #fff;
+}
+
+
+
+
+
+
+nav > .nav.nav-tabs {
+    border: none;
+    color: #fff;
+    background: #006661;
+    border-radius: 0;
+}
+
+nav > div a.nav-item.nav-link,
+nav > div a.nav-item.nav-link.active {
+    border: none;
+   /* padding: 18px 25px;*/
+    color: #fff;
+    background: #006661;
+    border-radius: 0;
+}
+
+    nav > div a.nav-item.nav-link.active:after {
+        content: "";
+        position: relative;
+        bottom: -45px;
+        left: -10%;
+        border: 15px solid transparent;
+        border-top-color: #842e14;
+    }
+
+.tab-content {
+    background: #fdfdfd;
+    line-height: 25px;
+    border: 1px solid #ddd;
+    border-top: 5px solid #842e14;
+    border-bottom: 5px solid #842e14;
+    padding: 30px 25px;
+}
+
+nav > div a.nav-item.nav-link:hover,
+nav > div a.nav-item.nav-link:focus {
+    border: none;
+    background: #842e14;
+    color: #fff;
+    border-radius: 0;
+    transition: background 0.20s linear;
+}
+
+.acciones-th {
+    width: 10%;
+    background-color: #ff8833;
+    text-align: right;
+}
+
+.acciones-td {
+    width: 10%;
+ 
+    text-align:right;
+}
+
+.header-button{
+   
+    padding: 20px 20px 0px !important;
+  
+}

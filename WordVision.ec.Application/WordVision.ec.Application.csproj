@@ -1,0 +1,69 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Features\Planificacion\EstrategiaNacionales\Queries\GetAllPaged\**" />
+    <Compile Remove="Features\Planificacion\FactorCriticoExitoes\Queries\GetAllPaged\**" />
+    <Compile Remove="Features\Planificacion\Gestiones\Queries\GetAllPaged\**" />
+    <Compile Remove="Features\Planificacion\IndicadorAFes\Queries\GetAllPaged\**" />
+    <Compile Remove="Features\Planificacion\IndicadorEstrategicoes\Queries\GetAllPaged\**" />
+    <Compile Remove="Features\Planificacion\ObjetivoEstrategicoes\Queries\GetAllPaged\**" />
+    <Compile Remove="Features\Registro\Pregunta\Queries\GetAllPaged\**" />
+    <Compile Remove="ViewModels\**" />
+    <EmbeddedResource Remove="Features\Planificacion\EstrategiaNacionales\Queries\GetAllPaged\**" />
+    <EmbeddedResource Remove="Features\Planificacion\FactorCriticoExitoes\Queries\GetAllPaged\**" />
+    <EmbeddedResource Remove="Features\Planificacion\Gestiones\Queries\GetAllPaged\**" />
+    <EmbeddedResource Remove="Features\Planificacion\IndicadorAFes\Queries\GetAllPaged\**" />
+    <EmbeddedResource Remove="Features\Planificacion\IndicadorEstrategicoes\Queries\GetAllPaged\**" />
+    <EmbeddedResource Remove="Features\Planificacion\ObjetivoEstrategicoes\Queries\GetAllPaged\**" />
+    <EmbeddedResource Remove="Features\Registro\Pregunta\Queries\GetAllPaged\**" />
+    <EmbeddedResource Remove="ViewModels\**" />
+    <None Remove="Features\Planificacion\EstrategiaNacionales\Queries\GetAllPaged\**" />
+    <None Remove="Features\Planificacion\FactorCriticoExitoes\Queries\GetAllPaged\**" />
+    <None Remove="Features\Planificacion\Gestiones\Queries\GetAllPaged\**" />
+    <None Remove="Features\Planificacion\IndicadorAFes\Queries\GetAllPaged\**" />
+    <None Remove="Features\Planificacion\IndicadorEstrategicoes\Queries\GetAllPaged\**" />
+    <None Remove="Features\Planificacion\ObjetivoEstrategicoes\Queries\GetAllPaged\**" />
+    <None Remove="Features\Registro\Pregunta\Queries\GetAllPaged\**" />
+    <None Remove="ViewModels\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Interfaces\Contexts\IPresupuestoDbContext.cs" />
+    <Compile Remove="Interfaces\Repositories\Presupuesto\IRepositoryAsync.cs" />
+    <Compile Remove="Interfaces\Repositories\Presupuesto\IUnitOfWork.cs" />
+    <Compile Remove="Interfaces\Repositories\Registro\IDocumentoUoW.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCoreHero.Results" Version="1.1.1" />
+    <PackageReference Include="AspNetCoreHero.ThrowR" Version="1.0.0" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="FluentValidation" Version="10.1.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.1.0" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WordVision.ec.Domain\WordVision.ec.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Maestro\Estructuras\Commands\Delete\" />
+    <Folder Include="Features\Maestro\Estructuras\Queries\GetAllPaged\" />
+    <Folder Include="Features\Presupuesto\Presupuesto\Commands\Update\" />
+    <Folder Include="Features\Registro\Colaboradores\Commands\Delete\" />
+    <Folder Include="Features\Registro\Pregunta\Commands\Create\" />
+    <Folder Include="Features\Registro\Pregunta\Commands\Update\" />
+    <Folder Include="Mappings\DashBoard\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,183 @@
+﻿@using WordVision.ec.Web.Areas.Registro.Models
+@model ColaboradorViewModel
+    <div class="card card-info">
+        <div class="card-header card-header-int">
+            Datos del Colaborador
+        </div>
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <label class="col-md-12 col-form-label">Apellidos: <span class="texto-simple">@Model.Apellidos @Model.ApellidoMaterno</span> </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="col-md-12 col-form-label">Nombres: <span class="texto-simple">@Model.PrimerNombre @Model.SegundoNombre</span></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="col-md-12 col-form-label">Identificacion: <span class="texto-simple">@Model.Identificacion</span></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="col-md-10 col-form-label">
+                            Dirección:
+
+                            <select class="col-md-6 col-form-label select-enabled texto-simple" 
+                                asp-for="@Model.LugarTrabajo" name="LugarTrabajo" disabled>
+                                <option value='1'>CALIDAD PROGRAMATICA Y OPERACIONES</option>
+                                <option value='2'>MARKETING, FUNDRAISING Y COMUNICACIÓN</option>
+                                <option value='3'>FINANZAS Y ADMINISTRACION</option>
+                                <option value='4'>GENTE Y CULTURA</option>
+                                <option value='5'>DIRECCION NACIONAL</option>
+                                <option value='6'>GAM</option>
+                                <option value='7'>AUDITORIA</option>
+
+                            </select>
+                        </label>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="col-md-10 col-form-label">
+                            Area:
+
+                            <select class="col-md-6 col-form-label select-enabled texto-simple" 
+                                asp-for="@Model.Area" name="LugarTrabajo" disabled>
+                                <option value='1'>PROTECCION Y DESARROLLO</option>
+                                <option value='2'>PATROCINIO</option>
+                                <option value='3'>PA COLTA</option>
+                                <option value='4'>PA PILLARO</option>
+                                <option value='5'>PA TIQUIZAMBI TIXAN</option>
+                                <option value='6'>COMUNICACIONES</option>
+                                <option value='7'>HEA Y SEGURIDAD CORPORATIVA</option>
+                                <option value='8'>ADMINISTRACION Y FINANZAS</option>
+                                <option value='9'>FINANZAS</option>
+                                <option value='10'>PLANEACION Y PRESUPUESTO</option>
+                                <option value='11'>TECNOLOGIAS DE LA INFORMACION</option>
+                                <option value='12'>GENTE Y CULTURA</option>
+                                <option value='13'>CADENA DE ABASTECIMIENTO</option>
+                                <option value='14'>DISENO, MONITOREO Y EVALUACION</option>
+                                <option value='15'>PA RIOBAMBA</option>
+                                <option value='16'>LA VIOLETA</option>
+                                <option value='17'>ADMINISTRACION</option>
+                                <option value='18'>PA CHILLANES</option>
+                                <option value='19'>PA GUANO</option>
+                                <option value='20'>PA PUNGALA</option>
+                                <option value='21'>PA QUITO SUR</option>
+                                <option value='22'>CONTABILIDAD</option>
+                                <option value='23'>REGION COSTA</option>
+                                <option value='24'>REGION SIERRA</option>
+                                <option value='25'>DIRECCION NACIONAL</option>
+                                <option value='26'>MARKETING, FUNDRAISING Y COMUNICACIÓN</option>
+                                <option value='27'>PROYECTO YOUTH READY</option>
+                                <option value='28'>PA PORTOVIEJO</option>
+                                <option value='29'>PA RIO VERDE</option>
+                                <option value='30'>PA SANTA ANA</option>
+                                <option value='31'>PA BABA</option>
+                                <option value='32'>PA FLAVIO ALFARO</option>
+                                <option value='33'>PA GUAYAQUIL</option>
+                                <option value='34'>PA VINCES</option>
+                                <option value='35'>GAM (Grant Adquisition Management)</option>
+                                <option value='36'>CRISTIANOS POR LA NIÑEZ</option>
+                                <option value='37'>MARKETING Y FUNDRAISING</option>
+                                <option value='38'>RELACIONES ECLESIALES</option>
+                                <option value='39'>PARTICIPACION COMUNITARIA Y PATROCINIO</option>
+                                <option value='40'>ACNUR</option>
+                                <option value='41'>AUDITORIA</option>
+                                <option value='42'>CALIDAD DEL MINISTERIO</option>
+                                <option value='43'>PROYECTO ESPECIAL ALPACAS</option>
+                                <option value='44'>PROYECTO JOVENES</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="col-md-10 col-form-label">
+                            Cargo:
+
+                            <select class="col-md-6 col-form-label select-enabled texto-simple" 
+                                asp-for="@Model.Cargo" name="LugarTrabajo" disabled>
+                                <option value='1'>Analista de Incidencia y Politicas Publicas</option>
+                                <option value='2'>Especialista de Proteccion y Organizacion Segura</option>
+                                <option value='3'>Analista de Patrocinio</option>
+                                <option value='4'>Promotor de Desarrollo de Ninez y Adolescencia</option>
+                                <option value='5'>Encuestador</option>
+                                <option value='6'>Auxiliar de Participacion Comunitaria y Patrocinio</option>
+                                <option value='7'>Especialista de Comunicación Interna</option>
+                                <option value='8'>Especialista de Relacion Publicas y Medios</option>
+                                <option value='9'>Asistente de HEA y Seguridad Corporativa</option>
+                                <option value='10'>Especialista de Administración</option>
+                                <option value='11'>Subcontador General</option>
+                                <option value='12'>Coordinador de Finanzas de Proyectos</option>
+                                <option value='13'>Coordinador TI</option>
+                                <option value='14'>Analista de Selección, Contratación y Beneficios</option>
+                                <option value='15'>Especialista de Desarrollo del Talento</option>
+                                <option value='16'>Auxiliar de Gente y Cultura</option>
+                                <option value='17'>Especialista en Administración del Personal</option>
+                                <option value='18'>Especialista en Trabajo Social y Bienestar</option>
+                                <option value='19'>Asistente de Compras</option>
+                                <option value='20'>Analista Técnico de Cadena de Abastecimiento</option>
+                                <option value='21'>Especialista de Diseño, Monitoreo y Evaluacion</option>
+                                <option value='22'>Digitador</option>
+                                <option value='23'>Especialista de DME e Impacto</option>
+                                <option value='24'>Conserje</option>
+                                <option value='25'>Auxiliar de Servicios Generales</option>
+                                <option value='26'>Asistente de Administracion</option>
+                                <option value='27'>Auxiliar Administrativo</option>
+                                <option value='28'>Secretaria Recepcionista y Logistica</option>
+                                <option value='29'>Promotor de Participación Comunitaria</option>
+                                <option value='30'>Asistente de Contabilidad</option>
+                                <option value='31'>Gerente de Programas Región</option>
+                                <option value='32'>Coordinador de Programas</option>
+                                <option value='33'>Analista de Estrategia, Planificación y Proyectos</option>
+                                <option value='34'>Asistente Ejecutiva</option>
+                                <option value='35'>Gerente de Finanzas y Administración</option>
+                                <option value='36'>Coordinador Nacional de Gente y Cultura</option>
+                                <option value='37'>Director de Marketing, Fundraising y Comunicacion</option>
+                                <option value='38'>Analista de Presupuesto y Control Interno</option>
+                                <option value='39'>Especialista de Presupuesto y Control Interno</option>
+                                <option value='40'>Representante País</option>
+                                <option value='41'>Promotor de Proyecto Especial</option>
+                                <option value='42'>Promotor de Participacion Comunitaria y Patrocinio</option>
+                                <option value='43'>Analista de GAM</option>
+                                <option value='44'>Especialista de Diseño y Desarrollo de Propuestas</option>
+                                <option value='45'>Coordinador de Comunicaciones</option>
+                                <option value='46'>Especialista Digital</option>
+                                <option value='47'>Coordinador de Mercadeo</option>
+                                <option value='48'>Coordinador de Relaciones Eclesiales</option>
+                                <option value='49'>Analista de Datos</option>
+                                <option value='50'>Administrador de Lotus y Sistemas de la Confratern</option>
+                                <option value='51'>Administrador de Infraestructura, Redes y Segurida</option>
+                                <option value='52'>Analista Técnico de Tecnologías de Información</option>
+                                <option value='53'>Coordinador de HEA y Seguridad Corporativa</option>
+                                <option value='54'>Coordinador de PA</option>
+                                <option value='55'>Especialista de Proyectos Técnicos CESP</option>
+                                <option value='56'>Coordinador de Protección, Incidencia y Desarrollo</option>
+                                <option value='57'>Analista de Patrocinio en la Programacion</option>
+                                <option value='58'>Especialista de Proyectos Técnicos de Desarrollo de Potencial</option>
+                                <option value='59'>Especialista de Proyectos Técnicos de Protección y Actoría Social</option>
+                                <option value='60'>Asistente Tecnico de Mercadeo</option>
+                                <option value='61'>Analista de Experiencia al Donante</option>
+                                <option value='62'>Especialista de Marketing y Contenidos</option>
+                                <option value='63'>Regional Senior Auditor</option>
+                                <option value='64'>Administrador de Cadena de Abastecimiento</option>
+                                <option value='65'>Coordinador de Calidad de Ministerio e Innovación</option>
+                                <option value='66'>Coordinador de Proyecto Especial</option>
+                                <option value='67'>Coordinador Programa Integrado</option>
+
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+
+            </div>
+</div>
+</div>

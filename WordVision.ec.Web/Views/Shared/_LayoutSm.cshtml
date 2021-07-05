@@ -1,0 +1,95 @@
+﻿@using WordVision.ec.Web.Views.Shared.Components.Footer;
+@using WordVision.ec.Web.Views.Shared.Components.Title;
+@using WordVision.ec.Web.Views.Shared.Components.Sidebar;
+@using WordVision.ec.Web.Views.Shared.Components.Header;
+@using WordVision.ec.Web.Views.Shared.Components.Logout;
+@using WordVision.ec.Web.Views.Shared.Components.FormModal;
+@using WordVision.ec.Web.Views.Shared.Components.ImageModal;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>World Vision</title>
+    <partial name="_Styles" />
+</head>
+<body class="hold-transition " >
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section"></div>
+    </div>
+    <div class="wrapper">
+        @(await Component.InvokeAsync<HeaderViewComponent>())
+        @*@(await Component.InvokeAsync<SidebarViewComponent>())*@
+        <div class=" main" id="contentWrapper">
+            <div class="content">
+                <div class="container-fluid container-fluid-card">
+                    @(await Component.InvokeAsync<TitleViewComponent>())
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+        @(await Component.InvokeAsync<FooterViewComponent>())
+        @(await Component.InvokeAsync<LogoutViewComponent>())
+        @(await Component.InvokeAsync<FormModalViewComponent>())
+        @(await Component.InvokeAsync<ImageModalViewComponent>())
+        @*<partial name="AdminLTE/_LogoutModal" />
+            <partial name="AdminLTE/Modals/_FormModal" />
+            <partial name="AdminLTE/_ImageModal" />*@
+    </div>
+    <partial name="_Scripts" />
+    @await Component.InvokeAsync("Notyf")
+    @RenderSection("Scripts", required: false)
+
+<script>
+
+
+//            // Vigila la actividad del sistema.
+//    // --------------------------------
+//function VigilaActividad() {
+
+//    // Contador de tiempo en el que el usuario está inactivo.
+//    // ------------------------------------------------------
+//    var segundosDesdeUltimaActividad = 0;
+
+//    // Recuperamos del Controlador el valor timeOut definido en sessionState del Web.config
+//    // -----------------------------------------------------------------------------------
+//    var timeOut = 1;
+    
+//    var maximaInactividad = timeOut * 60;
+
+//    // A intervalos de 1 segundo (1000) revisa el estado del contador.
+//    // ---------------------------------------------------------------
+//    setInterval(function () {
+//        segundosDesdeUltimaActividad++;
+
+//        if (segundosDesdeUltimaActividad > maximaInactividad) {
+//            alert("Necesitas mas Tiempo?");
+//            location.href = '/';
+//        }
+//    }, 1000);
+
+//    // Esta funcion inicializa el contador de inactividad, sucede cuando se detecta que el usuario está trabajando...
+//    // -------------------------------------------------------------------------------------------------------------
+//    function reseteaActividad() {
+//        segundosDesdeUltimaActividad = 0;
+//    }
+
+//    // Vector con los eventos que vigila.
+//    // ----------------------------------
+//    var EventosActividad = [
+//        'keydown', 'keypress', 'scroll', 'mousedown', 'mousemove', 'touchstart', 'resize'
+//    ];
+
+//    // Creamos "Escuchadores" de eventos al documento...
+//    // -------------------------------------------------
+//    EventosActividad.forEach(function (eventName) {
+//        document.addEventListener(eventName, reseteaActividad, true);
+//    });
+//}
+</script>
+</body>
+</html>

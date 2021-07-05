@@ -1,0 +1,206 @@
+﻿@page
+@model WordVision.ec.Web.Areas.Identity.Pages.Account.RedirectModel
+@{
+    Layout = "~/Views/Shared/_LayoutSm.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Confirm Email</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <partial name="_Styles" />
+    <style>
+
+        /* The container must be positioned relative: */
+        .custom-select {
+            position: relative;
+            font-family: Arial;
+        }
+
+            .custom-select select {
+                display: none; /*hide original SELECT element: */
+            }
+
+        .select-selected {
+            background-color: DodgerBlue;
+        }
+
+            /* Style the arrow inside the select element: */
+            .select-selected:after {
+                position: absolute;
+                content: "";
+                top: 14px;
+                right: 10px;
+                width: 0;
+                height: 0;
+                border: 6px solid transparent;
+                border-color: #fff transparent transparent transparent;
+            }
+
+            /* Point the arrow upwards when the select box is open (active): */
+            .select-selected.select-arrow-active:after {
+                border-color: transparent transparent #fff transparent;
+                top: 7px;
+            }
+
+        /* style the items (options), including the selected item: */
+        .select-items div, .select-selected {
+            color: #ffffff;
+            padding: 8px 16px;
+            border: 1px solid transparent;
+            border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+            cursor: pointer;
+        }
+
+        /* Style items (options): */
+        .select-items {
+            position: absolute;
+            background-color: DodgerBlue;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 99;
+        }
+
+        /* Hide the items when the select box is closed: */
+        .select-hide {
+            display: none;
+        }
+
+        .select-items div:hover, .same-as-selected {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+
+        select {
+            border: 0 none;
+            /*color: #FFFFFF;*/
+            background: transparent;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 5px 10px;
+            width: 378px;
+            *width: 350px;
+            *background: #FAF9F7;
+        }
+
+        #mainselection {
+            overflow: hidden;
+            width: 350px;
+            -moz-border-radius: 9px 9px 9px 9px;
+            -webkit-border-radius: 9px 9px 9px 9px;
+            border-radius: 9px 9px 9px 9px;
+            box-shadow: 1px 1px 1px 1px #330033;
+            background: url("arrow.gif") no-repeat scroll 319px 5px #FAF9F7;
+        }
+    </style>
+</head>
+<body class="hold-transition login-page" style="background: white!important;">
+    <div class="container-fluid">
+        <div class="container-fluid">
+            <div class="row  align-items-center">
+                <div class="col-md-12">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <ul class="nav nav-pills card-header-pills">
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-page="Redirect">Estrategia</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link " asp-page="Redirect1">Objetivos Nacionales</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" asp-page="Redirect2">Objetivos de Bloque</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+
+                            <table id="colaboradorTable" class="table table-striped " width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+
+                                        <th data-priority="1">Objetivo</th>
+                                        <th>Area Responsable</th>
+
+                                        <th>Encargado</th>
+
+                                        <th data-priority="2">Editar</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+
+                                    <tr>
+
+                                        <td>
+                                            Consolidar las operaciones en los territorios de intervención de WVE y apoyar los esfuerzos de los socios locales para un impacto duradero a través del empoderamiento de las niñas, niños, adolescentes, jóvenes, comunidades y alineando nuestros programas y proyectos al contexto nacional e internacional.
+                                        </td>
+                                        <td>
+                                            Gerencia General
+                                        </td>
+
+                                        <td>
+                                            Esteban Lasso
+                                        </td>
+
+                                        <td>
+                                            <button type="button" href="#" class="btn btn-info btn-xp"><i class="fas fa-pencil-alt"></i>  Editar</button>
+
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                            <br />
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <partial name="_Scripts" />
+    <script>
+
+        $(document).ready(function () {
+            var table = $("#colaboradorTable").DataTable({
+                aoColumnDefs: [
+                    { "aTargets": [0], "bSortable": true },
+                    { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+                ],
+                "language": {
+                    "url": "/lib/datatables/language/Spanish.json"
+                },
+
+                responsive: true,
+                columnDefs: [
+                    { responsivePriority: 1, targets: 0 },
+                    { responsivePriority: 2, targets: -1 }
+                ],
+                "info": false
+                //columnDefs: [
+                //    { responsivePriority: 1, targets: 0 },
+                //    { responsivePriority: 10001, targets: 4 },
+                //    { responsivePriority: 2, targets: -2 }
+                //]
+            });
+
+
+
+        });
+    </script>
+
+</body>
+</html>
