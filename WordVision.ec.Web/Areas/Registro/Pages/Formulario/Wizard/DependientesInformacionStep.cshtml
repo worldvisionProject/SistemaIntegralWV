@@ -1,10 +1,11 @@
-﻿@using WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
+﻿
+@using WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
 @model DependientesInformacionStep
 
-    @Html.HiddenFor(x => x.Id, new { name = "Id", @Value = Model.Id })
-    @Html.HiddenFor(x => x.IdColaborador, new { name = "IdColaborador", @Value = Model.IdColaborador })
+@Html.HiddenFor(x => x.Id, new { name = "Id", @Value = Model.Id })
+@Html.HiddenFor(x => x.IdColaborador, new { name = "IdColaborador", @Value = Model.IdColaborador })
 
-  
+
 <div class="container-fluid">
     <div class="texto-seccionpregunta">
         4. INFORMACIÓN DE DEPENDIENTES
@@ -14,65 +15,25 @@
     </a>
     <br />
     <br /> <br />
-    <table id="colaboradorTable" class="table table-striped" width="100%" cellspacing="0">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Tipo</th>
-                <th>Apellidos</th>
-                <th>Nombres</th>
-                <th class="text-right">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.FormularioTerceros != null)
-            {
 
-@foreach (var colaborador in Model.FormularioTerceros.Where(x => x.Tipo == "D").ToList())
-{
-<tr id="@colaborador.Terceros.Id">
-    <td>
-        @colaborador.Terceros.Id
-    </td>
-    <td>
-        @colaborador.Terceros.Tipo
-    </td>
-    <td>
-        @colaborador.Terceros.PrimerApellido @colaborador.Terceros.SegundoApellido
-    </td>
-    <td>
-        @colaborador.Terceros.PrimerNombre @colaborador.Terceros.SegundoNombre
-    </td>
-    <td class="text-right">
-        @*<div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Action
-            </button>
-            <div class="dropdown-menu shadow animated--grow-in">*@
+    <div id="viewAllD" class="card-body card-body-card table-responsive">
 
-        <button type="button" onclick="jQueryModalGet('/registro/formulario/OnGetCreateOrEdit?id=@colaborador.Terceros.Id&idFormulario=@Model.Id&IdColaborador=@Model.IdColaborador&Tipo=D','Edita Dependiente')" class="btn btn-info btn-xp">
-            <i class="fas fa-pencil-alt"></i>  Editar</button>
-        <button type="button" onclick="EliminaFila(@colaborador.Terceros.Id)" class="btn btn-danger btn-xp">
-            <i class="fas fa-trash-alt"></i>  Eliminar
-        </button> 
-        @*<form id="form_delete_@colaborador.Terceros.Id" asp-area="registro" asp-controller="formulario" method="post" asp-action="OnPostDelete" asp-route-id="@colaborador.Terceros.Id" asp-route-IdColaborador=@Model.IdColaborador onsubmit="alert('dsdsds')">
-            <a href="javascript:$('#form_delete_@colaborador.Terceros.Id').submit();"  class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i>  Eliminar</a>
-        </form>*@ 
-    @*</div>
-        </div>*@
-</td>
-
-</tr>}}
-
-
-        </tbody>
-    </table>
+    </div>
 
 
 
 </div>
 <script>
+     $(document).ready(function () {
+            loadData();
+    });
+        function loadData() {
+            $('#viewAllD').load('/registro/formulario/LoadTercero?id=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value.ToString()&Tipo=D');
+        }
 
+    $("#close-button").click(function () {
+       /* alert("Handler for .click() called.");*/
+    });
     function EliminaFila(id) {
 
         $("#" + id).remove();

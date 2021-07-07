@@ -91,6 +91,7 @@ namespace WordVision.ec.Web.Areas.Registro.Models
         public DateTime? CreatedOn { get; set; }
         public DateTime? LastModifiedOn { get; set; }
         public int IdColaborador { get; set; }
+        public int? NumContacto { get; set; }
         public ColaboradorViewModel Colaboradores { get; set; }
         public List<FormularioTerceroViewModel> FormularioTerceros { get; set; }
 

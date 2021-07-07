@@ -6,9 +6,10 @@
         <tr>
 
             <th data-priority="1">Nombre</th>
+            <th data-priority="1">Meta</th>
             <th>Estado</th>
             <th data-priority="2" class="acciones-th">Acciones</th>
-           
+
         </tr>
     </thead>
     <tbody>
@@ -21,27 +22,30 @@
                 @anioFiscal.Nombre
             </td>
             <td>
+                @anioFiscal.MetaNacional
+            </td>
+            <td>
                 @{
                     var selectedCity = (IEnumerable<SelectListItem>)ViewBag.EstadoList;
                     string txt = selectedCity.Where(x => x.Value == anioFiscal.Estado).FirstOrDefault().Text;
                 }
-               
+
                 @*@anioFiscal.DescEstado*@
 
-                    
-                        @if (anioFiscal.Estado == "1")
-                        {
-                            <span class="badge badge-info">@txt</span> }
-                        else if (anioFiscal.Estado == "2")
-                        {
-                            <span class="badge badge-warning">@txt</span>
-                        }
-                        else
-                        {
-                            <span class="badge badge-success">@txt</span>
-                        }
-                 
-          
+
+                @if (anioFiscal.Estado == "1")
+                {
+                    <span class="badge badge-info">@txt</span> }
+                else if (anioFiscal.Estado == "2")
+                {
+                    <span class="badge badge-warning">@txt</span>
+                }
+                else
+                {
+                    <span class="badge badge-success">@txt</span>
+                }
+
+
             </td>
 
             <td class="acciones-td">
@@ -57,7 +61,7 @@
 <script>
 
     $(document).ready(function () {
-        var table = $("#colaboradorTable").DataTable({
+        var table = $("#anioFiscalTable").DataTable({
             aoColumnDefs: [
                 { "aTargets": [0], "bSortable": true },
                 { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },

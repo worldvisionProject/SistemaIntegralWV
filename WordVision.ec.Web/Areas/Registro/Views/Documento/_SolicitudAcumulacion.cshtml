@@ -193,6 +193,7 @@
                            type="file" class="custom-file-input"
                            onchange="document.getElementById('viewableImagePopup').src = window.URL.createObjectURL(this.files[0])"
                            id="customFile">
+                    <span asp-validation-for="Image" class="text-danger"></span>
                     <label class="custom-file-label" for="customFile">Buscar imágen para Firmar el documento</label>
                 </div>
                 @if (Model.Image != null && Model.Image.Length > 0)
@@ -224,7 +225,7 @@
             </div>
         </div>
 
-
+</div>
 </form>
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);

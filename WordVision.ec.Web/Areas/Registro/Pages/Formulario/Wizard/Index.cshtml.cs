@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MimeKit;
 using Newtonsoft.Json;
 using WordVision.ec.Application.Features.Identity.Usuarios.Commands.Update;
@@ -49,9 +50,10 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
         private IWebHostEnvironment _env;
         private IConfiguration _configuration;
         private IEmailSender _emailSender;
+        private readonly ILogger<IndexModel> _logger;
         // private readonly ContactService _service;
 
-        public IndexModel(IConfiguration configuration, IEmailSender email,IWebHostEnvironment env,IMediator mediator, IMapper mapper, INotyfService notify)//ContactService service)
+        public IndexModel(ILogger<IndexModel> logger,IConfiguration configuration, IEmailSender email,IWebHostEnvironment env,IMediator mediator, IMapper mapper, INotyfService notify)//ContactService service)
         {
             // _service = service;
             _configuration = configuration;
@@ -60,6 +62,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
             _mediator = mediator;
             _mapper = mapper;
             _notify = notify;
+            _logger = logger;
             InitializeSteps();
         }
 
@@ -93,7 +96,14 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                             formularioViewModel.IdColaborador = id;
                         LoadWizardData(formularioViewModel);
                     }
+                    if (id == 4)
+                    {
+                        //  JumpToStepAsync(this.Steps[0], 3);
+                        return this.RedirectToPage("./Index"); //new { idStep = 3 , handler = "StepLink" }
 
+
+                        //return Page();
+                    }
                     //if (client != null)
                     //{
                     //    LoadWizardData(client);
@@ -110,7 +120,8 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
             }
             catch(Exception ex)
             {
-                _notify.Error("Error al insertar el Idioma.");
+                _logger.LogError("Error al traer datos del Colaborador.", ex);
+                _notify.Error("Error al traer datos del Colaborador.");
             }
             return Page();
 

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Commands.Create;
+using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Commands.Delete;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetById;
@@ -41,6 +42,23 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             }
             return null;
         }
+
+        public async Task<IActionResult> LoadObjetivo(int idEstrategia,string idCategoria)
+        {
+            var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = idEstrategia });
+            if (response.Succeeded)
+            {
+
+                var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
+                entidadViewModel.CategoriaObjetivo = idCategoria;
+                ViewBag.Ciclo = entidadViewModel.Nombre;
+                var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
+                ViewBag.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                return PartialView(idCategoria=="2"?"_ViewAll":"_ViewAllNacional", entidadViewModel);
+             }
+            return null;
+        }
+
         //[Breadcrumb("Objetivo", AreaName = "Planificacion", FromAction = "OnGetCreateOrEdit", FromController = typeof(EstrategiaNacionalController))]
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0,int idEstrategia=0,string categoria="")
         {
@@ -109,9 +127,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         {
                             // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
                             var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 2 });
-                            //ViewBag.EstadoList = new SelectList(cat1.Data, "Secuencia", "Nombre");
-                            ViewData["EstadoList"] = new SelectList(cat1.Data, "Secuencia", "Nombre");
-
+                            ViewBag.EstadoList = new SelectList(cat1.Data, "Secuencia", "Nombre");
+                     
                             var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
                             ViewBag.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
@@ -128,8 +145,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         }
                         var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
                         ViewBag.Ciclo = entidadViewModel.Nombre;
-                        var html = await _viewRenderer.RenderViewToStringAsync("../EstrategiaNacional/_CreateOrEdit", entidadViewModel);
-                        return new JsonResult(new { isValid = true, html = html });
+                        entidadViewModel.CategoriaObjetivo = entidad.Categoria;
+                        var cat22 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
+                        ViewBag.BusinessSubType = Json(cat22.Data);
+                        var html1 = await _viewRenderer.RenderViewToStringAsync(entidad.Categoria == "2" ? "_ViewAll" : "_ViewAllNacional", entidadViewModel);
+                        return new JsonResult(new { isValid = true, html = html1 });
                     }
                     else
                     {
@@ -150,5 +170,57 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             return null;
         }
 
+
+        public async Task<JsonResult> OnPostDelete(int id = 0, int idEstrategia = 0,string idCategoria="")
+        {
+            var deleteCommand = await _mediator.Send(new DeleteObjetivoEstrategicoCommand { Id = id });
+            if (deleteCommand.Succeeded)
+            {
+                _notify.Information($"Objetivo con Id {id} Eliminado.");
+                var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = idEstrategia });
+
+                if (response.Succeeded)
+                {
+                    try
+                    {
+                        // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
+                        var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 2 });
+                        ViewBag.EstadoList = new SelectList(cat1.Data, "Secuencia", "Nombre");
+
+                        var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
+                        ViewBag.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+
+                        var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
+                        ViewBag.AreaList = new SelectList(cat3.Data, "Secuencia", "Nombre");
+
+                        var cat4 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 5 });
+                        ViewBag.CategoriaList = new SelectList(cat4.Data, "Secuencia", "Nombre");
+                    }
+                    catch (Exception ex)
+                    {
+                        _notify.Error("No se pudo cargar los Catalogos");
+                        _logger.LogError("No se pudo cargar los Catalogos", ex);
+                    }
+                    var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
+                    ViewBag.Ciclo = entidadViewModel.Nombre;
+                    entidadViewModel.CategoriaObjetivo = idCategoria;
+                    var cat22 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
+                    ViewBag.BusinessSubType = Json(cat22.Data);
+                    var html1 = await _viewRenderer.RenderViewToStringAsync(idCategoria == "2" ? "_ViewAll" : "_ViewAllNacional", entidadViewModel);
+                    return new JsonResult(new { isValid = true, html = html1 });
+                }
+                else
+                {
+                    _notify.Error(response.Message);
+                    return null;
+                }
+
+            }
+            else
+            {
+                _notify.Error(deleteCommand.Message);
+                return null;
+            }
+        }
     }
 }

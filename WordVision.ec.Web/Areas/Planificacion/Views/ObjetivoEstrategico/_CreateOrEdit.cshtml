@@ -16,33 +16,6 @@
                 </div>
             </div>
             <div class="form-group row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-md-12">
-                        <label class="col-md-12 ">Programa Tecnico</label>
-
-                        <textarea asp-for="Programa" name="Programa" class="form-control"></textarea>
-                        <span asp-validation-for="Programa" class="text-danger"></span>
-                    </div>
-                </div>
-
-
-            </div>
-
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-md-12">
-                        <label class="col-md-12 ">CWBO</label>
-
-                        <textarea asp-for="Cwbo" name="Cwbo" class="form-control"></textarea>
-                        <span asp-validation-for="Cwbo" class="text-danger"></span>
-                    </div>
-                </div>
-
-
-            </div>
-                </div>
-            <div class="form-group row">
                 @*<div class="col-md-3">*@
                 @*<label class="col-md-12 col-form-label texto-pregunta">Categoria</label>
             <select asp-for="Categoria" name="Categoria" class="form-control">
@@ -56,19 +29,19 @@
 
                 @*</div>*@
 
-                <div class="col-md-4">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Area Prioridad</label>
-                    @*<select asp-for="AreaPrioridad" name="AreaPrioridad" class="form-control">
-                    <option value="N">Area1</option>
-                    <option value="B">Area2</option>
+                @*<div class="col-md-4">
+            <label class="col-md-12 col-form-label texto-pregunta text-left">Area Prioridad</label>*@
+                @*<select asp-for="AreaPrioridad" name="AreaPrioridad" class="form-control">
+                <option value="N">Area1</option>
+                <option value="B">Area2</option>
 
-                </select>*@
-                    @Html.DropDownListFor(x => x.AreaPrioridad, Model.AreaList, new { @class = "form-control" })
-                    <span asp-validation-for="AreaPrioridad" class="text-danger"></span>
-                </div>
+            </select>*@
+                @* @Html.DropDownListFor(x => x.AreaPrioridad, Model.AreaList, new { @class = "form-control" })*@
+                @*<span asp-validation-for="AreaPrioridad" class="text-danger"></span>
+            </div>*@
 
-                <div class="col-md-4">
-                    <label class="col-md-12 col-form-label texto-pregunta">Dimension</label>
+                <div class="col-md-6">
+                    <label class="col-md-12 col-form-label texto-pregunta">Area</label>
                     @*<select asp-for="Dimension" name="Dimension" class="form-control">
                     <option value="A">Dim1</option>
                     <option value="C">Dim2</option>
@@ -92,6 +65,35 @@
             </div>*@
 
             </div>
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-form-label texto-pregunta">Programa Tecnico</label>
+
+                            <textarea asp-for="Programa" name="Programa" class="form-control"></textarea>
+                            <span asp-validation-for="Programa" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-form-label texto-pregunta ">CWBO</label>
+
+                            <textarea asp-for="Cwbo" name="Cwbo" class="form-control"></textarea>
+                            <span asp-validation-for="Cwbo" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
 
 
         </div>
