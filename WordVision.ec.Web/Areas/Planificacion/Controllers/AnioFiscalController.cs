@@ -92,22 +92,22 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
                 List<GestionViewModel> lges = new List<GestionViewModel>();
                 GestionViewModel ges = new GestionViewModel();
-                ges.Anio = 2021;
+                ges.Anio = "AF";
                 ges.Descripcion = "AF21";
                 ges.Estado = "I";
                 lges.Add(ges);
                 ges = new GestionViewModel();
-                ges.Anio = 2022;
+                ges.Anio = "AF";
                 ges.Descripcion = "AF22";
                 ges.Estado = "I";
                 lges.Add(ges);
                 ges = new GestionViewModel();
-                ges.Anio = 2023;
+                ges.Anio = "AF";
                 ges.Descripcion = "AF23";
                 ges.Estado = "I";
                 lges.Add(ges);
                 ges = new GestionViewModel();
-                ges.Anio = 2024;
+                ges.Anio = "AF";
                 ges.Descripcion = "AF24";
                 ges.Estado = "I";
                 lges.Add(ges);

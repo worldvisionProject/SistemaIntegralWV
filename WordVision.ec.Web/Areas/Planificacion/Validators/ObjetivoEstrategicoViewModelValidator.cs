@@ -15,16 +15,16 @@ namespace WordVision.ec.Web.Areas.Planificacion.Validators
                 .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
                 .NotNull()
                 ;
-            RuleFor(p => p.Programa)
-               .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
-               .NotNull();
+            //RuleFor(p => p.Programa)
+            //   .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            //   .NotNull();
 
-            RuleFor(p => p.Cwbo)
-               .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
-               .NotNull();
-            RuleFor(p => p.AreaPrioridad)
-                .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
-                .NotNull();
+            //RuleFor(p => p.Cwbo)
+            //   .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            //   .NotNull();
+            //RuleFor(p => p.AreaPrioridad)
+            //    .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            //    .NotNull();
 
             RuleFor(p => p.Categoria)
                .NotEmpty().WithMessage("{PropertyName} es obligatorio.")

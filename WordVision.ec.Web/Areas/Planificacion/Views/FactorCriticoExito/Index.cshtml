@@ -2,9 +2,11 @@
 @using WordVision.ec.Web.Areas.Planificacion.Models
 @model FactorCriticoExitoViewModel
 
-@{ ViewData["Title"] = localizer["Factor Critico de Exito"];
+@{ 
     ViewData["Tmp"] = "Objetivo: ";
-    ViewData["Caption"] = ViewBag.Message;
+    ViewData["Objetivo"] = ViewBag.Message;
+    ViewData["Title"] = localizer["Factor Critico de Exito"].Value + " " + ViewBag.Ciclo;
+
 
     }
 

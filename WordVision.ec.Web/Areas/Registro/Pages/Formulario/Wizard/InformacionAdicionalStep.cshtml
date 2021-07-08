@@ -11,6 +11,7 @@
         <label class="col-md-1 col-form-label texto-pregunta">Idioma</label>
         <div class="col-md-2">
             <select asp-for="Idioma" name="Idioma" class="form-control">
+                <option selected></option>
                 <option value="EN">Ingles</option>
                 <option value="ES">Español</option>
                 <option value="IT">Italiano</option>
@@ -113,6 +114,7 @@
             <label class="col-md-2 col-form-label texto-pregunta">Tiene Discapacidad</label>
             <div class="col-md-2">
                 <select asp-for="DiscapacidadSN" name="DiscapacidadSN" class="form-control">
+                    <option selected></option>
                     <option value="S">SI</option>
                     <option value="N">NO</option>
                 </select>
@@ -134,6 +136,7 @@
             <label class="col-md-2 col-form-label texto-pregunta">Familiar Discapacidad</label>
             <div class="col-md-2">
                 <select asp-for="FamiliaDiscapacidadSN" name="FamiliaDiscapacidadSN" class="form-control">
+                    <option selected></option>
                     <option value="S">SI</option>
                     <option value="N">NO</option>
                 </select>
@@ -180,6 +183,7 @@
                        type="file" class="custom-file-input"
                        onchange="document.getElementById('viewableImage').src = window.URL.createObjectURL(this.files[0])"
                        id="customFile">
+                <span asp-validation-for="Image" class="text-danger"></span>
                 <label class="custom-file-label" for="customFile">Buscar imágen para Firmar el documento</label>
             </div>
             @if (Model.Image != null && Model.Image.Length > 0)

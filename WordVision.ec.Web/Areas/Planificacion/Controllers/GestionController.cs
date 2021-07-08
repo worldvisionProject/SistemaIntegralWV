@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Create;
+using WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Delete;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
@@ -100,24 +101,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         var result = await _mediator.Send(updateEntidadCommand);
                         if (result.Succeeded) _notify.Information($"Gestion con ID {result.Data} Actualizado.");
                     }
-                    var response = await _mediator.Send(new GetAllGestionesCachedQuery());
-                    if (response.Succeeded)
-                    {
-                        var viewModel = _mapper.Map<List<GestionViewModel>>(response.Data);
-                        var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
-                        return new JsonResult(new { isValid = true, html = html });
-                    }
-                    else
-                    {
-                        _notify.Error(response.Message);
-                        return null;
-                    }
+
                 }
-                else
-                {
-                    var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidad);
-                    return new JsonResult(new { isValid = false, html = html });
-                }
+                return new JsonResult(new { isValid = true, Id = id });
             }
             catch (Exception ex)
             {
@@ -126,6 +112,24 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             }
             return null;
         }
+
+
+        public async Task<JsonResult> OnPostDelete(int id = 0, int IdColaborador = 0)
+        {
+            var deleteCommand = await _mediator.Send(new DeleteGestionCommand { Id = id });
+            if (deleteCommand.Succeeded)
+            {
+                _notify.Information($"Gestion con Id {id} Eliminado.");
+                return new JsonResult(new { isValid = true });
+           
+            }
+            else
+            {
+                _notify.Error(deleteCommand.Message);
+                return null;
+            }
+        }
+
 
     }
 }

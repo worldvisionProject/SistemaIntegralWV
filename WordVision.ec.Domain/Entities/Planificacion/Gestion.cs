@@ -11,11 +11,12 @@ namespace WordVision.ec.Domain.Entities.Planificacion
 {
     public class Gestion : AuditableEntity
     {
-        [StringLength(15)]
+        [StringLength(150)]
         [Display(Name = "Descripcion AF")]
         public string Descripcion { get; set; }
         [Display(Name = "Año Fiscal")]
-        public int Anio { get; set; }
+        [StringLength(15)]
+        public string  Anio { get; set; }
 
         [StringLength(1)]
         [Display(Name = "Estado de AF")]

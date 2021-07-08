@@ -1,0 +1,92 @@
+﻿@using WordVision.ec.Web.Areas.Planificacion.Models
+@model EstrategiaNacionalViewModel
+@*@Html.Raw(Json.Encode(ViewBag.Ciclo))*@
+@ViewBag.BusinessSubType
+<table id="objetivoTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            @*<th>Id</th>*@
+            <th>Objetivo</th>
+            @* <th>Area</th>*@
+            @*<th>Responsable</th>*@
+            <th>Area</th>
+            <th class="acciones-th">Factor</th>
+            <th class="acciones-th" style="width:30% !important">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.ObjetivoEstrategicos != null)
+        {
+
+            @foreach (var objetivo in Model.ObjetivoEstrategicos.Where(x => x.Categoria == Model.CategoriaObjetivo).ToList())
+            {
+                <tr id="@objetivo.Id">
+
+                    <td>
+
+                        @objetivo.Descripcion
+                    </td>
+                    @*<td>
+                            @objetivo.AreaPrioridad
+                        </td>*@
+                    @*<td>
+                        @objetivo.CargoResponsable
+                    </td>*@
+                    <td>
+                        @{
+                            var selectedCity = (IEnumerable<SelectListItem>)ViewBag.DimensionesList;
+                            string txt = selectedCity.Where(x => x.Value == objetivo.Dimension).FirstOrDefault().Text;
+                        }
+                        @txt
+                    </td>
+                    <td class="acciones-td">
+                        <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="Index" asp-route-id="@objetivo.Id" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
+
+                    </td>
+                    <td class="acciones-td">
+                        <button type="button" title="Editar" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=@objetivo.Id&idEstrategia=@Model.Id&categoria=@Model.CategoriaObjetivo','Editar Objetivos')">
+                            <i class="fas fa-pencil-alt"></i>
+
+                        </button>
+                        <form id="form_delete_@objetivo.Id" asp-area="Planificacion" asp-controller="ObjetivoEstrategico" method="post" asp-action="OnPostDelete" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@Model.Id" asp-route-idCategoria="@Model.CategoriaObjetivo" onsubmit="return jQueryModalDelete(this)">
+                            <a href="javascript:$('#form_delete_@objetivo.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
+                        </form>
+                        @*<button type="button" onclick="EliminaFila(@objetivo.Id)" class="btn btn-danger btn-xp" title="Inactivar"><i class="fas fa-trash-alt"></i></button>*@
+
+                    </td>
+
+                </tr>
+            }}
+
+
+    </tbody>
+</table>
+<script>
+
+    $(document).ready(function () {
+        var table = $("#objetivoTable").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },
+
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 }
+            ],
+            "info": false
+            //columnDefs: [
+            //    { responsivePriority: 1, targets: 0 },
+            //    { responsivePriority: 10001, targets: 4 },
+            //    { responsivePriority: 2, targets: -2 }
+            //]
+        });
+
+
+
+    });
+</script>

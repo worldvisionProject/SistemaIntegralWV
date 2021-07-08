@@ -20,7 +20,7 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         [StringLength(1)]
         public string Categoria { get; set; }
 
-        [Required]
+      
         [StringLength(1)]
         public string AreaPrioridad { get; set; }
 

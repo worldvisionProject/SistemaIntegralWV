@@ -93,77 +93,96 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string proveedor = null, string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
-          
-            if (ModelState.IsValid)
+            try
             {
-                var userName = Input.Email;
-                if (IsValidEmail(Input.Email))
+                returnUrl = returnUrl ?? Url.Content("~/");
+
+                if (ModelState.IsValid)
                 {
-                    var userCheck = await _userManager.FindByEmailAsync(Input.Email);
-                    if (userCheck != null)
+                    var userName = Input.Email;
+                    if (IsValidEmail(Input.Email))
                     {
-                        userName = userCheck.UserName;
+                        var userCheck = await _userManager.FindByEmailAsync(Input.Email);
+                        if (userCheck != null)
+                        {
+                            userName = userCheck.UserName;
+                        }
                     }
-                }
-               
+
                     var user = await _userManager.FindByNameAsync(userName);
-                if (user != null)
-                {
-                    if (!user.IsActive)
+                    if (user != null)
                     {
-                        return RedirectToPage("./Deactivated");
-                    }
-                    else if (!user.EmailConfirmed)
-                    {
-                        _notyf.Error("Email Not Confirmed.");
-                        ModelState.AddModelError(string.Empty, "Email Not Confirmed.");
-                        return Page();
-                    }
-                    else
-                    {
-
-                        //await AddUserClaims(user, userName);
-                    
-                        var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                        if (result.Succeeded)
+                        if (!user.IsActive)
                         {
-                            //List<Claim> claims = new List<Claim>();
-                            //claims.Add(new Claim("IdEmpresa", user.IdEmpresa.ToString()));
-                            //await _userManager.AddClaimsAsync(user, claims);
-
-                            await _mediator.Send(new AddActivityLogCommand() { userId = user.Id, Action = "Logged In" });
-                            _logger.LogInformation("User logged in.");
-                            _notyf.Success($"Logged in as {userName}.");
-                              return LocalRedirect(returnUrl);
-                            //return this.RedirectToPage("./Main");
+                            return RedirectToPage("./Deactivated");
                         }
-                        await _mediator.Send(new AddActivityLogCommand() { userId = user.Id, Action = "Log-In Failed" });
-                        if (result.RequiresTwoFactor)
+                        else if (!user.EmailConfirmed)
                         {
-                            return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                        }
-                        if (result.IsLockedOut)
-                        {
-                            _notyf.Warning("User account locked out.");
-                            _logger.LogWarning("User account locked out.");
-                            return RedirectToPage("./Lockout");
+                            _notyf.Error("Correo electrónico no confirmado.");
+                            ModelState.AddModelError(string.Empty, "Correo electrónico no confirmado.");
+                            return Page();
                         }
                         else
                         {
-                            _notyf.Error("Invalid login attempt.");
-                            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                            return Page();
+
+                            await AddUserClaims(user, userName);
+
+                            var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                            if (result.Succeeded)
+                            {
+                                List<Claim> claims = new List<Claim>();
+                                claims.Add(new Claim("IdEmpresa", user.IdEmpresa.ToString()));
+                                await _userManager.AddClaimsAsync(user, claims);
+
+                                await _mediator.Send(new AddActivityLogCommand() { userId = user.Id, Action = "Logged In" });
+                                _logger.LogInformation("Usuario conectado.");
+                                _notyf.Success($"Conectado como { userName}.");
+                                return LocalRedirect(returnUrl);
+                                //return this.RedirectToPage("./Main");
+                            }
+                            await _mediator.Send(new AddActivityLogCommand() { userId = user.Id, Action = "Log-In Failed" });
+                            if (result.RequiresTwoFactor)
+                            {
+                                return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                            }
+                            if (result.IsLockedOut)
+                            {
+                                _notyf.Warning("Cuenta de usuario bloqueada.");
+                                _logger.LogWarning("Cuenta de usuario bloqueada.");
+                                return RedirectToPage("./Lockout");
+                            }
+                            else
+                            {
+                                _notyf.Error("Intento de inicio de sesión no válido.");
+                                ModelState.AddModelError(string.Empty, "Intento de inicio de sesión no válido.");
+
+                                await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+                                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+                                ReturnUrl = returnUrl;
+
+                                return Page();
+                            }
                         }
                     }
+                    else
+                    {
+                        _notyf.Error("Correo electrónico / nombre de usuario no encontrado.");
+                        ModelState.AddModelError(string.Empty, "Correo electrónico / nombre de usuario no encontrado.");
+                    }
                 }
-                else
-                {
-                    _notyf.Error("Email / Username Not Found.");
-                    ModelState.AddModelError(string.Empty, "Email / Username Not Found.");
-                }
-            }
+            }catch(Exception ex)
+            {
+                await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+                 ReturnUrl = returnUrl;
+                _notyf.Error("Intento de inicio de sesión no válido.");
+                _logger.LogError("Intento de inicio de sesión no válido.",ex);
+       
+            }
             // If we got this far, something failed, redisplay form
             return Page();
         }
@@ -171,183 +190,204 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostLogInWin(string returnUrl = null)
         {
-            //  return RedirectToAction("Challenge", "Windows", new { Area = "Identity", returnUrl = returnUrl });
-            //  return await ChallengeWindowsAsync(returnUrl);
-            // see if windows auth has already been requested and succeeded
-            var result = await HttpContext.AuthenticateAsync("Windows");
-            if (result?.Principal is WindowsPrincipal wp)
+            try
             {
-                // we will issue the external cookie and then redirect the
-                // user back to the external callback, in essence, treating windows
-                // auth the same as any other external authentication mechanism
-                var props = new AuthenticationProperties()
+                //  return RedirectToAction("Challenge", "Windows", new { Area = "Identity", returnUrl = returnUrl });
+                //  return await ChallengeWindowsAsync(returnUrl);
+                // see if windows auth has already been requested and succeeded
+                var result = await HttpContext.AuthenticateAsync("Windows");
+                if (result?.Principal is WindowsPrincipal wp)
                 {
-                    RedirectUri = Url.Action("Index", "Usuario"),
-                    Items =
+                    // we will issue the external cookie and then redirect the
+                    // user back to the external callback, in essence, treating windows
+                    // auth the same as any other external authentication mechanism
+                    var props = new AuthenticationProperties()
+                    {
+                        RedirectUri = Url.Action("Index", "Usuario"),
+                        Items =
             {
                 { "returnUrl", returnUrl },
                 { "scheme", "Windows" },
             }
-                };
+                    };
 
-                var logindetails = new GetUsuarioByIdResponse();
-                if (ModelState.IsValid)
-                {
-                    var loginInfo = await _mediator.Send(new GetUsuarioByIdQuery() { Id = wp.Identity.Name.Split((char)92)[1] });
-                    if (loginInfo != null)
+                    var logindetails = new GetUsuarioByIdResponse();
+                    if (ModelState.IsValid)
                     {
-                        logindetails = loginInfo.Data;
-                    }
-                    else
-                    {
-                        _notyf.Error("Usuario no encontrado en la empresa.");
-                        return this.Page();
-                        //ModelState.AddModelError(string.Empty, "Invalid username or password.");
-                    }
-                }
-                else
-                    return this.Page();
-
-                var defaultUser = new ApplicationUser
-                {
-                    UserName = logindetails.UserNameRegular,
-                    Email = logindetails.Mail,
-                    FirstName = logindetails.PrimerNombre + " " + logindetails.SegundoNombre,
-                    LastName = logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno,
-                    EmailConfirmed = true,
-                    PhoneNumberConfirmed = true,
-                    IsActive = true
-                    //IdEmpresa = 1
-                };
-
-                if (_userManager.Users.All(u => u.Id != defaultUser.Id))
-                {
-                    var user = await _userManager.FindByEmailAsync(defaultUser.Email);
-                    if (user == null)
-                    {
-                        await _userManager.CreateAsync(defaultUser, "123Pa$$word!");
-                        //await _userManager.AddToRoleAsync(defaultUser, Roles.Basic.ToString());
-                        //await _userManager.AddToRoleAsync(defaultUser, Roles.Moderator.ToString());
-                        //await _userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
-                        //await _userManager.AddToRoleAsync(defaultUser, Roles.SuperAdmin.ToString());
-                    }
-
-                }
-                int idColabora = 0;
-
-                var response = await _mediator.Send(new GetColaboradorByIdentificacionQuery() { Identificacion = logindetails.Cedula });
-                if (response.Succeeded)
-                {
-                    var colaborador = response.Data;
-
-                    if (colaborador == null)
-                    {
-
-                        var userInfo = await _mediator.Send(new CreateColaboradorCommand()
+                        var loginInfo = await _mediator.Send(new GetUsuarioByIdQuery() { Id = wp.Identity.Name.Split((char)92)[1] });
+                        if (loginInfo != null)
                         {
-                            Id = 0,
-                            Apellidos = logindetails.ApellidoPaterno ?? "DEBE ACTUALIZAR DATOS",
-                            ApellidoMaterno = logindetails.ApellidoMaterno ?? "DEBE ACTUALIZAR DATOS",
-                            Identificacion = logindetails.Cedula ?? "DEBE ACTUALIZAR DATOS",
-                            Email = logindetails.Mail ?? "DEBE ACTUALIZAR DATOS",
-                            Cargo = logindetails.Title ?? "DEBE ACTUALIZAR DATOS",
-                            Area = logindetails.Department ?? "DEBE ACTUALIZAR DATOS",
-                            LugarTrabajo = logindetails.PhysicalDeliveryOfficeName ?? "DEBE ACTUALIZAR DATOS",
-                            PrimerNombre = logindetails.PrimerNombre ?? "DEBE ACTUALIZAR DATOS",
-                            SegundoNombre = logindetails.SegundoNombre ?? "DEBE ACTUALIZAR DATOS"
-
-                        });
-
-                        if (userInfo == null)
-                        {
-                            _notyf.Error("No se insertaron los datos del colaborador.");
+                            logindetails = loginInfo.Data;
                         }
                         else
                         {
-                            idColabora = userInfo.Data;
-                            var formulario = await _mediator.Send(new CreateFormularioCommand()
-                            {
-                                IdColaborador = idColabora,
-                                FechaNacimiento = DateTime.Now,
-                                VigenciaDesde = DateTime.Now,
-                                VigenciaHasta = DateTime.Now,
-                                FamiliaPorcentajeDiscapacidad = 0,
-                                PorcentajeDiscapacidad = 0,
-                                PorcentajeEscrito = 0,
-                                PorcentajeHablado = 0
-                            });
+                            _notyf.Error("Usuario no encontrado en la empresa.");
+                            return this.Page();
+                            //ModelState.AddModelError(string.Empty, "Invalid username or password.");
+                        }
+                    }
+                    else
+                        return this.Page();
 
-                            if (formulario == null)
-                            {
-                                _notyf.Error("No se insertaron los datos del formulario.");
-                            }
+                    var defaultUser = new ApplicationUser
+                    {
+                        UserName = logindetails.UserNameRegular,
+                        Email = logindetails.Mail,
+                        FirstName = logindetails.PrimerNombre + " " + logindetails.SegundoNombre,
+                        LastName = logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno,
+                        EmailConfirmed = true,
+                        PhoneNumberConfirmed = true,
+                        IsActive = true,
+                        IdEmpresa = 1
+                    };
+
+                    if (_userManager.Users.All(u => u.Id != defaultUser.Id))
+                    {
+                        var user = await _userManager.FindByEmailAsync(defaultUser.Email);
+                        if (user == null)
+                        {
+                            await _userManager.CreateAsync(defaultUser, "123Pa$$word!");
+                            //await _userManager.AddToRoleAsync(defaultUser, Roles.Basic.ToString());
+                            //await _userManager.AddToRoleAsync(defaultUser, Roles.Moderator.ToString());
+                            //await _userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
+                            //await _userManager.AddToRoleAsync(defaultUser, Roles.SuperAdmin.ToString());
                         }
 
                     }
-                    else
+                    int idColabora = 0;
+
+                    var response = await _mediator.Send(new GetColaboradorByIdentificacionQuery() { Identificacion = logindetails.Cedula });
+                    if (response.Succeeded)
                     {
-                        idColabora = colaborador.Id;
-                        logindetails.ApellidoMaterno = colaborador.ApellidoMaterno;
-                        logindetails.ApellidoPaterno = colaborador.Apellidos;
-                        logindetails.PrimerNombre = colaborador.PrimerNombre;
-                        logindetails.SegundoNombre = colaborador.SegundoNombre;
+                        var colaborador = response.Data;
+
+                        if (colaborador == null)
+                        {
+
+                            var userInfo = await _mediator.Send(new CreateColaboradorCommand()
+                            {
+                                Id = 0,
+                                Apellidos = logindetails.ApellidoPaterno ?? "DEBE ACTUALIZAR DATOS",
+                                ApellidoMaterno = logindetails.ApellidoMaterno ?? "DEBE ACTUALIZAR DATOS",
+                                Identificacion = logindetails.Cedula ?? "DEBE ACTUALIZAR DATOS",
+                                Email = logindetails.Mail ?? "DEBE ACTUALIZAR DATOS",
+                                Cargo = logindetails.Title ?? "DEBE ACTUALIZAR DATOS",
+                                Area = logindetails.Department ?? "DEBE ACTUALIZAR DATOS",
+                                LugarTrabajo = logindetails.PhysicalDeliveryOfficeName ?? "DEBE ACTUALIZAR DATOS",
+                                PrimerNombre = logindetails.PrimerNombre ?? "DEBE ACTUALIZAR DATOS",
+                                SegundoNombre = logindetails.SegundoNombre ?? "DEBE ACTUALIZAR DATOS"
+
+                            });
+
+                            if (userInfo == null)
+                            {
+                                _notyf.Error("No se insertaron los datos del colaborador.");
+                            }
+                            else
+                            {
+                                idColabora = userInfo.Data;
+                                var formulario = await _mediator.Send(new CreateFormularioCommand()
+                                {
+                                    IdColaborador = idColabora,
+                                    FechaNacimiento = DateTime.Now,
+                                    VigenciaDesde = DateTime.Now,
+                                    VigenciaHasta = DateTime.Now,
+                                    FamiliaPorcentajeDiscapacidad = 0,
+                                    PorcentajeDiscapacidad = 0,
+                                    PorcentajeEscrito = 0,
+                                    PorcentajeHablado = 0
+                                });
+
+                                if (formulario == null)
+                                {
+                                    _notyf.Error("No se insertaron los datos del formulario.");
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            idColabora = colaborador.Id;
+                            logindetails.ApellidoMaterno = colaborador.ApellidoMaterno;
+                            logindetails.ApellidoPaterno = colaborador.Apellidos;
+                            logindetails.PrimerNombre = colaborador.PrimerNombre;
+                            logindetails.SegundoNombre = colaborador.SegundoNombre;
+                        }
                     }
+
+
+
+                    var id = new ClaimsIdentity("Windows");
+
+                    // the sid is a good sub value
+                    id.AddClaim(new Claim(JwtClaimTypes.Subject, wp.FindFirst(ClaimTypes.PrimarySid).Value));
+
+
+                    //Login In.
+
+                    id.AddClaim(new Claim(ClaimTypes.Name, logindetails.UserNameRegular));
+                    id.AddClaim(new Claim(ClaimTypes.Email, logindetails.Mail));
+                    id.AddClaim(new Claim(ClaimTypes.Locality, logindetails.PhysicalDeliveryOfficeName));
+                    id.AddClaim(new Claim("DisplayName", logindetails.DisplayName));
+                    //id.AddClaim(new Claim("Cargo", logindetails.Title));
+                    //id.AddClaim(new Claim("Jefe", logindetails.Manager));
+                    //id.AddClaim(new Claim("Gerencia", logindetails.Company));
+                    //id.AddClaim(new Claim("Departamento", logindetails.Department));
+                    id.AddClaim(new Claim("Cedula", logindetails.Cedula));
+                    id.AddClaim(new Claim("Id", idColabora.ToString()));
+                    //id.AddClaim(new Claim("Apellidos", logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno));
+                    //id.AddClaim(new Claim("Nombres", logindetails.PrimerNombre + " " + logindetails.SegundoNombre));
+                    //id.AddClaim(new Claim("ApellidosNombres", logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno + " " + logindetails.PrimerNombre + " " + logindetails.SegundoNombre));
+
+                    // the account name is the closest we have to a display name
+                    id.AddClaim(new Claim(JwtClaimTypes.Name, wp.Identity.Name));
+
+                    // add the groups as claims -- be careful if the number of groups is too large
+                    var wi = wp.Identity as WindowsIdentity;
+
+                    // translate group SIDs to display names
+                    var groups = wi.Groups.Translate(typeof(NTAccount));
+                    var roles = groups.Select(x => new Claim(JwtClaimTypes.Role, x.Value));
+                    id.AddClaims(roles);
+
+                    //claims.Add(id);
+                    //await _signInManager.SignInWithClaimsAsync(defaultUser, new AuthenticationProperties() { IsPersistent = false }, claims);
+
+                    //var claimIdenties = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    //var claimPrincipal = new ClaimsPrincipal(claimIdenties);
+
+                    await Request.HttpContext.SignInAsync(
+                        IdentityServerConstants.ExternalCookieAuthenticationScheme,
+                        new ClaimsPrincipal(id),
+                        props);
+
+                    //List<Claim> claims = new List<Claim>();
+                    //claims.Add(new Claim("IdEmpresa", defaultUser.IdEmpresa.ToString()));
+                    //await _userManager.AddClaimsAsync(defaultUser, claims);
+
+                    //await _mediator.Send(new AddActivityLogCommand() { userId = user.Id, Action = "Logged In" });
+                    //_logger.LogInformation("Usuario conectado.");
+                    //_notyf.Success($"Conectado como { userName}.");
+
+                    return this.RedirectToPage("./Main");
                 }
-
-
-
-                var id = new ClaimsIdentity("Windows");
-
-                // the sid is a good sub value
-                id.AddClaim(new Claim(JwtClaimTypes.Subject, wp.FindFirst(ClaimTypes.PrimarySid).Value));
-
-
-                //Login In.
-
-                id.AddClaim(new Claim(ClaimTypes.Name, logindetails.UserNameRegular));
-                id.AddClaim(new Claim(ClaimTypes.Email, logindetails.Mail));
-                id.AddClaim(new Claim(ClaimTypes.Locality, logindetails.PhysicalDeliveryOfficeName));
-                id.AddClaim(new Claim("DisplayName", logindetails.DisplayName));
-                //id.AddClaim(new Claim("Cargo", logindetails.Title));
-                //id.AddClaim(new Claim("Jefe", logindetails.Manager));
-                //id.AddClaim(new Claim("Gerencia", logindetails.Company));
-                //id.AddClaim(new Claim("Departamento", logindetails.Department));
-                id.AddClaim(new Claim("Cedula", logindetails.Cedula));
-                id.AddClaim(new Claim("Id", idColabora.ToString()));
-                id.AddClaim(new Claim("Apellidos", logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno));
-                id.AddClaim(new Claim("Nombres", logindetails.PrimerNombre + " " + logindetails.SegundoNombre));
-                //id.AddClaim(new Claim("ApellidosNombres", logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno + " " + logindetails.PrimerNombre + " " + logindetails.SegundoNombre));
-
-                // the account name is the closest we have to a display name
-                id.AddClaim(new Claim(JwtClaimTypes.Name, wp.Identity.Name));
-
-                // add the groups as claims -- be careful if the number of groups is too large
-                var wi = wp.Identity as WindowsIdentity;
-
-                // translate group SIDs to display names
-                var groups = wi.Groups.Translate(typeof(NTAccount));
-                var roles = groups.Select(x => new Claim(JwtClaimTypes.Role, x.Value));
-                id.AddClaims(roles);
-
-                //claims.Add(id);
-                //await _signInManager.SignInWithClaimsAsync(defaultUser, new AuthenticationProperties() { IsPersistent = false }, claims);
-
-                //var claimIdenties = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                //var claimPrincipal = new ClaimsPrincipal(claimIdenties);
-
-                await Request.HttpContext.SignInAsync(
-                    IdentityServerConstants.ExternalCookieAuthenticationScheme,
-                    new ClaimsPrincipal(id),
-                    props);
-                return this.RedirectToPage("./Main");
+                else
+                {
+                    // trigger windows auth
+                    // since windows auth don't support the redirect uri,
+                    // this URL is re-triggered when we call challenge
+                    return Challenge("Windows");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // trigger windows auth
-                // since windows auth don't support the redirect uri,
-                // this URL is re-triggered when we call challenge
-                return Challenge("Windows");
+                await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+                ReturnUrl = returnUrl;
             }
+            return this.Page();
         }
 
         public async Task<IActionResult> OnPostLogIn(string returnUrl = null)
@@ -388,8 +428,8 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                     LastName = logindetails.ApellidoPaterno+" "+logindetails.ApellidoMaterno,
                     EmailConfirmed = true,
                     PhoneNumberConfirmed = true,
-                    IsActive = true
-                    //IdEmpresa=1
+                    IsActive = true,
+                    IdEmpresa=1
                 };
                 if (_userManager.Users.All(u => u.Id != defaultUser.Id))
                 {
@@ -477,8 +517,8 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                     //claims.Add(new Claim("Departamento", logindetails.Department));
                     claims.Add(new Claim("Cedula", logindetails.Cedula));
                     claims.Add(new Claim("Id", idColabora.ToString()));
-                    claims.Add(new Claim("Apellidos", logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno));
-                    claims.Add(new Claim("Nombres", logindetails.PrimerNombre + " " + logindetails.SegundoNombre));
+                    //claims.Add(new Claim("Apellidos", logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno));
+                    //claims.Add(new Claim("Nombres", logindetails.PrimerNombre + " " + logindetails.SegundoNombre));
                     //claims.Add(new Claim("ApellidosNombres", logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno + " " + logindetails.PrimerNombre + " " + logindetails.SegundoNombre));
 
 
@@ -630,27 +670,27 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
             {
                 // Setting
 
-                //claims.Add(new Claim(ClaimTypes.Name, logindetails.UserNameRegular));
-                //claims.Add(new Claim(ClaimTypes.Email, logindetails.Mail));
-                //claims.Add(new Claim(ClaimTypes.Locality, logindetails.PhysicalDeliveryOfficeName));
-                //claims.Add(new Claim("DisplayName", logindetails.DisplayName));
-                ////claims.Add(new Claim("Cargo", logindetails.Title));
-                ////claims.Add(new Claim("Jefe", logindetails.Manager));
-                ////claims.Add(new Claim("Gerencia", logindetails.Company));
-                ////claims.Add(new Claim("Departamento", logindetails.Department));
-                //claims.Add(new Claim("Cedula", logindetails.Cedula));
-                //claims.Add(new Claim("Id", idColabora.ToString()));
+                claims.Add(new Claim(ClaimTypes.Name, logindetails.UserNameRegular));
+                claims.Add(new Claim(ClaimTypes.Email, logindetails.Mail));
+                claims.Add(new Claim(ClaimTypes.Locality, logindetails.PhysicalDeliveryOfficeName));
+                claims.Add(new Claim("DisplayName", logindetails.DisplayName));
+                //claims.Add(new Claim("Cargo", logindetails.Title));
+                //claims.Add(new Claim("Jefe", logindetails.Manager));
+                //claims.Add(new Claim("Gerencia", logindetails.Company));
+                //claims.Add(new Claim("Departamento", logindetails.Department));
+                claims.Add(new Claim("Cedula", logindetails.Cedula));
+                claims.Add(new Claim("Id", idColabora.ToString()));
                 //claims.Add(new Claim("Apellidos", logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno));
                 //claims.Add(new Claim("Nombres", logindetails.PrimerNombre + " " + logindetails.SegundoNombre));
-                ////claims.Add(new Claim("ApellidosNombres", logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno + " " + logindetails.PrimerNombre + " " + logindetails.SegundoNombre));
+                //claims.Add(new Claim("ApellidosNombres", logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno + " " + logindetails.PrimerNombre + " " + logindetails.SegundoNombre));
 
 
-                ////var claimIdenties = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                ////var claimPrincipal = new ClaimsPrincipal(claimIdenties);
-                ////var authenticationManager = Request.HttpContext;
+                //var claimIdenties = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                //var claimPrincipal = new ClaimsPrincipal(claimIdenties);
+                //var authenticationManager = Request.HttpContext;
 
-                //// Sign In.
-                //await _userManager.AddClaimsAsync(user,claims);
+                // Sign In.
+                await _userManager.AddClaimsAsync(user, claims);
             }
             catch (Exception ex)
             {

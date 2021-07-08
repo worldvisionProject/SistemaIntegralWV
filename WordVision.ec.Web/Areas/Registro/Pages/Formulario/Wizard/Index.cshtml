@@ -1,88 +1,92 @@
 ﻿@page
 @using WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
 @model IndexModel
-    <script src="~/lib/jquery/jquery.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    @{ @*ViewData["Title"] = "New";*@ var currentStep = Model.Steps[Model.CurrentStepIndex];
-    var viewName = currentStep.ToString().Substring(currentStep.ToString().LastIndexOf('.') + 1); }
+<script src="~/lib/jquery/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+@{ @*ViewData["Title"] = "New";*@ var currentStep = Model.Steps[Model.CurrentStepIndex];
+var viewName = currentStep.ToString().Substring(currentStep.ToString().LastIndexOf('.') + 1); }
 
-    <section>
-        <div class="wizard">
-
-            @*@using (Html.BeginForm(new { @id = "formId", enctype = "multipart/form-data" }))
-        {*@
-            <form id="formId" method="post"  enctype="multipart/form-data">
-
-                @Html.Hidden("StepType", Model.Steps[Model.CurrentStepIndex].GetType())
+<section>
 
 
+    <div class="wizard">
 
-                <div class="wizard-inner">
-                    <div class="connecting-line"></div>
-                    <ul class="nav nav-tabs" role="tablist">
+        @*@using (Html.BeginForm(new { @id = "formId", enctype = "multipart/form-data" }))
+            {*@
+        <form id="formId" method="post" enctype="multipart/form-data">
 
-                        <li role="presentation" class="stepactive1 @(currentStep.Position==0 ? " active" : " disabled")">
-
-                            @*<a onclick="document.forms[0].submit();return false;" asp-page-handler="Step1" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">*@
-                            <button type="submit" value="1" name="Step1" asp-page-handler="StepLink" asp-route-idStep="0" class="btnwizard btn-redondo stepactive1 @(currentStep.Position==0 ? " btn-active" : " btn-disabled")" data-title="Datos personales">1</button>
-                            @*<span class="round-tab">
-                            1
-                        </span>*@ @*</a>*@
-                    </li>
-                    <li role="presentation" class="stepactive2 @(currentStep.Position==1 ? " active" : " disabled")">
-                        <button type="submit" value="2" name="Step2" asp-page-handler="StepLink" asp-route-idStep="1" class="btnwizard btn-redondo stepactive2 @(currentStep.Position==1 ? " btn-active" : " btn-disabled")" data-title="Direccion permanente">2</button>
-                    </li>
-                    <li role="presentation" class="stepactive3 @(currentStep.Position==2 ? " active":" disabled")">
-                        <button type="submit" value="3" name="Step3" asp-page-handler="StepLink" asp-route-idStep="2" class="btnwizard btn-redondo stepactive3 @(currentStep.Position==2 ? " btn-active" : " btn-disabled")" data-title="Otros paises">3</button>
-                    </li>
-                    <li role="presentation" class="stepactive4 @(currentStep.Position==3 ? " active":" disabled")">
-                        <button type="submit" value="4" name="Step4" asp-page-handler="StepLink" asp-route-idStep="3" class="btnwizard btn-redondo stepactive4 @(currentStep.Position==3 ? " btn-active" : " btn-disabled")" data-title="Informacion dependientes">4</button>
-                    </li>
-                    <li role="presentation" class="stepactive5 @(currentStep.Position==4 ? " active":" disabled")">
-                        <button type="submit" value="5" name="Step5" asp-page-handler="StepLink" asp-route-idStep="4" class="btnwizard btn-redondo stepactive5 @(currentStep.Position==4 ? " btn-active" : " btn-disabled")" data-title="Salud">5</button>
-                    </li>
-                    <li role="presentation" class="stepactive6 @(currentStep.Position==5 ? " active":" disabled")">
-                        <button type="submit" value="6" name="Step6" asp-page-handler="StepLink" asp-route-idStep="5" class="btnwizard btn-redondo stepactive6 @(currentStep.Position==5 ? " btn-active" : " btn-disabled")" data-title="Contactos de emergencia">6</button>
-                    </li>
-                    <li role="presentation" class="stepactive7 @(currentStep.Position==6 ? " active":" disabled")">
+            @Html.Hidden("StepType", Model.Steps[Model.CurrentStepIndex].GetType())
 
 
-                        <button type="submit" data-title="Informacion adicional" name="Step7" asp-page-handler="StepLink" asp-route-idStep="6" class="btnwizard btn-redondo stepactive7 @(currentStep.Position==6 ? " btn-active" : " btn-disabled")">7</button>
-                        @*<a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
-                        <span class="round-tab">
-                            7
-                        </span>
-                    </a>*@
-                    </li>
-                </ul>
-            </div>
-            <br />
-            <div class="card card-info">
-                <div class="card-header card-header-int">
-                    Actualización de Datos
+
+            <div class="wizard-inner">
+                <div class="connecting-line"></div>
+                <ul class="nav nav-tabs" role="tablist">
+
+                    <li role="presentation" class="stepactive1 @(currentStep.Position==0 ? " active" : " disabled")">
+
+                        @*<a onclick="document.forms[0].submit();return false;" asp-page-handler="Step1" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">*@
+                        <button type="submit" value="1" name="Step1" asp-page-handler="StepLink" asp-route-idStep="0" class="btnwizard btn-redondo stepactive1 @(currentStep.Position==0 ? " btn-active" : " btn-disabled")" data-title="Datos personales">1</button>
+                        @*<span class="round-tab">
+                                1
+                            </span>*@ @*</a>*@
+                        </li>
+                        <li role="presentation" class="stepactive2 @(currentStep.Position==1 ? " active" : " disabled")">
+                            <button type="submit" value="2" name="Step2" asp-page-handler="StepLink" asp-route-idStep="1" class="btnwizard btn-redondo stepactive2 @(currentStep.Position==1 ? " btn-active" : " btn-disabled")" data-title="Direccion permanente">2</button>
+                        </li>
+                        <li role="presentation" class="stepactive3 @(currentStep.Position==2 ? " active":" disabled")">
+                            <button type="submit" value="3" name="Step3" asp-page-handler="StepLink" asp-route-idStep="2" class="btnwizard btn-redondo stepactive3 @(currentStep.Position==2 ? " btn-active" : " btn-disabled")" data-title="Otros paises">3</button>
+                        </li>
+                        <li role="presentation" class="stepactive4 @(currentStep.Position==3 ? " active":" disabled")">
+                            <button type="submit" value="4" name="Step4" asp-page-handler="StepLink" asp-route-idStep="3" class="btnwizard btn-redondo stepactive4 @(currentStep.Position==3 ? " btn-active" : " btn-disabled")" data-title="Informacion dependientes">4</button>
+                        </li>
+                        <li role="presentation" class="stepactive5 @(currentStep.Position==4 ? " active":" disabled")">
+                            <button type="submit" value="5" name="Step5" asp-page-handler="StepLink" asp-route-idStep="4" class="btnwizard btn-redondo stepactive5 @(currentStep.Position==4 ? " btn-active" : " btn-disabled")" data-title="Salud">5</button>
+                        </li>
+                        <li role="presentation" class="stepactive6 @(currentStep.Position==5 ? " active":" disabled")">
+                            <button type="submit" value="6" name="Step6" asp-page-handler="StepLink" asp-route-idStep="5" class="btnwizard btn-redondo stepactive6 @(currentStep.Position==5 ? " btn-active" : " btn-disabled")" data-title="Contactos de emergencia">6</button>
+                        </li>
+                        <li role="presentation" class="stepactive7 @(currentStep.Position==6 ? " active":" disabled")">
+
+
+                            <button type="submit" data-title="Informacion adicional" name="Step7" asp-page-handler="StepLink" asp-route-idStep="6" class="btnwizard btn-redondo stepactive7 @(currentStep.Position==6 ? " btn-active" : " btn-disabled")">7</button>
+                            @*<a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
+                                    <span class="round-tab">
+                                        7
+                                    </span>
+                                </a>*@
+                        </li>
+                    </ul>
                 </div>
-                <div class="card-body">
+                <br />
+                <div class="card card-info">
+                    <div class="card-header card-header-int">
+                        Actualización de Datos
+                    </div>
+                    <div class="card-body">
 
-                    @Html.HiddenFor(m => m.CurrentStepIndex, Model.CurrentStepIndex)
+                        @Html.HiddenFor(m => m.CurrentStepIndex, Model.CurrentStepIndex)
 
-                    @await Html.PartialAsync(viewName, currentStep)
-                    @if (Model.CurrentStepIndex > 0)
-                    {
-        <input type="submit" value="Anterior" name="prev" asp-page-handler="Previous" class="btn btn-secondary" />}
+                        @await Html.PartialAsync(viewName, currentStep)
+                        @if (Model.CurrentStepIndex > 0)
+                        {
+            <input type="submit" value="Anterior" name="prev" asp-page-handler="Previous" class="btn btn-secondary" />}
 
-                    @if (Model.CurrentStepIndex < (Model.Steps.Count - 1))
-                    {
-        <input type="submit" value="Siguiente" name="next" asp-page-handler="Next" class="btn btn-primary" />
-                        <input type="submit" value="Guardar & Cerrar" name="save" asp-page-handler="Finish" class="btn btn-primary float-right" /> }
-                    else
-                    {
-        <input type="submit" value="Finalizar" name="finish" asp-page-handler="Finish" class="btn btn-primary" />}
+                        @if (Model.CurrentStepIndex < (Model.Steps.Count - 1))
+                        {
+            <input type="submit" value="Siguiente" name="next" asp-page-handler="Next" class="btn btn-primary" />
+                            @*<input type="submit" value="Guardar & Cerrar" name="save" asp-page-handler="Finish" class="btn btn-primary float-right" />*@ }
+                        else
+                        {
+            <input type="submit" value="Finalizar" name="finish" asp-page-handler="Finish" class="btn btn-primary" />}
+                    </div>
                 </div>
-            </div>
-</form>
-@*}*@
+            </form>
+            @*}*@
 
         </div>
     </section>
+
+    @await Component.InvokeAsync("Notyf")

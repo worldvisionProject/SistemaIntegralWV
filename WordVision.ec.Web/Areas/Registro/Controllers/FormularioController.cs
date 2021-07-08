@@ -203,6 +203,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
         }
 
 
+      
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idFormulario = 0,int IdColaborador=0,string tipo="")
         {
             var response = await _mediator.Send(new GetTerceroByIdFormularioQuery() { Id = id });
@@ -223,7 +224,30 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
 
         }
 
+        public async Task<IActionResult> LoadTercero(int id = 0,string tipo="")
+        {
+            //var formualrioViewModel = new FormularioViewModel();
+            //return PartialView("_ViewAll", formualrioViewModel);
 
+            var response = await _mediator.Send(new GetFormularioByIdQuery() { Id = id });
+            if (response.Succeeded)
+            {
+                var formularioViewModel = _mapper.Map<FormularioViewModel>(response.Data);
+                if (formularioViewModel == null)
+                {
+                    formularioViewModel = new FormularioViewModel();
+                    formularioViewModel.Id = 0;
+                }
+
+                formularioViewModel.IdColaborador = id;
+                formularioViewModel.TipoContacto = tipo;
+                 formularioViewModel.NumContacto = formularioViewModel.FormularioTerceros.Where(x => x.Tipo == "C").Count();
+                return PartialView("_Tercero", formularioViewModel);
+                // return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", documentoViewModel) });
+            }
+            return null;
+
+        }
         [HttpPost]
         public async Task<JsonResult> OnPostCreateOrEditar(int id, TerceroViewModel tercero)
         {
@@ -262,26 +286,36 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         var result = await _mediator.Send(updateBrandCommand);
                         if (result.Succeeded) _notify.Information($"Tercero con ID  {result.Data} Actualizado.");
                     }
-                //var response = await _mediator.Send(new GetFormularioByIdQuery() { Id = Convert.ToInt32( User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
-                //if (response.Succeeded)
-                //{
-                //    if (response.Data!=null)
-                //    { 
-                //        var viewModel = _mapper.Map<FormularioViewModel>(response.Data);
-                //        var html = await _viewRenderer.RenderViewToStringAsync("/Areas/Registro/Pages/Formulario/Wizard/Index.cshtml", viewModel);
-                //        return new JsonResult(new { isValid = true,html= html });
-                //    }
-                //  else
-                //    return new JsonResult(new { isValid = true });
+
+
+
+                //return new RedirectToPageResult("/Formulario/Wizard/Index",new { id=4});
+
+                var response = await _mediator.Send(new GetFormularioByIdQuery() { Id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
+                if (response.Succeeded)
+                {
+                    if (response.Data != null)
+                    {
+                        var viewModel = _mapper.Map<FormularioViewModel>(response.Data);
+                        viewModel.TipoContacto = tercero.TipoGrupo;
+                        viewModel.NumContacto = viewModel.FormularioTerceros.Where(x => x.Tipo == "C").Count();
+                         var html1 = await _viewRenderer.RenderViewToStringAsync("_Tercero", viewModel);
+                        return new JsonResult(new { isValid = true, html = html1 });
+                    }
+                    else
+                        return new JsonResult(new { isValid = true });
+                }
+                return new JsonResult(new { isValid = true });
                 //}
                 //else
                 //{
                 //    _notify.Error(response.Message);
                 //    return null;
                 //}
-                //return PartialView("Wizard/Index");
+                //return RedirectToPage("/Index", new { area = "Registro" });
+                //  RedirectToAction("~/Pages/Wizard/Index");
 
-                return new JsonResult(new { isValid = true });
+                // return new JsonResult(new { isValid = true });
 
             }
             catch (Exception ex)

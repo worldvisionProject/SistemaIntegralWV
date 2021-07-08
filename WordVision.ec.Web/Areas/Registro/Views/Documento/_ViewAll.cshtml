@@ -107,14 +107,15 @@
                                     <label>
                                         SI&nbsp; &nbsp;
                                     </label>
-                                    @if (resp.Equals("SI"))
-                                    {
+
+                                    @*@if (resp.Equals("SI"))
+                                    {*@
                                         <input type="radio" name="Preguntas[@i].Estado" id="Estado[@i]" value="SI" checked="checked" />
-                                    }
+                                    @*}
                                     else
                                     {
                                         <input type="radio" name="Preguntas[@i].Estado" id="Estado[@i]" value="SI" />
-                                    }
+                                    }*@
 
                                     @*@Html.RadioButtonFor(x => x.Preguntas[i].Estado, "SI", new {@checked="checked",@class="inputradio" })*@
 
@@ -183,6 +184,7 @@
                            type="file" class="custom-file-input"
                            onchange="document.getElementById('viewableImage').src = window.URL.createObjectURL(this.files[0])"
                            id="customFile">
+                    <span asp-validation-for="Image" class="text-danger"></span>
                     <label class="custom-file-label" for="customFile">Buscar imágen para Firmar el documento</label>
                 </div>
                

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetAllCached;
@@ -36,6 +37,15 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             {
                 ViewBag.Message = response.Data.Descripcion;
                 id = response.Data.IdEstrategia;
+            }
+
+            var responseE = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = id });
+            if (responseE.Succeeded)
+            {
+
+                var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(responseE.Data);
+                ViewBag.Ciclo = entidadViewModel.Nombre;
+                //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
 
             var childNode0 = new MvcBreadcrumbNode("Index", "EstrategiaNacional", "Ciclo Estrategico", false, null, "Planificacion")

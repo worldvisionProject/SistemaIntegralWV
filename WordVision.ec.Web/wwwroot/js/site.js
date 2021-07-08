@@ -66,7 +66,13 @@
                 processData: false,
                 success: function (res) {
                     if (res.isValid) {
-                        $('#viewAll').html(res.html)
+                        try {
+                            $('#viewAllD').html(res.html);
+                        } catch (ex) { console.log(ex) }
+                        try {
+                            $('#viewAllNacional').html(res.html);
+                        } catch (ex) { console.log(ex) }
+                        $('#viewAll').html(res.html);
                         $('#form-modal').modal('hide');
                     }
                 },
@@ -80,7 +86,7 @@
         }
     }
     jQueryModalDelete = form => {
-        if (confirm('Are you sure to delete this record ?')) {
+        if (confirm('¿Estás segura de eliminar este registro?')) {
             try {
                 $.ajax({
                     type: 'POST',
@@ -90,6 +96,13 @@
                     processData: false,
                     success: function (res) {
                         if (res.isValid) {
+                            try {
+                                $('#viewAllD').html(res.html);
+                            } catch (ex) { console.log(ex) }
+                            try {
+                                $('#viewAllNacional').html(res.html);
+                            } catch (ex) { console.log(ex) }
+
                             $('#viewAll').html(res.html)
                         }
                     },

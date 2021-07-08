@@ -20,7 +20,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string DescEstado { get; set; }
 
         public List<SelectList> EstadoList { get; set; }
-
+        
         public virtual List<GestionViewModel> Gestiones { get; set; }
         public virtual List<ObjetivoEstrategicoViewModel> ObjetivoEstrategicos { get; set; }
 
@@ -34,6 +34,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string AreaPrioridadO { get; set; }
         public string DimensionO { get; set; }
         public int CargoResponsableO { get; set; }
+
+        public string CategoriaObjetivo { get; set; }
     }
 
     public class EstrategiaNacionalList

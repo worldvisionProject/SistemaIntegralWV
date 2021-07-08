@@ -386,94 +386,96 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
         {
             //if (ModelState.IsValid)
             //{
-            int i = 0, idDocumento = 0;
-            idDocumento = documento.Id;
-            foreach (var c in preguntas)
-            {
-                RespuestaViewModel respuesta = new RespuestaViewModel();
-                respuesta.IdColaborador = idColaborador;
-                respuesta.IdDocumento = c.IdDocumento;
-                respuesta.IdPregunta = c.Id;
-                respuesta.DescRespuesta = c.Estado == null ? c.DescripcionUrl1 + "|" + c.DescripcionUrl2 : c.Estado;
-                idDocumento = c.IdDocumento;
-                try
-                {
-                    var response1 = await _mediator.Send(new GetByIdColaboradorQuery() { IdColaorador = idColaborador, IdDocumento = c.IdDocumento, IdPregunta = c.Id });
-                    if (response1.Succeeded)
-                    {
-
-                        if (response1.Data != null)
-                        {
-                            var updateBrandCommand = _mapper.Map<UpdateRespuestaCommand>(respuesta);
-                            var result = await _mediator.Send(updateBrandCommand);
-                            if (result.Succeeded)
-                            {
-
-                                i++;
-                            }
-                            else _notify.Error(result.Message);
-                        }
-                        else
-                        {
-                            var createBrandCommand = _mapper.Map<CreateRespuestaCommand>(respuesta);
-                            var result = await _mediator.Send(createBrandCommand);
-                            if (result.Succeeded)
-                            {
-
-                                i++;
-                            }
-                            else _notify.Error(result.Message);
-                        }
-
-                    }
-
-
-                }
-                catch (Exception EX)
-                {
-                    _notify.Error($"Respuesta con con error.");
-                }
-
-            }
-
-
             if (Request.Form.Files.Count > 0)
             {
-                IFormFile file = Request.Form.Files.FirstOrDefault();
-                var image = file.OptimizeImageSize(700, 700);
-                // await _mediator.Send(new UpdateProductImageCommand() { Id = id, Image = image });
-
-                FirmaViewModel firma = new FirmaViewModel();
-                firma.IdColaborador = idColaborador;
-                firma.IdDocumento = idDocumento;
-                firma.Image = image;
-
-                var createFirmaCommand = _mapper.Map<CreateFirmaCommand>(firma);
-                var resultFirma = await _mediator.Send(createFirmaCommand);
-                if (resultFirma.Succeeded)
+                int i = 0, idDocumento = 0;
+                idDocumento = documento.Id;
+                foreach (var c in preguntas)
                 {
+                    RespuestaViewModel respuesta = new RespuestaViewModel();
+                    respuesta.IdColaborador = idColaborador;
+                    respuesta.IdDocumento = c.IdDocumento;
+                    respuesta.IdPregunta = c.Id;
+                    respuesta.DescRespuesta = c.Estado == null ? c.DescripcionUrl1 + "|" + c.DescripcionUrl2 : c.Estado;
+                    idDocumento = c.IdDocumento;
+                    try
+                    {
+                        var response1 = await _mediator.Send(new GetByIdColaboradorQuery() { IdColaorador = idColaborador, IdDocumento = c.IdDocumento, IdPregunta = c.Id });
+                        if (response1.Succeeded)
+                        {
 
-                    i++;
+                            if (response1.Data != null)
+                            {
+                                var updateBrandCommand = _mapper.Map<UpdateRespuestaCommand>(respuesta);
+                                var result = await _mediator.Send(updateBrandCommand);
+                                if (result.Succeeded)
+                                {
+
+                                    i++;
+                                }
+                                else _notify.Error(result.Message);
+                            }
+                            else
+                            {
+                                var createBrandCommand = _mapper.Map<CreateRespuestaCommand>(respuesta);
+                                var result = await _mediator.Send(createBrandCommand);
+                                if (result.Succeeded)
+                                {
+
+                                    i++;
+                                }
+                                else _notify.Error(result.Message);
+                            }
+
+                        }
+
+
+                    }
+                    catch (Exception EX)
+                    {
+                        _notify.Error($"Respuesta con con error.");
+                    }
+
                 }
-                else _notify.Error(resultFirma.Message);
 
-            }
 
-            _notify.Success($"{i} Respuesta almacenadas.");
+                if (Request.Form.Files.Count > 0)
+                {
+                    IFormFile file = Request.Form.Files.FirstOrDefault();
+                    var image = file.OptimizeImageSize(700, 700);
+                    // await _mediator.Send(new UpdateProductImageCommand() { Id = id, Image = image });
 
-            //if (poppup == "N")
-            //{
-                if (idDocumento==10)
+                    FirmaViewModel firma = new FirmaViewModel();
+                    firma.IdColaborador = idColaborador;
+                    firma.IdDocumento = idDocumento;
+                    firma.Image = image;
+
+                    var createFirmaCommand = _mapper.Map<CreateFirmaCommand>(firma);
+                    var resultFirma = await _mediator.Send(createFirmaCommand);
+                    if (resultFirma.Succeeded)
+                    {
+
+                        i++;
+                    }
+                    else _notify.Error(resultFirma.Message);
+
+                }
+
+                _notify.Success($"{i} Respuesta almacenadas.");
+
+                //if (poppup == "N")
+                //{
+                if (idDocumento == 10)
                 {
                     await EnviarMail(idDocumento, idColaborador);
                     await EnviarMail(-1, idColaborador);
                 }
                 else
-                await EnviarMail(idDocumento, idColaborador);
+                    await EnviarMail(idDocumento, idColaborador);
 
-            //}
+                //}
 
-
+            }
             return new JsonResult(new { isValid = true });
            
         }
@@ -807,6 +809,8 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             }
             catch (Exception ex)
             {
+              
+                _notify.Success($"Error al Enviar el Mail.");
                 return new JsonResult(new { isValid = false });
             }
 

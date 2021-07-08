@@ -13,7 +13,8 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         [Required]
         public decimal? Meta { get; set; }
         public string Entregable { get; set; }
-        public int Anio { get; set; }
+        [StringLength(15)]
+        public string Anio { get; set; }
         public int IdIndicadorEstrategico { get; set; }
         public IndicadorEstrategico IndicadorEstrategicos { get; set; }
 
