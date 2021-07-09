@@ -30,7 +30,7 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories.Identity
             //if (usuario == null)
             //{
                var  usuario = await _identityRepository.GetByIdAsync(usuarioId);
-                Throw.Exception.IfNull(usuario, "Usuario", "Usuario no Encontrado");
+               // Throw.Exception.IfNull(usuario, "Usuario", "Usuario no Encontrado");
               //  await _distributedCache.SetAsync(cacheKey, usuarioId);
             //}
             return usuario;
