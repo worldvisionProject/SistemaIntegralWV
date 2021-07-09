@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Commands.Create;
+using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Commands.Delete;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetById;
@@ -144,12 +145,16 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         var result = await _mediator.Send(updateEntidadCommand);
                         if (result.Succeeded) _notify.Information($"Factor con ID {result.Data} Actualizado.");
                     }
-                    var response = await _mediator.Send(new GetAllFactorCriticoExitoesCachedQuery());
+                    var response = await _mediator.Send(new GetObjetivoEstrategicoByIdQuery() { Id = entidad.IdObjetivoEstra });
                     if (response.Succeeded)
                     {
-                        var viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data);
-                        var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
-                        return new JsonResult(new { isValid = true, html = html });
+                        ViewBag.Message = response.Data.Descripcion;
+                        var viewModel = new List<FactorCriticoExitoViewModel>();
+                        if (response.Data != null)
+                            viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data.FactorCriticoExitos);
+
+                        var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                        return new JsonResult(new { isValid = true, html = html1 });
                     }
                     else
                     {
@@ -168,6 +173,40 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 _notify.Error("Error al insertar ObjetivoEstrategico");
             }
             return null;
+        }
+
+        public async Task<JsonResult> OnPostDelete(int id = 0, int idObjetivo = 0)
+        {
+            var deleteCommand = await _mediator.Send(new DeleteFactorCriticoExitoCommand { Id = id });
+            if (deleteCommand.Succeeded)
+            {
+                _notify.Information($"Factor con Id {id} Eliminado.");
+                var response = await _mediator.Send(new GetObjetivoEstrategicoByIdQuery() { Id = idObjetivo });
+
+                if (response.Succeeded)
+                {
+
+                   
+                        ViewBag.Message = response.Data.Descripcion;
+                        var viewModel = new List<FactorCriticoExitoViewModel>();
+                        if (response.Data != null)
+                            viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data.FactorCriticoExitos);
+                  
+                    var html1 = await _viewRenderer.RenderViewToStringAsync( "_ViewAll", viewModel);
+                    return new JsonResult(new { isValid = true, html = html1 });
+                }
+                else
+                {
+                    _notify.Error(response.Message);
+                    return null;
+                }
+
+            }
+            else
+            {
+                _notify.Error(deleteCommand.Message);
+                return null;
+            }
         }
 
     }

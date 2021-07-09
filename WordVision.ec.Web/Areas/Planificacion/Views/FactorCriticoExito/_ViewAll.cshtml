@@ -1,10 +1,11 @@
 ﻿@using WordVision.ec.Web.Areas.Planificacion.Models
 @model IEnumerable<FactorCriticoExitoViewModel>
 
-<table id="anioFiscalTable" class="table table-striped " width="100%" cellspacing="0">
+<table id="factorTable" class="table table-striped " width="100%" cellspacing="0">
     <thead>
         <tr>
-
+            <th >Id</th>
+            <th >Objetivo</th>
             <th data-priority="1">Nombre</th>
             <th data-priority="2" class="acciones-th">Indicador</th>
             <th data-priority="2" class="acciones-th">Acciones</th>
@@ -15,46 +16,56 @@
 
         @foreach (var anioFiscal in Model)
         {
-            <tr>
+        <tr>
+            <td >
+                @anioFiscal.Id
+            </td>
+            <td >
+                @anioFiscal.IdObjetivoEstra
+            </td>
+            <td>
+                @anioFiscal.FactorCritico
+            </td>
+            <td class="acciones-td">
+                @* <a  asp-area="planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEdit" asp-route-id="@anioFiscal.Id" class="btn btn-info btn-xp"><i class="fas fa-pencil-alt"></i>  Editar</a>*@
+                <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Ver" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/LoadIndicadores?idFactor=@anioFiscal.Id','Indicador de Resultados')">
+                    <i class="fas fa-eye"></i>
+                </button>
 
-                <td>
-                    @anioFiscal.FactorCritico
-                </td>
-                <td class="acciones-td">
-                    @* <a  asp-area="planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEdit" asp-route-id="@anioFiscal.Id" class="btn btn-info btn-xp"><i class="fas fa-pencil-alt"></i>  Editar</a>*@
-                    <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Ver"  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/LoadIndicadores?idFactor=@anioFiscal.Id','Indicador de Resultados')">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                  
-                    <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/OnGetCreateOrEdit?id=0&IdFactorCritico=@anioFiscal.Id','Indicador de Resultados')">
-                        <i class="fas fa-plus-square"></i>
-                    </button>
-                </td>
+                <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/OnGetCreateOrEdit?id=0&IdFactorCritico=@anioFiscal.Id','Indicador de Resultados')">
+                    <i class="fas fa-plus-square"></i>
+                </button>
+            </td>
 
-                <td  class="acciones-td">
-                    @* <a  asp-area="planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEdit" asp-route-id="@anioFiscal.Id" class="btn btn-info btn-xp"><i class="fas fa-pencil-alt"></i>  Editar</a>*@
-                    <button type="button" class="btn btn-warning btn-sm" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/FactorCriticoExito/OnGetCreateOrEdit?id=@anioFiscal.Id&idObjetivoEstra=@anioFiscal.IdObjetivoEstra','Factor Critico de Exito')">
-                        <i class="fas fa-pencil-alt"></i>
-                    </button>
-                </td>
+            <td class="acciones-td">
+                @* <a  asp-area="planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEdit" asp-route-id="@anioFiscal.Id" class="btn btn-info btn-xp"><i class="fas fa-pencil-alt"></i>  Editar</a>*@
+                <button type="button" class="btn btn-warning btn-sm" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/FactorCriticoExito/OnGetCreateOrEdit?id=@anioFiscal.Id&idObjetivoEstra=@anioFiscal.IdObjetivoEstra','Factor Critico de Exito')">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+                <form id="form_delete_@anioFiscal.Id" asp-area="Planificacion" asp-controller="FactorCriticoExito" method="post" asp-action="OnPostDelete" asp-route-id="@anioFiscal.Id" asp-route-idObjetivo="@anioFiscal.IdObjetivoEstra" onsubmit="return jQueryModalDelete(this)">
+                    <a href="javascript:$('#form_delete_@anioFiscal.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
+                </form>
+            </td>
 
 
-            </tr>
+        </tr>
         }
     </tbody>
 </table>
 <script>
 
     $(document).ready(function () {
-        var table = $("#colaboradorTable").DataTable({
+
+       
+        var table = $("#factorTable").DataTable({
             aoColumnDefs: [
                 { "aTargets": [0], "bSortable": true },
                 { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
             ],
             "language": {
-                "url": "../lib/datatables/language/Spanish.json"
+                "url": "/lib/datatables/language/Spanish.json"
             },
-
+            
             responsive: true,
             columnDefs: [
                 { responsivePriority: 1, targets: 0 },
@@ -69,6 +80,22 @@
         });
 
 
+        var column = table.column(0);
+        // Toggle the visibility
+        column.visible(false);
+        column = table.column(1);
+        // Toggle the visibility
+        column.visible(false);
 
-    });
+
+        $('#factorTable tbody').on('dblclick', 'tr', function () {
+            var data = table.row(this).data();
+
+            
+            jQueryModalGet('/Planificacion/FactorCriticoExito/OnGetCreateOrEdit?id=' + data[0] + '&idObjetivoEstra=' + data[1], 'Factor Critico de Exito');
+    
+        });
+
+        $(".dynmic-hidden-col").hide();
+});
 </script>

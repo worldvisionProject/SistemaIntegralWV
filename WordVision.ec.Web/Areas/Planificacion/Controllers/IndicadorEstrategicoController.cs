@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Create;
+using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Delete;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
@@ -102,18 +103,18 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         var result = await _mediator.Send(updateEntidadCommand);
                         if (result.Succeeded) _notify.Information($"Objetivo con ID {result.Data} Actualizado.");
                     }
-                    var response = await _mediator.Send(new GetAllIndicadorEstrategicoesCachedQuery());
-                    if (response.Succeeded)
-                    {
-                        var viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data);
-                        var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
-                        return new JsonResult(new { isValid = true, html = html });
-                    }
-                    else
-                    {
-                        _notify.Error(response.Message);
-                        return null;
-                    }
+                    //var response = await _mediator.Send(new GetAllIndicadorEstrategicoesCachedQuery());
+                    //if (response.Succeeded)
+                    //{
+                    //    var viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data);
+                    //    var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                        return new JsonResult(new { isValid = true,solocerrar=true });
+                    //}
+                    //else
+                    //{
+                    //    _notify.Error(response.Message);
+                    //    return null;
+                    //}
                 }
                 else
                 {
@@ -128,6 +129,42 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             }
             return null;
         }
+
+
+        public async Task<JsonResult> OnPostDelete(int id = 0, int idFactor=0)
+        {
+            var deleteCommand = await _mediator.Send(new DeleteIndicadorEstrategicoCommand { Id = id });
+            if (deleteCommand.Succeeded)
+            {
+                _notify.Information($"Factor con Id {id} Eliminado.");
+               
+                var response = await _mediator.Send(new GetFactorCriticoExitoByIdQuery() { Id = idFactor });
+
+                if (response.Succeeded)
+                {
+
+
+                    var viewModel = new List<IndicadorEstrategicoViewModel>();
+                    if (response.Data != null)
+                        viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data.IndicadorEstrategicos);
+
+                    var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                    return new JsonResult(new { isValid = true, html = html1 });
+                }
+                else
+                {
+                    _notify.Error(response.Message);
+                    return null;
+                }
+
+            }
+            else
+            {
+                _notify.Error(deleteCommand.Message);
+                return null;
+            }
+        }
+
 
     }
 }

@@ -9,7 +9,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
     {
         public decimal? Meta { get; set; }
         public string Entregable { get; set; }
-        public int Anio { get; set; }
-        public int IdIndicaAF { get; set; }
+        public string Anio { get; set; }
+        public int IdIndicadorEstrategico { get; set; }
+      
     }
 }

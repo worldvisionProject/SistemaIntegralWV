@@ -66,13 +66,29 @@
                 processData: false,
                 success: function (res) {
                     if (res.isValid) {
+
+                        if (res.solocerrar ?? false) {
+                            $('#form-modal').modal('hide');
+                            return;
+                        }
+                           
+                        var opcion = res.opcion??0;
+                        switch (opcion) {
+                            case 1:
+                                $(res.page).html(res.html);
+                            break;
+                           
+                        
+                            default:
+                                $('#viewAll').html(res.html);
+                                break;
+                        }
+
+                       
                         try {
                             $('#viewAllD').html(res.html);
                         } catch (ex) { console.log(ex) }
-                        try {
-                            $('#viewAllNacional').html(res.html);
-                        } catch (ex) { console.log(ex) }
-                        $('#viewAll').html(res.html);
+                                                
                         $('#form-modal').modal('hide');
                     }
                 },

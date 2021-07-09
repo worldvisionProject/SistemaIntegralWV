@@ -112,7 +112,7 @@
                                 <li class="nav-item">
                                     <a is-active-route asp-area="Admin" asp-controller="User" class="nav-link">
                                         <i class="far fa-user-circle nav-icon"></i>
-                                        <p>@localizer["Users"]</p>
+                                        <p>@localizer["Usuarios"]</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -168,24 +168,13 @@
             </li>*@
                     }
 
-                    @if (User.IsInRole("SuperAdmin"))
-                    {
-                        <li class="nav-item">
-                            <a is-active-route asp-area="Planificacion" asp-controller="EstrategiaNacional" asp-action="Index" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    @localizer["Ciclo Estrategico"]
-                                    @*<span class="right badge badge-danger">@localizer["New"]</span>*@
-                                </p>
-                            </a>
-                        </li>
-                    }
+                    
 
                     @if (User.IsInRole("SuperAdmin"))
                     {
                         <li class="nav-header">@localizer["Maestro"]</li>
-                        <li is-active-route asp-area="Utilities" class="nav-item has-treeview">
-                            <a is-active-route class="nav-link">
+                        <li is-active-route asp-area="Maestro" class="nav-item has-treeview">
+                            <a is-active-route asp-area="Maestro"  class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     @localizer["Catalogos"]

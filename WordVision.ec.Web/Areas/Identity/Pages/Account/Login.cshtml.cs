@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.DirectoryServices;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -17,6 +18,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using WordVision.ec.Application.Enums;
 using WordVision.ec.Application.Features.Identity.Usuarios.Queries.GetById;
 using WordVision.ec.Application.Features.Logs.Commands.AddActivityLog;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Create;
@@ -35,7 +37,8 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly IMediator _mediator;
-       // private readonly IdentityWindowsService _identityWindowsService;
+
+        // private readonly IdentityWindowsService _identityWindowsService;
         public LoginModel(SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<ApplicationUser> userManager, IMediator mediator)//, IdentityWindowsService identityWindowsService)
@@ -44,7 +47,10 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _mediator = mediator;
-         //   _identityWindowsService = identityWindowsService;
+
+            //   _identityWindowsService = identityWindowsService;
+
+
         }
 
         [BindProperty]
@@ -70,8 +76,8 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
             [Display(Name = "Recordarme?")]
             public bool RememberMe { get; set; }
 
-            [Required]
-           public string UsuarioAd { get; set; }
+
+            public string UsuarioAd { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -80,7 +86,8 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
-
+            InputModel gg = new InputModel();
+            gg.UsuarioAd = "eee";
             returnUrl ??= Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process
@@ -108,7 +115,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                             userName = userCheck.UserName;
                         }
                     }
-
+                    var logindetails = new GetUsuarioByIdResponse();
                     var user = await _userManager.FindByNameAsync(userName);
                     if (user != null)
                     {
@@ -124,15 +131,17 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                         }
                         else
                         {
+                            logindetails.ApellidoPaterno = user.LastName;
+                            logindetails.PrimerNombre = user.FirstName;
+                            logindetails.Mail = user.Email;
+                            logindetails.Cedula = "000" + userName;
+                            logindetails.IdEmpresa = 0;
 
-                            await AddUserClaims(user, userName);
+                            await AddUserClaims(user, userName, logindetails);
 
                             var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                             if (result.Succeeded)
                             {
-                                List<Claim> claims = new List<Claim>();
-                                claims.Add(new Claim("IdEmpresa", user.IdEmpresa.ToString()));
-                                await _userManager.AddClaimsAsync(user, claims);
 
                                 await _mediator.Send(new AddActivityLogCommand() { userId = user.Id, Action = "Logged In" });
                                 _logger.LogInformation("Usuario conectado.");
@@ -172,16 +181,17 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                         ModelState.AddModelError(string.Empty, "Correo electrónico / nombre de usuario no encontrado.");
                     }
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
                 ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-                 ReturnUrl = returnUrl;
+                ReturnUrl = returnUrl;
                 _notyf.Error("Intento de inicio de sesión no válido.");
-                _logger.LogError("Intento de inicio de sesión no válido.",ex);
-       
+                _logger.LogError("Intento de inicio de sesión no válido.", ex);
+
             }
             // If we got this far, something failed, redisplay form
             return Page();
@@ -205,30 +215,31 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                     {
                         RedirectUri = Url.Action("Index", "Usuario"),
                         Items =
-            {
-                { "returnUrl", returnUrl },
-                { "scheme", "Windows" },
-            }
+                                {
+                                    { "returnUrl", returnUrl },
+                                    { "scheme", "Windows" },
+                                }
                     };
 
-                    var logindetails = new GetUsuarioByIdResponse();
-                    if (ModelState.IsValid)
-                    {
-                        var loginInfo = await _mediator.Send(new GetUsuarioByIdQuery() { Id = wp.Identity.Name.Split((char)92)[1] });
-                        if (loginInfo != null)
-                        {
-                            logindetails = loginInfo.Data;
-                        }
-                        else
-                        {
-                            _notyf.Error("Usuario no encontrado en la empresa.");
-                            return this.Page();
-                            //ModelState.AddModelError(string.Empty, "Invalid username or password.");
-                        }
-                    }
-                    else
-                        return this.Page();
+                    string usrname = wp.Identity.Name.Split((char)92)[1];
+                    DirectoryEntry rootDSE = new DirectoryEntry("LDAP://RootDSE");
+                    var defaultNamingContext = rootDSE.Properties["defaultNamingContext"].Value;
 
+                    //--- Code to use the current address for the LDAP and query it for the user---                  
+                    DirectorySearcher dssearch = new DirectorySearcher("LDAP://" + defaultNamingContext);
+                    dssearch.Filter = "(sAMAccountName=" + usrname + ")";
+                    SearchResult sresult = dssearch.FindOne();
+                    DirectoryEntry dsresult = sresult.GetDirectoryEntry();
+
+                    var logindetails = new GetUsuarioByIdResponse();
+                    logindetails.PrimerNombre = dsresult.Properties["givenName"][0] == null ? usrname : dsresult.Properties["givenName"][0].ToString();
+                    logindetails.ApellidoPaterno = dsresult.Properties["sn"][0] == null ? usrname : dsresult.Properties["sn"][0].ToString();
+                    logindetails.Mail = dsresult.Properties["mail"][0] == null ? usrname : dsresult.Properties["mail"][0].ToString();
+                    logindetails.Cedula = dsresult.Properties["HomePhone"][0] == null ? "000" + usrname : dsresult.Properties["HomePhone"][0].ToString();
+                    logindetails.UserNameRegular = usrname;
+
+                    //var Department = dsresult.Properties["department"][0].ToString();
+                    //var Manager = dsresult.Properties["manager"][0].ToString();
                     var defaultUser = new ApplicationUser
                     {
                         UserName = logindetails.UserNameRegular,
@@ -247,129 +258,29 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                         if (user == null)
                         {
                             await _userManager.CreateAsync(defaultUser, "123Pa$$word!");
-                            //await _userManager.AddToRoleAsync(defaultUser, Roles.Basic.ToString());
+                            await _userManager.AddToRoleAsync(defaultUser, Roles.Basic.ToString());
                             //await _userManager.AddToRoleAsync(defaultUser, Roles.Moderator.ToString());
                             //await _userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
                             //await _userManager.AddToRoleAsync(defaultUser, Roles.SuperAdmin.ToString());
                         }
 
                     }
-                    int idColabora = 0;
 
-                    var response = await _mediator.Send(new GetColaboradorByIdentificacionQuery() { Identificacion = logindetails.Cedula });
-                    if (response.Succeeded)
+                    var users = await _userManager.FindByNameAsync(usrname);
+                    await AddUserClaims(users, usrname, logindetails);
+
+                    var result1 = await _signInManager.PasswordSignInAsync(usrname, "123Pa$$word!", false, lockoutOnFailure: false);
+                    if (result.Succeeded)
                     {
-                        var colaborador = response.Data;
 
-                        if (colaborador == null)
-                        {
-
-                            var userInfo = await _mediator.Send(new CreateColaboradorCommand()
-                            {
-                                Id = 0,
-                                Apellidos = logindetails.ApellidoPaterno ?? "DEBE ACTUALIZAR DATOS",
-                                ApellidoMaterno = logindetails.ApellidoMaterno ?? "DEBE ACTUALIZAR DATOS",
-                                Identificacion = logindetails.Cedula ?? "DEBE ACTUALIZAR DATOS",
-                                Email = logindetails.Mail ?? "DEBE ACTUALIZAR DATOS",
-                                Cargo = logindetails.Title ?? "DEBE ACTUALIZAR DATOS",
-                                Area = logindetails.Department ?? "DEBE ACTUALIZAR DATOS",
-                                LugarTrabajo = logindetails.PhysicalDeliveryOfficeName ?? "DEBE ACTUALIZAR DATOS",
-                                PrimerNombre = logindetails.PrimerNombre ?? "DEBE ACTUALIZAR DATOS",
-                                SegundoNombre = logindetails.SegundoNombre ?? "DEBE ACTUALIZAR DATOS"
-
-                            });
-
-                            if (userInfo == null)
-                            {
-                                _notyf.Error("No se insertaron los datos del colaborador.");
-                            }
-                            else
-                            {
-                                idColabora = userInfo.Data;
-                                var formulario = await _mediator.Send(new CreateFormularioCommand()
-                                {
-                                    IdColaborador = idColabora,
-                                    FechaNacimiento = DateTime.Now,
-                                    VigenciaDesde = DateTime.Now,
-                                    VigenciaHasta = DateTime.Now,
-                                    FamiliaPorcentajeDiscapacidad = 0,
-                                    PorcentajeDiscapacidad = 0,
-                                    PorcentajeEscrito = 0,
-                                    PorcentajeHablado = 0
-                                });
-
-                                if (formulario == null)
-                                {
-                                    _notyf.Error("No se insertaron los datos del formulario.");
-                                }
-                            }
-
-                        }
-                        else
-                        {
-                            idColabora = colaborador.Id;
-                            logindetails.ApellidoMaterno = colaborador.ApellidoMaterno;
-                            logindetails.ApellidoPaterno = colaborador.Apellidos;
-                            logindetails.PrimerNombre = colaborador.PrimerNombre;
-                            logindetails.SegundoNombre = colaborador.SegundoNombre;
-                        }
+                        await _mediator.Send(new AddActivityLogCommand() { userId = users.Id, Action = "Logged In" });
+                        _logger.LogInformation("Usuario conectado.");
+                        _notyf.Success($"Conectado como { wp.Identity.Name.Split((char)92)[1] }.");
+                        //return LocalRedirect(returnUrl);
+                        return this.RedirectToPage("./Main");
                     }
 
 
-
-                    var id = new ClaimsIdentity("Windows");
-
-                    // the sid is a good sub value
-                    id.AddClaim(new Claim(JwtClaimTypes.Subject, wp.FindFirst(ClaimTypes.PrimarySid).Value));
-
-
-                    //Login In.
-
-                    id.AddClaim(new Claim(ClaimTypes.Name, logindetails.UserNameRegular));
-                    id.AddClaim(new Claim(ClaimTypes.Email, logindetails.Mail));
-                    id.AddClaim(new Claim(ClaimTypes.Locality, logindetails.PhysicalDeliveryOfficeName));
-                    id.AddClaim(new Claim("DisplayName", logindetails.DisplayName));
-                    //id.AddClaim(new Claim("Cargo", logindetails.Title));
-                    //id.AddClaim(new Claim("Jefe", logindetails.Manager));
-                    //id.AddClaim(new Claim("Gerencia", logindetails.Company));
-                    //id.AddClaim(new Claim("Departamento", logindetails.Department));
-                    id.AddClaim(new Claim("Cedula", logindetails.Cedula));
-                    id.AddClaim(new Claim("Id", idColabora.ToString()));
-                    //id.AddClaim(new Claim("Apellidos", logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno));
-                    //id.AddClaim(new Claim("Nombres", logindetails.PrimerNombre + " " + logindetails.SegundoNombre));
-                    //id.AddClaim(new Claim("ApellidosNombres", logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno + " " + logindetails.PrimerNombre + " " + logindetails.SegundoNombre));
-
-                    // the account name is the closest we have to a display name
-                    id.AddClaim(new Claim(JwtClaimTypes.Name, wp.Identity.Name));
-
-                    // add the groups as claims -- be careful if the number of groups is too large
-                    var wi = wp.Identity as WindowsIdentity;
-
-                    // translate group SIDs to display names
-                    var groups = wi.Groups.Translate(typeof(NTAccount));
-                    var roles = groups.Select(x => new Claim(JwtClaimTypes.Role, x.Value));
-                    id.AddClaims(roles);
-
-                    //claims.Add(id);
-                    //await _signInManager.SignInWithClaimsAsync(defaultUser, new AuthenticationProperties() { IsPersistent = false }, claims);
-
-                    //var claimIdenties = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    //var claimPrincipal = new ClaimsPrincipal(claimIdenties);
-
-                    await Request.HttpContext.SignInAsync(
-                        IdentityServerConstants.ExternalCookieAuthenticationScheme,
-                        new ClaimsPrincipal(id),
-                        props);
-
-                    //List<Claim> claims = new List<Claim>();
-                    //claims.Add(new Claim("IdEmpresa", defaultUser.IdEmpresa.ToString()));
-                    //await _userManager.AddClaimsAsync(defaultUser, claims);
-
-                    //await _mediator.Send(new AddActivityLogCommand() { userId = user.Id, Action = "Logged In" });
-                    //_logger.LogInformation("Usuario conectado.");
-                    //_notyf.Success($"Conectado como { userName}.");
-
-                    return this.RedirectToPage("./Main");
                 }
                 else
                 {
@@ -403,41 +314,41 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                 //}
                 //catch
                 //{
-                    if (ModelState.IsValid)
+                if (ModelState.IsValid)
+                {
+                    var loginInfo = await _mediator.Send(new GetUsuarioByIdQuery() { Id = Input.UsuarioAd });
+                    if (loginInfo != null)
                     {
-                        var loginInfo = await _mediator.Send(new GetUsuarioByIdQuery() { Id = Input.UsuarioAd });
-                        if (loginInfo != null)
-                        {
-                            logindetails = loginInfo.Data;
-                        }
-                        else
-                        {
-                            _notyf.Error("Usuario no encontrado en la empresa.");
-                            return this.Page();
-                            //ModelState.AddModelError(string.Empty, "Invalid username or password.");
-                        }
+                        logindetails = loginInfo.Data;
                     }
                     else
+                    {
+                        _notyf.Error("Usuario no encontrado en la empresa.");
                         return this.Page();
-               // }
+                        //ModelState.AddModelError(string.Empty, "Invalid username or password.");
+                    }
+                }
+                else
+                    return this.Page();
+                // }
                 var defaultUser = new ApplicationUser
                 {
                     UserName = logindetails.UserNameRegular,
                     Email = logindetails.Mail,
-                    FirstName = logindetails.PrimerNombre+" "+logindetails.SegundoNombre,
-                    LastName = logindetails.ApellidoPaterno+" "+logindetails.ApellidoMaterno,
+                    FirstName = logindetails.PrimerNombre + " " + logindetails.SegundoNombre,
+                    LastName = logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno,
                     EmailConfirmed = true,
                     PhoneNumberConfirmed = true,
                     IsActive = true,
-                    IdEmpresa=1
+                    IdEmpresa = 1
                 };
                 if (_userManager.Users.All(u => u.Id != defaultUser.Id))
                 {
                     var user = await _userManager.FindByEmailAsync(defaultUser.Email);
                     if (user == null)
                     {
-                       
-                           await _userManager.CreateAsync(defaultUser, "123Pa$$word!");
+
+                        await _userManager.CreateAsync(defaultUser, "123Pa$$word!");
                         //await _userManager.AddToRoleAsync(defaultUser, Roles.Basic.ToString());
                         //await _userManager.AddToRoleAsync(defaultUser, Roles.Moderator.ToString());
                         //await _userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
@@ -536,14 +447,14 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                     //if (result.Succeeded)
                     //{
                     //await _mediator.Send(new AddActivityLogCommand() { userId = logindetails.UserNameRegular, Action = "Logged In" });
-                      //  _logger.LogInformation("User logged in.");
-                        _notyf.Success($"Ingreso como {logindetails.DisplayName}.");
-                       // return LocalRedirect(returnUrl);
+                    //  _logger.LogInformation("User logged in.");
+                    _notyf.Success($"Ingreso como {logindetails.DisplayName}.");
+                    // return LocalRedirect(returnUrl);
                     //}
 
                     //await this.SignInUser(idColabora.ToString(), logindetails, false);
 
-                   // _notyf.Success($"Ingreso como {logindetails.DisplayName}.");
+                    // _notyf.Success($"Ingreso como {logindetails.DisplayName}.");
                     // Info.
 
 
@@ -559,12 +470,12 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                     //return this.RedirectToPage("/Areas/Planificacion/Views/AnioFiscal/Index");
                 }
 
-                
+
             }
             catch (Exception ex)
             {
                 _notyf.Error("Usuario Invalido.");
-                _logger.LogError("Usuario Invalido",ex);
+                _logger.LogError("Usuario Invalido", ex);
                 await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
                 ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -580,86 +491,77 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
 
         #region Sign In method.
 
-        private async Task AddUserClaims(ApplicationUser user, string idUsername)
+        private async Task AddUserClaims(ApplicationUser user, string idUsername, GetUsuarioByIdResponse logindetails)
         {
-            var logindetails = new GetUsuarioByIdResponse();
-            if (ModelState.IsValid)
-            {
-                var loginInfo = await _mediator.Send(new GetUsuarioByIdQuery() { Id = idUsername });
-                if (loginInfo != null)
-                {
-                    logindetails = loginInfo.Data;
-                }
-                else
-                {
-                    _notyf.Error("Usuario no encontrado en la empresa.");
-                    return;
-                    //ModelState.AddModelError(string.Empty, "Invalid username or password.");
-                }
-            }
-            else
-                return;
 
-           
             int idColabora = 0;
 
             var response = await _mediator.Send(new GetColaboradorByIdentificacionQuery() { Identificacion = logindetails.Cedula });
-            if (response.Succeeded)
+            if (response == null)
             {
-                var colaborador = response.Data;
-
-                if (colaborador == null)
+                if (response.Succeeded)
                 {
+                    var colaborador = response.Data;
 
-                    var userInfo = await _mediator.Send(new CreateColaboradorCommand()
+                    if (colaborador == null)
                     {
-                        Id = 0,
-                        Apellidos = logindetails.ApellidoPaterno ?? "DEBE ACTUALIZAR DATOS",
-                        ApellidoMaterno = logindetails.ApellidoMaterno ?? "DEBE ACTUALIZAR DATOS",
-                        Identificacion = logindetails.Cedula ?? "DEBE ACTUALIZAR DATOS",
-                        Email = logindetails.Mail ?? "DEBE ACTUALIZAR DATOS",
-                        Cargo = logindetails.Title ?? "DEBE ACTUALIZAR DATOS",
-                        Area = logindetails.Department ?? "DEBE ACTUALIZAR DATOS",
-                        LugarTrabajo = logindetails.PhysicalDeliveryOfficeName ?? "DEBE ACTUALIZAR DATOS",
-                        PrimerNombre = logindetails.PrimerNombre ?? "DEBE ACTUALIZAR DATOS",
-                        SegundoNombre = logindetails.SegundoNombre ?? "DEBE ACTUALIZAR DATOS"
 
-                    });
+                        var userInfo = await _mediator.Send(new CreateColaboradorCommand()
+                        {
+                            Id = 0,
+                            Apellidos = logindetails.ApellidoPaterno ?? "DEBE ACTUALIZAR DATOS",
+                            ApellidoMaterno = logindetails.ApellidoMaterno ?? "DEBE ACTUALIZAR DATOS",
+                            Identificacion = logindetails.Cedula ?? "DEBE ACTUALIZAR DATOS",
+                            Email = logindetails.Mail ?? "DEBE ACTUALIZAR DATOS",
+                            PrimerNombre = logindetails.PrimerNombre ?? "DEBE ACTUALIZAR DATOS",
+                            SegundoNombre = logindetails.SegundoNombre ?? "DEBE ACTUALIZAR DATOS"
 
-                    if (userInfo == null)
-                    {
-                        _notyf.Error("No se insertaron los datos del colaborador.");
+                        });
+
+                        if (userInfo == null)
+                        {
+                            _notyf.Error("No se insertaron los datos del colaborador.");
+                        }
+                        else
+                        {
+                            idColabora = userInfo.Data;
+                            var formulario = await _mediator.Send(new CreateFormularioCommand()
+                            {
+                                IdColaborador = idColabora,
+                                FechaNacimiento = DateTime.Now,
+                                VigenciaDesde = DateTime.Now,
+                                VigenciaHasta = DateTime.Now,
+                                FamiliaPorcentajeDiscapacidad = 0,
+                                PorcentajeDiscapacidad = 0,
+                                PorcentajeEscrito = 0,
+                                PorcentajeHablado = 0
+                            });
+
+                            if (formulario == null)
+                            {
+                                _notyf.Error("No se insertaron los datos del formulario.");
+                            }
+                        }
+
                     }
                     else
                     {
-                        idColabora = userInfo.Data;
-                        var formulario = await _mediator.Send(new CreateFormularioCommand()
-                        {
-                            IdColaborador = idColabora,
-                            FechaNacimiento = DateTime.Now,
-                            VigenciaDesde = DateTime.Now,
-                            VigenciaHasta = DateTime.Now,
-                            FamiliaPorcentajeDiscapacidad = 0,
-                            PorcentajeDiscapacidad = 0,
-                            PorcentajeEscrito = 0,
-                            PorcentajeHablado = 0
-                        });
-
-                        if (formulario == null)
-                        {
-                            _notyf.Error("No se insertaron los datos del formulario.");
-                        }
+                        idColabora = colaborador.Id;
+                        logindetails.ApellidoMaterno = colaborador.ApellidoMaterno;
+                        logindetails.ApellidoPaterno = colaborador.Apellidos;
+                        logindetails.PrimerNombre = colaborador.PrimerNombre;
+                        logindetails.SegundoNombre = colaborador.SegundoNombre;
                     }
+                }
 
-                }
-                else
-                {
-                    idColabora = colaborador.Id;
-                    logindetails.ApellidoMaterno = colaborador.ApellidoMaterno;
-                    logindetails.ApellidoPaterno = colaborador.Apellidos;
-                    logindetails.PrimerNombre = colaborador.PrimerNombre;
-                    logindetails.SegundoNombre = colaborador.SegundoNombre;
-                }
+            }
+            else
+            {
+                idColabora = 0;
+                logindetails.ApellidoMaterno = "SN";
+                logindetails.ApellidoPaterno = "SN";
+                logindetails.PrimerNombre = "SN";
+                logindetails.SegundoNombre = "SN";
             }
 
 
@@ -670,24 +572,12 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
             {
                 // Setting
 
-                claims.Add(new Claim(ClaimTypes.Name, logindetails.UserNameRegular));
+                // claims.Add(new Claim(ClaimTypes.Name, logindetails.UserNameRegular));
                 claims.Add(new Claim(ClaimTypes.Email, logindetails.Mail));
-                claims.Add(new Claim(ClaimTypes.Locality, logindetails.PhysicalDeliveryOfficeName));
-                claims.Add(new Claim("DisplayName", logindetails.DisplayName));
-                //claims.Add(new Claim("Cargo", logindetails.Title));
-                //claims.Add(new Claim("Jefe", logindetails.Manager));
-                //claims.Add(new Claim("Gerencia", logindetails.Company));
-                //claims.Add(new Claim("Departamento", logindetails.Department));
+                //claims.Add(new Claim("DisplayName", logindetails.DisplayName));
                 claims.Add(new Claim("Cedula", logindetails.Cedula));
                 claims.Add(new Claim("Id", idColabora.ToString()));
-                //claims.Add(new Claim("Apellidos", logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno));
-                //claims.Add(new Claim("Nombres", logindetails.PrimerNombre + " " + logindetails.SegundoNombre));
-                //claims.Add(new Claim("ApellidosNombres", logindetails.ApellidoPaterno + " " + logindetails.ApellidoMaterno + " " + logindetails.PrimerNombre + " " + logindetails.SegundoNombre));
-
-
-                //var claimIdenties = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                //var claimPrincipal = new ClaimsPrincipal(claimIdenties);
-                //var authenticationManager = Request.HttpContext;
+                claims.Add(new Claim("IdEmpresa", logindetails.IdEmpresa.ToString()));
 
                 // Sign In.
                 await _userManager.AddClaimsAsync(user, claims);
@@ -727,7 +617,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                 claims.Add(new Claim("Id", id));
                 claims.Add(new Claim("Apellidos", username.ApellidoPaterno + " " + username.ApellidoMaterno));
                 claims.Add(new Claim("Nombres", username.PrimerNombre + " " + username.SegundoNombre));
-               // claims.Add(new Claim("ApellidosNombres", username.ApellidoPaterno + " " + username.ApellidoMaterno + " " + username.PrimerNombre + " " + username.SegundoNombre));
+                // claims.Add(new Claim("ApellidosNombres", username.ApellidoPaterno + " " + username.ApellidoMaterno + " " + username.PrimerNombre + " " + username.SegundoNombre));
 
 
                 var claimIdenties = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

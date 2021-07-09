@@ -53,7 +53,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 entidadViewModel.CategoriaObjetivo = idCategoria;
                 ViewBag.Ciclo = entidadViewModel.Nombre;
                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
-                ViewBag.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                entidadViewModel.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                 return PartialView(idCategoria=="2"?"_ViewAll":"_ViewAllNacional", entidadViewModel);
              }
             return null;
@@ -123,33 +123,13 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = entidad.IdEstrategia });
                     if (response.Succeeded)
                     {
-                        try
-                        {
-                            // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
-                            var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 2 });
-                            ViewBag.EstadoList = new SelectList(cat1.Data, "Secuencia", "Nombre");
-                     
-                            var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
-                            ViewBag.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
-
-                            var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
-                            ViewBag.AreaList = new SelectList(cat3.Data, "Secuencia", "Nombre");
-
-                            var cat4 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 5 });
-                            ViewBag.CategoriaList = new SelectList(cat4.Data, "Secuencia", "Nombre");
-                        }
-                        catch (Exception ex)
-                        {
-                            _notify.Error("No se pudo cargar los Catalogos");
-                            _logger.LogError("No se pudo cargar los Catalogos", ex);
-                        }
+                       
                         var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
-                        ViewBag.Ciclo = entidadViewModel.Nombre;
                         entidadViewModel.CategoriaObjetivo = entidad.Categoria;
-                        var cat22 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
-                        ViewBag.BusinessSubType = Json(cat22.Data);
+                        var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
+                        entidadViewModel.DimensionesList= new SelectList(cat2.Data, "Secuencia", "Nombre");
                         var html1 = await _viewRenderer.RenderViewToStringAsync(entidad.Categoria == "2" ? "_ViewAll" : "_ViewAllNacional", entidadViewModel);
-                        return new JsonResult(new { isValid = true, html = html1 });
+                        return new JsonResult(new { isValid = true, opcion=Convert.ToInt32( entidad.Categoria), page = entidad.Categoria == "2" ? "#viewAll" : "#viewAllNacional", html = html1 });
                     }
                     else
                     {
@@ -181,31 +161,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
                 if (response.Succeeded)
                 {
-                    try
-                    {
-                        // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
-                        var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 2 });
-                        ViewBag.EstadoList = new SelectList(cat1.Data, "Secuencia", "Nombre");
-
-                        var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
-                        ViewBag.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
-
-                        var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
-                        ViewBag.AreaList = new SelectList(cat3.Data, "Secuencia", "Nombre");
-
-                        var cat4 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 5 });
-                        ViewBag.CategoriaList = new SelectList(cat4.Data, "Secuencia", "Nombre");
-                    }
-                    catch (Exception ex)
-                    {
-                        _notify.Error("No se pudo cargar los Catalogos");
-                        _logger.LogError("No se pudo cargar los Catalogos", ex);
-                    }
+                 
                     var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
                     ViewBag.Ciclo = entidadViewModel.Nombre;
                     entidadViewModel.CategoriaObjetivo = idCategoria;
-                    var cat22 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
-                    ViewBag.BusinessSubType = Json(cat22.Data);
+                    var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
+                    entidadViewModel.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                     var html1 = await _viewRenderer.RenderViewToStringAsync(idCategoria == "2" ? "_ViewAll" : "_ViewAllNacional", entidadViewModel);
                     return new JsonResult(new { isValid = true, html = html1 });
                 }
