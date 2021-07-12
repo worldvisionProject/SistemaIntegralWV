@@ -321,10 +321,10 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                 //{
                 if (ModelState.IsValid)
                 {
-                    var loginInfo = await _mediator.Send(new GetUsuarioByIdQuery() { Id = Input.UsuarioAd });
+                    var loginInfo = logindetails;// await _mediator.Send(new GetUsuarioByIdQuery() { Id = Input.UsuarioAd });
                     if (loginInfo != null)
                     {
-                        logindetails = loginInfo.Data;
+                        //logindetails = loginInfo.Data;
                     }
                     else
                     {

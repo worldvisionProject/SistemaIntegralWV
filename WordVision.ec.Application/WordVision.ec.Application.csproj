@@ -32,6 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Identity\Usuarios\Commands\Update\UpdateUsuarioCommand.cs" />
+    <Compile Remove="Features\Identity\Usuarios\Queries\GetAllCached\GetAllUsuariosCachedQuery.cs" />
+    <Compile Remove="Features\Identity\Usuarios\Queries\GetAllCached\GetAllUsuariosCachedResponse.cs" />
+    <Compile Remove="Features\Identity\Usuarios\Queries\GetById\GetUsuarioByIdQuery.cs" />
     <Compile Remove="Interfaces\Contexts\IPresupuestoDbContext.cs" />
     <Compile Remove="Interfaces\Repositories\Presupuesto\IRepositoryAsync.cs" />
     <Compile Remove="Interfaces\Repositories\Presupuesto\IUnitOfWork.cs" />
@@ -56,6 +60,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Identity\Usuarios\Commands\Update\" />
+    <Folder Include="Features\Identity\Usuarios\Queries\GetAllCached\" />
     <Folder Include="Features\Maestro\Estructuras\Commands\Delete\" />
     <Folder Include="Features\Maestro\Estructuras\Queries\GetAllPaged\" />
     <Folder Include="Features\Presupuesto\Presupuesto\Commands\Update\" />

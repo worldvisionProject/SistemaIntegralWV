@@ -123,28 +123,28 @@ namespace WordVision.ec.Web.Areas.Identity.Controllers
 
 
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUsuario(string id)
-        {
-            var loginInfo = await _mediator.Send(new GetUsuarioByIdQuery() { Id = id });
-            if (loginInfo != null)
-            {
-                // Initialization.
-                var logindetails = loginInfo;
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetUsuario(string id)
+        //{
+        //    var loginInfo = await _mediator.Send(new GetUsuarioByIdQuery() { Id = id });
+        //    if (loginInfo != null)
+        //    {
+        //        // Initialization.
+        //        var logindetails = loginInfo;
 
-                // Login In.
-                await this.SignInUser(id, false);
+        //        // Login In.
+        //        await this.SignInUser(id, false);
 
-                // Info.
-                return this.RedirectToPage("/Colaborador/Index");
-            }
-            else
-            {
-                // Setting.
-                ModelState.AddModelError(string.Empty, "Invalid username or password.");
-            }
-            return null;
-        }
+        //        // Info.
+        //        return this.RedirectToPage("/Colaborador/Index");
+        //    }
+        //    else
+        //    {
+        //        // Setting.
+        //        ModelState.AddModelError(string.Empty, "Invalid username or password.");
+        //    }
+        //    return null;
+        //}
 
         #region Helpers
 

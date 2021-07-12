@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 using System;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Features.Identity.Usuarios.Commands.Update;
+
 using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Update;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Documentos.Queries.GetById;
@@ -34,6 +35,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
     [Authorize]
     public class FormularioController : BaseController<FormularioController>
     {
+       
         public IActionResult Index()
         {
             var model = new FormularioViewModel();
@@ -157,16 +159,16 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         else _notify.Error(result.Message);
                     }
 
-                    UsuarioViewModel usr = new UsuarioViewModel();
-                    usr.UserNameRegular = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
-                    usr.ApellidoPaterno = formulario.ApellidoPaterno;
-                    usr.ApellidoMaterno = formulario.ApellidoMaterno;
-                    usr.PrimerNombre = formulario.PrimerNombre;
-                    usr.SegundoNombre = formulario.SegundoNombre;
+                    //UsuarioViewModel usr = new UsuarioViewModel();
+                    //usr.UserNameRegular = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+                    //usr.ApellidoPaterno = formulario.ApellidoPaterno;
+                    //usr.ApellidoMaterno = formulario.ApellidoMaterno;
+                    //usr.PrimerNombre = formulario.PrimerNombre;
+                    //usr.SegundoNombre = formulario.SegundoNombre;
                    
 
-                    var updateUsuarioCommand = _mapper.Map<UpdateUsuarioCommand>(usr);
-                    var resultUsuario = await _mediator.Send(updateUsuarioCommand);
+                    //var updateUsuarioCommand = _mapper.Map<UpdateUsuarioCommand>(usr);
+                    //var resultUsuario = await _mediator.Send(updateUsuarioCommand);
 
 
 
@@ -482,7 +484,10 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                             attachments.Add(attachment);
                         }
                         else
+                        {
                             _notify.Error($"Mail no Enviado vuelva a intentar.");
+                            _logger.LogError($"Mail no Enviado vuelva a intentar. Al momento de guardar el pdf");
+                        }
                         break;
                    
                 }
@@ -533,7 +538,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             }
             catch (Exception ex)
             {
-
+                _logger.LogError($"Error en enviar Mail.", ex);
             }
 
             //   return new JsonResult(new { isValid = true });

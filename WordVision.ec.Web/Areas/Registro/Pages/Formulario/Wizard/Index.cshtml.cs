@@ -19,7 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MimeKit;
 using Newtonsoft.Json;
-using WordVision.ec.Application.Features.Identity.Usuarios.Commands.Update;
+
 using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Update;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Formularios.Commands.Create;
@@ -223,16 +223,18 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                         else _notify.Error(result.Message);
                     }
 
-                    UsuarioViewModel usr = new UsuarioViewModel();
-                    usr.UserNameRegular = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
-                    usr.ApellidoPaterno = client.ApellidoPaterno;
-                    usr.ApellidoMaterno = client.ApellidoMaterno;
-                    usr.PrimerNombre = client.PrimerNombre;
-                    usr.SegundoNombre = client.SegundoNombre;
+                   // ACTAULZIA EN TABLA ACTIVE
+                    //UsuarioViewModel usr = new UsuarioViewModel();
+                    //usr.UserNameRegular = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+                    //usr.ApellidoPaterno = client.ApellidoPaterno;
+                    //usr.ApellidoMaterno = client.ApellidoMaterno;
+                    //usr.PrimerNombre = client.PrimerNombre;
+                    //usr.SegundoNombre = client.SegundoNombre;
 
 
-                    var updateUsuarioCommand = _mapper.Map<UpdateUsuarioCommand>(usr);
-                    var resultUsuario = await _mediator.Send(updateUsuarioCommand);
+
+                    //var updateUsuarioCommand = _mapper.Map<UpdateUsuarioCommand>(usr);
+                    //var resultUsuario = await _mediator.Send(updateUsuarioCommand);
                  
                     return RedirectToAction("EnviarMail", "Formulario", new { Area = "Registro", idDocumento=0, idColaborador= client.IdColaborador });
                     //return RedirectToPage("Index", new { id = client.Id });
@@ -246,6 +248,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
             catch (Exception ex)
             {
                 _notify.Error($"Error en insertar los datos.");
+                _logger.LogError($"Error en insertar los datos Formulario.", ex);
                 //var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", formulario);
                 return new JsonResult(new { isValid = false });
             }

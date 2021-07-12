@@ -7,9 +7,13 @@
 
   <ItemGroup>
     <Compile Remove="Areas\Planificacion\Pages\**" />
+    <Compile Remove="Pages1\**" />
     <Content Remove="Areas\Planificacion\Pages\**" />
+    <Content Remove="Pages1\**" />
     <EmbeddedResource Remove="Areas\Planificacion\Pages\**" />
+    <EmbeddedResource Remove="Pages1\**" />
     <None Remove="Areas\Planificacion\Pages\**" />
+    <None Remove="Pages1\**" />
   </ItemGroup>
 
   <ItemGroup>
