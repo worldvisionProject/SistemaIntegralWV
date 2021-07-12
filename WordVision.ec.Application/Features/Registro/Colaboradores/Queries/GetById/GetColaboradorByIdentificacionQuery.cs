@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.CacheRepositories;
 using WordVision.ec.Application.Interfaces.CacheRepositories.Maestro;
+using WordVision.ec.Domain.Entities.Registro;
 
 namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById
 {
@@ -32,11 +33,31 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetB
            
             public async Task<Result<GetColaboradorByIdResponse>> Handle(GetColaboradorByIdentificacionQuery request, CancellationToken cancellationToken)
             {
+                int nivel = 0;
                 var Colaborador = await _ColaboradorCache.GetByIdentificacionAsync(request.Identificacion);
-                var estructura = await _estructuraCache.GetByIdAsync(Colaborador.IdEstructura);
-                var mappedColaborador = _mapper.Map<GetColaboradorByIdResponse>(Colaborador);
-                mappedColaborador.Nivel = estructura.Nivel;
-                return Result<GetColaboradorByIdResponse>.Success(mappedColaborador);
+                if (Colaborador != null)
+                { 
+                    try
+                    {
+                        var estructura = await _estructuraCache.GetByIdAsync(Colaborador.IdEstructura);
+                        if (estructura != null)
+                            nivel = estructura.Nivel;
+                    }
+                    catch
+                    { }
+
+                    var mappedColaborador = _mapper.Map<GetColaboradorByIdResponse>(Colaborador);
+                    mappedColaborador.Nivel = nivel;
+                    return Result<GetColaboradorByIdResponse>.Success(mappedColaborador);
+                }
+                else
+                {
+                    var _colaborador = new Colaborador();
+                    var mappedColaborador = _mapper.Map<GetColaboradorByIdResponse>(_colaborador);
+                    mappedColaborador.Nivel = nivel;
+                    return Result<GetColaboradorByIdResponse>.Success(mappedColaborador);
+                }
+
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WordVision.ec.Web.Areas.Planificacion.Models;
 
 namespace WordVision.ec.Web.Views.Shared.Components.Title
 {
@@ -6,7 +7,13 @@ namespace WordVision.ec.Web.Views.Shared.Components.Title
     {
         public IViewComponentResult Invoke()
         {
-            return View();
+            if (ViewBag.SNGestion ==null)
+            {
+                var estrategico = new EstrategiaNacionalViewModel();
+                return View(estrategico);
+            }
+            else
+                return View();
         }
     }
 }

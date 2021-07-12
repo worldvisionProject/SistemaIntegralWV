@@ -22,11 +22,11 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Upd
         public string Identificacion { get; set; }
 
         public string Email { get; set; }
-        public string Cargo { get; set; }
+        public int Cargo { get; set; }
 
-        public string Area { get; set; }
+        public int Area { get; set; }
 
-        public string LugarTrabajo { get; set; }
+        public int LugarTrabajo { get; set; }
 
         public int IdEstructura { get; set; }
         public class UpdateProductCommandHandler : IRequestHandler<UpdateColaboradorCommand, Result<int>>
@@ -55,9 +55,9 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Upd
                     colaborador.PrimerNombre = command.PrimerNombre ?? colaborador.PrimerNombre;
                     colaborador.SegundoNombre = command.SegundoNombre ?? colaborador.SegundoNombre;
                     colaborador.Identificacion = command.Identificacion ?? colaborador.Identificacion;
-                    colaborador.Cargo = command.Cargo ?? colaborador.Cargo;
-                    colaborador.Area = command.Area ?? colaborador.Area;
-                    colaborador.LugarTrabajo = command.LugarTrabajo  ?? colaborador.LugarTrabajo;
+                    colaborador.Cargo = command.Cargo;
+                    colaborador.Area = command.Area ;
+                    colaborador.LugarTrabajo = command.LugarTrabajo ;
 
                     colaborador.IdEstructura = Convert.ToInt32( command.Cargo);
 

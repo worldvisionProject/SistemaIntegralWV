@@ -49,7 +49,7 @@
                                             <h1 class="h4 text-gray-900 mb-4">@localizer["Ingrese sus datos"]</h1>
                                         </div>
                                         <form class="user" id="account" method="post">
-                                            @User.Identity.Name
+                                            @*@User.Identity.Name*@
                                             <div class="form-group">
                                                 <input asp-for="Input.Email" type="text" class="form-control form-control-user" id="exampleInputEmail" placeholder="Ingrese Usuario...">@*aria-describedby="emailHelp"*@
                                                 <small><span asp-validation-for="Input.Email" class="text-danger"></span></small>
@@ -82,10 +82,10 @@
                                             if (Model.ExternalLogins.Count > 0)
                                             {
                                                                                 <form method="post" id="formExterno" asp-route-returnUrl="@Model.ReturnUrl">
-                                                                                    <div class="form-group">
+                                                                                    @*<div class="form-group">
                                                                                         <input asp-for="Input.UsuarioAd" type="text" class="form-control form-control-user" id="UsuarioAd" aria-describedby="UsuarioAd" placeholder="Ingrese Usuario Interno...">
 
-                                                                                    </div>
+                                                                                    </div>*@
                                                                                     <br />
                                                                                     <div class="login100-form-social flex-c-m">
                                                                                         @foreach (var provider in Model.ExternalLogins)
@@ -94,7 +94,7 @@
 
                                                                                         <div class="col-md-12">
                                                                                             <button class="btn-block btn btn-microsoft" type="submit" value="@Model.ReturnUrl"
-                                                                                                    title="Logear usando @provider.DisplayName" name="returnUrl" asp-page-handler="LogIn">
+                                                                                                    title="Logear usando @provider.DisplayName" name="returnUrl" asp-page-handler="LogInWin">
                                                                                                 <img src="~/images/Ecuador_flag.png" />
 
                                                                                                 <i class="fab fa-windows fa-align-left social-icon"></i> Windows

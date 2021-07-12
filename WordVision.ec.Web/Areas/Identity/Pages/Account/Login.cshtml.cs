@@ -86,8 +86,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
-            InputModel gg = new InputModel();
-            gg.UsuarioAd = "eee";
+           
             returnUrl ??= Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process
@@ -131,21 +130,30 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                         }
                         else
                         {
-                            var loginInfo = await _mediator.Send(new GetUsuarioByIdQuery() { Id = userName });
-                            if (loginInfo != null)
-                            {
-                                logindetails = loginInfo.Data;
-                            }
-                            else
-                            {
+                            logindetails = GetDataActive(userName);
+                            //if (logindetails != null)
+                            //{
+                            //    logindetails = logindetails.Data;
+                            //}
+                            //else
+                            //{
 
+                            //    logindetails.ApellidoPaterno = user.LastName;
+                            //    logindetails.PrimerNombre = user.FirstName;
+                            //    logindetails.Mail = user.Email;
+                            //    logindetails.Cedula = "000" + userName;
+                            //    logindetails.IdEmpresa = 0;
+                            //}
+
+                            if (logindetails==null)
+                            {
+                                logindetails = new GetUsuarioByIdResponse();
                                 logindetails.ApellidoPaterno = user.LastName;
                                 logindetails.PrimerNombre = user.FirstName;
                                 logindetails.Mail = user.Email;
                                 logindetails.Cedula = "000" + userName;
                                 logindetails.IdEmpresa = 0;
                             }
-
                             await AddUserClaims(user, userName, logindetails);
 
                            
@@ -233,22 +241,8 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                     };
 
                     string usrname = wp.Identity.Name.Split((char)92)[1];
-                    DirectoryEntry rootDSE = new DirectoryEntry("LDAP://RootDSE");
-                    var defaultNamingContext = rootDSE.Properties["defaultNamingContext"].Value;
 
-                    //--- Code to use the current address for the LDAP and query it for the user---                  
-                    DirectorySearcher dssearch = new DirectorySearcher("LDAP://" + defaultNamingContext);
-                    dssearch.Filter = "(sAMAccountName=" + usrname + ")";
-                    SearchResult sresult = dssearch.FindOne();
-                    DirectoryEntry dsresult = sresult.GetDirectoryEntry();
-
-                    var logindetails = new GetUsuarioByIdResponse();
-                    logindetails.PrimerNombre = dsresult.Properties["givenName"][0] == null ? usrname : dsresult.Properties["givenName"][0].ToString();
-                    logindetails.ApellidoPaterno = dsresult.Properties["sn"][0] == null ? usrname : dsresult.Properties["sn"][0].ToString();
-                    logindetails.Mail = dsresult.Properties["mail"][0] == null ? usrname : dsresult.Properties["mail"][0].ToString();
-                    logindetails.Cedula = dsresult.Properties["HomePhone"][0] == null ? "000" + usrname : dsresult.Properties["HomePhone"][0].ToString();
-                    logindetails.UserNameRegular = usrname;
-
+                   var logindetails=GetDataActive(usrname);
                     //var Department = dsresult.Properties["department"][0].ToString();
                     //var Manager = dsresult.Properties["manager"][0].ToString();
                     var defaultUser = new ApplicationUser
@@ -288,7 +282,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                         _logger.LogInformation("Usuario conectado.");
                         _notyf.Success($"Conectado como { wp.Identity.Name.Split((char)92)[1] }.");
                         //return LocalRedirect(returnUrl);
-                        return this.RedirectToPage("./Main");
+                        return LocalRedirect(returnUrl);
                     }
 
 
@@ -384,9 +378,9 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                             ApellidoMaterno = logindetails.ApellidoMaterno ?? "DEBE ACTUALIZAR DATOS",
                             Identificacion = logindetails.Cedula ?? "DEBE ACTUALIZAR DATOS",
                             Email = logindetails.Mail ?? "DEBE ACTUALIZAR DATOS",
-                            Cargo = logindetails.Title ?? "DEBE ACTUALIZAR DATOS",
-                            Area = logindetails.Department ?? "DEBE ACTUALIZAR DATOS",
-                            LugarTrabajo = logindetails.PhysicalDeliveryOfficeName ?? "DEBE ACTUALIZAR DATOS",
+                            //Cargo = logindetails.Title ?? "DEBE ACTUALIZAR DATOS",
+                            //Area = logindetails.Department ?? "DEBE ACTUALIZAR DATOS",
+                            //LugarTrabajo = logindetails.PhysicalDeliveryOfficeName ?? "DEBE ACTUALIZAR DATOS",
                             PrimerNombre = logindetails.PrimerNombre ?? "DEBE ACTUALIZAR DATOS",
                             SegundoNombre = logindetails.SegundoNombre ?? "DEBE ACTUALIZAR DATOS"
 
@@ -514,7 +508,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                 {
                     var colaborador = response.Data;
 
-                    if (colaborador == null)
+                    if (colaborador.Email == null)
                     {
 
                         var userInfo = await _mediator.Send(new CreateColaboradorCommand()
@@ -665,6 +659,47 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
             {
                 return false;
             }
+        }
+
+        public GetUsuarioByIdResponse GetDataActive(string usrname)
+        {
+            DirectoryEntry rootDSE = new DirectoryEntry("LDAP://RootDSE");
+            var defaultNamingContext = rootDSE.Properties["defaultNamingContext"].Value;
+
+            //--- Code to use the current address for the LDAP and query it for the user---                  
+            DirectorySearcher dssearch = new DirectorySearcher("LDAP://" + defaultNamingContext);
+            dssearch.Filter = "(sAMAccountName=" + usrname + ")";
+            SearchResult sresult = dssearch.FindOne();
+
+            var logindetails = new GetUsuarioByIdResponse();
+            if (sresult != null)
+            {
+                DirectoryEntry dsresult = sresult.GetDirectoryEntry();
+              
+                logindetails.PrimerNombre = dsresult.Properties["givenName"][0] == null ? usrname : dsresult.Properties["givenName"][0].ToString();
+                logindetails.ApellidoPaterno = dsresult.Properties["sn"][0] == null ? usrname : dsresult.Properties["sn"][0].ToString();
+                if (dsresult.Properties["mail"].Count > 0)
+                    logindetails.Mail = dsresult.Properties["mail"][0] == null ? usrname : dsresult.Properties["mail"][0].ToString();
+                else
+                    logindetails.Mail = usrname;
+                if (dsresult.Properties["HomePhone"].Count > 0)
+                    logindetails.Cedula = dsresult.Properties["HomePhone"][0] == null ? "000" + usrname : dsresult.Properties["HomePhone"][0].ToString();
+                else
+                    logindetails.Cedula = "000" + usrname;
+
+                logindetails.UserNameRegular = usrname;
+            }
+            else
+            {
+                logindetails.PrimerNombre = usrname;
+                logindetails.ApellidoPaterno = usrname;
+                logindetails.Mail = usrname;
+                logindetails.Cedula = "000" + usrname;
+                logindetails.UserNameRegular = usrname;
+            }
+
+            return logindetails;
+
         }
     }
 

@@ -12,11 +12,11 @@
         public string SegundoNombre { get; set; }
 
         public string Identificacion { get; set; }
-        public string Cargo { get; set; }
+        public int? Cargo { get; set; }
 
-        public string Area { get; set; }
+        public int? Area { get; set; }
 
-        public string LugarTrabajo { get; set; }
+        public int? LugarTrabajo { get; set; }
 
         public string Email { get; set; }
 

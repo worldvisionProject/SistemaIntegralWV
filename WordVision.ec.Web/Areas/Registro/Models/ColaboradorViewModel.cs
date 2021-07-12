@@ -22,11 +22,11 @@ namespace WordVision.ec.Web.Areas.Registro.Models
         public string Identificacion { get; set; }
 
         public string Email { get; set; }
-        public string Cargo { get; set; }
+        public int? Cargo { get; set; }
         public SelectList CargoList { get; set; }
-        public string Area { get; set; }
+        public int? Area { get; set; }
         public SelectList AreaList { get; set; }
-        public string LugarTrabajo { get; set; }
+        public int? LugarTrabajo { get; set; }
         public SelectList LugarTrabajoList { get; set; }
         public string Alias { get; set; }
         public string ActPoliticas { get; set; }

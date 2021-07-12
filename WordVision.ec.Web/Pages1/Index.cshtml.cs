@@ -111,9 +111,9 @@ namespace WordVision.ec.Web.Pages
                                     ApellidoMaterno = logindetails.ApellidoMaterno ?? "DEBE ACTUALIZAR DATOS",
                                     Identificacion = logindetails.Cedula ?? "DEBE ACTUALIZAR DATOS",
                                     Email = logindetails.Mail ?? "DEBE ACTUALIZAR DATOS",
-                                    Cargo = logindetails.Title ?? "DEBE ACTUALIZAR DATOS",
-                                    Area = logindetails.Department ?? "DEBE ACTUALIZAR DATOS",
-                                    LugarTrabajo = logindetails.PhysicalDeliveryOfficeName ?? "DEBE ACTUALIZAR DATOS",
+                                    //Cargo = logindetails.Title ?? "DEBE ACTUALIZAR DATOS",
+                                    //Area = logindetails.Department ?? "DEBE ACTUALIZAR DATOS",
+                                    //LugarTrabajo = logindetails.PhysicalDeliveryOfficeName ?? "DEBE ACTUALIZAR DATOS",
                                     PrimerNombre = logindetails.PrimerNombre ?? "DEBE ACTUALIZAR DATOS",
                                     SegundoNombre = logindetails.SegundoNombre ?? "DEBE ACTUALIZAR DATOS"
 

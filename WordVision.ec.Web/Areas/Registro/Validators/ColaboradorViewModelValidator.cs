@@ -34,18 +34,15 @@ namespace WordVision.ec.Web.Areas.Registro.Validators
 
             RuleFor(p => p.Cargo)
              .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
-             .NotNull()
-             .MaximumLength(500).WithMessage("{PropertyName} must not exceed 500 characters.");
-
+             .NotNull();
+            
             RuleFor(p => p.Area)
              .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
-             .NotNull()
-             .MaximumLength(500).WithMessage("{PropertyName} must not exceed 500 characters.");
+             .NotNull();
 
             RuleFor(p => p.LugarTrabajo)
              .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
-             .NotNull()
-             .MaximumLength(500).WithMessage("{PropertyName} must not exceed 500 characters.");
+             .NotNull();
         }
     }
 }

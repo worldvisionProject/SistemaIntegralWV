@@ -12,7 +12,7 @@ namespace WordVision.ec.Application.Features.Presupuesto.DatosLDR.Queries.GetByI
 {
     public class GetCountLDRByAreaQuery : IRequest<Result<int>>
     {
-        public string Area { get; set; }
+        public int Area { get; set; }
    
         public class GetCountLDRByAreaQueryHandler : IRequestHandler<GetCountLDRByAreaQuery, Result<int>>
         {

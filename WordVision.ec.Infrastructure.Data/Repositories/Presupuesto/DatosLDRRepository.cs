@@ -38,7 +38,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Presupuesto
             return await _repository.Entities.Where(p => p.Id == datosLdrId).FirstOrDefaultAsync();
         }
 
-        public async Task<int> GetCountAreaAsync(string area)
+        public async Task<int> GetCountAreaAsync(int area)
         {
             
             int contar = _colaboradorRepository.Entities.Count(x => x.Area == area);

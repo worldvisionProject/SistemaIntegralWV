@@ -16,7 +16,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Presupuesto
         Task<DatosLDR> GetByIdAsync(int datosLdrId);
 
         Task<int> InsertAsync(DatosLDR datosLdr);
-            Task<int> GetCountAreaAsync(string area);
+            Task<int> GetCountAreaAsync(int area);
         Task<int> GetCountNacionalAsync();
 
         Task UpdateAsync(DatosLDR datosLdr);
