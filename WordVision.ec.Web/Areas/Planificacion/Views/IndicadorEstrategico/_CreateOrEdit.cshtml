@@ -4,7 +4,7 @@
 
 
 <form id="create-form" method="post" asp-controller="IndicadorEstrategico" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
-    @Html.HiddenFor(x=>x.IdFactorCritico)
+    @Html.HiddenFor(x => x.IdFactorCritico)
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
@@ -45,25 +45,104 @@
                 </div>
                 <div class="col-md-2">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Linea Base</label>
-                    <input asp-for="LineaBase" type="number" name="LineaBase" class="form-control" />
+                   
+                    <input asp-for="LineaBase" type="text" name="LineaBase" class="form-control" />
                     <span asp-validation-for="LineaBase" class="text-danger"></span>
                 </div>
-                <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Meta</label>
-                    <input asp-for="Meta" type="number" name="Meta" class="form-control" />
-                    <span asp-validation-for="Meta" class="text-danger"></span>
-                </div>
+                @*<div class="col-md-2">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Anual</label>
+                        <input asp-for="Meta" type="number" name="Meta" class="form-control" />
+                        <span asp-validation-for="Meta" class="text-danger"></span>
+                    </div>*@
             </div>
             <div class="form-group row">
-                
+                <div class="col-md-12">
+                    <hr />
+                </div>
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label">Metas Anuales de Indicador</label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label class="col-md-12 col-form-label texto-pregunta">Gestión</label>
+                    @Html.DropDownListFor(x => x.gestionList, (IEnumerable<SelectListItem>)ViewBag.EstadoList, new { @class = "form-control" })
+                    <span asp-validation-for="gestionList" class="text-danger"></span>
+                </div>
+                <div class="col-md-2">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Anual</label>
+                    <input asp-for="MetaAF" type="text" name="MetaAF" class="form-control" />
+                    <span asp-validation-for="MetaAF" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Entregable</label>
+                    <input asp-for="EntregableAF" type="text" name="EntregableAF" class="form-control" />
+                    <span asp-validation-for="EntregableAF" class="text-danger"></span>
+                </div>
+                <div class="col-md-2" style="padding-top: 25px;">
+                    <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+                </div>
             </div>
         </div>
-        </div>
+    </div>
 
     <br />
-    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-        <button type="submit" class="btn btn-success">Guardar</button>
-        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+    <div id="divMetas">
+        <table id="metasTable" class="table table-striped" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    @*<th>Id</th>*@
+                    <th>Gestion</th>
+                    <th>Meta</th>
+                    <th>Entregable</th>
+
+                    <th class="text-right">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.IndicadorAFs != null)
+                {
+
+                    @foreach (var metaanual in Model.IndicadorAFs)
+                    {
+                        <tr id="@metaanual.Id">
+                            @*<td>
+
+                                @colaborador.Id
+                            </td>*@
+                            <td>
+                                @{
+                                    var selectedCity = Model.gestionList;
+                                    string txt = selectedCity.Where(x => x.Value == metaanual.Anio).FirstOrDefault().Text;
+                                }
+                                @txt
+                                
+                            </td>
+                            <td>
+                                @metaanual.Meta
+                            </td>
+                            <td>
+                                @metaanual.Entregable
+                            </td>
+
+                            <td class="text-right">
+                                <button type="button" onclick="EliminaFila(@metaanual.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                            </td>
+
+                        </tr>
+                    }}
+
+
+            </tbody>
+        </table>
+
+        <br />
+        <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+            <button type="submit" class="btn btn-success">Guardar</button>
+            <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+        </div>
     </div>
 </form>
 
@@ -78,7 +157,7 @@
 
     });
 
-    $("#BrandId").select2({
+            $("#gestionList").select2({
         placeholder: "Select a Category",
         theme: "bootstrap4",
         escapeMarkup: function (m) {
@@ -89,10 +168,10 @@
 
        var num = 0;
         function AgregaConcepto() {
-            let Anio = document.getElementById("AnioGestion").value;
-            let Descripcion = document.getElementById("DescGestion").value;
-            let Estado = document.getElementById("EstadoGestion").value;
-            let IdEstrategia = document.getElementById("Id").value;
+            let Anio = document.getElementById("gestionList").value;
+            let Entregable = document.getElementById("EntregableAF").value;
+            let Meta = document.getElementById("MetaAF").value;
+           // let IdEstrategia = document.getElementById("Id").value;
 
             if (Anio.length == 0) {
                 alert("Ingrese la Gestion.");
@@ -101,56 +180,56 @@
 
 
             //agregamos tabla
-            let Tabla = document.getElementById("gestionTable");
+            let Tabla = document.getElementById("metasTable");
             let TR = document.createElement("tr");
             TR.setAttribute('id', num);
            // let TDId = document.createElement("td");
             let TDAnio = document.createElement("td");
-            let TDDescripcion = document.createElement("td");
-            let TDEstado = document.createElement("td");
+            let TDMeta = document.createElement("td");
+            let TDEntregable = document.createElement("td");
             let TDEliminar = document.createElement("td");
             TDEliminar.className = "text-right";
             //let TDTotal = document.createElement("td");
            // TR.appendChild(TDId);
             TR.appendChild(TDAnio);
-            TR.appendChild(TDDescripcion);
-            TR.appendChild(TDEstado);
+            TR.appendChild(TDMeta);
+            TR.appendChild(TDEntregable);
             TR.appendChild(TDEliminar);
             //TR.appendChild(TDTotal);
            // TDId.innerHTML = num;
             TDAnio.innerHTML = Anio;
-            TDDescripcion.innerHTML = Descripcion;
-            TDEstado.innerHTML = Estado;
-            TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i>  Eliminar</button>";
+            TDMeta.innerHTML = Meta;
+            TDEntregable.innerHTML = Entregable;
+            TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
             //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
             Tabla.appendChild(TR);
 
             //agregamos hiddens
-            let DivConceptos = document.getElementById("divGestion");
+            let DivConceptos = document.getElementById("divMetas");
             let HiddenIndex = document.createElement("input");
             let HiddenAnio = document.createElement("input");
-            let HiddenDescripcion = document.createElement("input");
-            let HiddenEstado = document.createElement("input");
-            HiddenIndex.name = "gestion.Index";
+            let HiddenMeta = document.createElement("input");
+            let HiddenEntregable = document.createElement("input");
+            HiddenIndex.name = "indicador.Index";
             HiddenIndex.value = num;
             HiddenIndex.type = "hidden";
-            HiddenAnio.name = "gestion[" + num + "].Anio";
+            HiddenAnio.name = "indicador[" + num + "].Anio";
             HiddenAnio.value = Anio;
             HiddenAnio.type = "hidden";
-            HiddenDescripcion.name = "gestion[" + num + "].Descripcion";
-            HiddenDescripcion.value = Descripcion;
-            HiddenDescripcion.type = "hidden";
-            HiddenEstado.name = "gestion[" + num + "].Estado";
-            HiddenEstado.value = Estado;
-            HiddenEstado.type = "hidden";
+            HiddenMeta.name = "indicador[" + num + "].Meta";
+            HiddenMeta.value = Meta;
+            HiddenMeta.type = "hidden";
+            HiddenEntregable.name = "indicador[" + num + "].Entregable";
+            HiddenEntregable.value = Entregable;
+            HiddenEntregable.type = "hidden";
             DivConceptos.appendChild(HiddenIndex);
             DivConceptos.appendChild(HiddenAnio);
-            DivConceptos.appendChild(HiddenDescripcion);
-            DivConceptos.appendChild(HiddenEstado);
+            DivConceptos.appendChild(HiddenMeta);
+            DivConceptos.appendChild(HiddenEntregable);
 
-            document.getElementById("AnioGestion").value = "";
-            document.getElementById("DescGestion").value = "";
-            document.getElementById("EstadoGestion").value = "";
+            document.getElementById("gestionList").value = "";
+            document.getElementById("EntregableAF").value = "";
+            document.getElementById("MetaAF").value = "";
 
             num++;
 
@@ -193,9 +272,9 @@
             id: id
         };
 
-         @*$.ajax({
+         $.ajax({
             type: "post",
-            url:'@Url.Action("OnPostDelete", "Idioma", new { area = "Registro" })',
+            url:'@Url.Action("OnPostDelete", "IndicadorAF", new { area = "Planificacion" })',
              data: GestionViewModel,
             datatype: "json",
             cache: false,
@@ -206,7 +285,7 @@
             error: function(xhr) {
                // alert('No Valid Data');
             }
-        });*@
+        });
     }
 
         </script>

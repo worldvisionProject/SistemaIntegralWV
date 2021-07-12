@@ -20,6 +20,7 @@ namespace WordVision.ec.Domain.Entities.Maestro
         public int Estado { get; set; }
 
         public int IdEmpresa { get; set; }
+        public int Nivel { get; set; }
         public Empresa Empresas { get; set; }
 
         [ForeignKey("IdEstructura")]

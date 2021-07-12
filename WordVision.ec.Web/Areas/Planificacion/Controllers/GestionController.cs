@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Delete;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Update;
@@ -38,30 +41,42 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             return null;
         }
 
-        public async Task<JsonResult> LoadGestiones(int idEstrategico)
+        public async Task<IActionResult> LoadGestiones(int idEstrategico)
         {
-            var response = await _mediator.Send(new GetListGestionByIdQuery() { Id = idEstrategico });
+            var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = idEstrategico });
             if (response.Succeeded)
             {
-                var viewModel = _mapper.Map<List<GestionViewModel>>(response.Data);
 
-                var dd = JsonConvert.SerializeObject(viewModel);
-                return Json(dd);
+                var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
+                ViewBag.Ciclo = entidadViewModel.Nombre;
+                var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 2 });
+                entidadViewModel.EstadoList = new SelectList(cat1.Data, "Secuencia", "Nombre");
+                return PartialView("_ViewAll", entidadViewModel);
+                //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             return null;
+            //var response = await _mediator.Send(new GetListGestionByIdQuery() { Id = idEstrategico });
+            //if (response.Succeeded)
+            //{
+            //    var viewModel = _mapper.Map<List<GestionViewModel>>(response.Data);
+
+            //    var dd = JsonConvert.SerializeObject(viewModel);
+            //    return Json(dd);
+            //}
+            //return null;
         }
 
 
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int IdFactorCritico = 0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idEstrategia = 0)
         {
             // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
-
+            var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 2 });
+           
             if (id == 0)
             {
                 var entidadViewModel = new GestionViewModel();
-               // entidadViewModel.IdFactorCritico = IdFactorCritico;
-              
-                //  return View("_CreateOrEdit", entidadViewModel);
+                entidadViewModel.IdEstrategia = idEstrategia;
+                entidadViewModel.EstadoList = new SelectList(cat1.Data, "Secuencia", "Nombre");
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             else
@@ -70,7 +85,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 if (response.Succeeded)
                 {
                     var entidadViewModel = _mapper.Map<GestionViewModel>(response.Data);
-                    // return View("_CreateOrEdit", entidadViewModel);
+                    entidadViewModel.EstadoList = new SelectList(cat1.Data, "Secuencia", "Nombre");
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;
@@ -101,6 +116,23 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         var result = await _mediator.Send(updateEntidadCommand);
                         if (result.Succeeded) _notify.Information($"Gestion con ID {result.Data} Actualizado.");
                     }
+
+                    var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = entidad.IdEstrategia });
+                    if (response.Succeeded)
+                    {
+
+                        var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
+                        var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id =2 });
+                        entidadViewModel.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                        var html1 = await _viewRenderer.RenderViewToStringAsync( "_ViewAll" , entidadViewModel);
+                        return new JsonResult(new { isValid = true, opcion = 99, page =  "#viewAllGestion" , html = html1 });
+                    }
+                    else
+                    {
+                        _notify.Error(response.Message);
+                        return null;
+                    }
+
 
                 }
                 return new JsonResult(new { isValid = true, Id = id });

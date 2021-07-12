@@ -1,23 +1,29 @@
 ﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @using WordVision.ec.Web.Areas.Planificacion.Models
-@model AnioFiscalViewModel
+@model EstrategiaNacionalViewModel
 
 @{
-}
+    ViewData["Title"] = localizer["Ciclo Estrategico"].Value + " " + ViewBag.Ciclo;
+    ViewData["Caption"] = localizer["Seleccione la Gestión aquí"];
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12 ">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <div class="d-sm-flex align-items-center justify-content-center">
-                        <h1 class="h3 mb-0 text-gray-800">@Model.Nombre</h1>
-                    </div>
-            
-                </div>
-            </div>
-            </div>
-        </div>
+    ViewData["SNGestion"] = "S";
+    ViewBag.GestionList = ViewBag.GestionList;
+}
+<div class="card card-info">
+    <div class="card-header card-header-int">
+        Planificación Extratégica
+        @*<div class="pull-right">
+                <a class="btn btn-primary" id="btnViewModel" href="/Institucions/Create">
+                    <i class="fa fa-plus-square"></i>
+                    Agregar
+                </a>
+
+            </div>*@
+    </div>
+
+    <div class="col-sm-12" style="padding:20px">
+        <div class="container">
+
             <div class="row">
                 <div class="col-md-12 ">
                     <div class="form-group row">
@@ -25,27 +31,6 @@
                             <label class="col-md-12 col-form-label texto-pregunta">Meta</label>
 
                             <textarea name="MetaNacional" class="form-control">@Model.MetaNacional</textarea>
-
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-md-6">
-                            <label class="col-md-12 col-form-label texto-pregunta">Gestion</label>
-
-                            <select asp-for="Estado" name="Estado" class="form-control">
-                                <option value="1">2017</option>
-                                <option value="2">2018</option>
-                                <option value="3">2019</option>
-                                <option value="3">2020</option>
-                                <option value="3">2021</option>
-                            </select>
-
-                        </div>
-                       
-                        <div class="col-md-6" style="padding: 25px">
-                           
-                            <button type="button"  class="btn btn-info"><i class="fas fa-calendar"></i>  Ir a Gestion</button>
 
                         </div>
                     </div>
@@ -94,58 +79,58 @@
                                                             </thead>
                                                             <tbody>
                                                                 @*@if (objetivo.FactorCriticoExitos != null)
-                                                                {
-                                                                    @foreach (var indi in objetivo.FactorCriticoExitos)
                                                                     {
-                                                                        <tr>
-                                                                            <td>@indi.FactorCritico</td>
+                                                                        @foreach (var indi in objetivo.FactorCriticoExitos)
+                                                                        {
+                                                                            <tr>
+                                                                                <td>@indi.FactorCritico</td>
 
-                                                                            <td>
+                                                                                <td>
 
 
-                                                                                <table id="objetivoTable" class="table table-striped" width="100%" cellspacing="0">
-                                                                                    <thead>
-                                                                                        <tr>
-                                                                                            <th>Indicador</th>
-                                                                                            <th>Linea Base</th>
-                                                                                            <th>Unidad Medida</th>
-                                                                                            <th>Meta</th>
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody>
-                                                                                        @if (indi.IndicadorEstrategicos != null)
-                                                                                        {
-                                                                                            @foreach (var indic in indi.IndicadorEstrategicos)
+                                                                                    <table id="objetivoTable" class="table table-striped" width="100%" cellspacing="0">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th>Indicador</th>
+                                                                                                <th>Linea Base</th>
+                                                                                                <th>Unidad Medida</th>
+                                                                                                <th>Meta</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            @if (indi.IndicadorEstrategicos != null)
                                                                                             {
-                                                                                                <tr>
-                                                                                                    <td>@indic.IndicadorResultado</td>
-                                                                                                    <td>@indic.LineaBase</td>
-                                                                                                    <td>@indic.UnidadMedida</td>
-                                                                                                    <td>@indic.Meta</td>
-                                                                                                </tr>
-                                                                                            }
-                                                                                        }*@
-                                                                                    </tbody>
-                                                                                </table>
-
-                                                                            </td>
-                                                                        </tr>
-                                                                    }
-                                                                }
+                                                                                                @foreach (var indic in indi.IndicadorEstrategicos)
+                                                                                                {
+                                                                                                    <tr>
+                                                                                                        <td>@indic.IndicadorResultado</td>
+                                                                                                        <td>@indic.LineaBase</td>
+                                                                                                        <td>@indic.UnidadMedida</td>
+                                                                                                        <td>@indic.Meta</td>
+                                                                                                    </tr>
+                                                                                                }
+                                                                                            }*@
                                                             </tbody>
                                                         </table>
 
                                                     </td>
-                                                    <td>
-                                                    </td>
-
-
-
                                                 </tr>
-                                            }}
-
-
+                                            }
+                                        }
                                     </tbody>
+                                </table>
+
+                                </td>
+                                <td>
+                                </td>
+
+
+
+                                </tr>
+                                }}
+
+
+                                </tbody>
                                 </table>
                             </div>
 
@@ -155,3 +140,5 @@
                 </div>
             </div>
         </div>
+</div>
+</div>

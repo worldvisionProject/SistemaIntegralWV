@@ -31,7 +31,7 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Cre
 
         public string LugarTrabajo { get; set; }
 
-
+        public string Alias { get; set; }
     }
 
     public class CreateColaboradorCommandHandler : IRequestHandler<CreateColaboradorCommand, Result<int>>

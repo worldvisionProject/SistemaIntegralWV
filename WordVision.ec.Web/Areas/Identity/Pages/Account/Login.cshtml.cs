@@ -131,13 +131,24 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                         }
                         else
                         {
-                            logindetails.ApellidoPaterno = user.LastName;
-                            logindetails.PrimerNombre = user.FirstName;
-                            logindetails.Mail = user.Email;
-                            logindetails.Cedula = "000" + userName;
-                            logindetails.IdEmpresa = 0;
+                            var loginInfo = await _mediator.Send(new GetUsuarioByIdQuery() { Id = userName });
+                            if (loginInfo != null)
+                            {
+                                logindetails = loginInfo.Data;
+                            }
+                            else
+                            {
+
+                                logindetails.ApellidoPaterno = user.LastName;
+                                logindetails.PrimerNombre = user.FirstName;
+                                logindetails.Mail = user.Email;
+                                logindetails.Cedula = "000" + userName;
+                                logindetails.IdEmpresa = 0;
+                            }
 
                             await AddUserClaims(user, userName, logindetails);
+
+                           
 
                             var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                             if (result.Succeeded)
@@ -497,7 +508,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
             int idColabora = 0;
 
             var response = await _mediator.Send(new GetColaboradorByIdentificacionQuery() { Identificacion = logindetails.Cedula });
-            if (response == null)
+            if (response != null)
             {
                 if (response.Succeeded)
                 {
@@ -514,7 +525,8 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                             Identificacion = logindetails.Cedula ?? "DEBE ACTUALIZAR DATOS",
                             Email = logindetails.Mail ?? "DEBE ACTUALIZAR DATOS",
                             PrimerNombre = logindetails.PrimerNombre ?? "DEBE ACTUALIZAR DATOS",
-                            SegundoNombre = logindetails.SegundoNombre ?? "DEBE ACTUALIZAR DATOS"
+                            SegundoNombre = logindetails.SegundoNombre ?? "DEBE ACTUALIZAR DATOS",
+                            Alias= idUsername
 
                         });
 
@@ -551,6 +563,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                         logindetails.ApellidoPaterno = colaborador.Apellidos;
                         logindetails.PrimerNombre = colaborador.PrimerNombre;
                         logindetails.SegundoNombre = colaborador.SegundoNombre;
+                        logindetails.Nivel = colaborador.Nivel;
                     }
                 }
 
@@ -578,6 +591,8 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                 claims.Add(new Claim("Cedula", logindetails.Cedula));
                 claims.Add(new Claim("Id", idColabora.ToString()));
                 claims.Add(new Claim("IdEmpresa", logindetails.IdEmpresa.ToString()));
+                claims.Add(new Claim("Nivel", logindetails.Nivel.ToString()));
+                // await _signInManager.SignInWithClaimsAsync(user, new AuthenticationProperties() { IsPersistent = false }, claims);
 
                 // Sign In.
                 await _userManager.AddClaimsAsync(user, claims);

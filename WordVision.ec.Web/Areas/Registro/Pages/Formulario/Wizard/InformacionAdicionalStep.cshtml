@@ -7,327 +7,137 @@
         7. INFORMACIÓN ADICIONAL
     </div>
 
-    <div class="form-group row">
-        <label class="col-md-1 col-form-label texto-pregunta">Idioma</label>
-        <div class="col-md-2">
-            <select asp-for="Idioma" name="Idioma" class="form-control">
-                <option selected></option>
-                <option value="EN">Ingles</option>
-                <option value="ES">Español</option>
-                <option value="IT">Italiano</option>
-                <option value="FR">Frances</option>
-            </select>
-            <span asp-validation-for="Idioma" class="text-danger"></span>
-        </div>
-        <label class="col-md-2 col-form-label texto-pregunta text-right">Hablado</label>
-        <div class="col-md-2">
-            <input type="number" asp-for="PorcentajeHablado" name="PorcentajeHablado" class="form-control">
-            <span asp-validation-for="PorcentajeHablado" class="text-danger"></span>
-        </div>
-        <label class="col-md-1 col-form-label texto-pregunta">Escrito</label>
-        <div class="col-md-2">
-            <input type="number" asp-for="PorcentajeEscrito" name="PorcentajeEscrito" class="form-control">
-            <span asp-validation-for="PorcentajeEscrito" class="text-danger"></span>
-        </div>
-        <div class="col-md-2">
-            <button type="button"  class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
-        </div>
-        </div>
-        @*<a onclick="jQueryModalGet('/registro/idioma/OnGetCreateOrEdit?id=0&idFormulario=@Model.Id','Crea Idioma')" class="btn bg-success">
-            <i class="fa fa-plus-square"></i> Agregar
-        </a>*@
-        @Html.HiddenFor(x => x.Id, new { name = "IdFormulario", @Value = Model.Id })
-        <br />
-        <div id="divIdiomas">
-            <table id="idiomaTable" class="table table-striped" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        @*<th>Id</th>*@
-                        <th>Idioma</th>
-                        <th>% Escrito</th>
-                        <th>% Hablado</th>
-
-                        <th class="text-right">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Idiomas != null)
-                    {
-
-        @foreach (var colaborador in Model.Idiomas.ToList())
-        {
-    <tr id="@colaborador.Id">
-        @*<td>
-
-            @colaborador.Id
-        </td>*@
-        <td>
-
-            @colaborador.Nombre
-        </td>
-        <td>
-            @colaborador.Escrito
-        </td>
-        <td>
-            @colaborador.Hablado
-        </td>
-
-        <td class="text-right">
-            <button type="button" onclick="EliminaFila(@colaborador.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i>  Eliminar</button>
-
-        </td>
-
-    </tr>
-}}
-
-
-                </tbody>
-            </table>
-        </div>
-
-    <br />
-
-        <div class="form-group row">
-            <label class="col-md-2 col-form-label texto-pregunta">Creencia Religiosa</label>
-            <div class="col-md-2">
-                <input type="text" asp-for="CreenciaReligiosa" name="CreenciaReligiosa" class="form-control">
-                <span asp-validation-for="CreenciaReligiosa" class="text-danger"></span>
-            </div>
-            <label class="col-md-2 col-form-label texto-pregunta">Iglesia en especial</label>
-            <div class="col-md-3">
-                <input type="text" asp-for="Iglesia" name="Iglesia" class="form-control">
-                <span asp-validation-for="Iglesia" class="text-danger"></span>
-            </div>
-
-        </div>
-        <div class="form-group row">
-            <label class="col-md-6 col-form-label texto-pregunta">Auto identificación Étnica (Indígena, Mestizo, Afro, etc.)</label>
-            <div class="col-md-6">
-                <input type="text" asp-for="Etnia" name="Etnia" class="form-control">
-                <span asp-validation-for="Etnia" class="text-danger"></span>
-            </div>
-
-
-        </div>
-
-        <div class="form-group row">
-            <label class="col-md-2 col-form-label texto-pregunta">Tiene Discapacidad</label>
-            <div class="col-md-2">
-                <select asp-for="DiscapacidadSN" name="DiscapacidadSN" class="form-control">
-                    <option selected></option>
-                    <option value="S">SI</option>
-                    <option value="N">NO</option>
-                </select>
-                <span asp-validation-for="DiscapacidadSN" class="text-danger"></span>
-            </div>
-            <label class="col-md-2 col-form-label texto-pregunta">Tipo de Discapacidad</label>
-            <div class="col-md-2">
-                <input type="text" asp-for="TipoDiscapacidad" name="TipoDiscapacidad" class="form-control">
-                <span asp-validation-for="TipoDiscapacidad" class="text-danger"></span>
-            </div>
-            <label class="col-md-2 col-form-label texto-pregunta">Porcentaje</label>
-            <div class="col-md-2">
-                <input type="number" asp-for="PorcentajeDiscapacidad" name="PorcentajeDiscapacidad" class="form-control">
-                <span asp-validation-for="PorcentajeDiscapacidad" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label class="col-md-2 col-form-label texto-pregunta">Familiar Discapacidad</label>
-            <div class="col-md-2">
-                <select asp-for="FamiliaDiscapacidadSN" name="FamiliaDiscapacidadSN" class="form-control">
-                    <option selected></option>
-                    <option value="S">SI</option>
-                    <option value="N">NO</option>
-                </select>
-                <span asp-validation-for="FamiliaDiscapacidadSN" class="text-danger"></span>
-            </div>
-            <label class="col-md-2 col-form-label texto-pregunta">Tipo de Discapacidad</label>
-            <div class="col-md-2">
-                <input type="text" asp-for="FamiliaTipoDiscapacidad" name="FamiliaTipoDiscapacidad" class="form-control">
-
-                <span asp-validation-for="FamiliaTipoDiscapacidad" class="text-danger"></span>
-            </div>
-            <label class="col-md-2 col-form-label texto-pregunta">Porcentaje</label>
-            <div class="col-md-2">
-                <input type="number" asp-for="FamiliaPorcentajeDiscapacidad" name="FamiliaPorcentajeDiscapacidad" class="form-control">
-                <span asp-validation-for="FamiliaPorcentajeDiscapacidad" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label class="col-md-2 col-form-label texto-pregunta">Discapacidad</label>
-            <div class="col-md-4">
-                <input type="text" asp-for="FamiliaTipoDiscapacidad" name="FamiliaTipoDiscapacidad" class="form-control">
-                <span asp-validation-for="FamiliaTipoDiscapacidad" class="text-danger"></span>
-            </div>
-            <label class="col-md-2 col-form-label texto-pregunta">Parentesco</label>
-            <div class="col-md-4">
-                <input type="text" asp-for="FamiliaDiscapacidadRelacion" name="FamiliaDiscapacidadRelacion" class="form-control">
-                <span asp-validation-for="FamiliaDiscapacidadRelacion" class="text-danger"></span>
-            </div>
-
-        </div>
-
-
-        <br />
-        <div class="row">
-            <div class="col-md-12">
-                <label class="col-md-12"><span class="texto-simple">Firma del Colaborador</span></label>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="custom-file form-image">
-                <input accept=".png,.jpg,.jpeg,.gif,.tif"
-                       asp-for="@Model.Image"
-                       type="file" class="custom-file-input"
-                       onchange="document.getElementById('viewableImage').src = window.URL.createObjectURL(this.files[0])"
-                       id="customFile">
-                <span asp-validation-for="Image" class="text-danger"></span>
-                <label class="custom-file-label" for="customFile">Buscar imágen para Firmar el documento</label>
-            </div>
-            @if (Model.Image != null && Model.Image.Length > 0)
-            {
-    <img id="viewableImage" class="viewableImage" asp-for="@Model.Image" style="object-fit: cover;padding-top: 10px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" alt> @*<button onclick="document.getElementById('achimage').src = null;" type="button" style="margin-top:10px" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove Image</button>*@ }
-else
-{
-    <img id="viewableImage" class="viewableImage" style="object-fit: cover;padding-top:10px;" src="" alt>}
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-md-12">
-                <label class="col-md-12"><span class="texto-simple">@Model.Colaborador</span></label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <label class="col-md-12"><span class="texto-simple">@Model.Identificacion</span></label>
-            </div>
-        </div>
-        <br />
+    <div id="viewAll" class="card-body card-body-card table-responsive">
 
     </div>
 
+    <br />
+
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label texto-pregunta">Creencia Religiosa</label>
+        <div class="col-md-2">
+            <input type="text" asp-for="CreenciaReligiosa" name="CreenciaReligiosa" class="form-control">
+            <span asp-validation-for="CreenciaReligiosa" class="text-danger"></span>
+        </div>
+        <label class="col-md-2 col-form-label texto-pregunta">Iglesia en especial</label>
+        <div class="col-md-3">
+            <input type="text" asp-for="Iglesia" name="Iglesia" class="form-control">
+            <span asp-validation-for="Iglesia" class="text-danger"></span>
+        </div>
+
+    </div>
+    <div class="form-group row">
+        <label class="col-md-6 col-form-label texto-pregunta">Auto identificación Étnica (Indígena, Mestizo, Afro, etc.)</label>
+        <div class="col-md-6">
+            <input type="text" asp-for="Etnia" name="Etnia" class="form-control">
+            <span asp-validation-for="Etnia" class="text-danger"></span>
+        </div>
+
+
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label texto-pregunta">Tiene Discapacidad</label>
+        <div class="col-md-2">
+            <select asp-for="DiscapacidadSN" name="DiscapacidadSN" class="form-control">
+                <option selected></option>
+                <option value="S">SI</option>
+                <option value="N">NO</option>
+            </select>
+            <span asp-validation-for="DiscapacidadSN" class="text-danger"></span>
+        </div>
+        <label class="col-md-2 col-form-label texto-pregunta">Tipo de Discapacidad</label>
+        <div class="col-md-2">
+            <input type="text" asp-for="TipoDiscapacidad" name="TipoDiscapacidad" class="form-control">
+            <span asp-validation-for="TipoDiscapacidad" class="text-danger"></span>
+        </div>
+        <label class="col-md-2 col-form-label texto-pregunta">Porcentaje</label>
+        <div class="col-md-2">
+            <input type="number" asp-for="PorcentajeDiscapacidad" name="PorcentajeDiscapacidad" class="form-control">
+            <span asp-validation-for="PorcentajeDiscapacidad" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label texto-pregunta">Familiar Discapacidad</label>
+        <div class="col-md-2">
+            <select asp-for="FamiliaDiscapacidadSN" name="FamiliaDiscapacidadSN" class="form-control">
+                <option selected></option>
+                <option value="S">SI</option>
+                <option value="N">NO</option>
+            </select>
+            <span asp-validation-for="FamiliaDiscapacidadSN" class="text-danger"></span>
+        </div>
+        <label class="col-md-2 col-form-label texto-pregunta">Tipo de Discapacidad</label>
+        <div class="col-md-2">
+            <input type="text" asp-for="FamiliaTipoDiscapacidad" name="FamiliaTipoDiscapacidad" class="form-control">
+
+            <span asp-validation-for="FamiliaTipoDiscapacidad" class="text-danger"></span>
+        </div>
+        <label class="col-md-2 col-form-label texto-pregunta">Porcentaje</label>
+        <div class="col-md-2">
+            <input type="number" asp-for="FamiliaPorcentajeDiscapacidad" name="FamiliaPorcentajeDiscapacidad" class="form-control">
+            <span asp-validation-for="FamiliaPorcentajeDiscapacidad" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label texto-pregunta">Discapacidad</label>
+        <div class="col-md-4">
+            <input type="text" asp-for="FamiliaDiscapacidad" name="FamiliaDiscapacidad" class="form-control">
+            <span asp-validation-for="FamiliaDiscapacidad" class="text-danger"></span>
+        </div>
+        <label class="col-md-2 col-form-label texto-pregunta">Parentesco</label>
+        <div class="col-md-4">
+            <input type="text" asp-for="FamiliaDiscapacidadRelacion" name="FamiliaDiscapacidadRelacion" class="form-control">
+            <span asp-validation-for="FamiliaDiscapacidadRelacion" class="text-danger"></span>
+        </div>
+
+    </div>
+
+
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12"><span class="texto-simple">Firma del Colaborador</span></label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="custom-file form-image">
+            <input accept=".png,.jpg,.jpeg,.gif,.tif"
+                   asp-for="@Model.Image"
+                   type="file" class="custom-file-input"
+                   onchange="document.getElementById('viewableImage').src = window.URL.createObjectURL(this.files[0])"
+                   id="customFile">
+            <span asp-validation-for="Image" class="text-danger"></span>
+            <label class="custom-file-label" for="customFile">Buscar imágen para Firmar el documento</label>
+        </div>
+        @if (Model.Image != null && Model.Image.Length > 0)
+        {
+<img id="viewableImage" class="viewableImage" asp-for="@Model.Image" style="object-fit: cover;padding-top: 10px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" alt> @*<button onclick="document.getElementById('achimage').src = null;" type="button" style="margin-top:10px" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove Image</button>*@ }
+else
+{
+<img id="viewableImage" class="viewableImage" style="object-fit: cover;padding-top:10px;" src="" alt>}
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12"><span class="texto-simple">@Model.Colaborador</span></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12"><span class="texto-simple">@Model.Identificacion</span></label>
+        </div>
+    </div>
+    <br />
+
+</div>
 <script>
-        var num = 0;
-        function AgregaConcepto() {
-            let Hablado = document.getElementById("PorcentajeHablado").value;
-            let Escrito = document.getElementById("PorcentajeEscrito").value;
-            let Nombre = document.getElementById("Idioma").value;
-            let IdFormulario = document.getElementById("Id").value;
-
-            if (Nombre.length == 0) {
-                alert("Ingrese el Idioma.");
-                return;
+  $(document).ready(function () {
+            loadData();
+    });
+        function loadData() {
+            $('#viewAll').load('/registro/formulario/LoadIdioma?id=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value.ToString()');
             }
-
-
-            //agregamos tabla
-            let Tabla = document.getElementById("idiomaTable");
-            let TR = document.createElement("tr");
-            TR.setAttribute('id', num);
-           // let TDId = document.createElement("td");
-            let TDNombre = document.createElement("td");
-            let TDHablado = document.createElement("td");
-            let TDEscrito = document.createElement("td");
-            let TDEliminar = document.createElement("td");
-            TDEliminar.className = "text-right";
-            //let TDTotal = document.createElement("td");
-           // TR.appendChild(TDId);
-            TR.appendChild(TDNombre);
-            TR.appendChild(TDHablado);
-            TR.appendChild(TDEscrito);
-            TR.appendChild(TDEliminar);
-            //TR.appendChild(TDTotal);
-           // TDId.innerHTML = num;
-            TDNombre.innerHTML = Nombre;
-            TDHablado.innerHTML = Hablado;
-            TDEscrito.innerHTML = Escrito;
-            TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i>  Eliminar</button>";
-            //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
-            Tabla.appendChild(TR);
-
-            //agregamos hiddens
-            let DivConceptos = document.getElementById("divIdiomas");
-            let HiddenIndex = document.createElement("input");
-            let HiddenNombre = document.createElement("input");
-            let HiddenHablado = document.createElement("input");
-            let HiddenEscrito = document.createElement("input");
-            HiddenIndex.name = "idioma.Index";
-            HiddenIndex.value = num;
-            HiddenIndex.type = "hidden";
-            HiddenNombre.name = "idioma[" + num + "].Nombre";
-            HiddenNombre.value = Nombre;
-            HiddenNombre.type = "hidden";
-            HiddenHablado.name = "idioma[" + num + "].Hablado";
-            HiddenHablado.value = Hablado;
-            HiddenHablado.type = "hidden";
-            HiddenEscrito.name = "idioma[" + num + "].Escrito";
-            HiddenEscrito.value = Escrito;
-            HiddenEscrito.type = "hidden";
-            DivConceptos.appendChild(HiddenIndex);
-            DivConceptos.appendChild(HiddenNombre);
-            DivConceptos.appendChild(HiddenHablado);
-            DivConceptos.appendChild(HiddenEscrito);
-
-            document.getElementById("PorcentajeHablado").value = "0";
-            document.getElementById("PorcentajeEscrito").value = "0";
-            document.getElementById("Idioma").value = "";
-
-            num++;
-
-
-
-            var IdiomaViewModel = {
-                Nombre: Nombre,
-                Hablado: Hablado,
-                Escrito: Escrito,
-                IdFormulario: IdFormulario
-
-            };
-
-        $.ajax({
-            type: "post",
-            url:'@Url.Action("OnPostCreateOrEdit", "Idioma", new { area = "Registro" })',
-            data: IdiomaViewModel,
-            datatype: "json",
-            cache: false,
-            success: function (data) {
-            /* alert('Validooo');*/
-               
-            },
-            error: function(xhr) {
-            //    alert('No Valid Data');
-            }
-        });
-
-        }
-
-    function deleteRow(id) {
-        $("#" + id).remove();
-    }
-
-    function EliminaFila(id) {
-
-        $("#" + id).remove();
-
-        var IdiomaViewModel = {
-            id: id
-        };
-
-         $.ajax({
-            type: "post",
-            url:'@Url.Action("OnPostDelete", "Idioma", new { area = "Registro" })',
-             data: IdiomaViewModel,
-            datatype: "json",
-            cache: false,
-            success: function (data) {
-            /*  alert('Validooo');*/
-               
-            },
-            error: function(xhr) {
-               // alert('No Valid Data');
-            }
-        });
-    }
 </script>

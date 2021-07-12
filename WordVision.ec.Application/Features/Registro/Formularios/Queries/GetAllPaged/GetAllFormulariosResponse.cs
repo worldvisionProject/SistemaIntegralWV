@@ -69,7 +69,7 @@ namespace WordVision.ec.Application.Features.Registro.Formularios.Queries.GetAll
         public string FamiliaDiscapacidadSN { get; set; }
         public string FamiliaTipoDiscapacidad { get; set; }
         public int FamiliaPorcentajeDiscapacidad { get; set; }
-        public int FamiliaDiscapacidad { get; set; }
+        public string FamiliaDiscapacidad { get; set; }
         public string FamiliaDiscapacidadRelacion { get; set; }
         public byte[] Pdf { get; set; }
         public int IdColaborador { get; set; }

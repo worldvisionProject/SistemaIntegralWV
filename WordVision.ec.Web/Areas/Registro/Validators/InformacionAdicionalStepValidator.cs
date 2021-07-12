@@ -36,9 +36,9 @@ namespace WordVision.ec.Web.Areas.Registro.Validators
            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
            .NotNull();
 
-            RuleFor(p => p.FamiliaPorcentajeDiscapacidad)
-           .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
-           .NotNull();
+            //RuleFor(p => p.FamiliaPorcentajeDiscapacidad)
+            //    .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            //.NotNull();
 
             RuleFor(p => p.FamiliaTipoDiscapacidad)
            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
@@ -48,18 +48,20 @@ namespace WordVision.ec.Web.Areas.Registro.Validators
            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
            .NotNull();
 
-            RuleFor(p => p.PorcentajeDiscapacidad)
-           .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
-           .NotNull();
+            // RuleFor(customer => customer.Address.Postcode).NotNull().When(customer => customer.Address != null)
+
+           // RuleFor(p => p.PorcentajeDiscapacidad)
+           //.NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+           //.NotNull();
 
             RuleFor(p => p.TipoDiscapacidad)
            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
            .NotNull();
 
 
-            RuleFor(p => p.Image)
-          .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
-          .NotNull();
+
+            //RuleFor(p => p.Image).NotNull()
+            //    .WithMessage("{PropertyName} es obligatorio.");
         }
     }
 }

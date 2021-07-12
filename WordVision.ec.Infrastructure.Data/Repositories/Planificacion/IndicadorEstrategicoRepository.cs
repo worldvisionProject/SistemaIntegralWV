@@ -30,12 +30,12 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 
         public async Task<IndicadorEstrategico> GetByIdAsync(int IndicadorEstrategicoId)
         {
-            return await _repository.Entities.Where(p => p.Id == IndicadorEstrategicoId).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(p => p.Id == IndicadorEstrategicoId).Include(p=>p.IndicadorAFs).FirstOrDefaultAsync();
         }
 
         public async Task<List<IndicadorEstrategico>> GetListAsync()
         {
-            return await _repository.Entities.ToListAsync();
+            return await _repository.Entities.Include(p => p.IndicadorAFs).ToListAsync();
         }
 
         public async Task<int> InsertAsync(IndicadorEstrategico IndicadorEstrategico)

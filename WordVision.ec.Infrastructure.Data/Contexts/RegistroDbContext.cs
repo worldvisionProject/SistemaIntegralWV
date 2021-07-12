@@ -17,7 +17,7 @@ using WordVision.ec.Domain.Entities.Registro;
 
 namespace WordVision.ec.Infrastructure.Data.Contexts
 {
-    public class RegistroDbContext : AuditableContext, IRegistroDbContext //AuditableContext
+    public  class RegistroDbContext : AuditableContext, IRegistroDbContext //AuditableContext
     {
       
         private readonly IDateTimeService _dateTime;
@@ -28,6 +28,8 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             _dateTime = dateTime;
             _authenticatedUser = authenticatedUser;
         }
+
+      
 
         public IDbConnection Connection => Database.GetDbConnection();
         public bool HasChanges => ChangeTracker.HasChanges();
@@ -40,23 +42,23 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
                 {
                     case EntityState.Added:
                         entry.Entity.CreatedOn = _dateTime.NowUtc;
-                        entry.Entity.CreatedBy =  _authenticatedUser.UserId;
+                        entry.Entity.CreatedBy =  _authenticatedUser.Username;
                         break;
 
                     case EntityState.Modified:
                         entry.Entity.LastModifiedOn = _dateTime.NowUtc;
-                        entry.Entity.LastModifiedBy =  _authenticatedUser.UserId;
+                        entry.Entity.LastModifiedBy =  _authenticatedUser.Username;
                         break;
                 }
             }
-            if (_authenticatedUser.UserId == null)
+            if (_authenticatedUser.Username == null)
             {
                 return await base.SaveChangesAsync(cancellationToken);
             }
             else
             {
                 //return await base.SaveChangesAsync("jlmoreno");//
-               return await base.SaveChangesAsync(_authenticatedUser.UserId);
+               return await base.SaveChangesAsync(_authenticatedUser.Username);
             }
         }
 

@@ -46,14 +46,14 @@
                                 @localizer["Ciclo Estrategico"]
                                 @*<span class="right badge badge-danger">@localizer["New"]</span>*@
                             </p>
-                            <form id="select-form" method="get" asp-area="Planificacion" asp-controller="AnioFiscal" asp-action="PlanImplementacion" enctype="multipart/form-data">
+                            <form id="select-form" method="get" asp-area="Planificacion" asp-controller="EstrategiaNacional" asp-action="PlanImplementacion" enctype="multipart/form-data">
                                 <div class="form-group row">
                                     <div class="col-md-9">
                                         <select class="custom-select custom-select-mb mb-12" id="ciclo" name="ciclo">
                                         </select>
                                     </div>
                                     <div class="col-md-3">
-                                        <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="AgregaConcepto()">Ir</button>
+                                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="AgregaConcepto()">Ir</button>
                                     </div>
                                 </div>
 
@@ -61,12 +61,12 @@
 
                         </li>
 
-                        <li class="nav-item">
+                        <!--<li class="nav-item">
 
                             <p>
-                                @localizer["Gestion"]
+                                @localizer["Gestion"]-->
                                 @*<span class="right badge badge-danger">@localizer["New"]</span>*@
-                            </p>
+                            <!--</p>
                             <form id="select-form" method="get" asp-area="Planificacion" asp-controller="AnioFiscal" asp-action="PlanImplementacion" enctype="multipart/form-data">
                                 <div class="form-group row">
                                     <div class="col-md-9">
@@ -80,7 +80,7 @@
 
                             </form>
 
-                        </li>
+                        </li>-->
                     }
 
 
@@ -401,7 +401,7 @@
         });
 
 
-        let select = $('#gestion');
+        @*let select = $('#gestion');
         select.empty();
 
          $.ajax({
@@ -423,7 +423,7 @@
             error: function(xhr) {
             //    alert('No Valid Data');
             }
-            });
+            });*@
 
         }
 

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.CacheRepositories;
+using WordVision.ec.Application.Interfaces.CacheRepositories.Maestro;
 
 namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById
 {
@@ -18,11 +19,13 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetB
         public class GetColaboradorByIdentificacionQueryHandler : IRequestHandler<GetColaboradorByIdentificacionQuery, Result<GetColaboradorByIdResponse>>
         {
             private readonly IColaboradorCacheRepository _ColaboradorCache;
+            private readonly IEstructuraCacheRepository _estructuraCache;
             private readonly IMapper _mapper;
 
-            public GetColaboradorByIdentificacionQueryHandler(IColaboradorCacheRepository colaboradorCache, IMapper mapper)
+            public GetColaboradorByIdentificacionQueryHandler(IEstructuraCacheRepository estructuraCache,IColaboradorCacheRepository colaboradorCache, IMapper mapper)
             {
                 _ColaboradorCache = colaboradorCache;
+                _estructuraCache = estructuraCache;
                 _mapper = mapper;
             }
 
@@ -30,7 +33,9 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetB
             public async Task<Result<GetColaboradorByIdResponse>> Handle(GetColaboradorByIdentificacionQuery request, CancellationToken cancellationToken)
             {
                 var Colaborador = await _ColaboradorCache.GetByIdentificacionAsync(request.Identificacion);
+                var estructura = await _estructuraCache.GetByIdAsync(Colaborador.IdEstructura);
                 var mappedColaborador = _mapper.Map<GetColaboradorByIdResponse>(Colaborador);
+                mappedColaborador.Nivel = estructura.Nivel;
                 return Result<GetColaboradorByIdResponse>.Success(mappedColaborador);
             }
         }

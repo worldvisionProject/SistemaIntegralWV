@@ -24,18 +24,21 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
         public decimal? LineaBase { get; set; }
         public decimal? Meta { get; set; }
         public int IdFactorCritico { get; set; }
+        public List<IndicadorAF> IndicadorAFs { get; set; }
     }
 
     public class CreateIndicadorEstrategicoCommandHandler : IRequestHandler<CreateIndicadorEstrategicoCommand, Result<int>>
     {
         private readonly IIndicadorEstrategicoRepository _IndicadorEstrategicoRepository;
+        private readonly IIndicadorAFRepository _IndicadorAFRepository;
         private readonly IMapper _mapper;
 
         private IUnitOfWork _unitOfWork { get; set; }
 
-        public CreateIndicadorEstrategicoCommandHandler(IIndicadorEstrategicoRepository IndicadorEstrategicoRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateIndicadorEstrategicoCommandHandler(IIndicadorAFRepository indicadorAFRepository,IIndicadorEstrategicoRepository IndicadorEstrategicoRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _IndicadorEstrategicoRepository = IndicadorEstrategicoRepository;
+            _IndicadorAFRepository = indicadorAFRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -44,6 +47,14 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
         {
             var IndicadorEstrategico = _mapper.Map<IndicadorEstrategico>(request);
             await _IndicadorEstrategicoRepository.InsertAsync(IndicadorEstrategico);
+
+            foreach (var indicador in request.IndicadorAFs)
+            {
+                var IndicadorAF = _mapper.Map<IndicadorAF>(indicador);
+                IndicadorAF.IdIndicadorEstrategico = IndicadorEstrategico.Id;
+                await _IndicadorAFRepository.InsertAsync(IndicadorAF);
+            }
+            
             await _unitOfWork.Commit(cancellationToken);
             return Result<int>.Success(IndicadorEstrategico.Id);
         }

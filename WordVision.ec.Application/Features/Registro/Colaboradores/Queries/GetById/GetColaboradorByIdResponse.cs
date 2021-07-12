@@ -20,6 +20,9 @@
 
         public string Email { get; set; }
 
+        public string Alias { get; set; }
+        public int Nivel { get; set; }
+
         //public string ActPoliticas { get; set; }
         //public string ActDocumentos { get; set; }
         //public string ActDatos { get; set; }

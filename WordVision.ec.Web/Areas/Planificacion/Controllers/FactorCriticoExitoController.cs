@@ -81,9 +81,10 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 if (response.Succeeded)
                 {
                     ViewBag.Message = response.Data.Descripcion;
-                    var viewModel = new List<FactorCriticoExitoViewModel>();
-                    if (response.Data != null)
-                        viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data.FactorCriticoExitos);
+                    var viewModel = _mapper.Map<ObjetivoEstrategicoViewModel>(response.Data);
+                    //var viewModel = new List<FactorCriticoExitoViewModel>();
+                    //if (response.Data != null)
+                    //    viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data.FactorCriticoExitos);
 
                     return PartialView("_ViewAll", viewModel);
                 }

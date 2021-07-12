@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Create;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Update;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllCached;
@@ -62,11 +63,20 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
         //[Authorize(Policy = Permissions.Users.View)]
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0)
         {
-           // var colaboradoresResponse = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+            // var colaboradoresResponse = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+            var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 6 });
+            var CargoList = new SelectList(cat1.Data, "Secuencia", "Nombre");
+            var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 7 });
+            var DireccionList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+            var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 8 });
+            var DepartamentoList = new SelectList(cat3.Data, "Secuencia", "Nombre");
 
             if (id == 0)
             {
                 var colaboradorViewModel = new ColaboradorViewModel();
+                colaboradorViewModel.CargoList = CargoList;
+                colaboradorViewModel.AreaList = DepartamentoList;
+                colaboradorViewModel.LugarTrabajoList = DireccionList;
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", colaboradorViewModel) });
             }
             else
@@ -75,6 +85,9 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                 if (response.Succeeded)
                 {
                     var colaboradorViewModel = _mapper.Map<ColaboradorViewModel>(response.Data);
+                    colaboradorViewModel.CargoList = CargoList;
+                    colaboradorViewModel.AreaList = DepartamentoList;
+                    colaboradorViewModel.LugarTrabajoList = DireccionList;
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", colaboradorViewModel) });
                 }
                 return null;

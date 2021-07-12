@@ -2,18 +2,15 @@
 @using WordVision.ec.Web.Areas.Planificacion.Models
 @model EstrategiaNacionalViewModel
 @{ ViewData["Title"] = localizer["Ciclo Estrategico"].Value + " " + ViewBag.Ciclo;
-    ViewData["Caption"] = localizer["Gestionar Ciclo Estrategico aquí"]; }
+    ViewData["Caption"] = localizer["Está en la Gestión:"].Value + " " +ViewBag.Gestion;
+
+    // ViewBag.GestionList = ViewBag.GestionList;
+    }
 <div class="card card-info">
 
     <div class="card-header card-header-int">
         Ciclo Estrategico
-        @*<div class="pull-right">
-                <a class="btn btn-primary" id="btnViewModel" href="/Institucions/Create">
-                    <i class="fa fa-plus-square"></i>
-                    Agregar
-                </a>
-
-            </div>*@
+     
     </div>
 
     <div class="col-sm-12" style="padding:20px">
@@ -27,7 +24,7 @@
                                 <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Ciclo</a>
                                 <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Objetivo de Bloque</a>
                                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Objetivo Nacional</a>
-                                <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Gestion</a>
+                              
                             </div>
                         </nav>
                         <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
@@ -41,7 +38,7 @@
                                                 <div class="col-md-12">
                                                     <label class="col-md-12 col-form-label texto-pregunta">Ciclo Estrategico</label>
 
-                                                    <input type="text" asp-for="Nombre" name="Nombre" class="form-control">
+                                                    <input type="text" asp-for="Nombre" name="Nombre" readonly class="form-control">
                                                     <span asp-validation-for="Nombre" class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -56,7 +53,7 @@
                                                 <div class="col-md-12">
                                                     <label class="col-md-12 col-form-label texto-pregunta">Meta Nacional</label>
 
-                                                    <textarea asp-for="MetaNacional" name="MetaNacional" class="form-control"></textarea>
+                                                    <textarea asp-for="MetaNacional" name="MetaNacional" readonly  class="form-control"></textarea>
                                                     <span asp-validation-for="MetaNacional" class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -66,7 +63,7 @@
                                                 <div class="col-md-12">
                                                     <label class="col-md-12 col-form-label texto-pregunta">Meta de Bloque</label>
 
-                                                    <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control"></textarea>
+                                                    <textarea asp-for="MetaRegional" name="MetaRegional" readonly class="form-control"></textarea>
                                                     <span asp-validation-for="MetaRegional" class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -153,27 +150,7 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-                                @*GESTION*@
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group row">
-                                                <div class="col-md-2">
-                                                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Gestion/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id','Crear Gestion')">
-                                                        <i class="fa fa-plus-square"></i>
-                                                        Agregar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div id="viewAllGestion" class="card-body table-responsive" style="padding: 0;">
-                                    </div>
-
-                                </div>
-                            </div>
+                           
                         </div>
 
                     </div>
@@ -199,8 +176,7 @@
         function loadData() {
             $('#viewAll').load('/Planificacion/ObjetivoEstrategico/LoadObjetivo?idEstrategia=@Model.Id&idCategoria=2');
             $('#viewAllNacional').load('/Planificacion/ObjetivoEstrategico/LoadObjetivo?idEstrategia=@Model.Id&idCategoria=1');
-            $('#viewAllGestion').load('/Planificacion/Gestion/LoadGestiones?idEstrategico=@Model.Id');
-        }
+         }
 
 
 
@@ -220,142 +196,5 @@
     //    }
     //});
 
-
-    var num = 0;
-    function AddRow(Id) {
-
-        let Anio = document.getElementById("AnioGestion").value;
-        let Descripcion = document.getElementById("DescGestion").value;
-        let Estado = document.getElementById("EstadoGestion").value;
-        let IdEstrategia = document.getElementById("Id").value;
-        var t = document.getElementById("EstadoGestion");
-        var DescEstado = t.options[t.selectedIndex].text;
-
-        if (Descripcion.length == 0) {
-            alert("Ingrese la Gestion.");
-            return;
-        }
-
-
-        //agregamos tabla
-        let Tabla = document.getElementById("gestionTable");
-        let TR = document.createElement("tr");
-        TR.setAttribute('id', "Gest_"+Id);
-        // let TDId = document.createElement("td");
-        let TDAnio = document.createElement("td");
-        let TDDescripcion = document.createElement("td");
-        let TDEstado = document.createElement("td");
-        let TDEliminar = document.createElement("td");
-        TDEliminar.className = "text-right";
-        //let TDTotal = document.createElement("td");
-        // TR.appendChild(TDId);
-        TR.appendChild(TDAnio);
-        TR.appendChild(TDDescripcion);
-        TR.appendChild(TDEstado);
-        TR.appendChild(TDEliminar);
-        //TR.appendChild(TDTotal);
-        // TDId.innerHTML = num;
-        TDAnio.innerHTML = Anio;
-        TDDescripcion.innerHTML = Descripcion;
-        TDEstado.innerHTML = DescEstado;
-        TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila(" + Id + ")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i> </button>";
-        //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
-        Tabla.appendChild(TR);
-
-        //agregamos hiddens
-        let DivConceptos = document.getElementById("divGestion");
-        let HiddenIndex = document.createElement("input");
-        let HiddenAnio = document.createElement("input");
-        let HiddenDescripcion = document.createElement("input");
-        let HiddenEstado = document.createElement("input");
-        HiddenIndex.name = "gestion.Index";
-        HiddenIndex.value = num;
-        HiddenIndex.type = "hidden";
-        HiddenAnio.name = "gestion[" + num + "].Anio";
-        HiddenAnio.value = Anio;
-        HiddenAnio.type = "hidden";
-        HiddenDescripcion.name = "gestion[" + num + "].Descripcion";
-        HiddenDescripcion.value = Descripcion;
-        HiddenDescripcion.type = "hidden";
-        HiddenEstado.name = "gestion[" + num + "].Estado";
-        HiddenEstado.value = Estado;
-        HiddenEstado.type = "hidden";
-        DivConceptos.appendChild(HiddenIndex);
-        DivConceptos.appendChild(HiddenAnio);
-        DivConceptos.appendChild(HiddenDescripcion);
-        DivConceptos.appendChild(HiddenEstado);
-
-        document.getElementById("AnioGestion").value = "";
-        document.getElementById("DescGestion").value = "";
-        document.getElementById("EstadoGestion").value = "";
-
-        num++;
-
-
-    }
-
-    function AgregaAF() {
-
-        let Anio = document.getElementById("AnioGestion").value;
-        let Descripcion = document.getElementById("DescGestion").value;
-        let Estado = document.getElementById("EstadoGestion").value;
-        let IdEstrategia = document.getElementById("Id").value;
-
-            var GestionViewModel = {
-                Id:0,
-                Descripcion: Descripcion,
-                Anio: Anio,
-                Estado: Estado,
-                IdEstrategia: IdEstrategia
-
-            };
-
-        $.ajax({
-            type: "post",
-            url:'@Url.Action("OnPostCreateOrEdit", "Gestion", new { area = "Planificacion" })',
-            data: GestionViewModel,
-            datatype: "json",
-            cache: false,
-            success: function (res) {
-                if (res.isValid) {
-                    alert(res.id);
-                    AddRow(res.id);
-                }
-
-            },
-            error: function(xhr) {
-               alert('No Valid Data');
-            }
-        });
-
-        }
-
-    function deleteRow(id) {
-        $("#Gest_" + id).remove();
-    }
-
-    function EliminaFila(id) {
-
-        $("#Gest_" + id).remove();
-
-        var GestionViewModel = {
-            id: id
-        };
-
-         $.ajax({
-            type: "post",
-            url:'@Url.Action("OnPostDelete", "Gestion", new { area = "Planificacion" })',
-             data: GestionViewModel,
-            datatype: "json",
-            cache: false,
-            success: function (data) {
-            /*  alert('Validooo');*/
-
-            },
-            error: function(xhr) {
-               // alert('No Valid Data');
-            }
-        });
-    }
 
 </script>

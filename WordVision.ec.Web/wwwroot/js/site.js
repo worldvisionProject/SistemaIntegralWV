@@ -77,7 +77,9 @@
                             case 1:
                                 $(res.page).html(res.html);
                             break;
-                           
+                            case 99:
+                                $(res.page).html(res.html);
+                                break;
                         
                             default:
                                 $('#viewAll').html(res.html);

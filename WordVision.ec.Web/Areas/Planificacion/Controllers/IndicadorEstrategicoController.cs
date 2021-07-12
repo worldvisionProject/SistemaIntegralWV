@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Delete;
@@ -38,14 +40,16 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             return null;
         }
 
-        public async Task<JsonResult> LoadIndicadores(int idFactor)
+        public async Task<JsonResult> LoadIndicadores(int idFactor,int IdEstrategia=0)
         {
             var response = await _mediator.Send(new GetFactorCriticoExitoByIdQuery() { Id = idFactor });
             if (response.Succeeded)
             {
-                var viewModel = new List<IndicadorEstrategicoViewModel>();
-                if (response.Data!=null)
-                  viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data.IndicadorEstrategicos);
+                var viewModel = _mapper.Map<FactorCriticoExitoViewModel>(response.Data);
+                viewModel.IdEstrategia = IdEstrategia;
+                //var viewModel = new List<IndicadorEstrategicoViewModel>();
+                //if (response.Data!=null)
+                //  viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data.IndicadorEstrategicos);
 
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel) });
 
@@ -54,15 +58,23 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             return null;
         }
 
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int IdFactorCritico = 0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int IdFactorCritico = 0,int IdEstrategia=0)
         {
             // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
+            var responseE = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = IdEstrategia });
+            SelectList gestionList=new SelectList(responseE.Data.Gestiones);
+            if (responseE.Succeeded)
+            {
 
+                var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(responseE.Data);
+                gestionList=  new SelectList(entidadViewModel.Gestiones, "Id", "Anio");
+            }
             if (id == 0)
             {
                 var entidadViewModel = new IndicadorEstrategicoViewModel();
                 entidadViewModel.IdFactorCritico = IdFactorCritico;
-              
+                entidadViewModel.IdEstrategia = IdEstrategia;
+                entidadViewModel.gestionList = gestionList;
                 //  return View("_CreateOrEdit", entidadViewModel);
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
@@ -72,7 +84,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 if (response.Succeeded)
                 {
                     var entidadViewModel = _mapper.Map<IndicadorEstrategicoViewModel>(response.Data);
-                    // return View("_CreateOrEdit", entidadViewModel);
+                    entidadViewModel.gestionList = gestionList;
+                    entidadViewModel.IdFactorCritico = IdFactorCritico;
+                    entidadViewModel.IdEstrategia = IdEstrategia;
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;
@@ -80,15 +94,16 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> OnPostCreateOrEdit(int id, IndicadorEstrategicoViewModel entidad)
+        public async Task<JsonResult> OnPostCreateOrEdit(int id, IndicadorEstrategicoViewModel entidad,List<IndicadorAFViewModel> indicador)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    entidad.IndicadorAFs = _mapper.Map<List<IndicadorAFViewModel>>(indicador);
                     if (id == 0)
                     {
-                        var createEntidadCommand = _mapper.Map<CreateIndicadorEstrategicoCommand>(entidad);
+                         var createEntidadCommand = _mapper.Map<CreateIndicadorEstrategicoCommand>(entidad);
                         var result = await _mediator.Send(createEntidadCommand);
                         if (result.Succeeded)
                         {
@@ -119,6 +134,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 else
                 {
                     var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidad);
+                    //_notify.Success($"Error al insertar Indicador.");
+                    //ModelState.AddModelError("", "Error al insertar Indicador.");
                     return new JsonResult(new { isValid = false, html = html });
                 }
             }
@@ -136,26 +153,26 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             var deleteCommand = await _mediator.Send(new DeleteIndicadorEstrategicoCommand { Id = id });
             if (deleteCommand.Succeeded)
             {
-                _notify.Information($"Factor con Id {id} Eliminado.");
-               
-                var response = await _mediator.Send(new GetFactorCriticoExitoByIdQuery() { Id = idFactor });
+                _notify.Information($"Indicador con Id {id} Eliminado.");
+                return new JsonResult(new { isValid = true });
+                //var response = await _mediator.Send(new GetFactorCriticoExitoByIdQuery() { Id = idFactor });
 
-                if (response.Succeeded)
-                {
+                //if (response.Succeeded)
+                //{
 
 
-                    var viewModel = new List<IndicadorEstrategicoViewModel>();
-                    if (response.Data != null)
-                        viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data.IndicadorEstrategicos);
+                //    var viewModel = new List<IndicadorEstrategicoViewModel>();
+                //    if (response.Data != null)
+                //        viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data.IndicadorEstrategicos);
 
-                    var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
-                    return new JsonResult(new { isValid = true, html = html1 });
-                }
-                else
-                {
-                    _notify.Error(response.Message);
-                    return null;
-                }
+                //    var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                //    return new JsonResult(new { isValid = true, html = html1 });
+                //}
+                //else
+                //{
+                //    _notify.Error(response.Message);
+                //    return null;
+                //}
 
             }
             else

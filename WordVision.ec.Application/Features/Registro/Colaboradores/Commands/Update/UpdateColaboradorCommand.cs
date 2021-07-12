@@ -27,6 +27,8 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Upd
         public string Area { get; set; }
 
         public string LugarTrabajo { get; set; }
+
+        public int IdEstructura { get; set; }
         public class UpdateProductCommandHandler : IRequestHandler<UpdateColaboradorCommand, Result<int>>
         {
             private readonly IUnitOfWork _unitOfWork;
@@ -56,6 +58,9 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Upd
                     colaborador.Cargo = command.Cargo ?? colaborador.Cargo;
                     colaborador.Area = command.Area ?? colaborador.Area;
                     colaborador.LugarTrabajo = command.LugarTrabajo  ?? colaborador.LugarTrabajo;
+
+                    colaborador.IdEstructura = Convert.ToInt32( command.Cargo);
+
                     await _colaboradorRepository.UpdateAsync(colaborador);
                     await _unitOfWork.Commit(cancellationToken);
                     return Result<int>.Success(colaborador.Id);

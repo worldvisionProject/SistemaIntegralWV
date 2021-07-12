@@ -1,5 +1,5 @@
 ﻿@using WordVision.ec.Web.Areas.Planificacion.Models
-@model IEnumerable<IndicadorEstrategicoViewModel>
+@model FactorCriticoExitoViewModel
 
 <table id="anioFiscalTable" class="table table-striped " width="100%" cellspacing="0">
     <thead>
@@ -9,15 +9,15 @@
             <th data-priority="2">Responsable</th>
             <th data-priority="2">Linea base</th>
             <th data-priority="2">Meta</th>
-            <th data-priority="2">Editar</th>
+            <th data-priority="2" class="acciones-th">Acciones</th>
 
         </tr>
     </thead>
     <tbody>
 
-        @foreach (var anioFiscal in Model)
+        @foreach (var anioFiscal in Model.IndicadorEstrategicos)
         {
-        <tr>
+        <tr id="@anioFiscal.Id">
 
             <td>
                 @anioFiscal.IndicadorResultado
@@ -32,14 +32,16 @@
                 @anioFiscal.Meta
             </td>
 
-            <td>
-                <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/FactorCriticoExito/OnGetCreateOrEdit?id=@anioFiscal.Id','Indicador de Resultados')">
-                    <i class="fas fa-pencil-alt"></i>  Editar
+            <td class="acciones-td">
+                <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/OnGetCreateOrEdit?id=@anioFiscal.Id&IdFactorCritico=@anioFiscal.Id&IdEstrategia=@Model.IdEstrategia','Indicador de Resultados')">
+                    <i class="fas fa-pencil-alt"></i>
                 </button>
+                <button type="button" onclick="EliminaFila(@anioFiscal.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                @*<form id="form_delete_@anioFiscal.Id" asp-area="Planificacion" asp-controller="IndicadorEstrategico" method="post" asp-action="OnPostDelete" asp-route-id="@anioFiscal.Id" asp-route-idFactor="@Model.Id" onsubmit="return jQueryModalDelete(this)">
+            <a href="javascript:$('#form_delete_@anioFiscal.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
+        </form>*@
             </td>
-            <form id="form_delete_@anioFiscal.Id" asp-area="Planificacion" asp-controller="IndicadorEstrategico" method="post" asp-action="OnPostDelete" asp-route-id="@anioFiscal.Id" asp-route-idFactor="@anioFiscal.IdFactorCritico" onsubmit="return jQueryModalDelete(this)">
-                <a href="javascript:$('#form_delete_@anioFiscal.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
-            </form>
 
         </tr>
         }
@@ -52,15 +54,38 @@
     <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
 </div>
 <script>
+     function EliminaFila(id) {
+
+        $("#" + id).remove();
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "IndicadorEstrategico", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+    }
 
     $(document).ready(function () {
-        var table = $("#colaboradorTable").DataTable({
+        var table = $("#anioFiscalTable").DataTable({
             aoColumnDefs: [
                 { "aTargets": [0], "bSortable": true },
                 { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
             ],
             "language": {
-                "url": "../lib/datatables/language/Spanish.json"
+                "url": "/lib/datatables/language/Spanish.json"
             },
 
             responsive: true,

@@ -175,8 +175,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 var obj = new IndicadorEstrategicoViewModel();
                 obj.Id = 1;
                 obj.IndicadorResultado = "% personal fortalecido en sus habilidades y capacidades  para la toma de decisiones ( digitales y liderazgo)";
-                obj.LineaBase = 50;
-                obj.Meta = 70;
+               
+             
                 obj.MedioVerificacion = "Reportes de participación del personal en capacitación  Reportes de evaluación";
                 obj.Responsable =1;
                 Lobj.Add(obj);
@@ -184,8 +184,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 obj = new IndicadorEstrategicoViewModel();
                 obj.Id = 2;
                 obj.IndicadorResultado = "% personal fortalecido en sus habilidades y capacidades  para la toma de decisiones ( digitales y liderazgo)";
-                obj.LineaBase = 60;
-                obj.Meta = 50;
+               
+              
                 obj.MedioVerificacion = "Informe de Evaluación de Capacidades";
                 obj.Responsable = 1;
                 Lobj.Add(obj);
@@ -290,9 +290,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             var objI = new IndicadorEstrategicoViewModel();
             objI.Id = 1;
             objI.IndicadorResultado = "% personal fortalecido en sus habilidades y capacidades  para la toma de decisiones ( digitales y liderazgo)";
-            objI.LineaBase = 50;
+            
             objI.UnidadMedida = 1;
-            objI.Meta = 70;
+           
             objI.MedioVerificacion = "Reportes de participación del personal en capacitación  Reportes de evaluación";
             objI.Responsable = 1;
             LobjI.Add(objI);
@@ -300,9 +300,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             objI = new IndicadorEstrategicoViewModel();
             objI.Id = 2;
             objI.IndicadorResultado = "% personal fortalecido en sus habilidades y capacidades  para la toma de decisiones ( digitales y liderazgo)";
-            objI.LineaBase = 60;
+           
             objI.UnidadMedida = 2;
-            objI.Meta = 50;
+           
             objI.MedioVerificacion = "Informe de Evaluación de Capacidades";
             objI.Responsable = 1;
             LobjI.Add(objI);

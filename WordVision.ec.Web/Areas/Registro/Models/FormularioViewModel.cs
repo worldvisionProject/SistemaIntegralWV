@@ -79,11 +79,11 @@ namespace WordVision.ec.Web.Areas.Registro.Models
         public string Etnia { get; set; }
         public string DiscapacidadSN { get; set; }
         public string TipoDiscapacidad { get; set; }
-        public int PorcentajeDiscapacidad { get; set; }
+        public int? PorcentajeDiscapacidad { get; set; }
         public string FamiliaDiscapacidadSN { get; set; }
         public string FamiliaTipoDiscapacidad { get; set; }
-        public int FamiliaPorcentajeDiscapacidad { get; set; }
-        public int FamiliaDiscapacidad { get; set; }
+        public int? FamiliaPorcentajeDiscapacidad { get; set; }
+        public string FamiliaDiscapacidad { get; set; }
         public string FamiliaDiscapacidadRelacion { get; set; }
 
         public byte[] Image { get; set; }

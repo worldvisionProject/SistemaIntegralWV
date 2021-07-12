@@ -6,6 +6,7 @@
 
             <th data-priority="1">Apellidos</th>
             <th>Nombres</th>
+            <th>Alias</th>
 
             <th>Act.Datos</th>
             <th>Act.Documentos</th>
@@ -23,14 +24,16 @@
         @foreach (var colaborador in Model)
         {
         <tr>
-           
+
             <td>
                 @colaborador.Apellidos @colaborador.ApellidoMaterno
             </td>
             <td>
                 @colaborador.PrimerNombre  @colaborador.SegundoNombre
             </td>
-           
+            <td>
+                @colaborador.Alias  
+            </td>
             <td>
                 @colaborador.ActDatos
             </td>
@@ -41,7 +44,7 @@
                 @colaborador.ActPoliticas
             </td>
             <td>
-               <button type="button"  onclick="jQueryModalGet('/registro/colaborador/OnGetCreateOrEdit?id=@colaborador.Id','Editar Colaborador')" class="btn btn-warning btn-xp"><i class="fas fa-pencil-alt"></i></button>
+                <button type="button" onclick="jQueryModalGet('/registro/colaborador/OnGetCreateOrEdit?id=@colaborador.Id','Editar Colaborador')" class="btn btn-warning btn-xp"><i class="fas fa-pencil-alt"></i></button>
 
             </td>
             <td class="text-right">
@@ -61,8 +64,8 @@
 
 
                         @*<form id="form_delete_@colaborador.Id" asp-area="Catalog" asp-controller="colaborador" method="post" asp-action="OnPostDelete" asp-route-id="@colaborador.Id" onsubmit="return jQueryModalDelete(this)">
-            <a href="javascript:$('#form_delete_@colaborador.Id').submit();" class="dropdown-item"><i class="fas fa-trash-alt"></i>  Delete</a>
-        </form>*@
+                        <a href="javascript:$('#form_delete_@colaborador.Id').submit();" class="dropdown-item"><i class="fas fa-trash-alt"></i>  Delete</a>
+                    </form>*@
 
                     </div>
                 </div>

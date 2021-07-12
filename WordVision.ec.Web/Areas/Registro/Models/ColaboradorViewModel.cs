@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -22,11 +23,12 @@ namespace WordVision.ec.Web.Areas.Registro.Models
 
         public string Email { get; set; }
         public string Cargo { get; set; }
-
+        public SelectList CargoList { get; set; }
         public string Area { get; set; }
-       
+        public SelectList AreaList { get; set; }
         public string LugarTrabajo { get; set; }
-
+        public SelectList LugarTrabajoList { get; set; }
+        public string Alias { get; set; }
         public string ActPoliticas { get; set; }
         public string ActDocumentos { get; set; }
         public string ActDatos { get; set; }

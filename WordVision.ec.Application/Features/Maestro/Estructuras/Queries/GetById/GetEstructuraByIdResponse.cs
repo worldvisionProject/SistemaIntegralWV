@@ -9,6 +9,7 @@ namespace WordVision.ec.Application.Features.Maestro.Estructuras.Queries.GetById
         public string Designacion { get; set; }
         public int ReportaID { get; set; }
         public int Estado { get; set; }
+        public int Nivel { get; set; }
         public virtual ICollection<Colaborador> Colaboradores { get; set; }
     }
 }

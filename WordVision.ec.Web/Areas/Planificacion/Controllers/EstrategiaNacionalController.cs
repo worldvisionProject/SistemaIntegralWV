@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SmartBreadcrumbs.Attributes;
+using SmartBreadcrumbs.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -179,6 +180,97 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             }
             return null;
         }
+
+       // [Breadcrumb("Ciclo Estrategico", AreaName = "Planificacion")]
+        public async Task<ActionResult> PlanImplementacion(int ciclo)
+        {
+
+            var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estrategico", false, null, "Planificacion")
+            {
+                                             // Parent = childNode0
+            };
+            ViewData["BreadcrumbNode"] = childNode1;
+
+            var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = ciclo });
+            if (response.Succeeded)
+            {
+
+                var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
+                ViewBag.Ciclo = entidadViewModel.Nombre;
+                ViewBag.GestionList =  new SelectList(entidadViewModel.Gestiones, "Id", "Anio"); 
+                return View("_PlanImplementacion", entidadViewModel);
+                //return View("_CreateOrEdit", entidadViewModel);
+                //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+            }
+            
+            //  return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_PlanImplementacion", anioFiscalViewModeldet) });
+            //}
+            return null;
+
+        }
+
+
+
+        public async Task<IActionResult> OnGetCreateOrEditEstrategia(int id = 0, int AnioGestion=0)
+        {
+            var ciclo = id;
+            var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estrategico", false, null, "Planificacion")
+            {
+                RouteValues = new { ciclo },//this comes in as a param into the action
+               // Parent = childNode0
+            };
+
+            var childNode2 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Gestion")
+            {
+                OverwriteTitleOnExactMatch = true,
+                Parent = childNode1
+            };
+
+            ViewData["BreadcrumbNode"] = childNode2;
+
+            try
+            {
+                // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
+                var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 2 });
+                ViewBag.EstadoList = new SelectList(cat1.Data, "Secuencia", "Nombre");
+                //ViewData["EstadoList"] = new SelectList(cat1.Data, "Secuencia", "Nombre");
+
+                var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
+                ViewBag.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+
+                var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
+                ViewBag.AreaList = new SelectList(cat3.Data, "Secuencia", "Nombre");
+
+                var cat4 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 5 });
+                ViewBag.CategoriaList = new SelectList(cat4.Data, "Secuencia", "Nombre");
+            }
+            catch (Exception ex)
+            {
+                _notify.Error("No se pudo cargar los Catalogos");
+                _logger.LogError("No se pudo cargar los Catalogos", ex);
+            }
+            if (id == 0)
+            {
+                var entidadViewModel = new EstrategiaNacionalViewModel();
+                return View("_CreateOrEditEstrategia", entidadViewModel);
+                // return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+            }
+            else
+            {
+                var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = id });
+                if (response.Succeeded)
+                {
+
+                    var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
+                    ViewBag.Ciclo = entidadViewModel.Nombre;
+                    ViewBag.Gestion = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault().Anio;
+                    return View("_CreateOrEditEstrategia", entidadViewModel);
+                    //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+                }
+                return null;
+            }
+        }
+
 
     }
 }

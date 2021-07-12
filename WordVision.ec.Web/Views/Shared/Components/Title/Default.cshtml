@@ -1,4 +1,6 @@
 ﻿@*<link href="~/css/dashboard/styles-pro.css" rel="stylesheet" />*@
+@using WordVision.ec.Web.Areas.Planificacion.Models
+@model EstrategiaNacionalViewModel
 
 <breadcrumb></breadcrumb>
 <h6 class="h5 mb-2 text-gray-800">@ViewBag.Tmp</h6>
@@ -8,4 +10,24 @@
 </div>
 <p></p>
 <h6>@ViewBag.Caption</h6>
+
+@if (ViewBag.SNGestion == "S")
+{
+<form id="select-form" method="get" asp-area="Planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEditEstrategia" asp-route-id="@Model.Id" enctype="multipart/form-data">
+    <div class="form-group row">
+        <div class="col-md-9">
+            @*<select class="custom-select custom-select-mb mb-12" id="gestion" name="gestion">
+                </select>*@
+            @Html.DropDownListFor(x=>x.AnioGestion,(SelectList)ViewBag.GestionList, new { @class = "custom-select custom-select-mb mb-12" })
+
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="IrGestion()">Ir</button>
+        </div>
+    </div>
+
+</form> }
+            
+
+
 <p></p>

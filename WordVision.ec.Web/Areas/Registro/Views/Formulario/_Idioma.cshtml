@@ -1,0 +1,202 @@
+﻿@using WordVision.ec.Web.Areas.Registro.Models
+@{
+}
+@model FormularioViewModel
+
+<div class="form-group row">
+    <label class="col-md-1 col-form-label texto-pregunta">Idioma</label>
+    <div class="col-md-2">
+        <select asp-for="Idioma" name="Idioma" class="form-control">
+            <option selected></option>
+            <option value="EN">Ingles</option>
+            <option value="ES">Español</option>
+            <option value="IT">Italiano</option>
+            <option value="FR">Frances</option>
+        </select>
+        <span asp-validation-for="Idioma" class="text-danger"></span>
+    </div>
+    <label class="col-md-2 col-form-label texto-pregunta text-right">Hablado</label>
+    <div class="col-md-2">
+        <input type="number" asp-for="PorcentajeHablado" name="PorcentajeHablado" class="form-control">
+        <span asp-validation-for="PorcentajeHablado" class="text-danger"></span>
+    </div>
+    <label class="col-md-1 col-form-label texto-pregunta">Escrito</label>
+    <div class="col-md-2">
+        <input type="number" asp-for="PorcentajeEscrito" name="PorcentajeEscrito" class="form-control">
+        <span asp-validation-for="PorcentajeEscrito" class="text-danger"></span>
+    </div>
+    <div class="col-md-2">
+        <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+    </div>
+</div>
+
+@Html.HiddenFor(x => x.Id, new { name = "IdFormulario", @Value = Model.Id })
+<br />
+<div id="divIdiomas">
+    <table id="idiomaTable" class="table table-striped" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                @*<th>Id</th>*@
+                <th>Idioma</th>
+                <th>% Escrito</th>
+                <th>% Hablado</th>
+
+                <th class="text-right">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Idiomas != null)
+            {
+
+@foreach (var colaborador in Model.Idiomas)
+{
+<tr id="@colaborador.Id">
+    @*<td>
+
+            @colaborador.Id
+        </td>*@
+    <td>
+
+        @colaborador.Nombre
+    </td>
+    <td>
+        @colaborador.Escrito
+    </td>
+    <td>
+        @colaborador.Hablado
+    </td>
+
+    <td class="text-right">
+        <button type="button" onclick="EliminaFila(@colaborador.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+    </td>
+
+</tr>}}
+
+
+        </tbody>
+    </table>
+</div>
+<script>
+        var num = 0;
+        function AgregaConcepto() {
+            let Hablado = document.getElementById("PorcentajeHablado").value;
+            let Escrito = document.getElementById("PorcentajeEscrito").value;
+            let Nombre = document.getElementById("Idioma").value;
+            let IdFormulario = document.getElementById("Id").value;
+
+            if (Nombre.length == 0) {
+                alert("Ingrese el Idioma.");
+                return;
+            }
+
+
+            //agregamos tabla
+            let Tabla = document.getElementById("idiomaTable");
+            let TR = document.createElement("tr");
+            TR.setAttribute('id', num);
+           // let TDId = document.createElement("td");
+            let TDNombre = document.createElement("td");
+            let TDHablado = document.createElement("td");
+            let TDEscrito = document.createElement("td");
+            let TDEliminar = document.createElement("td");
+            TDEliminar.className = "text-right";
+            //let TDTotal = document.createElement("td");
+           // TR.appendChild(TDId);
+            TR.appendChild(TDNombre);
+            TR.appendChild(TDHablado);
+            TR.appendChild(TDEscrito);
+            TR.appendChild(TDEliminar);
+            //TR.appendChild(TDTotal);
+           // TDId.innerHTML = num;
+            TDNombre.innerHTML = Nombre;
+            TDHablado.innerHTML = Hablado;
+            TDEscrito.innerHTML = Escrito;
+            TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
+            Tabla.appendChild(TR);
+
+            //agregamos hiddens
+            let DivConceptos = document.getElementById("divIdiomas");
+            let HiddenIndex = document.createElement("input");
+            let HiddenNombre = document.createElement("input");
+            let HiddenHablado = document.createElement("input");
+            let HiddenEscrito = document.createElement("input");
+            HiddenIndex.name = "idioma.Index";
+            HiddenIndex.value = num;
+            HiddenIndex.type = "hidden";
+            HiddenNombre.name = "idioma[" + num + "].Nombre";
+            HiddenNombre.value = Nombre;
+            HiddenNombre.type = "hidden";
+            HiddenHablado.name = "idioma[" + num + "].Hablado";
+            HiddenHablado.value = Hablado;
+            HiddenHablado.type = "hidden";
+            HiddenEscrito.name = "idioma[" + num + "].Escrito";
+            HiddenEscrito.value = Escrito;
+            HiddenEscrito.type = "hidden";
+            DivConceptos.appendChild(HiddenIndex);
+            DivConceptos.appendChild(HiddenNombre);
+            DivConceptos.appendChild(HiddenHablado);
+            DivConceptos.appendChild(HiddenEscrito);
+
+            document.getElementById("PorcentajeHablado").value = "0";
+            document.getElementById("PorcentajeEscrito").value = "0";
+            document.getElementById("Idioma").value = "";
+
+            num++;
+
+
+
+            var IdiomaViewModel = {
+                Nombre: Nombre,
+                Hablado: Hablado,
+                Escrito: Escrito,
+                IdFormulario: @Model.Id
+
+            };
+
+        $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostCreateOrEdit", "Idioma", new { area = "Registro" })',
+            data: IdiomaViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /* alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+            //    alert('No Valid Data');
+            }
+        });
+
+        }
+
+    function deleteRow(id) {
+        $("#" + id).remove();
+    }
+
+    function EliminaFila(id) {
+
+        $("#" + id).remove();
+
+        var IdiomaViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "Idioma", new { area = "Registro" })',
+             data: IdiomaViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+    }
+</script>

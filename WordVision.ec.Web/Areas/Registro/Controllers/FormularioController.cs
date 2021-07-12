@@ -248,6 +248,31 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             return null;
 
         }
+
+        public async Task<IActionResult> LoadIdioma(int id = 0)
+        {
+            //var formualrioViewModel = new FormularioViewModel();
+            //return PartialView("_ViewAll", formualrioViewModel);
+
+            var response = await _mediator.Send(new GetFormularioByIdQuery() { Id = id });
+            if (response.Succeeded)
+            {
+                var formularioViewModel = _mapper.Map<FormularioViewModel>(response.Data);
+                if (formularioViewModel == null)
+                {
+                    formularioViewModel = new FormularioViewModel();
+                    formularioViewModel.Id = 0;
+                }
+
+                formularioViewModel.IdColaborador = id;
+               
+                return PartialView("_Idioma", formularioViewModel);
+                // return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", documentoViewModel) });
+            }
+            return null;
+
+        }
+
         [HttpPost]
         public async Task<JsonResult> OnPostCreateOrEditar(int id, TerceroViewModel tercero)
         {

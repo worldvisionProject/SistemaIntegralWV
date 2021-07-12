@@ -21,6 +21,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Mappings
             CreateMap<CreateIndicadorEstrategicoCommand, IndicadorEstrategicoViewModel>().ReverseMap();
             CreateMap<UpdateIndicadorEstrategicoCommand, IndicadorEstrategicoViewModel>().ReverseMap();
             CreateMap<IndicadorEstrategico, IndicadorEstrategicoViewModel>().ReverseMap();
+            CreateMap<IndicadorAF, IndicadorAFViewModel>().ReverseMap();
         }
     }
 }

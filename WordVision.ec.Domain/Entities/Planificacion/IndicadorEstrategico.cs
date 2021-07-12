@@ -26,7 +26,6 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         [Required]
         public decimal? LineaBase { get; set; }
 
-        [Required]
         public decimal? Meta { get; set; }
 
         public string EntregableAnual { get; set; }
