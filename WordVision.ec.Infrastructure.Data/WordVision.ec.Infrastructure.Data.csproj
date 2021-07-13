@@ -5,9 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CacheRepositories\Identity\IdentityCacheRepository.cs" />
+    <Compile Remove="Contexts\ActiveContext.cs" />
     <Compile Remove="Contexts\PresupuestoDbContext.cs" />
     <Compile Remove="Migrations\RegistroDb\20210504040335_InitialMigration.cs" />
     <Compile Remove="Migrations\RegistroDb\20210504040335_InitialMigration.Designer.cs" />
+    <Compile Remove="Repositories\Identity\IdentityRepository.cs" />
+    <Compile Remove="Repositories\Identity\RepositoryAdAsync.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +29,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CacheRepositories\Identity\" />
   </ItemGroup>
 
 </Project>

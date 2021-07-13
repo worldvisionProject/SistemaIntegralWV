@@ -102,7 +102,7 @@ namespace WordVision.ec.Web.Extensions
             {
                 services.AddDbContext<RegistroDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("RegistroConnection")));
                 services.AddDbContext<IdentityContext>(options => options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")));
-                services.AddDbContext<ActiveContext>(options => options.UseSqlServer(configuration.GetConnectionString("ActiveConnection")));
+                //services.AddDbContext<ActiveContext>(options => options.UseSqlServer(configuration.GetConnectionString("ActiveConnection")));
             }
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {

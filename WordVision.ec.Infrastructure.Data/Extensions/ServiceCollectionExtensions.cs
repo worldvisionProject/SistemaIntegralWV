@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.CacheRepositories;
-using WordVision.ec.Application.Interfaces.CacheRepositories.Identity;
+
 using WordVision.ec.Application.Interfaces.CacheRepositories.Maestro;
 using WordVision.ec.Application.Interfaces.CacheRepositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Contexts;
@@ -18,7 +18,7 @@ using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Presupuesto;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Infrastructure.Data.CacheRepositories;
-using WordVision.ec.Infrastructure.Data.CacheRepositories.Identity;
+
 using WordVision.ec.Infrastructure.Data.CacheRepositories.Maestro;
 using WordVision.ec.Infrastructure.Data.CacheRepositories.Planificacion;
 using WordVision.ec.Infrastructure.Data.Contexts;
@@ -43,7 +43,7 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
         public static void AddRepositories(this IServiceCollection services)
         {
             #region Repositories
-            services.AddTransient(typeof(WordVision.ec.Application.Interfaces.Repositories.Identity.IRepositoryAdAsync<>), typeof(Repositories.Identity.RepositoryAdAsync<>));
+            //services.AddTransient(typeof(WordVision.ec.Application.Interfaces.Repositories.Identity.IRepositoryAdAsync<>), typeof(Repositories.Identity.RepositoryAdAsync<>));
 
             services.AddTransient(typeof(WordVision.ec.Application.Interfaces.Repositories.Identity.IRepositoryAsync<>), typeof(Repositories.Identity.RepositoryAsync<>));
             services.AddTransient<IColaboradorRepository, ColaboradorRepository>();
@@ -54,8 +54,8 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<IPreguntaCacheRepository, PreguntaCacheRepository>();
             services.AddTransient<IFormularioRepository, FormularioRepository>();
             services.AddTransient<IFormularioCacheRepository, FormularioCacheRepository>();
-            services.AddTransient<IIdentityRepository, IdentityRepository>();
-            services.AddTransient<IIdentityCacheRepository, IdentityCacheRepository>();
+         
+            //services.AddTransient<IIdentityCacheRepository, IdentityCacheRepository>();
             services.AddTransient<Application.Interfaces.Repositories.Identity.IUnitOfWork, Repositories.Identity.UnitOfWork>();
 
             services.AddTransient(typeof(WordVision.ec.Application.Interfaces.Repositories.Registro.IRepositoryAsync<>), typeof(Repositories.Registro.RepositoryAsync<>));

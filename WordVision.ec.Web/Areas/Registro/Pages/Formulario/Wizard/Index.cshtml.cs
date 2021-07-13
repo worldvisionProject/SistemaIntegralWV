@@ -148,18 +148,25 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
 
         public async Task<IActionResult> OnPostFinish(StepViewModel currentStep)
         {
-            if (Request.Form.Files.Count == 0)
-            {
-                _notify.Error("Firma obligatoria.");
-                ModelState.AddModelError("", "Firma obligatoria");
-                return Page();
-            }
+            //if (Request.Form.Files.Count == 0)
+            //{
+            //    _notify.Error("Firma obligatoria.");
+            //    ModelState.AddModelError("", "Firma obligatoria");
+            //    return Page();
+            //}
 
             if (!ModelState.IsValid) return Page();
 
             var client = ProcessSteps(currentStep);
-           
 
+
+            //if (client.Idioma != "S")
+            //{
+            //    _notify.Error("Firma obligatoria.");
+            //    ModelState.AddModelError("", "Firma obligatoria");
+            //    return Page();
+            //}
+            
 
             //_service.Save(client);
 

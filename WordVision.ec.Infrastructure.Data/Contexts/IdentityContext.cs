@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Contexts;
-using WordVision.ec.Domain.Entities.Identity;
 using WordVision.ec.Infrastructure.Data.Identity.Models;
 
 namespace WordVision.ec.Infrastructure.Data.Contexts

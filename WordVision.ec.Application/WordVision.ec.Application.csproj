@@ -36,10 +36,14 @@
     <Compile Remove="Features\Identity\Usuarios\Queries\GetAllCached\GetAllUsuariosCachedQuery.cs" />
     <Compile Remove="Features\Identity\Usuarios\Queries\GetAllCached\GetAllUsuariosCachedResponse.cs" />
     <Compile Remove="Features\Identity\Usuarios\Queries\GetById\GetUsuarioByIdQuery.cs" />
+    <Compile Remove="Interfaces\CacheRepositories\Identity\IIdentityCacheRepository.cs" />
+    <Compile Remove="Interfaces\Contexts\IIdentityDbContext.cs" />
     <Compile Remove="Interfaces\Contexts\IPresupuestoDbContext.cs" />
+    <Compile Remove="Interfaces\Repositories\Identity\IIdentityRepository.cs" />
     <Compile Remove="Interfaces\Repositories\Presupuesto\IRepositoryAsync.cs" />
     <Compile Remove="Interfaces\Repositories\Presupuesto\IUnitOfWork.cs" />
     <Compile Remove="Interfaces\Repositories\Registro\IDocumentoUoW.cs" />
+    <Compile Remove="Mappings\Identity\IdentityProfile.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,7 +72,9 @@
     <Folder Include="Features\Registro\Colaboradores\Commands\Delete\" />
     <Folder Include="Features\Registro\Pregunta\Commands\Create\" />
     <Folder Include="Features\Registro\Pregunta\Commands\Update\" />
+    <Folder Include="Interfaces\CacheRepositories\Identity\" />
     <Folder Include="Mappings\DashBoard\" />
+    <Folder Include="Mappings\Identity\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

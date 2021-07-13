@@ -130,7 +130,18 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                         }
                         else
                         {
-                            logindetails = GetDataActive(userName);
+                            try
+                            {
+                                logindetails = GetDataActive(userName);
+                            }
+                            catch
+                            {
+                                logindetails.ApellidoPaterno = user.LastName;
+                                logindetails.PrimerNombre = user.FirstName;
+                                logindetails.Mail = user.Email;
+                                logindetails.Cedula = "000" + userName;
+                                logindetails.IdEmpresa = 0;
+                            }
                             //if (logindetails != null)
                             //{
                             //    logindetails = logindetails.Data;

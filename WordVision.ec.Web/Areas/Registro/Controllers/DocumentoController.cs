@@ -386,8 +386,12 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
         {
             //if (ModelState.IsValid)
             //{
-            if (Request.Form.Files.Count > 0)
+            if (documento.Titulo == null)
             {
+                _notify.Error("Ingrese una firma antes de guardar.");
+                return new JsonResult(new { isValid = true });
+            }
+
                 int i = 0, idDocumento = 0;
                 idDocumento = documento.Id;
                 foreach (var c in preguntas)
@@ -397,6 +401,8 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                     respuesta.IdDocumento = c.IdDocumento;
                     respuesta.IdPregunta = c.Id;
                     respuesta.DescRespuesta = c.Estado == null ? c.DescripcionUrl1 + "|" + c.DescripcionUrl2 : c.Estado;
+                    if (c.Id == 29 && c.IdDocumento == 5)
+                        respuesta.DescRespuesta = documento.Estado;
                     idDocumento = c.IdDocumento;
                     try
                     {
@@ -475,7 +481,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
 
                 //}
 
-            }
+            //}
             return new JsonResult(new { isValid = true });
            
         }

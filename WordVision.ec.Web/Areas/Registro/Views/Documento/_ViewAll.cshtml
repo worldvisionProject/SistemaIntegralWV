@@ -145,7 +145,7 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <textarea rows="6" asp-for="Estado" name="Estado" class="form-control">resp</textarea>
+                                    <textarea rows="6" id="Estado" name="Estado" class="form-control">@resp</textarea>
                                 </div>
                             </div>
                         }
@@ -168,8 +168,10 @@
                                     }
                                 </div>
                             </div>}
-                        i = i + 1;
-                    } }
+                            i = i + 1;
+                        }
+
+                    }
             </div>
             <br />
             <div class="row">
@@ -182,18 +184,19 @@
                     <input accept=".png,.jpg,.jpeg,.gif,.tif"
                            asp-for="@Model.Image"
                            type="file" class="custom-file-input"
-                           onchange="document.getElementById('viewableImage').src = window.URL.createObjectURL(this.files[0])"
+                           onchange="document.getElementById('@Model.Id').src = window.URL.createObjectURL(this.files[0])"
                            id="customFile">
-                    <span asp-validation-for="Image" class="text-danger"></span>
+                   
                     <label class="custom-file-label" for="customFile">Buscar imágen para Firmar el documento</label>
                 </div>
                
                 @if (Model.Image != null && Model.Image.Length > 0)
                 {
-                    <img id="viewableImage" class="viewableImage" asp-for="@Model.Image" style="object-fit: cover;padding-top: 10px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" alt> @*<button onclick="document.getElementById('achimage').src = null;" type="button" style="margin-top:10px" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove Image</button>*@ }
+                    <input type="hidden" id="Titulo" name="Titulo" value="S"/>
+                    <img id="@Model.Id" class="viewableImage" asp-for="@Model.Image" style="object-fit: cover;padding-top: 10px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" alt> @*<button onclick="document.getElementById('achimage').src = null;" type="button" style="margin-top:10px" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove Image</button>*@ }
                 else
                 {
-                    <img id="viewableImage" class="viewableImage" style="object-fit: cover;padding-top:10px;" src="" alt>
+                    <img id="@Model.Id" class="viewableImage" style="object-fit: cover;padding-top:10px;" src="" alt>
                 }
             </div>
            

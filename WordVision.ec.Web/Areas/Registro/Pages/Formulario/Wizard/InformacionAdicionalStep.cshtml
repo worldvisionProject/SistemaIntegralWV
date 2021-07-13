@@ -109,15 +109,16 @@
                    type="file" class="custom-file-input"
                    onchange="document.getElementById('viewableImage').src = window.URL.createObjectURL(this.files[0])"
                    id="customFile">
-            <span asp-validation-for="Image" class="text-danger"></span>
+
             <label class="custom-file-label" for="customFile">Buscar imágen para Firmar el documento</label>
         </div>
         @if (Model.Image != null && Model.Image.Length > 0)
         {
-<img id="viewableImage" class="viewableImage" asp-for="@Model.Image" style="object-fit: cover;padding-top: 10px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" alt> @*<button onclick="document.getElementById('achimage').src = null;" type="button" style="margin-top:10px" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove Image</button>*@ }
-else
-{
-<img id="viewableImage" class="viewableImage" style="object-fit: cover;padding-top:10px;" src="" alt>}
+                    <input type="hidden" id="Idioma" name="Idioma" value="S" />
+                    <img id="viewableImage" class="viewableImage" asp-for="@Model.Image" style="object-fit: cover;padding-top: 10px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" alt> @*<button onclick="document.getElementById('achimage').src = null;" type="button" style="margin-top:10px" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove Image</button>*@ }
+                else
+                {
+    <img id="viewableImage" class="viewableImage" style="object-fit: cover;padding-top:10px;" src="" alt>}
     </div>
     <br />
     <div class="row">
