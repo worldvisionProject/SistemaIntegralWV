@@ -1,0 +1,59 @@
+﻿
+@using WordVision.ec.Web.Areas.Planificacion.Models
+@model FactorCriticoExitoViewModel
+
+@{ 
+    ViewData["Tmp"] = "Objetivo: ";
+    ViewData["Objetivo"] = ViewBag.Message;
+    ViewData["Title"] = localizer["Factor Critico de Exito"].Value + " " + ViewBag.Ciclo;
+
+
+    }
+
+<div class="card">
+
+    @*<div class="card-header">
+            Lista de Usuarios
+            <div class="pull-right">
+                <a class="btn btn-primary" id="btnViewModel" href="/Institucions/Create">
+                    <i class="fa fa-plus-square"></i>
+                    Agregar
+                </a>
+
+            </div>
+        </div>*@
+
+    <div class="col-sm-12 header-button" >
+
+        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/FactorCriticoExito/OnGetCreateOrEdit?id=0&idObjetivoEstra=@Model.IdObjetivoEstra','Factor Critico de Exito')">
+            <i class="fa fa-plus-square"></i>
+            Agregar
+        </button>
+        @*<a id="reload" class="btn btn-primary text-white">
+                <i class="fa fas fa-bolt"></i>
+                Refrescar
+            </a>*@
+    </div>
+    <div id="viewAll" class="card-body table-responsive">
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>
+    $(document).ready(function () {
+            /*$("#colaboradorTable").DataTable();*/
+            loadData();
+            //$('#pdf').on('click', function () {
+            //    loadDataPdf();
+            //});
+    });
+        @*function loadDataPdf() {
+            $('#viewAll').load('/registro/formulario/FormularioPdf/@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value');
+        };*@
+        function loadData() {
+            $('#viewAll').load('/planificacion/FactorCriticoExito/LoadFactorIndicadores?idObjetivo=@Model.IdObjetivoEstra');
+        }</script>
+}

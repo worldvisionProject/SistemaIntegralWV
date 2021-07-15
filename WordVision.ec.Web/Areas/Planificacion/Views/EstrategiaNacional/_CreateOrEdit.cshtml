@@ -2,7 +2,18 @@
 @using WordVision.ec.Web.Areas.Planificacion.Models
 @model EstrategiaNacionalViewModel
 @{ ViewData["Title"] = localizer["Ciclo Estrategico"].Value + " " + ViewBag.Ciclo;
-    ViewData["Caption"] = localizer["Gestionar Ciclo Estrategico aquí"]; }
+
+
+    if ((AuthorizationService.AuthorizeAsync(User, Permissions.Gestion.View)).Result.Succeeded)
+    {
+        ViewData["Caption"] = localizer["Gestionar Ciclo Estrategico aquí"];
+    }
+    else
+    {
+        ViewData["Caption"] = localizer["Está en la Gestión:"].Value + " " + ViewBag.Gestion;
+    }
+
+}
 <div class="card card-info">
 
     <div class="card-header card-header-int">
@@ -27,7 +38,10 @@
                                 <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Ciclo</a>
                                 <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Objetivo de Bloque</a>
                                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Objetivo Nacional</a>
-                                <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Gestion</a>
+                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Gestion.View)).Result.Succeeded)
+                                {
+                                    <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Gestion</a>
+                                }
                             </div>
                         </nav>
                         <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
@@ -46,7 +60,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                       
+
 
                                     </div>
 
@@ -84,12 +98,12 @@
                                                     <label class="col-md-12 col-form-label texto-pregunta">Estado</label>
 
                                                     @*<select asp-for="Estado" name="Estado" class="form-control">
-            <option value="1">Abierto</option>
-            <option value="2">Cerrado</option>
-            <option value="3">Finalizado</option>
-        </select>*@
+                                                    <option value="1">Abierto</option>
+                                                    <option value="2">Cerrado</option>
+                                                    <option value="3">Finalizado</option>
+                                                </select>*@
                                                     @*@Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)ViewData["EstadoList"], new { @class = "form-control" })*@
-                                                    @Html.DropDownListFor(x=>x.Estado,  (IEnumerable<SelectListItem>)ViewBag.EstadoList,new { @class = "form-control" })
+                                                    @Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)ViewBag.EstadoList, new { @class = "form-control" })
                                                     <span asp-validation-for="Estado" class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -101,28 +115,31 @@
                             </div>
 
 
-                            
+
                             <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                                 @*OBJETIVO BLOQUE*@
                                 <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group row">
-                                                <div class="col-md-2">
-                                                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id&categoria=2','Crear Objetivos Resultados')">
-                                                        <i class="fa fa-plus-square"></i>
-                                                        Agregar
-                                                    </button>
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group row">
+                                                    <div class="col-md-2">
+                                                        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id&categoria=2','Crear Objetivos Resultados')">
+                                                            <i class="fa fa-plus-square"></i>
+                                                            Agregar
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    }
+                                        @Html.HiddenFor(x => x.Id, new { name = "IdEstrategia", @Value = Model.Id })
+                                        @*<div id="divObjetivo">*@
+                                        <div id="viewAll" class="card-body table-responsive" style="padding: 0;">
+                                        </div>
+                                        @*</div>*@
                                     </div>
-                                    @Html.HiddenFor(x => x.Id, new { name = "IdEstrategia", @Value = Model.Id })
-                                @*<div id="divObjetivo">*@
-                                    <div id="viewAll" class="card-body table-responsive" style="padding: 0;">
-                                    </div>
-                                @*</div>*@
-                                </div>
                             </div>
 
 
@@ -130,49 +147,54 @@
 
                             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                 @*OBJETIVO NACIONAL*@
+                                
                                 <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group row">
-                                                <div class="col-md-2">
-                                                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id&categoria=1','Crear Objetivos Resultados')">
-                                                        <i class="fa fa-plus-square"></i>
-                                                        Agregar
-                                                    </button>
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group row">
+                                                    <div class="col-md-2">
+                                                        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id&categoria=1','Crear Objetivos Resultados')">
+                                                            <i class="fa fa-plus-square"></i>
+                                                            Agregar
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
+                                    }
                                     @Html.HiddenFor(x => x.Id, new { name = "IdEstrategia", @Value = Model.Id })
                                     @*<div id="divObjetivo">*@
 
-                                        <div id="viewAllNacional" class="card-body table-responsive" style="padding: 0;">
-                                        </div>
+                                    <div id="viewAllNacional" class="card-body table-responsive" style="padding: 0;">
+                                    </div>
                                     @*</div>*@
                                 </div>
-                            </div>
+                                </div>
 
                             <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
                                 @*GESTION*@
                                 <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group row">
-                                                <div class="col-md-2">
-                                                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Gestion/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id','Crear Gestion')">
-                                                        <i class="fa fa-plus-square"></i>
-                                                        Agregar
-                                                    </button>
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Gestion.Create)).Result.Succeeded)
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group row">
+                                                    <div class="col-md-2">
+                                                        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Gestion/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id','Crear Gestion')">
+                                                            <i class="fa fa-plus-square"></i>
+                                                            Agregar
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    }
+                                        <div id="viewAllGestion" class="card-body table-responsive" style="padding: 0;">
+                                        </div>
 
-                                    <div id="viewAllGestion" class="card-body table-responsive" style="padding: 0;">
                                     </div>
-
-                                </div>
                             </div>
                         </div>
 
@@ -180,13 +202,15 @@
                 </div>
             </div>
 
-
-            <br />
-            <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-                <button type="submit" class="btn btn-success">Guardar</button>
-                <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
-            </div>
-        </form>
+            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.EstrategiaNacional.Create)).Result.Succeeded)
+            {
+                <br />
+                <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                    <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+                </div>
+            }
+            </form>
 
     </div>
 </div>

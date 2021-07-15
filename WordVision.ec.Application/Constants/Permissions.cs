@@ -27,13 +27,57 @@ namespace WordVision.ec.Application.Constants
             public const string Delete = "Permissions.Dashboard.Delete";
         }
 
-        //public static class Products
-        //{
-        //    public const string View = "Permissions.Products.View";
-        //    public const string Create = "Permissions.Products.Create";
-        //    public const string Edit = "Permissions.Products.Edit";
-        //    public const string Delete = "Permissions.Products.Delete";
-        //}
+        public static class EstrategiaNacional
+        {
+            public const string View = "Permissions.EstrategiaNacional.View";
+            public const string Create = "Permissions.EstrategiaNacional.Create";
+            public const string Edit = "Permissions.EstrategiaNacional.Edit";
+            public const string Delete = "Permissions.EstrategiaNacional.Delete";
+        }
+
+        public static class ObjetivoEstrategico
+        {
+            public const string View = "Permissions.ObjetivoEstrategico.View";
+            public const string Create = "Permissions.ObjetivoEstrategico.Create";
+            public const string Edit = "Permissions.ObjetivoEstrategico.Edit";
+            public const string Delete = "Permissions.ObjetivoEstrategico.Delete";
+        }
+        public static class Gestion
+        {
+            public const string View = "Permissions.Gestion.View";
+            public const string Create = "Permissions.Gestion.Create";
+            public const string Edit = "Permissions.Gestion.Edit";
+            public const string Delete = "Permissions.Gestion.Delete";
+        }
+        public static class FactorCriticoExito
+        {
+            public const string View = "Permissions.FactorCriticoExito.View";
+            public const string Create = "Permissions.FactorCriticoExito.Create";
+            public const string Edit = "Permissions.FactorCriticoExito.Edit";
+            public const string Delete = "Permissions.FactorCriticoExito.Delete";
+        }
+        public static class IndicadorEstrategico
+        {
+            public const string View = "Permissions.IndicadorEstrategico.View";
+            public const string Create = "Permissions.IndicadorEstrategico.Create";
+            public const string Edit = "Permissions.IndicadorEstrategico.Edit";
+            public const string Delete = "Permissions.IndicadorEstrategico.Delete";
+        }
+        public static class IndicadorAF
+        {
+            public const string View = "Permissions.IndicadorAF.View";
+            public const string Create = "Permissions.IndicadorAF.Create";
+            public const string Edit = "Permissions.IndicadorAF.Edit";
+            public const string Delete = "Permissions.IndicadorAF.Delete";
+        }
+        
+        public static class IndicadorPOA
+        {
+            public const string View = "Permissions.IndicadorPOA.View";
+            public const string Create = "Permissions.IndicadorPOA.Create";
+            public const string Edit = "Permissions.IndicadorPOA.Edit";
+            public const string Delete = "Permissions.IndicadorPOA.Delete";
+        }
 
         public static class Users
         {
@@ -43,12 +87,6 @@ namespace WordVision.ec.Application.Constants
             public const string Delete = "Permissions.Users.Delete";
         }
 
-        //public static class Brands
-        //{
-        //    public const string View = "Permissions.Brands.View";
-        //    public const string Create = "Permissions.Brands.Create";
-        //    public const string Edit = "Permissions.Brands.Edit";
-        //    public const string Delete = "Permissions.Brands.Delete";
-        //}
+       
     }
 }

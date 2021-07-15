@@ -1,0 +1,106 @@
+﻿@using WordVision.ec.Web.Areas.Planificacion.Models
+@model IEnumerable<FactorCriticoExitoViewModel>
+
+<table id="factorTable" class="table table-striped " width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th style=" width:40%">Factor</th>
+            <th style=" width:40%">Indicador</th>
+            <th data-priority="2" class="acciones-th">Metas</th>
+            @*<th data-priority="1">Nombre</th>
+        <th data-priority="2" class="acciones-th">Indicador</th>
+        <th data-priority="2" class="acciones-th">Acciones</th>*@
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var factor in Model)
+        {
+            if (@factor.IndicadorEstrategicos.Count() > 0)
+            {
+
+
+                int i = 0;
+                @foreach (var ind in factor.IndicadorEstrategicos)
+                {
+                    <tr>
+                        @if (i == 0)
+                        {
+                            if (@factor.IndicadorEstrategicos.Count() > 0)
+                            {
+                                <td rowspan="@factor.IndicadorEstrategicos.Count()">@factor.FactorCritico</td>
+                            }
+                        }
+                        <td>@ind.IndicadorResultado</td>
+                        <td class="acciones-td">
+                            @* <a  asp-area="planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEdit" asp-route-id="@anioFiscal.Id" class="btn btn-info btn-xp"><i class="fas fa-pencil-alt"></i>  Editar</a>*@
+                            <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Ver" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/LoadIndicadores?idFactor=@ind.Id&IdEstrategia=0','Indicador de Resultados')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/OnGetCreateOrEdit?id=0&IdFactorCritico=@ind.Id&IdEstrategia=0','Indicador de Resultados')">
+                                <i class="fas fa-plus-square"></i>
+                            </button>
+                        </td>
+                    </tr>
+
+                    i = i + 1;
+                }
+            }
+            else
+                {
+
+                <tr>
+                    <td colspan="3">
+                        @factor.FactorCritico
+                    </td>
+                </tr>
+                }
+        }
+
+        </tbody>
+    </table>
+<script>
+
+    $(document).ready(function () {
+
+       
+        var table = $("#factorTable").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },
+            
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 }
+            ],
+            "info": false
+           
+        });
+
+
+        //var column = table.column(0);
+        //// Toggle the visibility
+        //column.visible(false);
+        //column = table.column(1);
+        //// Toggle the visibility
+        //column.visible(false);
+
+
+        $('#factorTable tbody').on('dblclick', 'tr', function () {
+            var data = table.row(this).data();
+
+            
+            jQueryModalGet('/Planificacion/FactorCriticoExito/OnGetCreateOrEdit?id=' + data[0] + '&idObjetivoEstra=' + data[1], 'Factor Critico de Exito');
+    
+        });
+
+        $(".dynmic-hidden-col").hide();
+});
+</script>

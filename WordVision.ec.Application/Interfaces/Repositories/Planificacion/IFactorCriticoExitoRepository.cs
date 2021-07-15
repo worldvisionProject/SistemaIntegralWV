@@ -12,7 +12,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Planificacion
         IQueryable<FactorCriticoExito> FactorCriticoExitoes { get; }
 
         Task<List<FactorCriticoExito>> GetListAsync();
-
+        Task<List<FactorCriticoExito>> GetListxObjetivoAsync(int idObjetivo);
         Task<FactorCriticoExito> GetByIdAsync(int factorCriticoExitoId);
       
         Task<int> InsertAsync(FactorCriticoExito factorCriticoExito);

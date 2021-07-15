@@ -252,7 +252,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (id == 0)
             {
                 var entidadViewModel = new EstrategiaNacionalViewModel();
-                return View("_CreateOrEditEstrategia", entidadViewModel);
+                return View("_CreateOrEdit", entidadViewModel);
                 // return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             else
@@ -265,7 +265,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     ViewBag.Ciclo = entidadViewModel.Nombre;
                     ViewBag.Gestion = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault().Anio;
                     ViewBag.SNGestion = "N";
-                    return View("_CreateOrEditEstrategia", entidadViewModel);
+                    return View("_CreateOrEdit", entidadViewModel);
                     //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;

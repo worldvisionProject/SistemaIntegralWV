@@ -54,7 +54,9 @@
 {
     <script>
         $(document).ready(function () {
-            $("#permissionTable").DataTable();
+            $("#permissionTable").DataTable({
+                stateSave: true
+            });
         });
     </script>
 }

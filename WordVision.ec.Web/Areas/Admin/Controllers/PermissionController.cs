@@ -30,10 +30,16 @@ namespace WordVision.ec.Web.Areas.Admin.Controllers
         {
             var model = new PermissionViewModel();
             var allPermissions = new List<RoleClaimsViewModel>();
-            //allPermissions.GetPermissions(typeof(Permissions.Brands), roleId);
             allPermissions.GetPermissions(typeof(Permissions.Dashboard), roleId);
-            //allPermissions.GetPermissions(typeof(Permissions.Products), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.EstrategiaNacional), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.ObjetivoEstrategico), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.Gestion), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.FactorCriticoExito), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.IndicadorEstrategico), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.IndicadorAF), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.IndicadorPOA), roleId);
             allPermissions.GetPermissions(typeof(Permissions.Users), roleId);
+
             var role = await _roleManager.FindByIdAsync(roleId);
             model.RoleId = roleId;
             var claims = await _roleManager.GetClaimsAsync(role);

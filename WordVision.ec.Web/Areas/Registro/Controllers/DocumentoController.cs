@@ -386,11 +386,11 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
         {
             //if (ModelState.IsValid)
             //{
-            if (documento.Titulo == null)
-            {
-                _notify.Error("Ingrese una firma antes de guardar.");
-                return new JsonResult(new { isValid = true });
-            }
+            //if (documento.Titulo == null)
+            //{
+            //    _notify.Error("Ingrese una firma antes de guardar.");
+            //    return new JsonResult(new { isValid = true });
+            //}
 
                 int i = 0, idDocumento = 0;
                 idDocumento = documento.Id;
