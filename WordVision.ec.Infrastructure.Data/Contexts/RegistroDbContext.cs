@@ -104,8 +104,10 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
           .ToTable("IndicadorPOAs", "planifica");
             builder.Entity<Actividad>()
       .ToTable("Actividades", "planifica");
-            builder.Entity<Meta>()
-     .ToTable("Metas", "planifica");
+            builder.Entity<MetaEstrategica>()
+     .ToTable("MetaEstrategicas", "planifica");
+            builder.Entity<MetaTactica>()
+     .ToTable("MetaTacticas", "planifica");
 
             builder
        .Entity<Tercero>()

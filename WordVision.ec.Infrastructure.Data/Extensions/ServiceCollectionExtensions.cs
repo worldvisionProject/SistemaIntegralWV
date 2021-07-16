@@ -88,6 +88,7 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<IIndicadorEstrategicoRepository, IndicadorEstrategicoRepository>();
             services.AddTransient<IIndicadorAFRepository, IndicadorAFRepository>();
             services.AddTransient<IGestionRepository, GestionRepository>();
+            services.AddTransient<IMetaEstrategicaRepository, MetaEstrategicaRepository>();
 
             #endregion Repositories
         }

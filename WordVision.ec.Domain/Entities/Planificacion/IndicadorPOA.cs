@@ -35,6 +35,9 @@ namespace WordVision.ec.Domain.Entities.Planificacion
 
         [ForeignKey("IdIndicadorPOA")]
         public ICollection<Actividad> Actividades { get; set; }
+
+        [ForeignKey("IdIndicadorPOA")]
+        public ICollection<MetaTactica> MetaTacticas { get; set; }
     }
 }
 

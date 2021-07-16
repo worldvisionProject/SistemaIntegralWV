@@ -12,6 +12,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string FactorCritico { get; set; }
         public int IdObjetivoEstra { get; set; }
         public int IdEstrategia { get; set; }
+        public int IdGestion { get; set; }
         public virtual List<IndicadorEstrategicoViewModel> IndicadorEstrategicos { get; set; }
 
         public virtual ObjetivoEstrategicoViewModel ObjetivoEstrategicos { get; set; }

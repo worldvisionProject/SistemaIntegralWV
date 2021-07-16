@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
 namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210715200232_MigrationV43")]
+    partial class MigrationV43
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -623,10 +625,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<bool?>("Febrero")
                         .HasColumnType("bit");
 
-                    b.Property<int>("IdGestion")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdIndicadorEstrategico")
+                    b.Property<int?>("IdIndicadorEstrategico")
                         .HasColumnType("int");
 
                     b.Property<bool?>("Julio")
@@ -1762,9 +1761,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Planificacion.IndicadorEstrategico", "IndicadorEstrategicos")
                         .WithMany("MetaEstrategicas")
-                        .HasForeignKey("IdIndicadorEstrategico")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdIndicadorEstrategico");
 
                     b.Navigation("IndicadorEstrategicos");
                 });

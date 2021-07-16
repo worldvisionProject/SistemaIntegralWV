@@ -39,6 +39,9 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         [ForeignKey("IdIndicadorEstrategico")]
         public ICollection<IndicadorAF> IndicadorAFs { get; set; }
 
+        [ForeignKey("IdIndicadorEstrategico")]
+        public ICollection<MetaEstrategica> MetaEstrategicas { get; set; }
+
     }
 }
 

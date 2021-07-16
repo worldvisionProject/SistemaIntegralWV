@@ -43,7 +43,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             return null;
         }
 
-        public async Task<IActionResult> LoadObjetivo(int idEstrategia,string idCategoria)
+        public async Task<IActionResult> LoadObjetivo(int idEstrategia,string idCategoria,string AnioGestion)
         {
             var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = idEstrategia });
             if (response.Succeeded)
@@ -51,6 +51,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
                 var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
                 entidadViewModel.CategoriaObjetivo = idCategoria;
+                entidadViewModel.AnioGestion = AnioGestion;
                 ViewBag.Ciclo = entidadViewModel.Nombre;
                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
                 entidadViewModel.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");

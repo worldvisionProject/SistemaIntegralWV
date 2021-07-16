@@ -262,9 +262,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 {
 
                     var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
+                    entidadViewModel.AnioGestion = AnioGestion.ToString();
                     ViewBag.Ciclo = entidadViewModel.Nombre;
                     ViewBag.Gestion = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault().Anio;
                     ViewBag.SNGestion = "N";
+                    ViewBag.Nivel = User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value;
                     return View("_CreateOrEdit", entidadViewModel);
                     //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }

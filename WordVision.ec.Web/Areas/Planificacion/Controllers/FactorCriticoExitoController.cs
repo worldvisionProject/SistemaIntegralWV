@@ -74,48 +74,64 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
 
-        public async Task<IActionResult> IndexIndicador(int id)
+        public async Task<IActionResult> IndexIndicador(int id,int idEstrategia, int AnioGestion)
         {
             int idObjetivoEstra = id;
 
 
-            var response = await _mediator.Send(new GetObjetivoEstrategicoByIdQuery() { Id = id });
+            var response = await _mediator.Send(new GetObjetivoEstrategicoByIdQuery() { Id = idObjetivoEstra });
             if (response.Succeeded)
             {
                 ViewBag.Message = response.Data.Descripcion;
-                id = response.Data.IdEstrategia;
+                //id = response.Data.IdEstrategia;
             }
-
-            var responseE = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = id });
+            var gestionDesc = string.Empty;
+            var responseE = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = idEstrategia });
             if (responseE.Succeeded)
             {
 
                 var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(responseE.Data);
                 ViewBag.Ciclo = entidadViewModel.Nombre;
+                gestionDesc = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault().Anio;
+                //ViewBag.SNGestion = "N";
                 //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
-
-            var childNode0 = new MvcBreadcrumbNode("Index", "EstrategiaNacional", "Ciclo Estrategico", false, null, "Planificacion")
+            
+           var ciclo = idEstrategia;
+            var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estrategico", false, null, "Planificacion")
             {
-                //RouteValues = new { id }//this comes in as a param into the action
+                RouteValues = new { ciclo },//this comes in as a param into the action
+                                            // Parent = childNode0
             };
-
-            var childNode1 = new MvcBreadcrumbNode("OnGetCreateOrEdit", "EstrategiaNacional", "Parametros", false, null, "Planificacion")
+            id = idEstrategia;
+            var childNode2 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Gestion "+ gestionDesc)
             {
-                RouteValues = new { id },//this comes in as a param into the action
-                Parent = childNode0
-            };
-
-            var childNode2 = new MvcBreadcrumbNode("Index", "FactorCriticoExito", "Factor Critico de Exito")
-            {
+                RouteValues = new { id, AnioGestion},
                 OverwriteTitleOnExactMatch = true,
                 Parent = childNode1
             };
+            id = idObjetivoEstra;
+            var childNode3 = new MvcBreadcrumbNode("IndexIndicador", "FactorCriticoExito", "Indicadores")
+            {
+                RouteValues = new { id, idEstrategia, AnioGestion },
+                OverwriteTitleOnExactMatch = true,
+                Parent = childNode2
+            };
 
-            ViewData["BreadcrumbNode"] = childNode2;
+
+            ViewData["BreadcrumbNode"] = childNode3;
+
+            //var childNode2 = new MvcBreadcrumbNode("Index", "FactorCriticoExito", "Factor Critico de Exito")
+            //{
+            //    OverwriteTitleOnExactMatch = true,
+            //    Parent = childNode1
+            //};
+
+            //ViewData["BreadcrumbNode"] = childNode2;
 
             var model = new FactorCriticoExitoViewModel();
             model.IdObjetivoEstra = idObjetivoEstra;
+            model.IdGestion = AnioGestion;
             return View("IndexIndicador", model);
         }
 
@@ -147,7 +163,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
         [Breadcrumb("FactorCriticoExito", AreaName = "Planificacion", FromAction = "OnGetCreateOrEdit", FromController = typeof(EstrategiaNacionalController))]
-        public async Task<IActionResult> LoadFactorIndicadores(int idObjetivo)
+        public async Task<IActionResult> LoadFactorIndicadores(int idObjetivo,int idGestion)
         {
             try
             {
@@ -160,7 +176,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 var response = await _mediator.Send(new GetFactorCriticoxObjetivoByIdQuery() { Id = idObjetivo });
                 if (response.Succeeded)
                 {
-                   
+                    ViewBag.IdGestion = idGestion;
                     var viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data);
                     return PartialView("_ViewAllxIndicador", viewModel);
                 }
