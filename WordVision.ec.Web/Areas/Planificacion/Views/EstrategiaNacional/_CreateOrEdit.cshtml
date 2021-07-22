@@ -1,12 +1,12 @@
 ﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @using WordVision.ec.Web.Areas.Planificacion.Models
 @model EstrategiaNacionalViewModel
-@{ ViewData["Title"] = localizer["Ciclo Estrategico"].Value + " " + ViewBag.Ciclo;
+@{ ViewData["Title"] = localizer["Ciclo Estratégico"].Value + " " + ViewBag.Ciclo;
 
 
     if ((AuthorizationService.AuthorizeAsync(User, Permissions.Gestion.View)).Result.Succeeded)
     {
-        ViewData["Caption"] = localizer["Gestionar Ciclo Estrategico aquí"];
+        ViewData["Caption"] = localizer["Gestionar Ciclo Estratégico aquí"];
     }
     else
     {
@@ -17,7 +17,7 @@
 <div class="card card-info">
 
     <div class="card-header card-header-int">
-        Ciclo Estrategico
+        Ciclo Estratégico
         @*<div class="pull-right">
                 <a class="btn btn-primary" id="btnViewModel" href="/Institucions/Create">
                     <i class="fa fa-plus-square"></i>
@@ -40,7 +40,7 @@
                                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Objetivo Nacional</a>
                                 @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Gestion.View)).Result.Succeeded)
                                 {
-                                    <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Gestion</a>
+                                    <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Gestión</a>
                                 }
                             </div>
                         </nav>
@@ -54,8 +54,14 @@
                                             <div class="form-group row">
                                                 <div class="col-md-12">
                                                     <label class="col-md-12 col-form-label texto-pregunta">Ciclo Estrategico</label>
-
-                                                    <input type="text" asp-for="Nombre" name="Nombre" class="form-control">
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                                                    {
+                                                        <input type="text" asp-for="Nombre" name="Nombre" class="form-control">
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" asp-for="Nombre" name="Nombre" class="form-control" readonly>
+                                                    }
                                                     <span asp-validation-for="Nombre" class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -69,8 +75,15 @@
                                             <div class="form-group row">
                                                 <div class="col-md-12">
                                                     <label class="col-md-12 col-form-label texto-pregunta">Meta Nacional</label>
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                                                    {
 
-                                                    <textarea asp-for="MetaNacional" name="MetaNacional" class="form-control"></textarea>
+                                                        <textarea asp-for="MetaNacional" name="MetaNacional" class="form-control"></textarea>
+                                                    }
+                                                    else
+                                                    {
+                                                        <textarea asp-for="MetaNacional" name="MetaNacional" class="form-control" readonly></textarea>
+                                                    }
                                                     <span asp-validation-for="MetaNacional" class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -79,10 +92,15 @@
                                             <div class="form-group row">
                                                 <div class="col-md-12">
                                                     <label class="col-md-12 col-form-label texto-pregunta">Meta de Bloque</label>
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                                                    {
+                                                        <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control"></textarea>
+                                                    }
+                                                    else
+                                                    { <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control" readonly></textarea>}
 
-                                                    <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control"></textarea>
-                                                    <span asp-validation-for="MetaRegional" class="text-danger"></span>
-                                                </div>
+                                                        <span asp-validation-for="MetaRegional" class="text-danger"></span>
+                                                    </div>
                                             </div>
 
 
@@ -98,14 +116,23 @@
                                                     <label class="col-md-12 col-form-label texto-pregunta">Estado</label>
 
                                                     @*<select asp-for="Estado" name="Estado" class="form-control">
-                                                    <option value="1">Abierto</option>
-                                                    <option value="2">Cerrado</option>
-                                                    <option value="3">Finalizado</option>
-                                                </select>*@
+            <option value="1">Abierto</option>
+            <option value="2">Cerrado</option>
+            <option value="3">Finalizado</option>
+        </select>*@
                                                     @*@Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)ViewData["EstadoList"], new { @class = "form-control" })*@
-                                                    @Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)ViewBag.EstadoList, new { @class = "form-control" })
-                                                    <span asp-validation-for="Estado" class="text-danger"></span>
-                                                </div>
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                                                    {
+                                                        @Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)ViewBag.EstadoList, new { @class = "form-control" })
+                                                    }
+                                                    else
+                                                    {
+                                                        var selectedCity = (IEnumerable<SelectListItem>)ViewBag.EstadoList;
+                                                        var txt = selectedCity.Where(x => x.Value == Model.Estado).FirstOrDefault().Text;
+                                                        <input type="text" value="@txt" readonly class="form-control"/>
+                                                    }
+                                                        <span asp-validation-for="Estado" class="text-danger"></span>
+                                                    </div>
                                             </div>
                                         </div>
 
@@ -222,9 +249,10 @@
     });
         function loadData() {
             $('#viewAll').load('/Planificacion/ObjetivoEstrategico/LoadObjetivo?idEstrategia=@Model.Id&idCategoria=2&AnioGestion=@Model.AnioGestion');
-            $('#viewAllNacional').load('/Planificacion/ObjetivoEstrategico/LoadObjetivo?idEstrategia=@Model.Id&idCategoria=1');
+            $('#viewAllNacional').load('/Planificacion/ObjetivoEstrategico/LoadObjetivo?idEstrategia=@Model.Id&idCategoria=1&AnioGestion=@Model.AnioGestion');
             $('#viewAllGestion').load('/Planificacion/Gestion/LoadGestiones?idEstrategico=@Model.Id');
         }
+
 
 
 

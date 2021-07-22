@@ -31,12 +31,15 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string MetaAF { get; set; }
         public string EntregableAF { get; set; }
-        public int NumMeses { get; set; }
+        public SelectList NumMesesList { get; set; }
         public SelectList UnidadList { get; set; }
 
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string ValorMeta { get; set; }
+        public string EntregableMeta { get; set; }
         public virtual List<IndicadorAFViewModel> IndicadorAFs { get; set; }
         public virtual List<MetaViewModel> MetaEstrategicas { get; set; }
+
+        public virtual List<ProductoViewModel> Productos { get; set; }
     }
 }

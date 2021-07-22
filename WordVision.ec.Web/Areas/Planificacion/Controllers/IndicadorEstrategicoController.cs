@@ -13,6 +13,7 @@ using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Co
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Commands.Delete;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
 
@@ -108,7 +109,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         if (result.Succeeded)
                         {
                             id = result.Data;
-                            _notify.Success($"Objetivo con ID {result.Data} Creado.");
+                            _notify.Success($"Indicador con ID {result.Data} Creado.");
                         }
                         else _notify.Error(result.Message);
                     }
@@ -116,7 +117,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     {
                         var updateEntidadCommand = _mapper.Map<UpdateIndicadorEstrategicoCommand>(entidad);
                         var result = await _mediator.Send(updateEntidadCommand);
-                        if (result.Succeeded) _notify.Information($"Objetivo con ID {result.Data} Actualizado.");
+                        if (result.Succeeded) _notify.Information($"Indicador con ID {result.Data} Actualizado.");
                     }
                     //var response = await _mediator.Send(new GetAllIndicadorEstrategicoesCachedQuery());
                     //if (response.Succeeded)

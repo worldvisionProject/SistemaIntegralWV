@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Logs.Commands.AddActivityLog;
 using WordVision.ec.Application.Interfaces.Shared;
@@ -44,6 +45,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
         {
             await _mediator.Send(new AddActivityLogCommand() { userId = _userService.UserId, Action = "Logged Out" });
             await _signInManager.SignOutAsync();
+
             _notyf.Information("User logged out.");
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)

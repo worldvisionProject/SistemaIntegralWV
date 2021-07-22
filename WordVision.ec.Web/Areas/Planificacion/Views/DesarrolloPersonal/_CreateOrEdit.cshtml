@@ -1,0 +1,247 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Web.Areas.Planificacion.Models
+@model DesarrolloPersonalViewModel
+
+
+<form id="create-form" method="post" asp-controller="IndicadorPOA" asp-action="OnPostCreateOrEdit"  onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+  
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta">
+                        Al inicio del año plantea: ¿Qué necesito personalmente para ayudarme a hacer bien mi trabajo?
+                    </label>
+
+                    <textarea asp-for="Pregunta1" name="Pregunta1" class="form-control">Apoyo de mi líder y trabajo en equipo</textarea>
+                    <span asp-validation-for="Pregunta1" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta">
+                        Apoyo de mi líder (¿Qué clase de ayuda, recursos, guía y asistencia necesito de mi líder para poder lograr un buen trabajo este año?).
+
+                    </label>
+
+                    <textarea asp-for="Pregunta2" name="Pregunta2" class="form-control">Apoyo en ejecución de procesos críticos</textarea>
+                    <span asp-validation-for="Pregunta2" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta">
+                        Equilibrio Personal y Laboral (¿Qué enfoque tomaré este año para asegurar un balance entre adecuado entre mi vida personal y laboral?; y ¿cómo sabré que lo he logrado?):
+
+                    </label>
+
+                    <textarea asp-for="Pregunta3" name="Pregunta3" class="form-control">Planificación y cronograma de proyectos claros</textarea>
+                    <span asp-validation-for="Pregunta3" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta">
+                        ¿ Cuál es el siguiente paso profesional al que aspiro?
+
+                    </label>
+
+                    <textarea asp-for="Pregunta4" name="Pregunta4" class="form-control">Liderar proyectos nacionales</textarea>
+                    <span asp-validation-for="Pregunta4" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta">
+                        ¿Qué puedo hacer para lograr esto y quién más necesita estar involucrado?:
+
+                    </label>
+
+                    <textarea asp-for="Pregunta5" name="Pregunta5" class="form-control">Apoyo, confianza y capacitación de mi líder</textarea>
+                    <span asp-validation-for="Pregunta5" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    <br />
+    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+    </div>
+</form>
+
+
+        
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+    $(function () {
+        $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+        //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
+        //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });
+
+    });
+
+    $("#BrandId").select2({
+        placeholder: "Select a Category",
+        theme: "bootstrap4",
+        escapeMarkup: function (m) {
+            return m;
+        }
+    });
+
+
+       var num = 0;
+        function AgregaConcepto() {
+            let Actividad = document.getElementById("DescripcionActividad").value;
+            let Entregable = document.getElementById("Entregable").value;
+            var IdCargo = document.getElementById("IdCargoResponsable").value;
+            let Plazo = document.getElementById("Plazo").value;
+            let Presupuesto = document.getElementById("TechoPresupuestoCC").value;
+            let Ponderacion = document.getElementById("Ponderacion").value;
+           // let IdEstrategia = document.getElementById("Id").value;
+
+            if (Actividad.length == 0) {
+                alert("Ingrese la Actividad.");
+                return;
+            }
+
+            //agregamos tabla
+            let Tabla = document.getElementById("ActividadTable");
+            let TR = document.createElement("tr");
+            TR.setAttribute('id', num);
+            let TDActividad = document.createElement("td");
+            let TDEntregable = document.createElement("td");
+            let TDIdCargo = document.createElement("td");
+            let TDPlazo = document.createElement("td");
+            let TDPresupuesto = document.createElement("td");
+            let TDPonderacion = document.createElement("td");
+            let TDEliminar = document.createElement("td");
+            TDEliminar.className = "text-right";
+            //let TDTotal = document.createElement("td");
+           // TR.appendChild(TDId);
+            TR.appendChild(TDActividad);
+            TR.appendChild(TDEntregable);
+            TR.appendChild(TDIdCargo);
+            TR.appendChild(TDPlazo);
+            TR.appendChild(TDPresupuesto);
+            TR.appendChild(TDPonderacion);
+            TR.appendChild(TDEliminar);
+            //TR.appendChild(TDTotal);
+           // TDId.innerHTML = num;
+            TDActividad.innerHTML = Actividad;
+            TDEntregable.innerHTML = Entregable;
+            TDIdCargo.innerHTML = IdCargo;
+            TDPlazo.innerHTML = Plazo;
+            TDPresupuesto.innerHTML = Presupuesto;
+            TDPonderacion.innerHTML = Ponderacion;
+            TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
+            Tabla.appendChild(TR);
+
+            //agregamos hiddens
+            let DivConceptos = document.getElementById("divActividad");
+            let HiddenIndex = document.createElement("input");
+            let HiddenActividad = document.createElement("input");
+            let HiddenEntregable = document.createElement("input");
+            let HiddenIdCargo = document.createElement("input");
+            let HiddenPlazo = document.createElement("input");
+            let HiddenPresupuesto = document.createElement("input");
+            let HiddenPonderacion = document.createElement("input");
+
+            HiddenIndex.name = "Actividades.Index";
+            HiddenIndex.value = num;
+            HiddenIndex.type = "hidden";
+            HiddenActividad.name = "Actividades[" + num + "].DescripcionActividad";
+            HiddenActividad.value = Actividad;
+            HiddenActividad.type = "hidden";
+            HiddenEntregable.name = "Actividades[" + num + "].Entregable";
+            HiddenEntregable.value = Entregable;
+            HiddenEntregable.type = "hidden";
+            HiddenIdCargo.name = "Actividades[" + num + "].IdCargoResponsable";
+            HiddenIdCargo.value = IdCargo;
+            HiddenIdCargo.type = "hidden";
+
+            HiddenPlazo.name = "Actividades[" + num + "].Plazo";
+            HiddenPlazo.value = Plazo;
+            HiddenPlazo.type = "hidden";
+            HiddenPresupuesto.name = "Actividades[" + num + "].TechoPresupuestoCC";
+            HiddenPresupuesto.value = Presupuesto;
+            HiddenPresupuesto.type = "hidden";
+            HiddenPonderacion.name = "Actividades[" + num + "].Ponderacion";
+            HiddenPonderacion.value = Ponderacion;
+            HiddenPonderacion.type = "hidden";
+
+            DivConceptos.appendChild(HiddenIndex);
+            DivConceptos.appendChild(HiddenActividad);
+            DivConceptos.appendChild(HiddenEntregable);
+            DivConceptos.appendChild(HiddenIdCargo);
+            DivConceptos.appendChild(HiddenPlazo);
+            DivConceptos.appendChild(HiddenPresupuesto);
+            DivConceptos.appendChild(HiddenPonderacion);
+
+            document.getElementById("DescripcionActividad").value = "";
+            document.getElementById("Entregable").value = "";
+            document.getElementById("IdCargoResponsable").value = "";
+            document.getElementById("Plazo").value = "";
+            document.getElementById("TechoPresupuestoCC").value = "";
+            document.getElementById("Ponderacion").value = "";
+
+            num++;
+
+
+
+            //var GestionViewModel = {
+            //    Anio: Nombre,
+            //    Descripcion: Hablado,
+            //    Estado: Escrito,
+            //    IdEstrategia: IdEstrategia
+
+            //};
+
+        @*$.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostCreateOrEdit", "Idioma", new { area = "Registro" })',
+            data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /* alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+            //    alert('No Valid Data');
+            }
+        });*@
+
+        }
+
+    function deleteRow(id) {
+        $("#" + id).remove();
+    }
+
+    function EliminaFila(id) {
+
+        $("#" + id).remove();
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDeleteTactica", "Actividad", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+    }
+
+</script>

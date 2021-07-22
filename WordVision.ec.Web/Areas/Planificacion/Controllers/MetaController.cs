@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.MetaEstrategicas.Commands.Create;
+using WordVision.ec.Application.Features.Planificacion.MetaEstrategicas.Commands.Delete;
 using WordVision.ec.Application.Features.Planificacion.MetaEstrategicas.Commands.Update;
+using WordVision.ec.Application.Features.Planificacion.MetaTacticas.Commands.Delete;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
 
@@ -45,6 +47,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var entidadViewModel = _mapper.Map<IndicadorEstrategicoViewModel>(response.Data);
                     var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                    entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                    var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 11 });
+                    entidadViewModel.NumMesesList = new SelectList(cat11.Data, "Secuencia", "Nombre");
                     entidadViewModel.IdFactorCritico = IdFactorCritico;
                     entidadViewModel.IdEstrategia = IdEstrategia;
                     entidadViewModel.IdGestion = idGestion;
@@ -102,6 +106,35 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
 
+        public async Task<JsonResult> OnPostDelete(int id = 0)
+        {
+            var deleteCommand = await _mediator.Send(new DeleteMetaEstrategicaCommand { Id = id });
+            if (deleteCommand.Succeeded)
+            {
+                _notify.Information($"Meta con Id {id} Eliminado.");
+                return new JsonResult(new { isValid = true });
+            }
+            else
+            {
+                _notify.Error(deleteCommand.Message);
+                return null;
+            }
+        }
 
+
+        public async Task<JsonResult> OnPostDeleteTactica(int id = 0)
+        {
+            var deleteCommand = await _mediator.Send(new DeleteMetaTacticaCommand { Id = id });
+            if (deleteCommand.Succeeded)
+            {
+                _notify.Information($"Meta con Id {id} Eliminado.");
+                return new JsonResult(new { isValid = true });
+            }
+            else
+            {
+                _notify.Error(deleteCommand.Message);
+                return null;
+            }
+        }
     }
 }

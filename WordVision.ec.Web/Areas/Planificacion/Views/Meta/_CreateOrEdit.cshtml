@@ -9,13 +9,13 @@
         <div class="col-md-12">
             
             <div class="form-group row">
-           
-                    <div class="col-md-2">
-                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meses</label>
-                        <input asp-for="NumMeses" type="number" name="NumMeses" class="form-control" />
-                        <span asp-validation-for="NumMeses" class="text-danger"></span>
-                    </div>
-               
+
+                <div class="col-md-2">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Trimestre</label>
+                    @Html.DropDownListFor(x => x.NumMesesList, Model.NumMesesList, new { @class = "form-control" })
+                    <span asp-validation-for="NumMesesList" class="text-danger"></span>
+                </div>
+
                 <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Unidad Medida</label>
                     @Html.DropDownListFor(x => x.UnidadList, Model.UnidadList, new { @class = "form-control" })
@@ -24,9 +24,15 @@
                 </div>
                 <div class="col-md-2">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Valor Meta</label>
-                   
+
                     <input asp-for="ValorMeta" type="text" name="ValorMeta" class="form-control" />
                     <span asp-validation-for="ValorMeta" class="text-danger"></span>
+                </div>
+                <div class="col-md-2">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Logro Entregable</label>
+
+                    <input asp-for="EntregableMeta" type="text" name="EntregableMeta" class="form-control" />
+                    <span asp-validation-for="EntregableMeta" class="text-danger"></span>
                 </div>
                 <div class="col-md-2" style="padding-top: 25px;">
                     <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
@@ -45,7 +51,7 @@
                     <th>Meses</th>
                     <th>Medida/Unidad</th>
                     <th>Valor</th>
-
+                    <th>Entregable</th>
                     <th class="text-right">Acciones</th>
                 </tr>
             </thead>
@@ -55,34 +61,37 @@
 
                     @foreach (var metaanual in Model.MetaEstrategicas)
                     {
-                        <tr id="@metaanual.Id">
-                            @*<td>
+                <tr id="@metaanual.Id">
+                    @*<td>
 
-                                @colaborador.Id
-                            </td>*@
-                            <td>
-                              
-                               @metaanual.NumMeses
-                                
-                            </td>
-                            <td>
-                               
-                                @{
-                                    var selectedCity = Model.UnidadList;
-                                    string txt = selectedCity.Where(x => x.Value == metaanual.TipoMedida.ToString()).FirstOrDefault().Text;
-                                }
-                                @txt
-                            </td>
-                            <td>
-                                @metaanual.Valor
-                            </td>
+            @colaborador.Id
+        </td>*@
+                    <td>
 
-                            <td class="text-right">
-                                <button type="button" onclick="EliminaFila(@metaanual.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+                        @metaanual.NumMeses
 
-                            </td>
+                    </td>
+                    <td>
 
-                        </tr>
+                        @{
+                            var selectedCity = Model.UnidadList;
+                            string txt = selectedCity.Where(x => x.Value == metaanual.TipoMedida.ToString()).FirstOrDefault().Text;
+                        }
+                        @txt
+                    </td>
+                    <td>
+                        @metaanual.Valor
+                    </td>
+                    <td>
+                        @metaanual.Entregable
+                    </td>
+
+                    <td class="text-right">
+                        <button type="button" onclick="EliminaFila(@metaanual.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                    </td>
+
+                </tr>
                     }}
 
 
@@ -119,11 +128,12 @@
 
        var num = 0;
         function AgregaConcepto() {
-            let NumMeses = document.getElementById("NumMeses").value;
+            let NumMeses = document.getElementById("NumMesesList").value;
             let UnidadList = document.getElementById("UnidadList").value;
             var selection = document.getElementById("UnidadList");
             let Unidad = selection.options[selection.selectedIndex].innerHTML;
             let ValorMeta = document.getElementById("ValorMeta").value;
+            let EntregableMeta = document.getElementById("EntregableMeta").value;
            // let IdEstrategia = document.getElementById("Id").value;
 
             if (NumMeses.length == 0) {
@@ -139,6 +149,7 @@
             let TDNumMeses = document.createElement("td");
             let TDUnidad = document.createElement("td");
             let TDValorMeta = document.createElement("td");
+            let TDEntregableMeta = document.createElement("td");
             let TDEliminar = document.createElement("td");
             TDEliminar.className = "text-right";
             //let TDTotal = document.createElement("td");
@@ -146,12 +157,14 @@
             TR.appendChild(TDNumMeses);
             TR.appendChild(TDUnidad);
             TR.appendChild(TDValorMeta);
+            TR.appendChild(TDEntregableMeta);
             TR.appendChild(TDEliminar);
             //TR.appendChild(TDTotal);
            // TDId.innerHTML = num;
             TDNumMeses.innerHTML = NumMeses;
             TDUnidad.innerHTML = Unidad;
             TDValorMeta.innerHTML = ValorMeta;
+            TDEntregableMeta.innerHTML = EntregableMeta;
             TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
             //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
             Tabla.appendChild(TR);
@@ -162,6 +175,7 @@
             let HiddenNumMeses = document.createElement("input");
             let HiddenUnidad = document.createElement("input");
             let HiddenValorMeta = document.createElement("input");
+            let HiddenEntregableMeta = document.createElement("input");
             HiddenIndex.name = "meta.Index";
             HiddenIndex.value = num;
             HiddenIndex.type = "hidden";
@@ -174,14 +188,21 @@
             HiddenValorMeta.name = "meta[" + num + "].Valor";
             HiddenValorMeta.value = ValorMeta;
             HiddenValorMeta.type = "hidden";
+
+            HiddenEntregableMeta.name = "meta[" + num + "].Entregable";
+            HiddenEntregableMeta.value = EntregableMeta;
+            HiddenEntregableMeta.type = "hidden";
+
             DivConceptos.appendChild(HiddenIndex);
             DivConceptos.appendChild(HiddenNumMeses);
             DivConceptos.appendChild(HiddenUnidad);
             DivConceptos.appendChild(HiddenValorMeta);
+            DivConceptos.appendChild(HiddenEntregableMeta);
 
-            document.getElementById("NumMeses").value = "";
+            document.getElementById("NumMesesList").value = "";
             document.getElementById("UnidadList").value = "";
             document.getElementById("ValorMeta").value = "";
+            document.getElementById("EntregableMeta").value = "";
 
             num++;
 
@@ -226,7 +247,7 @@
 
          $.ajax({
             type: "post",
-            url:'@Url.Action("OnPostDelete", "IndicadorAF", new { area = "Planificacion" })',
+            url:'@Url.Action("OnPostDelete", "Meta", new { area = "Planificacion" })',
              data: GestionViewModel,
             datatype: "json",
             cache: false,

@@ -10,11 +10,12 @@
             @*<th>Responsable</th>*@
             <th>Area</th>
             <th class="acciones-th">Factor</th>
+            <th class="acciones-th">Acuerdo</th>
             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Delete)).Result.Succeeded)
             {
                 <th class="acciones-th" style="width:30% !important">Acciones</th>
             }
-            </tr>
+        </tr>
     </thead>
     <tbody>
         @if (Model.ObjetivoEstrategicos != null)
@@ -58,8 +59,14 @@
                     <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="Index" asp-route-id="@objetivo.Id" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
                 }
             </td>
-            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Delete)).Result.Succeeded)
-            {
+            <td class="acciones-td">
+                <button type="button" title="Acuerdo de desempeño" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/AcuerdoDesempenio/OnGetCreateOrEdit?id=0&idNivel0','Acuerdo desempeño')">
+                    <i class="fas fa-handshake"></i>
+
+                </button>
+            </td>
+                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Delete)).Result.Succeeded)
+                {
 
                 <td class="acciones-td">
                     @*<button type="button" title="Editar" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=@objetivo.Id&idEstrategia=@Model.Id&categoria=@Model.CategoriaObjetivo','Editar Objetivos')">
@@ -69,7 +76,7 @@
                     <form id="form_delete_@objetivo.Id" asp-area="Planificacion" asp-controller="ObjetivoEstrategico" method="post" asp-action="OnPostDelete" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@Model.Id" asp-route-idCategoria="@Model.CategoriaObjetivo" onsubmit="return jQueryModalDelete(this)">
                         <a href="javascript:$('#form_delete_@objetivo.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
                     </form>
-               
+
                     @*<button type="button" onclick="EliminaFila(@objetivo.Id)" class="btn btn-danger btn-xp" title="Inactivar"><i class="fas fa-trash-alt"></i></button>*@
 
                 </td>
@@ -98,12 +105,30 @@
                 { responsivePriority: 2, targets: -1 }
             ],
             "info": false,
-           
-            retrieve: true
+
+            retrieve: true,
             //columnDefs: [
             //    { responsivePriority: 1, targets: 0 },
             //    { responsivePriority: 10001, targets: 4 },
             //    { responsivePriority: 2, targets: -2 }
+            //]
+
+
+            //"columns": [
+
+            //    {
+            //        "className": 'details-control',
+            //        "data": null,
+            //        "defaultContent": ''
+            //    }
+
+            //    { "data": "id" },
+            //    { "data": "name" },
+            //    { "data": "dsc" },
+            //    { "data": "proyecto_name" },
+            //    { "data": "prsp_def" },
+            //    { "data": "prsp_ctb" },
+
             //]
         });
 
@@ -116,8 +141,98 @@
 
             jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id='+data[0]+'&idEstrategia=@Model.Id&categoria=@Model.CategoriaObjetivo', 'Editar Objetivos');
 
-       
+
         });
+
+
+
+
+        //$('#objetivoTable tbody').on('click', 'td', function () {
+
+        //    var tr = $(this).closest('tr');
+        //    var row = table.row(tr);
+
+        //    if (row.child.isShown()) {
+        //        // This row is already open - close it
+        //        alert("1");
+        //        row.child.hide();
+        //        tr.removeClass('shown');
+
+
+        //    }
+        //    else {
+        //        // Open this row
+        //        alert("2");
+        //        row.child(rowChild(row.data())).show();
+        //        tr.addClass('shown');
+
+        //    }
+        //});
+
+
+
+
+
+
+        function rowChild(d) {
+
+            var parametros = {//Las variables que le paso
+                idObjetivo: 2, // d.id Aqui tengo el id de la historia
+                idGestion: 1009
+                //AnioGestion: 1009
+
+            };
+
+            var objJson = null;
+            $.ajax({
+                data: parametros,
+                url:'@Url.Action("LoadFactorIndicadoresChild", "FactorCriticoExito", new { area = "Planificacion" })',
+               
+                type: "POST",
+
+                success: function (data) {
+                    alert(data);
+                    objJson = JSON.parse(data);
+                }
+            });
+
+            return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+
+
+                '<tr>' +
+                '<td>Id:</td>' +
+                '<td>' + objJson['0'].id + '</td>' +
+                '</tr>' +
+
+                '<tr>' +
+                '<td>Tarea:</td>' +
+                '<td>' + objJson['0'].name + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>Descripción:</td>' +
+                '<td>' + objJson['0'].dsc + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>Colaborador:</td>' +
+                '<td>' + objJson['0'].colab_name + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>Presupuesto Asignado:</td>' +
+                '<td>' + objJson['0'].prsp_def + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>Gasto Real:</td>' +
+                '<td>' + objJson['0'].prsp_ctb + '</td>' +
+                '</tr>' +
+
+                '</table>';
+
+
+
+
+
+
+        }
 
 
     });

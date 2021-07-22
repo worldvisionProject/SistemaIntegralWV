@@ -24,7 +24,7 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public int IdEstrategia { get; set; }
         public EstrategiaNacional EstrategiaNacionales { get; set; }
 
-        [ForeignKey("IdGestion")]
-        public ICollection<Producto> Productos { get; set; }
+        //[ForeignKey("IdGestion")]
+        //public ICollection<Producto> Productos { get; set; }
     }
 }

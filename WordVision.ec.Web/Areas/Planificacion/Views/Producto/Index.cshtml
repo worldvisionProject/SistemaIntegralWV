@@ -1,31 +1,19 @@
 ﻿@{ 
-   ViewData["Title"] = localizer["Producto"];
-   ViewData["Caption"] = localizer["Gestionar Producto aquí"]; 
+    ViewData["Tmp"] = localizer["Indicador Estratégico:"];
+    ViewData["Objetivo"] =  ViewBag.Indicador;
+    ViewData["Caption"] = localizer["Gestionar Producto aquí"];
  }
 @using WordVision.ec.Web.Areas.Planificacion.Models
 @model ProductoViewModel
 <div class="card">
 
-    @*<div class="card-header">
-        Lista de Usuarios
-        <div class="pull-right">
-            <a class="btn btn-primary" id="btnViewModel" href="/Institucions/Create">
-                <i class="fa fa-plus-square"></i>
-                Agregar
-            </a>
+    <div class="col-sm-12 header-button">
 
-        </div>
-    </div>*@
+        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEdit?id=0&idGestion=@Model.IdGestion&idIndicadorEstra=@Model.IdIndicadorEstrategico','Factor Crítico de Éxito')">
+            <i class="fa fa-plus-square"></i>
+            Agregar
+        </button>
 
-    <div class="col-sm-12 header-button" >
-
-        <a asp-area="planificacion" asp-controller="Producto" asp-action="OnGetCreateOrEdit" class="btn bg-primary">
-            <i class="fa fa-plus-square"></i> Agregar
-        </a>
-        @*<a id="reload" class="btn btn-primary text-white">
-                <i class="fa fas fa-bolt"></i>
-                Refrescar
-            </a>*@
     </div>
     <div id="viewAll" class="card-body table-responsive">
     </div>
@@ -47,6 +35,6 @@
             $('#viewAll').load('/registro/formulario/FormularioPdf/@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value');
         };*@
         function loadData() {
-            $('#viewAll').load('/planificacion/Producto/LoadAll?idGestion=@Model.IdGestion');
+            $('#viewAll').load('/planificacion/Producto/LoadAll?idIndicador=@Model.IdIndicadorEstrategico&idGestion=@Model.IdGestion');
         }</script>
 }

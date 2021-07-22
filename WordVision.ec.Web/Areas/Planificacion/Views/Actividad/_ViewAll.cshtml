@@ -1,0 +1,104 @@
+﻿@using WordVision.ec.Web.Areas.Planificacion.Models
+@model ProductoViewModel
+
+<table id="anioFiscalTable" class="table table-striped " width="100%" cellspacing="0">
+    <thead>
+        <tr>
+
+            <th data-priority="1">Indicador</th>
+            <th data-priority="2">Responsable</th>
+            <th data-priority="2">Linea base</th>
+            <th data-priority="2">Meta acumulada ciclo</th>
+            <th data-priority="2" class="acciones-th">Acciones</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var anioFiscal in Model.IndicadorPOAs)
+        {
+            <tr id="@anioFiscal.Id">
+
+                <td>
+                    @anioFiscal.IndicadorProducto
+                </td>
+                <td>
+                    @anioFiscal.Responsable
+                </td>
+                <td>
+                    @anioFiscal.LineaBase
+                </td>
+                <td>
+                    @anioFiscal.Meta
+                </td>
+
+                <td class="acciones-td">
+                    <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/OnGetCreateOrEdit?id=@anioFiscal.Id&idProducto=@Model.Id','Indicador de Resultados')">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    <button type="button" onclick="EliminaFila(@anioFiscal.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                 </td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+<div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+    @*<button type="submit" class="btn btn-success">Guardar</button>*@
+    <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+</div>
+<script>
+     function EliminaFila(id) {
+
+        $("#" + id).remove();
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "IndicadorPOA", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+    }
+    $(document).ready(function () {
+        var table = $("#colaboradorTable").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                "url": "../lib/datatables/language/Spanish.json"
+            },
+
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 }
+            ],
+            "info": false
+            //columnDefs: [
+            //    { responsivePriority: 1, targets: 0 },
+            //    { responsivePriority: 10001, targets: 4 },
+            //    { responsivePriority: 2, targets: -2 }
+            //]
+        });
+
+
+
+    });
+</script>

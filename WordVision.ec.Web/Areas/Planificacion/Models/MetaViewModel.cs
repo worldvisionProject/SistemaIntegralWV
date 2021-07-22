@@ -23,6 +23,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public bool? Diciembre { get; set; }
         public int TipoMedida { get; set; }
         public decimal Valor { get; set; }
+        public string Entregable { get; set; }
         public int IdIndicadorEstrategico { get; set; }
     }
 }

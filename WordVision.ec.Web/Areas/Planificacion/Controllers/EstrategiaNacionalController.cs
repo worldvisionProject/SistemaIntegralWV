@@ -23,7 +23,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
     [Authorize]
     public class EstrategiaNacionalController : BaseController<EstrategiaNacionalController>
     {
-        [Breadcrumb("Ciclo Estrategico", AreaName = "Planificacion")]
+        [Breadcrumb("Ciclo Estratégico", AreaName = "Planificacion")]
         public IActionResult Index()
         {
             var model = new EstrategiaNacionalViewModel();
@@ -86,11 +86,13 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
 
-        [Breadcrumb("Parametros", AreaName = "Planificacion")]
+        [Breadcrumb("Objetivos", AreaName = "Planificacion")]
         public async Task<IActionResult> OnGetCreateOrEdit(int id = 0)
         {
             try
             {
+               
+
                 // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
                 var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 2 });
                 ViewBag.EstadoList = new SelectList(cat1.Data, "Secuencia", "Nombre");
@@ -110,6 +112,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 _notify.Error("No se pudo cargar los Catalogos");
                 _logger.LogError( "No se pudo cargar los Catalogos",ex);
             }
+
+
             if (id == 0)
             {
                 var entidadViewModel = new EstrategiaNacionalViewModel();
@@ -124,6 +128,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                    
                     var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
                     ViewBag.Ciclo = entidadViewModel.Nombre;
+
                     return View("_CreateOrEdit", entidadViewModel);
                     //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
@@ -185,11 +190,37 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         public async Task<ActionResult> PlanImplementacion(int ciclo)
         {
 
-            var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estrategico", false, null, "Planificacion")
+            var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estratégico", false, null, "Planificacion")
             {
                                              // Parent = childNode0
             };
             ViewData["BreadcrumbNode"] = childNode1;
+
+
+            try
+            {
+
+
+                // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
+                var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 2 });
+                ViewBag.EstadoList = new SelectList(cat1.Data, "Secuencia", "Nombre");
+                //ViewData["EstadoList"] = new SelectList(cat1.Data, "Secuencia", "Nombre");
+
+                var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
+                ViewBag.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+
+                var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
+                ViewBag.AreaList = new SelectList(cat3.Data, "Secuencia", "Nombre");
+
+                var cat4 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 5 });
+                ViewBag.CategoriaList = new SelectList(cat4.Data, "Secuencia", "Nombre");
+            }
+            catch (Exception ex)
+            {
+                _notify.Error("No se pudo cargar los Catalogos");
+                _logger.LogError("No se pudo cargar los Catalogos", ex);
+            }
+
 
             var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = ciclo });
             if (response.Succeeded)
@@ -214,13 +245,13 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         public async Task<IActionResult> OnGetCreateOrEditEstrategia(int id = 0, int AnioGestion=0)
         {
             var ciclo = id;
-            var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estrategico", false, null, "Planificacion")
+            var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estratégico", false, null, "Planificacion")
             {
                 RouteValues = new { ciclo },//this comes in as a param into the action
                // Parent = childNode0
             };
 
-            var childNode2 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Gestion")
+            var childNode2 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Gestión")
             {
                 OverwriteTitleOnExactMatch = true,
                 Parent = childNode1
@@ -264,7 +295,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
                     entidadViewModel.AnioGestion = AnioGestion.ToString();
                     ViewBag.Ciclo = entidadViewModel.Nombre;
-                    ViewBag.Gestion = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault().Anio;
+                    ViewBag.Gestion = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault()?.Anio??string.Empty;
                     ViewBag.SNGestion = "N";
                     ViewBag.Nivel = User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value;
                     return View("_CreateOrEdit", entidadViewModel);

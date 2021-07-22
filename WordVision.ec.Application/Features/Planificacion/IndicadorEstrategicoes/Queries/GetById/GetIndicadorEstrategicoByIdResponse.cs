@@ -13,6 +13,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
         public decimal? LineaBase { get; set; }
         public decimal? Meta { get; set; }
         public int IdFactorCritico { get; set; }
+        public virtual ICollection<Producto> Productos { get; set; }
         public virtual ICollection<IndicadorAF> IndicadorAFs { get; set; }
         public virtual ICollection<MetaEstrategica> MetaEstrategicas { get; set; }
     }

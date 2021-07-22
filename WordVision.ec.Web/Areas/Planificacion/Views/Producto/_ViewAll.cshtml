@@ -1,80 +1,69 @@
-﻿@{ ViewData["Title"] = localizer["Producto"];
-    ViewData["Caption"] = localizer["Gestionar Producto aquí"]; }
-@using WordVision.ec.Web.Areas.Planificacion.Models
-@using WordVision.ec.Web.Views.Shared.Components.Title;
-@model IEnumerable<ProductoViewModel>
-@(await Component.InvokeAsync<TitleViewComponent>())
-<div class="card">
-    <div class="col-md-12 header-button">
+﻿@using WordVision.ec.Web.Areas.Planificacion.Models
+@model IndicadorEstrategicoViewModel
 
-        @*<a asp-area="planificacion" asp-controller="Producto" asp-action="OnGetCreateOrEdit" class="btn bg-primary">
-                <i class="fa fa-plus-square"></i> Agregar
-            </a>*@
-        <button type="button" class="btn btn-primary" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEdit?id=0&idGestion=0','Producto')">
-            <i class="fas fa-plus-square"></i>Agregar
-        </button>
 
-        @*<a id="reload" class="btn btn-primary text-white">
-                <i class="fa fas fa-bolt"></i>
-                Refrescar
-            </a>*@
-    </div>
-    <div id="viewAll" class="card-body table-responsive">
-        <table id="productoTable" class="table table-striped " width="100%" cellspacing="0">
+<table id="productoTable" class="table table-striped " width="100%" cellspacing="0">
             <thead>
                 <tr>
 
-                    <th data-priority="1">Objetivo de Resultado</th>
-                    <th data-priority="1">Indicador de Resultado</th>
+                    <th>Id</th>
                     <th data-priority="1">Producto</th>
                     <th data-priority="1">Responsable</th>
-                    <th data-priority="1">Indicador</th>
+                    <th data-priority="1">Indicadores</th>
+                    <th data-priority="1">Acuerdo</th>
                     <th data-priority="2" class="acciones-th">Acciones</th>
 
                 </tr>
             </thead>
             <tbody>
-
-                @foreach (var producto in Model)
+                @if (Model.Productos != null)
                 {
-    <tr>
+                @foreach (var producto in Model.Productos.Where(x => x.IdGestion == Model.IdGestion))
+                {
+                <tr>
+                    <td>
+                        @producto.Id
+                    </td>
+                    <td>
+                        @producto.DescProducto
+                    </td>
+                    <td>
+                        @producto.IdCargoResponsable
+                    </td>
 
-        <td>
-            @producto.DescObjetivoEstra
-        </td>
-        <td>
-            @producto.DescIndicadorEstrategico
-        </td>
-        <td>
-            @producto.DescProducto
-        </td>
-        <td>
-            @producto.DescCargoResponsable
-        </td>
-        <td class="acciones-td">
-            @* <a  asp-area="planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEdit" asp-route-id="@anioFiscal.Id" class="btn btn-info btn-xp"><i class="fas fa-pencil-alt"></i>  Editar</a>*@
-            <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Ver" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/LoadIndicadores?idProducto=@producto.Id','Indicador POA')">
-                <i class="fas fa-eye"></i>
-            </button>
+                    <td class="acciones-td">
+                        @* <a  asp-area="planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEdit" asp-route-id="@anioFiscal.Id" class="btn btn-info btn-xp"><i class="fas fa-pencil-alt"></i>  Editar</a>*@
+                        <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Ver" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/LoadIndicadores?idProducto=@producto.Id','Indicador POA')">
+                            <i class="fas fa-eye"></i>
+                        </button>
 
-            <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/OnGetCreateOrEdit?id=0&idProducto=@producto.Id','Indicador POA')">
-                <i class="fas fa-plus-square"></i>
-            </button>
-        </td>
-        <td class="acciones-td">
-            <button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEdit?id=0&idGestion=@producto.IdGestion','Producto')">
+                        <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/OnGetCreateOrEdit?id=0&idProducto=@producto.Id','Indicador POA')">
+                            <i class="fas fa-plus-square"></i>
+                        </button>
+                    </td>
+                    <td class="acciones-td">
+                        <button type="button" title="Acuerdo de desempeño" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/AcuerdoDesempenio/OnGetCreateOrEdit?id=0&idNivel0','Acuerdo desempeño')">
+                            <i class="fas fa-handshake"></i>
+
+                        </button>
+                    </td>
+                    <td class="acciones-td">
+                        @*<button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEdit?id=0&idGestion=@producto.IdGestion&idIndicadorEstra=@Model.Id','Producto')">
                 <i class="fas fa-pencil-alt"></i>
-            </button>
-            @* <a asp-area="planificacion" asp-controller="Producto" asp-action="OnGetCreateOrEdit" asp-route-id="@producto.Id" class="btn btn-warning btn-xp"><i class="fas fa-pencil-alt"></i></a>*@
-        </td>
+            </button>*@
+                        <form id="form_delete_@producto.Id" asp-area="Planificacion" asp-controller="FactorCriticoExito" method="post" asp-action="OnPostDelete" asp-route-id="@producto.Id" onsubmit="return jQueryModalDelete(this)">
+                            <a href="javascript:$('#form_delete_@producto.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
+                        </form>
+                        @* <a asp-area="planificacion" asp-controller="Producto" asp-action="OnGetCreateOrEdit" asp-route-id="@producto.Id" class="btn btn-warning btn-xp"><i class="fas fa-pencil-alt"></i></a>*@
+                    </td>
 
 
-    </tr>
-}
+                </tr>
+                }
+                }
             </tbody>
         </table>
-    </div>
-</div>
+
 <script>
 
     $(document).ready(function () {
@@ -84,7 +73,7 @@
                 { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
             ],
             "language": {
-                "url": "../lib/datatables/language/Spanish.json"
+                "url": "/lib/datatables/language/Spanish.json"
             },
 
             responsive: true,
@@ -100,7 +89,21 @@
             //]
         });
 
+        var column = table.column(0);
+        // Toggle the visibility
+        column.visible(false);
 
+
+
+        $('#productoTable tbody').on('dblclick', 'tr', function () {
+            var data = table.row(this).data();
+
+            jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEdit?id=' + data[0] + '&idGestion=@Model.IdGestion&idIndicadorEstra=@Model.Id', 'Producto');
+            
+
+        });
+
+        $(".dynmic-hidden-col").hide();
 
     });
 </script>

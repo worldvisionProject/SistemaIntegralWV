@@ -5,6 +5,7 @@
 
 <form id="create-form" method="post" asp-controller="IndicadorEstrategico" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
     @Html.HiddenFor(x => x.IdFactorCritico)
+   @{ decimal suma = 0;}
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
@@ -17,7 +18,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">Medio Verificacion</label>
+                    <label class="col-md-12 col-form-label texto-pregunta">Medio Verificación</label>
 
                     <textarea asp-for="MedioVerificacion" name="MedioVerificacion" class="form-control"></textarea>
                     <span asp-validation-for="MedioVerificacion" class="text-danger"></span>
@@ -44,16 +45,16 @@
                     <span asp-validation-for="UnidadMedida" class="text-danger"></span>
                 </div>
                 <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Linea Base</label>
-                   
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
+
                     <input asp-for="LineaBase" type="text" name="LineaBase" class="form-control" />
                     <span asp-validation-for="LineaBase" class="text-danger"></span>
                 </div>
-                @*<div class="col-md-2">
-                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Anual</label>
-                        <input asp-for="Meta" type="number" name="Meta" class="form-control" />
-                        <span asp-validation-for="Meta" class="text-danger"></span>
-                    </div>*@
+                <div class="col-md-2">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Meta acumulada ciclo</label>
+                    <input asp-for="Meta" type="text" name="Meta" class="form-control"  />
+                    <span asp-validation-for="Meta" class="text-danger"></span>
+                </div>
             </div>
             <div class="form-group row">
                 <div class="col-md-12">
@@ -93,7 +94,7 @@
             <thead>
                 <tr>
                     @*<th>Id</th>*@
-                    <th>Gestion</th>
+                    <th>Gestión</th>
                     <th>Meta</th>
                     <th>Entregable</th>
 
@@ -103,21 +104,23 @@
             <tbody>
                 @if (Model.IndicadorAFs != null)
                 {
+                    suma = 0;
 
                     @foreach (var metaanual in Model.IndicadorAFs)
                     {
+                        suma = suma + Convert.ToDecimal(@metaanual.Meta);
                         <tr id="@metaanual.Id">
                             @*<td>
 
-                                @colaborador.Id
-                            </td>*@
+                        @colaborador.Id
+                    </td>*@
                             <td>
                                 @{
                                     var selectedCity = Model.gestionList;
                                     string txt = selectedCity.Where(x => x.Value == metaanual.Anio).FirstOrDefault().Text;
                                 }
                                 @txt
-                                
+
                             </td>
                             <td>
                                 @metaanual.Meta
@@ -132,9 +135,12 @@
                             </td>
 
                         </tr>
-                    }}
+                    }
 
 
+                }
+
+                <input value="@suma" type="hidden" id="suma" name="suma" />
             </tbody>
         </table>
 
@@ -148,8 +154,9 @@
 
 
         
-        <script type="text/javascript" language=javascript>
-    $.validator.unobtrusive.parse(document);
+<script type="text/javascript" language=javascript>
+            $.validator.unobtrusive.parse(document);
+    document.getElementById("Meta").value = document.getElementById("suma").value == null ? 0 : document.getElementById("suma").value;
     $(function () {
         $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
         //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
@@ -166,13 +173,18 @@
     });
 
 
-       var num = 0;
+            var num = 0;
+            let sum = document.getElementById("suma").value;
         function AgregaConcepto() {
             let Anio = document.getElementById("gestionList").value;
             let Entregable = document.getElementById("EntregableAF").value;
             let Meta = document.getElementById("MetaAF").value;
-           // let IdEstrategia = document.getElementById("Id").value;
+            var selection = document.getElementById("gestionList");
+            let AnioDesc = selection.options[selection.selectedIndex].innerHTML;
 
+            document.getElementById("suma").value
+           // let IdEstrategia = document.getElementById("Id").value;
+            sum = parseFloat(sum) + parseFloat(Meta);
             if (Anio.length == 0) {
                 alert("Ingrese la Gestion.");
                 return;
@@ -197,7 +209,7 @@
             TR.appendChild(TDEliminar);
             //TR.appendChild(TDTotal);
            // TDId.innerHTML = num;
-            TDAnio.innerHTML = Anio;
+            TDAnio.innerHTML = AnioDesc;
             TDMeta.innerHTML = Meta;
             TDEntregable.innerHTML = Entregable;
             TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
@@ -230,6 +242,8 @@
             document.getElementById("gestionList").value = "";
             document.getElementById("EntregableAF").value = "";
             document.getElementById("MetaAF").value = "";
+
+            document.getElementById("Meta").value = sum;
 
             num++;
 
@@ -288,4 +302,4 @@
         });
     }
 
-        </script>
+</script>

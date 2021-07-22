@@ -10,6 +10,7 @@
     <Compile Remove="Features\Planificacion\Gestiones\Queries\GetAllPaged\**" />
     <Compile Remove="Features\Planificacion\IndicadorAFes\Queries\GetAllPaged\**" />
     <Compile Remove="Features\Planificacion\IndicadorEstrategicoes\Queries\GetAllPaged\**" />
+    <Compile Remove="Features\Planificacion\IndicadorPOAs\Queries\GetAllPaged\**" />
     <Compile Remove="Features\Planificacion\ObjetivoEstrategicoes\Queries\GetAllPaged\**" />
     <Compile Remove="Features\Registro\Pregunta\Queries\GetAllPaged\**" />
     <Compile Remove="ViewModels\**" />
@@ -18,6 +19,7 @@
     <EmbeddedResource Remove="Features\Planificacion\Gestiones\Queries\GetAllPaged\**" />
     <EmbeddedResource Remove="Features\Planificacion\IndicadorAFes\Queries\GetAllPaged\**" />
     <EmbeddedResource Remove="Features\Planificacion\IndicadorEstrategicoes\Queries\GetAllPaged\**" />
+    <EmbeddedResource Remove="Features\Planificacion\IndicadorPOAs\Queries\GetAllPaged\**" />
     <EmbeddedResource Remove="Features\Planificacion\ObjetivoEstrategicoes\Queries\GetAllPaged\**" />
     <EmbeddedResource Remove="Features\Registro\Pregunta\Queries\GetAllPaged\**" />
     <EmbeddedResource Remove="ViewModels\**" />
@@ -26,6 +28,7 @@
     <None Remove="Features\Planificacion\Gestiones\Queries\GetAllPaged\**" />
     <None Remove="Features\Planificacion\IndicadorAFes\Queries\GetAllPaged\**" />
     <None Remove="Features\Planificacion\IndicadorEstrategicoes\Queries\GetAllPaged\**" />
+    <None Remove="Features\Planificacion\IndicadorPOAs\Queries\GetAllPaged\**" />
     <None Remove="Features\Planificacion\ObjetivoEstrategicoes\Queries\GetAllPaged\**" />
     <None Remove="Features\Registro\Pregunta\Queries\GetAllPaged\**" />
     <None Remove="ViewModels\**" />

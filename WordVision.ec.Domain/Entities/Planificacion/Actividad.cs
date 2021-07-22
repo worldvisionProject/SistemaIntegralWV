@@ -21,7 +21,7 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public decimal? TechoPresupuestoCC { get; set; }
         [Required]
         public decimal? Ponderacion { get; set; }
-        [Required]
+       
         public decimal? Saldo { get; set; }
 
         public int IdIndicadorPOA { get; set; }

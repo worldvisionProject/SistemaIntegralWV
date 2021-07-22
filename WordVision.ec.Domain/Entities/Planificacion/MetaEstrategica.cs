@@ -24,7 +24,7 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public bool? Diciembre { get; set; }
         public int TipoMedida { get; set; }
         public decimal Valor { get; set; }
-
+        public string Entregable { get; set; }
         public int IdGestion { get; set; }
         public int IdIndicadorEstrategico { get; set; }
         

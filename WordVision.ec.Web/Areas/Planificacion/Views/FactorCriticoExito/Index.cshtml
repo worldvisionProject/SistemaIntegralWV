@@ -5,7 +5,7 @@
 @{ 
     ViewData["Tmp"] = "Objetivo: ";
     ViewData["Objetivo"] = ViewBag.Message;
-    ViewData["Title"] = localizer["Factor Critico de Exito"].Value + " " + ViewBag.Ciclo;
+    ViewData["ObjTitle"] = localizer["Factor Critico de Éxito"].Value + " " + ViewBag.Ciclo;
 
 
     }
@@ -25,7 +25,7 @@
 
     <div class="col-sm-12 header-button" >
 
-        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/FactorCriticoExito/OnGetCreateOrEdit?id=0&idObjetivoEstra=@Model.IdObjetivoEstra','Factor Critico de Exito')">
+        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/FactorCriticoExito/OnGetCreateOrEdit?id=0&idObjetivoEstra=@Model.IdObjetivoEstra','Factor Crítico de Éxito')">
             <i class="fa fa-plus-square"></i>
             Agregar
         </button>

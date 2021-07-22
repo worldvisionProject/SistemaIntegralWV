@@ -33,8 +33,8 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public int IdFactorCritico { get; set; }
         public FactorCriticoExito FactorCriticoExitos { get; set; }
 
-        //[ForeignKey("IdIndicadorEstrategico")]
-        //public ICollection<Producto> Productos { get; set; }
+        [ForeignKey("IdIndicadorEstrategico")]
+        public ICollection<Producto> Productos { get; set; }
 
         [ForeignKey("IdIndicadorEstrategico")]
         public ICollection<IndicadorAF> IndicadorAFs { get; set; }

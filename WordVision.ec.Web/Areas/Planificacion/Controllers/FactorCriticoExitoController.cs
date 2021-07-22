@@ -5,7 +5,9 @@ using SmartBreadcrumbs.Attributes;
 using SmartBreadcrumbs.Nodes;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Commands.Create;
@@ -49,18 +51,18 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
 
-            var childNode0 = new MvcBreadcrumbNode("Index", "EstrategiaNacional", "Ciclo Estrategico", false, null, "Planificacion")
+            var childNode0 = new MvcBreadcrumbNode("Index", "EstrategiaNacional", "Ciclo Estratégico", false, null, "Planificacion")
             {
                 //RouteValues = new { id }//this comes in as a param into the action
             };
 
-            var childNode1 = new MvcBreadcrumbNode("OnGetCreateOrEdit", "EstrategiaNacional", "Parametros", false, null, "Planificacion")
+            var childNode1 = new MvcBreadcrumbNode("OnGetCreateOrEdit", "EstrategiaNacional", "Objetivos", false, null, "Planificacion")
             {
                 RouteValues = new { id },//this comes in as a param into the action
                  Parent = childNode0
             };
 
-            var childNode2 = new MvcBreadcrumbNode("Index", "FactorCriticoExito", "Factor Critico de Exito")
+            var childNode2 = new MvcBreadcrumbNode("Index", "FactorCriticoExito", "Factor Crítico de Éxito")
             {
                 OverwriteTitleOnExactMatch = true,
                 Parent = childNode1
@@ -92,26 +94,26 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
                 var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(responseE.Data);
                 ViewBag.Ciclo = entidadViewModel.Nombre;
-                gestionDesc = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault().Anio;
+                gestionDesc = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault()?.Anio ?? string.Empty; ;
                 //ViewBag.SNGestion = "N";
                 //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             
            var ciclo = idEstrategia;
-            var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estrategico", false, null, "Planificacion")
+            var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estratégico", false, null, "Planificacion")
             {
                 RouteValues = new { ciclo },//this comes in as a param into the action
                                             // Parent = childNode0
             };
             id = idEstrategia;
-            var childNode2 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Gestion "+ gestionDesc)
+            var childNode2 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Gestión "+ gestionDesc)
             {
                 RouteValues = new { id, AnioGestion},
                 OverwriteTitleOnExactMatch = true,
                 Parent = childNode1
             };
             id = idObjetivoEstra;
-            var childNode3 = new MvcBreadcrumbNode("IndexIndicador", "FactorCriticoExito", "Indicadores")
+            var childNode3 = new MvcBreadcrumbNode("IndexIndicador", "FactorCriticoExito", "Indicadores de Resultado")
             {
                 RouteValues = new { id, idEstrategia, AnioGestion },
                 OverwriteTitleOnExactMatch = true,
@@ -132,9 +134,37 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             var model = new FactorCriticoExitoViewModel();
             model.IdObjetivoEstra = idObjetivoEstra;
             model.IdGestion = AnioGestion;
+            model.IdEstrategia = idEstrategia;
+            ViewBag.Nivel = User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value;
             return View("IndexIndicador", model);
         }
 
+
+
+        public async Task<JsonResult> IndexIndicadorChild(int id, int idEstrategia, int AnioGestion)
+        {
+            int idObjetivoEstra = id;
+
+
+           
+            var model = new FactorCriticoExitoViewModel();
+            model.IdObjetivoEstra = idObjetivoEstra;
+            model.IdGestion = AnioGestion;
+            // ViewBag.Nivel = User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value;
+            // return new JsonResult(
+
+            string json = string.Empty;
+            using (var stream = new MemoryStream())
+            {
+                await JsonSerializer.SerializeAsync(stream, model);
+                stream.Position = 0;
+                using var reader = new StreamReader(stream);
+                json = await reader.ReadToEndAsync();
+            }
+            return new JsonResult(json);
+
+       
+        }
 
 
         [Breadcrumb("FactorCriticoExito", AreaName = "Planificacion", FromAction = "OnGetCreateOrEdit", FromController = typeof(EstrategiaNacionalController))]
@@ -177,6 +207,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 if (response.Succeeded)
                 {
                     ViewBag.IdGestion = idGestion;
+                    ViewBag.IdObjetivo = idObjetivo;
+                    ViewBag.IdEstrategia = responseO.Data.IdEstrategia;
                     var viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data);
                     return PartialView("_ViewAllxIndicador", viewModel);
                 }
@@ -188,6 +220,43 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             }
             return null;
         }
+
+
+        public async Task<JsonResult> LoadFactorIndicadoresChild(int idObjetivo, int idGestion)
+        {
+            try
+            {
+                var responseO = await _mediator.Send(new GetObjetivoEstrategicoByIdQuery() { Id = idObjetivo });
+                if (responseO.Succeeded)
+                {
+                    ViewBag.Message = responseO.Data.Descripcion;
+                }
+
+                var response = await _mediator.Send(new GetFactorCriticoxObjetivoByIdQuery() { Id = idObjetivo });
+                if (response.Succeeded)
+                {
+                    ViewBag.IdGestion = idGestion;
+                    var viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data);
+                   
+                    string json = string.Empty;
+                    using (var stream = new MemoryStream())
+                    {
+                        await JsonSerializer.SerializeAsync(stream, viewModel);
+                        stream.Position = 0;
+                        using var reader = new StreamReader(stream);
+                        json = await reader.ReadToEndAsync();
+                    }
+                    return new JsonResult(json);
+                }
+            }
+            catch (Exception ex)
+            {
+                _notify.Error("No se pudo cargar los Factores");
+                _logger.LogError("LoadAll", ex);
+            }
+            return null;
+        }
+
 
 
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0,int idObjetivoEstra = 0)

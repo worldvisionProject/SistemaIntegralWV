@@ -1,10 +1,18 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SmartBreadcrumbs.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.Productos.Commands.Create;
+using WordVision.ec.Application.Features.Planificacion.Productos.Commands.Update;
+using WordVision.ec.Application.Features.Planificacion.Productos.Queries.GetAllCached;
+using WordVision.ec.Application.Features.Planificacion.Productos.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
 
@@ -14,52 +22,94 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
     [Authorize]
     public class ProductoController :  BaseController<ProductoController>
     {
-        public IActionResult Index(int id)
+        public async Task<IActionResult> Index(int id,int idObjetivo, int idEstrategia, int AnioGestion)
         {
+            int idObjetivoEstra = idObjetivo;
+
+
+            var response = await _mediator.Send(new GetObjetivoEstrategicoByIdQuery() { Id = idObjetivoEstra });
+            if (response.Succeeded)
+            {
+                ViewBag.Message = response.Data.Descripcion;
+                //id = response.Data.IdEstrategia;
+            }
+            var gestionDesc = string.Empty;
+            var responseE = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = idEstrategia });
+            if (responseE.Succeeded)
+            {
+
+                var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(responseE.Data);
+                ViewBag.Ciclo = entidadViewModel.Nombre;
+                gestionDesc = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault()?.Anio ?? string.Empty; ;
+                //ViewBag.SNGestion = "N";
+                //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+            }
+
+            var responseI = await _mediator.Send(new GetIndicadorEstrategicoByIdQuery() { Id = id });
+            if (responseI.Succeeded)
+            {
+                ViewBag.Indicador = responseI.Data.IndicadorResultado;
+                //id = response.Data.IdEstrategia;
+            }
+
+            var ciclo = idEstrategia;
+            var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estratégico", false, null, "Planificacion")
+            {
+                RouteValues = new { ciclo },//this comes in as a param into the action
+                                            // Parent = childNode0
+            };
+            id = idEstrategia;
+            var childNode2 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Gestión " + gestionDesc)
+            {
+                RouteValues = new { id, AnioGestion },
+                OverwriteTitleOnExactMatch = true,
+                Parent = childNode1
+            };
+            id = idObjetivoEstra;
+            var childNode3 = new MvcBreadcrumbNode("IndexIndicador", "FactorCriticoExito", "Indicadores de Resultado")
+            {
+                RouteValues = new { id, idEstrategia, AnioGestion },
+                OverwriteTitleOnExactMatch = true,
+                Parent = childNode2
+            };
+
+            var childNode4 = new MvcBreadcrumbNode("Index", "Producto", "Gestión de Productos")
+            {
+                RouteValues = new { id, idEstrategia, AnioGestion },
+                OverwriteTitleOnExactMatch = true,
+                Parent = childNode3
+            };
+
+            ViewData["BreadcrumbNode"] = childNode4;
+
+            //var childNode2 = new MvcBreadcrumbNode("Index", "FactorCriticoExito", "Factor Critico de Exito")
+            //{
+            //    OverwriteTitleOnExactMatch = true,
+            //    Parent = childNode1
+            //};
+
+            //ViewData["BreadcrumbNode"] = childNode2;
+
             var model = new ProductoViewModel();
-            model.IdGestion = id;
-            return PartialView(model);
+            model.IdObjetivoEstra = idObjetivoEstra;
+            model.IdGestion = AnioGestion;
+            model.IdIndicadorEstrategico = id;
+            ViewBag.Nivel = User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value;
+            return View( model);
         }
-        public async Task<IActionResult> LoadAll(int idGestion)
+
+        public async Task<IActionResult> LoadAll(int idIndicador, int idGestion)
         {
             try
             {
-                var viewModel = new List<ProductoViewModel>();
-                //var estrategia = new EstrategiaNacionalViewModel();
-                //estrategia.Nombre = "ESTRATEGIA";
-                //var indicador = new IndicadorEstrategicoViewModel();
-                //indicador.IndicadorResultado = "Indicador";
-                var producto = new ProductoViewModel();
-                producto.DescObjetivoEstra = "Promover implementación de rutas de protección de derechos de NNA en 14 cantones";
-                producto.DescIndicadorEstrategico = "# sistemas o mecanismos que demuestran mejoras para la protección de NNA.";
-                producto.DescProducto = "Metodología CPA en PA para mejoramiento de sistemas implementada";
-                producto.DescCargoResponsable = "Alejandra Almeida";
-                viewModel.Add(producto);
-                var producto1 = new ProductoViewModel();
-                producto1.DescObjetivoEstra = "Promover implementación de rutas de protección de derechos de NNA en 14 cantones";
-                producto1.DescIndicadorEstrategico = "# de NNA impactados por cambios o mejor implementación de políticas, leyes o presupuestos.";
-                producto1.DescProducto = "Plan de incidencia ante gobierno central y seccional para la expedición de políticas públicas u ordenanzas. ";
-                producto1.DescCargoResponsable = "Alejandra Almeida";
-                viewModel.Add(producto1);
-                var producto2 = new ProductoViewModel();
-                producto2.DescObjetivoEstra = "Promover implementación de rutas de protección de derechos de NNA en 14 cantones";
-                producto2.DescIndicadorEstrategico = "% de actores que conocen temas principales de protección de NNA, su rol y responsabilidad.";
-                producto2.DescProducto = "Metodología CPA, Canales de Esperanza y Crianza con Ternura en PA implementada";
-                producto2.DescCargoResponsable = "Alejandra Almeida";
-                viewModel.Add(producto2);
 
-
-
-
-                //var response = await _mediator.Send(new GetAllEstrategiaNacionalesCachedQuery());
-                //if (response.Succeeded)
-                //{
-                //    var viewModel = _mapper.Map<List<EstrategiaNacionalViewModel>>(response.Data);
-                //    var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 2 });
-                //    ViewBag.EstadoList = new SelectList(cat1.Data, "Secuencia", "Nombre");
-
+                var response = await _mediator.Send(new GetIndicadorEstrategicoByIdQuery() { Id = idIndicador });
+                if (response.Succeeded)
+                {
+                    var viewModel = _mapper.Map<IndicadorEstrategicoViewModel>(response.Data);
+                    viewModel.IdGestion = idGestion;
                     return PartialView("_ViewAll", viewModel);
-                //}
+                }
             }
             catch (Exception ex)
             {
@@ -68,31 +118,83 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             }
             return null;
         }
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idGestion = 0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idGestion = 0, int idIndicadorEstra = 0)
         {
-            // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
-
+            
             if (id == 0)
             {
                 var entidadViewModel = new ProductoViewModel();
                 entidadViewModel.IdGestion = idGestion;
-
-                //  return View("_CreateOrEdit", entidadViewModel);
+                entidadViewModel.IdIndicadorEstrategico = idIndicadorEstra;
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             else
             {
-                //    var response = await _mediator.Send(new GetIndicadorEstrategicoByIdQuery() { Id = id });
-                //    if (response.Succeeded)
-                //    {
-                //        var entidadViewModel = _mapper.Map<IndicadorEstrategicoViewModel>(response.Data);
-                //        // return View("_CreateOrEdit", entidadViewModel);
-                var producto2 = new ProductoViewModel();
-                producto2.DescObjetivoEstra = "Promover implementación de rutas de protección de derechos de NNA en 14 cantones";
-                producto2.DescIndicadorEstrategico = "% de actores que conocen temas principales de protección de NNA, su rol y responsabilidad.";
-                producto2.DescProducto = "Metodología CPA, Canales de Esperanza y Crianza con Ternura en PA implementada";
-                producto2.DescCargoResponsable = "Alejandra Almeida";
-                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", producto2) });
+                var response = await _mediator.Send(new GetProductoByIdQuery() { Id = id });
+                if (response.Succeeded)
+                {
+                    var entidadViewModel = _mapper.Map<ProductoViewModel>(response.Data);
+                   
+                    return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+                }
+            }
+            return null;
+        }
+
+
+        [HttpPost]
+        public async Task<JsonResult> OnPostCreateOrEdit(int id, ProductoViewModel producto)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                  
+                    if (id == 0)
+                    {
+                        var createEntidadCommand = _mapper.Map<CreateProductoCommand>(producto);
+                      
+                        var result = await _mediator.Send(createEntidadCommand);
+                        if (result.Succeeded)
+                        {
+                            id = result.Data;
+                            _notify.Success($"Producto Creado.");
+                        }
+                        else _notify.Error(result.Message);
+                    }
+                    else
+                    {
+                        var updateEntidadCommand = _mapper.Map<UpdateProductoCommand>(producto);
+                        updateEntidadCommand.Id = id;
+                        var result = await _mediator.Send(updateEntidadCommand);
+                        if (result.Succeeded) _notify.Information($"Producto Actualizado.");
+                    }
+                    var response = await _mediator.Send(new GetIndicadorEstrategicoByIdQuery() { Id = producto.IdIndicadorEstrategico });
+                    if (response.Succeeded)
+                    {
+
+                        var entidadViewModel = _mapper.Map<IndicadorEstrategicoViewModel>(response.Data);
+                        entidadViewModel.IdGestion = producto.IdGestion;
+                        return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", entidadViewModel) });
+                    }
+                    else
+                    {   
+                        _notify.Error(response.Message);
+                        return null;
+                    }
+                    
+
+                }
+                else
+                {
+                    var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", producto);
+                    return new JsonResult(new { isValid = false, html = html });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("OnPostCreateOrEdit", ex);
+                _notify.Error("Error al insertar Producto");
             }
             return null;
         }

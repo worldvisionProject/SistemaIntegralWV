@@ -314,7 +314,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("Saldo")
-                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("TechoPresupuestoCC")
@@ -620,6 +619,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<bool?>("Enero")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Entregable")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool?>("Febrero")
                         .HasColumnType("bit");
 
@@ -697,10 +699,13 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<bool?>("Enero")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Entregable")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool?>("Febrero")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("IdIndicadorPOA")
+                    b.Property<int>("IdIndicadorPOA")
                         .HasColumnType("int");
 
                     b.Property<bool?>("Julio")
@@ -822,17 +827,10 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<int>("IdCargoResponsable")
                         .HasColumnType("int");
 
-                    b.Property<string>("IdCategoria")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("IdGestion")
                         .HasColumnType("int");
 
                     b.Property<int>("IdIndicadorEstrategico")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdObjetivoEstra")
                         .HasColumnType("int");
 
                     b.Property<string>("LastModifiedBy")
@@ -843,7 +841,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdGestion");
+                    b.HasIndex("IdIndicadorEstrategico");
 
                     b.ToTable("Productos", "planifica");
                 });
@@ -1773,7 +1771,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Planificacion.IndicadorPOA", "IndicadorPOAs")
                         .WithMany("MetaTacticas")
-                        .HasForeignKey("IdIndicadorPOA");
+                        .HasForeignKey("IdIndicadorPOA")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("IndicadorPOAs");
                 });
@@ -1791,13 +1791,13 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.Producto", b =>
                 {
-                    b.HasOne("WordVision.ec.Domain.Entities.Planificacion.Gestion", "Gestiones")
+                    b.HasOne("WordVision.ec.Domain.Entities.Planificacion.IndicadorEstrategico", "IndicadorEstrategicos")
                         .WithMany("Productos")
-                        .HasForeignKey("IdGestion")
+                        .HasForeignKey("IdIndicadorEstrategico")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Gestiones");
+                    b.Navigation("IndicadorEstrategicos");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Registro.Colaborador", b =>
@@ -1917,16 +1917,13 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Navigation("IndicadorEstrategicos");
                 });
 
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.Gestion", b =>
-                {
-                    b.Navigation("Productos");
-                });
-
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorEstrategico", b =>
                 {
                     b.Navigation("IndicadorAFs");
 
                     b.Navigation("MetaEstrategicas");
+
+                    b.Navigation("Productos");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorPOA", b =>

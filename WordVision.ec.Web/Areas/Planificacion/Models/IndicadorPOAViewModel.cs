@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,11 +14,44 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string MedioVerificacion { get; set; }
         public int? Responsable { get; set; }
         public int? UnidadMedida { get; set; }
-        public decimal? LineaBase { get; set; }
-        public decimal? Meta { get; set; }
+
+        [Required(ErrorMessage = "Campo Obligatorio")]
+        // [Column(TypeName = "decimal(18, 2)")]
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+
+        public string LineaBase { get; set; }
+        [Required(ErrorMessage = "Campo Obligatorio")]
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+        public string Meta { get; set; }
+
+
+        public SelectList NumMesesList { get; set; }
+        public SelectList UnidadList { get; set; }
+
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+        public string ValorMeta { get; set; }
+        public string EntregableMeta { get; set; }
+
+
         public int IdProducto { get; set; }
         public ICollection<ActividadViewModel> Actividades { get; set; }
 
         public virtual List<MetaViewModel> MetaTacticas { get; set; }
+
+
+
+        public string DescripcionActividad { get; set; }
+        public string Entregable { get; set; }
+        public int IdCargoResponsable { get; set; }
+        public DateTime? Plazo { get; set; }
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+
+        public string TechoPresupuestoCC { get; set; }
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+
+        public string Ponderacion { get; set; }
+     
+     
+       
     }
 }

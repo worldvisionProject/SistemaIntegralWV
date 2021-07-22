@@ -7,6 +7,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
 {
     public class ActividadViewModel
     {
+        public int Id { get; set; }
         public string DescripcionActividad { get; set; }
         public string Entregable { get; set; }
         public int IdCargoResponsable { get; set; }

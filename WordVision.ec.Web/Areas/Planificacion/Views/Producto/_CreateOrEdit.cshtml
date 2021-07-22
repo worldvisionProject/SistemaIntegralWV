@@ -7,29 +7,8 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">Objetivo</label>
-                    <select asp-for="IdObjetivoEstra" name="IdObjetivoEstra" class="form-control">
-                        <option value="1">Promover implementación de rutas de protección de derechos de NNA en 14 cantones</option>
-                        <option value="2">Impulsar la mejora educativa de NNAJ en PA, PE y en zonas priorizadas de la Amazonía</option>
-
-                    </select>
-                    <span asp-validation-for="IdObjetivoEstra" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">Indicador</label>
-                    <select asp-for="IdIndicadorEstrategico" name="IdIndicadorEstrategico" class="form-control">
-                        <option value="1"># sistemas o mecanismos que demuestran mejoras para la protección de NNA.</option>
-                        <option value="2"># de NNA impactados por cambios o mejor implementación de políticas, leyes o presupuestos. </option>
-                        <option value="2"># de NNA impactados por cambios o mejor implementación de políticas, leyes o presupuestos% de actores que conocen temas principales de protección de NNA, su rol y responsabilidad. </option>
-
-                    </select>
-                    <span asp-validation-for="IdIndicadorEstrategico" class="text-danger"></span>
-                </div>
-            </div>
+            @Html.HiddenFor(x => x.IdGestion, new { name = "IdGestion", @Value = Model.IdGestion })
+            @Html.HiddenFor(x => x.IdIndicadorEstrategico, new { name = "IdIndicadorEstrategico", @Value = Model.IdIndicadorEstrategico })
             <div class="form-group row">
                 <div class="col-md-12">
                     <label class="col-md-12 col-form-label texto-pregunta">Producto</label>
@@ -52,6 +31,7 @@
             </div>
         </div>
     </div>
+
 
     <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
