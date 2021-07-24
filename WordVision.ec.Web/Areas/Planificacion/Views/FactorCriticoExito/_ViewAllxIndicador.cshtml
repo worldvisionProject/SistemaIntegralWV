@@ -6,7 +6,11 @@
         <tr>
             <th style=" width:40%">Factor Crítico de Éxito</th>
             <th style=" width:40%">Indicador de Resultado</th>
-            <th data-priority="2" class="acciones-th">Metas</th>
+            <th style=" width:40%">Metas @ViewBag.DescGestion</th>
+            @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2")
+            {
+                <th data-priority="2" class="acciones-th">Metas Trimestrales</th>
+            }
             <th data-priority="2" class="acciones-th">Productos</th>
             @*<th data-priority="1">Nombre</th>
         <th data-priority="2" class="acciones-th">Indicador</th>
@@ -42,27 +46,31 @@
                 c = c + 1;
             }
             <td><b>@f.@c) </b> @ind.IndicadorResultado</td>
-            <td class="acciones-td">
-                @* <a  asp-area="planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEdit" asp-route-id="@anioFiscal.Id" class="btn btn-info btn-xp"><i class="fas fa-pencil-alt"></i>  Editar</a>*@
-                @*<button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Ver" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/LoadIndicadores?idFactor=@ind.Id&IdEstrategia=0','Indicador de Resultados')">
-                <i class="fas fa-eye"></i>
-            </button>*@
+            <td>@ind.IndicadorAFs.Where(x=>x.Anio==Convert.ToString( @ViewBag.IdGestion)).FirstOrDefault().Meta</td>
 
-                <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Meta/OnGetCreateOrEdit?id=@ind.Id&IdFactorCritico=@factor.Id&IdEstrategia=0&idGestion=@ViewBag.IdGestion','Metas Trimestrales Indicadores de Resultados')">
+            @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2")
+            {
+                <td class="acciones-td">
+                    @* <a  asp-area="planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEdit" asp-route-id="@anioFiscal.Id" class="btn btn-info btn-xp"><i class="fas fa-pencil-alt"></i>  Editar</a>*@
+                    @*<button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Ver" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/LoadIndicadores?idFactor=@ind.Id&IdEstrategia=0','Indicador de Resultados')">
+                    <i class="fas fa-eye"></i>
+                </button>*@
+
+                    <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Meta/OnGetCreateOrEdit?id=@ind.Id&IdFactorCritico=@factor.Id&IdEstrategia=0&idGestion=@ViewBag.IdGestion','Metas Trimestrales Indicadores de Resultados')">
+                        <i class="fas fa-plus-square"></i>
+                    </button>
+                </td>
+            }
+                <td class="acciones-td">
+                    <a asp-area="planificacion" asp-controller="Producto" asp-action="Index" asp-route-id="@ind.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" class="btn btn-info btn-xp" title="Administrar Productos"><i class="fas fa-calendar"></i></a>
+                    @*<button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEdit?id=0&idObjetivo=@ViewBag.IdObjetivo&idGestion=@ViewBag.IdGestion&idIndicadorEstra=@ind.Id','Producto')">
                     <i class="fas fa-plus-square"></i>
-                </button>
-            </td>
-
-            <td class="acciones-td">
-                <a asp-area="planificacion" asp-controller="Producto" asp-action="Index" asp-route-id="@ind.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" class="btn btn-info btn-xp" title="Administrar Productos"><i class="fas fa-calendar"></i></a> 
-                @*<button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEdit?id=0&idObjetivo=@ViewBag.IdObjetivo&idGestion=@ViewBag.IdGestion&idIndicadorEstra=@ind.Id','Producto')">
-            <i class="fas fa-plus-square"></i>
-        </button>*@
-            </td>
+                </button>*@
+                </td>
 
 
-           
-        </tr>
+
+            </tr>
 
                     i = i + 1;
                 }

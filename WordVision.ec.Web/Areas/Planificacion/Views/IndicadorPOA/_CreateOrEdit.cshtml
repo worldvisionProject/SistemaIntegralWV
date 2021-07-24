@@ -2,9 +2,44 @@
 @using WordVision.ec.Web.Areas.Planificacion.Models
 @model IndicadorPOAViewModel
 
+<div id="header" class="row titulopopup">
+    <div class="col-6">
+        <h6 class="h5 mb-2 text-gray-800-b">Objetivo: </h6>@Model.DescObjetivo
+    </div>
+    <div class="col-6" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Factor: </h6>@Model.DescFactor
+    </div>
+
+</div>
+
+<div id="header" class="row titulopopup">
+    <div class="col-6">
+        <h6 class="h5 mb-2 text-gray-800-b">Indicador: </h6>@Model.DescIndicador
+    </div>
+   
+    <div class="col-3" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Línea Base: </h6>@Model.DescLineaBase
+    </div>
+    <div class="col-3" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Meta  @Model.DescGestion: </h6>@Model.DescMeta
+    </div>
+
+</div>
+
+<div id="header" class="row titulopopup">
+    <div class="col-6">
+        <h6 class="h5 mb-2 text-gray-800-b">Producto: </h6>@Model.DescProducto
+    </div>
+    <div class="col-6" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Responsable: </h6>@Model.ResponsableIndicador
+    </div>
+
+</div>
+
+<hr />
 
 <form id="create-form" method="post" asp-controller="IndicadorPOA" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
-    @Html.HiddenFor(x=>x.IdProducto)
+    @Html.HiddenFor(x => x.IdProducto)
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
@@ -65,25 +100,25 @@
                     </div>
                     <div class="form-group row">
 
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <label class="col-md-12 col-form-label texto-pregunta text-left">Trimestre</label>
                             @Html.DropDownListFor(x => x.NumMesesList, Model.NumMesesList, new { @class = "form-control" })
                             <span asp-validation-for="NumMesesList" class="text-danger"></span>
                         </div>
 
-                        <div class="col-md-3">
+                        @*<div class="col-md-3">
                             <label class="col-md-12 col-form-label texto-pregunta text-left">Unidad Medida</label>
                             @Html.DropDownListFor(x => x.UnidadList, Model.UnidadList, new { @class = "form-control" })
                             <span asp-validation-for="UnidadList" class="text-danger"></span>
 
-                        </div>
-                        <div class="col-md-2">
-                            <label class="col-md-12 col-form-label texto-pregunta text-left">Valor Meta</label>
+                        </div>*@
+                        <div class="col-md-4">
+                            <label class="col-md-12 col-form-label texto-pregunta text-left">Meta</label>
 
                             <input asp-for="ValorMeta" type="text" name="ValorMeta" class="form-control" />
                             <span asp-validation-for="ValorMeta" class="text-danger"></span>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <label class="col-md-12 col-form-label texto-pregunta text-left">Logro Entregable</label>
 
                             <input asp-for="EntregableMeta" type="text" name="EntregableMeta" class="form-control" />
@@ -104,8 +139,8 @@
                         <tr>
                             @*<th>Id</th>*@
                             <th>Meses</th>
-                            <th>Medida/Unidad</th>
-                            <th>Valor</th>
+                            @*<th>Medida/Unidad</th>*@
+                            <th>Meta Trimestral</th>
                             <th>Entregable</th>
                             <th class="text-right">Acciones</th>
                         </tr>
@@ -116,26 +151,26 @@
 
                             @foreach (var metaanual in Model.MetaTacticas)
                             {
-                                <tr id="@metaanual.Id">
+                                <tr id="@metaanual.Id"  class="rowdata">
                                     @*<td>
 
-                                    @colaborador.Id
-                                </td>*@
-                                    <td>
+                                            @colaborador.Id
+                                        </td>*@
+                                    <td  class="mes">
 
                                         @metaanual.NumMeses
 
                                     </td>
-                                    <td>
+                                    @*<td>
 
                                         @{
                                             var selectedCity = Model.UnidadList;
                                             string txt = selectedCity.Where(x => x.Value == metaanual.TipoMedida.ToString()).FirstOrDefault().Text;
                                         }
                                         @txt
-                                    </td>
-                                    <td>
-                                        @metaanual.Valor
+                                    </td>*@
+                                    <td class="meta">
+                                        @metaanual.Valor.ToString().Replace(",", ".")
                                     </td>
                                     <td>
                                         @metaanual.Entregable
@@ -153,12 +188,12 @@
                     </tbody>
                 </table>
 
-                
+
             </div>
 
 
         </div>
-        </div>
+    </div>
 
     <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
@@ -168,7 +203,7 @@
 </form>
 
 
-        
+
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
     $(function () {
@@ -186,49 +221,104 @@
         }
     });
 
+    function duplicadosMeta(af_in) {
+
+        const tableRows = document.querySelectorAll('#metasTable tr.rowdata');
+
+
+        // Recorremos las filas que tengan el class="row"
+        // así obviamos la cabecera
+        for (let i = 0; i < tableRows.length; i++) {
+            const row = tableRows[i];
+            const status = row.querySelector('.mes');
+
+            if (af_in == status.innerText) {
+                alert("Ya existe el trimestre " + af_in);
+                return true;
+            }
+            // Para modificar un estado:
+            // status.innerText = 'offline';
+        }
+        return false;
+
+    }
+
+
+    function sumar() {
+
+        const tableRows = document.querySelectorAll('#metasTable tr.rowdata');
+        var sum = 0;
+        // Recorremos las filas que tengan el class="row"
+        // así obviamos la cabecera
+        for (let i = 0; i < tableRows.length; i++) {
+
+            const row = tableRows[i];
+            const status = row.querySelector('.meta');
+
+            sum = sum + parseFloat(status.innerText);
+            // Para modificar un estado:
+            // status.innerText = 'offline';
+        }
+
+        document.getElementById("Meta").value = String(sum).replace('.', ',');
+    }
+
 
        var num = 0;
         function AgregaConcepto() {
             let NumMeses = document.getElementById("NumMesesList").value;
-            let UnidadList = document.getElementById("UnidadList").value;
-            var selection = document.getElementById("UnidadList");
-            let Unidad = selection.options[selection.selectedIndex].innerHTML;
-            let ValorMeta = document.getElementById("ValorMeta").value;
+           /* let UnidadList = document.getElementById("UnidadList").value;*/
+            //var selection = document.getElementById("UnidadList");
+            //let Unidad = selection.options[selection.selectedIndex].innerHTML;
+            let ValorMeta = document.getElementById("ValorMeta").value.replace(',', '.');
             let EntregableMeta = document.getElementById("EntregableMeta").value;
            // let IdEstrategia = document.getElementById("Id").value;
+
+            if (duplicadosMeta(NumMeses)) { return; }
 
             if (NumMeses.length == 0) {
                 alert("Ingrese los meses.");
                 return;
             }
-
+            if (ValorMeta.length == 0) {
+                alert("Ingrese la meta.");
+                return;
+            }
+            if (EntregableMeta.length == 0) {
+                alert("Ingrese el entregable.");
+                return;
+            }
 
             //agregamos tabla
             let Tabla = document.getElementById("metasTable");
             let TR = document.createElement("tr");
             TR.setAttribute('id', num);
+            TR.className = "rowdata";
             let TDNumMeses = document.createElement("td");
-            let TDUnidad = document.createElement("td");
+            //let TDUnidad = document.createElement("td");
             let TDValorMeta = document.createElement("td");
             let TDEntregableMeta = document.createElement("td");
             let TDEliminar = document.createElement("td");
             TDEliminar.className = "text-right";
+            TDValorMeta.className = "meta";
+            TDNumMeses.className = "mes";
             //let TDTotal = document.createElement("td");
            // TR.appendChild(TDId);
             TR.appendChild(TDNumMeses);
-            TR.appendChild(TDUnidad);
+           /* TR.appendChild(TDUnidad);*/
             TR.appendChild(TDValorMeta);
             TR.appendChild(TDEntregableMeta);
             TR.appendChild(TDEliminar);
             //TR.appendChild(TDTotal);
            // TDId.innerHTML = num;
             TDNumMeses.innerHTML = NumMeses;
-            TDUnidad.innerHTML = Unidad;
+           /* TDUnidad.innerHTML = Unidad;*/
             TDValorMeta.innerHTML = ValorMeta;
             TDEntregableMeta.innerHTML = EntregableMeta;
             TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
             //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
             Tabla.appendChild(TR);
+           
 
             //agregamos hiddens
             let DivConceptos = document.getElementById("divMetas");
@@ -244,10 +334,10 @@
             HiddenNumMeses.value = NumMeses;
             HiddenNumMeses.type = "hidden";
             HiddenUnidad.name = "MetaTacticas[" + num + "].TipoMedida";
-            HiddenUnidad.value = UnidadList;
+            HiddenUnidad.value = 0;
             HiddenUnidad.type = "hidden";
             HiddenValorMeta.name = "MetaTacticas[" + num + "].Valor";
-            HiddenValorMeta.value = ValorMeta;
+            HiddenValorMeta.value = ValorMeta.replace('.', ',');
             HiddenValorMeta.type = "hidden";
 
             HiddenEntregableMeta.name = "MetaTacticas[" + num + "].Entregable";
@@ -261,13 +351,13 @@
             DivConceptos.appendChild(HiddenEntregableMeta);
 
             document.getElementById("NumMesesList").value = "";
-            document.getElementById("UnidadList").value = "";
+            //document.getElementById("UnidadList").value = "";
             document.getElementById("ValorMeta").value = "";
             document.getElementById("EntregableMeta").value = "";
 
             num++;
 
-
+            sumar();
 
             //var GestionViewModel = {
             //    Anio: Nombre,

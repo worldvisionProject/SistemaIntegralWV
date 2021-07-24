@@ -10,7 +10,8 @@
     }
     else
     {
-        ViewData["Caption"] = localizer["Está en la Gestión:"].Value + " " + ViewBag.Gestion;
+        ViewData["TmpGestion"] = localizer["Está en la Gestión:"].Value;
+        ViewData["Gestion"] = ViewBag.Gestion;
     }
 
 }
@@ -234,7 +235,7 @@
                 <br />
                 <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
                     <button type="submit" class="btn btn-success">Guardar</button>
-                    <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+                    @*<button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>*@
                 </div>
             }
             </form>

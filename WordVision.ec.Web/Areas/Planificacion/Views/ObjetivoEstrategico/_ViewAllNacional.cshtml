@@ -10,7 +10,7 @@
             @*<th>Responsable</th>*@
             <th>Area</th>
             <th class="acciones-th">Factor</th>
-            <th class="acciones-th">Acuerdo</th>
+           
             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Delete)).Result.Succeeded)
             {
                 <th class="acciones-th" style="width:30% !important">Acciones</th>
@@ -46,7 +46,8 @@
                 @txt
             </td>
             <td class="acciones-td">
-                @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2")
+          
+                @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2" || User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "3")
                 {
                     <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="IndexIndicador" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@objetivo.IdEstrategia" asp-route-AnioGestion="@Model.AnioGestion" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a> }
                 else
@@ -54,12 +55,8 @@
                     <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="Index" asp-route-id="@objetivo.Id" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
                 }
             </td>
-            <td class="acciones-td">
-                <button type="button" title="Acuerdo de desempeño" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/AcuerdoDesempenio/OnGetCreateOrEdit?id=0&idNivel0','Acuerdo desempeño')">
-                    <i class="fas fa-handshake"></i>
+          
 
-                </button>
-            </td>
             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Delete)).Result.Succeeded)
             {
                 <td class="acciones-td">

@@ -15,6 +15,7 @@ using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Comm
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetAllCached;
@@ -197,6 +198,14 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         {
             try
             {
+                var descGestion = "";
+                var responseG = await _mediator.Send(new GetGestionByIdQuery() { Id = idGestion });
+                if (responseG.Succeeded)
+                {
+                    var entidadViewModel = _mapper.Map<GestionViewModel>(responseG.Data);
+                    descGestion = entidadViewModel.Anio;
+                }
+
                 var responseO = await _mediator.Send(new GetObjetivoEstrategicoByIdQuery() { Id = idObjetivo });
                 if (responseO.Succeeded)
                 {
@@ -207,6 +216,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 if (response.Succeeded)
                 {
                     ViewBag.IdGestion = idGestion;
+                    ViewBag.DescGestion = descGestion;
                     ViewBag.IdObjetivo = idObjetivo;
                     ViewBag.IdEstrategia = responseO.Data.IdEstrategia;
                     var viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data);

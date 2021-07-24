@@ -25,7 +25,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string Meta { get; set; }
         public int IdFactorCritico { get; set; }
         public int IdEstrategia { get; set; }
+        public string DescEstrategia { get; set; }
         public int IdGestion { get; set; }
+        public string DescGestion { get; set; }
         public SelectList gestionList { get; set; }
 
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
@@ -37,6 +39,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string ValorMeta { get; set; }
         public string EntregableMeta { get; set; }
+
+        public FactorCriticoExitoViewModel FactorCriticoExitos { get; set; }
         public virtual List<IndicadorAFViewModel> IndicadorAFs { get; set; }
         public virtual List<MetaViewModel> MetaEstrategicas { get; set; }
 

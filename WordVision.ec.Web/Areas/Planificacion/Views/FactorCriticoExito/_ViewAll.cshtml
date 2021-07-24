@@ -4,23 +4,25 @@
 <table id="factorTable" class="table table-striped " width="100%" cellspacing="0">
     <thead>
         <tr>
-            <th >Id</th>
-            <th >Objetivo</th>
+            <th>Id</th>
+            <th>Objetivo</th>
             <th data-priority="1">Nombre</th>
             <th data-priority="2" class="acciones-th">Indicador</th>
-            <th data-priority="2" class="acciones-th">Acciones</th>
-
-        </tr>
+            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.FactorCriticoExito.Delete)).Result.Succeeded)
+            {
+                <th data-priority="2" class="acciones-th">Acciones</th>
+            }
+            </tr>
     </thead>
     <tbody>
 
         @foreach (var anioFiscal in Model.FactorCriticoExitos)
         {
         <tr>
-            <td >
+            <td>
                 @anioFiscal.Id
             </td>
-            <td >
+            <td>
                 @anioFiscal.IdObjetivoEstra
             </td>
             <td>
@@ -31,24 +33,29 @@
                 <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Ver" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/LoadIndicadores?idFactor=@anioFiscal.Id&IdEstrategia=@Model.IdEstrategia','Indicador de Resultados')">
                     <i class="fas fa-eye"></i>
                 </button>
-
-                <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/OnGetCreateOrEdit?id=0&IdFactorCritico=@anioFiscal.Id&IdEstrategia=@Model.IdEstrategia','Indicador de Resultados')">
-                    <i class="fas fa-plus-square"></i>
-                </button>
+                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Create)).Result.Succeeded)
+                {
+                    <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/OnGetCreateOrEdit?id=0&IdFactorCritico=@anioFiscal.Id&IdEstrategia=@Model.IdEstrategia','Indicador de Resultados')">
+                        <i class="fas fa-plus-square"></i>
+                    </button>
+                }
             </td>
 
-            <td class="acciones-td">
-                @* <a  asp-area="planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEdit" asp-route-id="@anioFiscal.Id" class="btn btn-info btn-xp"><i class="fas fa-pencil-alt"></i>  Editar</a>*@
-                @*<button type="button" class="btn btn-warning btn-sm" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/FactorCriticoExito/OnGetCreateOrEdit?id=@anioFiscal.Id&idObjetivoEstra=@anioFiscal.IdObjetivoEstra','Factor Critico de Exito')">
+            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.FactorCriticoExito.Delete)).Result.Succeeded)
+            {
+                <td class="acciones-td">
+                    @* <a  asp-area="planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEdit" asp-route-id="@anioFiscal.Id" class="btn btn-info btn-xp"><i class="fas fa-pencil-alt"></i>  Editar</a>*@
+                    @*<button type="button" class="btn btn-warning btn-sm" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/FactorCriticoExito/OnGetCreateOrEdit?id=@anioFiscal.Id&idObjetivoEstra=@anioFiscal.IdObjetivoEstra','Factor Critico de Exito')">
                     <i class="fas fa-pencil-alt"></i>
                 </button>*@
-                <form id="form_delete_@anioFiscal.Id" asp-area="Planificacion" asp-controller="FactorCriticoExito" method="post" asp-action="OnPostDelete" asp-route-id="@anioFiscal.Id" asp-route-idObjetivo="@anioFiscal.IdObjetivoEstra" onsubmit="return jQueryModalDelete(this)">
-                    <a href="javascript:$('#form_delete_@anioFiscal.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
-                </form>
-            </td>
+                    <form id="form_delete_@anioFiscal.Id" asp-area="Planificacion" asp-controller="FactorCriticoExito" method="post" asp-action="OnPostDelete" asp-route-id="@anioFiscal.Id" asp-route-idObjetivo="@anioFiscal.IdObjetivoEstra" onsubmit="return jQueryModalDelete(this)">
+                        <a href="javascript:$('#form_delete_@anioFiscal.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
+                    </form>
+                </td>
+            }
 
 
-        </tr>
+            </tr>
         }
     </tbody>
 </table>

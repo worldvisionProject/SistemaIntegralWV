@@ -1,5 +1,7 @@
 ﻿@using WordVision.ec.Web.Areas.Planificacion.Models
 @model ProductoViewModel
+<div id="header"><p><h6 class="h5 mb-2 text-gray-800">Producto: </h6>@Model.DescProducto</p></div>
+
 
 <table id="anioFiscalTable" class="table table-striped " width="100%" cellspacing="0">
     <thead>
@@ -18,37 +20,37 @@
 
         @foreach (var anioFiscal in Model.IndicadorPOAs)
         {
-        <tr id="@anioFiscal.Id">
+            <tr id="@anioFiscal.Id">
 
-            <td>
-                @anioFiscal.IndicadorProducto
-            </td>
-            <td>
-                @anioFiscal.Responsable
-            </td>
-            <td>
-                @anioFiscal.LineaBase
-            </td>
-            <td>
-                @anioFiscal.Meta
-            </td>
+                <td>
+                    @anioFiscal.IndicadorProducto
+                </td>
+                <td>
+                    @anioFiscal.Responsable
+                </td>
+                <td>
+                    @anioFiscal.LineaBase
+                </td>
+                <td>
+                    @anioFiscal.Meta
+                </td>
 
-            <td class="acciones-td">
-                <button type="button" class="btn btn-primary btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Actividad/OnGetCreateOrEdit?id=@anioFiscal.Id&idProducto=@Model.Id','Actividades')">
-                    <i class="fas fa-plus-square"></i>
-                </button>
-      
-            </td>
-            <td class="acciones-td">
-                <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/OnGetCreateOrEdit?id=@anioFiscal.Id&idProducto=@Model.Id','Indicador POA')">
-                    <i class="fas fa-pencil-alt"></i>
-                </button>
-                <button type="button" onclick="EliminaFila(@anioFiscal.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+                <td class="acciones-td">
+                    <button type="button" class="btn btn-primary btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Actividad/OnGetCreateOrEdit?id=@anioFiscal.Id&idProducto=@Model.Id&idGestion=@Model.IdGestion&idIndicador=@Model.IdIndicadorEstrategico','Actividades')">
+                        <i class="fas fa-plus-square"></i>
+                    </button>
 
-            </td>
+                </td>
+                <td class="acciones-td">
+                    <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/OnGetCreateOrEdit?id=@anioFiscal.Id&idProducto=@Model.Id&idGestion=@Model.IdGestion&idIndicador=@Model.IdIndicadorEstrategico','Indicador de Producto')">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    <button type="button" onclick="EliminaFila(@anioFiscal.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                </td>
 
 
-        </tr>
+            </tr>
         }
     </tbody>
 </table>

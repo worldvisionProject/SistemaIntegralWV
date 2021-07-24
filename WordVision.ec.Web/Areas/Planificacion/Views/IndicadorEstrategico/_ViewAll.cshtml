@@ -36,12 +36,14 @@
                 <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/OnGetCreateOrEdit?id=@anioFiscal.Id&IdFactorCritico=@anioFiscal.Id&IdEstrategia=@Model.IdEstrategia','Indicador de Resultados')">
                     <i class="fas fa-pencil-alt"></i>
                 </button>
-                <button type="button" onclick="EliminaFila(@anioFiscal.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
-
-                @*<form id="form_delete_@anioFiscal.Id" asp-area="Planificacion" asp-controller="IndicadorEstrategico" method="post" asp-action="OnPostDelete" asp-route-id="@anioFiscal.Id" asp-route-idFactor="@Model.Id" onsubmit="return jQueryModalDelete(this)">
-            <a href="javascript:$('#form_delete_@anioFiscal.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
-        </form>*@
-            </td>
+                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Delete)).Result.Succeeded)
+                {
+                    <button type="button" onclick="EliminaFila(@anioFiscal.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+                }
+                    @*<form id="form_delete_@anioFiscal.Id" asp-area="Planificacion" asp-controller="IndicadorEstrategico" method="post" asp-action="OnPostDelete" asp-route-id="@anioFiscal.Id" asp-route-idFactor="@Model.Id" onsubmit="return jQueryModalDelete(this)">
+                <a href="javascript:$('#form_delete_@anioFiscal.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
+            </form>*@
+                </td>
 
         </tr>
         }

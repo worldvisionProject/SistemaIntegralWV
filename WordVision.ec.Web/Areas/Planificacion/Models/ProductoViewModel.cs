@@ -18,6 +18,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public int IdCargoResponsable { get; set; }
         public string DescCargoResponsable { get; set; }
         public int IdGestion { get; set; }
+        public string DescGestion { get; set; }
+        public string DescFactorCritico { get; set; }
+        public string DescMetaGestion { get; set; }
         public IndicadorEstrategicoViewModel IndicadorEstrategicos { get; set; }
         public ICollection<IndicadorPOAViewModel> IndicadorPOAs { get; set; }
     }

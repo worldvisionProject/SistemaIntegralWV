@@ -13,5 +13,6 @@ namespace WordVision.ec.Application.Interfaces.CacheRepositories
 
         Task<Colaborador> GetByIdAsync(int colaboradorId);
         Task<Colaborador> GetByIdentificacionAsync(string identificacion);
+        Task<Colaborador> GetByUserNameAsync(string username);
     }
 }

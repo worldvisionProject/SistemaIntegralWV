@@ -61,7 +61,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int IdFactorCritico = 0,int IdEstrategia=0)
         {
-            // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
+            var descEstrategia = "";
             var responseE = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = IdEstrategia });
             SelectList gestionList=new SelectList(responseE.Data.Gestiones);
             if (responseE.Succeeded)
@@ -69,6 +69,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
                 var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(responseE.Data);
                 gestionList=  new SelectList(entidadViewModel.Gestiones, "Id", "Anio");
+                descEstrategia = entidadViewModel.Nombre;
             }
             if (id == 0)
             {
@@ -76,6 +77,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 entidadViewModel.IdFactorCritico = IdFactorCritico;
                 entidadViewModel.IdEstrategia = IdEstrategia;
                 entidadViewModel.gestionList = gestionList;
+                entidadViewModel.DescEstrategia = descEstrategia;
                 //  return View("_CreateOrEdit", entidadViewModel);
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
@@ -88,6 +90,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     entidadViewModel.gestionList = gestionList;
                     entidadViewModel.IdFactorCritico = IdFactorCritico;
                     entidadViewModel.IdEstrategia = IdEstrategia;
+                    entidadViewModel.DescEstrategia = descEstrategia;
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;

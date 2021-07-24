@@ -45,6 +45,11 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories
             return colaborador;
         }
 
+        public async Task<Colaborador> GetByUserNameAsync(string username)
+        {
+           return await _colaboradorRepository.GetByUserNameAsync(username);
+        }
+
         public async Task<List<Colaborador>> GetCachedListAsync()
         {
             string cacheKey = ColaboradorCacheKeys.ListKey;

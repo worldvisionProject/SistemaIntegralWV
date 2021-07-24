@@ -1,29 +1,40 @@
-﻿@{ 
-    ViewData["Tmp"] = localizer["Indicador Estratégico:"];
-    ViewData["Objetivo"] =  ViewBag.Indicador;
-    ViewData["Caption"] = localizer["Gestionar Producto aquí"];
- }
+﻿
 @using WordVision.ec.Web.Areas.Planificacion.Models
 @model ProductoViewModel
-<div class="card">
 
-    <div class="col-sm-12 header-button">
+@{
+    ViewData["Tmp"] = "Objetivo: ";
+    ViewData["Objetivo"] = ViewBag.Message;
 
-        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEdit?id=0&idGestion=@Model.IdGestion&idIndicadorEstra=@Model.IdIndicadorEstrategico','Factor Crítico de Éxito')">
-            <i class="fa fa-plus-square"></i>
-            Agregar
-        </button>
+    ViewData["TmpFactor"] = "Factor Crítico de Exito: ";
+    ViewData["Factor"] = Model.DescFactorCritico;
 
+    ViewData["TmpIndicador"] = localizer["Indicador Estratégico:"];
+    ViewData["Indicador"] = ViewBag.Indicador;
+    ViewData["Caption"] = localizer["Gestionar Producto aquí"];
+
+    ViewData["TmpGestion"] = "Meta "+Model.DescGestion+":";
+    ViewData["Gestion"] = Model.DescMetaGestion;
+}
+    <div class="card">
+
+        <div class="col-sm-12 header-button">
+
+            <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEdit?id=0&idGestion=@Model.IdGestion&idIndicadorEstra=@Model.IdIndicadorEstrategico','Factor Crítico de Éxito')">
+                <i class="fa fa-plus-square"></i>
+                Agregar
+            </button>
+
+        </div>
+        <div id="viewAll" class="card-body table-responsive">
+        </div>
     </div>
-    <div id="viewAll" class="card-body table-responsive">
-    </div>
-</div>
 
 
-@section Scripts
+    @section Scripts
 {
-    <script src="~/js/site.js"></script>
-    <script>
+        <script src="~/js/site.js"></script>
+        <script>
     $(document).ready(function () {
             /*$("#colaboradorTable").DataTable();*/
             loadData();
@@ -37,4 +48,4 @@
         function loadData() {
             $('#viewAll').load('/planificacion/Producto/LoadAll?idIndicador=@Model.IdIndicadorEstrategico&idGestion=@Model.IdGestion');
         }</script>
-}
+    }

@@ -15,7 +15,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Productos.Queries.Get
 
         public int IdIndicadorEstrategico { get; set; }
         public int IdGestion { get; set; }
-
+        public IndicadorEstrategico IndicadorEstrategicos { get; set; }
         public ICollection<IndicadorPOA> IndicadorPOAs { get; set; }
     }
 }

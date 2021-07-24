@@ -5,7 +5,9 @@
 
 <form id="create-form" method="post" asp-controller="IndicadorEstrategico" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
     @Html.HiddenFor(x => x.IdFactorCritico)
-   @{ decimal suma = 0;}
+    @{ decimal suma = 0;}
+    <div id="header"><p><h6 class="h5 mb-2 text-gray-800">Ciclo: </h6>@Model.DescEstrategia</p></div>
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
@@ -52,7 +54,7 @@
                 </div>
                 <div class="col-md-2">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Meta acumulada ciclo</label>
-                    <input asp-for="Meta" type="text" name="Meta" class="form-control"  />
+                    <input asp-for="Meta" type="text" name="Meta" class="form-control" />
                     <span asp-validation-for="Meta" class="text-danger"></span>
                 </div>
             </div>
@@ -66,12 +68,12 @@
             </div>
 
             <div class="form-group row">
-                <div class="col-md-4">
+                <div class="col-md-1">
                     <label class="col-md-12 col-form-label texto-pregunta">Gestión</label>
                     @Html.DropDownListFor(x => x.gestionList, (IEnumerable<SelectListItem>)ViewBag.EstadoList, new { @class = "form-control" })
                     <span asp-validation-for="gestionList" class="text-danger"></span>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Anual</label>
                     <input asp-for="MetaAF" type="text" name="MetaAF" class="form-control" />
                     <span asp-validation-for="MetaAF" class="text-danger"></span>
@@ -81,24 +83,30 @@
                     <input asp-for="EntregableAF" type="text" name="EntregableAF" class="form-control" />
                     <span asp-validation-for="EntregableAF" class="text-danger"></span>
                 </div>
-                <div class="col-md-2" style="padding-top: 25px;">
-                    <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
-                </div>
+                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Create)).Result.Succeeded)
+                {
+                    <div class="col-md-2" style="padding-top: 25px;">
+                        <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+                    </div>
+                }
             </div>
+
         </div>
     </div>
 
     <br />
     <div id="divMetas">
-        <table id="metasTable" class="table table-striped" width="100%" cellspacing="0">
+        <table id="metasTable" class="table table-striped rwd-table" width="100%" cellspacing="0">
             <thead>
                 <tr>
                     @*<th>Id</th>*@
                     <th>Gestión</th>
-                    <th>Meta</th>
+                    <th>Metas Anuales</th>
                     <th>Entregable</th>
-
-                    <th class="text-right">Acciones</th>
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Delete)).Result.Succeeded)
+                    {
+                        <th class="text-right">Acciones</th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -109,12 +117,12 @@
                     @foreach (var metaanual in Model.IndicadorAFs)
                     {
                         suma = suma + Convert.ToDecimal(@metaanual.Meta);
-                        <tr id="@metaanual.Id">
+                        <tr id="@metaanual.Id" class="rowdata">
                             @*<td>
 
-                        @colaborador.Id
-                    </td>*@
-                            <td>
+                                    @colaborador.Id
+                                </td>*@
+                            <td class="af" >
                                 @{
                                     var selectedCity = Model.gestionList;
                                     string txt = selectedCity.Where(x => x.Value == metaanual.Anio).FirstOrDefault().Text;
@@ -122,17 +130,20 @@
                                 @txt
 
                             </td>
-                            <td>
-                                @metaanual.Meta
+                            <td  class="meta">
+                                @metaanual.Meta.ToString().Replace(",", ".")
                             </td>
-                            <td>
+                            <td >
                                 @metaanual.Entregable
                             </td>
 
-                            <td class="text-right">
-                                <button type="button" onclick="EliminaFila(@metaanual.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Delete)).Result.Succeeded)
+                            {
+                                <td class="text-right">
+                                    <button type="button" onclick="EliminaFila(@metaanual.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
 
-                            </td>
+                                </td>
+                            }
 
                         </tr>
                     }
@@ -146,7 +157,12 @@
 
         <br />
         <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-            <button type="submit" class="btn btn-success">Guardar</button>
+            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Create)).Result.Succeeded)
+            {<input type="hidden" value="false" name="band" id="band" />
+                <button type="submit" class="btn btn-success">Guardar</button>
+            }
+            else
+            { <input type="hidden" value="true" name="band" id="band" />}
             <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
         </div>
     </div>
@@ -155,13 +171,29 @@
 
         
 <script type="text/javascript" language=javascript>
-            $.validator.unobtrusive.parse(document);
-    document.getElementById("Meta").value = document.getElementById("suma").value == null ? 0 : document.getElementById("suma").value;
+    $.validator.unobtrusive.parse(document);
+  
+   // document.getElementById("Meta").value = document.getElementById("suma").value == null ? 0 : document.getElementById("suma").value;
     $(function () {
+        sumar();
+        $('#create-form *').prop('readonly', (document.getElementById("band").value == "true"));
         $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
         //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
         //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });
 
+        //
+        //table
+        //    .column(1)
+        //    .data()
+        //    .each(function (value, index) {
+        //        alert('Data in index: ' + index + ' is: ' + value);
+
+        //       // console.log('Data in index: ' + index + ' is: ' + value);
+        //    });
+       
+        //console.log(rows);
+
+        
     });
 
             $("#gestionList").select2({
@@ -172,21 +204,71 @@
         }
     });
 
+    function sumar() {
+
+        const tableRows = document.querySelectorAll('#metasTable tr.rowdata');
+
+        var sum = 0;
+        // Recorremos las filas que tengan el class="row"
+        // así obviamos la cabecera
+        for (let i = 0; i < tableRows.length; i++) {
+            const row = tableRows[i];
+            const status = row.querySelector('.meta');
+
+            sum = sum + parseFloat(status.innerText);
+            // Para modificar un estado:
+            // status.innerText = 'offline';
+        }
+
+        document.getElementById("Meta").value = String(sum).replace('.', ',');
+    }
+
+
+    function duplicados(af_in) {
+
+        const tableRows = document.querySelectorAll('#metasTable tr.rowdata');
+
+       
+        // Recorremos las filas que tengan el class="row"
+        // así obviamos la cabecera
+        for (let i = 0; i < tableRows.length; i++) {
+            const row = tableRows[i];
+            const status = row.querySelector('.af');
+
+            if (af_in == status.innerText) {
+                alert("Ya existe la gestion " + af_in);
+                return true;
+            }
+            // Para modificar un estado:
+            // status.innerText = 'offline';
+        }
+        return false;
+    
+    }
+
 
             var num = 0;
-            let sum = document.getElementById("suma").value;
+           // let sum = document.getElementById("suma").value;
         function AgregaConcepto() {
             let Anio = document.getElementById("gestionList").value;
             let Entregable = document.getElementById("EntregableAF").value;
-            let Meta = document.getElementById("MetaAF").value;
+            let Meta = document.getElementById("MetaAF").value.replace(',', '.');
             var selection = document.getElementById("gestionList");
             let AnioDesc = selection.options[selection.selectedIndex].innerHTML;
 
-            document.getElementById("suma").value
+            if (duplicados(AnioDesc)) { return;}
            // let IdEstrategia = document.getElementById("Id").value;
-            sum = parseFloat(sum) + parseFloat(Meta);
+           // sum = parseFloat(sum) + parseFloat(Meta);
             if (Anio.length == 0) {
                 alert("Ingrese la Gestion.");
+                return;
+            }
+            if (Meta.length == 0) {
+                alert("Ingrese la Meta.");
+                return;
+            }
+            if (Entregable.length == 0) {
+                alert("Ingrese el Entregable.");
                 return;
             }
 
@@ -195,12 +277,15 @@
             let Tabla = document.getElementById("metasTable");
             let TR = document.createElement("tr");
             TR.setAttribute('id', num);
+            TR.className = "rowdata";
            // let TDId = document.createElement("td");
             let TDAnio = document.createElement("td");
             let TDMeta = document.createElement("td");
             let TDEntregable = document.createElement("td");
             let TDEliminar = document.createElement("td");
             TDEliminar.className = "text-right";
+            TDMeta.className = "meta";
+            TDAnio.className = "af";
             //let TDTotal = document.createElement("td");
            // TR.appendChild(TDId);
             TR.appendChild(TDAnio);
@@ -229,7 +314,7 @@
             HiddenAnio.value = Anio;
             HiddenAnio.type = "hidden";
             HiddenMeta.name = "indicador[" + num + "].Meta";
-            HiddenMeta.value = Meta;
+            HiddenMeta.value = Meta.replace('.', ',');;
             HiddenMeta.type = "hidden";
             HiddenEntregable.name = "indicador[" + num + "].Entregable";
             HiddenEntregable.value = Entregable;
@@ -243,11 +328,19 @@
             document.getElementById("EntregableAF").value = "";
             document.getElementById("MetaAF").value = "";
 
-            document.getElementById("Meta").value = sum;
+            //document.getElementById("Meta").value = sum;
 
             num++;
+           
+            sumar();
+            // table
+            //.column(1)
+            //.data()
+            //.each(function (value, index) {
+            //    alert('Data in index: ' + index + ' is: ' + value);
 
-
+            //   // console.log('Data in index: ' + index + ' is: ' + value);
+            //});
 
             //var GestionViewModel = {
             //    Anio: Nombre,
@@ -299,7 +392,9 @@
             error: function(xhr) {
                // alert('No Valid Data');
             }
-        });
+         });
+
+        sumar();
     }
 
 </script>

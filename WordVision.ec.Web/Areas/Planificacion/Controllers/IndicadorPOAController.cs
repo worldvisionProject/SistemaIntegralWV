@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetAllCached;
@@ -51,7 +52,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (response.Succeeded)
             {
                 var viewModel = _mapper.Map<ProductoViewModel>(response.Data);
-           
+                ViewBag.Producto = viewModel.DescProducto;
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel) });
 
               
@@ -59,14 +60,62 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             return null;
         }
 
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idProducto = 0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idProducto = 0, int idGestion=0, int idIndicador = 0)
         {
             // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
+            string descProducto = "";
+            string descObjetivo = "";
+            string descFactor = "";
+            string descIndicador = "";
+            string descMeta = "";
+            string descGestion = "";
+            string responsable = "";
+            string descLineaBase = "";
 
+            var responseG = await _mediator.Send(new GetGestionByIdQuery() { Id = idGestion });
+            if (responseG.Succeeded)
+            {
+                var entidadViewModel = _mapper.Map<GestionViewModel>(responseG.Data);
+                descGestion = entidadViewModel.Anio;
+            }
+
+            var responseI = await _mediator.Send(new GetIndicadorEstrategicoByIdQuery() { Id = idIndicador });
+            if (responseI.Succeeded)
+            {
+                var entidadViewModel = _mapper.Map<IndicadorEstrategicoViewModel>(responseI.Data);
+                descProducto = entidadViewModel.Productos.Where(p=>p.Id== idProducto).FirstOrDefault().DescProducto;
+                descObjetivo = entidadViewModel.FactorCriticoExitos.ObjetivoEstrategicos.Descripcion;
+                descFactor = entidadViewModel.FactorCriticoExitos.FactorCritico;
+                descIndicador = entidadViewModel.IndicadorResultado;
+                descMeta = entidadViewModel.IndicadorAFs.Where(x => x.Anio == idGestion.ToString()).FirstOrDefault().Meta;
+                responsable = entidadViewModel.Responsable.ToString();
+                descLineaBase = entidadViewModel.LineaBase;
+            }
+            //var responseP = await _mediator.Send(new GetProductoByIdQuery() { Id = idProducto });
+            //if (responseP.Succeeded)
+            //{
+            //    var viewModel = _mapper.Map<ProductoViewModel>(responseP.Data);
+            //    descProducto = viewModel.DescProducto;
+            //    //descObjetivo = viewModel.IndicadorEstrategicos.FactorCriticoExitos.ObjetivoEstrategicos.Descripcion;
+            //    //descFactor = viewModel.IndicadorEstrategicos.FactorCriticoExitos.FactorCritico;
+            //    descIndicador = viewModel.IndicadorEstrategicos.IndicadorResultado;
+            //    descMeta = viewModel.IndicadorEstrategicos.IndicadorAFs.Where(x => x.Anio == idGestion.ToString()).FirstOrDefault().Meta;
+            //    responsable = viewModel.IndicadorEstrategicos.Responsable.ToString();
+            //    descLineaBase = viewModel.IndicadorEstrategicos.LineaBase;
+            //}
             if (id == 0)
             {
                 var entidadViewModel = new IndicadorPOAViewModel();
                 entidadViewModel.IdProducto = idProducto;
+                entidadViewModel.DescProducto = descProducto;
+                entidadViewModel.DescObjetivo = descObjetivo;
+                entidadViewModel.DescFactor = descFactor;
+                entidadViewModel.DescIndicador = descIndicador;
+                entidadViewModel.DescMeta = descMeta;
+                entidadViewModel.ResponsableIndicador = responsable;
+                entidadViewModel.DescGestion = descGestion;
+                entidadViewModel.DescLineaBase = descLineaBase;
+
                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                 entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                 var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 11 });
@@ -80,6 +129,15 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 if (response.Succeeded)
                 {
                     var entidadViewModel = _mapper.Map<IndicadorPOAViewModel>(response.Data);
+                    entidadViewModel.DescProducto = descProducto;
+                    entidadViewModel.DescObjetivo = descObjetivo;
+                    entidadViewModel.DescFactor = descFactor;
+                    entidadViewModel.DescIndicador = descIndicador;
+                    entidadViewModel.DescMeta = descMeta;
+                    entidadViewModel.ResponsableIndicador = responsable;
+                    entidadViewModel.DescGestion = descGestion;
+                    entidadViewModel.DescLineaBase = descLineaBase;
+
                     var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                     entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                     var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 11 });

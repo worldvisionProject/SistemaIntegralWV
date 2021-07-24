@@ -2,15 +2,15 @@
 @using WordVision.ec.Web.Areas.Planificacion.Models
 @model EstrategiaNacionalViewModel
 @{ ViewData["Title"] = localizer["Ciclo Estrategico"].Value + " " + ViewBag.Ciclo;
-    ViewData["Caption"] = localizer["Está en la Gestión:"].Value + " " +ViewBag.Gestion;
-
+    ViewData["TmpGestion"] = localizer["Está en la Gestión:"].Value ;
+    ViewData["Gestion"] = ViewBag.Gestion;
     // ViewBag.GestionList = ViewBag.GestionList;
     }
 <div class="card card-info">
 
     <div class="card-header card-header-int">
-        Ciclo Estrategico
-     
+        Ciclo Estratégico
+
     </div>
 
     <div class="col-sm-12" style="padding:20px">

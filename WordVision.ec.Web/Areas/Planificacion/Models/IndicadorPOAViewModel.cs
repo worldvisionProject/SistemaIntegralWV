@@ -9,6 +9,14 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
 {
     public class IndicadorPOAViewModel
     {
+       public string DescObjetivo { get; set; }
+       public string DescFactor { get; set; }
+       public string DescIndicador { get; set; }
+       public string DescMeta { get; set; }
+       public string ResponsableIndicador { get; set; }
+        public string DescGestion { get; set; }
+        public string DescLineaBase { get; set; }
+
         public int Id { get; set; }
         public string IndicadorProducto { get; set; }
         public string MedioVerificacion { get; set; }
@@ -34,6 +42,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
 
 
         public int IdProducto { get; set; }
+        public string DescProducto { get; set; }
         public ICollection<ActividadViewModel> Actividades { get; set; }
 
         public virtual List<MetaViewModel> MetaTacticas { get; set; }

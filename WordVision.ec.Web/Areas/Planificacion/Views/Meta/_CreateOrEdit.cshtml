@@ -2,113 +2,145 @@
 @using WordVision.ec.Web.Areas.Planificacion.Models
 @model IndicadorEstrategicoViewModel
 
-
-<form id="create-form" method="post" asp-controller="Meta" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" asp-route-idGestion="@Model.IdGestion" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
-    @Html.HiddenFor(x => x.IdFactorCritico)
-    <div class="row">
-        <div class="col-md-12">
-            
-            <div class="form-group row">
-
-                <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Trimestre</label>
-                    @Html.DropDownListFor(x => x.NumMesesList, Model.NumMesesList, new { @class = "form-control" })
-                    <span asp-validation-for="NumMesesList" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-3">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Unidad Medida</label>
-                    @Html.DropDownListFor(x => x.UnidadList, Model.UnidadList, new { @class = "form-control" })
-                    <span asp-validation-for="UnidadList" class="text-danger"></span>
-
-                </div>
-                <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Valor Meta</label>
-
-                    <input asp-for="ValorMeta" type="text" name="ValorMeta" class="form-control" />
-                    <span asp-validation-for="ValorMeta" class="text-danger"></span>
-                </div>
-                <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Logro Entregable</label>
-
-                    <input asp-for="EntregableMeta" type="text" name="EntregableMeta" class="form-control" />
-                    <span asp-validation-for="EntregableMeta" class="text-danger"></span>
-                </div>
-                <div class="col-md-2" style="padding-top: 25px;">
-                    <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
-                </div>
-            </div>
-            
-        </div>
+<div id="header" class="row titulopopup">
+    <div class="col-6">
+        <h6 class="h5 mb-2 text-gray-800-b">Objetivo: </h6>@Model.FactorCriticoExitos.ObjetivoEstrategicos.Descripcion
+    </div>
+    <div class="col-6" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Factor: </h6>@Model.FactorCriticoExitos.FactorCritico
     </div>
 
+</div>
+
+<div id="header" class="row titulopopup">
+    <div class="col-6">
+        <h6 class="h5 mb-2 text-gray-800-b">Indicador: </h6>@Model.IndicadorResultado
+    </div>
+    @{
+        var @metagestion = @Model.IndicadorAFs.Where(x => x.Anio == Convert.ToString(@Model.IdGestion)).FirstOrDefault().Meta;
+    }
+<div class="col-3" style="text-align: right;">
+    <h6 class="h5 mb-2 text-gray-800-b">Línea Base: </h6>@Model.LineaBase
+</div>
+    <div class="col-3" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Meta  @Model.DescGestion: </h6>@metagestion
+    </div>
+
+</div>
+<div id="header" class="row titulopopup">
+    <div class="col-12">
+        <h6 class="h5 mb-2 text-gray-800-b">Responsable: </h6>@Model.Responsable
+    </div>
+</div>
+    <hr />
     <br />
-    <div id="divMetas">
-        <table id="metasTable" class="table table-striped" width="100%" cellspacing="0">
-            <thead>
-                <tr>
-                    @*<th>Id</th>*@
-                    <th>Meses</th>
-                    <th>Medida/Unidad</th>
-                    <th>Valor</th>
-                    <th>Entregable</th>
-                    <th class="text-right">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.MetaEstrategicas != null)
-                {
+    <form id="create-form" method="post" asp-controller="Meta" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" asp-route-idGestion="@Model.IdGestion" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+        @Html.HiddenFor(x => x.IdFactorCritico)
+        <input id="metagestion" name="metagestion" value="@metagestion" type="hidden" />
+        <div class="row">
+            <div class="col-md-12">
 
-                    @foreach (var metaanual in Model.MetaEstrategicas)
-                    {
-                <tr id="@metaanual.Id">
-                    @*<td>
+                <div class="form-group row">
 
-            @colaborador.Id
-        </td>*@
-                    <td>
+                    <div class="col-md-1">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Trimestre</label>
+                        @Html.DropDownListFor(x => x.NumMesesList, Model.NumMesesList, new { @class = "form-control" })
+                        <span asp-validation-for="NumMesesList" class="text-danger"></span>
+                    </div>
 
-                        @metaanual.NumMeses
+                    @*<div class="col-md-3">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Unidad Medida</label>
+                        @Html.DropDownListFor(x => x.UnidadList, Model.UnidadList, new { @class = "form-control" })
+                        <span asp-validation-for="UnidadList" class="text-danger"></span>
 
-                    </td>
-                    <td>
+                    </div>*@
+                    <div class="col-md-4">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Trimestral</label>
 
-                        @{
-                            var selectedCity = Model.UnidadList;
-                            string txt = selectedCity.Where(x => x.Value == metaanual.TipoMedida.ToString()).FirstOrDefault().Text;
-                        }
-                        @txt
-                    </td>
-                    <td>
-                        @metaanual.Valor
-                    </td>
-                    <td>
-                        @metaanual.Entregable
-                    </td>
+                        <input asp-for="ValorMeta" type="text" name="ValorMeta" class="form-control" />
+                        <span asp-validation-for="ValorMeta" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Logro Entregable</label>
 
-                    <td class="text-right">
-                        <button type="button" onclick="EliminaFila(@metaanual.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+                        <input asp-for="EntregableMeta" type="text" name="EntregableMeta" class="form-control" />
+                        <span asp-validation-for="EntregableMeta" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2" style="padding-top: 25px;">
+                        <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+                    </div>
+                </div>
 
-                    </td>
-
-                </tr>
-                    }}
-
-
-            </tbody>
-        </table>
+            </div>
+        </div>
 
         <br />
-        <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-            <button type="submit" class="btn btn-success">Guardar</button>
-            <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+        <div id="divMetas">
+            <table id="metasTableM" class="table table-striped  rwd-table" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        @*<th>Id</th>*@
+                        <th>Meses</th>
+                        @*<th>Medida/Unidad</th>*@
+                        <th>Valor</th>
+                        <th>Entregable</th>
+                        <th class="text-right">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.MetaEstrategicas != null)
+                    {
+
+                        @foreach (var metaanual in Model.MetaEstrategicas)
+                        {
+                            <tr id="@metaanual.Id" class="rowdata">
+                                @*<td>
+
+                                        @colaborador.Id
+                                    </td>*@
+                                <td class="mes">
+
+                                    @metaanual.NumMeses
+
+                                </td>
+                                @*<td>
+
+                                    @{
+                                        var selectedCity = Model.UnidadList;
+                                        string txt = selectedCity.Where(x => x.Value == metaanual.TipoMedida.ToString()).FirstOrDefault().Text;
+                                    }
+                                    @txt
+                                </td>*@
+                                <td class="meta">
+                                    @metaanual.Valor
+                                </td>
+                                <td>
+                                    @metaanual.Entregable
+                                </td>
+
+                                <td class="text-right">
+                                    <button type="button" onclick="EliminaFila(@metaanual.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                                </td>
+
+                            </tr>
+                        }}
+
+
+                </tbody>
+            </table>
+
+            <br />
+            <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 
 
-        
-        <script type="text/javascript" language=javascript>
+
+    <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
     $(function () {
         $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
@@ -124,50 +156,118 @@
             return m;
         }
     });
+    function duplicadosMeta(af_in) {
 
+        const tableRows = document.querySelectorAll('#metasTableM tr.rowdata');
+
+
+        // Recorremos las filas que tengan el class="row"
+        // así obviamos la cabecera
+        for (let i = 0; i < tableRows.length; i++) {
+            const row = tableRows[i];
+            const status = row.querySelector('.mes');
+
+            if (af_in == status.innerText) {
+                alert("Ya existe el trimestre " + af_in);
+                return true;
+            }
+            // Para modificar un estado:
+            // status.innerText = 'offline';
+        }
+        return false;
+
+    }
+
+
+    function sumar() {
+
+        const tableRows = document.querySelectorAll('#metasTableM tr.rowdata');
+        var sum = 0;
+        // Recorremos las filas que tengan el class="row"
+        // así obviamos la cabecera
+        for (let i = 0; i < tableRows.length; i++) {
+
+            const row = tableRows[i];
+            const status = row.querySelector('.meta');
+
+            sum = sum + parseFloat(status.innerText);
+            // Para modificar un estado:
+            // status.innerText = 'offline';
+        }
+
+        var metagestion = document.getElementById("metagestion").value.replace(',', '.');
+        if (sum >parseFloat(metagestion) ) {
+            alert("El valor de la Meta debe ser menor o igual a la Meta de Gestion");
+            return true;
+
+        }
+        return false;
+    }
 
        var num = 0;
         function AgregaConcepto() {
             let NumMeses = document.getElementById("NumMesesList").value;
-            let UnidadList = document.getElementById("UnidadList").value;
-            var selection = document.getElementById("UnidadList");
-            let Unidad = selection.options[selection.selectedIndex].innerHTML;
+            //let UnidadList = document.getElementById("UnidadList").value;
+            //var selection = document.getElementById("UnidadList");
+            //let Unidad = selection.options[selection.selectedIndex].innerHTML;
             let ValorMeta = document.getElementById("ValorMeta").value;
             let EntregableMeta = document.getElementById("EntregableMeta").value;
            // let IdEstrategia = document.getElementById("Id").value;
+
+            if (duplicadosMeta(NumMeses)) { return; }
 
             if (NumMeses.length == 0) {
                 alert("Ingrese los meses.");
                 return;
             }
+            //if (UnidadList.length == 0) {
+            //    alert("Ingrese la Unidad.");
+            //    return;
+            //}
+            if (ValorMeta.length == 0) {
+                alert("Ingrese la meta.");
+                return;
+            }
+            if (EntregableMeta.length == 0) {
+                alert("Ingrese el entregable.");
+                return;
+            }
 
 
             //agregamos tabla
-            let Tabla = document.getElementById("metasTable");
+            let Tabla = document.getElementById("metasTableM");
             let TR = document.createElement("tr");
             TR.setAttribute('id', num);
+            TR.className = "rowdata";
             let TDNumMeses = document.createElement("td");
-            let TDUnidad = document.createElement("td");
+            //let TDUnidad = document.createElement("td");
             let TDValorMeta = document.createElement("td");
             let TDEntregableMeta = document.createElement("td");
             let TDEliminar = document.createElement("td");
             TDEliminar.className = "text-right";
+            TDValorMeta.className = "meta";
+            TDNumMeses.className = "mes";
             //let TDTotal = document.createElement("td");
            // TR.appendChild(TDId);
             TR.appendChild(TDNumMeses);
-            TR.appendChild(TDUnidad);
+            //TR.appendChild(TDUnidad);
             TR.appendChild(TDValorMeta);
             TR.appendChild(TDEntregableMeta);
             TR.appendChild(TDEliminar);
             //TR.appendChild(TDTotal);
            // TDId.innerHTML = num;
             TDNumMeses.innerHTML = NumMeses;
-            TDUnidad.innerHTML = Unidad;
+            //TDUnidad.innerHTML = Unidad;
             TDValorMeta.innerHTML = ValorMeta;
             TDEntregableMeta.innerHTML = EntregableMeta;
             TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
             //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
             Tabla.appendChild(TR);
+
+            if (sumar()) {
+                deleteRow(num);
+                return;
+            }
 
             //agregamos hiddens
             let DivConceptos = document.getElementById("divMetas");
@@ -183,10 +283,10 @@
             HiddenNumMeses.value = NumMeses;
             HiddenNumMeses.type = "hidden";
             HiddenUnidad.name = "meta[" + num + "].TipoMedida";
-            HiddenUnidad.value = UnidadList;
+            HiddenUnidad.value = 0;
             HiddenUnidad.type = "hidden";
             HiddenValorMeta.name = "meta[" + num + "].Valor";
-            HiddenValorMeta.value = ValorMeta;
+            HiddenValorMeta.value = ValorMeta.replace('.', ',');;
             HiddenValorMeta.type = "hidden";
 
             HiddenEntregableMeta.name = "meta[" + num + "].Entregable";
@@ -200,9 +300,10 @@
             DivConceptos.appendChild(HiddenEntregableMeta);
 
             document.getElementById("NumMesesList").value = "";
-            document.getElementById("UnidadList").value = "";
+            //document.getElementById("UnidadList").value = "";
             document.getElementById("ValorMeta").value = "";
             document.getElementById("EntregableMeta").value = "";
+
 
             num++;
 
@@ -261,4 +362,4 @@
         });
     }
 
-        </script>
+    </script>

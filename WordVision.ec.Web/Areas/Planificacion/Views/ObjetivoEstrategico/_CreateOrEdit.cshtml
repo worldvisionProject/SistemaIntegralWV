@@ -10,10 +10,14 @@
             <div class="form-group row">
                 <div class="col-md-12">
                     <label class="col-md-12 col-form-label texto-pregunta">Objetivo de Resultado</label>
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Edit)).Result.Succeeded)
+                    {
+                        <textarea asp-for="Descripcion" name="Descripcion" class="form-control"></textarea>
+                    }
+                    else { <textarea asp-for="Descripcion" name="Descripcion" class="form-control" readonly></textarea>}
 
-                    <textarea asp-for="Descripcion" name="Descripcion" class="form-control"></textarea>
-                    <span asp-validation-for="Descripcion" class="text-danger"></span>
-                </div>
+                        <span asp-validation-for="Descripcion" class="text-danger"></span>
+                    </div>
             </div>
             <div class="form-group row">
                 @*<div class="col-md-3">*@
@@ -71,8 +75,12 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label class="col-md-12 col-form-label texto-pregunta">Programa Tecnico</label>
-
-                            <textarea asp-for="Programa" name="Programa" class="form-control"></textarea>
+                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Edit)).Result.Succeeded)
+                            {
+                                <textarea asp-for="Programa" name="Programa" class="form-control"></textarea>
+                            }
+                            else
+                            { <textarea asp-for="Programa" name="Programa" class="form-control" readonly></textarea>}
                             <span asp-validation-for="Programa" class="text-danger"></span>
                         </div>
                     </div>
@@ -84,10 +92,13 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label class="col-md-12 col-form-label texto-pregunta ">CWBO</label>
-
-                            <textarea asp-for="Cwbo" name="Cwbo" class="form-control"></textarea>
-                            <span asp-validation-for="Cwbo" class="text-danger"></span>
-                        </div>
+                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Edit)).Result.Succeeded)
+                            {
+                                <textarea asp-for="Cwbo" name="Cwbo" class="form-control"></textarea>
+                            }
+                            else {<textarea asp-for="Cwbo" name="Cwbo" class="form-control" readonly></textarea> }
+                                <span asp-validation-for="Cwbo" class="text-danger"></span>
+                            </div>
                     </div>
 
 
@@ -101,9 +112,12 @@
 
     <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-        <button type="submit" class="btn btn-success">Guardar</button>
-        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
-    </div>
+        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+        {
+            <button type="submit" class="btn btn-success">Guardar</button>
+        }
+            <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+        </div>
 </form>
 
 

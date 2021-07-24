@@ -106,6 +106,61 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                 if (ModelState.IsValid)
                 {
                     var userName = Input.Email;
+
+                    var response = await _mediator.Send(new GetColaboradorByUserNameQuery() { UserName = userName });
+                    if (response != null)
+                    {
+                        if (response.Succeeded)
+                        {
+                            var output = response.Data;
+                            var colaborador = new GetUsuarioByIdResponse();
+                            colaborador.ApellidoPaterno = output.Apellidos;
+                            colaborador.PrimerNombre = output.PrimerNombre;
+                            colaborador.Mail = output.Email;
+                            colaborador.Cedula = output.Identificacion;
+                            colaborador.IdEmpresa = 3;
+
+                            var defaultUser = new ApplicationUser
+                            {
+                                UserName = userName,
+                                Email = colaborador.Mail,
+                                FirstName = colaborador.PrimerNombre + " " + colaborador.SegundoNombre,
+                                LastName = colaborador.ApellidoPaterno + " " + colaborador.ApellidoMaterno,
+                                EmailConfirmed = true,
+                                PhoneNumberConfirmed = true,
+                                IsActive = true,
+                                IdEmpresa = 1
+                            };
+
+                            if (_userManager.Users.All(u => u.Id != defaultUser.Id))
+                            {
+                                var userExterno = await _userManager.FindByEmailAsync(defaultUser.Email);
+                                if (userExterno == null)
+                                {
+                                    await _userManager.CreateAsync(defaultUser, "123Pa$$word!");
+                                    await _userManager.AddToRoleAsync(defaultUser, Roles.Basic.ToString());
+                                }
+
+                            }
+
+                            var users = await _userManager.FindByNameAsync(userName);
+                            await AddUserClaims(users, userName, colaborador);
+
+                            var result1 = await _signInManager.PasswordSignInAsync(userName, "123Pa$$word!", false, lockoutOnFailure: false);
+                            if (result1.Succeeded)
+                            {
+
+                                await _mediator.Send(new AddActivityLogCommand() { userId = users.Id, Action = "Logged In" });
+                                _logger.LogInformation("Usuario conectado.");
+                                _notyf.Success($"Conectado como { userName }.");
+                                return LocalRedirect(returnUrl);
+                            }
+
+                        }
+                    }
+
+
+                   
                     if (IsValidEmail(Input.Email))
                     {
                         var userCheck = await _userManager.FindByEmailAsync(Input.Email);

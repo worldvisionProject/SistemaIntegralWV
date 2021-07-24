@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.MetaEstrategicas.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.MetaEstrategicas.Commands.Delete;
@@ -29,13 +30,21 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int IdFactorCritico = 0, int IdEstrategia = 0,int idGestion=0)
         {
-           
+
+            var descGestion = "";
+            var responseG = await _mediator.Send(new GetGestionByIdQuery() { Id = idGestion });
+            if (responseG.Succeeded)
+            {
+                var entidadViewModel = _mapper.Map<GestionViewModel>(responseG.Data);
+                descGestion = entidadViewModel.Anio;
+            }
             if (id == 0)
             {
                 var entidadViewModel = new IndicadorEstrategicoViewModel();
                 entidadViewModel.IdFactorCritico = IdFactorCritico;
                 entidadViewModel.IdEstrategia = IdEstrategia;
-            
+                entidadViewModel.IdGestion = idGestion;
+                entidadViewModel.DescGestion = descGestion;
                 //  return View("_CreateOrEdit", entidadViewModel);
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
@@ -52,6 +61,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     entidadViewModel.IdFactorCritico = IdFactorCritico;
                     entidadViewModel.IdEstrategia = IdEstrategia;
                     entidadViewModel.IdGestion = idGestion;
+                    entidadViewModel.DescGestion = descGestion;
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;

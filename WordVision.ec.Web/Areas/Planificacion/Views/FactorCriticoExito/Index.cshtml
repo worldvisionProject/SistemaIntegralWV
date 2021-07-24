@@ -22,20 +22,22 @@
 
             </div>
         </div>*@
+            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.FactorCriticoExito.Create)).Result.Succeeded)
+            {
+                <div class="col-sm-12 header-button">
 
-    <div class="col-sm-12 header-button" >
-
-        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/FactorCriticoExito/OnGetCreateOrEdit?id=0&idObjetivoEstra=@Model.IdObjetivoEstra','Factor Crítico de Éxito')">
-            <i class="fa fa-plus-square"></i>
-            Agregar
-        </button>
-        @*<a id="reload" class="btn btn-primary text-white">
-                <i class="fa fas fa-bolt"></i>
-                Refrescar
-            </a>*@
-    </div>
-    <div id="viewAll" class="card-body table-responsive">
-    </div>
+                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/FactorCriticoExito/OnGetCreateOrEdit?id=0&idObjetivoEstra=@Model.IdObjetivoEstra','Factor Crítico de Éxito')">
+                        <i class="fa fa-plus-square"></i>
+                        Agregar
+                    </button>
+                    @*<a id="reload" class="btn btn-primary text-white">
+                            <i class="fa fas fa-bolt"></i>
+                            Refrescar
+                        </a>*@
+                </div>
+            }
+                <div id="viewAll" class="card-body table-responsive">
+                </div>
 </div>
 
 

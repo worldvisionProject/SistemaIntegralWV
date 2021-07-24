@@ -25,12 +25,14 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         public async Task<IActionResult> Index(int id,int idObjetivo, int idEstrategia, int AnioGestion)
         {
             int idObjetivoEstra = idObjetivo;
-
-
+            int idIndicadorEstra = id;
+            string descFactorCritico=String.Empty;
+            string descMetaGestio = String.Empty;
             var response = await _mediator.Send(new GetObjetivoEstrategicoByIdQuery() { Id = idObjetivoEstra });
             if (response.Succeeded)
             {
                 ViewBag.Message = response.Data.Descripcion;
+              
                 //id = response.Data.IdEstrategia;
             }
             var gestionDesc = string.Empty;
@@ -49,6 +51,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (responseI.Succeeded)
             {
                 ViewBag.Indicador = responseI.Data.IndicadorResultado;
+                descFactorCritico=responseI.Data.FactorCriticoExitos.FactorCritico;
+                descMetaGestio = responseI.Data.IndicadorAFs.Where(m => m.Anio == AnioGestion.ToString()).FirstOrDefault().Meta.ToString();
                 //id = response.Data.IdEstrategia;
             }
 
@@ -58,6 +62,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 RouteValues = new { ciclo },//this comes in as a param into the action
                                             // Parent = childNode0
             };
+
             id = idEstrategia;
             var childNode2 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Gestión " + gestionDesc)
             {
@@ -65,6 +70,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 OverwriteTitleOnExactMatch = true,
                 Parent = childNode1
             };
+
             id = idObjetivoEstra;
             var childNode3 = new MvcBreadcrumbNode("IndexIndicador", "FactorCriticoExito", "Indicadores de Resultado")
             {
@@ -73,7 +79,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 Parent = childNode2
             };
 
-            var childNode4 = new MvcBreadcrumbNode("Index", "Producto", "Gestión de Productos")
+            id = idIndicadorEstra;
+            var childNode4 = new MvcBreadcrumbNode("Index", "Producto", "Productos")
             {
                 RouteValues = new { id, idEstrategia, AnioGestion },
                 OverwriteTitleOnExactMatch = true,
@@ -94,6 +101,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             model.IdObjetivoEstra = idObjetivoEstra;
             model.IdGestion = AnioGestion;
             model.IdIndicadorEstrategico = id;
+            model.DescFactorCritico = descFactorCritico;
+            model.DescMetaGestion = descMetaGestio;
+            model.DescGestion = gestionDesc;
             ViewBag.Nivel = User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value;
             return View( model);
         }
@@ -134,7 +144,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 if (response.Succeeded)
                 {
                     var entidadViewModel = _mapper.Map<ProductoViewModel>(response.Data);
-                   
+                    entidadViewModel.IdGestion = idGestion;
+                    entidadViewModel.IdIndicadorEstrategico = idIndicadorEstra;
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
             }

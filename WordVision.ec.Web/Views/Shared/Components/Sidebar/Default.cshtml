@@ -25,7 +25,7 @@
         </a>
     </li>-->
 
-                @if (User.IsInRole("DirectorNacional") || User.IsInRole("Estrategico") || User.IsInRole("CoordPlanificacion"))
+                @if (User.IsInRole("DirectorNacional") ||  User.IsInRole("CoordPlanificacion"))
                 {
                     <li class="nav-item">
                         <a is-active-route asp-area="Planificacion" asp-controller="EstrategiaNacional" asp-action="Index" class="nav-link">

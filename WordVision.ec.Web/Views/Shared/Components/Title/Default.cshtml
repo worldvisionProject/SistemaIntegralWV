@@ -1,43 +1,125 @@
 ﻿@*<link href="~/css/dashboard/styles-pro.css" rel="stylesheet" />*@
 @using WordVision.ec.Web.Areas.Planificacion.Models
 @model EstrategiaNacionalViewModel
-   @if  ( ViewBag.Nivel=="2")
-   {
+@if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value == "2")
+{
     <style>
         .breadcrumb {
             background-color: #FFD966 !important;
         }
+
+        /*a {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            background-color: transparent !important;
+        }*/
+        .breadcrumb-item a {
+            color: #ffffff !important;
+        }
+
+        .breadcrumb-item.active {
+            color: #ff8833;
+        }
+    </style>
+
+}
+else @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value == "3")
+{
+<style>
+    .breadcrumb {
+        background-color: #2F75B5 !important;
+    }
 </style>
-      
-   }
-    <breadcrumb></breadcrumb>
-    <h6 class="h5 mb-2 text-gray-800">@ViewBag.Tmp</h6>
-    <h6>@ViewBag.Objetivo</h6>
-    <div class="d-sm-flex align-items-center justify-content-between">
-        <h1 class="h3 mb-0 text-gray-800">@ViewBag.Title</h1>
-        
-    </div>
-    <h6 class="h5 mb-2 text-gray-800">@ViewBag.ObjTitle</h6>
-    <p></p>
-    <h6>@ViewBag.Caption</h6>
 
-    @if (ViewBag.SNGestion == "S")
+}
+else @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value == "4")
+{
+    @if (User.IsInRole("CoordPlanificacion"))
     {
-<form id="select-form" method="get" asp-area="Planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEditEstrategia" asp-route-id="@Model.Id" enctype="multipart/form-data">
-    <div class="form-group row">
-        <div class="col-md-9">
-            @*<select class="custom-select custom-select-mb mb-12" id="gestion" name="gestion">
-                </select>*@
-            @Html.DropDownListFor(x => x.AnioGestion, (SelectList)ViewBag.GestionList, new { @class = "custom-select custom-select-mb mb-12" })
+        <style>
+            .breadcrumb {
+                background-color: #C4C4C6 !important;
+            }
+        </style>
 
+    }
+    else
+    {
+    <style>
+        .breadcrumb {
+            background-color: #548235 !important;
+        }
+    </style>
+        }
+}
+
+<breadcrumb></breadcrumb>
+<div id="header">
+    <h6 class="h5 mb-2 text-gray-800-b">@ViewBag.Tmp</h6>
+    <h6>@ViewBag.Objetivo</h6>
+</div>
+<div class="d-sm-flex align-items-center justify-content-between">
+    <h1 class="h3 mb-0 text-gray-800">@ViewBag.Title</h1>
+
+</div>
+<h6 class="h5 mb-2 text-gray-800-b">@ViewBag.ObjTitle</h6>
+
+@*FACTOR*@
+<div id="header">
+    <h6 class="h5 mb-2 text-gray-800-b">@ViewBag.TmpFactor</h6>
+    <h6>@ViewBag.Factor</h6>
+</div>
+<div class="d-sm-flex align-items-center justify-content-between">
+    <h1 class="h3 mb-0 text-gray-800">@ViewBag.TitleFactor</h1>
+
+</div>
+<h6 class="h5 mb-2 text-gray-800">@ViewBag.ObjTitleFactor</h6>
+@*fin FACTOR*@
+
+@*indicador*@
+<div id="header">
+    <h6 class="h5 mb-2 text-gray-800-b">@ViewBag.TmpIndicador</h6>
+    <h6>@ViewBag.Indicador</h6>
+</div>
+<div class="d-sm-flex align-items-center justify-content-between">
+    <h1 class="h3 mb-0 text-gray-800">@ViewBag.TitleIndicador</h1>
+
+</div>
+<h6 class="h5 mb-2 text-gray-800">@ViewBag.ObjTitleIndicador</h6>
+@*fin indicador*@
+
+@*GESTION*@
+<div id="header">
+    <h6 class="h5 mb-2 text-gray-800-b">@ViewBag.TmpGestion</h6>
+    <h6>@ViewBag.Gestion</h6>
+</div>
+<div class="d-sm-flex align-items-center justify-content-between">
+    <h1 class="h3 mb-0 text-gray-800">@ViewBag.TitleGestion</h1>
+
+</div>
+<h6 class="h5 mb-2 text-gray-800">@ViewBag.ObjTitleGestion</h6>
+@*fin GESTION*@
+
+<p></p>
+<h6>@ViewBag.Caption</h6>
+
+@if (ViewBag.SNGestion == "S")
+{
+    <form id="select-form" method="get" asp-area="Planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEditEstrategia" asp-route-id="@Model.Id" enctype="multipart/form-data">
+        <div class="form-group row">
+            <div class="col-md-3">
+                @*<select class="custom-select custom-select-mb mb-12" id="gestion" name="gestion">
+                    </select>*@
+                @Html.DropDownListFor(x => x.AnioGestion, (SelectList)ViewBag.GestionList, new { @class = "custom-select custom-select-mb mb-12" })
+
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="IrGestion()">Ir a Gestion  <i class="fas fa-arrow-alt-circle-right"></i></button>
+            </div>
         </div>
-        <div class="col-md-3">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="IrGestion()">Ir</button>
-        </div>
-    </div>
 
-</form>     }
+    </form>}
 
 
 
-    <p></p>
+<p></p>
