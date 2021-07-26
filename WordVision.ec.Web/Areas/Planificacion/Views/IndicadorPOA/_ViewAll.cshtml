@@ -36,13 +36,13 @@
                 </td>
 
                 <td class="acciones-td">
-                    <button type="button" class="btn btn-primary btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Actividad/OnGetCreateOrEdit?id=@anioFiscal.Id&idProducto=@Model.Id&idGestion=@Model.IdGestion&idIndicador=@Model.IdIndicadorEstrategico','Actividades')">
+                    <button type="button" class="btn btn-primary btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Actividad/OnGetCreateOrEdit?id=@anioFiscal.Id&idProducto=@Model.Id&idGestion=@Model.IdGestion&idIndicadorEstrategia=@Model.IdIndicadorEstrategico','Actividades')">
                         <i class="fas fa-plus-square"></i>
                     </button>
 
                 </td>
                 <td class="acciones-td">
-                    <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/OnGetCreateOrEdit?id=@anioFiscal.Id&idProducto=@Model.Id&idGestion=@Model.IdGestion&idIndicador=@Model.IdIndicadorEstrategico','Indicador de Producto')">
+                    <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/OnGetCreateOrEdit?id=@anioFiscal.Id&idProducto=@Model.Id&idGestion=@Model.IdGestion&idIndicadorEstrategia=@Model.IdIndicadorEstrategico','Indicador de Producto')">
                         <i class="fas fa-pencil-alt"></i>
                     </button>
                     <button type="button" onclick="EliminaFila(@anioFiscal.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>

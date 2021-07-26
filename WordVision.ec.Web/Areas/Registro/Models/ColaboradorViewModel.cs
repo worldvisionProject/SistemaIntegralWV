@@ -32,5 +32,6 @@ namespace WordVision.ec.Web.Areas.Registro.Models
         public string ActPoliticas { get; set; }
         public string ActDocumentos { get; set; }
         public string ActDatos { get; set; }
+        public string Nombres { get; set; }
     }
 }

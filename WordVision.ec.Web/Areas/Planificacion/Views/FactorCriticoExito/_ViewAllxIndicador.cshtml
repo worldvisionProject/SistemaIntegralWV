@@ -7,11 +7,17 @@
             <th style=" width:40%">Factor Crítico de Éxito</th>
             <th style=" width:40%">Indicador de Resultado</th>
             <th style=" width:40%">Metas @ViewBag.DescGestion</th>
-            @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2")
+            @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2" )
             {
                 <th data-priority="2" class="acciones-th">Metas Trimestrales</th>
+
             }
             <th data-priority="2" class="acciones-th">Productos</th>
+          
+               
+                @*<th data-priority="2" class="acciones-th">Indicadores de Producto</th>*@
+            
+
             @*<th data-priority="1">Nombre</th>
         <th data-priority="2" class="acciones-th">Indicador</th>
         <th data-priority="2" class="acciones-th">Acciones</th>*@
@@ -46,7 +52,7 @@
                 c = c + 1;
             }
             <td><b>@f.@c) </b> @ind.IndicadorResultado</td>
-            <td>@ind.IndicadorAFs.Where(x=>x.Anio==Convert.ToString( @ViewBag.IdGestion)).FirstOrDefault().Meta</td>
+            <td>@ind.IndicadorAFs.Where(x => x.Anio == Convert.ToString(@ViewBag.IdGestion)).FirstOrDefault()?.Meta</td>
 
             @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2")
             {
@@ -61,16 +67,23 @@
                     </button>
                 </td>
             }
+            @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "4")
+            {
+                <td class="acciones-td">
+                    <a asp-area="planificacion" asp-controller="Producto" asp-action="LoadIndicadores" asp-route-id="@ind.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" class="btn btn-info btn-xp" title="Administrar Productos"><i class="fas fa-calendar"></i></a>
+                   
+                </td>
+            }
+            else
+            {
                 <td class="acciones-td">
                     <a asp-area="planificacion" asp-controller="Producto" asp-action="Index" asp-route-id="@ind.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" class="btn btn-info btn-xp" title="Administrar Productos"><i class="fas fa-calendar"></i></a>
-                    @*<button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEdit?id=0&idObjetivo=@ViewBag.IdObjetivo&idGestion=@ViewBag.IdGestion&idIndicadorEstra=@ind.Id','Producto')">
-                    <i class="fas fa-plus-square"></i>
-                </button>*@
+                   
                 </td>
+            }
 
 
-
-            </tr>
+        </tr>
 
                     i = i + 1;
                 }

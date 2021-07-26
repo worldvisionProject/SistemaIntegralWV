@@ -30,20 +30,14 @@
                 <div class="col-md-5">
                     <label class="col-md-12 col-form-label texto-pregunta">Responsable</label>
 
-                    <select asp-for="Responsable" name="Responsable" class="form-control">
-                        <option value="1">Responsable 1</option>
-                        <option value="2">Responsable 2</option>
+                    @Html.DropDownListFor(x => x.Responsable, (IEnumerable<SelectListItem>)Model.responsableList, new { @class = "form-control" })
 
-                    </select>
                     <span asp-validation-for="Responsable" class="text-danger"></span>
                 </div>
                 <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Unidad Medida</label>
-                    <select asp-for="UnidadMedida" name="UnidadMedida" class="form-control">
-                        <option value="1">Unidad 1</option>
-                        <option value="2">Unidad 2</option>
+                    @Html.DropDownListFor(x => x.UnidadMedida, Model.UnidadList, new { @class = "form-control" })
 
-                    </select>
                     <span asp-validation-for="UnidadMedida" class="text-danger"></span>
                 </div>
                 <div class="col-md-2">

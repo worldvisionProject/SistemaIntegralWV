@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string DescProducto { get; set; }
 
         public int IdCargoResponsable { get; set; }
+        public SelectList responsableList { get; set; }
         public string DescCargoResponsable { get; set; }
         public int IdGestion { get; set; }
         public string DescGestion { get; set; }

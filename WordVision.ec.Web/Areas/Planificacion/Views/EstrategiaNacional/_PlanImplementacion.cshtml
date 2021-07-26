@@ -9,234 +9,237 @@
     ViewData["SNGestion"] = "S";
     ViewBag.GestionList = ViewBag.GestionList;
 }
-<div class="card card-info">
-    <div class="card-header card-header-int">
-        Ciclo Extratégico  @ViewBag.Ciclo
-        @*<div class="pull-right">
-            <a class="btn btn-primary" id="btnViewModel" href="/Institucions/Create">
-                <i class="fa fa-plus-square"></i>
-                Agregar
-            </a>
+@{ if (Model.Id != 0)
+    {
+        <div class="card card-info">
+            <div class="card-header card-header-int">
+                Ciclo Extratégico  @ViewBag.Ciclo
+                @*<div class="pull-right">
+                        <a class="btn btn-primary" id="btnViewModel" href="/Institucions/Create">
+                            <i class="fa fa-plus-square"></i>
+                            Agregar
+                        </a>
 
-        </div>*@
-    </div>
+                    </div>*@
+            </div>
 
-    <div class="col-sm-12" style="padding:20px">
-        <div class="container">
+            <div class="col-sm-12" style="padding:20px">
+                <div class="container">
 
-            <div class="row">
-                <div class="col-md-12 ">
-                    <div class="form-group row">
-                        <div class="col-md-12">
-                            <label class="col-md-12 col-form-label texto-pregunta">Meta</label>
+                    <div class="row">
+                        <div class="col-md-12 ">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label class="col-md-12 col-form-label texto-pregunta">Meta</label>
 
-                            <textarea name="MetaNacional" class="form-control">@Model.MetaNacional</textarea>
+                                    <textarea name="MetaNacional" class="form-control">@Model.MetaNacional</textarea>
 
-                        </div>
-                    </div>
+                                </div>
+                            </div>
 
 
-                    <div class="form-group row">
-                        <div class="col-md-12">
-                          <form id="create-form" method="post" asp-controller="EstrategiaNacional" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <form id="create-form" method="post" asp-controller="EstrategiaNacional" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
 
-                           <div class="container">
-                               <div class="row">
-                                                    <div class="col-md-12 ">
-                                                        <nav>
-                                                            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Ciclo</a>
-                                                                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="true">Objetivo de Bloque</a>
-                                                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Objetivo Nacional</a>
-                                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Gestion.View)).Result.Succeeded)
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-md-12 ">
+                                                    <nav>
+                                                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Ciclo</a>
+                                                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="true">Objetivo de Bloque</a>
+                                                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Objetivo Nacional</a>
+                                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Gestion.View)).Result.Succeeded)
+                                                            {
+                                                                <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Gestión</a>
+                                                            }
+                                                        </div>
+                                                    </nav>
+                                                    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                                                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                            @*CICLO ESTRATEGICO*@
+                                                            <div class="container-fluid">
+
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group row">
+                                                                            <div class="col-md-12">
+                                                                                <label class="col-md-12 col-form-label texto-pregunta">Ciclo Estrategico</label>
+                                                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                                                                                {
+                                                                                    <input type="text" asp-for="Nombre" name="Nombre" class="form-control">
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <input type="text" asp-for="Nombre" name="Nombre" class="form-control" readonly>
+                                                                                }
+                                                                                <span asp-validation-for="Nombre" class="text-danger"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                </div>
+
+                                                                <div class="row">
+
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group row">
+                                                                            <div class="col-md-12">
+                                                                                <label class="col-md-12 col-form-label texto-pregunta">Meta de Bloque</label>
+                                                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                                                                                {
+                                                                                    <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control"></textarea>
+                                                                                }
+                                                                                else
+                                                                                { <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control" readonly></textarea>}
+
+                                                                                <span asp-validation-for="MetaRegional" class="text-danger"></span>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group row">
+
+                                                                            <div class="col-md-6">
+                                                                                <label class="col-md-12 col-form-label texto-pregunta">Estado</label>
+
+                                                                                @*<select asp-for="Estado" name="Estado" class="form-control">
+                                                                                        <option value="1">Abierto</option>
+                                                                                        <option value="2">Cerrado</option>
+                                                                                        <option value="3">Finalizado</option>
+                                                                                    </select>*@
+                                                                                @*@Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)ViewData["EstadoList"], new { @class = "form-control" })*@
+                                                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                                                                                {
+                                                                                    @Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)ViewBag.EstadoList, new { @class = "form-control" })
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    var selectedCity = (IEnumerable<SelectListItem>)ViewBag.EstadoList;
+                                                                                    var txt = selectedCity.Where(x => x.Value == Model.Estado).FirstOrDefault().Text;
+                                                                                    <input type="text" value="@txt" readonly class="form-control" />
+                                                                                }
+                                                                                <span asp-validation-for="Estado" class="text-danger"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                                            @*OBJETIVO BLOQUE*@
+                                                            <div class="container-fluid">
+                                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
                                                                 {
-                                                                    <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Gestión</a>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group row">
+                                                                                <div class="col-md-2">
+                                                                                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id&categoria=2','Crear Objetivos Resultados')">
+                                                                                        <i class="fa fa-plus-square"></i>
+                                                                                        Agregar
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 }
-                                                            </div>
-                                                        </nav>
-                                                        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                                                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                                                @*CICLO ESTRATEGICO*@
-                                                                <div class="container-fluid">
-
-                                                                    <div class="row">
-                                                                        <div class="col-md-12">
-                                                                            <div class="form-group row">
-                                                                                <div class="col-md-12">
-                                                                                    <label class="col-md-12 col-form-label texto-pregunta">Ciclo Estrategico</label>
-                                                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
-                                                                                    {
-                                                                                        <input type="text" asp-for="Nombre" name="Nombre" class="form-control">
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        <input type="text" asp-for="Nombre" name="Nombre" class="form-control" readonly>
-                                                                                    }
-                                                                                    <span asp-validation-for="Nombre" class="text-danger"></span>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-
-                                                                    </div>
-
-                                                                    <div class="row">
-                                                                       
-                                                                        <div class="col-md-12">
-                                                                            <div class="form-group row">
-                                                                                <div class="col-md-12">
-                                                                                    <label class="col-md-12 col-form-label texto-pregunta">Meta de Bloque</label>
-                                                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
-                                                                                    {
-                                                                                        <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control"></textarea>
-                                                                                    }
-                                                                                    else
-                                                                                    { <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control" readonly></textarea>}
-
-                                                                                    <span asp-validation-for="MetaRegional" class="text-danger"></span>
-                                                                                </div>
-                                                                            </div>
-
-
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="row">
-                                                                        <div class="col-md-6">
-                                                                            <div class="form-group row">
-
-                                                                                <div class="col-md-6">
-                                                                                    <label class="col-md-12 col-form-label texto-pregunta">Estado</label>
-
-                                                                                    @*<select asp-for="Estado" name="Estado" class="form-control">
-                                <option value="1">Abierto</option>
-                                <option value="2">Cerrado</option>
-                                <option value="3">Finalizado</option>
-                            </select>*@
-                                                                                    @*@Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)ViewData["EstadoList"], new { @class = "form-control" })*@
-                                                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
-                                                                                    {
-                                                                                        @Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)ViewBag.EstadoList, new { @class = "form-control" })
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        var selectedCity = (IEnumerable<SelectListItem>)ViewBag.EstadoList;
-                                                                                        var txt = selectedCity.Where(x => x.Value == Model.Estado).FirstOrDefault().Text;
-                                                                                        <input type="text" value="@txt" readonly class="form-control" />
-                                                                                    }
-                                                                                    <span asp-validation-for="Estado" class="text-danger"></span>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-
+                                                                @Html.HiddenFor(x => x.Id, new { name = "IdEstrategia", @Value = Model.Id })
+                                                                @*<div id="divObjetivo">*@
+                                                                <div id="viewAll" class="card-body table-responsive" style="padding: 0;">
                                                                 </div>
-                                                            </div>
-                                                            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                                                                @*OBJETIVO BLOQUE*@
-                                                                <div class="container-fluid">
-                                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
-                                                                    {
-                                                                        <div class="row">
-                                                                            <div class="col-md-12">
-                                                                                <div class="form-group row">
-                                                                                    <div class="col-md-2">
-                                                                                        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id&categoria=2','Crear Objetivos Resultados')">
-                                                                                            <i class="fa fa-plus-square"></i>
-                                                                                            Agregar
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    }
-                                                                    @Html.HiddenFor(x => x.Id, new { name = "IdEstrategia", @Value = Model.Id })
-                                                                    @*<div id="divObjetivo">*@
-                                                                    <div id="viewAll" class="card-body table-responsive" style="padding: 0;">
-                                                                    </div>
-                                                                    @*</div>*@
-                                                                </div>
-                                                            </div>
-
-
-
-
-                                                            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                                                @*OBJETIVO NACIONAL*@
-
-                                                                <div class="container-fluid">
-                                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
-                                                                    {
-                                                                        <div class="row">
-                                                                            <div class="col-md-12">
-                                                                                <div class="form-group row">
-                                                                                    <div class="col-md-2">
-                                                                                        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id&categoria=1','Crear Objetivos Resultados')">
-                                                                                            <i class="fa fa-plus-square"></i>
-                                                                                            Agregar
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    }
-                                                                    @Html.HiddenFor(x => x.Id, new { name = "IdEstrategia", @Value = Model.Id })
-                                                                    @*<div id="divObjetivo">*@
-
-                                                                    <div id="viewAllNacional" class="card-body table-responsive" style="padding: 0;">
-                                                                    </div>
-                                                                    @*</div>*@
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-                                                                @*GESTION*@
-                                                                <div class="container-fluid">
-                                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Gestion.Create)).Result.Succeeded)
-                                                                    {
-                                                                        <div class="row">
-                                                                            <div class="col-md-12">
-                                                                                <div class="form-group row">
-                                                                                    <div class="col-md-2">
-                                                                                        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Gestion/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id','Crear Gestion')">
-                                                                                            <i class="fa fa-plus-square"></i>
-                                                                                            Agregar
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    }
-                                                                    <div id="viewAllGestion" class="card-body table-responsive" style="padding: 0;">
-                                                                    </div>
-
-                                                                </div>
+                                                                @*</div>*@
                                                             </div>
                                                         </div>
 
-                                                    </div>
-                                                </div>
-                            </div>
 
-                           @if ((AuthorizationService.AuthorizeAsync(User, Permissions.EstrategiaNacional.Create)).Result.Succeeded)
-                           {
-                               <br />
-                               <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-                                   <button type="submit" class="btn btn-success">Guardar</button>
-                                   <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
-                               </div>
-                           }
-                          </form>
+
+
+                                                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                                            @*OBJETIVO NACIONAL*@
+
+                                                            <div class="container-fluid">
+                                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                                                                {
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group row">
+                                                                                <div class="col-md-2">
+                                                                                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id&categoria=1','Crear Objetivos Resultados')">
+                                                                                        <i class="fa fa-plus-square"></i>
+                                                                                        Agregar
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                                @Html.HiddenFor(x => x.Id, new { name = "IdEstrategia", @Value = Model.Id })
+                                                                @*<div id="divObjetivo">*@
+
+                                                                <div id="viewAllNacional" class="card-body table-responsive" style="padding: 0;">
+                                                                </div>
+                                                                @*</div>*@
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+                                                            @*GESTION*@
+                                                            <div class="container-fluid">
+                                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Gestion.Create)).Result.Succeeded)
+                                                                {
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group row">
+                                                                                <div class="col-md-2">
+                                                                                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Gestion/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id','Crear Gestion')">
+                                                                                        <i class="fa fa-plus-square"></i>
+                                                                                        Agregar
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                                <div id="viewAllGestion" class="card-body table-responsive" style="padding: 0;">
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.EstrategiaNacional.Create)).Result.Succeeded)
+                                        {
+                                            <br />
+                                            <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+                                                <button type="submit" class="btn btn-success">Guardar</button>
+                                                <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+                                            </div>
+                                        }
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-</div>
-</div>
-<script type="text/javascript" language=javascript>
+
+        <script type="text/javascript" language=javascript>
 
     $(document).ready(function () {
         loadData();
@@ -247,4 +250,6 @@
             $('#viewAllGestion').load('/Planificacion/Gestion/LoadGestiones?idEstrategico=@Model.Id');
     }
 
-</script>
+        </script>
+        }
+    }

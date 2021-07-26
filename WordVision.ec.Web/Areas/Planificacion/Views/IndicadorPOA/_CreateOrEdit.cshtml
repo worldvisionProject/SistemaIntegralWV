@@ -62,11 +62,7 @@
                 <div class="col-md-5">
                     <label class="col-md-12 col-form-label texto-pregunta">Responsable</label>
 
-                    <select asp-for="Responsable" name="Responsable" class="form-control">
-                        <option value="1">Responsable 1</option>
-                        <option value="2">Responsable 2</option>
-
-                    </select>
+                    @Html.DropDownListFor(x => x.Responsable, (IEnumerable<SelectListItem>)Model.responsableList, new { @class = "form-control" })
                     <span asp-validation-for="Responsable" class="text-danger"></span>
                 </div>
                 <div class="col-md-3">

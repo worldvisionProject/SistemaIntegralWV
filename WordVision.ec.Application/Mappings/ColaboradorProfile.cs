@@ -18,7 +18,8 @@ namespace WordVision.ec.Application.Mappings
         {
             CreateMap<CreateColaboradorCommand, Colaborador>().ReverseMap();
             CreateMap<GetColaboradorByIdResponse, Colaborador>().ReverseMap();
-            CreateMap<GetAllColaboradoresCachedResponse, Colaborador>().ReverseMap();
+            CreateMap<GetAllColaboradoresCachedResponse, Colaborador>()
+                .ReverseMap();
             CreateMap<GetAllColaboradoresResponse, Colaborador>().ReverseMap();
         }
     }

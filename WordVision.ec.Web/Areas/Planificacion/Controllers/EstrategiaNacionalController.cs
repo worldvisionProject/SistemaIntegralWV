@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using SmartBreadcrumbs.Attributes;
 using SmartBreadcrumbs.Nodes;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -185,10 +186,26 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             }
             return null;
         }
+        class Anios
+        {
+            public int Id { get; set; }
 
-       // [Breadcrumb("Ciclo Estrategico", AreaName = "Planificacion")]
+            public string Anio { get; set; }
+        }
+        // [Breadcrumb("Ciclo Estrategico", AreaName = "Planificacion")]
         public async Task<ActionResult> PlanImplementacion(int ciclo)
         {
+            if (ciclo == 0)
+            {
+                _notify.Warning("Seleccione un Ciclo Estratégico, para poder continuar");
+                var entidadViewModel = new EstrategiaNacionalViewModel();
+                ViewBag.Ciclo = "";
+                var item = new List<Anios>() { new Anios() { Id = 0, Anio = "" } };
+                entidadViewModel.AnioGestion = "0";
+                entidadViewModel.Id = 0;
+                ViewBag.GestionList = new SelectList(item, "Id", "Anio");
+                return View("_PlanImplementacion", entidadViewModel); ;
+            }
 
             var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estratégico", false, null, "Planificacion")
             {

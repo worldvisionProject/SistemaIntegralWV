@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using SmartBreadcrumbs.Nodes;
 using System;
@@ -7,14 +8,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Productos.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.Productos.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.Productos.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.Productos.Queries.GetById;
+using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllCached;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
+using WordVision.ec.Web.Areas.Registro.Models;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 {
@@ -146,6 +151,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var entidadViewModel = _mapper.Map<ProductoViewModel>(response.Data);
                     entidadViewModel.IdGestion = idGestion;
                     entidadViewModel.IdIndicadorEstrategico = idIndicadorEstra;
+                    var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+                    if (colaborador.Succeeded)
+                    {
+                        var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
+                        entidadViewModel.responsableList = new SelectList(responsable, "Id", "Nombres");
+                    }
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
             }
@@ -206,6 +217,98 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             {
                 _logger.LogError("OnPostCreateOrEdit", ex);
                 _notify.Error("Error al insertar Producto");
+            }
+            return null;
+        }
+
+
+         public async Task<IActionResult> LoadIndicadores(int id, int idObjetivo, int idEstrategia, int AnioGestion)
+        {
+            try
+            {
+                int idObjetivoEstra = idObjetivo;
+                int idIndicadorEstra = id;
+                string descFactorCritico = String.Empty;
+                string descMetaGestio = String.Empty;
+                var response = await _mediator.Send(new GetObjetivoEstrategicoByIdQuery() { Id = idObjetivoEstra });
+                if (response.Succeeded)
+                {
+                    ViewBag.Message = response.Data.Descripcion;
+
+                    //id = response.Data.IdEstrategia;
+                }
+                var gestionDesc = string.Empty;
+                var responseE = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = idEstrategia });
+                if (responseE.Succeeded)
+                {
+
+                    var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(responseE.Data);
+                    ViewBag.Ciclo = entidadViewModel.Nombre;
+                    gestionDesc = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault()?.Anio ?? string.Empty; ;
+                    //ViewBag.SNGestion = "N";
+                    //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+                }
+
+                var responseI = await _mediator.Send(new GetIndicadorEstrategicoByIdQuery() { Id = id });
+                if (responseI.Succeeded)
+                {
+                    ViewBag.Indicador = responseI.Data.IndicadorResultado;
+                    descFactorCritico = responseI.Data.FactorCriticoExitos.FactorCritico;
+                    descMetaGestio = responseI.Data.IndicadorAFs.Where(m => m.Anio == AnioGestion.ToString()).FirstOrDefault().Meta.ToString();
+                    //id = response.Data.IdEstrategia;
+                }
+
+                var ciclo = idEstrategia;
+                var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estratégico", false, null, "Planificacion")
+                {
+                    RouteValues = new { ciclo },//this comes in as a param into the action
+                                                // Parent = childNode0
+                };
+
+                id = idEstrategia;
+                var childNode2 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Gestión " + gestionDesc)
+                {
+                    RouteValues = new { id, AnioGestion },
+                    OverwriteTitleOnExactMatch = true,
+                    Parent = childNode1
+                };
+
+                id = idObjetivoEstra;
+                var childNode3 = new MvcBreadcrumbNode("IndexIndicador", "FactorCriticoExito", "Indicadores de Resultado")
+                {
+                    RouteValues = new { id, idEstrategia, AnioGestion },
+                    OverwriteTitleOnExactMatch = true,
+                    Parent = childNode2
+                };
+
+                id = idIndicadorEstra;
+                var childNode4 = new MvcBreadcrumbNode("Index", "Producto", "Productos")
+                {
+                    RouteValues = new { id, idEstrategia, AnioGestion },
+                    OverwriteTitleOnExactMatch = true,
+                    Parent = childNode3
+                };
+
+                ViewData["BreadcrumbNode"] = childNode4;
+
+                var responseIp = await _mediator.Send(new GetProductoByIdIndicadorQuery() { Id = idIndicadorEstra });
+                if (responseIp.Succeeded)
+                {
+                    ViewBag.IdGestion = AnioGestion;
+                    ViewBag.DescGestion = gestionDesc;
+                    ViewBag.IdObjetivo = idObjetivo;
+                    ViewBag.IdEstrategia = idEstrategia;
+                    ViewBag.DescFactorCritico = descFactorCritico;
+                    ViewBag.DescMetaGestion = descMetaGestio;
+                  
+                    var viewModel = _mapper.Map<List<ProductoViewModel>>(responseIp.Data);
+                    return View("_ViewAllxIndicador", viewModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                _notify.Error("No se pudo cargar los Factores");
+                _logger.LogError("LoadAll", ex);
             }
             return null;
         }

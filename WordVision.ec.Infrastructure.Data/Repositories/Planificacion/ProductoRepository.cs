@@ -40,7 +40,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 
         public async Task<List<Producto>> GetListByIdAsync(int idIndicador)
         {
-            return await _repository.Entities.Where(p => p.IdIndicadorEstrategico == idIndicador).ToListAsync();
+            return await _repository.Entities.Where(p => p.IdIndicadorEstrategico == idIndicador).Include(i=>i.IndicadorPOAs).ThenInclude(m=>m.Actividades).ToListAsync();
         }
 
         public async Task<int> InsertAsync(Producto producto)

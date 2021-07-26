@@ -14,6 +14,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string IndicadorResultado { get; set; }
         public string MedioVerificacion { get; set; }
         public int? Responsable { get; set; }
+        public SelectList responsableList { get; set; }
         public int? UnidadMedida { get; set; }
 
         [Required(ErrorMessage = "Campo Obligatorio")]

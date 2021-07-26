@@ -16,7 +16,9 @@ namespace WordVision.ec.Web.Areas.Registro.Mappings
     {
         public ColaboradorProfile()
         {
-            CreateMap<GetAllColaboradoresCachedResponse, ColaboradorViewModel>().ReverseMap();
+            CreateMap<GetAllColaboradoresCachedResponse, ColaboradorViewModel>()
+                   .ForMember(d => d.Nombres, n => n.MapFrom(x => string.Format("{0} {1} {2} {3}", x.Apellidos,x.ApellidoMaterno, x.PrimerNombre,x.SegundoNombre)))
+                   .ReverseMap();
             CreateMap<GetColaboradorByIdResponse, ColaboradorViewModel>().ReverseMap();
             CreateMap<CreateColaboradorCommand, ColaboradorViewModel>().ReverseMap();
             CreateMap<UpdateColaboradorCommand, ColaboradorViewModel>().ReverseMap();

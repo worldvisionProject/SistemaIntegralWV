@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Create;
@@ -14,8 +15,10 @@ using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Co
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Commands.Delete;
+using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllCached;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
+using WordVision.ec.Web.Areas.Registro.Models;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 {
@@ -78,6 +81,14 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 entidadViewModel.IdEstrategia = IdEstrategia;
                 entidadViewModel.gestionList = gestionList;
                 entidadViewModel.DescEstrategia = descEstrategia;
+                var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
+                entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+                if (colaborador.Succeeded)
+                {
+                    var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
+                    entidadViewModel.responsableList = new SelectList(responsable, "Id", "Nombres");
+                }
                 //  return View("_CreateOrEdit", entidadViewModel);
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
@@ -91,6 +102,14 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     entidadViewModel.IdFactorCritico = IdFactorCritico;
                     entidadViewModel.IdEstrategia = IdEstrategia;
                     entidadViewModel.DescEstrategia = descEstrategia;
+                    var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
+                    entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                    var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery() );
+                    if (colaborador.Succeeded)
+                    {
+                        var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
+                        entidadViewModel.responsableList = new SelectList(responsable, "Id", "Nombres");
+                    }
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;

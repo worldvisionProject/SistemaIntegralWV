@@ -1,0 +1,138 @@
+﻿@using WordVision.ec.Web.Areas.Planificacion.Models
+@model IEnumerable<ProductoViewModel>
+@{
+    ViewData["Tmp"] = "Objetivo: ";
+    ViewData["Objetivo"] = ViewBag.Message;
+
+    ViewData["TmpFactor"] = "Factor Crítico de Exito: ";
+    ViewData["Factor"] = ViewBag.DescFactorCritico;
+
+    ViewData["TmpIndicador"] = localizer["Indicador Estratégico:"];
+    ViewData["Indicador"] = ViewBag.Indicador;
+    ViewData["Caption"] = localizer["Gestionar Producto aquí"];
+
+    ViewData["TmpGestion"] = "Meta " + ViewBag.DescGestion + ":";
+    ViewData["Gestion"] = ViewBag.DescMetaGestion;
+}
+<table id="factorTable" class="table table-bordered " width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th style=" width:40%">Producto</th>
+            <th style=" width:40%">Indicador de Producto</th>
+            @*<th style=" width:40%">Metas @ViewBag.DescGestion</th>*@
+            @*@if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2" || User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "3")
+            {
+                <th data-priority="2" class="acciones-th">Metas Trimestrales</th>
+                <th data-priority="2" class="acciones-th">Productos</th>
+            }
+            @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "4")
+            {*@
+                <th data-priority="2" class="acciones-th">Actividades</th>
+                @*<th data-priority="2" class="acciones-th">Indicadores de Producto</th>*@
+            @*}*@
+
+            @*<th data-priority="1">Nombre</th>
+                <th data-priority="2" class="acciones-th">Indicador</th>
+                <th data-priority="2" class="acciones-th">Acciones</th>*@
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int f = 0;
+        }
+        @foreach (var factor in Model)
+        {
+            f = f + 1;
+            if (@factor.IndicadorPOAs.Count() > 0)
+            {
+
+
+                int i = 0;
+                int c = 0;
+                @foreach (var ind in factor.IndicadorPOAs)
+                {
+                    <tr>
+                        @if (i == 0)
+                        {
+                            if (@factor.IndicadorPOAs.Count() > 0)
+                            {
+                                <td rowspan="@factor.IndicadorPOAs.Count()"><b>@f.</b> @factor.DescProducto</td>
+                            }
+                        }
+
+                        @{
+                            c = c + 1;
+                        }
+                        <td><b>@f.@c) </b> @ind.IndicadorProducto</td>
+                        @*<td>@ind.MetaTacticas.Where(x => x.Anio == Convert.ToString(@ViewBag.IdGestion)).FirstOrDefault()?.Meta</td>*@
+
+                        
+                    <td class="acciones-td">
+                        <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Ver" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Actividad/OnGetCreateOrEdit?id=@ind.Id&idObjetivo=@ViewBag.IdObjetivo&idIndicadorEstrategia=@factor.IdIndicadorEstrategico&idGestion=@ViewBag.IdGestion&idProducto=@factor.Id','Actividades')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                       @* <a asp-area="planificacion" asp-controller="Actividad" asp-action="OnGetCreateOrEdit" asp-route-id="@ind.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" asp-route-IdProducto="@factor.Id" class="btn btn-info btn-xp" title="Administrar Actividades"><i class="fas fa-calendar"></i></a>*@
+                    </td>
+
+                    </tr>
+
+                    i = i + 1;
+                }
+            }
+            else
+            {
+
+                <tr>
+                    <td colspan="3">
+                        <b>@f.</b>   @factor.DescProducto
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+<script>
+
+    $(document).ready(function () {
+
+
+        //var table = $("#factorTable").DataTable({
+        //    //aoColumnDefs: [
+        //    //    { "aTargets": [0], "bSortable": true },
+        //    //    { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+        //    //],
+        //    "language": {
+        //        "url": "/lib/datatables/language/Spanish.json"
+        //    },
+
+        //    responsive: true,
+        //    //columnDefs: [
+        //    //    { responsivePriority: 1, targets: 0 },
+        //    //    { responsivePriority: 2, targets: -1 }
+        //    //],
+        //   /* "info": false*/
+
+        //});
+
+
+        //var column = table.column(0);
+        //// Toggle the visibility
+        //column.visible(false);
+        //column = table.column(1);
+        //// Toggle the visibility
+        //column.visible(false);
+
+
+        //$('#factorTable tbody').on('dblclick', 'tr', function () {
+        //    var data = table.row(this).data();
+
+
+        //    jQueryModalGet('/Planificacion/FactorCriticoExito/OnGetCreateOrEdit?id=' + data[0] + '&idObjetivoEstra=' + data[1], 'Factor Critico de Exito');
+
+        //});
+
+        /* $(".dynmic-hidden-col").hide();*/
+    });
+</script>
