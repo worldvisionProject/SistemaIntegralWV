@@ -2,171 +2,186 @@
 @using WordVision.ec.Web.Areas.Planificacion.Models
 @model IndicadorEstrategicoViewModel
 
-
-<form id="create-form" method="post" asp-controller="IndicadorEstrategico" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
-    @Html.HiddenFor(x => x.IdFactorCritico)
-    @{ decimal suma = 0;}
-    <div id="header"><p><h6 class="h5 mb-2 text-gray-800">Ciclo: </h6>@Model.DescEstrategia</p></div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">Indicador de Resultado</label>
-
-                    <textarea asp-for="IndicadorResultado" name="IndicadorResultado" class="form-control"></textarea>
-                    <span asp-validation-for="IndicadorResultado" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">Medio Verificación</label>
-
-                    <textarea asp-for="MedioVerificacion" name="MedioVerificacion" class="form-control"></textarea>
-                    <span asp-validation-for="MedioVerificacion" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-5">
-                    <label class="col-md-12 col-form-label texto-pregunta">Responsable</label>
-
-                    @Html.DropDownListFor(x => x.Responsable, (IEnumerable<SelectListItem>)Model.responsableList, new { @class = "form-control" })
-
-                    <span asp-validation-for="Responsable" class="text-danger"></span>
-                </div>
-                <div class="col-md-3">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Unidad Medida</label>
-                    @Html.DropDownListFor(x => x.UnidadMedida, Model.UnidadList, new { @class = "form-control" })
-
-                    <span asp-validation-for="UnidadMedida" class="text-danger"></span>
-                </div>
-                <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
-
-                    <input asp-for="LineaBase" type="text" name="LineaBase" class="form-control" />
-                    <span asp-validation-for="LineaBase" class="text-danger"></span>
-                </div>
-                <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Meta acumulada ciclo</label>
-                    <input asp-for="Meta" type="text" name="Meta" class="form-control" />
-                    <span asp-validation-for="Meta" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <hr />
-                </div>
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label">Metas Anuales de Indicador</label>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-md-1">
-                    <label class="col-md-12 col-form-label texto-pregunta">Gestión</label>
-                    @Html.DropDownListFor(x => x.gestionList, (IEnumerable<SelectListItem>)ViewBag.EstadoList, new { @class = "form-control" })
-                    <span asp-validation-for="gestionList" class="text-danger"></span>
-                </div>
-                <div class="col-md-4">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Anual</label>
-                    <input asp-for="MetaAF" type="text" name="MetaAF" class="form-control" />
-                    <span asp-validation-for="MetaAF" class="text-danger"></span>
-                </div>
-                <div class="col-md-4">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Entregable</label>
-                    <input asp-for="EntregableAF" type="text" name="EntregableAF" class="form-control" />
-                    <span asp-validation-for="EntregableAF" class="text-danger"></span>
-                </div>
-                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Create)).Result.Succeeded)
-                {
-                    <div class="col-md-2" style="padding-top: 25px;">
-                        <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
-                    </div>
-                }
-            </div>
-
-        </div>
+<div id="header" class="row titulopopup">
+    <div class="col-6">
+        <h6 class="h5 mb-2 text-gray-800-b">Objetivo: </h6>@Model.DescObjetivo
     </div>
 
-    <br />
-    <div id="divMetas">
-        <table id="metasTable" class="table table-striped rwd-table" width="100%" cellspacing="0">
-            <thead>
-                <tr>
-                    @*<th>Id</th>*@
-                    <th>Gestión</th>
-                    <th>Metas Anuales</th>
-                    <th>Entregable</th>
-                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Delete)).Result.Succeeded)
+    <div class="col-6" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Categoria: </h6>@Model.DescCategoria
+    </div>
+</div>
+
+<div id="header" class="row titulopopup">
+    <div class="col-6" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Factor: </h6>@Model.DescFactor
+    </div>
+</div>
+
+    <hr />
+    <form id="create-form" method="post" asp-controller="IndicadorEstrategico" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+        @Html.HiddenFor(x => x.IdFactorCritico)
+        @{ decimal suma = 0;}
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label class="col-md-12 col-form-label texto-pregunta">Indicador de Resultado</label>
+
+                        <textarea asp-for="IndicadorResultado" name="IndicadorResultado" class="form-control"></textarea>
+                        <span asp-validation-for="IndicadorResultado" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label class="col-md-12 col-form-label texto-pregunta">Medio Verificación</label>
+
+                        <textarea asp-for="MedioVerificacion" name="MedioVerificacion" class="form-control"></textarea>
+                        <span asp-validation-for="MedioVerificacion" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        <label class="col-md-12 col-form-label texto-pregunta">Responsable</label>
+
+                        @Html.DropDownListFor(x => x.Responsable, (IEnumerable<SelectListItem>)Model.responsableList, new { @class = "form-control" })
+
+                        <span asp-validation-for="Responsable" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Unidad Medida</label>
+                        @Html.DropDownListFor(x => x.UnidadMedida, Model.UnidadList, new { @class = "form-control" })
+
+                        <span asp-validation-for="UnidadMedida" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
+
+                        <input asp-for="LineaBase" type="text" name="LineaBase" class="form-control" />
+                        <span asp-validation-for="LineaBase" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta acumulada ciclo</label>
+                        <input asp-for="Meta" type="text" name="Meta" class="form-control" />
+                        <span asp-validation-for="Meta" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                    <div class="col-md-12">
+                        <label class="col-md-12 col-form-label">Metas Anuales de Indicador</label>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <label class="col-md-12 col-form-label texto-pregunta">Gestión</label>
+                        @Html.DropDownListFor(x => x.gestionList, (IEnumerable<SelectListItem>)ViewBag.EstadoList, new { @class = "form-control" })
+                        <span asp-validation-for="gestionList" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Anual</label>
+                        <input asp-for="MetaAF" type="text" name="MetaAF" class="form-control" />
+                        <span asp-validation-for="MetaAF" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Entregable</label>
+                        <input asp-for="EntregableAF" type="text" name="EntregableAF" class="form-control" />
+                        <span asp-validation-for="EntregableAF" class="text-danger"></span>
+                    </div>
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Create)).Result.Succeeded)
                     {
-                        <th class="text-right">Acciones</th>
+                        <div class="col-md-2" style="padding-top: 25px;">
+                            <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+                        </div>
                     }
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.IndicadorAFs != null)
-                {
-                    suma = 0;
+                </div>
 
-                    @foreach (var metaanual in Model.IndicadorAFs)
-                    {
-                        suma = suma + Convert.ToDecimal(@metaanual.Meta);
-                        <tr id="@metaanual.Id" class="rowdata">
-                            @*<td>
-
-                                    @colaborador.Id
-                                </td>*@
-                            <td class="af" >
-                                @{
-                                    var selectedCity = Model.gestionList;
-                                    string txt = selectedCity.Where(x => x.Value == metaanual.Anio).FirstOrDefault().Text;
-                                }
-                                @txt
-
-                            </td>
-                            <td  class="meta">
-                                @metaanual.Meta.ToString().Replace(",", ".")
-                            </td>
-                            <td >
-                                @metaanual.Entregable
-                            </td>
-
-                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Delete)).Result.Succeeded)
-                            {
-                                <td class="text-right">
-                                    <button type="button" onclick="EliminaFila(@metaanual.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
-
-                                </td>
-                            }
-
-                        </tr>
-                    }
-
-
-                }
-
-                <input value="@suma" type="hidden" id="suma" name="suma" />
-            </tbody>
-        </table>
+            </div>
+        </div>
 
         <br />
-        <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Create)).Result.Succeeded)
-            {<input type="hidden" value="false" name="band" id="band" />
-                <button type="submit" class="btn btn-success">Guardar</button>
-            }
-            else
-            { <input type="hidden" value="true" name="band" id="band" />}
-            <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+        <div id="divMetas">
+            <table id="metasTable" class="table table-striped rwd-table" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        @*<th>Id</th>*@
+                        <th>Gestión</th>
+                        <th>Metas Anuales</th>
+                        <th>Entregable</th>
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Delete)).Result.Succeeded)
+                        {
+                            <th class="text-right">Acciones</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.IndicadorAFs != null)
+                    {
+                        suma = 0;
+
+                        @foreach (var metaanual in Model.IndicadorAFs)
+                        {
+                            suma = suma + Convert.ToDecimal(@metaanual.Meta);
+                            <tr id="@metaanual.Id" class="rowdata">
+                                @*<td>
+
+                                        @colaborador.Id
+                                    </td>*@
+                                <td class="af">
+                                    @{
+                                        var selectedCity = Model.gestionList;
+                                        string txt = selectedCity.Where(x => x.Value == metaanual.Anio).FirstOrDefault().Text;
+                                    }
+                                    @txt
+
+                                </td>
+                                <td class="meta">
+                                    @metaanual.Meta.ToString().Replace(",", ".")
+                                </td>
+                                <td>
+                                    @metaanual.Entregable
+                                </td>
+
+                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Delete)).Result.Succeeded)
+                                {
+                                    <td class="text-right">
+                                        <button type="button" onclick="EliminaFila(@metaanual.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                                    </td>
+                                }
+
+                            </tr>
+                        }
+
+
+                    }
+
+                    <input value="@suma" type="hidden" id="suma" name="suma" />
+                </tbody>
+            </table>
+
+            <br />
+            <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Create)).Result.Succeeded)
+                {<input type="hidden" value="false" name="band" id="band" />
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                }
+                else
+                { <input type="hidden" value="true" name="band" id="band" />}
+                <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 
 
-        
-<script type="text/javascript" language=javascript>
+
+    <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
-  
+
    // document.getElementById("Meta").value = document.getElementById("suma").value == null ? 0 : document.getElementById("suma").value;
     $(function () {
         sumar();
@@ -184,10 +199,10 @@
 
         //       // console.log('Data in index: ' + index + ' is: ' + value);
         //    });
-       
+
         //console.log(rows);
 
-        
+
     });
 
             $("#gestionList").select2({
@@ -222,7 +237,7 @@
 
         const tableRows = document.querySelectorAll('#metasTable tr.rowdata');
 
-       
+
         // Recorremos las filas que tengan el class="row"
         // así obviamos la cabecera
         for (let i = 0; i < tableRows.length; i++) {
@@ -237,7 +252,7 @@
             // status.innerText = 'offline';
         }
         return false;
-    
+
     }
 
 
@@ -325,7 +340,7 @@
             //document.getElementById("Meta").value = sum;
 
             num++;
-           
+
             sumar();
             // table
             //.column(1)
@@ -391,4 +406,4 @@
         sumar();
     }
 
-</script>
+    </script>

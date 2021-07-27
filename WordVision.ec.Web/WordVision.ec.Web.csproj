@@ -7,13 +7,21 @@
 
   <ItemGroup>
     <Compile Remove="Areas\Planificacion\Pages\**" />
+    <Compile Remove="Areas\Planificacion\Views\AnioFiscal\**" />
     <Compile Remove="Pages1\**" />
     <Content Remove="Areas\Planificacion\Pages\**" />
+    <Content Remove="Areas\Planificacion\Views\AnioFiscal\**" />
     <Content Remove="Pages1\**" />
     <EmbeddedResource Remove="Areas\Planificacion\Pages\**" />
+    <EmbeddedResource Remove="Areas\Planificacion\Views\AnioFiscal\**" />
     <EmbeddedResource Remove="Pages1\**" />
     <None Remove="Areas\Planificacion\Pages\**" />
+    <None Remove="Areas\Planificacion\Views\AnioFiscal\**" />
     <None Remove="Pages1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Planificacion\Controllers\AnioFiscalController.cs" />
   </ItemGroup>
 
   <ItemGroup>

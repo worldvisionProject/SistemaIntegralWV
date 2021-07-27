@@ -27,8 +27,15 @@
                 @producto.DescProducto
             </td>
             <td>
-                @producto.IdCargoResponsable
-            </td>
+                @{
+
+                    var selectedCity = (IEnumerable<SelectListItem>)Model.responsableList;
+                    string txt = selectedCity.Where(x => x.Value == producto.IdCargoResponsable.ToString()).FirstOrDefault()?.Text ?? string.Empty;
+
+                        }
+                        @txt
+                      
+              </td>
 
             <td class="acciones-td">
                 @* <a  asp-area="planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEdit" asp-route-id="@anioFiscal.Id" class="btn btn-info btn-xp"><i class="fas fa-pencil-alt"></i>  Editar</a>*@

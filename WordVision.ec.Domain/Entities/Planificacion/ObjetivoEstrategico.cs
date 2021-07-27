@@ -18,15 +18,11 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public string Descripcion { get; set; }
         [Required]
         [StringLength(1)]
-        public string Categoria { get; set; }
-
-      
-        [StringLength(1)]
-        public string AreaPrioridad { get; set; }
-
-        [Required]
-        [StringLength(1)]
-        public string Dimension { get; set; }
+        public int Categoria { get; set; }
+                  
+        public int? AreaPrioridad { get; set; }
+   
+        public int? Dimension { get; set; }
 
         [Required]
         public int CargoResponsable { get; set; }

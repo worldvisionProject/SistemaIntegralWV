@@ -55,7 +55,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (response.Succeeded)
             {
                 var viewModel = _mapper.Map<ProductoViewModel>(response.Data);
-           
+                var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+                if (colaborador.Succeeded)
+                {
+                    var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
+                    viewModel.responsableList = new SelectList(responsable, "Id", "Nombres");
+                }
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel) });
 
               
@@ -71,7 +76,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             string descIndicador = "";
             string descMeta = "";
             string descGestion = "";
-            string responsable = "";
+            int idResponsable = 0;
             string descLineaBase = "";
 
             var responseG = await _mediator.Send(new GetGestionByIdQuery() { Id = idGestion });
@@ -90,7 +95,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 descFactor = entidadViewModel.FactorCriticoExitos.FactorCritico;
                 descIndicador = entidadViewModel.IndicadorResultado;
                 descMeta = entidadViewModel.IndicadorAFs.Where(x => x.Anio == idGestion.ToString()).FirstOrDefault().Meta;
-                responsable = entidadViewModel.Responsable.ToString();
+                idResponsable =(int)entidadViewModel.Responsable;
                 descLineaBase = entidadViewModel.LineaBase;
             }
             if (id == 0)
@@ -110,7 +115,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     entidadViewModel.DescFactor = descFactor;
                     entidadViewModel.DescIndicador = descIndicador;
                     entidadViewModel.DescMeta = descMeta;
-                    entidadViewModel.ResponsableIndicador = responsable;
+                  
                     entidadViewModel.DescGestion = descGestion;
                     entidadViewModel.DescLineaBase = descLineaBase;
                     var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
@@ -118,6 +123,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     {
                         var responsa = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
                         entidadViewModel.responsableList = new SelectList(responsa, "Id", "Nombres");
+                        entidadViewModel.ResponsableIndicador = responsa.Where(r => r.Id == idResponsable).FirstOrDefault().Nombres;
                     }
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }

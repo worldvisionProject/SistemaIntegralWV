@@ -99,8 +99,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 ViewBag.EstadoList = new SelectList(cat1.Data, "Secuencia", "Nombre");
                 //ViewData["EstadoList"] = new SelectList(cat1.Data, "Secuencia", "Nombre");
 
-                var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
-                ViewBag.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                //var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
+                //ViewBag.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
                 var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
                 ViewBag.AreaList = new SelectList(cat3.Data, "Secuencia", "Nombre");
@@ -129,7 +129,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                    
                     var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
                     ViewBag.Ciclo = entidadViewModel.Nombre;
-
+                    var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
+                    entidadViewModel.AreaPrioridadList = new SelectList(cat3.Data, "Secuencia", "Nombre");
                     return View("_CreateOrEdit", entidadViewModel);
                     //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
@@ -223,8 +224,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 ViewBag.EstadoList = new SelectList(cat1.Data, "Secuencia", "Nombre");
                 //ViewData["EstadoList"] = new SelectList(cat1.Data, "Secuencia", "Nombre");
 
-                var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
-                ViewBag.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                //var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
+                //ViewBag.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
                 var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
                 ViewBag.AreaList = new SelectList(cat3.Data, "Secuencia", "Nombre");

@@ -13,9 +13,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string Descripcion { get; set; }
         public string Programa { get; set; }
         public string Cwbo { get; set; }
-        public string Categoria { get; set; }
-        public string AreaPrioridad { get; set; }
-        public string Dimension { get; set; }
+        public int Categoria { get; set; }
+        public int AreaPrioridad { get; set; }
+        public int? Dimension { get; set; }
 
         public int CargoResponsable { get; set; }
 

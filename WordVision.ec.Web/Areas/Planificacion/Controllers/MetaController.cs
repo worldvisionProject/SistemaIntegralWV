@@ -13,8 +13,10 @@ using WordVision.ec.Application.Features.Planificacion.MetaEstrategicas.Commands
 using WordVision.ec.Application.Features.Planificacion.MetaEstrategicas.Commands.Delete;
 using WordVision.ec.Application.Features.Planificacion.MetaEstrategicas.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.MetaTacticas.Commands.Delete;
+using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
+using WordVision.ec.Web.Areas.Registro.Models;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 {
@@ -62,6 +64,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     entidadViewModel.IdEstrategia = IdEstrategia;
                     entidadViewModel.IdGestion = idGestion;
                     entidadViewModel.DescGestion = descGestion;
+                    var responseC = await _mediator.Send(new GetColaboradorByIdQuery() { Id = (int)entidadViewModel.Responsable });
+                    if (responseC.Succeeded)
+                    {
+                        var entidadViewModelCol = _mapper.Map<ColaboradorViewModel>(response.Data);
+                        entidadViewModel.DescResponsable = entidadViewModelCol.Nombres;
+                    }
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;

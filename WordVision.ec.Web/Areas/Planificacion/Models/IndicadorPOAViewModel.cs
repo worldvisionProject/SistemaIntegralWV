@@ -59,6 +59,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string TechoPresupuestoCC { get; set; }
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
 
+        public string Saldo { get; set; }
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+
         public string Ponderacion { get; set; }
      
      

@@ -35,7 +35,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Validators
                .NotNull();
 
 
-            RuleFor(p => p.Dimension)
+            RuleFor(p => p.AreaPrioridad)
              .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
              .NotNull();
 

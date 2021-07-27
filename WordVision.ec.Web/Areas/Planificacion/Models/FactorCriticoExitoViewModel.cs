@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public virtual List<IndicadorEstrategicoViewModel> IndicadorEstrategicos { get; set; }
 
         public virtual ObjetivoEstrategicoViewModel ObjetivoEstrategicos { get; set; }
+
+        public SelectList responsableList { get; set; }
 
     }
 }

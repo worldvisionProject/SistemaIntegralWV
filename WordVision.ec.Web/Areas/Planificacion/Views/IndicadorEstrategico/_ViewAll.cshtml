@@ -22,8 +22,13 @@
             <td>
                 @anioFiscal.IndicadorResultado
             </td>
-            <td>
-                @anioFiscal.Responsable
+            <td>@{ 
+
+                var selectedCity = (IEnumerable<SelectListItem>)Model.responsableList;
+                string txt = selectedCity.Where(x => x.Value == anioFiscal.Responsable.ToString()).FirstOrDefault()?.Text??string.Empty;
+
+            }
+                @txt
             </td>
             <td>
                 @anioFiscal.LineaBase

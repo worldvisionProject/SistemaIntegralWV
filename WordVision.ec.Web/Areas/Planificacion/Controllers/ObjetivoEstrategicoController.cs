@@ -43,7 +43,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             return null;
         }
 
-        public async Task<IActionResult> LoadObjetivo(int idEstrategia,string idCategoria,string AnioGestion)
+        public async Task<IActionResult> LoadObjetivo(int idEstrategia,int idCategoria,string AnioGestion)
         {
             var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = idEstrategia });
             if (response.Succeeded)
@@ -53,19 +53,19 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 entidadViewModel.CategoriaObjetivo = idCategoria;
                 entidadViewModel.AnioGestion = AnioGestion;
                 ViewBag.Ciclo = entidadViewModel.Nombre;
-                var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
-                entidadViewModel.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
-                return PartialView(idCategoria=="2"?"_ViewAll":"_ViewAllNacional", entidadViewModel);
+                var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
+                entidadViewModel.AreaPrioridadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                return PartialView(idCategoria==2 ?"_ViewAll":"_ViewAllNacional", entidadViewModel);
              }
             return null;
         }
 
         //[Breadcrumb("Objetivo", AreaName = "Planificacion", FromAction = "OnGetCreateOrEdit", FromController = typeof(EstrategiaNacionalController))]
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0,int idEstrategia=0,string categoria="")
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0,int idEstrategia=0,int categoria=0)
         {
             // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
-            var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
-            var DimList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+            //var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
+            //var DimList = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
             var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
             var AreaList = new SelectList(cat3.Data, "Secuencia", "Nombre");
@@ -73,9 +73,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (id == 0)
             {
                 var entidadViewModel = new ObjetivoEstrategicoViewModel();
-                entidadViewModel.Categoria = categoria;
+                entidadViewModel.Categoria =categoria;
                 entidadViewModel.IdEstrategia = idEstrategia;
-                entidadViewModel.DimensionList = DimList;
+                //entidadViewModel.DimensionList = DimList;
                 entidadViewModel.AreaList = AreaList;
                 //  return View("_CreateOrEdit", entidadViewModel);
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
@@ -88,7 +88,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var entidadViewModel = _mapper.Map<ObjetivoEstrategicoViewModel>(response.Data);
                     entidadViewModel.Categoria = categoria;
                     entidadViewModel.IdEstrategia = idEstrategia;
-                    entidadViewModel.DimensionList = DimList;
+                    //entidadViewModel.DimensionList = DimList;
                     entidadViewModel.AreaList = AreaList;
                     // return View("_CreateOrEdit", entidadViewModel);
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
@@ -127,10 +127,10 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                        
                         var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
                         entidadViewModel.CategoriaObjetivo = entidad.Categoria;
-                        var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
-                        entidadViewModel.DimensionesList= new SelectList(cat2.Data, "Secuencia", "Nombre");
-                        var html1 = await _viewRenderer.RenderViewToStringAsync(entidad.Categoria == "2" ? "_ViewAll" : "_ViewAllNacional", entidadViewModel);
-                        return new JsonResult(new { isValid = true, opcion=Convert.ToInt32( entidad.Categoria), page = entidad.Categoria == "2" ? "#viewAll" : "#viewAllNacional", html = html1 });
+                        var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
+                        entidadViewModel.AreaPrioridadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                        var html1 = await _viewRenderer.RenderViewToStringAsync(entidad.Categoria == 2 ? "_ViewAll" : "_ViewAllNacional", entidadViewModel);
+                        return new JsonResult(new { isValid = true, opcion=Convert.ToInt32( entidad.Categoria), page = entidad.Categoria == 2 ? "#viewAll" : "#viewAllNacional", html = html1 });
                     }
                     else
                     {
@@ -152,7 +152,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
 
-        public async Task<JsonResult> OnPostDelete(int id = 0, int idEstrategia = 0,string idCategoria="")
+        public async Task<JsonResult> OnPostDelete(int id = 0, int idEstrategia = 0,int idCategoria=0)
         {
             var deleteCommand = await _mediator.Send(new DeleteObjetivoEstrategicoCommand { Id = id });
             if (deleteCommand.Succeeded)
@@ -166,10 +166,44 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
                     ViewBag.Ciclo = entidadViewModel.Nombre;
                     entidadViewModel.CategoriaObjetivo = idCategoria;
-                    var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
-                    entidadViewModel.DimensionesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
-                    var html1 = await _viewRenderer.RenderViewToStringAsync(idCategoria == "2" ? "_ViewAll" : "_ViewAllNacional", entidadViewModel);
-                    return new JsonResult(new { isValid = true, html = html1 });
+                    var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
+                    entidadViewModel.AreaPrioridadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                    var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", entidadViewModel);
+                    return new JsonResult(new { isValid = true, opcion = Convert.ToInt32(idCategoria), page = "#viewAll" , html = html1 });
+                }
+                else
+                {
+                    _notify.Error(response.Message);
+                    return null;
+                }
+
+            }
+            else
+            {
+                _notify.Error(deleteCommand.Message);
+                return null;
+            }
+        }
+
+
+        public async Task<JsonResult> OnPostDeleteNacional(int id = 0, int idEstrategia = 0, int idCategoria = 0)
+        {
+            var deleteCommand = await _mediator.Send(new DeleteObjetivoEstrategicoCommand { Id = id });
+            if (deleteCommand.Succeeded)
+            {
+                _notify.Information($"Objetivo con Id {id} Eliminado.");
+                var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = idEstrategia });
+
+                if (response.Succeeded)
+                {
+
+                    var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
+                    ViewBag.Ciclo = entidadViewModel.Nombre;
+                    entidadViewModel.CategoriaObjetivo = idCategoria;
+                    var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
+                    entidadViewModel.AreaPrioridadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                    var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAllNacional", entidadViewModel);
+                    return new JsonResult(new { isValid = true, opcion = Convert.ToInt32(idCategoria), page = "#viewAllNacional", html = html1 });
                 }
                 else
                 {

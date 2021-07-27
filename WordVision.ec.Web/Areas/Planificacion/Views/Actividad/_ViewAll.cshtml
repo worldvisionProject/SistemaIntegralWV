@@ -1,48 +1,67 @@
 ﻿@using WordVision.ec.Web.Areas.Planificacion.Models
-@model ProductoViewModel
+@model IndicadorPOAViewModel
 
-<table id="anioFiscalTable" class="table table-striped " width="100%" cellspacing="0">
+<table id="ActividadTable" class="table table-striped" width="100%" cellspacing="0">
     <thead>
         <tr>
-
-            <th data-priority="1">Indicador</th>
-            <th data-priority="2">Responsable</th>
-            <th data-priority="2">Linea base</th>
-            <th data-priority="2">Meta acumulada ciclo</th>
-            <th data-priority="2" class="acciones-th">Acciones</th>
-
+            @*<th>Id</th>*@
+            <th>Actividad</th>
+            <th>Entregable</th>
+            <th>Responsable</th>
+            <th>Ponderación</th>
+            <th>Plazo</th>
+            <th>Presupuesto</th>
+            <th class="text-right">Acciones</th>
+            @*<th class="text-right">Acuerdo</th>*@
         </tr>
     </thead>
     <tbody>
-
-        @foreach (var anioFiscal in Model.IndicadorPOAs)
+        @if (Model.Actividades != null)
         {
-            <tr id="@anioFiscal.Id">
 
-                <td>
-                    @anioFiscal.IndicadorProducto
-                </td>
-                <td>
-                    @anioFiscal.Responsable
-                </td>
-                <td>
-                    @anioFiscal.LineaBase
-                </td>
-                <td>
-                    @anioFiscal.Meta
-                </td>
+            @foreach (var activ in Model.Actividades)
+            {
+                <tr id="@activ.Id">
+                    <td>
+                        @activ.DescripcionActividad
+                    </td>
+                    <td>
+                        @activ.Entregable
+                    </td>
+                    <td>
+                        @{
 
-                <td class="acciones-td">
-                    <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/OnGetCreateOrEdit?id=@anioFiscal.Id&idProducto=@Model.Id','Indicador de Resultados')">
-                        <i class="fas fa-pencil-alt"></i>
-                    </button>
-                    <button type="button" onclick="EliminaFila(@anioFiscal.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+                            var selectedCity = (IEnumerable<SelectListItem>)Model.responsableList;
+                            string txt = selectedCity.Where(x => x.Value == activ.IdCargoResponsable.ToString()).FirstOrDefault()?.Text ?? string.Empty;
 
-                 </td>
+                        }
+                        @txt
+                    </td>
+                    <td>
+                        @activ.Ponderacion
+                    </td>
+                    <td>
+                        @activ.Plazo
+                    </td>
+                    <td>
+                        @activ.TechoPresupuestoCC
+                    </td>
 
 
-            </tr>
-        }
+                    <td class="text-right">
+                        <button type="button" onclick="EliminaFila(@activ.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                    </td>
+                    @*<td class="acciones-td">
+                            <button type="button" title="Acuerdo de desempeño" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/AcuerdoDesempenio/OnGetCreateOrEdit?id=0&idNivel0','Acuerdo desempeño')">
+                                <i class="fas fa-handshake"></i>
+
+                            </button>
+                        </td>*@
+                </tr>
+            }}
+
+
     </tbody>
 </table>
 

@@ -108,6 +108,10 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
      .ToTable("MetaEstrategicas", "planifica");
             builder.Entity<MetaTactica>()
      .ToTable("MetaTacticas", "planifica");
+            builder.Entity<Recurso>()
+    .ToTable("Recursos", "planifica");
+            builder.Entity<FechaCantidadRecurso>()
+    .ToTable("FechaCantidadRecursos", "planifica");
 
             builder
        .Entity<Tercero>()
@@ -138,6 +142,7 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
         public DbSet<DatosLDR> DatosLDRs { get; set; }
         public DbSet<DatosT5> DatosT5s { get; set; }
         public DbSet<Presupuesto> Presupuestos { get; set; }
+       
 
     }
 }

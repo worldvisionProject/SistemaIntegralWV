@@ -76,11 +76,19 @@
                         switch (opcion) {
                             case 1:
                                 $(res.page).html(res.html);
-                            break;
+                                break;
+                            case 2:
+                                $(res.page).html(res.html);
+                                break;
                             case 99:
                                 $(res.page).html(res.html);
                                 break;
-                        
+                            case 100:
+                                $(res.page).html(res.html);
+                                break;
+                            case 101:
+                                $(res.page).html(res.html);
+                                break;
                             default:
                                 $('#viewAll').html(res.html);
                                 break;
@@ -88,7 +96,9 @@
 
                        
                         try {
-                            $('#viewAllD').html(res.html);
+                            if (opcion === 0) {
+                                $('#viewAllD').html(res.html);
+                            }
                         } catch (ex) { console.log(ex) }
                                                 
                         $('#form-modal').modal('hide');
@@ -114,14 +124,44 @@
                     processData: false,
                     success: function (res) {
                         if (res.isValid) {
+
+                            var opcion = res.opcion ?? 0;
+                            switch (opcion) {
+                                case 1:
+                                    $(res.page).html(res.html);
+                                    break;
+                                case 2:
+                                    $(res.page).html(res.html);
+                                    break;
+                                case 99:
+                                    $(res.page).html(res.html);
+                                    break;
+                                case 100:
+                                    $(res.page).html(res.html);
+                                    break;
+                                case 101:
+                                    $(res.page).html(res.html);
+                                    break;
+                                default:
+                                    $('#viewAll').html(res.html);
+                                    break;
+                            }
+
+
                             try {
-                                $('#viewAllD').html(res.html);
-                            } catch (ex) { console.log(ex) }
-                            try {
-                                $('#viewAllNacional').html(res.html);
+                                if (opcion === 0) {
+                                    $('#viewAllD').html(res.html);
+                                }
                             } catch (ex) { console.log(ex) }
 
-                            $('#viewAll').html(res.html)
+                            //try {
+                            //    $('#viewAllD').html(res.html);
+                            //} catch (ex) { console.log(ex) }
+                            //try {
+                            //    $('#viewAllNacional').html(res.html);
+                            //} catch (ex) { console.log(ex) }
+
+                            //$('#viewAll').html(res.html)
                         }
                     },
                     error: function (err) {

@@ -21,7 +21,7 @@
         @if (Model.ObjetivoEstrategicos != null)
         {
 
-            @foreach (var objetivo in Model.ObjetivoEstrategicos.Where(x => x.Categoria == "1").ToList())
+            @foreach (var objetivo in Model.ObjetivoEstrategicos.Where(x => x.Categoria == 1).ToList())
             {
         <tr id="@objetivo.Id">
             <td>
@@ -39,9 +39,13 @@
             @objetivo.CargoResponsable
         </td>*@
             <td>
-                @{
-                    var selectedCity = Model.DimensionesList;// (IEnumerable<SelectListItem>)ViewBag.DimensionesList;
-                    string txt = selectedCity.Where(x => x.Value == objetivo.Dimension).FirstOrDefault().Text;
+                @{ string txt = string.Empty;
+                    try
+                    {
+                        var selectedCity = (IEnumerable<SelectListItem>)Model.AreaPrioridadList;
+                        txt = selectedCity.Where(x => x.Value == objetivo.AreaPrioridad.ToString()).FirstOrDefault().Text;
+                    }
+                    catch { }
                 }
                 @txt
             </td>
@@ -74,8 +78,8 @@
                     <i class="fas fa-pencil-alt"></i>
 
                 </button>*@
-                    <form id="form_delete_@objetivo.Id" asp-area="Planificacion" asp-controller="ObjetivoEstrategico" method="post" asp-action="OnPostDelete" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@Model.Id" asp-route-idCategoria="@Model.CategoriaObjetivo" onsubmit="return jQueryModalDelete(this)">
-                        <a href="javascript:$('#form_delete_@objetivo.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
+                    <form id="form_deleteN_@objetivo.Id" asp-area="Planificacion" asp-controller="ObjetivoEstrategico" method="post" asp-action="OnPostDeleteNacional" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@Model.Id" asp-route-idCategoria="@Model.CategoriaObjetivo" onsubmit="return jQueryModalDelete(this)">
+                        <a href="javascript:$('#form_deleteN_@objetivo.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
                     </form>
                 </td>
             }

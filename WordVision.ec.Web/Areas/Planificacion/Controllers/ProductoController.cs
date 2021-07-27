@@ -123,6 +123,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 {
                     var viewModel = _mapper.Map<IndicadorEstrategicoViewModel>(response.Data);
                     viewModel.IdGestion = idGestion;
+                    var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+                    if (colaborador.Succeeded)
+                    {
+                        var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
+                        viewModel.responsableList = new SelectList(responsable, "Id", "Nombres");
+                    }
                     return PartialView("_ViewAll", viewModel);
                 }
             }
@@ -141,6 +147,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 var entidadViewModel = new ProductoViewModel();
                 entidadViewModel.IdGestion = idGestion;
                 entidadViewModel.IdIndicadorEstrategico = idIndicadorEstra;
+                var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+                if (colaborador.Succeeded)
+                {
+                    var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
+                    entidadViewModel.responsableList = new SelectList(responsable, "Id", "Nombres");
+                }
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             else
@@ -197,6 +209,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
                         var entidadViewModel = _mapper.Map<IndicadorEstrategicoViewModel>(response.Data);
                         entidadViewModel.IdGestion = producto.IdGestion;
+                        var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+                        if (colaborador.Succeeded)
+                        {
+                            var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
+                            entidadViewModel.responsableList = new SelectList(responsable, "Id", "Nombres");
+                        }
                         return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", entidadViewModel) });
                     }
                     else

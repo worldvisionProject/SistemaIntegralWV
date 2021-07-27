@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
 namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210726175849_MigrationV48")]
+    partial class MigrationV48
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -441,7 +443,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.HasIndex("IdRecurso");
 
-                    b.ToTable("FechaCantidadRecursos", "planifica");
+                    b.ToTable("FechaCantidadRecurso");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.Gestion", b =>
@@ -797,15 +799,17 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AreaPrioridad")
-                        .HasColumnType("int");
+                    b.Property<string>("AreaPrioridad")
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
 
                     b.Property<int>("CargoResponsable")
                         .HasColumnType("int");
 
-                    b.Property<int>("Categoria")
+                    b.Property<string>("Categoria")
+                        .IsRequired()
                         .HasMaxLength(1)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(1)");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -820,8 +824,10 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Dimension")
-                        .HasColumnType("int");
+                    b.Property<string>("Dimension")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
 
                     b.Property<int>("IdEstrategia")
                         .HasColumnType("int");
@@ -944,7 +950,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.HasIndex("IdActividad");
 
-                    b.ToTable("Recursos", "planifica");
+                    b.ToTable("Recurso");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Presupuesto.DatosLDR", b =>

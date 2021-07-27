@@ -52,8 +52,8 @@
                     <option value="F">Dim3</option>
 
                 </select>*@
-                    @Html.DropDownListFor(x => x.Dimension, Model.DimensionList, new { @class = "form-control" })
-                    <span asp-validation-for="Dimension" class="text-danger"></span>
+                    @Html.DropDownListFor(x => x.AreaPrioridad, Model.AreaList, new { @class = "form-control" })
+                    <span asp-validation-for="AreaPrioridad" class="text-danger"></span>
                 </div>
                 <input type="hidden" value="1" name="CargoResponsable" />
 

@@ -21,7 +21,7 @@
         @if (Model.ObjetivoEstrategicos != null)
         {
 
-            @foreach (var objetivo in Model.ObjetivoEstrategicos.Where(x => x.Categoria == "2").ToList())
+            @foreach (var objetivo in Model.ObjetivoEstrategicos.Where(x => x.Categoria ==2).ToList())
             {
         <tr id="@objetivo.Id">
             <td>
@@ -38,18 +38,20 @@
             @*<td>
             @objetivo.CargoResponsable
         </td>*@
-            <td>
-                @{
-                    string txt = objetivo.Dimension;
-                    try
-                    {
-                        var selectedCity = Model.DimensionesList;// (IEnumerable<SelectListItem>)ViewBag.DimensionesList;
-                        txt = selectedCity.Where(x => x.Value == objetivo.Dimension).FirstOrDefault().Text;
-                    }
-                    catch { }
+        <td>
+            @{
+                string txt = "";
+                try
+                {
+                    var selectedCity = (IEnumerable<SelectListItem>)Model.AreaPrioridadList;
+                    txt = selectedCity.Where(x => x.Value == objetivo.AreaPrioridad.ToString()).FirstOrDefault().Text;
+
                 }
+                catch { }
                 @txt
-            </td>
+            }
+
+        </td>
             <td class="acciones-td">
                 @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2" || User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "3" || User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "4")
                 {

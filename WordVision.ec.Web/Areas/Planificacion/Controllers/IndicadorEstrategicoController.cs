@@ -51,10 +51,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             {
                 var viewModel = _mapper.Map<FactorCriticoExitoViewModel>(response.Data);
                 viewModel.IdEstrategia = IdEstrategia;
-                //var viewModel = new List<IndicadorEstrategicoViewModel>();
-                //if (response.Data!=null)
-                //  viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data.IndicadorEstrategicos);
-
+                var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+                if (colaborador.Succeeded)
+                {
+                    var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
+                    viewModel.responsableList = new SelectList(responsable, "Id", "Nombres");
+                }
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel) });
 
                 //return PartialView("_ViewAll", viewModel);
@@ -62,9 +64,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             return null;
         }
 
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int IdFactorCritico = 0,int IdEstrategia=0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int IdFactorCritico = 0,int IdEstrategia=0, int IdObjetivoEstrategico = 0)
         {
             var descEstrategia = "";
+            var descObjetivoEstrategico = "";
+            var descFactor = "";
+            var descCategoria = "";
             var responseE = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = IdEstrategia });
             SelectList gestionList=new SelectList(responseE.Data.Gestiones);
             if (responseE.Succeeded)
@@ -73,7 +78,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(responseE.Data);
                 gestionList=  new SelectList(entidadViewModel.Gestiones, "Id", "Anio");
                 descEstrategia = entidadViewModel.Nombre;
-            }
+                descObjetivoEstrategico = entidadViewModel.ObjetivoEstrategicos.Where(o => o.Id == IdObjetivoEstrategico).FirstOrDefault().Descripcion;
+                descFactor = entidadViewModel.ObjetivoEstrategicos.Where(o => o.Id == IdObjetivoEstrategico).FirstOrDefault().FactorCriticoExitos.Where(f=>f.Id== IdFactorCritico).FirstOrDefault().FactorCritico;
+                int categoria = entidadViewModel.ObjetivoEstrategicos.Where(o => o.Id == IdObjetivoEstrategico).FirstOrDefault().Categoria;
+                var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 5 });
+               descCategoria= cat2.Data.Where(c => c.Secuencia == categoria.ToString()).FirstOrDefault().Nombre;
+             }
             if (id == 0)
             {
                 var entidadViewModel = new IndicadorEstrategicoViewModel();
@@ -81,6 +91,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 entidadViewModel.IdEstrategia = IdEstrategia;
                 entidadViewModel.gestionList = gestionList;
                 entidadViewModel.DescEstrategia = descEstrategia;
+                entidadViewModel.DescObjetivo = descObjetivoEstrategico;
+                entidadViewModel.DescFactor = descFactor;
+                entidadViewModel.DescCategoria = descCategoria;
                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                 entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                 var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
@@ -102,6 +115,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     entidadViewModel.IdFactorCritico = IdFactorCritico;
                     entidadViewModel.IdEstrategia = IdEstrategia;
                     entidadViewModel.DescEstrategia = descEstrategia;
+                    entidadViewModel.DescObjetivo = descObjetivoEstrategico;
+                    entidadViewModel.DescFactor = descFactor;
+                    entidadViewModel.DescCategoria = descCategoria;
                     var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                     entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                     var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery() );

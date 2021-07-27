@@ -9,19 +9,19 @@
         <div class="col-md-12">
             <div class="form-group row">
                 <input type="hidden" asp-for="IdEstrategia"  name="IdEstrategia" />
-                <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta">Gestion</label>
+                <div class="col-md-4">
+                    <label class="col-md-12 col-form-label texto-pregunta">Gestión</label>
                     <input type="text" asp-for="Anio" name="Anio" class="form-control">
                     <span asp-validation-for="Anio" class="text-danger"></span>
                 </div>
 
-                <div class="col-md-7">
-                    <label class="col-md-12 col-form-label texto-pregunta">Descripcion</label>
-                    <input type="text" asp-for="Descripcion" name="Descripcion" class="form-control">
+                <div class="col-md-4">
+                    <label class="col-md-12 col-form-label texto-pregunta">Año Fiscal</label>
+                    <input type="number" asp-for="Descripcion" name="Descripcion" class="form-control">
                     <span asp-validation-for="Descripcion" class="text-danger"></span>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta">Estado</label>
                     @*<select asp-for="EstadoGestion" name="EstadoGestion" class="form-control">
                         <option value="1">Activo</option>
