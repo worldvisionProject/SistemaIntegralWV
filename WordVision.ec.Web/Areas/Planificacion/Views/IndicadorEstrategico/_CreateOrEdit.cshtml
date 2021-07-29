@@ -3,17 +3,17 @@
 @model IndicadorEstrategicoViewModel
 
 <div id="header" class="row titulopopup">
-    <div class="col-6">
+    <div class="col-8">
         <h6 class="h5 mb-2 text-gray-800-b">Objetivo: </h6>@Model.DescObjetivo
     </div>
 
-    <div class="col-6" style="text-align: right;">
+    <div class="col-4" style="text-align: right;">
         <h6 class="h5 mb-2 text-gray-800-b">Categoria: </h6>@Model.DescCategoria
     </div>
 </div>
 
 <div id="header" class="row titulopopup">
-    <div class="col-6" style="text-align: right;">
+    <div class="col-12" style="text-align: left;">
         <h6 class="h5 mb-2 text-gray-800-b">Factor: </h6>@Model.DescFactor
     </div>
 </div>
@@ -185,7 +185,7 @@
    // document.getElementById("Meta").value = document.getElementById("suma").value == null ? 0 : document.getElementById("suma").value;
     $(function () {
         sumar();
-        $('#create-form *').prop('readonly', (document.getElementById("band").value == "true"));
+        $('#create-form *').prop('disabled', (document.getElementById("band").value == "true"));
         $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
         //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
         //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });

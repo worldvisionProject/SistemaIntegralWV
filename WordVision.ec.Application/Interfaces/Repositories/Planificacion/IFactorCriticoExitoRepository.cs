@@ -13,6 +13,8 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Planificacion
 
         Task<List<FactorCriticoExito>> GetListAsync();
         Task<List<FactorCriticoExito>> GetListxObjetivoAsync(int idObjetivo);
+
+        Task<List<FactorCriticoExito>> GetListxObjetivoAsync(int idObjetivo, int idColaborador);
         Task<FactorCriticoExito> GetByIdAsync(int factorCriticoExitoId);
       
         Task<int> InsertAsync(FactorCriticoExito factorCriticoExito);

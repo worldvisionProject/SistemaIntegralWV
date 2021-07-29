@@ -27,6 +27,7 @@ namespace WordVision.ec.Application.Features.Identity.Usuarios.Queries.GetById
 		public int IdEmpresa { get; set; }
 
 		public int Nivel { get; set; }
+		public int ReportaA { get; set; }
 
 	}
 }

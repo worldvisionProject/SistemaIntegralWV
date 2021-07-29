@@ -37,6 +37,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public int CargoResponsableO { get; set; }
 
         public int CategoriaObjetivo { get; set; }
+
+          public string EsCoordinadorEstrategico { get; set; }
     }
 
     public class EstrategiaNacionalList

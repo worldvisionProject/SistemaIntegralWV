@@ -13,7 +13,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Planificacion
 
         Task<List<IndicadorEstrategico>> GetListAsync();
 
-        Task<IndicadorEstrategico> GetByIdAsync(int indicadorEstrategicoId);
+        Task<IndicadorEstrategico> GetByIdAsync(int indicadorEstrategicoId,int idColaborador);
       
         Task<int> InsertAsync(IndicadorEstrategico indicadorEstrategico);
 

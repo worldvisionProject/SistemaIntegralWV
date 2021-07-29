@@ -198,6 +198,19 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         {
             try
             {
+                int idColaborador =Convert.ToInt32( User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
+                switch (Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value))
+                {
+                    case 2:
+                        idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
+                        break;
+                    case 3:
+                        idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
+                        break;
+                    case 4:
+                        idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
+                        break;
+                }
                 var descGestion = "";
                 var responseG = await _mediator.Send(new GetGestionByIdQuery() { Id = idGestion });
                 if (responseG.Succeeded)
@@ -212,13 +225,14 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     ViewBag.Message = responseO.Data.Descripcion;
                 }
                 
-                var response = await _mediator.Send(new GetFactorCriticoxObjetivoByIdQuery() { Id = idObjetivo });
+                var response = await _mediator.Send(new GetFactorCriticoxObjetivoByIdQuery() { Id = idObjetivo,IdColaborador=idColaborador });
                 if (response.Succeeded)
                 {
                     ViewBag.IdGestion = idGestion;
                     ViewBag.DescGestion = descGestion;
                     ViewBag.IdObjetivo = idObjetivo;
                     ViewBag.IdEstrategia = responseO.Data.IdEstrategia;
+                  
                     var viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data);
                     return PartialView("_ViewAllxIndicador", viewModel);
                 }

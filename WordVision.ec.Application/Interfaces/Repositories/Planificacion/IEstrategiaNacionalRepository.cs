@@ -14,7 +14,9 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Planificacion
         Task<List<EstrategiaNacional>> GetListAsync();
 
         Task<EstrategiaNacional> GetByIdAsync(int estrategiaNacionalId);
-      
+        
+        Task<EstrategiaNacional> GetByIdAsync(int estrategiaNacionalId, int idColaborador);
+       
         Task<int> InsertAsync(EstrategiaNacional estrategiaNacional);
 
         Task UpdateAsync(EstrategiaNacional estrategiaNacional);

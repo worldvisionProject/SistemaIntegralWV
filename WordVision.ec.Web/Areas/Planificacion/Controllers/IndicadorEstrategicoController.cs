@@ -16,6 +16,7 @@ using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Qu
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Commands.Delete;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllCached;
+using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
 using WordVision.ec.Web.Areas.Registro.Models;
@@ -51,7 +52,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             {
                 var viewModel = _mapper.Map<FactorCriticoExitoViewModel>(response.Data);
                 viewModel.IdEstrategia = IdEstrategia;
-                var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+                var colaborador = await _mediator.Send(new GetColaboradorByNivelQuery() { Nivel1=2, Nivel2 = 1 });
                 if (colaborador.Succeeded)
                 {
                     var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
@@ -96,7 +97,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 entidadViewModel.DescCategoria = descCategoria;
                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                 entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
-                var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+                var colaborador = await _mediator.Send(new GetColaboradorByNivelQuery() { Nivel1 = 2, Nivel2 = 1 });
                 if (colaborador.Succeeded)
                 {
                     var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
@@ -120,7 +121,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     entidadViewModel.DescCategoria = descCategoria;
                     var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                     entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
-                    var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery() );
+                    var colaborador = await _mediator.Send(new GetColaboradorByNivelQuery() { Nivel1 = 2, Nivel2 = 1 });
                     if (colaborador.Succeeded)
                     {
                         var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);

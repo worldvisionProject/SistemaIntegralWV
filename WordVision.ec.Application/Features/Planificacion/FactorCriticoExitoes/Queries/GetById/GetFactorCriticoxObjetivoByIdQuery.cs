@@ -13,7 +13,7 @@ namespace WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.
     public class GetFactorCriticoxObjetivoByIdQuery : IRequest<Result<List<GetFactorCriticoExitoByIdResponse>>>
     {
         public int Id { get; set; }
-
+        public int IdColaborador { get; set; }
         public class GetFactorCriticoxObjetivoByIdQueryHandler : IRequestHandler<GetFactorCriticoxObjetivoByIdQuery, Result<List<GetFactorCriticoExitoByIdResponse>>>
         {
             private readonly IFactorCriticoExitoRepository _FactorCriticoExitoCache;
@@ -32,7 +32,12 @@ namespace WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.
 
             public async Task<Result<List<GetFactorCriticoExitoByIdResponse>>> Handle(GetFactorCriticoxObjetivoByIdQuery query, CancellationToken cancellationToken)
             {
-                var FactorCriticoExito = await _FactorCriticoExitoCache.GetListxObjetivoAsync(query.Id);
+                var FactorCriticoExito=new object() ;
+                if (query.IdColaborador == 0)
+                     FactorCriticoExito = await _FactorCriticoExitoCache.GetListxObjetivoAsync(query.Id);
+                else
+                     FactorCriticoExito = await _FactorCriticoExitoCache.GetListxObjetivoAsync(query.Id, query.IdColaborador);
+                
                 var mappedFactorCriticoExito = _mapper.Map<List<GetFactorCriticoExitoByIdResponse>>(FactorCriticoExito);
                 
                 return Result<List<GetFactorCriticoExitoByIdResponse>>.Success(mappedFactorCriticoExito);

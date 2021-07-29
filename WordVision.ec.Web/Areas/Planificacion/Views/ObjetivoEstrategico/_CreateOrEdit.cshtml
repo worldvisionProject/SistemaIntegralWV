@@ -113,18 +113,21 @@
     <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
-        {
+        {<input type="hidden" value="false" name="band" id="band" />
             <button type="submit" class="btn btn-success">Guardar</button>
         }
-            <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
-        </div>
+        else
+        { <input type="hidden" value="true" name="band" id="band" />}
+        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+    </div>
 </form>
 
 
         
         <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
-    $(function () {
+            $(function () {
+                $('#create-form *').prop('disabled', (document.getElementById("band").value == "true"));
         $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
         //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
         //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });

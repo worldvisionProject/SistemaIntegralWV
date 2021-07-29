@@ -10,7 +10,7 @@ namespace WordVision.ec.Infrastructure.Data.CacheKeys
     {
 
         public static string ListKey => "ColaboradorList";
-
+        public static string ListKeyNivel => "ColaboradorListNivel";
         public static string SelectListKey => "ColaboradorSelectList";
 
         public static string GetKey(int colaboradorId) => $"Colaborador-{colaboradorId}";

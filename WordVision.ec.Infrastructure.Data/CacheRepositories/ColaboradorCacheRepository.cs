@@ -20,6 +20,12 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories
             _distributedCache = distributedCache;
             _colaboradorRepository = colaboradorRepository;
         }
+
+        public async Task<Colaborador> GetByEstructuraAsync(int idEstructura)
+        {
+           return await _colaboradorRepository.GetByEstructuraAsync(idEstructura);
+        }
+
         public async Task<Colaborador> GetByIdAsync(int colaboradorId)
         {
             string cacheKey = ColaboradorCacheKeys.GetKey(colaboradorId);
@@ -43,6 +49,19 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories
                 //await _distributedCache.SetAsync(cacheKey, colaborador);
             //}
             return colaborador;
+        }
+
+        public async Task<List<Colaborador>> GetByNivelAsync(int nivel1, int nivel2)
+        {
+           
+            string cacheKey = ColaboradorCacheKeys.ListKeyNivel+nivel1+nivel2;
+            var colaboradorList = await _distributedCache.GetAsync<List<Colaborador>>(cacheKey);
+            if (colaboradorList == null)
+            {
+                colaboradorList = await _colaboradorRepository.GetByNivelAsync(nivel1,nivel2);
+                await _distributedCache.SetAsync(cacheKey, colaboradorList);
+            }
+            return colaboradorList;
         }
 
         public async Task<Colaborador> GetByUserNameAsync(string username)

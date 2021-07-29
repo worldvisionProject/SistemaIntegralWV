@@ -56,7 +56,7 @@ namespace WordVision.ec.Domain.Entities.Registro
         public virtual ICollection<Formulario> Formularios { get; set; }
 
         public int IdEstructura { get; set; }
-        //public Estructura Estructuras { get; set; }
+        public Estructura Estructuras { get; set; }
 
     }
 }

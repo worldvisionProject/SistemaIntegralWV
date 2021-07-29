@@ -316,6 +316,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     ViewBag.Gestion = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault()?.Anio??string.Empty;
                     ViewBag.SNGestion = "N";
                     ViewBag.Nivel = User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value;
+                    if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value == "4" && User.IsInRole("CoordPlanificacion"))
+                        entidadViewModel.EsCoordinadorEstrategico = "S";
+                    else
+                        entidadViewModel.EsCoordinadorEstrategico = "N";
+
                     return View("_CreateOrEdit", entidadViewModel);
                     //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }

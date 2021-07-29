@@ -28,7 +28,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
 
             public async Task<Result<int>> Handle(DeleteIndicadorEstrategicoCommand command, CancellationToken cancellationToken)
             {
-                var IndicadorEstrategico = await _IndicadorEstrategicoRepository.GetByIdAsync(command.Id);
+                var IndicadorEstrategico = await _IndicadorEstrategicoRepository.GetByIdAsync(command.Id,0);
                 await _IndicadorEstrategicoRepository.DeleteAsync(IndicadorEstrategico);
                 await _unitOfWork.Commit(cancellationToken);
                 return Result<int>.Success(IndicadorEstrategico.Id);

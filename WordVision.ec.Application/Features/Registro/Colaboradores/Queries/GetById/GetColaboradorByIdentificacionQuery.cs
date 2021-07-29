@@ -34,27 +34,31 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetB
             public async Task<Result<GetColaboradorByIdResponse>> Handle(GetColaboradorByIdentificacionQuery request, CancellationToken cancellationToken)
             {
                 int nivel = 0;
+                int reportaA = 0;
                 var Colaborador = await _ColaboradorCache.GetByIdentificacionAsync(request.Identificacion);
                 if (Colaborador != null)
-                { 
+                {
                     try
                     {
-                        var estructura = await _estructuraCache.GetByIdAsync(Colaborador.IdEstructura);
+                        var estructura = await _ColaboradorCache.GetByEstructuraAsync(Colaborador.Estructuras.ReportaID);
                         if (estructura != null)
-                            nivel = estructura.Nivel;
+                        {
+                            reportaA = estructura.Id;
+                        }
                     }
                     catch
                     { }
 
                     var mappedColaborador = _mapper.Map<GetColaboradorByIdResponse>(Colaborador);
-                    mappedColaborador.Nivel = nivel;
-                    return Result<GetColaboradorByIdResponse>.Success(mappedColaborador);
+                    mappedColaborador.CodReportaA = reportaA;
+                   return Result<GetColaboradorByIdResponse>.Success(mappedColaborador);
                 }
                 else
                 {
                     var _colaborador = new Colaborador();
                     var mappedColaborador = _mapper.Map<GetColaboradorByIdResponse>(_colaborador);
                     mappedColaborador.Nivel = nivel;
+                    mappedColaborador.CodReportaA = reportaA;
                     return Result<GetColaboradorByIdResponse>.Success(mappedColaborador);
                 }
 

@@ -5,10 +5,10 @@
     <thead>
         <tr>
             <th>Id</th>
-            <th>Objetivo</th>
+            <th  width="70%">Objetivo</th>
             @* <th>Area</th>*@
             @*<th>Responsable</th>*@
-            <th>Area</th>
+            <th  width="20%">Area</th>
             <th class="acciones-th">Factor</th>
            
             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Delete)).Result.Succeeded)
@@ -20,71 +20,167 @@
     <tbody>
         @if (Model.ObjetivoEstrategicos != null)
         {
-
-            @foreach (var objetivo in Model.ObjetivoEstrategicos.Where(x => x.Categoria == 1).ToList())
+            if (Model.EsCoordinadorEstrategico == "N")
             {
-        <tr id="@objetivo.Id">
-            <td>
-
-                @objetivo.Id
-            </td>
-            <td>
-
-                @objetivo.Descripcion
-            </td>
-            @*<td>
-            @objetivo.AreaPrioridad
-        </td>*@
-            @*<td>
-            @objetivo.CargoResponsable
-        </td>*@
-            <td>
-                @{ string txt = string.Empty;
-                    try
-                    {
-                        var selectedCity = (IEnumerable<SelectListItem>)Model.AreaPrioridadList;
-                        txt = selectedCity.Where(x => x.Value == objetivo.AreaPrioridad.ToString()).FirstOrDefault().Text;
-                    }
-                    catch { }
-                }
-                @txt
-            </td>
-            <td class="acciones-td">
-
-                @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2" || User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "3" || User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "4")
+                @foreach (var objetivo in Model.ObjetivoEstrategicos.Where(x => x.Categoria == 1).ToList())
                 {
-                    @if (User.IsInRole("CoordPlanificacion"))
-                    {
-                        <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="Index" asp-route-id="@objetivo.Id" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
-                    }
-                    else
-                    {
-                        <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="IndexIndicador" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@objetivo.IdEstrategia" asp-route-AnioGestion="@Model.AnioGestion" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>}
+                    if (objetivo.FactorCriticoExitos != null)
+                        if (objetivo.FactorCriticoExitos.Count > 0)
+                        {
+                            for (int i = 0; i < objetivo.FactorCriticoExitos.Count; i++)
+                            {
+                                if (objetivo.FactorCriticoExitos[i].IndicadorEstrategicos != null)
+                                    if (objetivo.FactorCriticoExitos[i].IndicadorEstrategicos.Count > 0)
+                                    {
+                                        <tr id="@objetivo.Id">
+                                            <td>
+
+                                                @objetivo.Id
+                                            </td>
+                                            <td>
+
+                                                @objetivo.Descripcion
+                                            </td>
+                                            @*<td>
+                                                @objetivo.AreaPrioridad
+                                            </td>*@
+                                            @*<td>
+                                                @objetivo.CargoResponsable
+                                            </td>*@
+                                            <td>
+                                                @{ string txt = string.Empty;
+                                                    try
+                                                    {
+                                                        var selectedCity = (IEnumerable<SelectListItem>)Model.AreaPrioridadList;
+                                                        txt = selectedCity.Where(x => x.Value == objetivo.AreaPrioridad.ToString()).FirstOrDefault().Text;
+                                                    }
+                                                    catch { }
+                                                }
+                                                @txt
+                                            </td>
+                                            <td class="acciones-td">
+
+                                                @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2" || User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "3" || User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "4")
+                                                {
+                                                    @if (User.IsInRole("CoordPlanificacion"))
+                                                    {
+                                                        <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="Index" asp-route-id="@objetivo.Id" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
+                                                    }
+                                                    else
+                                                    {
+                                                        if (Model.AnioGestion != "0" && Model.AnioGestion != null)
+                                                        {
+                                                            <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="IndexIndicador" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@objetivo.IdEstrategia" asp-route-AnioGestion="@Model.AnioGestion" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
+
+                                                        }
+                                                    }
+                                                }
+                                                else
+
+                                                {
+
+                                                    <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="Index" asp-route-id="@objetivo.Id" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
+
+                                                }
+                                            </td>
+
+
+                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Delete)).Result.Succeeded)
+                                            {
+                                                <td class="acciones-td">
+                                                    @*<button type="button" title="Editar" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=@objetivo.Id&idEstrategia=@Model.Id&categoria=@Model.CategoriaObjetivo','Editar Objetivos')">
+                                                        <i class="fas fa-pencil-alt"></i>
+
+                                                    </button>*@
+                                                    <form id="form_deleteN_@objetivo.Id" asp-area="Planificacion" asp-controller="ObjetivoEstrategico" method="post" asp-action="OnPostDeleteNacional" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@Model.Id" asp-route-idCategoria="@Model.CategoriaObjetivo" onsubmit="return jQueryModalDelete(this)">
+                                                        <a href="javascript:$('#form_deleteN_@objetivo.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
+                                                    </form>
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+                            }
+                        }
                 }
-                else
 
-                {
-
-                    <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="Index" asp-route-id="@objetivo.Id" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
-
-                }
-            </td>
-          
-
-            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Delete)).Result.Succeeded)
-            {
-                <td class="acciones-td">
-                    @*<button type="button" title="Editar" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=@objetivo.Id&idEstrategia=@Model.Id&categoria=@Model.CategoriaObjetivo','Editar Objetivos')">
-                    <i class="fas fa-pencil-alt"></i>
-
-                </button>*@
-                    <form id="form_deleteN_@objetivo.Id" asp-area="Planificacion" asp-controller="ObjetivoEstrategico" method="post" asp-action="OnPostDeleteNacional" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@Model.Id" asp-route-idCategoria="@Model.CategoriaObjetivo" onsubmit="return jQueryModalDelete(this)">
-                        <a href="javascript:$('#form_deleteN_@objetivo.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
-                    </form>
-                </td>
             }
-        </tr>
-            }}
+            else
+            {
+
+                @foreach (var objetivo in Model.ObjetivoEstrategicos.Where(x => x.Categoria == 1).ToList())
+                {
+                    <tr id="@objetivo.Id">
+                        <td>
+
+                            @objetivo.Id
+                        </td>
+                        <td>
+
+                            @objetivo.Descripcion
+                        </td>
+                        @*<td>
+                            @objetivo.AreaPrioridad
+                        </td>*@
+                        @*<td>
+                            @objetivo.CargoResponsable
+                        </td>*@
+                        <td>
+                            @{ string txt = string.Empty;
+                                try
+                                {
+                                    var selectedCity = (IEnumerable<SelectListItem>)Model.AreaPrioridadList;
+                                    txt = selectedCity.Where(x => x.Value == objetivo.AreaPrioridad.ToString()).FirstOrDefault().Text;
+                                }
+                                catch { }
+                            }
+                            @txt
+                        </td>
+                        <td class="acciones-td">
+
+                            @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2" || User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "3" || User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "4")
+                            {
+                                @if (User.IsInRole("CoordPlanificacion"))
+                                {
+                                    <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="Index" asp-route-id="@objetivo.Id" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
+                                }
+                                else
+                                {
+                                    if (Model.AnioGestion != "0" && Model.AnioGestion != null)
+                                    {
+                                        <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="IndexIndicador" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@objetivo.IdEstrategia" asp-route-AnioGestion="@Model.AnioGestion" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
+
+                                    }
+                                }
+                            }
+                            else
+
+                            {
+
+                                <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="Index" asp-route-id="@objetivo.Id" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
+
+                            }
+                        </td>
+
+
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Delete)).Result.Succeeded)
+                        {
+                            <td class="acciones-td">
+                                @*<button type="button" title="Editar" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=@objetivo.Id&idEstrategia=@Model.Id&categoria=@Model.CategoriaObjetivo','Editar Objetivos')">
+                                    <i class="fas fa-pencil-alt"></i>
+
+                                </button>*@
+                                <form id="form_deleteN_@objetivo.Id" asp-area="Planificacion" asp-controller="ObjetivoEstrategico" method="post" asp-action="OnPostDeleteNacional" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@Model.Id" asp-route-idCategoria="@Model.CategoriaObjetivo" onsubmit="return jQueryModalDelete(this)">
+                                    <a href="javascript:$('#form_deleteN_@objetivo.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
+                                </form>
+                            </td>
+                        }
+                    </tr>
+
+                }
+
+            }
+
+        }
 
 
     </tbody>

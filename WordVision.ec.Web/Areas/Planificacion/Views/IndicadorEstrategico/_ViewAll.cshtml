@@ -38,7 +38,7 @@
             </td>
 
             <td class="acciones-td">
-                <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/OnGetCreateOrEdit?id=@anioFiscal.Id&IdFactorCritico=@anioFiscal.Id&IdEstrategia=@Model.IdEstrategia','Indicador de Resultados')">
+                <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/OnGetCreateOrEdit?id=@anioFiscal.Id&IdFactorCritico=@Model.Id&IdEstrategia=@Model.IdEstrategia&IdObjetivoEstrategico=@Model.IdObjetivoEstra','Indicador de Resultados')">
                     <i class="fas fa-pencil-alt"></i>
                 </button>
                 @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Delete)).Result.Succeeded)

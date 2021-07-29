@@ -124,6 +124,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         var responsa = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
                         entidadViewModel.responsableList = new SelectList(responsa, "Id", "Nombres");
                         entidadViewModel.ResponsableIndicador = responsa.Where(r => r.Id == idResponsable).FirstOrDefault().Nombres;
+                        entidadViewModel.DescResponsable = responsa.Where(r => r.Id == (int)entidadViewModel.Responsable).FirstOrDefault().Nombres;
                     }
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }

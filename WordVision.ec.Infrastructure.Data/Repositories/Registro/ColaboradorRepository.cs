@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
+using WordVision.ec.Domain.Entities.Maestro;
 using WordVision.ec.Domain.Entities.Registro;
 
 namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
@@ -13,11 +14,13 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
     public class ColaboradorRepository : IColaboradorRepository
     {
         private readonly IRepositoryAsync<Colaborador> _repository;
+        private readonly IRepositoryAsync<Estructura> _repositoryE;
         private readonly IDistributedCache _distributedCache;
 
-        public ColaboradorRepository(IDistributedCache distributedCache, IRepositoryAsync<Colaborador> repository)
+        public ColaboradorRepository(IRepositoryAsync<Estructura> repositoryE,IDistributedCache distributedCache, IRepositoryAsync<Colaborador> repository)
         {
             _distributedCache = distributedCache;
+            _repositoryE = repositoryE;
             _repository = repository;
         }
 
@@ -30,14 +33,30 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
             await _distributedCache.RemoveAsync(CacheKeys.ColaboradorCacheKeys.GetKey(colaborador.Id));
         }
 
+        public async Task<Colaborador> GetByEstructuraAsync(int idEstructura)
+        {
+            return await _repository.Entities.Where(p => p.IdEstructura == idEstructura).FirstOrDefaultAsync();
+        }
+
         public async Task<Colaborador> GetByIdAsync(int colaboradorId)
         {
-            return await _repository.Entities.Where(p => p.Id == colaboradorId).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(p => p.Id == colaboradorId)
+                 .Include(e => e.Estructuras)
+                .ThenInclude(em => em.Empresas).FirstOrDefaultAsync();
         }
 
         public async Task<Colaborador> GetByIdentificacionAsync(string identificacion)
         {
-            return await _repository.Entities.Where(p => p.Identificacion == identificacion).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(p => p.Identificacion == identificacion)
+                .Include(e=>e.Estructuras)
+                .ThenInclude(em=>em.Empresas)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Colaborador>> GetByNivelAsync(int nivel1, int nivel2)
+        {
+            return await _repository.Entities.Where(x=>x.Estructuras.Nivel==1 || x.Estructuras.Nivel == 2 || x.Estructuras.Nivel==nivel1 || x.Estructuras.Nivel == nivel2)
+                .IgnoreAutoIncludes().ToListAsync();
         }
 
         public async Task<Colaborador> GetByUserNameAsync(string username)

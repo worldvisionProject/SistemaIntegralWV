@@ -1,4 +1,6 @@
-﻿namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById
+﻿using WordVision.ec.Domain.Entities.Maestro;
+
+namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById
 {
     public class GetColaboradorByIdResponse
     {
@@ -23,6 +25,8 @@
         public string Alias { get; set; }
         public int Nivel { get; set; }
 
+        public int CodReportaA { get; set; }
+        public Estructura Estructuras { get; set; }
         //public string ActPoliticas { get; set; }
         //public string ActDocumentos { get; set; }
         //public string ActDatos { get; set; }

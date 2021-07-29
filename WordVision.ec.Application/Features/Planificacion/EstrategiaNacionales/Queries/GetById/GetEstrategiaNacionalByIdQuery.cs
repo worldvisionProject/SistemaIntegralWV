@@ -12,7 +12,8 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
     public class GetEstrategiaNacionalByIdQuery : IRequest<Result<GetEstrategiaNacionalByIdResponse>>
     {
         public int Id { get; set; }
-
+        public int IdColaborador { get; set; }
+        public int Nivel { get; set; }
         public class GetEstrategiaNacionalByIdQueryHandler : IRequestHandler<GetEstrategiaNacionalByIdQuery, Result<GetEstrategiaNacionalByIdResponse>>
         {
             private readonly IEstrategiaNacionalRepository _EstrategiaNacionalCache;
@@ -31,7 +32,13 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
 
             public async Task<Result<GetEstrategiaNacionalByIdResponse>> Handle(GetEstrategiaNacionalByIdQuery query, CancellationToken cancellationToken)
             {
-                var EstrategiaNacional = await _EstrategiaNacionalCache.GetByIdAsync(query.Id);
+                var EstrategiaNacional = new object();
+                if (query.IdColaborador == 0)
+                    EstrategiaNacional = await _EstrategiaNacionalCache.GetByIdAsync(query.Id);
+                else
+                {
+                    EstrategiaNacional = await _EstrategiaNacionalCache.GetByIdAsync(query.Id, query.IdColaborador);
+                }
                 var mappedEstrategiaNacional = _mapper.Map<GetEstrategiaNacionalByIdResponse>(EstrategiaNacional);
                 
                 return Result<GetEstrategiaNacionalByIdResponse>.Success(mappedEstrategiaNacional);

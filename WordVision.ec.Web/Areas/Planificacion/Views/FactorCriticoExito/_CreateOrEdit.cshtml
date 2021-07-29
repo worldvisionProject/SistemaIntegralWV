@@ -40,7 +40,7 @@
     $.validator.unobtrusive.parse(document);
     $(function () {
        
-        $('#create-form *').prop('readonly', (document.getElementById("band").value == "true"));
+        $('#create-form *').prop('disabled', (document.getElementById("band").value == "true"));
         $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
         //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
         //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });

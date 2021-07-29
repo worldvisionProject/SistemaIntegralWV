@@ -6,22 +6,23 @@
     <div class="col-6">
         <h6 class="h5 mb-2 text-gray-800-b">Objetivo: </h6>@Model.FactorCriticoExitos.ObjetivoEstrategicos.Descripcion
     </div>
-    <div class="col-6" style="text-align: right;">
-        <h6 class="h5 mb-2 text-gray-800-b">Factor: </h6>@Model.FactorCriticoExitos.FactorCritico
-    </div>
 
+    <div class="col-6" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Indicador: </h6>@Model.IndicadorResultado
+    </div>
 </div>
 
 <div id="header" class="row titulopopup">
-    <div class="col-6">
-        <h6 class="h5 mb-2 text-gray-800-b">Indicador: </h6>@Model.IndicadorResultado
+    <div class="col-6" style="text-align: left;">
+        <h6 class="h5 mb-2 text-gray-800-b">Factor: </h6>@Model.FactorCriticoExitos.FactorCritico
     </div>
+   
     @{
         var @metagestion = @Model.IndicadorAFs.Where(x => x.Anio == Convert.ToString(@Model.IdGestion)).FirstOrDefault().Meta;
     }
-<div class="col-3" style="text-align: right;">
-    <h6 class="h5 mb-2 text-gray-800-b">Línea Base: </h6>@Model.LineaBase
-</div>
+    <div class="col-3" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Línea Base: </h6>@Model.LineaBase
+    </div>
     <div class="col-3" style="text-align: right;">
         <h6 class="h5 mb-2 text-gray-800-b">Meta  @Model.DescGestion: </h6>@metagestion
     </div>

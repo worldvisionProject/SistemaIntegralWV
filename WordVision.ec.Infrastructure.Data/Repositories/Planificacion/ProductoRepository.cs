@@ -28,9 +28,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
             await _repository.DeleteAsync(producto);
         }
 
-        public async Task<Producto> GetByIdAsync(int productoId)
+        public async Task<Producto> GetByIdAsync(int productoId, int idColaborador)
         {
-            return await _repository.Entities.Where(p => p.Id == productoId).Include(x=>x.IndicadorEstrategicos).ThenInclude(e=>e.IndicadorAFs).Include(x=>x.IndicadorPOAs).ThenInclude(m=>m.MetaTacticas).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(p => p.Id == productoId).Include(x=>x.IndicadorEstrategicos).ThenInclude(e=>e.IndicadorAFs)
+                .Include(x=>x.IndicadorPOAs.Where(i=>i.Responsable == idColaborador || (idColaborador==0))).ThenInclude(m=>m.MetaTacticas).FirstOrDefaultAsync();
         }
 
         public async Task<List<Producto>> GetListAsync()

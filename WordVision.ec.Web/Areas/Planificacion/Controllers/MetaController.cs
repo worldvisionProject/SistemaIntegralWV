@@ -67,7 +67,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var responseC = await _mediator.Send(new GetColaboradorByIdQuery() { Id = (int)entidadViewModel.Responsable });
                     if (responseC.Succeeded)
                     {
-                        var entidadViewModelCol = _mapper.Map<ColaboradorViewModel>(response.Data);
+                        var entidadViewModelCol = _mapper.Map<ColaboradorViewModel>(responseC.Data);
                         entidadViewModel.DescResponsable = entidadViewModelCol.Nombres;
                     }
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });

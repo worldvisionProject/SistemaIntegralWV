@@ -19,6 +19,7 @@ using WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Commands.De
 using WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.Productos.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllCached;
+using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
 using WordVision.ec.Web.Areas.Registro.Models;
@@ -50,12 +51,25 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
         public async Task<JsonResult> LoadIndicadores(int idProducto)
         {
-            var response = await _mediator.Send(new GetProductoByIdQuery() { Id = idProducto });
+            int idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
+            switch (Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value))
+            {
+                case 2:
+                    idColaborador = 0;// Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
+                    break;
+                    //case 3:
+                    //    idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
+                    //    break;
+                    //case 4:
+                    //    idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
+                    //    break;
+            }
+            var response = await _mediator.Send(new GetProductoByIdQuery() { Id = idProducto,IdColaborador=idColaborador });
             if (response.Succeeded)
             {
                 var viewModel = _mapper.Map<ProductoViewModel>(response.Data);
                 ViewBag.Producto = viewModel.DescProducto;
-                var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+                var colaborador = await _mediator.Send(new GetColaboradorByNivelQuery() { Nivel1 = 2, Nivel2 = 3 });
                 if (colaborador.Succeeded)
                 {
                     var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
@@ -128,7 +142,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                 var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 11 });
                 entidadViewModel.NumMesesList = new SelectList(cat11.Data, "Secuencia", "Nombre");
-                var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+                var colaborador = await _mediator.Send(new GetColaboradorByNivelQuery() { Nivel1 = 2, Nivel2 = 3 });
                 if (colaborador.Succeeded)
                 {
                     var responsa = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
@@ -158,7 +172,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 11 });
                     entidadViewModel.NumMesesList = new SelectList(cat11.Data, "Secuencia", "Nombre");
 
-                    var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+                    var colaborador = await _mediator.Send(new GetColaboradorByNivelQuery() { Nivel1 = 2, Nivel2 = 3 });
                     if (colaborador.Succeeded)
                     {
                         var responsa = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);

@@ -1,4 +1,6 @@
-﻿namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllCached
+﻿using WordVision.ec.Domain.Entities.Maestro;
+
+namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllCached
 {
     public class GetAllColaboradoresCachedResponse
     {
@@ -23,5 +25,6 @@
         public string ActDatos { get; set; }
 
         public string Nombres { get; set; }
+        public Estructura Estructuras { get; set; }
     }
 }

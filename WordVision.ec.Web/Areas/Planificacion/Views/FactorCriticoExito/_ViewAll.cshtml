@@ -35,7 +35,7 @@
                 </button>
                 @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Create)).Result.Succeeded)
                 {
-                    <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/OnGetCreateOrEdit?id=0&IdFactorCritico=@anioFiscal.Id&IdEstrategia=@Model.IdEstrategia','Indicador de Resultados')">
+                    <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorEstrategico/OnGetCreateOrEdit?id=0&IdFactorCritico=@anioFiscal.Id&IdEstrategia=@Model.IdEstrategia&IdObjetivoEstrategico=@Model.Id','Indicador de Resultados')">
                         <i class="fas fa-plus-square"></i>
                     </button>
                 }

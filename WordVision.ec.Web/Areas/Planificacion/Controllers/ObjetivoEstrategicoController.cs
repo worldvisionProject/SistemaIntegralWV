@@ -14,6 +14,7 @@ using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Com
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetById;
+using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
 
@@ -43,15 +44,40 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             return null;
         }
 
-        public async Task<IActionResult> LoadObjetivo(int idEstrategia,int idCategoria,string AnioGestion)
+        public async Task<IActionResult> LoadObjetivo(int idEstrategia,int idCategoria,string AnioGestion,string esCoordinadorEstrategico)
         {
-            var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = idEstrategia });
+            int idColaborador = 0;
+            if (esCoordinadorEstrategico == "N")
+            { switch (Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value))
+                {
+                    case 2:
+                        idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
+                        break;
+                    case 3:
+                        idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
+                        break;
+                    case 4:
+                        idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
+                        var responseGerencia = await _mediator.Send(new GetColaboradorByIdQuery() { Id = idColaborador });
+                        if (responseGerencia.Succeeded)
+                        {
+                            var responseNivel = await _mediator.Send(new GetColaboradorByNivelQuery() { Nivel1 = 1, Nivel2 = 2 });
+
+                            idColaborador= responseNivel.Data.Where(c => c.Cargo == responseGerencia.Data.Estructuras.ReportaID).FirstOrDefault().Id;
+                        }
+                            break;
+                }
+               
+               
+            }
+            var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = idEstrategia ,IdColaborador=idColaborador});
             if (response.Succeeded)
             {
 
                 var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
                 entidadViewModel.CategoriaObjetivo = idCategoria;
                 entidadViewModel.AnioGestion = AnioGestion;
+                entidadViewModel.EsCoordinadorEstrategico = esCoordinadorEstrategico;
                 ViewBag.Ciclo = entidadViewModel.Nombre;
                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
                 entidadViewModel.AreaPrioridadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
