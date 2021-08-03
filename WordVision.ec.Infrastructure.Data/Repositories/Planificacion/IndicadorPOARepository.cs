@@ -30,7 +30,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 
         public async Task<IndicadorPOA> GetByIdAsync(int indicadorPOAId)
         {
-            return await _repository.Entities.Where(p => p.Id == indicadorPOAId).Include(x => x.MetaTacticas).Include(y => y.Actividades).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(p => p.Id == indicadorPOAId).Include(x => x.MetaTacticas)
+                .Include(y => y.Actividades)
+                .ThenInclude(r=>r.Recursos)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<List<IndicadorPOA>> GetListAsync()

@@ -14,7 +14,7 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public int Mes { get; set; }
         [Required]
         public decimal? Valor { get; set; }
-
+        public int IdRecurso { get; set; }
         public Recurso Recursos { get; set; }
     }
 }

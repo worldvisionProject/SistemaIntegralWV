@@ -1,6 +1,6 @@
 ﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @using WordVision.ec.Web.Areas.Planificacion.Models
-@model IndicadorPOAViewModel
+@model ActividadViewModel
 
 <div id="header" class="row titulopopup">
     <div class="col-6">
@@ -46,8 +46,9 @@
 </div>
 <hr />
 
-<form id="create-form" method="post" asp-controller="IndicadorPOA" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+<form id="create-form" method="post" asp-controller="Actividad" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
     @Html.HiddenFor(x => x.IdProducto)
+    @Html.HiddenFor(x => x.IdIndicadorPOA)
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
@@ -85,7 +86,7 @@
                     <span asp-validation-for="Plazo" class="text-danger"></span>
                 </div>
                 <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Techo Presupuestario del CC</label>
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Techo del Centro Costo</label>
                     <input asp-for="TechoPresupuestoCC" type="text" name="TechoPresupuestoCC" class="form-control" />
                     <span asp-validation-for="TechoPresupuestoCC" class="text-danger"></span>
                 </div>
@@ -94,80 +95,6 @@
                     <input asp-for="Saldo" type="text" name="Saldo" class="form-control" />
                     <span asp-validation-for="Saldo" class="text-danger"></span>
                 </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-2" style="padding-top: 25px;">
-                    <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
-                </div>
-            </div>
-            <br />
-            <div id="divActividad">
-                <table id="ActividadTable" class="table table-striped" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            @*<th>Id</th>*@
-                            <th>Actividad</th>
-                            <th>Entregable</th>
-                            <th>Responsable</th>
-                            <th>Ponderación</th>
-                            <th>Plazo</th>
-                            <th>Presupuesto</th>
-                            <th class="text-right">Acciones</th>
-                            @*<th class="text-right">Acuerdo</th>*@
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.Actividades != null)
-                        {
-
-                            @foreach (var activ in Model.Actividades)
-                            {
-                                <tr id="@activ.Id">
-                                    <td>
-                                        @activ.DescripcionActividad
-                                    </td>
-                                    <td>
-                                        @activ.Entregable
-                                    </td>
-                                    <td>
-                                        @{
-
-                                            var selectedCity = (IEnumerable<SelectListItem>)Model.responsableList;
-                                            string txt = selectedCity.Where(x => x.Value == activ.IdCargoResponsable.ToString()).FirstOrDefault()?.Text ?? string.Empty;
-
-                                        }
-                                        @txt
-                                        
-                                    </td>
-                                    <td>
-                                        @activ.Ponderacion
-                                    </td>
-                                    <td>
-                                        @activ.Plazo
-                                    </td>
-                                    <td>
-                                        @activ.TechoPresupuestoCC
-                                    </td>
-
-
-                                    <td class="text-right">
-                                        <button type="button" onclick="EliminaFila(@activ.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
-
-                                    </td>
-                                    @*<td class="acciones-td">
-                                        <button type="button" title="Acuerdo de desempeño" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/AcuerdoDesempenio/OnGetCreateOrEdit?id=0&idNivel0','Acuerdo desempeño')">
-                                            <i class="fas fa-handshake"></i>
-
-                                        </button>
-                                    </td>*@
-                                </tr>
-                            }}
-
-
-                    </tbody>
-                </table>
-
-
             </div>
 
 
@@ -181,185 +108,11 @@
     </div>
 </form>
 
-
-
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
     $(function () {
         $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
-        //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
-        //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });
-
+        
     });
-
-    $("#BrandId").select2({
-        placeholder: "Select a Category",
-        theme: "bootstrap4",
-        escapeMarkup: function (m) {
-            return m;
-        }
-    });
-
-
-       var num = 0;
-        function AgregaConcepto() {
-            let Actividad = document.getElementById("DescripcionActividad").value;
-            let Entregable = document.getElementById("Entregable").value;
-
-            var selection = document.getElementById("IdCargoResponsable");
-            let Responsable = selection.options[selection.selectedIndex].innerHTML;
-
-            var IdCargo = document.getElementById("IdCargoResponsable").value;
-            let Plazo = document.getElementById("Plazo").value;
-            let Presupuesto = document.getElementById("TechoPresupuestoCC").value;
-            let Ponderacion = document.getElementById("Ponderacion").value;
-           // let IdEstrategia = document.getElementById("Id").value;
-
-            if (Actividad.length == 0) {
-                alert("Ingrese la Actividad.");
-                return;
-            }
-
-            //agregamos tabla
-            let Tabla = document.getElementById("ActividadTable");
-            let TR = document.createElement("tr");
-            TR.setAttribute('id', num);
-            let TDActividad = document.createElement("td");
-            let TDEntregable = document.createElement("td");
-            let TDIdCargo = document.createElement("td");
-            let TDPlazo = document.createElement("td");
-            let TDPresupuesto = document.createElement("td");
-            let TDPonderacion = document.createElement("td");
-            let TDEliminar = document.createElement("td");
-            TDEliminar.className = "text-right";
-            let TDAcuerdo = document.createElement("td");
-            TDAcuerdo.className = "text-right";
-            //let TDTotal = document.createElement("td");
-           // TR.appendChild(TDId);
-            TR.appendChild(TDActividad);
-            TR.appendChild(TDEntregable);
-            TR.appendChild(TDIdCargo);
-            TR.appendChild(TDPonderacion);
-            TR.appendChild(TDPlazo);
-            TR.appendChild(TDPresupuesto);
-            TR.appendChild(TDEliminar);
-            //TR.appendChild(TDTotal);
-           // TDId.innerHTML = num;
-            TDActividad.innerHTML = Actividad;
-            TDEntregable.innerHTML = Entregable;
-            TDIdCargo.innerHTML = Responsable;
-           
-            TDPonderacion.innerHTML = Ponderacion;
-            TDPlazo.innerHTML = Plazo;
-            TDPresupuesto.innerHTML = Presupuesto;
-            TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila(" + num + ")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
-            TDAcuerdo.innerHTML = " <button type='button' title='Acuerdo de desempeño' class='btn btn - warning  btn - xp' id='btnViewModel' onclick='jQueryModalGet('/Planificacion/AcuerdoDesempenio/OnGetCreateOrEdit?id=0&idNivel0', 'Acuerdo desempeño')'><i class='fas fa-handshake' ></i ></button >";
-            //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
-            Tabla.appendChild(TR);
-
-            //agregamos hiddens
-            let DivConceptos = document.getElementById("divActividad");
-            let HiddenIndex = document.createElement("input");
-            let HiddenActividad = document.createElement("input");
-            let HiddenEntregable = document.createElement("input");
-            let HiddenIdCargo = document.createElement("input");
-            let HiddenPlazo = document.createElement("input");
-            let HiddenPresupuesto = document.createElement("input");
-            let HiddenPonderacion = document.createElement("input");
-
-            HiddenIndex.name = "Actividades.Index";
-            HiddenIndex.value = num;
-            HiddenIndex.type = "hidden";
-            HiddenActividad.name = "Actividades[" + num + "].DescripcionActividad";
-            HiddenActividad.value = Actividad;
-            HiddenActividad.type = "hidden";
-            HiddenEntregable.name = "Actividades[" + num + "].Entregable";
-            HiddenEntregable.value = Entregable;
-            HiddenEntregable.type = "hidden";
-            HiddenIdCargo.name = "Actividades[" + num + "].IdCargoResponsable";
-            HiddenIdCargo.value = IdCargo;
-            HiddenIdCargo.type = "hidden";
-
-            HiddenPlazo.name = "Actividades[" + num + "].Plazo";
-            HiddenPlazo.value = Plazo;
-            HiddenPlazo.type = "hidden";
-            HiddenPresupuesto.name = "Actividades[" + num + "].TechoPresupuestoCC";
-            HiddenPresupuesto.value = Presupuesto;
-            HiddenPresupuesto.type = "hidden";
-            HiddenPonderacion.name = "Actividades[" + num + "].Ponderacion";
-            HiddenPonderacion.value = Ponderacion;
-            HiddenPonderacion.type = "hidden";
-
-            DivConceptos.appendChild(HiddenIndex);
-            DivConceptos.appendChild(HiddenActividad);
-            DivConceptos.appendChild(HiddenEntregable);
-            DivConceptos.appendChild(HiddenIdCargo);
-            DivConceptos.appendChild(HiddenPlazo);
-            DivConceptos.appendChild(HiddenPresupuesto);
-            DivConceptos.appendChild(HiddenPonderacion);
-
-            document.getElementById("DescripcionActividad").value = "";
-            document.getElementById("Entregable").value = "";
-            document.getElementById("IdCargoResponsable").value = "";
-            document.getElementById("Plazo").value = "";
-            document.getElementById("TechoPresupuestoCC").value = "";
-            document.getElementById("Ponderacion").value = "";
-
-            num++;
-
-
-
-            //var GestionViewModel = {
-            //    Anio: Nombre,
-            //    Descripcion: Hablado,
-            //    Estado: Escrito,
-            //    IdEstrategia: IdEstrategia
-
-            //};
-
-        @*$.ajax({
-            type: "post",
-            url:'@Url.Action("OnPostCreateOrEdit", "Idioma", new { area = "Registro" })',
-            data: GestionViewModel,
-            datatype: "json",
-            cache: false,
-            success: function (data) {
-            /* alert('Validooo');*/
-
-            },
-            error: function(xhr) {
-            //    alert('No Valid Data');
-            }
-        });*@
-
-        }
-
-    function deleteRow(id) {
-        $("#" + id).remove();
-    }
-
-    function EliminaFila(id) {
-
-        $("#" + id).remove();
-
-        var GestionViewModel = {
-            id: id
-        };
-
-         $.ajax({
-            type: "post",
-            url:'@Url.Action("OnPostDeleteTactica", "Actividad", new { area = "Planificacion" })',
-             data: GestionViewModel,
-            datatype: "json",
-            cache: false,
-            success: function (data) {
-            /*  alert('Validooo');*/
-
-            },
-            error: function(xhr) {
-               // alert('No Valid Data');
-            }
-        });
-    }
 
 </script>

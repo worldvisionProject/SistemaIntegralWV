@@ -1,0 +1,320 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Web.Areas.Planificacion.Models
+@model RecursoViewModel
+
+
+<form id="create-form" method="post" asp-controller="Recurso" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+    @Html.HiddenFor(x => x.IdActividad)
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-5">
+                    <label class="col-md-12 col-form-label texto-pregunta">Categoria / Mercancía</label>
+                    @Html.DropDownListFor(x => x.CategoriaMercaderia, (IEnumerable<SelectListItem>)Model.CategoriaList, new { @class = "form-control" })
+
+                    <span asp-validation-for="CategoriaMercaderia" class="text-danger"></span>
+                </div>
+                <div class="col-md-5">
+                    <label class="col-md-12 col-form-label texto-pregunta">Insumo/Articulo</label>
+                    @Html.DropDownListFor(x => x.Insumo, (IEnumerable<SelectListItem>)Model.InsumoList, new { @class = "form-control" })
+
+                    <span asp-validation-for="Insumo" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-5">
+                    <label class="col-md-12 col-form-label texto-pregunta">Centro de Costo</label>
+                    @Html.DropDownListFor(x => x.CentroCosto, (IEnumerable<SelectListItem>)Model.CentroCostosList, new { @class = "form-control" })
+
+                    <span asp-validation-for="CentroCosto" class="text-danger"></span>
+                </div>
+                <div class="col-md-5">
+                    <label class="col-md-12 col-form-label texto-pregunta">Cuenta / Cod. CC</label>
+                    @Html.DropDownListFor(x => x.CuentaCodigoCC, (IEnumerable<SelectListItem>)Model.CuentaCCList, new { @class = "form-control" })
+
+                    <span asp-validation-for="CuentaCodigoCC" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Precio Unitario</label>
+
+                    <input asp-for="PrecioUnitario" type="text" name="PrecioUnitario" class="form-control" />
+                    <span asp-validation-for="PrecioUnitario" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Cantidad</label>
+
+                    <input asp-for="Cantidad" type="text" name="Cantidad" class="form-control" />
+                    <span asp-validation-for="Cantidad" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Total</label>
+
+                    <input asp-for="Total" type="text" name="Total" class="form-control" readonly/>
+                    <span asp-validation-for="Total" class="text-danger"></span>
+                </div>
+            </div>
+            <div id="consultoria">
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label class="col-md-12 col-form-label texto-pregunta">
+                            ¿Por qué la consultoria?
+
+                        </label>
+                        <textarea asp-for="ParaqueConsultoria" name="ParaqueConsultoria" class="form-control"></textarea>
+                        <span asp-validation-for="ParaqueConsultoria" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label class="col-md-12 col-form-label texto-pregunta">
+                            Seleccione en caso de trabajar con GTRM
+
+                        </label>
+                        <input asp-for="Gtrm" type="checkbox" name="Gtrm" class="form-control" />
+                        <span asp-validation-for="Gtrm" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label class="col-md-12 col-form-label texto-pregunta">
+                            Justificación
+
+                        </label>
+                        <textarea asp-for="JustificacionConsultoria" name="JustificacionConsultoria" class="form-control"></textarea>
+                        <span asp-validation-for="JustificacionConsultoria" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+             <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                            <div class="col-md-12">
+                                <label class="col-md-12 col-form-label">Fechas</label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                            <div class="col-md-2">
+                                <label class="col-md-12 col-form-label texto-pregunta text-left">Mes</label>
+                                @Html.DropDownListFor(x => x.Mes, Model.MesList, new { @class = "form-control" })
+                                <span asp-validation-for="Mes" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="col-md-12 col-form-label texto-pregunta text-left">Valor</label>
+
+                                <input asp-for="Valor" type="text" name="Valor" class="form-control" />
+                                <span asp-validation-for="Valor" class="text-danger"></span>
+                            </div>
+                           
+                            <div class="col-md-2" style="padding-top: 25px;">
+                                <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <br />
+                <div id="divMes">
+                    <table id="mesTable" class="table table-striped" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                @*<th>Id</th>*@
+                                <th>Mes</th>
+                                <th>Valor</th>
+                                <th class="text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.FechaCantidadRecursos != null)
+                            {
+
+                                @foreach (var valormes in Model.FechaCantidadRecursos)
+                                {
+                                    <tr id="@valormes.Id" class="rowdata">
+                                        @*<td>
+
+                                                @colaborador.Id
+                                            </td>*@
+                                        <td class="mes">
+
+                                            @valormes.Mes
+
+                                        </td>
+                               
+                                        <td class="valormes">
+                                            @valormes.Valor.ToString().Replace(",", ".")
+                                        </td>
+                                       
+                                        <td class="text-right">
+                                            <button type="button" onclick="EliminaFila(@valormes.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                                        </td>
+
+                                    </tr>
+                                }}
+
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+
+        </div>
+    </div>
+    <br />
+    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+    </div>
+</form>
+
+
+        
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+    $(function () {
+        $("#consultoria").hide();
+        $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+
+
+        $("#CuentaCodigoCC").change(function () {
+            var selectedSubject = $("#CuentaCodigoCC option:selected").val();
+            //alert("You have selected the country - " + selectedSubject);
+          //  alert(selectedSubject.indexOf("575"));
+          
+            if (selectedSubject.indexOf("575")>=0)
+                $("#consultoria").show(1000);
+            else
+                $("#consultoria").hide(1000);
+        });
+
+
+        $("#PrecioUnitario").change(function () {
+            var p = $("#PrecioUnitario").val() === "" ? 0 : $("#PrecioUnitario").val();
+            var c = $("#Cantidad").val() === "" ? 0 : $("#Cantidad").val();
+            var total = parseFloat(p.replace(',','.')) * parseFloat(c.replace(',', '.'));
+          
+            document.getElementById("Total").value = String(total).replace('.', ',');
+          
+        });
+
+        $("#Cantidad").change(function () {
+            var p = $("#PrecioUnitario").val() === "" ? 0 : $("#PrecioUnitario").val();
+            var c = $("#Cantidad").val() === "" ? 0 : $("#Cantidad").val();
+            var total = parseFloat(p.replace(',', '.')) * parseFloat(c.replace(',', '.'));
+           
+            document.getElementById("Total").value = String(total).replace('.', ',');
+
+        });
+
+    });
+
+   
+
+       var num = 0;
+        function AgregaConcepto() {
+            let Mes = document.getElementById("Mes").value;
+            let Valor = document.getElementById("Valor").value;
+          
+
+            if (Mes.length == 0) {
+                alert("Ingrese el Mes.");
+                return;
+            }
+            if (Valor.length == 0) {
+                alert("Ingrese el Valor.");
+                return;
+            }
+
+            //agregamos tabla
+            let Tabla = document.getElementById("mesTable");
+            let TR = document.createElement("tr");
+            TR.setAttribute('id', num);
+            let TDMes = document.createElement("td");
+            let TDValor = document.createElement("td");
+            let TDEliminar = document.createElement("td");
+            TDEliminar.className = "text-right";
+
+            TR.appendChild(TDMes);
+            TR.appendChild(TDValor);
+            TR.appendChild(TDEliminar);
+
+            TDMes.innerHTML = Mes;
+            TDValor.innerHTML = Valor;
+          
+            TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            Tabla.appendChild(TR);
+
+            //agregamos hiddens
+            let DivConceptos = document.getElementById("divMes");
+            let HiddenIndex = document.createElement("input");
+            let HiddenMes = document.createElement("input");
+            let HiddenValor = document.createElement("input");
+         
+            HiddenIndex.name = "Mes.Index";
+            HiddenIndex.value = num;
+            HiddenIndex.type = "hidden";
+            HiddenMes.name = "Mes[" + num + "].Mes";
+            HiddenMes.value = Actividad;
+            HiddenMes.type = "hidden";
+            HiddenValor.name = "Actividades[" + num + "].Valor";
+            HiddenValor.value = Entregable;
+            HiddenValor.type = "hidden";
+
+            DivConceptos.appendChild(HiddenIndex);
+            DivConceptos.appendChild(HiddenActividad);
+            DivConceptos.appendChild(HiddenEntregable);
+            DivConceptos.appendChild(HiddenIdCargo);
+            DivConceptos.appendChild(HiddenPlazo);
+            DivConceptos.appendChild(HiddenPresupuesto);
+            DivConceptos.appendChild(HiddenPonderacion);
+
+            document.getElementById("Mes").value = "";
+            document.getElementById("Valor").value = "";
+
+            num++;
+
+        }
+
+    function deleteRow(id) {
+        $("#" + id).remove();
+    }
+
+    function EliminaFila(id) {
+
+        $("#" + id).remove();
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "FechaCantidadRecurso", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+    }
+
+</script>

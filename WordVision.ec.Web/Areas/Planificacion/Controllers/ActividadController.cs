@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.Actividades.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.Actividades.Commands.Delete;
+using WordVision.ec.Application.Features.Planificacion.Actividades.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Create;
@@ -68,7 +70,27 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             return null;
         }
 
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0,int idIndicadorEstrategia=0, int idGestion = 0, int idProducto = 0)
+
+        public async Task<JsonResult> LoadxIndicadores(int idIndicadorPOA)
+        {
+            var response = await _mediator.Send(new GetIndicadorPOAByIdQuery() { Id = idIndicadorPOA });
+            if (response.Succeeded)
+            {
+                var viewModel = _mapper.Map<IndicadorPOAViewModel>(response.Data);
+                var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+                if (colaborador.Succeeded)
+                {
+                    var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
+                    viewModel.responsableList = new SelectList(responsable, "Id", "Nombres");
+                }
+                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel) });
+
+
+            }
+            return null;
+        }
+
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0,int idIndicadorEstrategia=0, int idGestion = 0, int idProducto = 0, int idIndicadorPOA = 0, int idResponsablePOA=0)
         {
             string descProducto = "";
             string descObjetivo = "";
@@ -78,6 +100,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             string descGestion = "";
             int idResponsable = 0;
             string descLineaBase = "";
+            int idResponsableProd = 0;
 
             var responseG = await _mediator.Send(new GetGestionByIdQuery() { Id = idGestion });
             if (responseG.Succeeded)
@@ -91,6 +114,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             {
                 var entidadViewModel = _mapper.Map<IndicadorEstrategicoViewModel>(responseI.Data);
                 descProducto = entidadViewModel.Productos.Where(p => p.Id == idProducto).FirstOrDefault().DescProducto;
+                idResponsableProd = entidadViewModel.Productos.Where(p => p.Id == idProducto).FirstOrDefault().IdCargoResponsable;
                 descObjetivo = entidadViewModel.FactorCriticoExitos.ObjetivoEstrategicos.Descripcion;
                 descFactor = entidadViewModel.FactorCriticoExitos.FactorCritico;
                 descIndicador = entidadViewModel.IndicadorResultado;
@@ -100,13 +124,38 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             }
             if (id == 0)
             {
-                var entidadViewModel = new IndicadorPOAViewModel();
+                var indicadorPOA = "";
+                var response = await _mediator.Send(new GetIndicadorPOAByIdQuery() { Id = idIndicadorPOA });
+                if (response.Succeeded)
+                {
+                    indicadorPOA =response.Data.IndicadorProducto;
+                    idResponsablePOA = (int)response.Data.Responsable;
+                }
+                
+                var entidadViewModel = new ActividadViewModel();
+                entidadViewModel.DescProducto = descProducto;
+                entidadViewModel.DescObjetivo = descObjetivo;
+                entidadViewModel.DescFactor = descFactor;
+                entidadViewModel.DescIndicador = descIndicador;
+                entidadViewModel.DescMeta = descMeta;
+                entidadViewModel.DescGestion = descGestion;
+                entidadViewModel.DescLineaBase = descLineaBase;
                 entidadViewModel.IdProducto = idProducto;
+                entidadViewModel.IndicadorProducto = indicadorPOA;
+                entidadViewModel.IdIndicadorPOA = idIndicadorPOA;
+                var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+                if (colaborador.Succeeded)
+                {
+                    var responsa = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
+                    entidadViewModel.responsableList = new SelectList(responsa, "Id", "Nombres");
+                    entidadViewModel.ResponsableIndicador = responsa.Where(r => r.Id == idResponsable).FirstOrDefault().Nombres;
+                    entidadViewModel.DescResponsable = responsa.Where(r => r.Id == idResponsablePOA).FirstOrDefault().Nombres;
+                }
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             else
             {
-                var response = await _mediator.Send(new GetIndicadorPOAByIdQuery() { Id = id });
+                var response = await _mediator.Send(new GetIndicadorPOAByIdQuery() { Id = idIndicadorPOA });
                 if (response.Succeeded)
                 {
                     var entidadViewModel = _mapper.Map<IndicadorPOAViewModel>(response.Data);
@@ -134,7 +183,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
 
         [HttpPost]
-        public async Task<JsonResult> OnPostCreateOrEdit(int id, IndicadorPOAViewModel entidad)
+        public async Task<JsonResult> OnPostCreateOrEditInicador(int id, IndicadorPOAViewModel entidad)
         {
             try
             {
@@ -156,6 +205,46 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         var updateEntidadCommand = _mapper.Map<UpdateIndicadorPOACommand>(entidad);
                         var result = await _mediator.Send(updateEntidadCommand);
                         if (result.Succeeded) _notify.Information($"Indicador con ID {result.Data} Actualizado.");
+                    }
+                    return new JsonResult(new { isValid = true, solocerrar = true });
+                }
+                else
+                {
+                    var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidad);
+                    return new JsonResult(new { isValid = false, html = html });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("OnPostCreateOrEdit", ex);
+                _notify.Error("Error al insertar IndicadorEstrategico");
+            }
+            return null;
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> OnPostCreateOrEdit(int id, ActividadViewModel entidad)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (id == 0)
+                    {
+                        var createEntidadCommand = _mapper.Map<CreateActividadCommand>(entidad);
+                        var result = await _mediator.Send(createEntidadCommand);
+                        if (result.Succeeded)
+                        {
+                            id = result.Data;
+                            _notify.Success($"Actividad con ID {result.Data} Creado.");
+                        }
+                        else _notify.Error(result.Message);
+                    }
+                    else
+                    {
+                        var updateEntidadCommand = _mapper.Map<UpdateActividadCommand>(entidad);
+                        var result = await _mediator.Send(updateEntidadCommand);
+                        if (result.Succeeded) _notify.Information($"Actividad con ID {result.Data} Actualizado.");
                     }
                     return new JsonResult(new { isValid = true, solocerrar = true });
                 }

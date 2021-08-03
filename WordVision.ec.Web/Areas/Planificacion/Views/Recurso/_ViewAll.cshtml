@@ -1,0 +1,131 @@
+﻿@using WordVision.ec.Web.Areas.Planificacion.Models
+@model ActividadViewModel
+
+<table id="ActividadTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            @*<th>Id</th>*@
+            <th>Categoría/Mercadería</th>
+            <th>Cuenta Centro Costo</th>
+            <th>Insumo</th>
+            <th>Cantidad</th>
+            <th>V.Unitario</th>
+            <th>Total</th>
+            <th class="text-right">Acciones</th>
+            @*<th class="text-right">Acuerdo</th>*@
+        </tr>
+    </thead>
+  
+    <tbody>
+        @if (Model.Recursos != null)
+        {
+
+            @foreach (var recurs in Model.Recursos)
+            {
+                <tr id="@recurs.Id">
+                    <td>
+                        @{
+
+                            var selectedCity = (IEnumerable<SelectListItem>)Model.responsableList;
+                            string txt = selectedCity.Where(x => x.Value == recurs.CategoriaMercaderia.ToString()).FirstOrDefault()?.Text ?? string.Empty;
+
+                        }
+                        @txt
+                    </td>
+                    <td>
+                        @{
+
+                            selectedCity = (IEnumerable<SelectListItem>)Model.responsableList;
+                            txt = selectedCity.Where(x => x.Value == recurs.CuentaCodigoCC.ToString()).FirstOrDefault()?.Text ?? string.Empty;
+
+                        }
+                        @txt
+                    </td>
+                    <td>
+                        @recurs.Insumo
+
+                    </td>
+                    <td>
+                        @recurs.Cantidad
+                    </td>
+                    <td>
+                        @recurs.PrecioUnitario
+                    </td>
+                    <td>
+                        @recurs.Total
+                    </td>
+
+                    <td class="acciones-td">
+                        <button type="button" title="Recursos" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Recurso/OnGetCreateOrEdit?id=@recurs.Id,'Recursos')">
+                            <i class="fas fa-handshake"></i>
+
+                        </button>
+                    </td>
+                    <td class="text-right">
+                        <button type="button" onclick="EliminaFila(@recurs.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                    </td>
+
+                </tr>
+            }}
+
+
+    </tbody>
+</table>
+
+<br />
+<div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+    @*<button type="submit" class="btn btn-success">Guardar</button>*@
+    <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+</div>
+<script>
+     function EliminaFila(id) {
+
+        $("#" + id).remove();
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "IndicadorPOA", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+    }
+    $(document).ready(function () {
+        var table = $("#colaboradorTable").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                "url": "../lib/datatables/language/Spanish.json"
+            },
+
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 }
+            ],
+            "info": false
+            //columnDefs: [
+            //    { responsivePriority: 1, targets: 0 },
+            //    { responsivePriority: 10001, targets: 4 },
+            //    { responsivePriority: 2, targets: -2 }
+            //]
+        });
+
+
+
+    });
+</script>

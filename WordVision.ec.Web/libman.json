@@ -17,6 +17,10 @@
     {
       "library": "datatables-responsive@2.2.9",
       "destination": "wwwroot/lib/datatables-responsive/"
+    },
+    {
+      "library": "bootstrap-modal@2.2.6",
+      "destination": "wwwroot/lib/bootstrap-modal/"
     }
   ]
 }

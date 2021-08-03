@@ -56,6 +56,30 @@
         }
     }
 
+    jQueryModalGetHijo = (url, title) => {
+        try {
+            $.ajax({
+                type: 'GET',
+                url: url,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $('#form-modal-hijo .modal-body').html(res.html);
+                    $('#form-modal-hijo .modal-title').html(title);
+                    $('#form-modal-hijo').modal('show');
+                    console.log(res);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+            //to prevent default form submit event
+            return false;
+        } catch (ex) {
+            console.log(ex)
+        }
+    }
+
     jQueryModalPost = form => {
         try {
             $.ajax({
@@ -100,8 +124,13 @@
                                 $('#viewAllD').html(res.html);
                             }
                         } catch (ex) { console.log(ex) }
-                                                
-                        $('#form-modal').modal('hide');
+
+                        var hijo = res.hijo ?? 0;
+                        if (hijo === 0) {
+                            $('#form-modal').modal('hide');
+                        } else {
+                            $('#form-modal-hijo').modal('hide');
+                        }
                     }
                 },
                 error: function (err) {

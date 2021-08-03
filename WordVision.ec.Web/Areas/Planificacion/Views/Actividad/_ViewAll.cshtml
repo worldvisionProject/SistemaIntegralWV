@@ -11,6 +11,7 @@
             <th>Ponderación</th>
             <th>Plazo</th>
             <th>Presupuesto</th>
+            <th data-priority="2" class="acciones-th">Recursos</th>
             <th class="text-right">Acciones</th>
             @*<th class="text-right">Acuerdo</th>*@
         </tr>
@@ -21,44 +22,52 @@
 
             @foreach (var activ in Model.Actividades)
             {
-                <tr id="@activ.Id">
-                    <td>
-                        @activ.DescripcionActividad
-                    </td>
-                    <td>
-                        @activ.Entregable
-                    </td>
-                    <td>
-                        @{
+        <tr id="@activ.Id">
+            <td>
+                @activ.DescripcionActividad
+            </td>
+            <td>
+                @activ.Entregable
+            </td>
+            <td>
+                @{
 
-                            var selectedCity = (IEnumerable<SelectListItem>)Model.responsableList;
-                            string txt = selectedCity.Where(x => x.Value == activ.IdCargoResponsable.ToString()).FirstOrDefault()?.Text ?? string.Empty;
+                    var selectedCity = (IEnumerable<SelectListItem>)Model.responsableList;
+                    string txt = selectedCity.Where(x => x.Value == activ.IdCargoResponsable.ToString()).FirstOrDefault()?.Text ?? string.Empty;
 
-                        }
-                        @txt
-                    </td>
-                    <td>
-                        @activ.Ponderacion
-                    </td>
-                    <td>
-                        @activ.Plazo
-                    </td>
-                    <td>
-                        @activ.TechoPresupuestoCC
-                    </td>
+                }
+                @txt
+            </td>
+            <td>
+                @activ.Ponderacion
+            </td>
+            <td>
+                @activ.Plazo
+            </td>
+            <td>
+                @activ.TechoPresupuestoCC
+            </td>
+            <td class="acciones-td">
+                <button type="button" class="btn btn-success btn-xp" onclick="jQueryModalGetHijo('/Planificacion/Recurso/LoadxActividades?idActividad=@Model.Id','Recursos')">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button type="button" class="btn btn-primary btn-xp" onclick="jQueryModalGetHijo('/Planificacion/Recurso/OnGetCreateOrEdit?id=0&idActividad=@Model.Id','Recursos')">
+                    <i class="fas fa-plus-square"></i>
+                </button>
 
+            </td>
 
-                    <td class="text-right">
-                        <button type="button" onclick="EliminaFila(@activ.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+            <td class="text-right">
+                <button type="button" onclick="EliminaFila(@activ.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
 
-                    </td>
-                    @*<td class="acciones-td">
-                            <button type="button" title="Acuerdo de desempeño" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/AcuerdoDesempenio/OnGetCreateOrEdit?id=0&idNivel0','Acuerdo desempeño')">
-                                <i class="fas fa-handshake"></i>
+            </td>
+            @*<td class="acciones-td">
+            <button type="button" title="Acuerdo de desempeño" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/AcuerdoDesempenio/OnGetCreateOrEdit?id=0&idNivel0','Acuerdo desempeño')">
+                <i class="fas fa-handshake"></i>
 
-                            </button>
-                        </td>*@
-                </tr>
+            </button>
+        </td>*@
+        </tr>
             }}
 
 

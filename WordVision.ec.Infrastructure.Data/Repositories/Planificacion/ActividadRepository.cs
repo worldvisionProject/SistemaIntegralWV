@@ -30,7 +30,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 
         public async Task<Actividad> GetByIdAsync(int actividadId)
         {
-            return await _repository.Entities.Where(p => p.Id == actividadId).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(p => p.Id == actividadId).Include(r=>r.Recursos).FirstOrDefaultAsync();
         }
 
         public async Task<List<Actividad>> GetListAsync()

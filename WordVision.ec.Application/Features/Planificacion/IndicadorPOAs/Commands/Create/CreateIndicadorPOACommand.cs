@@ -28,6 +28,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Command
         public ICollection<Actividad> Actividades { get; set; }
         public ICollection<MetaTactica> MetaTacticas { get; set; }
 
+ 
     }
 
     public class CreateIndicadorPOACommandHandler : IRequestHandler<CreateIndicadorPOACommand, Result<int>>
