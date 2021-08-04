@@ -14,6 +14,8 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
         public int IdEmpresa { get; set; }
         public string Estado { get; set; }
         public string DescEstado { get; set; }
+        public string FactorCritico { get; set; }
+        public string Indicador { get; set; }
         public virtual List<Gestion> Gestiones { get; set; }
         public virtual List<ObjetivoEstrategico> ObjetivoEstrategicos { get; set; }
     }

@@ -72,7 +72,7 @@
                             Seleccione en caso de trabajar con GTRM
 
                         </label>
-                        <input asp-for="Gtrm" type="checkbox" name="Gtrm" class="form-control" />
+                           <input asp-for="Gtrm" type="checkbox" name="Gtrm" class="form-control" />
                         <span asp-validation-for="Gtrm" class="text-danger"></span>
                     </div>
                 </div>
@@ -228,7 +228,8 @@
         function AgregaConcepto() {
             let Mes = document.getElementById("Mes").value;
             let Valor = document.getElementById("Valor").value;
-          
+            var selection = document.getElementById("Mes");
+            let Mestxt = selection.options[selection.selectedIndex].innerHTML;
 
             if (Mes.length == 0) {
                 alert("Ingrese el Mes.");
@@ -252,7 +253,7 @@
             TR.appendChild(TDValor);
             TR.appendChild(TDEliminar);
 
-            TDMes.innerHTML = Mes;
+            TDMes.innerHTML = Mestxt;
             TDValor.innerHTML = Valor;
           
             TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
@@ -267,21 +268,17 @@
             HiddenIndex.name = "Mes.Index";
             HiddenIndex.value = num;
             HiddenIndex.type = "hidden";
-            HiddenMes.name = "Mes[" + num + "].Mes";
-            HiddenMes.value = Actividad;
+            HiddenMes.name = "FechaCantidadRecursos[" + num + "].Mes";
+            HiddenMes.value = Mes;
             HiddenMes.type = "hidden";
-            HiddenValor.name = "Actividades[" + num + "].Valor";
-            HiddenValor.value = Entregable;
+            HiddenValor.name = "FechaCantidadRecursos[" + num + "].Valor";
+            HiddenValor.value = Valor;
             HiddenValor.type = "hidden";
 
             DivConceptos.appendChild(HiddenIndex);
-            DivConceptos.appendChild(HiddenActividad);
-            DivConceptos.appendChild(HiddenEntregable);
-            DivConceptos.appendChild(HiddenIdCargo);
-            DivConceptos.appendChild(HiddenPlazo);
-            DivConceptos.appendChild(HiddenPresupuesto);
-            DivConceptos.appendChild(HiddenPonderacion);
-
+            DivConceptos.appendChild(HiddenMes);
+            DivConceptos.appendChild(HiddenValor);
+          
             document.getElementById("Mes").value = "";
             document.getElementById("Valor").value = "";
 

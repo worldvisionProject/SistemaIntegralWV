@@ -73,19 +73,28 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
         public async Task<JsonResult> LoadxIndicadores(int idIndicadorPOA)
         {
-            var response = await _mediator.Send(new GetIndicadorPOAByIdQuery() { Id = idIndicadorPOA });
-            if (response.Succeeded)
+            try
             {
-                var viewModel = _mapper.Map<IndicadorPOAViewModel>(response.Data);
-                var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
-                if (colaborador.Succeeded)
+
+                var response = await _mediator.Send(new GetIndicadorPOAByIdQuery() { Id = idIndicadorPOA });
+                if (response.Succeeded)
                 {
-                    var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
-                    viewModel.responsableList = new SelectList(responsable, "Id", "Nombres");
+                    var viewModel = _mapper.Map<IndicadorPOAViewModel>(response.Data);
+                    var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+                    if (colaborador.Succeeded)
+                    {
+                        var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
+                        viewModel.responsableList = new SelectList(responsable, "Id", "Nombres");
+                    }
+                    return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel) });
+
+
                 }
-                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel) });
-
-
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("LoadxIndicadores", ex);
+                _notify.Error("Error al insertar IndicadorEstrategico");
             }
             return null;
         }

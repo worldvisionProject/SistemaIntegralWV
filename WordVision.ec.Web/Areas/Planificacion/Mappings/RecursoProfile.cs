@@ -19,6 +19,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Mappings
             CreateMap<CreateRecursoCommand, RecursoViewModel>().ReverseMap();
             CreateMap<GetRecursoByIdResponse, RecursoViewModel>().ReverseMap();
             CreateMap<UpdateRecursoCommand, RecursoViewModel>().ReverseMap();
+            CreateMap<FechaCantidadRecursoViewModel, FechaCantidadRecurso>().ReverseMap();
+            CreateMap<ActividadViewModel, Actividad>().ReverseMap();
+            CreateMap<RecursoViewModel, Recurso>().ReverseMap();
 
         }
     }

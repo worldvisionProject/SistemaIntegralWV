@@ -39,6 +39,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string DescProducto { get; set; }
         public string IndicadorProducto { get; set; }
         public SelectList responsableList { get; set; }
-      
+
+        public SelectList CategoriaList { get; set; }
+        public SelectList InsumoList { get; set; }
+        public SelectList CentroCostosList { get; set; }
+        public SelectList CuentaCCList { get; set; }
+
     }
 }

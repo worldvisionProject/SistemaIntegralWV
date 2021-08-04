@@ -1,0 +1,322 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Web.Areas.Planificacion.Models
+@model PerfilDesempenioViewModel
+
+
+<form id="create-form" method="post" asp-controller="IndicadorPOA" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta">Responsabilidad Cargo</label>
+
+                    <select asp-for="TipoObjetivo" name="TipoObjetivo" class="form-control">
+                        <option value="1">Coordina la adopción de iniciativas globales , asegurando su correcto funcionamiento a nivel local.</option>
+                        <option value="2">Administrar, Gestionar y Monitorear  la arquitectura, análisis de requerimientos, y procesos con relación a la implementación de Aplicaciones a nivel local.</option>
+                        <option value="3">Garantizar la continuidad y funcionalidad de las aplicaciones mediante el soporte a nivel nacional. A fin de asegurar la disponibilidad de las aplicaciones en función de la resolución de incidentes frecuentes en el menor tiempo</option>
+                        <option value="4">Incrementar la satisfacción del servicio se porte de TI a través de la solución oportuna de requerimientos enviados por los clientes a través de la mesa de servicio.</option>
+                    </select>
+                    <span asp-validation-for="TipoObjetivo" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta">Indicador</label>
+
+                    <textarea asp-for="Indicador" name="Indicador" class="form-control"></textarea>
+                    <span asp-validation-for="Indicador" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Medio de Verificación</label>
+                    <textarea asp-for="MedioVerificacion" name="MedioVerificacion" class="form-control"></textarea>
+                    <span asp-validation-for="MedioVerificacion" class="text-danger"></span>
+                </div>
+                <div class="col-md-2">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Linea Base</label>
+                    <input asp-for="LineaBase" type="text" name="LineaBase" class="form-control" />
+                    <span asp-validation-for="LineaBase" class="text-danger"></span>
+                </div>
+                <div class="col-md-2">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Anual</label>
+                    <input asp-for="MetaAnual" type="text" name="MetaAnual" class="form-control" />
+                    <span asp-validation-for="MetaAnual" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-form-label">Metas de Indicador</label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class="col-md-2">
+                            <label class="col-md-12 col-form-label texto-pregunta text-left">Trimestre</label>
+                            @Html.DropDownListFor(x => x.NumMesesList, Model.NumMesesList, new { @class = "form-control" })
+                            <span asp-validation-for="NumMesesList" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="col-md-12 col-form-label texto-pregunta text-left">Unidad Medida</label>
+                            @Html.DropDownListFor(x => x.UnidadList, Model.UnidadList, new { @class = "form-control" })
+                            <span asp-validation-for="UnidadList" class="text-danger"></span>
+
+                        </div>
+                        <div class="col-md-2">
+                            <label class="col-md-12 col-form-label texto-pregunta text-left">Valor Meta</label>
+
+                            <input asp-for="ValorMeta" type="text" name="ValorMeta" class="form-control" />
+                            <span asp-validation-for="ValorMeta" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="col-md-12 col-form-label texto-pregunta text-left">Logro Entregable</label>
+
+                            <input asp-for="EntregableMeta" type="text" name="EntregableMeta" class="form-control" />
+                            <span asp-validation-for="EntregableMeta" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2" style="padding-top: 25px;">
+                            <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <br />
+            <div id="divMetas">
+                <table id="metasTable" class="table table-striped" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            @*<th>Id</th>*@
+                            <th>Meses</th>
+                            <th>Medida/Unidad</th>
+                            <th>Valor</th>
+                            <th>Entregable</th>
+                            <th class="text-right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.MetaTacticas != null)
+                        {
+
+                            @foreach (var metaanual in Model.MetaTacticas)
+                            {
+                                <tr id="@metaanual.Id">
+                                    @*<td>
+
+                                    @colaborador.Id
+                                </td>*@
+                                    <td>
+
+                                        @metaanual.NumMeses
+
+                                    </td>
+                                    <td>
+
+                                        @{
+                                            var selectedCity = Model.UnidadList;
+                                            string txt = selectedCity.Where(x => x.Value == metaanual.TipoMedida.ToString()).FirstOrDefault().Text;
+                                        }
+                                        @txt
+                                    </td>
+                                    <td>
+                                        @metaanual.Valor
+                                    </td>
+                                    <td>
+                                        @metaanual.Entregable
+                                    </td>
+
+                                    <td class="text-right">
+                                        <button type="button" onclick="EliminaFila(@metaanual.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                                    </td>
+
+                                </tr>
+                            }}
+
+
+                    </tbody>
+                </table>
+
+
+            </div>
+
+
+        </div>
+        </div>
+
+    <br />
+    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+    </div>
+</form>
+
+
+
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+    $(function () {
+        $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+        //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
+        //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });
+
+    });
+
+    $("#BrandId").select2({
+        placeholder: "Select a Category",
+        theme: "bootstrap4",
+        escapeMarkup: function (m) {
+            return m;
+        }
+    });
+
+
+       var num = 0;
+        function AgregaConcepto() {
+            let NumMeses = document.getElementById("NumMesesList").value;
+            let UnidadList = document.getElementById("UnidadList").value;
+            var selection = document.getElementById("UnidadList");
+            let Unidad = selection.options[selection.selectedIndex].innerHTML;
+            let ValorMeta = document.getElementById("ValorMeta").value;
+            let EntregableMeta = document.getElementById("EntregableMeta").value;
+           // let IdEstrategia = document.getElementById("Id").value;
+
+            if (NumMeses.length == 0) {
+                alert("Ingrese los meses.");
+                return;
+            }
+
+
+            //agregamos tabla
+            let Tabla = document.getElementById("metasTable");
+            let TR = document.createElement("tr");
+            TR.setAttribute('id', num);
+            let TDNumMeses = document.createElement("td");
+            let TDUnidad = document.createElement("td");
+            let TDValorMeta = document.createElement("td");
+            let TDEntregableMeta = document.createElement("td");
+            let TDEliminar = document.createElement("td");
+            TDEliminar.className = "text-right";
+            //let TDTotal = document.createElement("td");
+           // TR.appendChild(TDId);
+            TR.appendChild(TDNumMeses);
+            TR.appendChild(TDUnidad);
+            TR.appendChild(TDValorMeta);
+            TR.appendChild(TDEntregableMeta);
+            TR.appendChild(TDEliminar);
+            //TR.appendChild(TDTotal);
+           // TDId.innerHTML = num;
+            TDNumMeses.innerHTML = NumMeses;
+            TDUnidad.innerHTML = Unidad;
+            TDValorMeta.innerHTML = ValorMeta;
+            TDEntregableMeta.innerHTML = EntregableMeta;
+            TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
+            Tabla.appendChild(TR);
+
+            //agregamos hiddens
+            let DivConceptos = document.getElementById("divMetas");
+            let HiddenIndex = document.createElement("input");
+            let HiddenNumMeses = document.createElement("input");
+            let HiddenUnidad = document.createElement("input");
+            let HiddenValorMeta = document.createElement("input");
+            let HiddenEntregableMeta = document.createElement("input");
+            HiddenIndex.name = "MetaTacticas.Index";
+            HiddenIndex.value = num;
+            HiddenIndex.type = "hidden";
+            HiddenNumMeses.name = "MetaTacticas[" + num + "].NumMeses";
+            HiddenNumMeses.value = NumMeses;
+            HiddenNumMeses.type = "hidden";
+            HiddenUnidad.name = "MetaTacticas[" + num + "].TipoMedida";
+            HiddenUnidad.value = UnidadList;
+            HiddenUnidad.type = "hidden";
+            HiddenValorMeta.name = "MetaTacticas[" + num + "].Valor";
+            HiddenValorMeta.value = ValorMeta;
+            HiddenValorMeta.type = "hidden";
+
+            HiddenEntregableMeta.name = "MetaTacticas[" + num + "].Entregable";
+            HiddenEntregableMeta.value = EntregableMeta;
+            HiddenEntregableMeta.type = "hidden";
+
+            DivConceptos.appendChild(HiddenIndex);
+            DivConceptos.appendChild(HiddenNumMeses);
+            DivConceptos.appendChild(HiddenUnidad);
+            DivConceptos.appendChild(HiddenValorMeta);
+            DivConceptos.appendChild(HiddenEntregableMeta);
+
+            document.getElementById("NumMesesList").value = "";
+            document.getElementById("UnidadList").value = "";
+            document.getElementById("ValorMeta").value = "";
+            document.getElementById("EntregableMeta").value = "";
+
+            num++;
+
+
+
+            //var GestionViewModel = {
+            //    Anio: Nombre,
+            //    Descripcion: Hablado,
+            //    Estado: Escrito,
+            //    IdEstrategia: IdEstrategia
+
+            //};
+
+        @*$.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostCreateOrEdit", "Idioma", new { area = "Registro" })',
+            data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /* alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+            //    alert('No Valid Data');
+            }
+        });*@
+
+        }
+
+    function deleteRow(id) {
+        $("#" + id).remove();
+    }
+
+    function EliminaFila(id) {
+
+        $("#" + id).remove();
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDeleteTactica", "Meta", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+    }
+
+</script>

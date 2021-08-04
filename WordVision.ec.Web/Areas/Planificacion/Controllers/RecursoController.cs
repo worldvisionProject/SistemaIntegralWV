@@ -28,14 +28,33 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
         public async Task<JsonResult> LoadxActividades(int idActividad)
         {
-            var response = await _mediator.Send(new GetActividadByIdQuery() { Id = idActividad });
-            if (response.Succeeded)
+            try
             {
-                var viewModel = _mapper.Map<ActividadViewModel>(response.Data);
-               
-                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel) });
+                var response = await _mediator.Send(new GetActividadByIdQuery() { Id = idActividad });
+                if (response.Succeeded)
+                {
+                    var viewModel = _mapper.Map<ActividadViewModel>(response.Data);
+
+                    var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 12 });
+                    viewModel.CategoriaList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                    var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 13 });
+                    viewModel.InsumoList = new SelectList(cat11.Data, "Secuencia", "Nombre");
+
+                    var catCentroCosto = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 14 });
+                    viewModel.CentroCostosList = new SelectList(catCentroCosto.Data, "Secuencia", "Nombre");
+                    var catCuentaCodigoCC = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 15 });
+                    viewModel.CuentaCCList = new SelectList(catCuentaCodigoCC.Data, "Secuencia", "Nombre");
 
 
+                    return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel) });
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("LoadxActividades", ex);
+                _notify.Error("Error al consultar LoadxActividades");
             }
             return null;
         }
@@ -87,7 +106,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var catMes = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 16 });
                     entidadViewModel.MesList = new SelectList(catMes.Data, "Secuencia", "Nombre");
 
-
+                    entidadViewModel.Gtrm = entidadViewModel.Gtrm == "S" ? "true" : "false";
                     return new JsonResult(new { isValid = true, hijo = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;
@@ -101,7 +120,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                   
+                    recurso.Gtrm = recurso.Gtrm.ToUpper()=="FALSE" ? "N" : "S";
                     if (id == 0)
                     {
                         var createEntidadCommand = _mapper.Map<CreateRecursoCommand>(recurso);

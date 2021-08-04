@@ -1,65 +1,105 @@
 ﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @using WordVision.ec.Web.Areas.Planificacion.Models
-@model AcuerdoDesempenioViewModel
+@model SeguimientoViewModel
 
+<div id="header" class="row titulopopup">
+    <div class="col-6">
+        <h6 class="h5 mb-2 text-gray-800-b">Objetivo: </h6>@Model.DescObjetivo
+    </div>
+    <div class="col-6" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Factor: </h6>@Model.DescFactor
+    </div>
 
+</div>
+
+<div id="header" class="row titulopopup">
+    <div class="col-6">
+        <h6 class="h5 mb-2 text-gray-800-b">Indicador: </h6>@Model.DescIndicador
+    </div>
+
+    <div class="col-3" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Línea Base: </h6>@Model.DescLineaBase
+    </div>
+    <div class="col-3" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Meta  @Model.DescGestion: </h6>@Model.DescMeta
+    </div>
+
+</div>
+
+<div id="header" class="row titulopopup">
+    <div class="col-6">
+        <h6 class="h5 mb-2 text-gray-800-b">Producto: </h6>@Model.DescProducto
+    </div>
+    <div class="col-6" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Responsable: </h6>@Model.ResponsableIndicador
+    </div>
+
+</div>
+<div id="header" class="row titulopopup">
+    <div class="col-6">
+        <h6 class="h5 mb-2 text-gray-800-b">Indicador Producto: </h6>@Model.IndicadorProducto
+    </div>
+    <div class="col-6" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Responsable: </h6>@Model.DescResponsable
+    </div>
+
+</div>
+<hr />
 <form id="create-form" method="post" asp-controller="IndicadorPOA" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
-  
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-                <div class="col-md-12">
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">
-                        Acciones Estrategicas
+                        % Cumplimiento
                     </label>
-
-                    <textarea asp-for="AccionEstrategica" name="AccionEstrategica" class="form-control"></textarea>
-                    <span asp-validation-for="AccionEstrategica" class="text-danger"></span>
+                    <input asp-for="PorcentajeCumplimiento" type="text" name="PorcentajeCumplimiento" class="form-control" />
+                    <span asp-validation-for="PorcentajeCumplimiento" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">Competencia</label>
+                    <label class="col-md-12 col-form-label texto-pregunta">Comentario Colaborador</label>
 
-                    <select asp-for="Competencia" name="Competencia" class="form-control">
-                        <option value="1">Desarrollar la organización para el futuro Isaías 41:10</option>
-                        <option value="2">Ejecutar una organización eficaz y ágil 1 Corintios 15:58</option>
-                        <option value="3">Involucrar, Influir, Liderar y ayudar el crecimiento de otros Filipenses 2:3-4</option>
-                        <option value="4">Modelo de autogestión  Filipenses 4:8</option>
-                    </select>
-                    <span asp-validation-for="Competencia" class="text-danger"></span>
+                    <textarea asp-for="ComentarioColaborador" name="ComentarioColaborador" class="form-control"></textarea>
+                    <span asp-validation-for="ComentarioColaborador" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">Comportamiento</label>
+                    <label class="col-md-12 col-form-label texto-pregunta">Comentario Supervisor</label>
 
-                    <select asp-for="Comportamiento" name="Comportamiento" class="form-control">
-                        <option value="1">Vivo mi fe cristiana al liderar con humildad, siendo valiente en acción y comunicándome con honestidad y respeto.</option>
-                        <option value="2">Activamente busco retroalimentación abierta y sincera para discernir y actuar bajo la verdad</option>
-                        <option value="3">Hábilmente manejo las múltiples demandas y establezco prioridades para alcanzar los resultados importantes</option>
-                        <option value="4">Adapto el comportamiento y estilo para interactuar y asociarme efectivamente con otros, incluyendo aquellos con diferentes culturas, fe y tradiciones cristianas</option>
-                        <option value="5">Modelo estrategias de afrontamiento efectiva para asegurar y sostener mi propio bienestar</option>
-                        <option value="6">Encaro con confianza la incertidumbre e inteligentemente busco otros caminos cuando el cambio así lo requiere</option>
-                    </select>
-                    <span asp-validation-for="Comportamiento" class="text-danger"></span>
+                    <textarea asp-for="ComentarioSupervisor" name="ComentarioSupervisor" class="form-control"></textarea>
+                    <span asp-validation-for="ComentarioSupervisor" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">
-                        ¿Por qué la organizacion necesita esto?
+                    <label class="col-md-12 col-form-label texto-pregunta">Competencias Desarrolladas</label>
 
-                    </label>
-
-                    <textarea asp-for="PorQue" name="PorQue" class="form-control"></textarea>
-                    <span asp-validation-for="PorQue" class="text-danger"></span>
+                    <textarea asp-for="CompetenciasDessarrolladas" name="CompetenciasDessarrolladas" class="form-control"></textarea>
+                    <span asp-validation-for="CompetenciasDessarrolladas" class="text-danger"></span>
                 </div>
             </div>
-        
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta">Acciones a Realizar</label>
 
+                    <textarea asp-for="Acciones" name="Acciones" class="form-control"></textarea>
+                    <span asp-validation-for="Acciones" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta">Cumplimiento</label>
+
+                    <textarea asp-for="Cumplimiento" name="Cumplimiento" class="form-control"></textarea>
+                    <span asp-validation-for="Cumplimiento" class="text-danger"></span>
+                </div>
+            </div>
         </div>
-        </div>
+    </div>
 
     <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
@@ -69,7 +109,7 @@
 </form>
 
 
-        
+
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
     $(function () {

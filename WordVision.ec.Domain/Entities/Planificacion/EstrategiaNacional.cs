@@ -14,10 +14,17 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         [Required]
         [StringLength(150)]
         public string Nombre { get; set; }
-        [Required]
+      
         public string MetaRegional { get; set; }
         [Required]
         public string MetaNacional { get; set; }
+
+        [Required]
+        public string FactorCritico { get; set; }
+
+        [Required]
+        public string Indicador { get; set; }
+
         public int IdEmpresa { get; set; }
         [Required]
         [StringLength(1)]

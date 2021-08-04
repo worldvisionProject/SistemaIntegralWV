@@ -1,18 +1,15 @@
 ﻿@using WordVision.ec.Web.Areas.Planificacion.Models
-@model IEnumerable<AcuerdoViewModel>
+@model IEnumerable<PerfilDesempenioViewModel>
 
 
 <table id="productoTable" class="table table-striped " width="100%" cellspacing="0">
             <thead>
                 <tr>
 
-                   
-                    <th data-priority="1">Objetivo</th>
-                    <th data-priority="1">Factor de Éxito</th>
-                    <th data-priority="1">Indicador</th>
-                    <th data-priority="1">Meta Estrategíca</th>
-                    <th data-priority="1">Producto</th>
-                    <th data-priority="1">Meta POA</th>
+                    <th>Id</th>
+                    <th data-priority="1">Resposanbilidad</th>
+                    <th data-priority="1">Resultado/Indicador</th>
+                    <th data-priority="1">Meta Anual</th>
                     <th data-priority="2" class="acciones-th">Acciones</th>
 
                 </tr>
@@ -22,37 +19,29 @@
                 @foreach (var producto in Model)
                 {
                 <tr>
-
                     <td>
-                        @producto.Objetivo
+                        @producto.ResponsabilidadCargo
                     </td>
                     <td>
-                        @producto.Factor
+                        @producto.Indicador
                     </td>
                     <td>
-                        @producto.IndicadorEstrategico
+                        @producto.MetaAnual
                     </td>
-                    <td>
-                        @producto.MetaEstrategico
-                    </td>
-                    <td>
-                        @producto.Producto
-                    </td>
-                    <td>
-                        @producto.Meta
+                   
+                    <td class="acciones-td">
+                       
+                        <button type="button" class="btn btn-warning  btn-xp" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Perfil/OnGetCreateOrEditPerfil?id=1&idNivel=@producto.Id','Perfil')">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
                     </td>
                     <td class="acciones-td">
-
-                        <button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/AcuerdoDesempenio/OnGetCreateOrEdit?id=0','Acuerdo de desempeño')">
-                            <i class="fas fa-plus-square"></i>
-                        </button>
-                   
                         @*<button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEdit?id=0&idGestion=@producto.IdGestion&idIndicadorEstra=@Model.Id','Producto')">
                 <i class="fas fa-pencil-alt"></i>
             </button>*@
-                        @*<form id="form_delete_@producto.Id" asp-area="Planificacion" asp-controller="FactorCriticoExito" method="post" asp-action="OnPostDelete" asp-route-id="@producto.Id" onsubmit="return jQueryModalDelete(this)">
+                        <form id="form_delete_@producto.Id" asp-area="Planificacion" asp-controller="FactorCriticoExito" method="post" asp-action="OnPostDelete" asp-route-id="@producto.Id" onsubmit="return jQueryModalDelete(this)">
                             <a href="javascript:$('#form_delete_@producto.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
-                        </form>*@
+                        </form>
                         @* <a asp-area="planificacion" asp-controller="Producto" asp-action="OnGetCreateOrEdit" asp-route-id="@producto.Id" class="btn btn-warning btn-xp"><i class="fas fa-pencil-alt"></i></a>*@
                     </td>
 

@@ -23,9 +23,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Validators
                .NotNull();
 
 
-            RuleFor(p => p.MetaRegional)
-             .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
-             .NotNull();
+            //RuleFor(p => p.MetaRegional)
+            // .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            // .NotNull();
 
          
         }

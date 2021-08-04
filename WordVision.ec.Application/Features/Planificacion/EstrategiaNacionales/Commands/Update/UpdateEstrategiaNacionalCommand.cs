@@ -21,6 +21,8 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
         public string MetaNacional { get; set; }
         public int IdEmpresa { get; set; }
         public string Estado { get; set; }
+        public string FactorCritico { get; set; }
+        public string Indicador { get; set; }
         public class UpdateProductCommandHandler : IRequestHandler<UpdateEstrategiaNacionalCommand, Result<int>>
         {
             private readonly IUnitOfWork _unitOfWork;
@@ -44,8 +46,10 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
                 {
                     EstrategiaNacional.Nombre = command.Nombre;
                     //EstrategiaNacional.Causa = command.Causa;
-                    EstrategiaNacional.MetaRegional = command.MetaRegional;
+                    //EstrategiaNacional.MetaRegional = command.MetaRegional;
                     EstrategiaNacional.MetaNacional = command.MetaNacional;
+                    EstrategiaNacional.FactorCritico = command.FactorCritico;
+                    EstrategiaNacional.Indicador = command.Indicador;
                     EstrategiaNacional.Estado = command.Estado;
 
                     await _EstrategiaNacionalRepository.UpdateAsync(EstrategiaNacional);

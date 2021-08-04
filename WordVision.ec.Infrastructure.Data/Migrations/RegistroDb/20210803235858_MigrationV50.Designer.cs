@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
 namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210803235858_MigrationV50")]
+    partial class MigrationV50
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -370,6 +372,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MetaRegional")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")

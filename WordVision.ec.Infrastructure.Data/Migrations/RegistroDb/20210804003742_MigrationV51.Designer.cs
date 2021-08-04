@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
 namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210804003742_MigrationV51")]
+    partial class MigrationV51
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

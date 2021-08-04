@@ -72,7 +72,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="form-group row">
                                                 <div class="col-md-12">
                                                     <label class="col-md-12 col-form-label texto-pregunta">Meta Nacional</label>
@@ -89,26 +89,63 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group row">
-                                                <div class="col-md-12">
-                                                    <label class="col-md-12 col-form-label texto-pregunta">Meta de Bloque</label>
-                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
-                                                    {
-                                                        <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control"></textarea>
-                                                    }
-                                                    else
-                                                    { <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control" readonly></textarea>}
+                                        @*<div class="col-md-6">
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label class="col-md-12 col-form-label texto-pregunta">Meta de Bloque</label>
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                        {
+                            <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control"></textarea>
+                        }
+                        else
+                        { <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control" readonly></textarea>}
 
-                                                        <span asp-validation-for="MetaRegional" class="text-danger"></span>
-                                                    </div>
-                                            </div>
+                            <span asp-validation-for="MetaRegional" class="text-danger"></span>
+                        </div>
+                </div>
 
 
-                                        </div>
+            </div>*@
 
                                     </div>
 
+                                    <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <div class="col-md-12">
+                                                <label class="col-md-12 col-form-label texto-pregunta">Factor Crítico</label>
+                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                                                {
+
+                                                    <textarea asp-for="FactorCritico" name="FactorCritico" class="form-control"></textarea>
+                                                }
+                                                else
+                                                {
+                                                    <textarea asp-for="FactorCritico" name="FactorCritico" class="form-control" readonly></textarea>
+                                                }
+                                                <span asp-validation-for="FactorCritico" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <div class="col-md-12">
+                                                <label class="col-md-12 col-form-label texto-pregunta">Indicador</label>
+                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                                                {
+                                                    <textarea asp-for="Indicador" name="Indicador" class="form-control"></textarea>
+                                                }
+                                                else
+                                                { <textarea asp-for="Indicador" name="Indicador" class="form-control" readonly></textarea>}
+
+                                                    <span asp-validation-for="Indicador" class="text-danger"></span>
+                                                </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group row">
@@ -116,12 +153,6 @@
                                                 <div class="col-md-6">
                                                     <label class="col-md-12 col-form-label texto-pregunta">Estado</label>
 
-                                                    @*<select asp-for="Estado" name="Estado" class="form-control">
-            <option value="1">Abierto</option>
-            <option value="2">Cerrado</option>
-            <option value="3">Finalizado</option>
-        </select>*@
-                                                    @*@Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)ViewData["EstadoList"], new { @class = "form-control" })*@
                                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
                                                     {
                                                         @Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)ViewBag.EstadoList, new { @class = "form-control" })

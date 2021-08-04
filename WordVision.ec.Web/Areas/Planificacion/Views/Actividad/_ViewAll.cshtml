@@ -48,10 +48,10 @@
                 @activ.TechoPresupuestoCC
             </td>
             <td class="acciones-td">
-                <button type="button" class="btn btn-success btn-xp" onclick="jQueryModalGetHijo('/Planificacion/Recurso/LoadxActividades?idActividad=@Model.Id','Recursos')">
+                <button type="button" class="btn btn-success btn-xp" onclick="jQueryModalGetHijo('2','/Planificacion/Recurso/LoadxActividades?idActividad=@activ.Id','Recursos')">
                     <i class="fas fa-eye"></i>
                 </button>
-                <button type="button" class="btn btn-primary btn-xp" onclick="jQueryModalGetHijo('/Planificacion/Recurso/OnGetCreateOrEdit?id=0&idActividad=@Model.Id','Recursos')">
+                <button type="button" class="btn btn-primary btn-xp" onclick="jQueryModalGetHijo('2','/Planificacion/Recurso/OnGetCreateOrEdit?id=0&idActividad=@activ.Id','Recursos')">
                     <i class="fas fa-plus-square"></i>
                 </button>
 

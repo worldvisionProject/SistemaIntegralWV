@@ -6,6 +6,7 @@
         <tr>
             @*<th>Id</th>*@
             <th>Categoría/Mercadería</th>
+            <th>Centro Costo</th>
             <th>Cuenta Centro Costo</th>
             <th>Insumo</th>
             <th>Cantidad</th>
@@ -23,50 +24,64 @@
             @foreach (var recurs in Model.Recursos)
             {
                 <tr id="@recurs.Id">
-                    <td>
-                        @{
+            <td>
+                @{
 
-                            var selectedCity = (IEnumerable<SelectListItem>)Model.responsableList;
-                            string txt = selectedCity.Where(x => x.Value == recurs.CategoriaMercaderia.ToString()).FirstOrDefault()?.Text ?? string.Empty;
+                    var selectedCity = (IEnumerable<SelectListItem>)Model.CategoriaList;
+                    string txt = selectedCity.Where(x => x.Value == recurs.CategoriaMercaderia.ToString()).FirstOrDefault()?.Text ?? string.Empty;
 
-                        }
-                        @txt
-                    </td>
-                    <td>
-                        @{
+                }
+                @txt
+            </td>
+            <td>
+                @{
 
-                            selectedCity = (IEnumerable<SelectListItem>)Model.responsableList;
-                            txt = selectedCity.Where(x => x.Value == recurs.CuentaCodigoCC.ToString()).FirstOrDefault()?.Text ?? string.Empty;
+                    selectedCity = (IEnumerable<SelectListItem>)Model.CentroCostosList;
+                    txt = selectedCity.Where(x => x.Value == recurs.CentroCosto.ToString()).FirstOrDefault()?.Text ?? string.Empty;
 
-                        }
-                        @txt
-                    </td>
-                    <td>
-                        @recurs.Insumo
+                }
+                @txt
+            </td>
+            <td>
+                @{
 
-                    </td>
-                    <td>
-                        @recurs.Cantidad
-                    </td>
-                    <td>
-                        @recurs.PrecioUnitario
-                    </td>
-                    <td>
-                        @recurs.Total
-                    </td>
+                    selectedCity = (IEnumerable<SelectListItem>)Model.CuentaCCList;
+                    txt = selectedCity.Where(x => x.Value == recurs.CuentaCodigoCC.ToString()).FirstOrDefault()?.Text ?? string.Empty;
 
-                    <td class="acciones-td">
-                        <button type="button" title="Recursos" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Recurso/OnGetCreateOrEdit?id=@recurs.Id,'Recursos')">
-                            <i class="fas fa-handshake"></i>
+                }
+                @txt
+            </td>
+            <td>
+                @{
 
-                        </button>
-                    </td>
-                    <td class="text-right">
-                        <button type="button" onclick="EliminaFila(@recurs.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+                    selectedCity = (IEnumerable<SelectListItem>)Model.InsumoList;
+                    txt = selectedCity.Where(x => x.Value == recurs.Insumo.ToString()).FirstOrDefault()?.Text ?? string.Empty;
 
-                    </td>
+                }
+                @txt
 
-                </tr>
+            </td>
+            <td>
+                @recurs.Cantidad
+            </td>
+            <td>
+                @recurs.PrecioUnitario
+            </td>
+            <td>
+                @recurs.Total
+            </td>
+
+            <td class="acciones-td">
+                <button type="button" title="Recursos" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGetHijo('3','/Planificacion/Recurso/OnGetCreateOrEdit?id=@recurs.Id&idActividad=@Model.Id','Recursos')">
+                    <i class="fas fa-pencil-alt"></i>
+
+                </button>
+            
+                <button type="button" onclick="EliminaFila(@recurs.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+            </td>
+
+        </tr>
             }}
 
 

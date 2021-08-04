@@ -24,7 +24,8 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
         public string MetaNacional { get; set; }
         public int IdEmpresa { get; set; }
         public string Estado { get; set; }
-
+        public string FactorCritico { get; set; }
+        public string Indicador { get; set; }
     }
 
     public class CreateEstrategiaNacionalCommandHandler : IRequestHandler<CreateEstrategiaNacionalCommand, Result<int>>

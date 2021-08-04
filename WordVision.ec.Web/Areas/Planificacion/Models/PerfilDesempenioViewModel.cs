@@ -20,12 +20,17 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
             get; set;
         }
 
-            [Required(ErrorMessage = "Campo Obligatorio")]
+        public string ResponsabilidadCargo { get; set; }
+        public SelectList ResponsabilidadCargoList { get; set; }
+
+        [Required(ErrorMessage = "Campo Obligatorio")]
         // [Column(TypeName = "decimal(18, 2)")]
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
 
         public string LineaBase { get; set; }
-       
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+
+        public string MetaAnual { get; set; }
         public SelectList NumMesesList { get; set; }
         public SelectList UnidadList { get; set; }
 

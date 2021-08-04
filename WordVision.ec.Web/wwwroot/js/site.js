@@ -56,7 +56,7 @@
         }
     }
 
-    jQueryModalGetHijo = (url, title) => {
+    jQueryModalGetHijo = (numero, url, title) => {
         try {
             $.ajax({
                 type: 'GET',
@@ -64,9 +64,34 @@
                 contentType: false,
                 processData: false,
                 success: function (res) {
-                    $('#form-modal-hijo .modal-body').html(res.html);
-                    $('#form-modal-hijo .modal-title').html(title);
-                    $('#form-modal-hijo').modal('show');
+                    $('#form-modal-hijo-'+numero+' .modal-body').html(res.html);
+                    $('#form-modal-hijo-' + numero +' .modal-title').html(title);
+                    $('#form-modal-hijo-' + numero +'').modal('show');
+                    console.log(res);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+            //to prevent default form submit event
+            return false;
+        } catch (ex) {
+            console.log(ex)
+        }
+    }
+
+
+    jQueryModalGetHijo1 = (url, title) => {
+        try {
+            $.ajax({
+                type: 'GET',
+                url: url,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $('#form-modal-hijo-1 .modal-body').html(res.html);
+                    $('#form-modal-hijo-1 .modal-title').html(title);
+                    $('#form-modal-hijo-1').modal('show');
                     console.log(res);
                 },
                 error: function (err) {
@@ -126,11 +151,22 @@
                         } catch (ex) { console.log(ex) }
 
                         var hijo = res.hijo ?? 0;
-                        if (hijo === 0) {
-                            $('#form-modal').modal('hide');
-                        } else {
-                            $('#form-modal-hijo').modal('hide');
+                        switch (hijo) {
+                            case 1:
+                                $('#form-modal-hijo').modal('hide');
+                                break;
+                            case 2:
+                                $('#form-modal-hijo-1').modal('hide');
+                                break;
+                            default:
+                                $('#form-modal').modal('hide');
+                                break;
                         }
+                        //if (hijo === 0) {
+                        //    $('#form-modal').modal('hide');
+                        //} else {
+                        //    $('#form-modal-hijo').modal('hide');
+                        //}
                     }
                 },
                 error: function (err) {

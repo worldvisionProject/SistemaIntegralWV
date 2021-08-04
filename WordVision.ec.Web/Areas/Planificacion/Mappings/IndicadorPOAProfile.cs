@@ -23,8 +23,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Mappings
             CreateMap<UpdateIndicadorPOACommand, IndicadorPOAViewModel>().ReverseMap();
             CreateMap<MetaViewModel, MetaTactica>().ReverseMap();
             CreateMap<ActividadViewModel, Actividad>().ReverseMap();
-
-
+            
+            
         }
     }
 }

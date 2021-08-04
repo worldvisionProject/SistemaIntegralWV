@@ -16,7 +16,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string MetaNacional { get; set; }
         public int IdEmpresa { get; set; }
         public string Estado { get; set; }
-
+        public string FactorCritico { get; set; }
+        public string Indicador { get; set; }
         public string DescEstado { get; set; }
 
         public SelectList EstadoList { get; set; }

@@ -3,14 +3,14 @@
 @model PerfilDesempenioViewModel
 <div class="card">
 
-    @*<div class="col-sm-12 header-button">
+    <div class="col-sm-12 header-button">
 
         <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/AcuerdoDesempenio/OnGetCreateOrEditPerfil?id=0&idNivel=0','Perfíl de desempeño')">
             <i class="fa fa-plus-square"></i>
             Agregar
         </button>
 
-    </div>*@
+    </div>
     <div id="viewAll" class="card-body table-responsive">
     </div>
 </div>
@@ -31,6 +31,6 @@
             $('#viewAll').load('/registro/formulario/FormularioPdf/@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value');
         };*@
         function loadData() {
-            $('#viewAll').load('/planificacion/AcuerdoDesempenio/LoadAll');
+            $('#viewAll').load('/planificacion/Perfil/LoadAll');
         }</script>
 }
