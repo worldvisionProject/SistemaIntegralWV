@@ -5,7 +5,8 @@
 {
     <style>
         .breadcrumb {
-            background-color: #FFD966 !important;
+            background-color: #fdd25f !important;
+            font-size: 20px !important;
         }
 
         /*a {
@@ -15,10 +16,12 @@
         }*/
         .breadcrumb-item a {
             color: #ffffff !important;
+            font-size: 20px !important;
         }
 
         .breadcrumb-item.active {
             color: #ff8833;
+            font-size: 20px !important;
         }
     </style>
 
@@ -27,7 +30,8 @@ else @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value == "3")
 {
 <style>
     .breadcrumb {
-        background-color: #2F75B5 !important;
+        background-color: #00acca !important;
+        font-size: 20px !important;
     }
 </style>
 
@@ -39,6 +43,7 @@ else @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value == "4")
         <style>
             .breadcrumb {
                 background-color: #C4C4C6 !important;
+                font-size: 20px !important;
             }
         </style>
 
@@ -47,13 +52,18 @@ else @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value == "4")
     {
     <style>
         .breadcrumb {
-            background-color: #548235 !important;
+            background-color: #46bb95 !important;
+            font-size: 20px !important;
         }
     </style>
         }
 }
 
 <breadcrumb></breadcrumb>
+
+    <h6 class="h5 mb-2 text-gray-800-b" style="padding: 10px 0px 10px 0px">@ViewBag.TitleCategoria</h6>
+
+
 <div id="header">
     <h6 class="h5 mb-2 text-gray-800-b">@ViewBag.Tmp</h6>
     <h6>@ViewBag.Objetivo</h6>
@@ -62,11 +72,11 @@ else @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value == "4")
     <h1 class="h3 mb-0 text-gray-800">@ViewBag.Title</h1>
 
 </div>
-<h6 class="h5 mb-2 text-gray-800-b">@ViewBag.ObjTitle</h6>
+<h6 class="h5 mb-2 text-gray-800-b" style="padding: 10px 0px 10px 0px">@ViewBag.ObjTitle</h6>
 
 @*FACTOR*@
 <div id="header">
-    <h6 class="h6 mb-2 text-gray-800-b">@ViewBag.TmpFactor</h6>
+    <h6 class="h5 mb-2 text-gray-800-b">@ViewBag.TmpFactor</h6>
     <h6>@ViewBag.Factor</h6>
 </div>
 <div class="d-sm-flex align-items-center justify-content-between">
@@ -83,7 +93,6 @@ else @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value == "4")
 </div>
 <div class="d-sm-flex align-items-center justify-content-between">
     <h1 class="h3 mb-0 text-gray-800">@ViewBag.TitleIndicador</h1>
-
 </div>
 <h6 class="h5 mb-2 text-gray-800">@ViewBag.ObjTitleIndicador</h6>
 @*fin indicador*@
@@ -100,7 +109,6 @@ else @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value == "4")
 <h6 class="h5 mb-2 text-gray-800">@ViewBag.ObjTitleGestion</h6>
 @*fin GESTION*@
 
-<p></p>
 <h6>@ViewBag.Caption</h6>
 
 @if (ViewBag.SNGestion == "S")
@@ -120,6 +128,3 @@ else @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value == "4")
 
     </form>}
 
-
-
-<p></p>

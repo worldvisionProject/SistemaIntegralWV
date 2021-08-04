@@ -4688,7 +4688,8 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     margin-bottom: 1rem;
     list-style: none;
     background-color: #006661;
-    border-radius: .35rem
+    border-radius: .35rem;
+    font-size: 20px;
 }
 
 .breadcrumb-item + .breadcrumb-item {

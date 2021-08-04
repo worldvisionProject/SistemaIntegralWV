@@ -3,6 +3,7 @@
 @model ProductoViewModel
 
 @{
+    ViewData["TitleCategoria"] = localizer["Categoría"].Value + " " + ViewBag.Categoria;
     ViewData["Tmp"] = "Objetivo: ";
     ViewData["Objetivo"] = ViewBag.Message;
 

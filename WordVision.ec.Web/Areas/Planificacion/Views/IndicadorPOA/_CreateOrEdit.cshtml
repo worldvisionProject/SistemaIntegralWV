@@ -28,7 +28,7 @@
             <h6 class="h5 mb-2 text-gray-800-b">Línea Base: </h6>@Model.DescLineaBase
         </div>
         <div class="col-3" style="text-align: right;">
-            <h6 class="h5 mb-2 text-gray-800-b">Meta  @Model.DescGestion: </h6>@Model.DescMeta
+            <h6 class="h5 mb-2 text-gray-800-b">Meta  @Model.DescGestion: </h6>@Model.DescMeta @Model.DescUnidad
         </div>
 
     </div>
@@ -72,7 +72,7 @@
                         @Html.DropDownListFor(x => x.Responsable, (IEnumerable<SelectListItem>)Model.responsableList, new { @class = "form-control" })
                         <span asp-validation-for="Responsable" class="text-danger"></span>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label class="col-md-12 col-form-label texto-pregunta text-left">Unidad Medida</label>
                         @Html.DropDownListFor(x => x.UnidadMedida, Model.UnidadList, new { @class = "form-control" })
 
@@ -83,7 +83,7 @@
                         <input asp-for="LineaBase" type="text" name="LineaBase" class="form-control" />
                         <span asp-validation-for="LineaBase" class="text-danger"></span>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Acumulada Ciclo</label>
                         <input asp-for="Meta" type="text" name="Meta" class="form-control" />
                         <span asp-validation-for="Meta" class="text-danger"></span>
@@ -248,7 +248,7 @@
 
 
     function sumar() {
-
+     
         const tableRows = document.querySelectorAll('#metasTable tr.rowdata');
         var sum = 0;
         // Recorremos las filas que tengan el class="row"
@@ -263,7 +263,7 @@
             // status.innerText = 'offline';
         }
 
-        document.getElementById("Meta").value = String(sum).replace('.', ',');
+        document.getElementById("Meta").value = String(sum).replace('.', ',') ;
     }
 
 
@@ -271,8 +271,8 @@
         function AgregaConcepto() {
             let NumMeses = document.getElementById("NumMesesList").value;
            /* let UnidadList = document.getElementById("UnidadList").value;*/
-            //var selection = document.getElementById("UnidadList");
-            //let Unidad = selection.options[selection.selectedIndex].innerHTML;
+            var selection = document.getElementById("UnidadMedida");
+            let Unidad = selection.options[selection.selectedIndex].innerHTML;
             let ValorMeta = document.getElementById("ValorMeta").value.replace(',', '.');
             let EntregableMeta = document.getElementById("EntregableMeta").value;
            // let IdEstrategia = document.getElementById("Id").value;
@@ -316,7 +316,7 @@
            // TDId.innerHTML = num;
             TDNumMeses.innerHTML = NumMeses;
            /* TDUnidad.innerHTML = Unidad;*/
-            TDValorMeta.innerHTML = ValorMeta;
+            TDValorMeta.innerHTML = ValorMeta +" "+ Unidad;
             TDEntregableMeta.innerHTML = EntregableMeta;
             TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
             //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);

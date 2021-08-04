@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
@@ -49,6 +50,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(responseE.Data);
                 ViewBag.Ciclo = entidadViewModel.Nombre;
                 gestionDesc = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault()?.Anio ?? string.Empty; ;
+                var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 5 });
+                var descCategoria = cat2.Data.Where(c => c.Secuencia == response.Data.Categoria.ToString()).FirstOrDefault().Nombre;
+                ViewBag.Categoria = descCategoria;
                 //ViewBag.SNGestion = "N";
                 //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }

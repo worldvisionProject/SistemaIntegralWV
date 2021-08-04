@@ -34,7 +34,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         public async Task<IActionResult> Index(int id)
         {
             int idObjetivoEstra = id;
-          
+
 
             var response = await _mediator.Send(new GetObjetivoEstrategicoByIdQuery() { Id = id });
             if (response.Succeeded)
@@ -60,7 +60,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             var childNode1 = new MvcBreadcrumbNode("OnGetCreateOrEdit", "EstrategiaNacional", "Objetivos", false, null, "Planificacion")
             {
                 RouteValues = new { id },//this comes in as a param into the action
-                 Parent = childNode0
+                Parent = childNode0
             };
 
             var childNode2 = new MvcBreadcrumbNode("Index", "FactorCriticoExito", "Factor Crítico de Éxito")
@@ -77,7 +77,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
 
-        public async Task<IActionResult> IndexIndicador(int id,int idEstrategia, int AnioGestion)
+        public async Task<IActionResult> IndexIndicador(int id, int idEstrategia, int AnioGestion)
         {
             int idObjetivoEstra = id;
 
@@ -99,17 +99,17 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 //ViewBag.SNGestion = "N";
                 //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
-            
-           var ciclo = idEstrategia;
+
+            var ciclo = idEstrategia;
             var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estratégico", false, null, "Planificacion")
             {
                 RouteValues = new { ciclo },//this comes in as a param into the action
                                             // Parent = childNode0
             };
             id = idEstrategia;
-            var childNode2 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Gestión "+ gestionDesc)
+            var childNode2 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Gestión " + gestionDesc)
             {
-                RouteValues = new { id, AnioGestion},
+                RouteValues = new { id, AnioGestion },
                 OverwriteTitleOnExactMatch = true,
                 Parent = childNode1
             };
@@ -147,7 +147,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             int idObjetivoEstra = id;
 
 
-           
+
             var model = new FactorCriticoExitoViewModel();
             model.IdObjetivoEstra = idObjetivoEstra;
             model.IdGestion = AnioGestion;
@@ -164,7 +164,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             }
             return new JsonResult(json);
 
-       
+
         }
 
 
@@ -194,11 +194,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
         [Breadcrumb("FactorCriticoExito", AreaName = "Planificacion", FromAction = "OnGetCreateOrEdit", FromController = typeof(EstrategiaNacionalController))]
-        public async Task<IActionResult> LoadFactorIndicadores(int idObjetivo,int idGestion)
+        public async Task<IActionResult> LoadFactorIndicadores(int idObjetivo, int idGestion)
         {
             try
             {
-                int idColaborador =Convert.ToInt32( User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
+                int idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
                 switch (Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value))
                 {
                     case 2:
@@ -224,15 +224,15 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 {
                     ViewBag.Message = responseO.Data.Descripcion;
                 }
-                
-                var response = await _mediator.Send(new GetFactorCriticoxObjetivoByIdQuery() { Id = idObjetivo,IdColaborador=idColaborador });
+
+                var response = await _mediator.Send(new GetFactorCriticoxObjetivoByIdQuery() { Id = idObjetivo, IdColaborador = idColaborador, IdGestion = idGestion });
                 if (response.Succeeded)
                 {
                     ViewBag.IdGestion = idGestion;
                     ViewBag.DescGestion = descGestion;
                     ViewBag.IdObjetivo = idObjetivo;
                     ViewBag.IdEstrategia = responseO.Data.IdEstrategia;
-                  
+
                     var viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data);
                     return PartialView("_ViewAllxIndicador", viewModel);
                 }
@@ -261,7 +261,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 {
                     ViewBag.IdGestion = idGestion;
                     var viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data);
-                   
+
                     string json = string.Empty;
                     using (var stream = new MemoryStream())
                     {
@@ -283,7 +283,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
 
 
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0,int idObjetivoEstra = 0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idObjetivoEstra = 0)
         {
             // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
 
@@ -291,9 +291,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             {
                 var entidadViewModel = new FactorCriticoExitoViewModel();
                 entidadViewModel.IdObjetivoEstra = idObjetivoEstra;
-              
+
                 //return View("_CreateOrEdit", entidadViewModel);
-                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             else
             {
@@ -301,7 +301,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 if (response.Succeeded)
                 {
                     var entidadViewModel = _mapper.Map<FactorCriticoExitoViewModel>(response.Data);
-                   // return View("_CreateOrEdit", entidadViewModel);
+                    // return View("_CreateOrEdit", entidadViewModel);
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;
@@ -335,7 +335,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var response = await _mediator.Send(new GetObjetivoEstrategicoByIdQuery() { Id = entidad.IdObjetivoEstra });
                     if (response.Succeeded)
                     {
-                       
+
                         //var viewModel = new List<FactorCriticoExitoViewModel>();
                         //if (response.Data != null)
                         //    viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data.FactorCriticoExitos);
@@ -355,7 +355,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidad);
                     return new JsonResult(new { isValid = false, html = html });
                 }
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.LogError("OnPostCreateOrEdit", ex);
                 _notify.Error("Error al insertar ObjetivoEstrategico");
@@ -374,13 +375,13 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 if (response.Succeeded)
                 {
 
-                   
-                        ViewBag.Message = response.Data.Descripcion;
-                        var viewModel = new List<FactorCriticoExitoViewModel>();
-                        if (response.Data != null)
-                            viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data.FactorCriticoExitos);
-                  
-                    var html1 = await _viewRenderer.RenderViewToStringAsync( "_ViewAll", viewModel);
+
+                    ViewBag.Message = response.Data.Descripcion;
+                    var viewModel = new List<FactorCriticoExitoViewModel>();
+                    if (response.Data != null)
+                        viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data.FactorCriticoExitos);
+
+                    var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
                     return new JsonResult(new { isValid = true, html = html1 });
                 }
                 else

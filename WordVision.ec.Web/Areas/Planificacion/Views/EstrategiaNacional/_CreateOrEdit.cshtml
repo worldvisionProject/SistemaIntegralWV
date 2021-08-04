@@ -51,7 +51,7 @@
                                 <div class="container-fluid">
 
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
                                             <div class="form-group row">
                                                 <div class="col-md-12">
                                                     <label class="col-md-12 col-form-label texto-pregunta">Ciclo Estrategico</label>
@@ -68,7 +68,26 @@
                                             </div>
                                         </div>
 
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
 
+                                                <div class="col-md-6">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">Estado</label>
+
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                                                    {
+                                                        @Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)ViewBag.EstadoList, new { @class = "form-control" })
+                                                    }
+                                                    else
+                                                    {
+                                                        var selectedCity = (IEnumerable<SelectListItem>)ViewBag.EstadoList;
+                                                        var txt = selectedCity.Where(x => x.Value == Model.Estado).FirstOrDefault().Text;
+                                                        <input type="text" value="@txt" readonly class="form-control" />
+                                                    }
+                                                    <span asp-validation-for="Estado" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="row">
@@ -110,65 +129,82 @@
                                     </div>
 
                                     <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <div class="col-md-12">
-                                                <label class="col-md-12 col-form-label texto-pregunta">Factor Crítico</label>
-                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
-                                                {
-
-                                                    <textarea asp-for="FactorCritico" name="FactorCritico" class="form-control"></textarea>
-                                                }
-                                                else
-                                                {
-                                                    <textarea asp-for="FactorCritico" name="FactorCritico" class="form-control" readonly></textarea>
-                                                }
-                                                <span asp-validation-for="FactorCritico" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <div class="col-md-12">
-                                                <label class="col-md-12 col-form-label texto-pregunta">Indicador</label>
-                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
-                                                {
-                                                    <textarea asp-for="Indicador" name="Indicador" class="form-control"></textarea>
-                                                }
-                                                else
-                                                { <textarea asp-for="Indicador" name="Indicador" class="form-control" readonly></textarea>}
-
-                                                    <span asp-validation-for="Indicador" class="text-danger"></span>
-                                                </div>
-                                        </div>
-
-
-                                    </div>
-
-                                </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="form-group row">
-
-                                                <div class="col-md-6">
-                                                    <label class="col-md-12 col-form-label texto-pregunta">Estado</label>
-
+                                                <div class="col-md-12">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">Factor Crítico</label>
                                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
                                                     {
-                                                        @Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)ViewBag.EstadoList, new { @class = "form-control" })
+
+                                                        <textarea asp-for="FactorCritico" name="FactorCritico" class="form-control"></textarea>
                                                     }
                                                     else
                                                     {
-                                                        var selectedCity = (IEnumerable<SelectListItem>)ViewBag.EstadoList;
-                                                        var txt = selectedCity.Where(x => x.Value == Model.Estado).FirstOrDefault().Text;
-                                                        <input type="text" value="@txt" readonly class="form-control"/>
+                                                        <textarea asp-for="FactorCritico" name="FactorCritico" class="form-control" readonly></textarea>
                                                     }
-                                                        <span asp-validation-for="Estado" class="text-danger"></span>
-                                                    </div>
+                                                    <span asp-validation-for="FactorCritico" class="text-danger"></span>
+                                                </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-12">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">Indicador</label>
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                                                    {
+                                                        <textarea asp-for="Indicador" name="Indicador" class="form-control"></textarea>
+                                                    }
+                                                    else
+                                                    { <textarea asp-for="Indicador" name="Indicador" class="form-control" readonly></textarea>}
+
+                                                    <span asp-validation-for="Indicador" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-2">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">AF17</label>
+                                                    <input id="af1" type="text" value="20" readonly class="form-control" />
+                                                    <span asp-validation-for="Indicador" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">AF18</label>
+                                                    <input id="af1" type="text" value="40" readonly class="form-control" />
+                                                    <span asp-validation-for="Indicador" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">AF19</label>
+                                                    <input id="af1" type="text" value="40" readonly class="form-control" />
+                                                    <span asp-validation-for="Indicador" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">AF20</label>
+                                                    <input id="af1" type="text" value="40" readonly class="form-control" />
+                                                    <span asp-validation-for="Indicador" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">AF21</label>
+                                                    <input id="af1" type="text" value="40" readonly class="form-control" />
+                                                    <span asp-validation-for="Indicador" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">Meta Acumulada</label>
+                                                    <input id="af1" type="text" value="80" readonly class="form-control" />
+                                                    <span asp-validation-for="Indicador" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                     </div>
+
 
                                 </div>
                             </div>

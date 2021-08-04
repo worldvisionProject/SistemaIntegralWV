@@ -11,7 +11,7 @@ using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 {
-    public class FactorCriticoExitoRepository: IFactorCriticoExitoRepository
+    public class FactorCriticoExitoRepository : IFactorCriticoExitoRepository
     {
         private readonly IRepositoryAsync<FactorCriticoExito> _repository;
         private readonly IDistributedCache _distributedCache;
@@ -30,7 +30,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 
         public async Task<FactorCriticoExito> GetByIdAsync(int FactorCriticoExitoId)
         {
-            return await _repository.Entities.Where(p => p.Id == FactorCriticoExitoId).Include(x=>x.IndicadorEstrategicos).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(p => p.Id == FactorCriticoExitoId).Include(x => x.IndicadorEstrategicos).FirstOrDefaultAsync();
         }
 
         public async Task<List<FactorCriticoExito>> GetListAsync()
@@ -38,21 +38,24 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
             return await _repository.Entities.ToListAsync();
         }
 
-        public async Task<List<FactorCriticoExito>> GetListxObjetivoAsync(int idObjetivo)
+        public async Task<List<FactorCriticoExito>> GetListxObjetivoAsync(int idObjetivo, int idGestion)
         {
             var dd = _repository.Entities.Where(x => x.IdObjetivoEstra == idObjetivo)
-                .Include(p => p.IndicadorEstrategicos).ThenInclude(o => o.Productos).ThenInclude(ifs => ifs.IndicadorPOAs)
-                .Include(o => o.IndicadorEstrategicos).ThenInclude(af => af.IndicadorAFs)
+                .Include(p => p.IndicadorEstrategicos)
+                .ThenInclude(o => o.Productos)
+                .ThenInclude(ifs => ifs.IndicadorPOAs)
+                .Include(o => o.IndicadorEstrategicos)
+                .ThenInclude(af => af.IndicadorAFs.Where(i => i.Anio == idGestion.ToString()))
                 .ToListAsync();
             return await dd;
         }
 
-        public async Task<List<FactorCriticoExito>> GetListxObjetivoAsync(int idObjetivo,int idColaborador)
+        public async Task<List<FactorCriticoExito>> GetListxObjetivoAsync(int idObjetivo, int idColaborador, int idGestion)
         {
             var dd = _repository.Entities.Where(x => x.IdObjetivoEstra == idObjetivo)
                 .Include(p => p.IndicadorEstrategicos.Where(i => i.Responsable == idColaborador)).ThenInclude(o => o.Productos).ThenInclude(ifs => ifs.IndicadorPOAs)
                 .Include(o => o.IndicadorEstrategicos)
-                .ThenInclude(af => af.IndicadorAFs)
+                .ThenInclude(af => af.IndicadorAFs.Where(i => i.Anio == idGestion.ToString()))
                 .ToListAsync();
             return await dd;
         }

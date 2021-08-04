@@ -35,6 +35,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string DescGestion { get; set; }
         public string DescLineaBase { get; set; }
         public string DescResponsable { get; set; }
+        public string DescUnidad { get; set; }
         public int IdProducto { get; set; }
         public string DescProducto { get; set; }
         public string IndicadorProducto { get; set; }

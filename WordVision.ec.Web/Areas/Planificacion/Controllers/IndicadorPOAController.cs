@@ -93,6 +93,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             string descGestion = "";
             int idResponsable=0;
             string descLineaBase = "";
+            string descUnidad = "";
 
             var responseG = await _mediator.Send(new GetGestionByIdQuery() { Id = idGestion });
             if (responseG.Succeeded)
@@ -112,6 +113,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 descMeta = entidadViewModel.IndicadorAFs.Where(x => x.Anio == idGestion.ToString()).FirstOrDefault().Meta;
                 idResponsable = (int)entidadViewModel.Responsable;
                 descLineaBase = entidadViewModel.LineaBase;
+                var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
+                descUnidad = cat2.Data.Where(x => x.Secuencia == entidadViewModel.UnidadMedida.ToString()).FirstOrDefault().Nombre;
             }
             //var responseP = await _mediator.Send(new GetProductoByIdQuery() { Id = idProducto });
             //if (responseP.Succeeded)
@@ -134,7 +137,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 entidadViewModel.DescFactor = descFactor;
                 entidadViewModel.DescIndicador = descIndicador;
                 entidadViewModel.DescMeta = descMeta;
-              
+                entidadViewModel.DescUnidad = descUnidad;
                 entidadViewModel.DescGestion = descGestion;
                 entidadViewModel.DescLineaBase = descLineaBase;
 
@@ -163,7 +166,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     entidadViewModel.DescFactor = descFactor;
                     entidadViewModel.DescIndicador = descIndicador;
                     entidadViewModel.DescMeta = descMeta;
-                  
+                    entidadViewModel.DescUnidad = descUnidad;
                     entidadViewModel.DescGestion = descGestion;
                     entidadViewModel.DescLineaBase = descLineaBase;
 

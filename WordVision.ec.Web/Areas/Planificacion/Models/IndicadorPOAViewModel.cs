@@ -37,6 +37,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
 
         public SelectList NumMesesList { get; set; }
         public SelectList UnidadList { get; set; }
+        public string DescUnidad { get; set; }
 
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string ValorMeta { get; set; }
@@ -64,8 +65,10 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
 
         public string Ponderacion { get; set; }
-     
-     
-       
+
+
+        public int IdIndicadorEstrategia { get; set; }
+        public int IdGestion { get; set; }
+         public int IdResponsablePOA { get; set; }
     }
 }

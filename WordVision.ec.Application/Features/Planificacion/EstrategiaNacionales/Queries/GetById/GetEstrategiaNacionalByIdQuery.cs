@@ -37,7 +37,21 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
                     EstrategiaNacional = await _EstrategiaNacionalCache.GetByIdAsync(query.Id);
                 else
                 {
-                    EstrategiaNacional = await _EstrategiaNacionalCache.GetByIdAsync(query.Id, query.IdColaborador);
+                    //switch (query.Nivel)
+                    //{
+                    //    case 2:
+                            EstrategiaNacional = await _EstrategiaNacionalCache.GetByIdAsync(query.Id, query.IdColaborador);
+                    //        break;
+                    //    case 3:
+                    //        EstrategiaNacional = await _EstrategiaNacionalCache.GetByIdxOperativoAsync(query.Id, query.IdColaborador,0);
+                    //        break;
+                    //    case 4:
+                    //        EstrategiaNacional = await _EstrategiaNacionalCache.GetByIdxTacticoAsync(query.Id, query.IdColaborador,0);
+
+                    //        break;
+                    //}
+
+                   
                 }
                 var mappedEstrategiaNacional = _mapper.Map<GetEstrategiaNacionalByIdResponse>(EstrategiaNacional);
                 

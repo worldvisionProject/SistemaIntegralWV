@@ -44,7 +44,7 @@
                 <div class="form-group row">
 
                     <div class="col-md-2">
-                        <label class="col-md-12 col-form-label texto-pregunta text-left">Trimestre</label>
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta a los (meses)</label>
                         @Html.DropDownListFor(x => x.NumMesesList, Model.NumMesesList, new { @class = "form-control" })
                         <span asp-validation-for="NumMesesList" class="text-danger"></span>
                     </div>
@@ -83,7 +83,7 @@
                         @*<th>Id</th>*@
                         <th>Meses</th>
                         @*<th>Medida/Unidad</th>*@
-                        <th>Valor</th>
+                        <th>Meta</th>
                         <th>Entregable</th>
                         <th class="text-right">Acciones</th>
                     </tr>

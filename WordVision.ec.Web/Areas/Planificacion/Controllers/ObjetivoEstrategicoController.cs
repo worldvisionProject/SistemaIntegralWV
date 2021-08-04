@@ -70,7 +70,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                
                
             }
-            var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = idEstrategia ,IdColaborador=idColaborador});
+            var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = idEstrategia ,IdColaborador=idColaborador,Nivel= Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value) });
             if (response.Succeeded)
             {
 

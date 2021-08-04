@@ -10,6 +10,7 @@ using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Actividades.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.Actividades.Commands.Delete;
 using WordVision.ec.Application.Features.Planificacion.Actividades.Commands.Update;
+using WordVision.ec.Application.Features.Planificacion.Actividades.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Create;
@@ -71,7 +72,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
 
-        public async Task<JsonResult> LoadxIndicadores(int idIndicadorPOA)
+        public async Task<JsonResult> LoadxIndicadores(int idIndicadorPOA, int idIndicadorEstrategia = 0, int idGestion = 0)
         {
             try
             {
@@ -80,6 +81,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 if (response.Succeeded)
                 {
                     var viewModel = _mapper.Map<IndicadorPOAViewModel>(response.Data);
+                    viewModel.IdIndicadorEstrategia = idIndicadorEstrategia;
+                    viewModel.IdGestion = idGestion;
                     var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
                     if (colaborador.Succeeded)
                     {
@@ -110,6 +113,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             int idResponsable = 0;
             string descLineaBase = "";
             int idResponsableProd = 0;
+            string descUnidad = "";
 
             var responseG = await _mediator.Send(new GetGestionByIdQuery() { Id = idGestion });
             if (responseG.Succeeded)
@@ -129,7 +133,10 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 descIndicador = entidadViewModel.IndicadorResultado;
                 descMeta = entidadViewModel.IndicadorAFs.Where(x => x.Anio == idGestion.ToString()).FirstOrDefault().Meta;
                 idResponsable =(int)entidadViewModel.Responsable;
-                descLineaBase = entidadViewModel.LineaBase;
+                descLineaBase = entidadViewModel.LineaBase; 
+                var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
+                descUnidad = cat2.Data.Where(x => x.Secuencia == entidadViewModel.UnidadMedida.ToString()).FirstOrDefault().Nombre;
+
             }
             if (id == 0)
             {
@@ -146,7 +153,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 entidadViewModel.DescObjetivo = descObjetivo;
                 entidadViewModel.DescFactor = descFactor;
                 entidadViewModel.DescIndicador = descIndicador;
-                entidadViewModel.DescMeta = descMeta;
+                entidadViewModel.DescMeta = descMeta; 
+                entidadViewModel.DescUnidad = descUnidad;
                 entidadViewModel.DescGestion = descGestion;
                 entidadViewModel.DescLineaBase = descLineaBase;
                 entidadViewModel.IdProducto = idProducto;
@@ -164,26 +172,38 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             }
             else
             {
-                var response = await _mediator.Send(new GetIndicadorPOAByIdQuery() { Id = idIndicadorPOA });
+                var indicadorPOA = "";
+                var responsePOA = await _mediator.Send(new GetIndicadorPOAByIdQuery() { Id = idIndicadorPOA });
+                if (responsePOA.Succeeded)
+                {
+                    indicadorPOA = responsePOA.Data.IndicadorProducto;
+                    idResponsablePOA = (int)responsePOA.Data.Responsable;
+                }
+
+                var response = await _mediator.Send(new GetActividadByIdQuery() { Id = id });
                 if (response.Succeeded)
                 {
-                    var entidadViewModel = _mapper.Map<IndicadorPOAViewModel>(response.Data);
+                    var entidadViewModel = _mapper.Map<ActividadViewModel>(response.Data);
                     entidadViewModel.DescProducto = descProducto;
                     entidadViewModel.DescObjetivo = descObjetivo;
                     entidadViewModel.DescFactor = descFactor;
                     entidadViewModel.DescIndicador = descIndicador;
                     entidadViewModel.DescMeta = descMeta;
-                  
+                    entidadViewModel.DescUnidad = descUnidad;
                     entidadViewModel.DescGestion = descGestion;
                     entidadViewModel.DescLineaBase = descLineaBase;
+                    entidadViewModel.IdProducto = idProducto;
+                    entidadViewModel.IndicadorProducto = indicadorPOA;
+                    entidadViewModel.IdIndicadorPOA = idIndicadorPOA;
                     var colaborador = await _mediator.Send(new GetAllColaboradoresCachedQuery());
                     if (colaborador.Succeeded)
                     {
                         var responsa = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
                         entidadViewModel.responsableList = new SelectList(responsa, "Id", "Nombres");
                         entidadViewModel.ResponsableIndicador = responsa.Where(r => r.Id == idResponsable).FirstOrDefault().Nombres;
-                        entidadViewModel.DescResponsable = responsa.Where(r => r.Id == (int)entidadViewModel.Responsable).FirstOrDefault().Nombres;
+                        entidadViewModel.DescResponsable = responsa.Where(r => r.Id == idResponsablePOA).FirstOrDefault().Nombres;
                     }
+
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
             }

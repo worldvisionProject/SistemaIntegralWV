@@ -21,7 +21,7 @@
         <h6 class="h5 mb-2 text-gray-800-b">Línea Base: </h6>@Model.DescLineaBase
     </div>
     <div class="col-3" style="text-align: right;">
-        <h6 class="h5 mb-2 text-gray-800-b">Meta  @Model.DescGestion: </h6>@Model.DescMeta
+        <h6 class="h5 mb-2 text-gray-800-b">Meta  @Model.DescGestion: </h6>@Model.DescMeta @Model.DescUnidad
     </div>
 
 </div>
@@ -76,20 +76,28 @@
                 </div>
 
                 <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Ponderación Avance</label>
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Ponderación</label>
                     <input asp-for="Ponderacion" type="text" name="Ponderacion" class="form-control" />
                     <span asp-validation-for="Ponderacion" class="text-danger"></span>
+                </div>
+                <div class="col-md-2">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Fecha Inicio</label>
+                    <input asp-for="Plazo" type="text" name="Plazo" class="datepicker form-control" />
+                    <span asp-validation-for="Plazo" class="text-danger"></span>
                 </div>
                 <div class="col-md-2">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Fecha Fín</label>
                     <input asp-for="Plazo" type="text" name="Plazo" class="datepicker form-control" />
                     <span asp-validation-for="Plazo" class="text-danger"></span>
                 </div>
+            </div>
+            <div class="form-group row">
                 <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Techo del Centro Costo</label>
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Techo presupuestario</label>
                     <input asp-for="TechoPresupuestoCC" type="text" name="TechoPresupuestoCC" class="form-control" />
                     <span asp-validation-for="TechoPresupuestoCC" class="text-danger"></span>
                 </div>
+
                 <div class="col-md-2">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Saldo</label>
                     <input asp-for="Saldo" type="text" name="Saldo" class="form-control" />
