@@ -69,10 +69,14 @@
 
                         
                     <td class="acciones-td">
-                        <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Ver" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Actividad/OnGetCreateOrEdit?id=@ind.Id&idObjetivo=@ViewBag.IdObjetivo&idIndicadorEstrategia=@factor.IdIndicadorEstrategico&idGestion=@ViewBag.IdGestion&idProducto=@factor.Id','Actividades')">
+                        <button type="button" class="btn btn-success btn-xp" onclick="jQueryModalGetHijo('1','/Planificacion/Actividad/LoadxIndicadores?idIndicadorPOA=@ind.Id&idGestion=@ViewBag.IdGestion&idIndicadorEstrategia=@ViewBag.IdIndicadorEstrategico&idIndicadorPOA=@ind.Id&idResponsablePOA=@ind.IdCargoResponsable','Actividades')">
                             <i class="fas fa-eye"></i>
                         </button>
-                       @* <a asp-area="planificacion" asp-controller="Actividad" asp-action="OnGetCreateOrEdit" asp-route-id="@ind.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" asp-route-IdProducto="@factor.Id" class="btn btn-info btn-xp" title="Administrar Actividades"><i class="fas fa-calendar"></i></a>*@
+                        <button type="button" class="btn btn-primary btn-xp" onclick="jQueryModalGetHijo('1','/Planificacion/Actividad/OnGetCreateOrEdit?id=0&idProducto=@factor.Id&idGestion=@ViewBag.IdGestion&idIndicadorEstrategia=@ViewBag.IdIndicadorEstrategico&idIndicadorPOA=@ind.Id&idResponsablePOA=@ind.IdCargoResponsable','Actividades')">
+                            <i class="fas fa-plus-square"></i>
+                        </button>
+
+                        @* <a asp-area="planificacion" asp-controller="Actividad" asp-action="OnGetCreateOrEdit" asp-route-id="@ind.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" asp-route-IdProducto="@factor.Id" class="btn btn-info btn-xp" title="Administrar Actividades"><i class="fas fa-calendar"></i></a>*@
                     </td>
 
                     </tr>

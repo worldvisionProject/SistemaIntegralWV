@@ -8,7 +8,13 @@
             background-color: #fdd25f !important;
             font-size: 20px !important;
         }
+        .modal-header {
+            background-color: #fdd25f !important;
+        }
 
+        thead {
+            background-color: #fdd25f !important;
+        }
         /*a {
             color: #ffffff !important;
             text-decoration: none !important;
@@ -16,12 +22,10 @@
         }*/
         .breadcrumb-item a {
             color: #ffffff !important;
-           
         }
 
         .breadcrumb-item.active {
             color: #ff8833;
-            
         }
     </style>
 
@@ -32,6 +36,14 @@ else @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value == "3")
     .breadcrumb {
         background-color: #00acca !important;
         font-size: 20px !important;
+    }
+
+    .modal-header {
+        background-color: #00acca !important;
+    }
+
+    thead {
+        background-color: #00acca !important;
     }
 </style>
 
@@ -45,8 +57,18 @@ else @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value == "4")
             background-color: #C4C4C6 !important;
             font-size: 20px !important;
         }
-    </style>
+        /*.modal-header {
+            background-color: #C4C4C6 !important;
+        }
 
+        thead {
+            background-color: #C4C4C6 !important;
+        }*/
+    </style>
+    if (ViewBag.SNCoordi == "S")
+    {
+    <img src="~/images/banerr.png" id="brand-logo" alt="logo" class="header-Tittle " width="50%">
+    }
 }
 else
 {
@@ -54,6 +76,14 @@ else
         .breadcrumb {
             background-color: #46bb95 !important;
             font-size: 20px !important;
+        }
+
+        .modal-header {
+            background-color: #46bb95 !important;
+        }
+
+        thead {
+            background-color: #46bb95 !important;
         }
     </style>
 }
@@ -68,7 +98,7 @@ else
     <h6 class="h5 mb-2 text-gray-800-b">@ViewBag.Tmp</h6>
     <h6>@ViewBag.Objetivo</h6>
 </div>
-<div class="d-sm-flex align-items-center justify-content-between" >
+<div class="d-sm-flex align-items-center justify-content-between">
     <h1 class="h3 mb-0 text-gray-800">@ViewBag.Title</h1>
 
 </div>
@@ -112,7 +142,8 @@ else
 <h6>@ViewBag.Caption</h6>
 
 @if (ViewBag.SNGestion == "S")
-{<img src="~/images/banerr.png" id="brand-logo" alt="logo" class="header-Tittle " width="50%">
+{
+    <img src="~/images/banerr.png" id="brand-logo" alt="logo" class="header-Tittle " width="50%">
     <form id="select-form" method="get" asp-area="Planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEditEstrategia" asp-route-id="@Model.Id" enctype="multipart/form-data">
         <div class="form-group row">
             <div class="col-md-3">
@@ -126,5 +157,6 @@ else
             </div>
         </div>
 
-    </form>}
+    </form>
+}
 

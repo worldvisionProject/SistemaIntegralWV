@@ -31,7 +31,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 {
     [Area("Planificacion")]
     [Authorize]
-    public class ActividadController :  BaseController<ActividadController>
+    public class ActividadController : BaseController<ActividadController>
     {
         public IActionResult Index()
         {
@@ -44,7 +44,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             //var response = await _mediator.Send(new GetAllIndicadorEstrategicoesCachedQuery());
             //if (response.Succeeded)
             //{
-           
+
             //  var viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data);
 
             //return PartialView("_ViewAll", viewModel);
@@ -66,7 +66,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 }
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel) });
 
-              
+
             }
             return null;
         }
@@ -102,7 +102,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             return null;
         }
 
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0,int idIndicadorEstrategia=0, int idGestion = 0, int idProducto = 0, int idIndicadorPOA = 0, int idResponsablePOA=0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idIndicadorEstrategia = 0, int idGestion = 0, int idProducto = 0, int idIndicadorPOA = 0, int idResponsablePOA = 0)
         {
             string descProducto = "";
             string descObjetivo = "";
@@ -119,7 +119,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (responseG.Succeeded)
             {
                 var entidadViewModel = _mapper.Map<GestionViewModel>(responseG.Data);
-                descGestion = entidadViewModel.Anio;
+                descGestion = entidadViewModel?.Anio??"";
             }
 
             var responseI = await _mediator.Send(new GetIndicadorEstrategicoByIdQuery() { Id = idIndicadorEstrategia });
@@ -132,10 +132,10 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 descFactor = entidadViewModel.FactorCriticoExitos.FactorCritico;
                 descIndicador = entidadViewModel.IndicadorResultado;
                 descMeta = entidadViewModel.IndicadorAFs.Where(x => x.Anio == idGestion.ToString()).FirstOrDefault().Meta;
-                idResponsable =(int)entidadViewModel.Responsable;
-                descLineaBase = entidadViewModel.LineaBase; 
+                idResponsable = (int)entidadViewModel.Responsable;
+                descLineaBase = entidadViewModel.LineaBase;
                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
-                descUnidad = cat2.Data.Where(x => x.Secuencia == entidadViewModel.UnidadMedida.ToString()).FirstOrDefault().Nombre;
+                descUnidad = cat2.Data.Where(x => x.Secuencia == entidadViewModel.UnidadMedida.ToString())?.FirstOrDefault()?.Nombre ?? "";
 
             }
             if (id == 0)
@@ -144,16 +144,16 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 var response = await _mediator.Send(new GetIndicadorPOAByIdQuery() { Id = idIndicadorPOA });
                 if (response.Succeeded)
                 {
-                    indicadorPOA =response.Data.IndicadorProducto;
+                    indicadorPOA = response.Data.IndicadorProducto;
                     idResponsablePOA = (int)response.Data.Responsable;
                 }
-                
+
                 var entidadViewModel = new ActividadViewModel();
                 entidadViewModel.DescProducto = descProducto;
                 entidadViewModel.DescObjetivo = descObjetivo;
                 entidadViewModel.DescFactor = descFactor;
                 entidadViewModel.DescIndicador = descIndicador;
-                entidadViewModel.DescMeta = descMeta; 
+                entidadViewModel.DescMeta = descMeta;
                 entidadViewModel.DescUnidad = descUnidad;
                 entidadViewModel.DescGestion = descGestion;
                 entidadViewModel.DescLineaBase = descLineaBase;

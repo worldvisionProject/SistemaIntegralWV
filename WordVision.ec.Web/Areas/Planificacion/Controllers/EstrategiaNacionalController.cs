@@ -28,8 +28,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         public IActionResult Index()
         {
             var model = new EstrategiaNacionalViewModel();
-           
-            return View(model);
+            
+                return View(model);
         }
 
         public async Task<IActionResult> LoadAll()

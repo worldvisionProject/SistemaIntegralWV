@@ -37,7 +37,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public SelectList CentroCostosList { get; set; }
         public SelectList CuentaCCList { get; set; }
 
-        public int Mes { get; set; }
+        public int? Mes { get; set; }
         public SelectList MesList { get; set; }
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
 

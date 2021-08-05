@@ -137,7 +137,7 @@
                                 try
                                 {
                                     var selectedCity = (IEnumerable<SelectListItem>)Model.AreaPrioridadList;
-                                    txt = selectedCity.Where(x => x.Value == objetivo.AreaPrioridad.ToString()).FirstOrDefault().Text;
+                                    txt = selectedCity.Where(x => x.Value == objetivo.AreaPrioridad.ToString())?.FirstOrDefault()?.Text??"";
 
                                 }
                                 catch { }

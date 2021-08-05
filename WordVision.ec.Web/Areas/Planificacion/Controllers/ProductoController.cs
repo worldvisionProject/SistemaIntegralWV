@@ -334,6 +334,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     ViewBag.DescGestion = gestionDesc;
                     ViewBag.IdObjetivo = idObjetivo;
                     ViewBag.IdEstrategia = idEstrategia;
+                    ViewBag.IdIndicadorEstrategico = idIndicadorEstra;
                     ViewBag.DescFactorCritico = descFactorCritico;
                     ViewBag.DescMetaGestion = descMetaGestio;
                   

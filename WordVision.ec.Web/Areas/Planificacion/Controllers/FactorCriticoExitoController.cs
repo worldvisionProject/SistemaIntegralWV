@@ -20,6 +20,7 @@ using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Com
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetById;
+using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
 
@@ -209,6 +210,13 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         break;
                     case 4:
                         idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
+                        var responseGerencia = await _mediator.Send(new GetColaboradorByIdQuery() { Id = idColaborador });
+                        if (responseGerencia.Succeeded)
+                        {
+                            var responseNivel = await _mediator.Send(new GetColaboradorByNivelQuery() { Nivel1 = 1, Nivel2 = 2 });
+
+                            idColaborador = responseNivel.Data.Where(c => c.Cargo == responseGerencia.Data.Estructuras.ReportaID).FirstOrDefault().Id;
+                        }
                         break;
                 }
                 var descGestion = "";

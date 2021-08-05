@@ -28,7 +28,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 {
     [Area("Planificacion")]
     [Authorize]
-    public class IndicadorPOAController :  BaseController<IndicadorPOAController>
+    public class IndicadorPOAController : BaseController<IndicadorPOAController>
     {
         public IActionResult Index()
         {
@@ -41,7 +41,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             //var response = await _mediator.Send(new GetAllIndicadorEstrategicoesCachedQuery());
             //if (response.Succeeded)
             //{
-           
+
             //  var viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data);
 
             //return PartialView("_ViewAll", viewModel);
@@ -64,7 +64,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     //    idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
                     //    break;
             }
-            var response = await _mediator.Send(new GetProductoByIdQuery() { Id = idProducto,IdColaborador=idColaborador });
+            var response = await _mediator.Send(new GetProductoByIdQuery() { Id = idProducto, IdColaborador = idColaborador });
             if (response.Succeeded)
             {
                 var viewModel = _mapper.Map<ProductoViewModel>(response.Data);
@@ -77,12 +77,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 }
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel) });
 
-              
+
             }
             return null;
         }
 
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idProducto = 0, int idGestion=0, int idIndicadorEstrategia = 0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idProducto = 0, int idGestion = 0, int idIndicadorEstrategia = 0)
         {
             // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
             string descProducto = "";
@@ -91,7 +91,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             string descIndicador = "";
             string descMeta = "";
             string descGestion = "";
-            int idResponsable=0;
+            int idResponsable = 0;
             string descLineaBase = "";
             string descUnidad = "";
 
@@ -106,7 +106,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (responseI.Succeeded)
             {
                 var entidadViewModel = _mapper.Map<IndicadorEstrategicoViewModel>(responseI.Data);
-                descProducto = entidadViewModel.Productos.Where(p=>p.Id== idProducto).FirstOrDefault().DescProducto;
+                descProducto = entidadViewModel.Productos.Where(p => p.Id == idProducto).FirstOrDefault().DescProducto;
                 descObjetivo = entidadViewModel.FactorCriticoExitos.ObjetivoEstrategicos.Descripcion;
                 descFactor = entidadViewModel.FactorCriticoExitos.FactorCritico;
                 descIndicador = entidadViewModel.IndicadorResultado;
@@ -114,7 +114,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 idResponsable = (int)entidadViewModel.Responsable;
                 descLineaBase = entidadViewModel.LineaBase;
                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
-                descUnidad = cat2.Data.Where(x => x.Secuencia == entidadViewModel.UnidadMedida.ToString()).FirstOrDefault().Nombre;
+                descUnidad = cat2.Data.Where(x => x.Secuencia == entidadViewModel.UnidadMedida.ToString())?.FirstOrDefault()?.Nombre ?? "";
             }
             //var responseP = await _mediator.Send(new GetProductoByIdQuery() { Id = idProducto });
             //if (responseP.Succeeded)
@@ -151,7 +151,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var responsa = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
                     entidadViewModel.responsableList = new SelectList(responsa, "Id", "Nombres");
 
-                    entidadViewModel.ResponsableIndicador = responsa.Where(r=>r.Id== idResponsable).FirstOrDefault().Nombres;
+                    entidadViewModel.ResponsableIndicador = responsa.Where(r => r.Id == idResponsable).FirstOrDefault().Nombres;
                 }
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
@@ -186,9 +186,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 }
             }
             return null;
-      }
+        }
 
-        
+
         [HttpPost]
         public async Task<JsonResult> OnPostCreateOrEdit(int id, IndicadorPOAViewModel entidad)
         {
