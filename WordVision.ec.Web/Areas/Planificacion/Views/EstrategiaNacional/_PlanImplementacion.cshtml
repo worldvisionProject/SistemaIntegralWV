@@ -120,22 +120,22 @@
                                                                         </div>
                                                                     </div>
                                                                     @*<div class="col-md-6">
-                        <div class="form-group row">
-                            <div class="col-md-12">
-                                <label class="col-md-12 col-form-label texto-pregunta">Meta de Bloque</label>
-                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
-                                {
-                                    <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control"></textarea>
-                                }
-                                else
-                                { <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control" readonly></textarea>}
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-form-label texto-pregunta">Meta de Bloque</label>
+                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                            {
+                                <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control"></textarea>
+                            }
+                            else
+                            { <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control" readonly></textarea>}
 
-                                    <span asp-validation-for="MetaRegional" class="text-danger"></span>
-                                </div>
-                        </div>
+                                <span asp-validation-for="MetaRegional" class="text-danger"></span>
+                            </div>
+                    </div>
 
 
-                    </div>*@
+                </div>*@
 
                                                                 </div>
 
@@ -159,7 +159,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-12">
                                                                         <div class="form-group row">
                                                                             <div class="col-md-12">
                                                                                 <label class="col-md-12 col-form-label texto-pregunta">Indicador</label>
@@ -176,7 +176,9 @@
 
 
                                                                     </div>
-                                                                    <div class="col-md-6">
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
                                                                         <div class="form-group row">
                                                                             <div class="col-md-2">
                                                                                 <label class="col-md-12 col-form-label texto-pregunta">AF17</label>
@@ -193,7 +195,17 @@
                                                                                 <input id="af1" type="text" value="40" readonly class="form-control" />
                                                                                 <span asp-validation-for="Indicador" class="text-danger"></span>
                                                                             </div>
-                                                                            <div class="col-md-6">
+                                                                            <div class="col-md-2">
+                                                                                <label class="col-md-12 col-form-label texto-pregunta">AF20</label>
+                                                                                <input id="af1" type="text" value="40" readonly class="form-control" />
+                                                                                <span asp-validation-for="Indicador" class="text-danger"></span>
+                                                                            </div>
+                                                                            <div class="col-md-2">
+                                                                                <label class="col-md-12 col-form-label texto-pregunta">AF21</label>
+                                                                                <input id="af1" type="text" value="40" readonly class="form-control" />
+                                                                                <span asp-validation-for="Indicador" class="text-danger"></span>
+                                                                            </div>
+                                                                            <div class="col-md-2">
                                                                                 <label class="col-md-12 col-form-label texto-pregunta">Meta Acumulada</label>
                                                                                 <input id="af1" type="text" value="80" readonly class="form-control" />
                                                                                 <span asp-validation-for="Indicador" class="text-danger"></span>

@@ -793,3 +793,16 @@ nav > div a.nav-item.nav-link:focus {
     color: #5a5c69 !important;
     font-weight: bold !important;
 }
+
+.header-Tittle {
+    /* flex-shrink: 0; */
+    background-image: url(../images/banerr.png);
+    /* background-repeat: no-repeat; */
+    /* background-position: center; */
+    width: 48%;
+    /* height: 54px; */
+    position: absolute;
+    /* z-index: 1; */
+    top: 120px;
+    right: 20px;
+}

@@ -7,13 +7,11 @@
                 <tr>
 
                    
-                    <th data-priority="1">Objetivo</th>
-                    <th data-priority="1">Factor de Éxito</th>
-                    <th data-priority="1">Indicador</th>
-                    <th data-priority="1">Meta Estrategíca</th>
-                    <th data-priority="1">Producto</th>
-                    <th data-priority="1">Meta POA</th>
-                    <th data-priority="2" class="acciones-th">Acciones</th>
+                    <th data-priority="1">Tipo</th>
+                    <th data-priority="1">Descripción</th>
+                    <th data-priority="1">Contribución</th>
+                    <th data-priority="1">Meta Anuales/Gestiones</th>
+                    
 
                 </tr>
             </thead>
@@ -24,37 +22,18 @@
                 <tr>
 
                     <td>
-                        @producto.Objetivo
+                        @producto.Tipo
                     </td>
                     <td>
-                        @producto.Factor
+                        @producto.Descripcion
                     </td>
                     <td>
-                        @producto.IndicadorEstrategico
-                    </td>
-                    <td>
-                        @producto.MetaEstrategico
-                    </td>
-                    <td>
-                        @producto.Producto
+                        @producto.Contribucion
                     </td>
                     <td>
                         @producto.Meta
                     </td>
-                    <td class="acciones-td">
-
-                        <button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/AcuerdoDesempenio/OnGetCreateOrEdit?id=0','Acuerdo de desempeño')">
-                            <i class="fas fa-plus-square"></i>
-                        </button>
-                   
-                        @*<button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEdit?id=0&idGestion=@producto.IdGestion&idIndicadorEstra=@Model.Id','Producto')">
-                <i class="fas fa-pencil-alt"></i>
-            </button>*@
-                        @*<form id="form_delete_@producto.Id" asp-area="Planificacion" asp-controller="FactorCriticoExito" method="post" asp-action="OnPostDelete" asp-route-id="@producto.Id" onsubmit="return jQueryModalDelete(this)">
-                            <a href="javascript:$('#form_delete_@producto.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
-                        </form>*@
-                        @* <a asp-area="planificacion" asp-controller="Producto" asp-action="OnGetCreateOrEdit" asp-route-id="@producto.Id" class="btn btn-warning btn-xp"><i class="fas fa-pencil-alt"></i></a>*@
-                    </td>
+                  
 
 
                 </tr>
@@ -62,7 +41,42 @@
                 
             </tbody>
         </table>
+<div class="row">
+    <div class="col-md-12">
+      
+        <div class="form-group row">
+            <div class="col-md-12">
+                <label class="col-md-12 col-form-label texto-pregunta">Competencia</label>
 
+                <select name="Competencia" class="form-control">
+                    <option value="1">Desarrollar la organización para el futuro Isaías 41:10</option>
+                    <option value="2">Ejecutar una organización eficaz y ágil 1 Corintios 15:58</option>
+                    <option value="3">Involucrar, Influir, Liderar y ayudar el crecimiento de otros Filipenses 2:3-4</option>
+                    <option value="4">Modelo de autogestión  Filipenses 4:8</option>
+                </select>
+               
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-12">
+                <label class="col-md-12 col-form-label texto-pregunta">Comportamiento</label>
+
+                <select  name="Comportamiento" class="form-control">
+                    <option value="1">Vivo mi fe cristiana al liderar con humildad, siendo valiente en acción y comunicándome con honestidad y respeto.</option>
+                    <option value="2">Activamente busco retroalimentación abierta y sincera para discernir y actuar bajo la verdad</option>
+                    <option value="3">Hábilmente manejo las múltiples demandas y establezco prioridades para alcanzar los resultados importantes</option>
+                    <option value="4">Adapto el comportamiento y estilo para interactuar y asociarme efectivamente con otros, incluyendo aquellos con diferentes culturas, fe y tradiciones cristianas</option>
+                    <option value="5">Modelo estrategias de afrontamiento efectiva para asegurar y sostener mi propio bienestar</option>
+                    <option value="6">Encaro con confianza la incertidumbre e inteligentemente busco otros caminos cuando el cambio así lo requiere</option>
+                </select>
+               
+            </div>
+        </div>
+       
+
+
+    </div>
+</div>
 <script>
 
     $(document).ready(function () {
@@ -73,36 +87,12 @@
             ],
             "language": {
                 "url": "/lib/datatables/language/Spanish.json"
-            },
-
-            responsive: true,
-            columnDefs: [
-                { responsivePriority: 1, targets: 0 },
-                { responsivePriority: 2, targets: -1 }
-            ],
-            "info": false
-            //columnDefs: [
-            //    { responsivePriority: 1, targets: 0 },
-            //    { responsivePriority: 10001, targets: 4 },
-            //    { responsivePriority: 2, targets: -2 }
-            //]
+            }
         });
 
-        var column = table.column(0);
-        // Toggle the visibility
-        column.visible(false);
+      
 
-
-
-        $('#productoTable tbody').on('dblclick', 'tr', function () {
-            var data = table.row(this).data();
-
-            jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEditPerfil?id=' + data[0] + '&idNivel=0', 'Perfil');
-            
-
-        });
-
-        $(".dynmic-hidden-col").hide();
+     
 
     });
 </script>

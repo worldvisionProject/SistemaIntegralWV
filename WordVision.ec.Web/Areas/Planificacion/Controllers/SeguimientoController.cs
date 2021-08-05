@@ -64,12 +64,10 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             }
             var modelista = new List<AcuerdoViewModel>();
             var model = new AcuerdoViewModel();
-            model.Objetivo = descObjetivo;
-            model.Factor = descFactor;
-            model.IndicadorEstrategico = descIndicador;
-            model.MetaEstrategico = descMeta;
-            model.Producto = descProducto;
-            model.Meta = metaIndicadorPOA;
+            model.Tipo = "Objetivo estrategico";
+            model.Descripcion = descObjetivo;
+            model.Contribucion = descIndicador;
+            model.Meta = descMeta;
 
             modelista.Add(model);
             responseI = await _mediator.Send(new GetIndicadorEstrategicoByIdQuery() { Id = 1023 });
@@ -88,28 +86,25 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
             }
             model = new AcuerdoViewModel();
-            model.Objetivo = descObjetivo;
-            model.Factor = descFactor;
-            model.IndicadorEstrategico = descIndicador;
-            model.MetaEstrategico = descMeta;
-            model.Producto = descProducto;
-            model.Meta = metaIndicadorPOA;
-
-            //var response = await _mediator.Send(new GetAllIndicadorEstrategicoesCachedQuery());
-            //if (response.Succeeded)
-            //{
-
-            //  var viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data);
-            //var modelista = new List<PerfilDesempenioViewModel>();
-            //var model = new PerfilDesempenioViewModel();
-            //model.Accion = "Capacitación con el equipo técnico de Visión Mundial, Curso de Marco Lógico";
-            //model.FactorExito = "Al 30 de septiembre con capacidades fortalecidas en marco lógico";
-            //model.Indicador = "100% capacidades fortalecidas en marco lógico";
-            //model.LineaBase = "20%";
-            //model.MedioVerificacion = "Evaluación de capacidades en Marco Lógico";
-            //model.Objetivo = "Fortalecimiento de Marco Lógico";
+            model.Tipo = "Producto";
+            model.Descripcion = descProducto;
+            model.Contribucion = "";
+            model.Meta = descMeta;
             modelista.Add(model);
 
+            model = new AcuerdoViewModel();
+            model.Tipo = "Resposanbilidad";
+            model.Descripcion = "Coordina la adopción de iniciativas globales , asegurando su correcto funcionamiento a nivel local.";
+            model.Contribucion = "";
+            model.Meta = "20%";
+            modelista.Add(model);
+
+            model = new AcuerdoViewModel();
+            model.Tipo = "Resposanbilidad";
+            model.Descripcion = "Incrementar la satisfacción del servicio se porte de TI a través de la solución oportuna de requerimientos enviados por los clientes a través de la mesa de servicio.";
+            model.Contribucion = "";
+            model.Meta = "20%";
+            modelista.Add(model);
 
             return PartialView("_ViewAll", modelista);
             //}

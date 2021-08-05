@@ -19,7 +19,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         {
             var model = new DesarrolloPersonalViewModel();
 
-            return View("_CreateOrEdit", model);
+            return PartialView("_CreateOrEdit", model);
         }
         
     }

@@ -18,12 +18,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
 
     public class AcuerdoViewModel
     {
-        public string Objetivo { get; set; }
-        public string Factor { get; set; }
-        public string IndicadorEstrategico { get; set; }
-        public string MetaEstrategico { get; set; }
-        public string Producto { get; set; }
+        public string Tipo { get; set; }
+        public string Descripcion { get; set; }
+        public string Contribucion { get; set; }
         public string Meta { get; set; }
+       
      
     }
 }

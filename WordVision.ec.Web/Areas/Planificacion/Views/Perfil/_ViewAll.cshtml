@@ -2,11 +2,11 @@
 @model IEnumerable<PerfilDesempenioViewModel>
 
 
-<table id="productoTable" class="table table-striped " width="100%" cellspacing="0">
+<table id="productoTablep" class="table table-striped " width="100%" cellspacing="0">
             <thead>
                 <tr>
 
-                    <th>Id</th>
+                   
                     <th data-priority="1">Resposanbilidad</th>
                     <th data-priority="1">Resultado/Indicador</th>
                     <th data-priority="1">Meta Anual</th>
@@ -34,16 +34,7 @@
                         <button type="button" class="btn btn-warning  btn-xp" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Perfil/OnGetCreateOrEditPerfil?id=1&idNivel=@producto.Id','Perfil')">
                             <i class="fas fa-pencil-alt"></i>
                         </button>
-                    </td>
-                    <td class="acciones-td">
-                        @*<button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEdit?id=0&idGestion=@producto.IdGestion&idIndicadorEstra=@Model.Id','Producto')">
-                <i class="fas fa-pencil-alt"></i>
-            </button>*@
-                        <form id="form_delete_@producto.Id" asp-area="Planificacion" asp-controller="FactorCriticoExito" method="post" asp-action="OnPostDelete" asp-route-id="@producto.Id" onsubmit="return jQueryModalDelete(this)">
-                            <a href="javascript:$('#form_delete_@producto.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
-                        </form>
-                        @* <a asp-area="planificacion" asp-controller="Producto" asp-action="OnGetCreateOrEdit" asp-route-id="@producto.Id" class="btn btn-warning btn-xp"><i class="fas fa-pencil-alt"></i></a>*@
-                    </td>
+                                </td>
 
 
                 </tr>
@@ -55,43 +46,16 @@
 <script>
 
     $(document).ready(function () {
-        var table = $("#productoTable").DataTable({
+        var table = $("#productoTablep").DataTable({
             aoColumnDefs: [
                 { "aTargets": [0], "bSortable": true },
                 { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
             ],
             "language": {
                 "url": "/lib/datatables/language/Spanish.json"
-            },
-
-            responsive: true,
-            columnDefs: [
-                { responsivePriority: 1, targets: 0 },
-                { responsivePriority: 2, targets: -1 }
-            ],
-            "info": false
-            //columnDefs: [
-            //    { responsivePriority: 1, targets: 0 },
-            //    { responsivePriority: 10001, targets: 4 },
-            //    { responsivePriority: 2, targets: -2 }
-            //]
+            }
         });
 
-        var column = table.column(0);
-        // Toggle the visibility
-        column.visible(false);
-
-
-
-        $('#productoTable tbody').on('dblclick', 'tr', function () {
-            var data = table.row(this).data();
-
-            jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEditPerfil?id=' + data[0] + '&idNivel=0', 'Perfil');
-            
-
-        });
-
-        $(".dynmic-hidden-col").hide();
-
+        
     });
 </script>
