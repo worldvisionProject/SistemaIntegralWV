@@ -42,4 +42,14 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public virtual List<MetaViewModel> MetaTacticas { get; set; }
 
     }
+
+    public class EvidenciaViewModel
+    {
+        public int Id { get; set; }
+        public string Nombre { get; set; }
+        public string Archivo { get; set; }
+        public string Descripcion { get; set; }
+
+
+    }
 }

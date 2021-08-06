@@ -60,7 +60,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 idResponsable = (int)entidadViewModel.Responsable;
                 descLineaBase = entidadViewModel.LineaBase;
                 metaIndicadorPOA = "100";// entidadViewModel.Productos.Where(p => p.Id == 1).FirstOrDefault().IndicadorPOAs.Where(p=>p.Id==1).FirstOrDefault().Meta;
-                
+
             }
             var modelista = new List<AcuerdoViewModel>();
             var model = new AcuerdoViewModel();
@@ -108,7 +108,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
             return PartialView("_ViewAll", modelista);
             //}
-           
+
         }
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idNivel = 0)
         {
@@ -172,7 +172,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 if (colaborador.Succeeded)
                 {
                     var responsa = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
-                   // entidadViewModels.responsableList = new SelectList(responsa, "Id", "Nombres");
+                    // entidadViewModels.responsableList = new SelectList(responsa, "Id", "Nombres");
                     entidadViewModels.ResponsableIndicador = responsa.Where(r => r.Id == idResponsable).FirstOrDefault().Nombres;
                     entidadViewModels.DescResponsable = responsa.Where(r => r.Id == idResponsablePOA).FirstOrDefault().Nombres;
                 }
@@ -202,6 +202,38 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 11 });
                 entidadViewModel.NumMesesList = new SelectList(cat11.Data, "Secuencia", "Nombre");
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEditPerfil", entidadViewModel) });
+            }
+            //else
+            //{
+            //    var response = await _mediator.Send(new GetIndicadorPOAByIdQuery() { Id = id });
+            //    if (response.Succeeded)
+            //    {
+            //        var entidadViewModel = _mapper.Map<IndicadorPOAViewModel>(response.Data);
+            //        return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+            //    }
+            //}
+            return null;
+        }
+
+        public async Task<JsonResult> OnGetCreateOrEditEvidencia(int id = 0, int idNivel = 0)
+        {
+
+            if (id == 0)
+            {
+                var entidadViewModelList = new List<EvidenciaViewModel>();
+                var entidadViewModel = new EvidenciaViewModel();
+                entidadViewModel.Nombre = "Documento de respaldo aF22";
+                entidadViewModel.Descripcion = "Este Documento contiene la evidencia del proceso cumplido respaldo aF22";
+                entidadViewModel.Archivo = "Documento_AF22-PDF";
+                entidadViewModelList.Add(entidadViewModel);
+
+                entidadViewModel = new EvidenciaViewModel();
+                entidadViewModel.Nombre = "Documento de respaldo sgs";
+                entidadViewModel.Descripcion = "Este Documento contiene la evidencia del proceso cumplido.";
+                entidadViewModel.Archivo = "Documento_SGS";
+                entidadViewModelList.Add(entidadViewModel);
+
+                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEditEvidencia", entidadViewModelList) });
             }
             //else
             //{

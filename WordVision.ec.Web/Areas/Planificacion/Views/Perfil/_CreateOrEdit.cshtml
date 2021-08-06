@@ -4,7 +4,7 @@
 
 
 <form id="create-form" method="post" asp-controller="IndicadorPOA" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
-    
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
@@ -20,7 +20,7 @@
                     <span asp-validation-for="TipoObjetivo" class="text-danger"></span>
                 </div>
             </div>
-            
+
             <div class="form-group row">
                 <div class="col-md-12">
                     <label class="col-md-12 col-form-label texto-pregunta">Indicador</label>
@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                
+
                 <div class="col-md-2">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Anual</label>
                     <input asp-for="MetaAnual" type="text" name="MetaAnual" class="form-control" />
@@ -39,7 +39,7 @@
             </div>
 
 
-            
+
 
             <div class="row">
                 <div class="col-md-12">
@@ -107,8 +107,8 @@
                                 <tr id="@metaanual.Id">
                                     @*<td>
 
-                                    @colaborador.Id
-                                </td>*@
+                                            @colaborador.Id
+                                        </td>*@
                                     <td>
 
                                         @metaanual.NumMeses
@@ -118,7 +118,7 @@
 
                                         @{
                                             var selectedCity = Model.UnidadList;
-                                            string txt = selectedCity.Where(x => x.Value == metaanual.TipoMedida.ToString()).FirstOrDefault().Text;
+                                            string txt = selectedCity.Where(x => x.Value == metaanual.TipoMedida.ToString())?.FirstOrDefault()?.Text ?? "";
                                         }
                                         @txt
                                     </td>
@@ -146,7 +146,7 @@
 
 
         </div>
-        </div>
+    </div>
 
     <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">

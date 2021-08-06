@@ -24,6 +24,7 @@ using WordVision.ec.Application.Features.Logs.Commands.AddActivityLog;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Create;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Formularios.Commands.Create;
+using WordVision.ec.Application.Features.Registro.Formularios.Queries.GetById;
 using WordVision.ec.Infrastructure.Data.Identity.Models;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Services;
@@ -626,6 +627,33 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                         logindetails.Nivel = colaborador.Estructuras.Nivel;
                         logindetails.ReportaA = colaborador.CodReportaA;
                         logindetails.IdEmpresa = colaborador.Estructuras.Empresas.Id;
+
+                        var responsef = await _mediator.Send(new GetFormularioByIdQuery() { Id = idColabora });
+                        if (responsef.Succeeded)
+                        {
+                            if (responsef.Data == null)
+                            {
+                                var formulario = await _mediator.Send(new CreateFormularioCommand()
+                                {
+                                    IdColaborador = idColabora,
+                                    FechaNacimiento = DateTime.Now,
+                                    VigenciaDesde = DateTime.Now,
+                                    VigenciaHasta = DateTime.Now,
+                                    FamiliaPorcentajeDiscapacidad = 0,
+                                    PorcentajeDiscapacidad = 0,
+                                    PorcentajeEscrito = 0,
+                                    PorcentajeHablado = 0
+                                });
+
+                                if (formulario == null)
+                                {
+                                    _notyf.Error("No se insertaron los datos del formulario.");
+                                }
+                            }
+                           
+                        }
+                        
+                      
                     }
                 }
 
