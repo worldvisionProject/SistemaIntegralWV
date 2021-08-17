@@ -8,97 +8,109 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <label class="col-md-12 col-form-label texto-pregunta">Categoria / Mercancía</label>
                     @Html.DropDownListFor(x => x.CategoriaMercaderia, (IEnumerable<SelectListItem>)Model.CategoriaList, new { @class = "form-control" })
 
                     <span asp-validation-for="CategoriaMercaderia" class="text-danger"></span>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <label class="col-md-12 col-form-label texto-pregunta">Insumo/Articulo</label>
                     @Html.DropDownListFor(x => x.Insumo, (IEnumerable<SelectListItem>)Model.InsumoList, new { @class = "form-control" })
 
                     <span asp-validation-for="Insumo" class="text-danger"></span>
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="col-md-5">
-                    <label class="col-md-12 col-form-label texto-pregunta">Centro de Costo</label>
-                    @Html.DropDownListFor(x => x.CentroCosto, (IEnumerable<SelectListItem>)Model.CentroCostosList, new { @class = "form-control" })
-
-                    <span asp-validation-for="CentroCosto" class="text-danger"></span>
-                </div>
-                <div class="col-md-5">
-                    <label class="col-md-12 col-form-label texto-pregunta">Cuenta / Cod. CC</label>
-                    @Html.DropDownListFor(x => x.CuentaCodigoCC, (IEnumerable<SelectListItem>)Model.CuentaCCList, new { @class = "form-control" })
-
-                    <span asp-validation-for="CuentaCodigoCC" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-4">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Precio Unitario</label>
-
-                    <input asp-for="PrecioUnitario" type="text" name="PrecioUnitario" class="form-control" />
-                    <span asp-validation-for="PrecioUnitario" class="text-danger"></span>
-                </div>
-                <div class="col-md-4">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Cantidad</label>
-
-                    <input asp-for="Cantidad" type="text" name="Cantidad" class="form-control" />
-                    <span asp-validation-for="Cantidad" class="text-danger"></span>
-                </div>
-                <div class="col-md-4">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Total</label>
-
-                    <input asp-for="Total" type="text" name="Total" class="form-control" readonly/>
-                    <span asp-validation-for="Total" class="text-danger"></span>
-                </div>
-            </div>
-            <div id="consultoria">
+            <div >
                 <div class="form-group row">
                     <div class="col-md-12">
                         <label class="col-md-12 col-form-label texto-pregunta">
-                            ¿Por qué la consultoria?
+                            Descripción
 
                         </label>
-                        <textarea asp-for="ParaqueConsultoria" name="ParaqueConsultoria" class="form-control"></textarea>
-                        <span asp-validation-for="ParaqueConsultoria" class="text-danger"></span>
+                        <textarea asp-for="DetalleInsumo" name="DetalleInsumo" class="form-control"></textarea>
+                        <span asp-validation-for="DetalleInsumo" class="text-danger"></span>
+                    </div>
+                </div>
+             </div>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <label class="col-md-12 col-form-label texto-pregunta">Centro de Costo</label>
+                        @Html.DropDownListFor(x => x.CentroCosto, (IEnumerable<SelectListItem>)Model.CentroCostosList, new { @class = "form-control" })
+
+                        <span asp-validation-for="CentroCosto" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-12 col-form-label texto-pregunta">Cuenta / Cod. CC</label>
+                        @Html.DropDownListFor(x => x.CuentaCodigoCC, (IEnumerable<SelectListItem>)Model.CuentaCCList, new { @class = "form-control" })
+
+                        <span asp-validation-for="CuentaCodigoCC" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-12">
-                        <label class="col-md-12 col-form-label texto-pregunta">
-                            Seleccione en caso de trabajar con GTRM
+                    <div class="col-md-3">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Precio Unitario</label>
 
-                        </label>
-                           <input asp-for="Gtrm" type="checkbox" name="Gtrm" class="form-control" />
-                        <span asp-validation-for="Gtrm" class="text-danger"></span>
+                        <input asp-for="PrecioUnitario" type="text" name="PrecioUnitario" class="form-control" />
+                        <span asp-validation-for="PrecioUnitario" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Cantidad</label>
+
+                        <input asp-for="Cantidad" type="text" name="Cantidad" class="form-control" />
+                        <span asp-validation-for="Cantidad" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Total</label>
+
+                        <input asp-for="Total" type="text" name="Total" class="form-control" readonly />
+                        <span asp-validation-for="Total" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <div class="col-md-12">
-                        <label class="col-md-12 col-form-label texto-pregunta">
-                            Justificación
+                <div id="consultoria">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-form-label texto-pregunta">
+                                ¿Por qué la consultoria?
 
-                        </label>
-                        <textarea asp-for="JustificacionConsultoria" name="JustificacionConsultoria" class="form-control"></textarea>
-                        <span asp-validation-for="JustificacionConsultoria" class="text-danger"></span>
+                            </label>
+                            <textarea asp-for="ParaqueConsultoria" name="ParaqueConsultoria" class="form-control"></textarea>
+                            <span asp-validation-for="ParaqueConsultoria" class="text-danger"></span>
+                        </div>
                     </div>
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-form-label texto-pregunta">
+                                Seleccione en caso de trabajar con GTRM
+
+                            </label>
+                            <input asp-for="Gtrm" type="checkbox" name="Gtrm" class="form-control" />
+                            <span asp-validation-for="Gtrm" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-form-label texto-pregunta">
+                                Justificación
+
+                            </label>
+                            <textarea asp-for="JustificacionConsultoria" name="JustificacionConsultoria" class="form-control"></textarea>
+                            <span asp-validation-for="JustificacionConsultoria" class="text-danger"></span>
+                        </div>
+                    </div>
+
                 </div>
 
-            </div>
 
 
-
-             <div class="row">
+                <div class="row">
                     <div class="col-md-12">
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <hr />
                             </div>
                             <div class="col-md-12">
-                                <label class="col-md-12 col-form-label">Fechas</label>
+                                <label class="col-md-12 col-form-label">Mes en que se utilizará el recurso</label>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -109,13 +121,13 @@
                                 <span asp-validation-for="Mes" class="text-danger"></span>
                             </div>
 
-                            <div class="col-md-4">
-                                <label class="col-md-12 col-form-label texto-pregunta text-left">Valor</label>
+                            <div class="col-md-3">
+                                <label class="col-md-12 col-form-label texto-pregunta text-left">Cantidad</label>
 
                                 <input asp-for="Valor" type="text" name="Valor" class="form-control" />
                                 <span asp-validation-for="Valor" class="text-danger"></span>
                             </div>
-                           
+
                             <div class="col-md-2" style="padding-top: 25px;">
                                 <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
                             </div>
@@ -126,7 +138,7 @@
 
                 <br />
                 <div id="divMes">
-                    <table id="mesTable" class="table table-striped" width="100%" cellspacing="0">
+                    <table id="mesTable" class="table table-striped  rwd-table" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 @*<th>Id</th>*@
@@ -144,18 +156,18 @@
                                     <tr id="@valormes.Id" class="rowdata">
                                         @*<td>
 
-                                                @colaborador.Id
-                                            </td>*@
+                                        @colaborador.Id
+                                    </td>*@
                                         <td class="mes">
 
                                             @valormes.Mes
 
                                         </td>
-                               
+
                                         <td class="valormes">
                                             @valormes.Valor.ToString().Replace(",", ".")
                                         </td>
-                                       
+
                                         <td class="text-right">
                                             <button type="button" onclick="EliminaFila(@valormes.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
 
@@ -172,8 +184,8 @@
                 </div>
 
 
+            </div>
         </div>
-    </div>
     <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
         <button type="submit" class="btn btn-success">Guardar</button>
@@ -193,7 +205,7 @@
         $("#CuentaCodigoCC").change(function () {
             var selectedSubject = $("#CuentaCodigoCC option:selected").val();
             //alert("You have selected the country - " + selectedSubject);
-          //  alert(selectedSubject.indexOf("575"));
+            //alert(selectedSubject.indexOf("575"));
           
             if (selectedSubject.indexOf("575")>=0)
                 $("#consultoria").show(1000);
@@ -222,14 +234,68 @@
 
     });
 
-   
+    function duplicadosMeta(af_in) {
 
-       var num = 0;
-        function AgregaConcepto() {
+        const tableRows = document.querySelectorAll('#mesTable tr.rowdata');
+       
+        // Recorremos las filas que tengan el class="row"
+        // así obviamos la cabecera
+        for (let i = 0; i < tableRows.length; i++) {
+            const row = tableRows[i];
+            const status = row.querySelector('.mes');
+          
+            if (af_in == status.innerText) {
+                alert("Ya existe el mes " + af_in);
+                return true;
+            }
+            // Para modificar un estado:
+            // status.innerText = 'offline';
+        }
+        return false;
+
+    }
+
+
+    function sumar() {
+
+        const tableRows = document.querySelectorAll('#mesTable tr.rowdata');
+        var sum = 0;
+        // Recorremos las filas que tengan el class="row"
+        // así obviamos la cabecera
+        for (let i = 0; i < tableRows.length; i++) {
+
+            const row = tableRows[i];
+            const status = row.querySelector('.valormes');
+
+            sum = sum + parseFloat(status.innerText);
+            // Para modificar un estado:
+            // status.innerText = 'offline';
+        }
+
+        var metagestion = document.getElementById("Cantidad").value.replace(',', '.');
+        if (sum > parseFloat(metagestion)) {
+            alert("La cantidad debe ser menor o igual a la cantidad de Recursos.");
+            return true;
+
+        }
+        return false;
+    }
+
+
+    var num = 0;
+    function AgregaConcepto() {
             let Mes = document.getElementById("Mes").value;
-            let Valor = document.getElementById("Valor").value;
+        let Valor = document.getElementById("Valor").value;
+
+        if (Mes.length == 0) {
+            alert("Ingrese el Mes.");
+            return;
+        }
+
             var selection = document.getElementById("Mes");
             let Mestxt = selection.options[selection.selectedIndex].innerHTML;
+
+        if (duplicadosMeta(Mestxt)) { return; }
 
             if (Mes.length == 0) {
                 alert("Ingrese el Mes.");
@@ -243,11 +309,14 @@
             //agregamos tabla
             let Tabla = document.getElementById("mesTable");
             let TR = document.createElement("tr");
-            TR.setAttribute('id', num);
+        TR.setAttribute('id', num);
+        TR.className = "rowdata";
             let TDMes = document.createElement("td");
             let TDValor = document.createElement("td");
             let TDEliminar = document.createElement("td");
-            TDEliminar.className = "text-right";
+        TDEliminar.className = "text-right";
+        TDValor.className = "valormes";
+        TDMes.className = "mes";
 
             TR.appendChild(TDMes);
             TR.appendChild(TDValor);
@@ -258,6 +327,11 @@
           
             TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
             Tabla.appendChild(TR);
+
+        if (sumar()) {
+            deleteRow(num);
+            return;
+        }
 
             //agregamos hiddens
             let DivConceptos = document.getElementById("divMes");

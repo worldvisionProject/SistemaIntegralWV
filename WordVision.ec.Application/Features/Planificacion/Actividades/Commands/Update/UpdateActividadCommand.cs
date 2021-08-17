@@ -19,7 +19,8 @@ namespace WordVision.ec.Application.Features.Planificacion.Actividades.Commands.
         public string DescripcionActividad { get; set; }
         public string Entregable { get; set; }
         public int IdCargoResponsable { get; set; }
-        public DateTime Plazo { get; set; }
+        public DateTime FechaInicio { get; set; }
+        public DateTime FechaFin { get; set; }
         public decimal? Ponderacion { get; set; }
         public string SNPresupuesto { get; set; }
         public decimal? TechoPresupuestoCC { get; set; }
@@ -58,7 +59,8 @@ namespace WordVision.ec.Application.Features.Planificacion.Actividades.Commands.
                     actividad.DescripcionActividad = command.DescripcionActividad ?? actividad.DescripcionActividad;
                     actividad.Entregable = command.Entregable ?? actividad.Entregable;
                     actividad.IdCargoResponsable = command.IdCargoResponsable==0? actividad.IdCargoResponsable: command.IdCargoResponsable;
-                    actividad.Plazo = command.Plazo;
+                    actividad.FechaInicio = command.FechaInicio;
+                    actividad.FechaFin = command.FechaFin;
                     actividad.Ponderacion = command.Ponderacion ?? actividad.Ponderacion;
                     actividad.SNPresupuesto = command.SNPresupuesto ?? actividad.SNPresupuesto;
                     actividad.TechoPresupuestoCC = command.TechoPresupuestoCC ?? actividad.TechoPresupuestoCC;

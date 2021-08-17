@@ -37,7 +37,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Productos.Commands.Up
 
             public async Task<Result<int>> Handle(UpdateProductoCommand command, CancellationToken cancellationToken)
             {
-                var producto = await _ProductoRepository.GetByIdAsync(command.Id,0);
+                var producto = await _ProductoRepository.GetByIdAsync(command.Id,0, "");
 
                 if (producto == null)
                 {

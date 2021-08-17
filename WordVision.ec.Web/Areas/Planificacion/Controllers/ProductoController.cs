@@ -126,7 +126,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 switch (Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value))
                 {
                     case 2:
-                        idColaborador = 0;// Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
+                        idColaborador =  Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
                         break;
                     //case 3:
                     //    idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
@@ -136,7 +136,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     //    break;
                 }
 
-                var response = await _mediator.Send(new GetIndicadorEstrategicoByIdQuery() { Id = idIndicador ,IdColaborador=idColaborador});
+                var response = await _mediator.Send(new GetIndicadorEstrategicoByIdQuery() { Id = idIndicador ,IdColaborador=idColaborador,IdCreadoPor=User.Identity.Name});
                 if (response.Succeeded)
                 {
                     var viewModel = _mapper.Map<IndicadorEstrategicoViewModel>(response.Data);

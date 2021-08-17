@@ -37,32 +37,48 @@
                             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                                 @*PERFIL*@
                                 <div class="container-fluid">
-                                   
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group row">
-                                            <div class="col-md-2">
-                                        
-                                                <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Perfil/OnGetCreateOrEditPerfil?id=1&idNivel=0','Perfil')">
-                                                    <i class="fa fa-plus-square"></i>
-                                                    Agregar
-                                                </button>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-12">
+                                                    Cuáles de las responsabilidades de su cargo, en este AF va a agregar valor y por los que se le medirá el desempeño
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                  
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-2">
+
+                                                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Perfil/OnGetCreateOrEditPerfil?id=1&idNivel=0','Perfil')">
+                                                        <i class="fa fa-plus-square"></i>
+                                                        Agregar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div id="viewAllPerfil" class="card-body table-responsive" style="padding: 0;">
                                     </div>
-                                
+
                                 </div>
                             </div>
-
 
 
                             <div class="tab-pane fade" id="nav-valoracion" role="tabpanel" aria-labelledby="nav-valoracion-tab">
                                 @*VALORACION DE DESEMPEÑO*@
                                 <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <div class="col-md-12">
+                                                    Cuáles de los Objetivos Estratégicos, Productos, Actividades y responsabilidades en este AF va a agregar valor y por los que se le medirá el desempeño
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div id="viewAllValoracion" class="card-body table-responsive" style="padding: 0;">
                                     </div>
                                 </div>
@@ -87,10 +103,17 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="tab-pane fade" id="nav-seguimiento" role="tabpanel" aria-labelledby="nav-seguimiento-tab">
+                                @*SEGUIMMIENTO*@
+                                <div class="container-fluid">
+                                    <div id="viewAllSeguimiento" class="card-body table-responsive" style="padding: 0;">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                    </div>
-                </div>
+                                    </div>
+                                </div>
             </div>
 
                 <br />

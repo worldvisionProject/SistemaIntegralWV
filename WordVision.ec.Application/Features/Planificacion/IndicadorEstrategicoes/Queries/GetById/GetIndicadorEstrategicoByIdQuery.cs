@@ -13,6 +13,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
     {
         public int Id { get; set; }
         public int IdColaborador { get; set; }
+        public string IdCreadoPor { get; set; }
         public class GetIndicadorEstrategicoByIdQueryHandler : IRequestHandler<GetIndicadorEstrategicoByIdQuery, Result<GetIndicadorEstrategicoByIdResponse>>
         {
             private readonly IIndicadorEstrategicoRepository _IndicadorEstrategicoCache;
@@ -32,7 +33,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
             public async Task<Result<GetIndicadorEstrategicoByIdResponse>> Handle(GetIndicadorEstrategicoByIdQuery query, CancellationToken cancellationToken)
             {
               
-                var IndicadorEstrategico = await _IndicadorEstrategicoCache.GetByIdAsync(query.Id,query.IdColaborador);
+                var IndicadorEstrategico = await _IndicadorEstrategicoCache.GetByIdAsync(query.Id,query.IdColaborador, query.IdCreadoPor);
                 var mappedIndicadorEstrategico = _mapper.Map<GetIndicadorEstrategicoByIdResponse>(IndicadorEstrategico);
                 
                 return Result<GetIndicadorEstrategicoByIdResponse>.Success(mappedIndicadorEstrategico);

@@ -28,7 +28,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Productos.Commands.De
 
             public async Task<Result<int>> Handle(DeleteProductoCommand command, CancellationToken cancellationToken)
             {
-                var IndicadorAF = await _ProductoRepository.GetByIdAsync(command.Id,0);
+                var IndicadorAF = await _ProductoRepository.GetByIdAsync(command.Id,0,"");
                 await _ProductoRepository.DeleteAsync(IndicadorAF);
                 await _unitOfWork.Commit(cancellationToken);
                 return Result<int>.Success(IndicadorAF.Id);

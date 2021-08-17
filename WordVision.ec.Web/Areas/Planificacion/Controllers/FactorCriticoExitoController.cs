@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Planificacion.Actividades.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Commands.Delete;
@@ -16,10 +17,12 @@ using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Comm
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.Productos.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
@@ -200,25 +203,25 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             try
             {
                 int idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
-                switch (Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value))
-                {
-                    case 2:
-                        idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
-                        break;
-                    case 3:
-                        idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
-                        break;
-                    case 4:
-                        idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
-                        var responseGerencia = await _mediator.Send(new GetColaboradorByIdQuery() { Id = idColaborador });
-                        if (responseGerencia.Succeeded)
-                        {
-                            var responseNivel = await _mediator.Send(new GetColaboradorByNivelQuery() { Nivel1 = 1, Nivel2 = 2 });
+                //switch (Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value))
+                //{
+                //    case 2:
+                //        idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
+                //        break;
+                //    case 3:
+                //        idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
+                //        break;
+                //    case 4:
+                //        idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
+                //        var responseGerencia = await _mediator.Send(new GetColaboradorByIdQuery() { Id = idColaborador });
+                //        if (responseGerencia.Succeeded)
+                //        {
+                //            var responseNivel = await _mediator.Send(new GetColaboradorByNivelQuery() { Nivel1 = 1, Nivel2 = 2 });
 
-                            idColaborador = responseNivel.Data.Where(c => c.Cargo == responseGerencia.Data.Estructuras.ReportaID).FirstOrDefault().Id;
-                        }
-                        break;
-                }
+                //            idColaborador = responseNivel.Data.Where(c => c.Cargo == responseGerencia.Data.Estructuras.ReportaID).FirstOrDefault().Id;
+                //        }
+                //        break;
+                //}
                 var descGestion = "";
                 var responseG = await _mediator.Send(new GetGestionByIdQuery() { Id = idGestion });
                 if (responseG.Succeeded)
@@ -233,17 +236,66 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     ViewBag.Message = responseO.Data.Descripcion;
                 }
 
-                var response = await _mediator.Send(new GetFactorCriticoxObjetivoByIdQuery() { Id = idObjetivo, IdColaborador = idColaborador, IdGestion = idGestion });
-                if (response.Succeeded)
-                {
-                    ViewBag.IdGestion = idGestion;
-                    ViewBag.DescGestion = descGestion;
-                    ViewBag.IdObjetivo = idObjetivo;
-                    ViewBag.IdEstrategia = responseO.Data.IdEstrategia;
+                //var response = await _mediator.Send(new GetFactorCriticoxObjetivoByIdQuery() { Id = idObjetivo, IdColaborador = idColaborador, IdGestion = idGestion });
+                //if (response.Succeeded)
+                //{
+                //    ViewBag.IdGestion = idGestion;
+                //    ViewBag.DescGestion = descGestion;
+                //    ViewBag.IdObjetivo = idObjetivo;
+                //    ViewBag.IdEstrategia = responseO.Data.IdEstrategia;
 
-                    var viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data);
-                    return PartialView("_ViewAllxIndicador", viewModel);
+                //    var viewModel = _mapper.Map<List<FactorCriticoExitoViewModel>>(response.Data);
+                //    return PartialView("_ViewAllxIndicador", viewModel);
+                //}
+
+                switch (Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value))
+                {
+                    case 2:
+                        var response = await _mediator.Send(new GetAllIndicadorEstrategicoesQuery() { IdObjetivoEstrategico = idObjetivo });
+                        if (response.Succeeded)
+                        {
+                            ViewBag.IdGestion = idGestion;
+                            ViewBag.DescGestion = descGestion;
+                            ViewBag.IdObjetivo = idObjetivo;
+                            ViewBag.IdEstrategia = responseO.Data.IdEstrategia;
+
+                            var viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data).Where(i => i.Responsable == idColaborador);
+                            return PartialView("_ViewAllxIndicador", viewModel);
+                        }
+                        break;
+                    case 3:
+                        var responseProducto = await _mediator.Send(new GetAllProductosCachedQuery());
+                        if (responseProducto.Succeeded)
+                        {
+                            ViewBag.IdGestion = idGestion;
+                            ViewBag.DescGestion = descGestion;
+                            ViewBag.IdObjetivo = idObjetivo;
+                            ViewBag.IdEstrategia = responseO.Data.IdEstrategia;
+
+                            var viewModel = _mapper.Map<List<ProductoViewModel>>(responseProducto.Data.Where(c => c.IdCargoResponsable == idColaborador));
+                            return PartialView("_ViewAllxProducto", viewModel);
+                        }
+                        break;
+
+                    case 4:
+                        var responseActividad = await _mediator.Send(new GetAllActividadesQuery() { IdObjetivoEstrategico = idObjetivo });
+                        if (responseActividad.Succeeded)
+                        {
+                            ViewBag.IdGestion = idGestion;
+                            ViewBag.DescGestion = descGestion;
+                            ViewBag.IdObjetivo = idObjetivo;
+                            ViewBag.IdEstrategia = responseO.Data.IdEstrategia;
+
+                            var viewModel = _mapper.Map<List<ActividadViewModel>>(responseActividad.Data.Where(c => c.IdCargoResponsable == idColaborador));
+                            return PartialView("_ViewAllxActividad", viewModel);
+                        }
+                        break;
+
                 }
+
+                
+
+               
             }
             catch (Exception ex)
             {

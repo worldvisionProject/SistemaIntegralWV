@@ -28,7 +28,7 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories.Planificacion
             var entidad = await _distributedCache.GetAsync<IndicadorEstrategico>(cacheKey);
             if (entidad == null)
             {
-                entidad = await _repository.GetByIdAsync(indicadorEstrategico,0);
+                entidad = await _repository.GetByIdAsync(indicadorEstrategico,0,"");
                 Throw.Exception.IfNull(entidad, "Estrategia", "Estrategia no encontrado");
                 await _distributedCache.SetAsync(cacheKey, entidad);
             }

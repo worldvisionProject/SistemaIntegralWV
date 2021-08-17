@@ -41,7 +41,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
 
             public async Task<Result<int>> Handle(UpdateIndicadorEstrategicoCommand command, CancellationToken cancellationToken)
             {
-                var IndicadorEstrategico = await _IndicadorEstrategicoRepository.GetByIdAsync(command.Id,0);
+                var IndicadorEstrategico = await _IndicadorEstrategicoRepository.GetByIdAsync(command.Id,0,"");
 
                 if (IndicadorEstrategico == null)
                 {

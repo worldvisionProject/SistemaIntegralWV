@@ -12,7 +12,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Planificacion
         IQueryable<Actividad> Actividades { get; }
 
         Task<List<Actividad>> GetListAsync();
-
+        Task<List<Actividad>> GetListxObjetivoAsync(int idObjetivoEstrategico);
         Task<Actividad> GetByIdAsync(int actividadId);
         Task<List<Actividad>> GetListByIdAsync(int idIndicador);
         Task<int> InsertAsync(Actividad actividad);

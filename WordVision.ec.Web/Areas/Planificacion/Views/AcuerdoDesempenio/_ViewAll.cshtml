@@ -6,12 +6,13 @@
             <thead>
                 <tr>
 
-                   
+
                     <th data-priority="1">Tipo</th>
+                    <th data-priority="1">Categoría</th>
                     <th data-priority="1">Descripción</th>
-                    <th data-priority="1">Contribución</th>
+                    <th data-priority="1">Contribución al objetivo estratégico</th>
                     <th data-priority="1">Meta Anuales/Gestiones</th>
-                    
+
 
                 </tr>
             </thead>
@@ -22,7 +23,10 @@
                 <tr>
 
                     <td>
-                        @producto.Tipo
+                        @producto.DescTipo
+                    </td>
+                    <td>
+                        @producto.CategoriaObjetivo
                     </td>
                     <td>
                         @producto.Descripcion
@@ -33,7 +37,7 @@
                     <td>
                         @producto.Meta
                     </td>
-                  
+
 
 
                 </tr>
@@ -49,12 +53,46 @@
                 <label class="col-md-12 col-form-label texto-pregunta">Competencia</label>
 
                 <select name="Competencia" class="form-control">
-                    <option value="1">Desarrollar la organización para el futuro Isaías 41:10</option>
-                    <option value="2">Ejecutar una organización eficaz y ágil 1 Corintios 15:58</option>
-                    <option value="3">Involucrar, Influir, Liderar y ayudar el crecimiento de otros Filipenses 2:3-4</option>
-                    <option value="4">Modelo de autogestión  Filipenses 4:8</option>
+                    @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "1" || User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2" || User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "3")
+                    {
+                        <option value="1">Presto atención a mi propio bienestar y resilencia. Me mantengo enfocado y recursivo a través de la complejidad, ambigüedad y disrupción, y lidero de forma que otros hagan lo mismo. Creo un ambiente donde el personal se sienta seguro, es reciliente, tenga confianza, y relaciones auténticas</option>
+                        <option value="2">Practico la mayordomía sabia con aquellos a los cuales influencio y lidero.  Busco el crecimiento y multiplicar el impacto de los individuos, grupos y redes. A través de decir la verdad oportunamente y con amor, cultivo un ambiente de soporte donde podemos encarar los desafíos dando lo mejor.</option>
+                        <option value="3">Involucrar, Influir, Liderar y ayudar el crecimiento de otros Filipenses 2:3-4Lidero con el ejemplo  el enfoque y alcance de los asuntos más importantes. Creo unidad y confianza haciendo mi parte y permitiendo a los otros ser responsables, así entregaremos resultados de una manera ágil y acorde a lo requerido</option>
+                        <option value="4">Consistentemente busco afuera, y aprendo y respondo con innovación para transformar la organización para el futuro. Propicio  un ambiente donde las pesonas están empoderadas para descubrir nuevas y mejores formas de hacer las cosas</option>
+                    }
+                    <option value="1">
+                        Me ocupo de mi bienestar personal y apoyo a otros para que hagan lo mismo.
+                    </option>
+                    <option value="2">
+                        Trato a otros con empatía y respeto para que crezca la confianza y podamos decirnos la verdad con amor..
+                    </option>
+                    <option value="3">
+                        Trato a otros con empatía y respeto para que crezca la confianza y podamos decirnos la verdad con amor..
+                    </option>
+                    <option value="4">
+                        Participo e influyo en redes de
+                        personas más allá de mi función para marcar una diferencia mayor a lo que podríamos hacer solos..
+                    </option>
+                    <option value="4">
+                        Me concentro y ayudo a lograr las
+                        cosas que más importan, con clara
+                        evidencia de mi contribución..
+                    </option>
+                    <option value="4">
+                        Ejerzo una mayordomía sabia, al
+                        demostrar buen juicio e integridad
+                        en las decisiones que tomo y las
+                        elecciones que hago..
+                    </option>
+                    <option value="4">
+                        Busco y descubro nuevas y
+                        mejores maneras de hacer las
+                        cosas, resolver problemas y
+                        convertir las ideas en acción..
+                    </option>
+                    <option value="4">Abordo el cambio y las oportunidades que este ofrece con apertura y valor, y aliento a otros a hacer lo mismo.</option>
                 </select>
-               
+
             </div>
         </div>
         <div class="form-group row">

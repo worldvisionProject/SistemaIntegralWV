@@ -64,7 +64,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     //    idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
                     //    break;
             }
-            var response = await _mediator.Send(new GetProductoByIdQuery() { Id = idProducto, IdColaborador = idColaborador });
+            var response = await _mediator.Send(new GetProductoByIdQuery() { Id = idProducto, IdColaborador = idColaborador, IdCreadoPor = User.Identity.Name });
             if (response.Succeeded)
             {
                 var viewModel = _mapper.Map<ProductoViewModel>(response.Data);

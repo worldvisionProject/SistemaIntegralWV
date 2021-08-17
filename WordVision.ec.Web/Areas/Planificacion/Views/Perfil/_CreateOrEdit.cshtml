@@ -1,6 +1,26 @@
 ﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @using WordVision.ec.Web.Areas.Planificacion.Models
+@using WordVision.ec.Infrastructure.Data.Identity.Models;
+@inject UserManager<ApplicationUser> UserManager
 @model PerfilDesempenioViewModel
+<div id="header" class="row titulopopup">
+    <div class="col-6">
+        <h6 class="h5 mb-2 text-gray-800-b">Colaborador: </h6>@UserManager.GetUserAsync(User).Result.FirstName @UserManager.GetUserAsync(User).Result.LastName
+    </div>
+    <div class="col-6" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Cargo: </h6>@User.Claims.FirstOrDefault(x => x.Type == "Cargo")?.Value
+    </div>
+
+</div>
+
+<div id="header" class="row titulopopup">
+    <div class="col-6">
+        <h6 class="h5 mb-2 text-gray-800-b">Indicador: </h6>@User.Claims.FirstOrDefault(x => x.Type == "Area")?.Value
+    </div>
+
+
+</div>
+<hr />
 
 
 <form id="create-form" method="post" asp-controller="IndicadorPOA" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">

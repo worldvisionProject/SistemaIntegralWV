@@ -61,7 +61,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             }
             var modelista = new List<AcuerdoViewModel>();
             var model = new AcuerdoViewModel();
-            model.Tipo = "Objetivo estrategico";
+            model.Tipo = "OE";
+            model.DescTipo = "Objetivo estrategico";
+            model.CategoriaObjetivo = "Nacional";
             model.Descripcion = descObjetivo;
             model.Contribucion = descIndicador;
             model.Meta = descMeta;
@@ -83,21 +85,27 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
             }
             model = new AcuerdoViewModel();
-            model.Tipo = "Producto";
+            model.Tipo = "PR";
+            model.DescTipo = "Producto";
+            model.CategoriaObjetivo = "";
             model.Descripcion = descProducto;
             model.Contribucion = "";
             model.Meta = descMeta;
             modelista.Add(model);
 
             model = new AcuerdoViewModel();
-            model.Tipo = "Resposanbilidad";
+            model.Tipo = "RE";
+            model.DescTipo = "Resposanbilidad";
+            model.CategoriaObjetivo = "";
             model.Descripcion = "Coordina la adopción de iniciativas globales , asegurando su correcto funcionamiento a nivel local.";
             model.Contribucion = "";
             model.Meta = "20%";
             modelista.Add(model);
 
             model = new AcuerdoViewModel();
-            model.Tipo = "Resposanbilidad";
+            model.Tipo = "RE";
+            model.DescTipo = "Resposanbilidad";
+            model.CategoriaObjetivo = "";
             model.Descripcion = "Incrementar la satisfacción del servicio se porte de TI a través de la solución oportuna de requerimientos enviados por los clientes a través de la mesa de servicio.";
             model.Contribucion = "";
             model.Meta = "20%";

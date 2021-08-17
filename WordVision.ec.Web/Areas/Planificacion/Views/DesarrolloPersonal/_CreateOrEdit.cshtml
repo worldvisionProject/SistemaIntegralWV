@@ -3,8 +3,7 @@
 @model DesarrolloPersonalViewModel
 
 
-<form id="create-form" method="post" asp-controller="IndicadorPOA" asp-action="OnPostCreateOrEdit"  onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
-  
+<form id="create-form" method="post" asp-controller="IndicadorPOA" asp-action="OnPostCreateOrEdit" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
@@ -12,63 +11,63 @@
                     <label class="col-md-12 col-form-label texto-pregunta">
                         Al inicio del año plantea: ¿Qué necesito personalmente para ayudarme a hacer bien mi trabajo?
                     </label>
-
-                    <textarea asp-for="Pregunta1" name="Pregunta1" class="form-control">Apoyo de mi líder y trabajo en equipo</textarea>
-                    <span asp-validation-for="Pregunta1" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">
-                        Apoyo de mi líder (¿Qué clase de ayuda, recursos, guía y asistencia necesito de mi líder para poder lograr un buen trabajo este año?).
-
-                    </label>
-
-                    <textarea asp-for="Pregunta2" name="Pregunta2" class="form-control">Apoyo en ejecución de procesos críticos</textarea>
-                    <span asp-validation-for="Pregunta2" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">
-                        Equilibrio Personal y Laboral (¿Qué enfoque tomaré este año para asegurar un balance entre adecuado entre mi vida personal y laboral?; y ¿cómo sabré que lo he logrado?):
-
-                    </label>
-
-                    <textarea asp-for="Pregunta3" name="Pregunta3" class="form-control">Planificación y cronograma de proyectos claros</textarea>
-                    <span asp-validation-for="Pregunta3" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">
-                        ¿ Cuál es el siguiente paso profesional al que aspiro?
-
-                    </label>
-
-                    <textarea asp-for="Pregunta4" name="Pregunta4" class="form-control">Liderar proyectos nacionales</textarea>
-                    <span asp-validation-for="Pregunta4" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">
-                        ¿Qué puedo hacer para lograr esto y quién más necesita estar involucrado?:
-
-                    </label>
-
-                    <textarea asp-for="Pregunta5" name="Pregunta5" class="form-control">Apoyo, confianza y capacitación de mi líder</textarea>
-                    <span asp-validation-for="Pregunta5" class="text-danger"></span>
+                    </div>
                 </div>
             </div>
         </div>
-        </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label class="col-md-12 col-form-label texto-pregunta">
+                                        Apoyo de mi supervisor (Qué clase de ayuda, recursos, guía y asistencia necesito de mi supervisor para poder lograr un  buen trabajo este año?)
+                                    </label>
 
-    <br />
-    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-        <button type="submit" class="btn btn-success">Guardar</button>
-        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
-    </div>
+                                    <textarea asp-for="Pregunta1" name="Pregunta1" class="form-control">Apoyo de mi líder y trabajo en equipo</textarea>
+                                    <span asp-validation-for="Pregunta1" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label class="col-md-12 col-form-label texto-pregunta">
+                                        Equilibrio Personal y Laboral (Qué enfoque tomaré este año para asegurar un balance adecuado entre mi vida personal y laboral; y cómo sabré que lo he logrado?)
+                                    </label>
+
+                                    <textarea asp-for="Pregunta2" name="Pregunta2" class="form-control">Apoyo en ejecución de procesos críticos</textarea>
+                                    <span asp-validation-for="Pregunta2" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label class="col-md-12 col-form-label texto-pregunta">
+                                        ¿ Cuál es el siguiente paso profesional al que aspiro?
+
+                                    </label>
+
+                                    <textarea asp-for="Pregunta4" name="Pregunta4" class="form-control">Liderar proyectos nacionales</textarea>
+                                    <span asp-validation-for="Pregunta4" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label class="col-md-12 col-form-label texto-pregunta">
+                                        ¿Qué puedo hacer para lograr esto y quién más necesita estar involucrado?:
+
+                                    </label>
+
+                                    <textarea asp-for="Pregunta5" name="Pregunta5" class="form-control">Apoyo, confianza y capacitación de mi líder</textarea>
+                                    <span asp-validation-for="Pregunta5" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+                    </div>
 </form>
 
 

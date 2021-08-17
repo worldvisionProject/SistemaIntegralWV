@@ -17,15 +17,17 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         [Required]
         public int IdCargoResponsable { get; set; }
         [Required]
-        public DateTime Plazo { get; set; }
-       
+        public DateTime FechaInicio { get; set; }
+        [Required]
+        public DateTime FechaFin { get; set; }
+
         [Required]
         public decimal? Ponderacion { get; set; }
         [StringLength(1)]
         public string SNPresupuesto { get; set; }
         public decimal? TechoPresupuestoCC { get; set; }
+        public decimal? TotalRecurso { get; set; }
         public decimal? Saldo { get; set; }
-        
         public int IdIndicadorPOA { get; set; }
         public IndicadorPOA IndicadorPOAs { get; set; }
 

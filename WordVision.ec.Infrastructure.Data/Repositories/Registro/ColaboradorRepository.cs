@@ -17,7 +17,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
         private readonly IRepositoryAsync<Estructura> _repositoryE;
         private readonly IDistributedCache _distributedCache;
 
-        public ColaboradorRepository(IRepositoryAsync<Estructura> repositoryE,IDistributedCache distributedCache, IRepositoryAsync<Colaborador> repository)
+        public ColaboradorRepository(IRepositoryAsync<Estructura> repositoryE, IDistributedCache distributedCache, IRepositoryAsync<Colaborador> repository)
         {
             _distributedCache = distributedCache;
             _repositoryE = repositoryE;
@@ -41,21 +41,22 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
         public async Task<Colaborador> GetByIdAsync(int colaboradorId)
         {
             return await _repository.Entities.Where(p => p.Id == colaboradorId)
-                 .Include(e => e.Estructuras)
-                .ThenInclude(em => em.Empresas).FirstOrDefaultAsync();
+                // .Include(e => e.Estructuras)
+                //.ThenInclude(em => em.Empresas)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<Colaborador> GetByIdentificacionAsync(string identificacion)
         {
             return await _repository.Entities.Where(p => p.Identificacion == identificacion)
-                .Include(e=>e.Estructuras)
-                .ThenInclude(em=>em.Empresas)
+                //.Include(e=>e.Estructuras)
+                //.ThenInclude(em=>em.Empresas)
                 .FirstOrDefaultAsync();
         }
 
         public async Task<List<Colaborador>> GetByNivelAsync(int nivel1, int nivel2)
         {
-            return await _repository.Entities.Where(x=>x.Estructuras.Nivel==1 || x.Estructuras.Nivel == 2 || x.Estructuras.Nivel==nivel1 || x.Estructuras.Nivel == nivel2)
+            return await _repository.Entities.Where(x => x.Estructuras.Nivel == 1 || x.Estructuras.Nivel == 2 || x.Estructuras.Nivel == nivel1 || x.Estructuras.Nivel == nivel2)
                 .IgnoreAutoIncludes().ToListAsync();
         }
 

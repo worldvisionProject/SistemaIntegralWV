@@ -1,5 +1,5 @@
 ﻿@using WordVision.ec.Web.Areas.Planificacion.Models
-@model IEnumerable<IndicadorEstrategicoViewModel>
+@model IEnumerable<ProductoViewModel>
 
 <table id="factorTable" class="table table-bordered " width="100%" cellspacing="0">
     <thead>
@@ -13,7 +13,10 @@
                 <th data-priority="2" class="acciones-th">Metas Trimestrales</th>
 
             }
-           
+            @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "3")
+            {
+                <th style=" width:40%">Desc. Productos</th>
+            }
                 <th data-priority="2" class="acciones-th">Productos</th>
 
 
@@ -31,32 +34,35 @@
         @foreach (var factor in Model)
         {
         <tr>
-            <td>@factor.FactorCriticoExitos.FactorCritico</td>
+            <td>@factor.IndicadorEstrategicos.FactorCriticoExitos.FactorCritico</td>
             <td>
-                @factor.IndicadorResultado
+                @factor.IndicadorEstrategicos.IndicadorResultado
 
             </td>
-            <td>@factor.IndicadorAFs.Where(x => x.Anio == Convert.ToString(@ViewBag.IdGestion)).FirstOrDefault()?.Meta</td>
+            <td>@factor.IndicadorEstrategicos.IndicadorAFs.Where(x => x.Anio == Convert.ToString(@ViewBag.IdGestion)).FirstOrDefault()?.Meta</td>
             @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2")
             {
                 <td class="acciones-td">
-                    <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Meta/OnGetCreateOrEdit?id=@factor.Id&IdFactorCritico=@factor.FactorCriticoExitos.Id&IdEstrategia=0&idGestion=@ViewBag.IdGestion','Metas Trimestrales Indicadores de Resultados')">
+                    <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Meta/OnGetCreateOrEdit?id=@factor.IndicadorEstrategicos.Id&IdFactorCritico=@factor.IndicadorEstrategicos.FactorCriticoExitos.Id&IdEstrategia=0&idGestion=@ViewBag.IdGestion','Metas Trimestrales Indicadores de Resultados')">
                         <i class="fas fa-plus-square"></i>
                     </button>
                 </td>
             }
-            
+            @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "3")
+            {
+                <td>@factor.DescProducto</td>
+            }
                 @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "4")
                 {
                     <td class="acciones-td">
-                        <a asp-area="planificacion" asp-controller="Producto" asp-action="LoadIndicadores" asp-route-id="@factor.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" class="btn btn-info btn-xp" title="Administrar Productos"><i class="fas fa-calendar"></i></a>
+                        <a asp-area="planificacion" asp-controller="Producto" asp-action="LoadIndicadores" asp-route-id="@factor.IndicadorEstrategicos.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" class="btn btn-info btn-xp" title="Administrar Productos"><i class="fas fa-calendar"></i></a>
 
                     </td>
                 }
                 else
                 {
                     <td class="acciones-td">
-                        <a asp-area="planificacion" asp-controller="Producto" asp-action="Index" asp-route-id="@factor.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" class="btn btn-info btn-xp" title="Administrar Productos"><i class="fas fa-calendar"></i></a>
+                        <a asp-area="planificacion" asp-controller="Producto" asp-action="Index" asp-route-id="@factor.IndicadorEstrategicos.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" class="btn btn-info btn-xp" title="Administrar Productos"><i class="fas fa-calendar"></i></a>
 
                     </td>
                 }

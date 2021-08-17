@@ -28,15 +28,20 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
             await _repository.DeleteAsync(producto);
         }
 
-        public async Task<Producto> GetByIdAsync(int productoId, int idColaborador)
+        public async Task<Producto> GetByIdAsync(int productoId, int idColaborador, string idCreadoPor)
         {
             return await _repository.Entities.Where(p => p.Id == productoId).Include(x=>x.IndicadorEstrategicos).ThenInclude(e=>e.IndicadorAFs)
-                .Include(x=>x.IndicadorPOAs.Where(i=>i.Responsable == idColaborador || (idColaborador==0))).ThenInclude(m=>m.MetaTacticas).FirstOrDefaultAsync();
+                .Include(x=>x.IndicadorPOAs.Where(i=>i.Responsable == idColaborador || (idColaborador==0) || (i.CreatedBy== idCreadoPor || idCreadoPor=="") )).ThenInclude(m=>m.MetaTacticas).FirstOrDefaultAsync();
         }
 
         public async Task<List<Producto>> GetListAsync()
         {
-            return await _repository.Entities.ToListAsync();
+            return await _repository.Entities
+                .Include(i=>i.IndicadorEstrategicos)
+                .ThenInclude(h=>h.IndicadorAFs)
+                .Include(f=>f.IndicadorEstrategicos)
+                .ThenInclude(h => h.FactorCriticoExitos)
+                .ToListAsync();
         }
 
         public async Task<List<Producto>> GetListByIdAsync(int idIndicador)

@@ -50,7 +50,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
 
         public virtual List<MetaViewModel> MetaTacticas { get; set; }
 
-
+        public ProductoViewModel Productos { get; set; }
 
         public string DescripcionActividad { get; set; }
         public string Entregable { get; set; }

@@ -1,0 +1,118 @@
+﻿@using WordVision.ec.Web.Areas.Planificacion.Models
+@model IEnumerable<ActividadViewModel>
+
+<table id="factorTable" class="table table-bordered " width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th style=" width:30%">Factor Crítico de Éxito</th>
+            <th style=" width:20%">Indicador de Resultado</th>
+            <th style=" width:10%">Metas @ViewBag.DescGestion</th>
+
+            @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2")
+            {
+                <th data-priority="2" class="acciones-th">Metas Trimestrales</th>
+
+            }
+
+            <th style=" width:40%">Desc. Productos</th>
+            <th style=" width:40%">Desc. Actividad</th>
+
+            <th data-priority="2" class="acciones-th">Productos</th>
+
+
+            @*<th data-priority="2" class="acciones-th">Indicadores de Producto</th>*@
+
+
+            @*<th data-priority="1">Nombre</th>
+        <th data-priority="2" class="acciones-th">Indicador</th>
+        <th data-priority="2" class="acciones-th">Acciones</th>*@
+
+        </tr>
+    </thead>
+    <tbody>
+       
+        @foreach (var factor in Model)
+        {
+        <tr>
+            <td>@factor.IndicadorPOAs.Productos.IndicadorEstrategicos.FactorCriticoExitos?.FactorCritico</td>
+            <td>
+                @factor.IndicadorPOAs.Productos.IndicadorEstrategicos.IndicadorResultado
+
+            </td>
+            <td>@factor.IndicadorPOAs.Productos.IndicadorEstrategicos.IndicadorAFs.Where(x => x.Anio == Convert.ToString(@ViewBag.IdGestion)).FirstOrDefault()?.Meta</td>
+            @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2")
+            {
+                <td class="acciones-td">
+                    <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Meta/OnGetCreateOrEdit?id=@factor.IndicadorPOAs.Productos.IndicadorEstrategicos.Id&IdFactorCritico=@factor.IndicadorPOAs.Productos.IndicadorEstrategicos.FactorCriticoExitos.Id&IdEstrategia=0&idGestion=@ViewBag.IdGestion','Metas Trimestrales Indicadores de Resultados')">
+                        <i class="fas fa-plus-square"></i>
+                    </button>
+                </td>
+            }
+
+            <td>@factor.IndicadorPOAs.Productos.DescProducto</td>
+            <td>@factor.DescripcionActividad</td>
+
+            @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "4")
+            {
+                <td class="acciones-td">
+                    <a asp-area="planificacion" asp-controller="Producto" asp-action="LoadIndicadores" asp-route-id="@factor.IndicadorPOAs.Productos.IndicadorEstrategicos.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" class="btn btn-info btn-xp" title="Administrar Productos"><i class="fas fa-calendar"></i></a>
+
+                </td>
+            }
+            else
+            {
+                <td class="acciones-td">
+                    <a asp-area="planificacion" asp-controller="Producto" asp-action="Index" asp-route-id="@factor.IndicadorPOAs.Productos.IndicadorEstrategicos.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" class="btn btn-info btn-xp" title="Administrar Productos"><i class="fas fa-calendar"></i></a>
+
+                </td>
+            }
+
+        </tr>
+        
+        }
+
+    </tbody>
+</table>
+<script>
+
+    $(document).ready(function () {
+
+
+        var table = $("#factorTable").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },
+            'rowsGroup': [0,1,2,3],
+            responsive: true,
+            //columnDefs: [
+            //    { responsivePriority: 1, targets: 0 },
+            //    { responsivePriority: 2, targets: -1 }
+            //],
+           /* "info": false*/
+
+        });
+
+
+        //var column = table.column(0);
+        //// Toggle the visibility
+        //column.visible(false);
+        //column = table.column(1);
+        //// Toggle the visibility
+        //column.visible(false);
+
+
+        //$('#factorTable tbody').on('dblclick', 'tr', function () {
+        //    var data = table.row(this).data();
+
+
+        //    jQueryModalGet('/Planificacion/FactorCriticoExito/OnGetCreateOrEdit?id=' + data[0] + '&idObjetivoEstra=' + data[1], 'Factor Critico de Exito');
+
+        //});
+
+        /* $(".dynmic-hidden-col").hide();*/
+    });
+</script>

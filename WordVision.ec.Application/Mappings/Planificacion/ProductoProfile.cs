@@ -20,7 +20,8 @@ namespace WordVision.ec.Application.Mappings.Planificacion
             CreateMap<GetProductoByIdResponse, Producto>().ReverseMap();
             CreateMap<GetAllProductosCachedQuery, Producto>().ReverseMap();
             CreateMap<UpdateProductoCommand, Producto>().ReverseMap();
-
+            CreateMap<GetAllProductosCachedResponse, Producto>().ReverseMap();
+            
         }
     }
 }

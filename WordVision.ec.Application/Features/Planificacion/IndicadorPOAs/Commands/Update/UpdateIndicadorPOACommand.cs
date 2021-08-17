@@ -97,7 +97,8 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Command
                             actividad.DescripcionActividad = a.DescripcionActividad;
                             actividad.Entregable = a.Entregable;
                             actividad.IdCargoResponsable = a.IdCargoResponsable;
-                            actividad.Plazo = a.Plazo;
+                            actividad.FechaInicio = a.FechaInicio;
+                            actividad.FechaFin = a.FechaFin;
                             actividad.TechoPresupuestoCC = a.TechoPresupuestoCC;
                             actividad.Ponderacion = a.Ponderacion;
                            

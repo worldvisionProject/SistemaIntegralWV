@@ -21,6 +21,7 @@ using Microsoft.Extensions.Logging;
 using WordVision.ec.Application.Enums;
 using WordVision.ec.Application.Features.Identity.Usuarios.Queries.GetById;
 using WordVision.ec.Application.Features.Logs.Commands.AddActivityLog;
+using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Create;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Formularios.Commands.Create;
@@ -87,7 +88,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
-           
+
             returnUrl ??= Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process
@@ -120,6 +121,10 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                             colaborador.Mail = output.Email;
                             colaborador.Cedula = output.Identificacion;
                             colaborador.IdEmpresa = 3;
+                            var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 6 });
+                            colaborador.Department = cat1.Data.Where(c => c.Secuencia == output.Cargo.ToString()).FirstOrDefault().Nombre;
+                            cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 8 });
+                            colaborador.PhysicalDeliveryOfficeName = cat1.Data.Where(c => c.Secuencia == output.Area.ToString()).FirstOrDefault().Nombre;
 
                             var defaultUser = new ApplicationUser
                             {
@@ -161,7 +166,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                     }
 
 
-                   
+
                     if (IsValidEmail(Input.Email))
                     {
                         var userCheck = await _userManager.FindByEmailAsync(Input.Email);
@@ -189,6 +194,18 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                             try
                             {
                                 logindetails = GetDataActive(userName);
+                                var responseC = await _mediator.Send(new GetColaboradorByUserNameQuery() { UserName = userName });
+                                if (responseC != null)
+                                {
+                                    if (responseC.Succeeded)
+                                    {
+                                        var output = responseC.Data;
+                                        var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 6 });
+                                        logindetails.Department = cat1.Data.Where(c => c.Secuencia == output.Cargo.ToString()).FirstOrDefault().Nombre;
+                                        cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 8 });
+                                        logindetails.PhysicalDeliveryOfficeName = cat1.Data.Where(c => c.Secuencia == output.Area.ToString()).FirstOrDefault().Nombre;
+                                    }
+                                }
                             }
                             catch
                             {
@@ -197,6 +214,8 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                                 logindetails.Mail = user.Email;
                                 logindetails.Cedula = "000" + userName;
                                 logindetails.IdEmpresa = 0;
+                                logindetails.Department = "NA";
+                                logindetails.PhysicalDeliveryOfficeName = "NA";
                             }
                             //if (logindetails != null)
                             //{
@@ -212,7 +231,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                             //    logindetails.IdEmpresa = 0;
                             //}
 
-                            if (logindetails==null)
+                            if (logindetails == null)
                             {
                                 logindetails = new GetUsuarioByIdResponse();
                                 logindetails.ApellidoPaterno = user.LastName;
@@ -223,7 +242,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                             }
                             await AddUserClaims(user, userName, logindetails);
 
-                           
+
 
                             var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                             if (result.Succeeded)
@@ -309,9 +328,24 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
 
                     string usrname = wp.Identity.Name.Split((char)92)[1];
 
-                   var logindetails=GetDataActive(usrname);
-                    //var Department = dsresult.Properties["department"][0].ToString();
-                    //var Manager = dsresult.Properties["manager"][0].ToString();
+                    var logindetails = GetDataActive(usrname);
+                    var responseC = await _mediator.Send(new GetColaboradorByUserNameQuery() { UserName = usrname });
+                    if (responseC != null)
+                    {
+                        if (responseC.Succeeded)
+                        {
+                            var output = responseC.Data;
+                            var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 6 });
+                            logindetails.Department = cat1.Data.Where(c => c.Secuencia == output.Cargo.ToString()).FirstOrDefault().Nombre;
+                            cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 8 });
+                            logindetails.PhysicalDeliveryOfficeName = cat1.Data.Where(c => c.Secuencia == output.Area.ToString()).FirstOrDefault().Nombre;
+                        }
+                    }
+                    else
+                    {
+                        logindetails.Department = "NA";
+                        logindetails.PhysicalDeliveryOfficeName = "NA";
+                    }
                     var defaultUser = new ApplicationUser
                     {
                         UserName = logindetails.UserNameRegular,
@@ -587,7 +621,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                             Email = logindetails.Mail ?? "DEBE ACTUALIZAR DATOS",
                             PrimerNombre = logindetails.PrimerNombre ?? "DEBE ACTUALIZAR DATOS",
                             SegundoNombre = logindetails.SegundoNombre ?? "DEBE ACTUALIZAR DATOS",
-                            Alias= idUsername
+                            Alias = idUsername
 
                         });
 
@@ -624,9 +658,9 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                         logindetails.ApellidoPaterno = colaborador.Apellidos;
                         logindetails.PrimerNombre = colaborador.PrimerNombre;
                         logindetails.SegundoNombre = colaborador.SegundoNombre;
-                        logindetails.Nivel = colaborador.Estructuras.Nivel;
+                        logindetails.Nivel = colaborador.Estructuras?.Nivel ?? 0;
                         logindetails.ReportaA = colaborador.CodReportaA;
-                        logindetails.IdEmpresa = colaborador.Estructuras.Empresas.Id;
+                        logindetails.IdEmpresa = colaborador.Estructuras?.Empresas.Id ?? 3;
 
                         var responsef = await _mediator.Send(new GetFormularioByIdQuery() { Id = idColabora });
                         if (responsef.Succeeded)
@@ -650,10 +684,10 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                                     _notyf.Error("No se insertaron los datos del formulario.");
                                 }
                             }
-                           
+
                         }
-                        
-                      
+
+
                     }
                 }
 
@@ -677,7 +711,8 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
 
                 // claims.Add(new Claim(ClaimTypes.Name, logindetails.UserNameRegular));
                 claims.Add(new Claim(ClaimTypes.Email, logindetails.Mail));
-                //claims.Add(new Claim("DisplayName", logindetails.DisplayName));
+                claims.Add(new Claim("Cargo", logindetails.Department));
+                claims.Add(new Claim("Area", logindetails.PhysicalDeliveryOfficeName));
                 claims.Add(new Claim("Cedula", logindetails.Cedula));
                 claims.Add(new Claim("Id", idColabora.ToString()));
                 claims.Add(new Claim("IdEmpresa", logindetails.IdEmpresa.ToString()));
@@ -698,49 +733,6 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
         }
 
 
-        /// <summary>
-        /// Sign In User method.
-        /// </summary>
-        /// <param name="username">Username parameter.</param>
-        /// <param name="isPersistent">Is persistent parameter.</param>
-        /// <returns>Returns - await task</returns>
-        private async Task SignInUser(string id, GetUsuarioByIdResponse username, bool isPersistent)
-        {
-            // Initialization.
-            var claims = new List<Claim>();
-
-            try
-            {
-                // Setting
-
-                claims.Add(new Claim(ClaimTypes.Name, username.UserNameRegular));
-                claims.Add(new Claim(ClaimTypes.Email, username.Mail));
-                claims.Add(new Claim(ClaimTypes.Locality, username.PhysicalDeliveryOfficeName));
-                claims.Add(new Claim("DisplayName", username.DisplayName));
-                //claims.Add(new Claim("Cargo", username.Title));
-                //claims.Add(new Claim("Jefe", username.Manager));
-                //claims.Add(new Claim("Gerencia", username.Company));
-                //claims.Add(new Claim("Departamento", username.Department));
-                claims.Add(new Claim("Cedula", username.Cedula));
-                claims.Add(new Claim("Id", id));
-                claims.Add(new Claim("Apellidos", username.ApellidoPaterno + " " + username.ApellidoMaterno));
-                claims.Add(new Claim("Nombres", username.PrimerNombre + " " + username.SegundoNombre));
-                // claims.Add(new Claim("ApellidosNombres", username.ApellidoPaterno + " " + username.ApellidoMaterno + " " + username.PrimerNombre + " " + username.SegundoNombre));
-
-
-                var claimIdenties = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var claimPrincipal = new ClaimsPrincipal(claimIdenties);
-                var authenticationManager = Request.HttpContext;
-
-                // Sign In.
-                await authenticationManager.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimPrincipal, new AuthenticationProperties() { IsPersistent = isPersistent });
-            }
-            catch (Exception ex)
-            {
-                // Info
-                _logger.LogError("Error autenticarse", ex);
-            }
-        }
 
         #endregion
 
@@ -774,7 +766,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
             if (sresult != null)
             {
                 DirectoryEntry dsresult = sresult.GetDirectoryEntry();
-              
+
                 logindetails.PrimerNombre = dsresult.Properties["givenName"][0] == null ? usrname : dsresult.Properties["givenName"][0].ToString();
                 logindetails.ApellidoPaterno = dsresult.Properties["sn"][0] == null ? usrname : dsresult.Properties["sn"][0].ToString();
                 if (dsresult.Properties["mail"].Count > 0)
@@ -787,6 +779,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                     logindetails.Cedula = "000" + usrname;
 
                 logindetails.UserNameRegular = usrname;
+
             }
             else
             {
@@ -795,6 +788,8 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                 logindetails.Mail = usrname;
                 logindetails.Cedula = "000" + usrname;
                 logindetails.UserNameRegular = usrname;
+                logindetails.Department = "NA";
+                logindetails.PhysicalDeliveryOfficeName = "NA";
             }
 
             return logindetails;

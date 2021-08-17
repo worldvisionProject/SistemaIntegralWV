@@ -19,6 +19,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
     public class AcuerdoViewModel
     {
         public string Tipo { get; set; }
+        public string DescTipo { get; set; }
+        public string CategoriaObjetivo { get; set; }
         public string Descripcion { get; set; }
         public string Contribucion { get; set; }
         public string Meta { get; set; }
