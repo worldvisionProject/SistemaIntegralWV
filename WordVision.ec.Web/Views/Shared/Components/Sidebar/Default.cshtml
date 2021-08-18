@@ -342,6 +342,15 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
+                                <a is-active-route asp-area="Planificacion" asp-controller="TechoPresupuestario" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
+                                    <p>
+                                        @localizer["Techo Presupuestario"]
+                                        @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a is-active-route asp-area="Presupuesto" asp-controller="DatosLDR" asp-action="Index" class="nav-link">
                                     <i class="nav-icon fas fa-th"></i>
                                     <p>

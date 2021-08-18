@@ -24,6 +24,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Actividades.Commands.
         public decimal? Ponderacion { get; set; }
         public string SNPresupuesto { get; set; }
         public decimal? TechoPresupuestoCC { get; set; }
+        public decimal? TotalRecurso { get; set; }
         public decimal? Saldo { get; set; }
 
         public int IdIndicadorPOA { get; set; }
@@ -64,6 +65,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Actividades.Commands.
                     actividad.Ponderacion = command.Ponderacion ?? actividad.Ponderacion;
                     actividad.SNPresupuesto = command.SNPresupuesto ?? actividad.SNPresupuesto;
                     actividad.TechoPresupuestoCC = command.TechoPresupuestoCC ?? actividad.TechoPresupuestoCC;
+                    actividad.TotalRecurso = command.TotalRecurso ?? actividad.TotalRecurso;
                     actividad.Saldo = command.Saldo ?? actividad.Saldo;
                     actividad.IdIndicadorPOA = command.IdIndicadorPOA==0 ? actividad.IdIndicadorPOA : command.IdIndicadorPOA;
 

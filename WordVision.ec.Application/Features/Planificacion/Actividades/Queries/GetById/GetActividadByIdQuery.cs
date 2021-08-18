@@ -20,15 +20,16 @@ namespace WordVision.ec.Application.Features.Planificacion.Actividades.Queries.G
         public class GetActividadByIdQueryHandler : IRequestHandler<GetActividadByIdQuery, Result<GetActividadByIdResponse>>
         {
             private readonly IActividadRepository _actividadRepository;
+            private readonly ITechoPresupuestarioRepository _techoRepository;
             //private readonly IRespuestaRepository _respuestaCache;
             //private readonly IFormularioRepository _formularioCache;
 
             private readonly IMapper _mapper;
 
-            public GetActividadByIdQueryHandler(IActividadRepository actividadRepository, IMapper mapper)
+            public GetActividadByIdQueryHandler(ITechoPresupuestarioRepository techoRepository,IActividadRepository actividadRepository, IMapper mapper)
             {
                 _actividadRepository = actividadRepository;
-                //_respuestaCache = respuestaCache;
+                _techoRepository = techoRepository;
                 //_formularioCache = formularioCache;
                 _mapper = mapper;
             }
@@ -36,6 +37,17 @@ namespace WordVision.ec.Application.Features.Planificacion.Actividades.Queries.G
             public async Task<Result<GetActividadByIdResponse>> Handle(GetActividadByIdQuery query, CancellationToken cancellationToken)
             {
                 var actividad = await _actividadRepository.GetByIdAsync(query.Id);
+                decimal? totalRecursos = 0;
+                decimal? techoRecursos = 0;
+                foreach (var rec in actividad.Recursos)
+                {
+                    totalRecursos = totalRecursos + rec.Total;
+                    var techo= await _techoRepository.GetByIdxCentroAsync(rec.CentroCosto.ToString());
+                    techoRecursos = techoRecursos + techo?.Techo ?? 0;
+                }
+                actividad.TotalRecurso = totalRecursos;
+                actividad.TechoPresupuestoCC = techoRecursos;
+                actividad.Saldo = techoRecursos- totalRecursos;
                 var mappedActividad = _mapper.Map<GetActividadByIdResponse>(actividad);
 
                 return Result<GetActividadByIdResponse>.Success(mappedActividad);

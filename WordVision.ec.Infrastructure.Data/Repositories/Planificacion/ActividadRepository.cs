@@ -51,7 +51,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
                             .ThenInclude(i => i.IndicadorEstrategicos)
                             .ThenInclude(a => a.IndicadorAFs)
                             .ThenInclude(ie => ie.IndicadorEstrategicos)
-                            .ThenInclude(fc => fc.FactorCriticoExitos)
+                            .ThenInclude(fc => fc.FactorCriticoExitos).Where(dd=>dd.IndicadorPOAs.Productos.IndicadorEstrategicos.FactorCriticoExitos.IdObjetivoEstra== idObjetivoEstrategico)
                             .ToListAsync();
         }
 

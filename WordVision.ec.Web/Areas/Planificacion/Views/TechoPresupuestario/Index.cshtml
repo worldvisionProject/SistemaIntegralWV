@@ -1,0 +1,36 @@
+﻿
+@using WordVision.ec.Web.Areas.Planificacion.Models
+@model TechoPresupuestarioViewModel
+<div class="card">
+
+    <div class="col-sm-12 header-button">
+
+        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/TechoPresupuestario/OnGetCreateOrEdit?id=0','Techo Presupuestario')">
+            <i class="fa fa-plus-square"></i>
+            Agregar
+        </button>
+
+    </div>
+    <div id="viewAll" class="card-body table-responsive">
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>
+    $(document).ready(function () {
+            /*$("#colaboradorTable").DataTable();*/
+            loadData();
+            //$('#pdf').on('click', function () {
+            //    loadDataPdf();
+            //});
+    });
+        @*function loadDataPdf() {
+            $('#viewAll').load('/registro/formulario/FormularioPdf/@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value');
+        };*@
+        function loadData() {
+            $('#viewAll').load('/planificacion/TechoPresupuestario/LoadAll');
+        }</script>
+}

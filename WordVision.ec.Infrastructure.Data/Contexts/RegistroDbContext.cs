@@ -112,6 +112,8 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
     .ToTable("Recursos", "planifica");
             builder.Entity<FechaCantidadRecurso>()
     .ToTable("FechaCantidadRecursos", "planifica");
+            builder.Entity<TechoPresupuestario>()
+    .ToTable("TechoPresupuestarios", "planifica");
 
             builder
        .Entity<Tercero>()

@@ -18,12 +18,13 @@ namespace WordVision.ec.Application.Features.Planificacion.Actividades.Commands.
         public string DescripcionActividad { get; set; }
         public string Entregable { get; set; }
         public int IdCargoResponsable { get; set; }
-        public DateTime Plazo { get; set; }
+        public DateTime FechaInicio { get; set; }
+        public DateTime FechaFin { get; set; }
         public decimal? Ponderacion { get; set; }
         public string SNPresupuesto { get; set; }
         public decimal? TechoPresupuestoCC { get; set; }
+        public decimal? TotalRecurso { get; set; }
         public decimal? Saldo { get; set; }
-
         public int IdIndicadorPOA { get; set; }
         public ICollection<Recurso> Recursos { get; set; }
     }

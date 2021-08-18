@@ -41,16 +41,16 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
         public async Task<Colaborador> GetByIdAsync(int colaboradorId)
         {
             return await _repository.Entities.Where(p => p.Id == colaboradorId)
-                // .Include(e => e.Estructuras)
-                //.ThenInclude(em => em.Empresas)
+                 .Include(e => e.Estructuras)
+                .ThenInclude(em => em.Empresas)
                 .FirstOrDefaultAsync();
         }
 
         public async Task<Colaborador> GetByIdentificacionAsync(string identificacion)
         {
             return await _repository.Entities.Where(p => p.Identificacion == identificacion)
-                //.Include(e=>e.Estructuras)
-                //.ThenInclude(em=>em.Empresas)
+                .Include(e => e.Estructuras)
+                .ThenInclude(em => em.Empresas)
                 .FirstOrDefaultAsync();
         }
 
