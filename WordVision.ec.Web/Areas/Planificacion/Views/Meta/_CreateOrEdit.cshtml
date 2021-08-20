@@ -29,8 +29,13 @@
 
 </div>
 <div id="header" class="row titulopopup">
-    <div class="col-12">
+    <div class="col-10">
         <h6 class="h5 mb-2 text-gray-800-b">Responsable: </h6>@Model.DescResponsable
+    </div>
+    <div class="col-2"  style="text-align: right;">
+        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Acumulada</label>
+        <input  type="text" name="Meta" id="Meta" class="form-control" readonly value="0" />
+       
     </div>
 </div>
     <hr />
@@ -202,6 +207,7 @@
             return true;
 
         }
+        document.getElementById("Meta").value = String(sum).replace('.', ',');
         return false;
     }
 

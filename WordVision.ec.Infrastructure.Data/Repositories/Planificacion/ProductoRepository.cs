@@ -44,9 +44,31 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
                 .ToListAsync();
         }
 
+        //public async Task<List<Producto>> GetListByIdAsync(int idIndicador, int idColaborador)
+        //{
+        //    return await _repository.Entities.Where(p => p.IdIndicadorEstrategico == idIndicador && p.IdCargoResponsable==idColaborador)
+        //        .Include(i=>i.IndicadorPOAs.Where(x=>x.Responsable == idColaborador))
+        //        .ThenInclude(m=>m.Actividades.Where(x => x.IdCargoResponsable == idColaborador))
+        //        .ToListAsync();
+        //}
         public async Task<List<Producto>> GetListByIdAsync(int idIndicador)
         {
-            return await _repository.Entities.Where(p => p.IdIndicadorEstrategico == idIndicador).Include(i=>i.IndicadorPOAs).ThenInclude(m=>m.Actividades).ToListAsync();
+            return await _repository.Entities.Where(p => p.IdIndicadorEstrategico == idIndicador)
+                .Include(i => i.IndicadorPOAs)
+                .ThenInclude(m => m.Actividades)
+                .ToListAsync();
+        }
+        public async Task<List<Producto>> GetListByIdObjetivoAsync(int idObjetivoEstrategico, int idColaborador)
+        {
+            return await _repository.Entities
+                .Include(i => i.IndicadorPOAs.Where(x => x.Responsable == idColaborador))
+                .ThenInclude(m => m.Actividades.Where(x1 => x1.IdCargoResponsable == idColaborador))
+                .Include(u=>u.IndicadorEstrategicos)
+                .ThenInclude(g=>g.IndicadorAFs)
+                .Include(u => u.IndicadorEstrategicos)
+                .ThenInclude(f=>f.FactorCriticoExitos)
+                .Where(p => p.IndicadorEstrategicos.FactorCriticoExitos.IdObjetivoEstra == idObjetivoEstrategico && p.IdCargoResponsable==idColaborador)
+                .ToListAsync();
         }
 
         public async Task<int> InsertAsync(Producto producto)

@@ -24,6 +24,6 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string DescFactorCritico { get; set; }
         public string DescMetaGestion { get; set; }
         public IndicadorEstrategicoViewModel IndicadorEstrategicos { get; set; }
-        public ICollection<IndicadorPOAViewModel> IndicadorPOAs { get; set; }
+        public List<IndicadorPOAViewModel> IndicadorPOAs { get; set; }
     }
 }

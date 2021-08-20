@@ -11,47 +11,49 @@ using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 {
-    public class RecursoRepository : IRecursoRepository
+    public class SeguimientoRepository : ISeguimientoRepository
     {
-        private readonly IRepositoryAsync<Recurso> _repository;
+        private readonly IRepositoryAsync<Seguimiento> _repository;
         private readonly IDistributedCache _distributedCache;
 
-        public RecursoRepository(IDistributedCache distributedCache, IRepositoryAsync<Recurso> repository)
+        public SeguimientoRepository(IDistributedCache distributedCache, IRepositoryAsync<Seguimiento> repository)
         {
             _distributedCache = distributedCache;
             _repository = repository;
         }
-        public IQueryable<Recurso> Recursoes => _repository.Entities;
+        public IQueryable<Seguimiento> Seguimientoes => _repository.Entities;
 
-        public async Task DeleteAsync(Recurso recurso)
+        public IQueryable<Seguimiento> Seguimientos => throw new NotImplementedException();
+
+        public async Task DeleteAsync(Seguimiento Seguimiento)
         {
-            await _repository.DeleteAsync(recurso);
+            await _repository.DeleteAsync(Seguimiento);
         }
 
-        public async Task<Recurso> GetByIdAsync(int recursoId)
+        public async Task<Seguimiento> GetByIdAsync(int SeguimientoId)
         {
-            return await _repository.Entities.Where(p => p.Id == recursoId).Include(f=>f.FechaCantidadRecursos).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(p => p.Id == SeguimientoId).FirstOrDefaultAsync();
         }
 
-        public async Task<List<Recurso>> GetListAsync()
+        public async Task<List<Seguimiento>> GetListAsync()
         {
             return await _repository.Entities.ToListAsync();
         }
 
-        public async Task<List<Recurso>> GetListByIdAsync(int idActividad)
+        public async Task<List<Seguimiento>> GetListByIdicadorAsync(int idIndicador, string tipoSeguimiento)
         {
-            return await _repository.Entities.Where(x => x.IdActividad == idActividad).ToListAsync();
+            return await _repository.Entities.Where(p => p.IdIndicador == idIndicador && p.Tipo==tipoSeguimiento).ToListAsync();
         }
 
-        public async Task<int> InsertAsync(Recurso recurso)
+        public async Task<int> InsertAsync(Seguimiento Seguimiento)
         {
-            await _repository.AddAsync(recurso);
-            return recurso.Id;
+            await _repository.AddAsync(Seguimiento);
+            return Seguimiento.Id;
         }
 
-        public async Task UpdateAsync(Recurso recurso)
+        public async Task UpdateAsync(Seguimiento Seguimiento)
         {
-            await _repository.UpdateAsync(recurso);
+            await _repository.UpdateAsync(Seguimiento);
         }
     }
 }

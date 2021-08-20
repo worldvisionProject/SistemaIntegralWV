@@ -46,7 +46,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
 
         public int IdProducto { get; set; }
         public string DescProducto { get; set; }
-        public virtual ICollection<ActividadViewModel> Actividades { get; set; }
+        public virtual List<ActividadViewModel> Actividades { get; set; }
 
         public virtual List<MetaViewModel> MetaTacticas { get; set; }
 

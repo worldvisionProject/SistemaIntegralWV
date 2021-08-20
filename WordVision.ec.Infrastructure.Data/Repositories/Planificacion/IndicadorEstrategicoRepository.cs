@@ -43,16 +43,16 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
                 .ToListAsync();
         }
 
-        public async Task<List<IndicadorEstrategico>> GetListxObjetivoAsync(int idObjetivoEstrategico)
+        public async Task<List<IndicadorEstrategico>> GetListxObjetivoAsync(int idObjetivoEstrategico,int idColaborador)
         {
           
             return await _repository.Entities
                .Include(p => p.IndicadorAFs)
                .Include(f => f.FactorCriticoExitos)
-               .Where(f=>f.FactorCriticoExitos.IdObjetivoEstra== idObjetivoEstrategico)
-               .Include(pr=>pr.Productos)
-               .ThenInclude(a => a.IndicadorPOAs)
-               .ThenInclude(a => a.Actividades)
+               .Where(f=>f.FactorCriticoExitos.IdObjetivoEstra== idObjetivoEstrategico && f.Responsable== idColaborador)
+               .Include(pr=>pr.Productos.Where(p=>p.IdCargoResponsable== idColaborador))
+               .ThenInclude(a => a.IndicadorPOAs.Where(i=>i.Responsable== idColaborador))
+               .ThenInclude(a => a.Actividades.Where(a=>a.IdCargoResponsable== idColaborador))
                .ToListAsync();
         }
 

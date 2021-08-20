@@ -12,7 +12,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Planificacion
         IQueryable<IndicadorEstrategico> IndicadorEstrategicoes { get; }
 
         Task<List<IndicadorEstrategico>> GetListAsync();
-        Task<List<IndicadorEstrategico>> GetListxObjetivoAsync(int idObjetivoEstrategico);
+        Task<List<IndicadorEstrategico>> GetListxObjetivoAsync(int idObjetivoEstrategico, int idColaborador);
         Task<IndicadorEstrategico> GetByIdAsync(int indicadorEstrategicoId,int idColaborador, string idCreadoPor);
       
         Task<int> InsertAsync(IndicadorEstrategico indicadorEstrategico);

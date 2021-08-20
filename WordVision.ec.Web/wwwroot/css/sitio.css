@@ -807,3 +807,16 @@ nav > div a.nav-item.nav-link:focus {
     top: 120px;
     right: 20px;
 }
+
+
+.gerencia-th {
+    background-color: #fdd25f;
+}
+
+.tactico-th {
+    background-color: #00acca;
+}
+
+.operativo-th {
+    background-color: #46bb95;
+}

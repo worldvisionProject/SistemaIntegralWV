@@ -1,116 +1,137 @@
 ﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @using WordVision.ec.Web.Areas.Planificacion.Models
 @model SeguimientoViewModel
-
 <div id="header" class="row titulopopup">
     <div class="col-6">
         <h6 class="h5 mb-2 text-gray-800-b">Objetivo: </h6>@Model.DescObjetivo
     </div>
-    <div class="col-6" style="text-align: right;">
-        <h6 class="h5 mb-2 text-gray-800-b">Factor: </h6>@Model.DescFactor
-    </div>
 
+    <div class="col-6" style="text-align: right;">
+        <h6 class="h5 mb-2 text-gray-800-b">Indicador: </h6>@Model.DescIndicador
+    </div>
 </div>
 
 <div id="header" class="row titulopopup">
-    <div class="col-6">
-        <h6 class="h5 mb-2 text-gray-800-b">Indicador: </h6>@Model.DescIndicador
+    <div class="col-6" style="text-align: left;">
+        <h6 class="h5 mb-2 text-gray-800-b">Factor: </h6>@Model.DescFactor
     </div>
 
     <div class="col-3" style="text-align: right;">
         <h6 class="h5 mb-2 text-gray-800-b">Línea Base: </h6>@Model.DescLineaBase
     </div>
     <div class="col-3" style="text-align: right;">
-        <h6 class="h5 mb-2 text-gray-800-b">Meta  @Model.DescGestion: </h6>@Model.DescMeta
-    </div>
-
-</div>
-
-<div id="header" class="row titulopopup">
-    <div class="col-6">
-        <h6 class="h5 mb-2 text-gray-800-b">Producto: </h6>@Model.DescProducto
-    </div>
-    <div class="col-6" style="text-align: right;">
-        <h6 class="h5 mb-2 text-gray-800-b">Responsable: </h6>@Model.ResponsableIndicador
+        <h6 class="h5 mb-2 text-gray-800-b">Meta  @Model.DescGestion: </h6>
     </div>
 
 </div>
 <div id="header" class="row titulopopup">
-    <div class="col-6">
-        <h6 class="h5 mb-2 text-gray-800-b">Indicador Producto: </h6>@Model.IndicadorProducto
-    </div>
-    <div class="col-6" style="text-align: right;">
+    <div class="col-8">
         <h6 class="h5 mb-2 text-gray-800-b">Responsable: </h6>@Model.DescResponsable
     </div>
+   
 
+    <div class="col-4">
+        <table id="metasTableM" class="table table-striped  rwd-table" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+
+                    <th>Meses</th>
+
+                    <th>Meta</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.MetaEstrategicas != null)
+                {
+
+                    @foreach (var metaanual in Model.MetaEstrategicas)
+                    {
+                        <tr id="@metaanual.Id" class="rowdata">
+                            <td class="mes">
+
+                                @metaanual.NumMeses
+
+                            </td>
+                            <td class="meta">
+                                @metaanual.Valor %
+                            </td>
+
+
+
+                        </tr>
+                    }}
+
+
+            </tbody>
+        </table>
+
+    </div>
 </div>
-<hr />
-<form id="create-form" method="post" asp-controller="IndicadorPOA" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-3">
-                    <label class="col-md-12 col-form-label texto-pregunta">
-                        % Cumplimiento
-                    </label>
-                    <input asp-for="PorcentajeCumplimiento" type="text" name="PorcentajeCumplimiento" class="form-control" />
-                    <span asp-validation-for="PorcentajeCumplimiento" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row">
+        <hr />
+        <form id="create-form" method="post" asp-controller="Seguimiento" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+            @Html.HiddenFor(x => x.Tipo, new { name = "Tipo", @Value = Model.Tipo })
+            @Html.HiddenFor(x => x.IdIndicador, new { name = "IdIndicador", @Value = Model.IdIndicador })
+            <div class="row">
                 <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">Comentario Colaborador</label>
 
-                    <textarea asp-for="ComentarioColaborador" name="ComentarioColaborador" class="form-control"></textarea>
-                    <span asp-validation-for="ComentarioColaborador" class="text-danger"></span>
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            <label class="col-md-12 col-form-label texto-pregunta text-left">Mes seguimiento</label>
+                            @Html.DropDownListFor(x => x.Mes, Model.NumMesesList, new { @class = "form-control" })
+                            <span asp-validation-for="NumMesesList" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-md-12 col-form-label texto-pregunta">
+                                % Cumplimiento
+                            </label>
+                            <input asp-for="PorcentajeAvance" type="text" name="PorcentajeAvance" class="form-control" />
+                            <span asp-validation-for="PorcentajeAvance" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-form-label texto-pregunta">Avance</label>
+
+                            <textarea asp-for="Avance" name="Avance" class="form-control"></textarea>
+                            <span asp-validation-for="Avance" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-form-label texto-pregunta">Adjuntar Evidencia</label>
+
+                            <input accept=".png,.jpg,.jpeg,.gif,.tif"
+                                   type="file" class="custom-file-input"
+                                   onchange="document.getElementById('viewableImage').src = window.URL.createObjectURL(this.files[0])"
+                                   id="customFile">
+
+                            <label class="custom-file-label" for="customFile">Buscar archivo</label>
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-form-label texto-pregunta">Avance Competencias Desarrolladas</label>
+
+                            <textarea asp-for="AvanceCompetencia" name="AvanceCompetencia" class="form-control"></textarea>
+                            <span asp-validation-for="AvanceCompetencia" class="text-danger"></span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">Comentario Supervisor</label>
 
-                    <textarea asp-for="ComentarioSupervisor" name="ComentarioSupervisor" class="form-control"></textarea>
-                    <span asp-validation-for="ComentarioSupervisor" class="text-danger"></span>
-                </div>
+            <br />
+            <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
             </div>
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">Competencias Desarrolladas</label>
-
-                    <textarea asp-for="CompetenciasDessarrolladas" name="CompetenciasDessarrolladas" class="form-control"></textarea>
-                    <span asp-validation-for="CompetenciasDessarrolladas" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">Acciones a Realizar</label>
-
-                    <textarea asp-for="Acciones" name="Acciones" class="form-control"></textarea>
-                    <span asp-validation-for="Acciones" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">Cumplimiento</label>
-
-                    <textarea asp-for="Cumplimiento" name="Cumplimiento" class="form-control"></textarea>
-                    <span asp-validation-for="Cumplimiento" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <br />
-    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-        <button type="submit" class="btn btn-success">Guardar</button>
-        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
-    </div>
-</form>
+        </form>
 
 
 
-<script type="text/javascript" language=javascript>
+        <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
     $(function () {
         $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
@@ -281,4 +302,4 @@
         });
     }
 
-</script>
+        </script>

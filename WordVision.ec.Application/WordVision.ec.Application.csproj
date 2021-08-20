@@ -71,6 +71,8 @@
     <Folder Include="Features\Identity\Usuarios\Queries\GetAllCached\" />
     <Folder Include="Features\Maestro\Estructuras\Commands\Delete\" />
     <Folder Include="Features\Maestro\Estructuras\Queries\GetAllPaged\" />
+    <Folder Include="Features\Planificacion\Seguimientos\Commands\Delete\" />
+    <Folder Include="Features\Planificacion\Seguimientos\Commands\Update\" />
     <Folder Include="Features\Presupuesto\Presupuesto\Commands\Update\" />
     <Folder Include="Features\Registro\Colaboradores\Commands\Delete\" />
     <Folder Include="Features\Registro\Pregunta\Commands\Create\" />

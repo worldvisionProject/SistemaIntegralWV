@@ -1,5 +1,5 @@
 ﻿@using WordVision.ec.Web.Areas.Planificacion.Models
-@model IEnumerable<AcuerdoViewModel>
+@model IEnumerable<SeguimientoViewModel>
 
 
 <table id="productoTables" class="table table-striped " width="100%" cellspacing="0">
@@ -7,13 +7,13 @@
         <tr>
 
 
-            <th data-priority="1">Tipo</th>
-            <th data-priority="1">Categoría</th>
-            <th data-priority="1">Descripción</th>
-            <th data-priority="1">Contribución al objetivo estratégico</th>
-            <th data-priority="1">Meta Anuales/Gestiones</th>
+            <th data-priority="1">Mes</th>
+            <th data-priority="1">%Avance</th>
+            <th data-priority="1">Avance</th>
+            <th data-priority="1">Avance Competencia</th>
+            <th data-priority="1">Fecha Reportada</th>
             <th data-priority="2" class="acciones-th">Evidencias</th>
-            <th data-priority="2" class="acciones-th">Acciones</th>
+    
 
         </tr>
     </thead>
@@ -24,41 +24,31 @@
         <tr>
 
             <td>
-                @producto.DescTipo
+              
+
+                @producto.DescMes
             </td>
             <td>
-                @producto.CategoriaObjetivo
+                @producto.PorcentajeAvance
             </td>
             <td>
-                @producto.Descripcion
+                @producto.Avance
             </td>
             <td>
-                @producto.Contribucion
+                @producto.AvanceCompetencia
             </td>
+          
             <td>
-                @producto.Meta
+                @producto.CreatedOn
             </td>
+           
             <td class="acciones-td">
 
-                <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Seguimiento/OnGetCreateOrEditEvidencia?id=0','<Evidencia de Seguimiento')">
-                    <i class="fas fa-plus-square"></i>
+                <button type="button" class="btn btn-primary  btn-xp" title="Ver" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Seguimiento/OnGetCreateOrEditEvidencia?id=0','Evidencia de Seguimiento')">
+                    <i class="fas fa-file-archive"></i>
                 </button>
             </td>
-            <td class="acciones-td">
-                @if (@producto.Tipo!="RE")
-                {
-                <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Seguimiento/OnGetCreateOrEdit?id=0','Seguimiento')">
-                    <i class="fas fa-eye"></i>
-                </button>
-                }
-                @*<button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEdit?id=0&idGestion=@producto.IdGestion&idIndicadorEstra=@Model.Id','Producto')">
-                <i class="fas fa-pencil-alt"></i>
-            </button>*@
-                @*<form id="form_delete_@producto.Id" asp-area="Planificacion" asp-controller="FactorCriticoExito" method="post" asp-action="OnPostDelete" asp-route-id="@producto.Id" onsubmit="return jQueryModalDelete(this)">
-                <a href="javascript:$('#form_delete_@producto.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
-            </form>*@
-                @* <a asp-area="planificacion" asp-controller="Producto" asp-action="OnGetCreateOrEdit" asp-route-id="@producto.Id" class="btn btn-warning btn-xp"><i class="fas fa-pencil-alt"></i></a>*@
-            </td>
+            
 
 
         </tr>

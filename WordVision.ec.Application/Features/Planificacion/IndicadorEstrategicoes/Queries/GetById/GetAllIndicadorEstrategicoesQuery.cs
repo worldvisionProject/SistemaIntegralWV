@@ -15,6 +15,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
     public class GetAllIndicadorEstrategicoesQuery : IRequest<Result<List<GetIndicadorEstrategicoByIdResponse>>>
     {
         public int IdObjetivoEstrategico { get; set; }
+        public int IdColaborador { get; set; }
         public GetAllIndicadorEstrategicoesQuery()
         {
         }
@@ -38,7 +39,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
 
         public async Task<Result<List<GetIndicadorEstrategicoByIdResponse>>> Handle(GetAllIndicadorEstrategicoesQuery request, CancellationToken cancellationToken)
         {
-            var IndicadorEstrategicoList = await _IndicadorEstrategicoCache.GetListxObjetivoAsync(request.IdObjetivoEstrategico);
+            var IndicadorEstrategicoList = await _IndicadorEstrategicoCache.GetListxObjetivoAsync(request.IdObjetivoEstrategico, request.IdColaborador);
             var mappedIndicadorEstrategicoes = _mapper.Map<List<GetIndicadorEstrategicoByIdResponse>>(IndicadorEstrategicoList);
             
             return Result<List<GetIndicadorEstrategicoByIdResponse>>.Success(mappedIndicadorEstrategicoes);

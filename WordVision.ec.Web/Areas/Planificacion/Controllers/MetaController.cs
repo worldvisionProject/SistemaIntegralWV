@@ -28,7 +28,18 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         {
             return View();
         }
+        public async Task<JsonResult> LoadGestiones(int id)
+        {
+            var response = await _mediator.Send(new GetIndicadorEstrategicoByIdQuery() { Id = id });
+            if (response.Succeeded)
+            {
+                var entidadViewModel = _mapper.Map<IndicadorEstrategicoViewModel>(response.Data);
+                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", entidadViewModel) });
 
+            }
+             
+            return null;
+        }
 
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int IdFactorCritico = 0, int IdEstrategia = 0,int idGestion=0)
         {

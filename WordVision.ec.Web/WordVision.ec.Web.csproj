@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Areas\Planificacion\Views\Seguimiento\_CreateOrEditEvidencia.cshtml" />
     <Content Remove="Areas\Registro\Views\Tercero\_CreateOrEdit.cshtml" />
   </ItemGroup>
 
