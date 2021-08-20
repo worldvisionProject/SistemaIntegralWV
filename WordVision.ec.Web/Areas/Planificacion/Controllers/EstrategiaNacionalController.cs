@@ -15,6 +15,7 @@ using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Comm
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
 
@@ -260,22 +261,39 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
 
 
-        public async Task<IActionResult> OnGetCreateOrEditEstrategia(int id = 0, int AnioGestion=0)
+        public async Task<IActionResult> OnGetCreateOrEditEstrategia(int id = 0, int AnioGestion=0, int Categoria=2)
         {
+           
             var ciclo = id;
             var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estratégico", false, null, "Planificacion")
             {
                 RouteValues = new { ciclo },//this comes in as a param into the action
                // Parent = childNode0
             };
-
-            var childNode2 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Gestión")
+            var gestionDesc = string.Empty;
+            var responseE = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = id });
+            if (responseE.Succeeded)
             {
+
+                var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(responseE.Data);
+                ViewBag.Ciclo = entidadViewModel.Nombre;
+                gestionDesc = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault()?.Anio ?? string.Empty; ;
+                //ViewBag.SNGestion = "N";
+                //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+            }
+            var childNode2 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Gestión " + gestionDesc)
+            {
+                RouteValues = new { id, AnioGestion },
                 OverwriteTitleOnExactMatch = true,
                 Parent = childNode1
             };
-
-            ViewData["BreadcrumbNode"] = childNode2;
+         
+            var childNode3 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Objetivos")
+            {
+                OverwriteTitleOnExactMatch = true,
+                Parent = childNode2
+            };
+            ViewData["BreadcrumbNode"] = childNode3;
 
             try
             {
@@ -312,6 +330,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
                     var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
                     entidadViewModel.AnioGestion = AnioGestion.ToString();
+                    entidadViewModel.CategoriaObjetivo = Categoria;
                     ViewBag.Ciclo = entidadViewModel.Nombre;
                     ViewBag.Gestion = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault()?.Anio??string.Empty;
                     ViewBag.SNGestion = "N";

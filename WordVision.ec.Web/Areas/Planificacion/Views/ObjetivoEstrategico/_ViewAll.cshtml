@@ -72,7 +72,7 @@
                                                     {
                                                         if (Model.AnioGestion != "0" && Model.AnioGestion != null)
                                                         {
-                                                            <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="IndexIndicador" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@objetivo.IdEstrategia" asp-route-AnioGestion="@Model.AnioGestion" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
+                                                            <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="IndexIndicador" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@objetivo.IdEstrategia" asp-route-AnioGestion="@Model.AnioGestion" asp-route-Categoria="2" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
                                                         }
                                                         else
                                                         {
@@ -156,7 +156,7 @@
                                 {
                                     if (Model.AnioGestion != "0" && Model.AnioGestion != null)
                                     {
-                                        <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="IndexIndicador" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@objetivo.IdEstrategia" asp-route-AnioGestion="@Model.AnioGestion" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
+                                        <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="IndexIndicador" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@objetivo.IdEstrategia" asp-route-AnioGestion="@Model.AnioGestion" asp-route-Categoria="2" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
                                     }
                                     @*else
                                     {

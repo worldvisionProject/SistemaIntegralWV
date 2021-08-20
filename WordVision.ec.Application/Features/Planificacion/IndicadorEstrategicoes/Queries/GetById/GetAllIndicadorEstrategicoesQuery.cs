@@ -40,7 +40,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
         {
             var IndicadorEstrategicoList = await _IndicadorEstrategicoCache.GetListxObjetivoAsync(request.IdObjetivoEstrategico);
             var mappedIndicadorEstrategicoes = _mapper.Map<List<GetIndicadorEstrategicoByIdResponse>>(IndicadorEstrategicoList);
-           
+            
             return Result<List<GetIndicadorEstrategicoByIdResponse>>.Success(mappedIndicadorEstrategicoes);
         }
     }

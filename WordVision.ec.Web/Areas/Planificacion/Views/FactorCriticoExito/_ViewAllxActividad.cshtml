@@ -7,7 +7,11 @@
             <th style=" width:20%">Factor Crítico de Éxito</th>
             <th style=" width:20%">Indicador de Resultado</th>
             <th style=" width:10%">Metas @ViewBag.DescGestion</th>
+            @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2")
+            {
+                <th data-priority="2" class="acciones-th">Metas Trimestrales</th>
 
+            }
             <th style=" width:20%">Producto</th>
             <th style=" width:20%">Indicador POA</th>
             <th style=" width:20%">Actividad</th>
@@ -82,7 +86,7 @@
             "language": {
                 "url": "/lib/datatables/language/Spanish.json"
             },
-            'rowsGroup': [0,1,2,3],
+            'rowsGroup': [0,1,2,3,4,5],
             responsive: true,
             //columnDefs: [
             //    { responsivePriority: 1, targets: 0 },

@@ -13,18 +13,18 @@
                 <th data-priority="2" class="acciones-th">Metas Trimestrales</th>
 
             }
-           
-                <th data-priority="2" class="acciones-th">Productos</th>
+         
+            <th data-priority="2" class="acciones-th">Productos</th>
 
 
-                @*<th data-priority="2" class="acciones-th">Indicadores de Producto</th>*@
+            @*<th data-priority="2" class="acciones-th">Indicadores de Producto</th>*@
 
 
-                @*<th data-priority="1">Nombre</th>
-            <th data-priority="2" class="acciones-th">Indicador</th>
-            <th data-priority="2" class="acciones-th">Acciones</th>*@
+            @*<th data-priority="1">Nombre</th>
+        <th data-priority="2" class="acciones-th">Indicador</th>
+        <th data-priority="2" class="acciones-th">Acciones</th>*@
 
-            </tr>
+        </tr>
     </thead>
     <tbody>
        
@@ -45,23 +45,24 @@
                     </button>
                 </td>
             }
-            
-                @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "4")
-                {
-                    <td class="acciones-td">
-                        <a asp-area="planificacion" asp-controller="Producto" asp-action="LoadIndicadores" asp-route-id="@factor.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" class="btn btn-info btn-xp" title="Administrar Productos"><i class="fas fa-calendar"></i></a>
 
-                    </td>
-                }
-                else
-                {
-                    <td class="acciones-td">
-                        <a asp-area="planificacion" asp-controller="Producto" asp-action="Index" asp-route-id="@factor.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" class="btn btn-info btn-xp" title="Administrar Productos"><i class="fas fa-calendar"></i></a>
+            @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "4")
+            {
+                <td class="acciones-td">
+                    <a asp-area="planificacion" asp-controller="Producto" asp-action="LoadIndicadores" asp-route-id="@factor.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" class="btn btn-info btn-xp" title="Administrar Productos"><i class="fas fa-calendar"></i></a>
 
-                    </td>
-                }
+                </td>
+            }
+            else
+            {
+                <td class="acciones-td">
+                    <a asp-area="planificacion" asp-controller="Producto" asp-action="Index" asp-route-id="@factor.Id" asp-route-idObjetivo="@ViewBag.IdObjetivo" asp-route-idEstrategia="@ViewBag.IdEstrategia" asp-route-AnioGestion="@ViewBag.IdGestion" class="btn btn-info btn-xp" title="Administrar Productos"><i class="fas fa-calendar"></i></a>
 
-            </tr>
+                </td>
+            }
+
+         
+        </tr>
         
         }
 

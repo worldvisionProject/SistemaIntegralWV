@@ -75,12 +75,13 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label class="col-md-12 col-form-label texto-pregunta">Programa Tecnico</label>
-                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Edit)).Result.Succeeded)
-                            {
-                                <textarea asp-for="Programa" name="Programa" class="form-control"></textarea>
-                            }
-                            else
-                            { <textarea asp-for="Programa" name="Programa" class="form-control" readonly></textarea>}
+                            @*@if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Edit)).Result.Succeeded)
+        {
+            <textarea asp-for="Programa" name="Programa" class="form-control"></textarea>
+        }
+        else
+        { <textarea asp-for="Programa" name="Programa" class="form-control" readonly></textarea>}*@
+                            @Html.DropDownListFor(x => x.Programa, Model.ProgramaList, new { @class = "form-control" })
                             <span asp-validation-for="Programa" class="text-danger"></span>
                         </div>
                     </div>
@@ -92,13 +93,14 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label class="col-md-12 col-form-label texto-pregunta ">CWBO</label>
-                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Edit)).Result.Succeeded)
-                            {
-                                <textarea asp-for="Cwbo" name="Cwbo" class="form-control"></textarea>
-                            }
-                            else {<textarea asp-for="Cwbo" name="Cwbo" class="form-control" readonly></textarea> }
-                                <span asp-validation-for="Cwbo" class="text-danger"></span>
-                            </div>
+                            @*@if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Edit)).Result.Succeeded)
+        {
+            <textarea asp-for="Cwbo" name="Cwbo" class="form-control"></textarea>
+        }
+        else {<textarea asp-for="Cwbo" name="Cwbo" class="form-control" readonly></textarea> }*@
+                            @Html.DropDownListFor(x => x.Cwbo, Model.CwboList, new { @class = "form-control" })
+                            <span asp-validation-for="Cwbo" class="text-danger"></span>
+                        </div>
                     </div>
 
 

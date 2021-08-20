@@ -125,6 +125,26 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             //     .WithOne(c => c.Colaboradores)
             //     .HasForeignKey(k => k.IdColaborador);
 
+      //      builder.Entity<Actividad>()
+      //   .HasOne(p => p.IndicadorPOAs)
+      //   .WithMany(b => b.Actividades)
+      //   .IsRequired(false);
+
+      //      builder.Entity<IndicadorPOA>()
+      //  .HasOne(p => p.Productos)
+      //  .WithMany(b => b.IndicadorPOAs)
+      //  .IsRequired(false);
+
+      //      builder.Entity<Producto>()
+      // .HasOne(p => p.IndicadorEstrategicos)
+      // .WithMany(b => b.Productos)
+      // .IsRequired(false);
+
+      //      builder.Entity<IndicadorEstrategico>()
+      //.HasOne(p => p.FactorCriticoExitos)
+      //.WithMany(b => b.IndicadorEstrategicos)
+      //.IsRequired(false);
+
             foreach (var property in builder.Model.GetEntityTypes()
             .SelectMany(t => t.GetProperties())
             .Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))

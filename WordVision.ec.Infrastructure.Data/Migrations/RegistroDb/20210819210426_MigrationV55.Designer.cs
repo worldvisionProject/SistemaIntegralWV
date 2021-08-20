@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
 namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210819210426_MigrationV55")]
+    partial class MigrationV55
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1848,9 +1850,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Planificacion.IndicadorPOA", "IndicadorPOAs")
                         .WithMany("Actividades")
-                        .HasForeignKey("IdIndicadorPOA")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdIndicadorPOA");
 
                     b.Navigation("IndicadorPOAs");
                 });
@@ -1903,9 +1903,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Planificacion.FactorCriticoExito", "FactorCriticoExitos")
                         .WithMany("IndicadorEstrategicos")
-                        .HasForeignKey("IdFactorCritico")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdFactorCritico");
 
                     b.Navigation("FactorCriticoExitos");
                 });
@@ -1914,9 +1912,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Planificacion.Producto", "Productos")
                         .WithMany("IndicadorPOAs")
-                        .HasForeignKey("IdProducto")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdProducto");
 
                     b.Navigation("Productos");
                 });
@@ -1958,9 +1954,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Planificacion.IndicadorEstrategico", "IndicadorEstrategicos")
                         .WithMany("Productos")
-                        .HasForeignKey("IdIndicadorEstrategico")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdIndicadorEstrategico");
 
                     b.Navigation("IndicadorEstrategicos");
                 });

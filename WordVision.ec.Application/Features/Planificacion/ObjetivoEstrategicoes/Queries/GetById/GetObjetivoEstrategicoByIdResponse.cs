@@ -11,7 +11,8 @@ namespace WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes
         public string Categoria { get; set; }
         public string AreaPrioridad { get; set; }
         public string Dimension { get; set; }
-
+        public string Programa { get; set; }
+        public string Cwbo { get; set; }
         public int CargoResponsable { get; set; }
 
         public int IdEstrategia { get; set; }

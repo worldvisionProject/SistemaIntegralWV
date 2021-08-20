@@ -21,6 +21,8 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         [StringLength(1)]
         [Display(Name = "Estado de AF")]
         public string Estado { get; set; }
+
+        public decimal? Meta { get; set; }
         public int IdEstrategia { get; set; }
         public EstrategiaNacional EstrategiaNacionales { get; set; }
 

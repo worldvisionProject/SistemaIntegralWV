@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Actividades.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Commands.Create;
@@ -23,6 +24,7 @@ using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Com
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Productos.Queries.GetAllCached;
+using WordVision.ec.Application.Features.Planificacion.Productos.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
@@ -81,15 +83,17 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
 
-        public async Task<IActionResult> IndexIndicador(int id, int idEstrategia, int AnioGestion)
+        public async Task<IActionResult> IndexIndicador(int id, int idEstrategia, int AnioGestion, int Categoria)
         {
             int idObjetivoEstra = id;
 
-
+            var TipoObjetivo = string.Empty;
             var response = await _mediator.Send(new GetObjetivoEstrategicoByIdQuery() { Id = idObjetivoEstra });
             if (response.Succeeded)
             {
                 ViewBag.Message = response.Data.Descripcion;
+                var catCategoria = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 5 });
+                TipoObjetivo = catCategoria.Data.Where(r => r.Secuencia == response.Data.Categoria).FirstOrDefault().Nombre;
                 //id = response.Data.IdEstrategia;
             }
             var gestionDesc = string.Empty;
@@ -117,12 +121,22 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 OverwriteTitleOnExactMatch = true,
                 Parent = childNode1
             };
+
+            id = idEstrategia;
+            var childNode21 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Objetivo "+ TipoObjetivo)
+            {
+                RouteValues = new { id, AnioGestion, Categoria },
+                OverwriteTitleOnExactMatch = true,
+                Parent = childNode2
+            };
+
+
             id = idObjetivoEstra;
             var childNode3 = new MvcBreadcrumbNode("IndexIndicador", "FactorCriticoExito", "Indicadores de Resultado")
             {
                 RouteValues = new { id, idEstrategia, AnioGestion },
                 OverwriteTitleOnExactMatch = true,
-                Parent = childNode2
+                Parent = childNode21
             };
 
 
@@ -251,17 +265,35 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 switch (Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value))
                 {
                     case 2:
-                        var response = await _mediator.Send(new GetAllIndicadorEstrategicoesQuery() { IdObjetivoEstrategico = idObjetivo });
-                        if (response.Succeeded)
+
+                        var responseActividad = await _mediator.Send(new GetAllActividadesQuery() { IdObjetivoEstrategico = idObjetivo });
+                        if (responseActividad.Succeeded)
                         {
                             ViewBag.IdGestion = idGestion;
                             ViewBag.DescGestion = descGestion;
                             ViewBag.IdObjetivo = idObjetivo;
                             ViewBag.IdEstrategia = responseO.Data.IdEstrategia;
-
-                            var viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data).Where(i => i.Responsable == idColaborador);
-                            return PartialView("_ViewAllxIndicador", viewModel);
+                            var res = responseActividad.Data.Where(c => c.IdCargoResponsable == idColaborador);
+                            var viewModel = _mapper.Map<List<ActividadViewModel>>(res);
+                            return PartialView("_ViewAllxActividad", viewModel);
                         }
+                        //var response = await _mediator.Send(new GetAllIndicadorEstrategicoesQuery() { IdObjetivoEstrategico = idObjetivo });
+                        //if (response.Succeeded)
+                        //{
+                        //    ViewBag.IdGestion = idGestion;
+                        //    ViewBag.DescGestion = descGestion;
+                        //    ViewBag.IdObjetivo = idObjetivo;
+                        //    ViewBag.IdEstrategia = responseO.Data.IdEstrategia;
+
+                        //    var viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data).Where(i => i.Responsable == idColaborador);
+
+
+
+                        //    return PartialView("_ViewAllxActividad", viewModel);
+
+                        //    //var viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data).Where(i => i.Responsable == idColaborador);
+                        //    //return PartialView("_ViewAllxIndicador", viewModel);
+                        //}
                         break;
                     case 3:
                         var responseProducto = await _mediator.Send(new GetAllProductosCachedQuery());
@@ -278,17 +310,23 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         break;
 
                     case 4:
-                        var responseActividad = await _mediator.Send(new GetAllActividadesQuery() { IdObjetivoEstrategico = idObjetivo });
-                        if (responseActividad.Succeeded)
-                        {
-                            ViewBag.IdGestion = idGestion;
-                            ViewBag.DescGestion = descGestion;
-                            ViewBag.IdObjetivo = idObjetivo;
-                            ViewBag.IdEstrategia = responseO.Data.IdEstrategia;
+                        //var responseActividad = await _mediator.Send(new GetAllActividadesQuery() { IdObjetivoEstrategico = idObjetivo });
+                        //if (responseActividad.Succeeded)
+                        //{
+                        //    ViewBag.IdGestion = idGestion;
+                        //    ViewBag.DescGestion = descGestion;
+                        //    ViewBag.IdObjetivo = idObjetivo;
+                        //    ViewBag.IdEstrategia = responseO.Data.IdEstrategia;
+                        //    var res = responseActividad.Data.Where(c => c.IdCargoResponsable == idColaborador);
+                        //    var viewModel = _mapper.Map<List<ActividadViewModel>>(res);
+                        //    return PartialView("_ViewAllxActividad", viewModel);
+                        //}
 
-                            var viewModel = _mapper.Map<List<ActividadViewModel>>(responseActividad.Data.Where(c => c.IdCargoResponsable == idColaborador));
-                            return PartialView("_ViewAllxActividad", viewModel);
-                        }
+                        
+
+
+                       
+
                         break;
 
                 }

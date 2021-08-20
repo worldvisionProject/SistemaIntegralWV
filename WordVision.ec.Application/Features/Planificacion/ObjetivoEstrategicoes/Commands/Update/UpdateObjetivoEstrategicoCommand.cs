@@ -23,6 +23,9 @@ namespace WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes
         public int CargoResponsable { get; set; }
 
         public int IdEstrategia { get; set; }
+        public string Programa { get; set; }
+        public string Cwbo { get; set; }
+
 
         public class UpdateProductCommandHandler : IRequestHandler<UpdateObjetivoEstrategicoCommand, Result<int>>
         {
@@ -50,6 +53,9 @@ namespace WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes
                     ObjetivoEstrategico.AreaPrioridad = command.AreaPrioridad;
                     ObjetivoEstrategico.Dimension = command.Dimension;
                     ObjetivoEstrategico.CargoResponsable = command.CargoResponsable;
+                    ObjetivoEstrategico.Programa = command.Programa;
+                    ObjetivoEstrategico.Cwbo = command.Cwbo;
+
                     await _ObjetivoEstrategicoRepository.UpdateAsync(ObjetivoEstrategico);
                     await _unitOfWork.Commit(cancellationToken);
                     return Result<int>.Success(ObjetivoEstrategico.Id);

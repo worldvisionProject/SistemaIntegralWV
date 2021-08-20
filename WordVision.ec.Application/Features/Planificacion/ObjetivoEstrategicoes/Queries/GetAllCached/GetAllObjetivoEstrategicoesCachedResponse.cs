@@ -13,7 +13,8 @@ namespace WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes
         public string Dimension { get; set; }
 
         public int CargoResponsable { get; set; }
-
+        public string Programa { get; set; }
+        public string Cwbo { get; set; }
         public int IdEstrategia { get; set; }
         public virtual ICollection<FactorCriticoExito> FactorCriticoExitos { get; set; }
     }

@@ -26,6 +26,9 @@ namespace WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes
         public int CargoResponsable { get; set; }
 
         public int IdEstrategia { get; set; }
+        public string Programa { get; set; }
+        public string Cwbo { get; set; }
+
 
     }
 

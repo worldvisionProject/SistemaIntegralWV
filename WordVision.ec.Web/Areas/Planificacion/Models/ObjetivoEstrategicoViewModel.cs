@@ -21,8 +21,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
 
         public int IdEstrategia { get; set; }
 
+        //CAMPOS PERSONALIZADOS
         public SelectList DimensionList { get; set; }
         public SelectList AreaList { get; set; }
+        public SelectList ProgramaList { get; set; }
+        public SelectList CwboList { get; set; }
         public virtual List<FactorCriticoExito> FactorCriticoExitos { get; set; }
     }
 }

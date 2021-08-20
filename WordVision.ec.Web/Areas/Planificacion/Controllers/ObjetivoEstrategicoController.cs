@@ -96,6 +96,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
             var AreaList = new SelectList(cat3.Data, "Secuencia", "Nombre");
 
+            var catPrograma = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 17 });
+            var ProgramaList = new SelectList(catPrograma.Data, "Secuencia", "Nombre");
+
+            var catCtwo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 18 });
+            var CwboList = new SelectList(catCtwo.Data, "Secuencia", "Nombre");
             if (id == 0)
             {
                 var entidadViewModel = new ObjetivoEstrategicoViewModel();
@@ -103,6 +108,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 entidadViewModel.IdEstrategia = idEstrategia;
                 //entidadViewModel.DimensionList = DimList;
                 entidadViewModel.AreaList = AreaList;
+                entidadViewModel.ProgramaList = ProgramaList;
+                entidadViewModel.CwboList = CwboList;
                 //  return View("_CreateOrEdit", entidadViewModel);
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
@@ -116,6 +123,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     entidadViewModel.IdEstrategia = idEstrategia;
                     //entidadViewModel.DimensionList = DimList;
                     entidadViewModel.AreaList = AreaList;
+                    entidadViewModel.ProgramaList = ProgramaList;
+                    entidadViewModel.CwboList = CwboList;
                     // return View("_CreateOrEdit", entidadViewModel);
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
