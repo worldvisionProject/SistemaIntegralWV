@@ -56,10 +56,10 @@ namespace WordVision.ec.Web
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            Log.Logger = new LoggerConfiguration()
-              .Enrich.FromLogContext()
-              .WriteTo.File("Logs/mylog-{Date}.txt")
-              .CreateLogger();
+            //Log.Logger = new LoggerConfiguration()
+            //  .Enrich.FromLogContext()
+            //  .WriteTo.File("Logs/mylog-{Date}.txt")
+            //  .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
@@ -161,7 +161,7 @@ namespace WordVision.ec.Web
                 app.UseHsts();
             }
 
-            loggerFactory.AddFile("Logs/mylog-{Date}.txt");
+       
 
             app.UseDeveloperExceptionPage();
            

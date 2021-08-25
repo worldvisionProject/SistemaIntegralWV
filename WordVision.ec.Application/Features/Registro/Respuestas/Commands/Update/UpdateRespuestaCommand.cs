@@ -42,7 +42,7 @@ namespace WordVision.ec.Application.Features.Registro.Respuestas.Commands.Update
                     respuesta.IdColaborador = command.IdColaborador==0 ? respuesta.IdColaborador: command.IdColaborador;
                     respuesta.IdPregunta = command.IdPregunta == 0 ? respuesta.IdPregunta: command.IdPregunta;
                     respuesta.IdDocumento = command.IdDocumento == 0 ? respuesta.IdDocumento: command.IdDocumento;
-                    respuesta.DescRespuesta = command.DescRespuesta ?? respuesta.DescRespuesta;
+                    respuesta.DescRespuesta = command.DescRespuesta;//?? respuesta.DescRespuesta;
                   
                     await _respuestaRepository.UpdateAsync(respuesta);
                     await _unitOfWork.Commit(cancellationToken);

@@ -55,11 +55,11 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Upd
                     colaborador.PrimerNombre = command.PrimerNombre ?? colaborador.PrimerNombre;
                     colaborador.SegundoNombre = command.SegundoNombre ?? colaborador.SegundoNombre;
                     colaborador.Identificacion = command.Identificacion ?? colaborador.Identificacion;
-                    colaborador.Cargo = command.Cargo;
-                    colaborador.Area = command.Area ;
-                    colaborador.LugarTrabajo = command.LugarTrabajo ;
+                    colaborador.Cargo = command.Cargo == 0 ? colaborador.Cargo : Convert.ToInt32(command.Cargo);
+                    colaborador.Area = command.Area == 0 ? colaborador.Area : Convert.ToInt32(command.Area);
+                    colaborador.LugarTrabajo = command.LugarTrabajo == 0 ? colaborador.LugarTrabajo : Convert.ToInt32(command.LugarTrabajo);
 
-                    colaborador.IdEstructura = Convert.ToInt32( command.Cargo);
+                    colaborador.IdEstructura = Convert.ToInt32( command.IdEstructura)==0? colaborador.IdEstructura: Convert.ToInt32(command.IdEstructura);
 
                     await _colaboradorRepository.UpdateAsync(colaborador);
                     await _unitOfWork.Commit(cancellationToken);

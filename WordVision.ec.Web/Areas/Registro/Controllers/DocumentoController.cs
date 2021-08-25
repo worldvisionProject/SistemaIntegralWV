@@ -31,7 +31,7 @@ using SelectPdf;
 using WordVision.ec.Application.Features.Registro.Formularios.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using Microsoft.AspNetCore.Routing;
-
+using Microsoft.Extensions.Logging;
 
 namespace WordVision.ec.Web.Areas.Registro.Controllers
 {
@@ -143,6 +143,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             catch (Exception EX)
             {
                 _notify.Error($"Respuesta con con error.");
+                _logger.LogError(EX, $"Respuesta con con error.");
             }
 
             return null;
@@ -227,6 +228,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             catch (Exception EX)
             {
                 _notify.Error($"Respuesta con con error.");
+                _logger.LogError(EX,$"Respuesta con con error.");
             }
 
             return null;
@@ -402,7 +404,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                     respuesta.IdPregunta = c.Id;
                     respuesta.DescRespuesta = c.Estado == null ? c.DescripcionUrl1 + "|" + c.DescripcionUrl2 : c.Estado;
                     if (c.Id == 29 && c.IdDocumento == 5)
-                        respuesta.DescRespuesta = documento.Estado;
+                        respuesta.DescRespuesta = documento.Estado??"";
                     idDocumento = c.IdDocumento;
                     try
                     {
@@ -440,7 +442,8 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                     catch (Exception EX)
                     {
                         _notify.Error($"Respuesta con con error.");
-                    }
+                    _logger.LogError(EX, $"Respuesta con con error.");
+                }
 
                 }
 
@@ -581,6 +584,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             catch (Exception EX)
             {
                 _notify.Error($"Respuesta con con error.");
+                _logger.LogError(EX, $"Respuesta con con error.");
             }
 
             return salida;
@@ -817,6 +821,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             {
               
                 _notify.Success($"Error al Enviar el Mail.");
+                _logger.LogError(ex, $"Error al Enviar el Mail.");
                 return new JsonResult(new { isValid = false });
             }
 
