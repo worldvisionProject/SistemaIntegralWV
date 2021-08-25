@@ -23,6 +23,7 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public string Estado { get; set; }
 
         public decimal? Meta { get; set; }
+        public decimal? Logro { get; set; }
         public int IdEstrategia { get; set; }
         public EstrategiaNacional EstrategiaNacionales { get; set; }
 

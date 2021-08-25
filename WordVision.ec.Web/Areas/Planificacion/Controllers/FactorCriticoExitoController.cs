@@ -285,6 +285,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                                 {
                                     for (var j = 0; j < viewModel[i].Productos.Count(); j++)
                                     {
+                                        viewModel[i].Productos[j].DescCargoResponsable = colaborador.Data.Where(c => c.Id == viewModel[i].Productos[j].IdCargoResponsable).FirstOrDefault().Alias;
+
                                         if (viewModel[i].Productos[j].IndicadorPOAs.Count() != 0)
                                         {
                                             for (var k = 0; k < viewModel[i].Productos[j].IndicadorPOAs.Count(); k++)

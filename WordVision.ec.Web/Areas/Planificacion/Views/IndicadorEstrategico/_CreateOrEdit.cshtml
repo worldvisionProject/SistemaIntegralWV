@@ -127,10 +127,7 @@
                         {
                             suma = suma + Convert.ToDecimal(@metaanual.Meta);
                             <tr id="@metaanual.Id" class="rowdata">
-                                @*<td>
 
-                                        @colaborador.Id
-                                    </td>*@
                                 <td class="af">
                                     @{
                                         var selectedCity = Model.gestionList;
@@ -148,8 +145,14 @@
 
                                 @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Delete)).Result.Succeeded)
                                 {
+
                                     <td class="text-right">
-                                        <button type="button" onclick="EliminaFila(@metaanual.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+                                        <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFila(@metaanual.Id,@metaanual.Anio,@metaanual.Meta.ToString().Replace(",", "."),'@metaanual.Entregable')">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button type="button" onclick="EliminaFila(@metaanual.Id)" class="btn btn-danger btn-xp">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
 
                                     </td>
                                 }
@@ -161,6 +164,7 @@
                     }
 
                     <input value="@suma" type="hidden" id="suma" name="suma" />
+                    <input  type="hidden" id="idact" name="idact" />
                 </tbody>
             </table>
 
@@ -259,6 +263,12 @@
             var num = 0;
            // let sum = document.getElementById("suma").value;
         function AgregaConcepto() {
+            let idact = document.getElementById("idact").value;
+
+            if (idact.length != 0) {
+                EliminaFila(idact);
+            }
+
             let Anio = document.getElementById("gestionList").value;
             let Entregable = document.getElementById("EntregableAF").value;
             let Meta = document.getElementById("MetaAF").value.replace(',', '.');
@@ -306,7 +316,7 @@
             TDAnio.innerHTML = AnioDesc;
             TDMeta.innerHTML = Meta;
             TDEntregable.innerHTML = Entregable;
-            TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFila(" + num + "," + Anio+","+Meta.ToString().Replace(",", ".")+","+Entregable+")'> <i class='fas fa-pencil-alt'></i>  </button> <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
             //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
             Tabla.appendChild(TR);
 
@@ -406,4 +416,13 @@
         sumar();
     }
 
+        function ActualizaFila(id, gestion, meta, entregable) {
+            $("#gestionList").val(gestion);
+            $("#gestionList").select2().trigger('change');
+
+            document.getElementById("idact").value = id;
+            document.getElementById("EntregableAF").value = entregable;
+            document.getElementById("MetaAF").value = meta;
+
+        }
     </script>

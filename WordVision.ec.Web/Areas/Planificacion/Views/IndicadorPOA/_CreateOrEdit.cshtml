@@ -84,7 +84,7 @@
                         <span asp-validation-for="LineaBase" class="text-danger"></span>
                     </div>
                     <div class="col-md-3">
-                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Acumulada Ciclo</label>
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Acumulada</label>
                         <input asp-for="Meta" type="text" name="Meta" class="form-control" />
                         <span asp-validation-for="Meta" class="text-danger"></span>
                     </div>
@@ -164,16 +164,14 @@
                                             @metaanual.NumMeses
 
                                         </td>
-                                        @*<td>
-
-                                                @{
-                                                    var selectedCity = Model.UnidadList;
-                                                    string txt = selectedCity.Where(x => x.Value == metaanual.TipoMedida.ToString()).FirstOrDefault().Text;
-                                                }
-                                                @txt
-                                            </td>*@
+                                       
                                         <td class="meta">
-                                            @metaanual.Valor.ToString().Replace(",", ".")
+                                            @{
+                                                var selectedCity = Model.UnidadList;
+                                                string txt = selectedCity.Where(x => x.Value == Model.UnidadMedida.ToString()).FirstOrDefault().Text;
+                                            }
+
+                                            @metaanual.Valor.ToString().Replace(",", ".") @txt
                                         </td>
                                         <td>
                                             @metaanual.Entregable
@@ -262,8 +260,18 @@
             // Para modificar un estado:
             // status.innerText = 'offline';
         }
+        
+        if (document.getElementById("UnidadMedida").value === "28") {
+           
+            if (sum > parseFloat(100)) {
+                alert("El valor de la Meta debe ser menor o igual a 100%");
+                return true;
 
-        document.getElementById("Meta").value = String(sum).replace('.', ',') ;
+            }
+        }
+        
+        document.getElementById("Meta").value = String(sum).replace('.', ',');
+        return false;
     }
 
 
@@ -322,6 +330,10 @@
             //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
             Tabla.appendChild(TR);
 
+            if (sumar()) {
+                deleteRow(num);
+                return;
+            }
 
             //agregamos hiddens
             let DivConceptos = document.getElementById("divMetas");
@@ -360,7 +372,7 @@
 
             num++;
 
-            sumar();
+            //sumar();
 
             //var GestionViewModel = {
             //    Anio: Nombre,

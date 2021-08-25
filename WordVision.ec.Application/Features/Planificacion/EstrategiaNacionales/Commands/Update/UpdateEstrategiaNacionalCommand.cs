@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
+using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Commands.Update
 {
@@ -23,14 +24,16 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
         public string Estado { get; set; }
         public string FactorCritico { get; set; }
         public string Indicador { get; set; }
+        public List<Gestion> Gestiones { get; set; }
         public class UpdateProductCommandHandler : IRequestHandler<UpdateEstrategiaNacionalCommand, Result<int>>
         {
             private readonly IUnitOfWork _unitOfWork;
             private readonly IEstrategiaNacionalRepository _EstrategiaNacionalRepository;
-
-            public UpdateProductCommandHandler(IEstrategiaNacionalRepository EstrategiaNacionalRepository, IUnitOfWork unitOfWork)
+            private readonly IGestionRepository _GestionRepository;
+            public UpdateProductCommandHandler(IGestionRepository gestionRepository,IEstrategiaNacionalRepository EstrategiaNacionalRepository, IUnitOfWork unitOfWork)
             {
                 _EstrategiaNacionalRepository = EstrategiaNacionalRepository;
+                _GestionRepository = gestionRepository;
                 _unitOfWork = unitOfWork;
             }
 
@@ -51,6 +54,14 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
                     EstrategiaNacional.FactorCritico = command.FactorCritico;
                     EstrategiaNacional.Indicador = command.Indicador;
                     EstrategiaNacional.Estado = command.Estado;
+
+                    foreach (var g in  command.Gestiones)
+                    {
+                        var Gestion = await _GestionRepository.GetByIdAsync(g.Id);
+                        Gestion.Meta = g.Meta;
+                        Gestion.Logro = g.Logro;
+                        await _GestionRepository.UpdateAsync(Gestion);
+                    }
 
                     await _EstrategiaNacionalRepository.UpdateAsync(EstrategiaNacional);
                     await _unitOfWork.Commit(cancellationToken);

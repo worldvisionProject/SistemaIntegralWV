@@ -25,18 +25,18 @@
 
 </div>
 <div id="header" class="row titulopopup">
-    <div class="col-8">
+    <div class="col-6">
         <h6 class="h5 mb-2 text-gray-800-b">Responsable: </h6>@Model.DescResponsable
     </div>
    
 
-    <div class="col-4">
+    <div class="col-6">
         <table id="metasTableM" class="table table-striped  rwd-table" width="100%" cellspacing="0">
             <thead>
                 <tr>
 
+                    <th>Trimestre</th>
                     <th>Meses</th>
-
                     <th>Meta</th>
 
                 </tr>
@@ -47,19 +47,38 @@
 
                     @foreach (var metaanual in Model.MetaEstrategicas)
                     {
-                        <tr id="@metaanual.Id" class="rowdata">
-                            <td class="mes">
+                <tr id="@metaanual.Id" class="rowdata">
+                    <td class="mes">
 
-                                @metaanual.NumMeses
+                        @metaanual.NumMeses
 
-                            </td>
-                            <td class="meta">
-                                @metaanual.Valor %
-                            </td>
+                    </td>
+                    <td class="mes">
+                        @{ var t = ""; switch (metaanual.NumMeses)
+                            {
+                                case 3:
+                                    t=  "Octubre,Noviembre,Diciembre";
+                                    break;
+                                case 6:
+                                    t = "Enero,Febrero,Marzo";
+                                    break;
+                                case 9:
+                                    t = "Abril,Mayo,Junio";
+                                    break;
+                                case 12:
+                                    t = "Julio,Agosto,Septiembre";
+                                    break;
+                            }
+                                        }
+                        @t
+                    </td>
+                    <td class="meta">
+                        @metaanual.Valor %
+                    </td>
 
 
 
-                        </tr>
+                </tr>
                     }}
 
 
@@ -135,8 +154,8 @@
     $.validator.unobtrusive.parse(document);
     $(function () {
         $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
-        //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
-        //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });
+                                //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
+                                //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });
 
     });
 

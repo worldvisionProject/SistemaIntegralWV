@@ -16,6 +16,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
 
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string Meta { get; set; }
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+        public string Logro { get; set; }
         public SelectList EstadoList { get; set; }
         public int IdEstrategia { get; set; }
 

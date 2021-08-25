@@ -71,7 +71,7 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label class="col-md-12 col-form-label texto-pregunta">
-                                ¿Por qué la consultoria?
+                                Indique el nombre de la consultoria y cuál es el proposito.
 
                             </label>
                             <textarea asp-for="ParaqueConsultoria" name="ParaqueConsultoria" class="form-control"></textarea>
@@ -81,7 +81,7 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label class="col-md-12 col-form-label texto-pregunta">
-                                Seleccione en caso de trabajar con GTRM
+                                Seleccione en caso de no hacer la consultoría con el equipo GTRN e incluir la justificación
 
                             </label>
                             <input asp-for="Gtrm" type="checkbox" name="Gtrm" class="form-control" />
@@ -122,7 +122,7 @@
                             </div>
 
                             <div class="col-md-3">
-                                <label class="col-md-12 col-form-label texto-pregunta text-left">Cantidad</label>
+                                <label class="col-md-12 col-form-label texto-pregunta text-left">Valor</label>
 
                                 <input asp-for="Valor" type="text" name="Valor" class="form-control" />
                                 <span asp-validation-for="Valor" class="text-danger"></span>

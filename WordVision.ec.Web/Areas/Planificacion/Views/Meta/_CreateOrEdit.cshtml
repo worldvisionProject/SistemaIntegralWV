@@ -102,8 +102,8 @@
                             <tr id="@metaanual.Id" class="rowdata">
                                 @*<td>
 
-                                        @colaborador.Id
-                                    </td>*@
+                        @colaborador.Id
+                    </td>*@
                                 <td class="mes">
 
                                     @metaanual.NumMeses
@@ -111,12 +111,12 @@
                                 </td>
                                 @*<td>
 
-                                    @{
-                                        var selectedCity = Model.UnidadList;
-                                        string txt = selectedCity.Where(x => x.Value == metaanual.TipoMedida.ToString()).FirstOrDefault().Text;
-                                    }
-                                    @txt
-                                </td>*@
+                        @{
+                            var selectedCity = Model.UnidadList;
+                            string txt = selectedCity.Where(x => x.Value == metaanual.TipoMedida.ToString()).FirstOrDefault().Text;
+                        }
+                        @txt
+                    </td>*@
                                 <td class="meta">
                                     @metaanual.Valor
                                 </td>
@@ -125,6 +125,9 @@
                                 </td>
 
                                 <td class="text-right">
+                                    <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFila(@metaanual.Id,@metaanual.NumMeses,@metaanual.Valor.ToString().Replace(",", "."),'@metaanual.Entregable')">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
                                     <button type="button" onclick="EliminaFila(@metaanual.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
 
                                 </td>
@@ -132,7 +135,7 @@
                             </tr>
                         }}
 
-
+                    <input type="hidden" id="idact" name="idact" />
                 </tbody>
             </table>
 
@@ -213,6 +216,11 @@
 
        var num = 0;
         function AgregaConcepto() {
+            let idact = document.getElementById("idact").value;
+
+            if (idact.length != 0) {
+                EliminaFila(idact);
+            }
             let NumMeses = document.getElementById("NumMesesList").value;
             //let UnidadList = document.getElementById("UnidadList").value;
             //var selection = document.getElementById("UnidadList");
@@ -250,6 +258,7 @@
             //let TDUnidad = document.createElement("td");
             let TDValorMeta = document.createElement("td");
             let TDEntregableMeta = document.createElement("td");
+            
             let TDEliminar = document.createElement("td");
             TDEliminar.className = "text-right";
             TDValorMeta.className = "meta";
@@ -260,6 +269,7 @@
             //TR.appendChild(TDUnidad);
             TR.appendChild(TDValorMeta);
             TR.appendChild(TDEntregableMeta);
+           
             TR.appendChild(TDEliminar);
             //TR.appendChild(TDTotal);
            // TDId.innerHTML = num;
@@ -267,7 +277,7 @@
             //TDUnidad.innerHTML = Unidad;
             TDValorMeta.innerHTML = ValorMeta;
             TDEntregableMeta.innerHTML = EntregableMeta;
-            TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFila(" + num + "," + NumMeses + "," + ValorMeta.replace(',', '.')+","+EntregableMeta.toString()+") '> <i class='fas fa-pencil-alt'></i> </button> <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
             //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
             Tabla.appendChild(TR);
 
@@ -369,4 +379,13 @@
         });
     }
 
+        function ActualizaFila(id, mes, meta, entregable) {
+            $("#NumMesesList").val(mes);
+            $("#NumMesesList").select2().trigger('change');
+
+            document.getElementById("idact").value = id;
+            document.getElementById("EntregableMeta").value = entregable;
+            document.getElementById("ValorMeta").value = meta;
+
+        }
     </script>

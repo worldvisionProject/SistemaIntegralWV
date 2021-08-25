@@ -13,11 +13,12 @@
                 <th class="acciones-th">Metas Trimestrales</th>
 
             }
-            <th  class="acciones-th">Seguimiento</th>
-            <th  class="tactico-th">Productos</th>
-            <th  class="acciones-th">Agegar Productos</th>
-            <th  class="tactico-th">Indicador Producto</th>
-            <th  class="operativo-th">Actividad</th>
+            <th class="acciones-th">Seguimiento</th>
+            <th class="tactico-th">Productos</th>
+            <th class="tactico-th">Responsable</th>
+            <th class="acciones-th">Agegar Productos</th>
+            <th class="tactico-th">Indicador Producto</th>
+            <th class="operativo-th">Actividad</th>
             @*<th data-priority="2" class="acciones-th">Indicadores de Producto</th>*@
 
 
@@ -56,16 +57,20 @@
                     </button>
                 </td>
             }
-        <td>
-            <button type="button" class="btn btn-success  btn-xp" title="Ver Seguimiento" id="btnViewModel1" onclick="jQueryModalGet('/Planificacion/Seguimiento/LoadSeguimiento?idIndicadorEstrategico=@Model.ToList()[i].Id&tipo=IE','Segumiento Indicadores de Resultados')">
-                <i class="fas fa-eye"></i>
-            </button>
-            <button type="button" class="btn btn-primary  btn-xp" title="Agregar Seguimiento" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Seguimiento/OnGetCreateOrEdit?id=0&IdFactorCritico=@Model.ToList()[i].FactorCriticoExitos.Id&IdIndicador=@Model.ToList()[i].Id&idGestion=@ViewBag.IdGestion&tipo=IE','Segumiento Indicadores de Resultados')">
-                <i class="fas fa-plus-square"></i>
-            </button>
-        </td>
-                <td>
+            <td>
+                <button type="button" class="btn btn-success  btn-xp" title="Ver Seguimiento" id="btnViewModel1" onclick="jQueryModalGet('/Planificacion/Seguimiento/LoadSeguimiento?idIndicadorEstrategico=@Model.ToList()[i].Id&tipo=IE','Segumiento Indicadores de Resultados')">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button type="button" class="btn btn-primary  btn-xp" title="Agregar Seguimiento" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Seguimiento/OnGetCreateOrEdit?id=0&IdFactorCritico=@Model.ToList()[i].FactorCriticoExitos.Id&IdIndicador=@Model.ToList()[i].Id&idGestion=@ViewBag.IdGestion&tipo=IE','Segumiento Indicadores de Resultados')">
+                    <i class="fas fa-plus-square"></i>
+                </button>
+            </td>
+            <td>
                 @Model.ToList()[i].Productos[j].DescProducto
+
+            </td>
+            <td>
+                @Model.ToList()[i].Productos[j].DescCargoResponsable
 
             </td>
             @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "4")

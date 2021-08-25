@@ -22,6 +22,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Cr
 
         public string Estado { get; set; }
         public decimal? Meta { get; set; }
+        public decimal? Logro { get; set; }
         public int IdEstrategia { get; set; }
 
     }

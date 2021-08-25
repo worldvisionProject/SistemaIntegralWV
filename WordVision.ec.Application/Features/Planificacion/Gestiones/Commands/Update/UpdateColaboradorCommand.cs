@@ -19,6 +19,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Up
 
         public string Estado { get; set; }
         public decimal? Meta { get; set; }
+        public decimal? Logro { get; set; }
         public int IdEstrategia { get; set; }
         public class UpdateProductCommandHandler : IRequestHandler<UpdateGestionCommand, Result<int>>
         {
@@ -45,6 +46,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Up
                     Gestion.Anio = command.Anio;
                     Gestion.Estado = command.Estado;
                     Gestion.Meta = command.Meta;
+                    Gestion.Logro = command.Logro;
 
                     await _GestionRepository.UpdateAsync(Gestion);
                     await _unitOfWork.Commit(cancellationToken);

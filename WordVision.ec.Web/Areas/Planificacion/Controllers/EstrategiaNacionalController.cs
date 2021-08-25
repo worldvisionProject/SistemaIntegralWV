@@ -163,18 +163,19 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         var result = await _mediator.Send(updateEntidadCommand);
                         if (result.Succeeded) _notify.Information($"Estrategia con ID {result.Data} Actualizado.");
                     }
-                    var response = await _mediator.Send(new GetAllEstrategiaNacionalesCachedQuery());
-                    if (response.Succeeded)
-                    {
-                        var viewModel = _mapper.Map<List<EstrategiaNacionalViewModel>>(response.Data);
-                        var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
-                        return new JsonResult(new { isValid = true, html = html });
-                    }
-                    else
-                    {
-                        _notify.Error(response.Message);
-                        return null;
-                    }
+                    return new JsonResult(new { isValid = true});
+                    //var response = await _mediator.Send(new GetAllEstrategiaNacionalesCachedQuery());
+                    //if (response.Succeeded)
+                    //{
+                    //    var viewModel = _mapper.Map<List<EstrategiaNacionalViewModel>>(response.Data);
+                    //    var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                    //    return new JsonResult(new { isValid = true, html = html });
+                    //}
+                    //else
+                    //{
+                    //    _notify.Error(response.Message);
+                    //    return null;
+                    //}
                 }
                 else
                 {
