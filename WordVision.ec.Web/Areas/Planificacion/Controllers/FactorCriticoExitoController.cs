@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SmartBreadcrumbs.Attributes;
@@ -19,6 +19,7 @@ using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Quer
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetAllCached;
@@ -276,11 +277,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                             ViewBag.DescGestion = descGestion;
                             ViewBag.IdObjetivo = idObjetivo;
                             ViewBag.IdEstrategia = responseO.Data.IdEstrategia;
-
+                            var ListatableroModel = new List<TableroControlViewModel>();
                             var viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data.Where(i => i.Responsable == idColaborador));
-
+                            var listTableroModel = new List<TableroControlViewModel>();
                             for (var i=0;i< viewModel.Count();i++)
                             {
+                               
                                 if (viewModel[i].Productos.Count() != 0)
                                 {
                                     for (var j = 0; j < viewModel[i].Productos.Count(); j++)
@@ -295,7 +297,27 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                                                 {
                                                     for (var l = 0; l < viewModel[i].Productos[j].IndicadorPOAs[k].Actividades.Count(); l++)
                                                     {
+                                                        var tableroModel = new TableroControlViewModel();
+                                                        tableroModel.IdObjetivoEstrategico = idObjetivo;
+                                                        tableroModel.IdFactor = viewModel[i].FactorCriticoExitos.Id;
+                                                        tableroModel.DescFactor = viewModel[i].FactorCriticoExitos.FactorCritico;
 
+                                                        tableroModel.IdIndicadorEstrategico = viewModel[i].Id;
+                                                        tableroModel.DescIndicadorEstrategico = viewModel[i].IndicadorResultado;
+                                                        tableroModel.IdRespIndicadorEstrategico = (int)viewModel[i].Responsable;
+
+                                                        tableroModel.IdProducto = viewModel[i].Productos[j].Id;
+                                                        tableroModel.DescProducto = viewModel[i].Productos[j].DescProducto;
+                                                        tableroModel.IdRespProducto = (int)viewModel[i].Productos[j].IdCargoResponsable;
+
+                                                        tableroModel.IdIndicadorProducto = viewModel[i].Productos[j].IndicadorPOAs[k].Id;
+                                                        tableroModel.DescIndicadorProducto = viewModel[i].Productos[j].IndicadorPOAs[k].IndicadorProducto;
+                                                        tableroModel.IdRespIndicadorProducto = (int)viewModel[i].Productos[j].IndicadorPOAs[k].Responsable;
+
+                                                        tableroModel.IdActividad = viewModel[i].Productos[j].IndicadorPOAs[k].Actividades[l].Id;
+                                                        tableroModel.DescActividad = viewModel[i].Productos[j].IndicadorPOAs[k].Actividades[l].DescripcionActividad;
+                                                        tableroModel.IdRespActividad = (int)viewModel[i].Productos[j].IndicadorPOAs[k].Actividades[l].IdCargoResponsable;
+                                                        ListatableroModel.Add(tableroModel);
                                                     }
                                                 }
                                                 else
@@ -357,47 +379,149 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                             ViewBag.IdEstrategia = responseO.Data.IdEstrategia;
 
                             var viewModel = _mapper.Map<List<ProductoViewModel>>(responseProducto.Data.Where(c => c.IdCargoResponsable == idColaborador));
-
-                            for (var j = 0; j < viewModel.Count(); j++)
+                            if (viewModel.Count != 0)
                             {
-                                viewModel[j].IndicadorEstrategicos.DescResponsable = colaborador.Data.Where(c => c.Id == viewModel[j].IndicadorEstrategicos.Responsable).FirstOrDefault().Alias;
-                                if (viewModel[j].IndicadorPOAs.Count() != 0)
+                                for (var j = 0; j < viewModel.Count(); j++)
                                 {
-                                    for (var k = 0; k < viewModel[j].IndicadorPOAs.Count(); k++)
+                                    viewModel[j].IndicadorEstrategicos.DescResponsable = colaborador.Data.Where(c => c.Id == viewModel[j].IndicadorEstrategicos.Responsable).FirstOrDefault().Alias;
+                                    if (viewModel[j].IndicadorPOAs.Count() != 0)
                                     {
-                                        viewModel[j].IndicadorPOAs[k].DescResponsable = colaborador.Data.Where(c => c.Id == viewModel[j].IndicadorPOAs[k].Responsable).FirstOrDefault().Alias;
-                                        if (viewModel[j].IndicadorPOAs[k].Actividades.Count() != 0)
+                                        for (var k = 0; k < viewModel[j].IndicadorPOAs.Count(); k++)
                                         {
-                                            for (var l = 0; l < viewModel[j].IndicadorPOAs[k].Actividades.Count(); l++)
+                                            viewModel[j].IndicadorPOAs[k].DescResponsable = colaborador.Data.Where(c => c.Id == viewModel[j].IndicadorPOAs[k].Responsable).FirstOrDefault().Alias;
+                                            if (viewModel[j].IndicadorPOAs[k].Actividades.Count() != 0)
                                             {
-
+                                                for (var l = 0; l < viewModel[j].IndicadorPOAs[k].Actividades.Count(); l++)
+                                                {
+                                                    
+                                                }
+                                            }
+                                            else
+                                            {
+                                                var lact = new List<ActividadViewModel>();
+                                                var act = new ActividadViewModel();
+                                                lact.Add(act);
+                                                viewModel[j].IndicadorPOAs[k].Actividades = lact;
                                             }
                                         }
-                                        else
-                                        {
-                                            var lact = new List<ActividadViewModel>();
-                                            var act = new ActividadViewModel();
-                                            lact.Add(act);
-                                            viewModel[j].IndicadorPOAs[k].Actividades = lact;
-                                        }
+                                    }
+                                    else
+                                    {
+                                        var lact = new List<IndicadorPOAViewModel>();
+                                        var act = new IndicadorPOAViewModel();
+                                        var lact1 = new List<ActividadViewModel>();
+                                        var act1 = new ActividadViewModel();
+                                        lact1.Add(act1);
+                                        act.Actividades = lact1;
+                                        lact.Add(act);
+                                        viewModel[j].IndicadorPOAs = lact;
+
+
                                     }
                                 }
-                                else
-                                {
-                                    var lact = new List<IndicadorPOAViewModel>();
-                                    var act = new IndicadorPOAViewModel();
-                                    var lact1 = new List<ActividadViewModel>();
-                                    var act1 = new ActividadViewModel();
-                                    lact1.Add(act1);
-                                    act.Actividades = lact1;
-                                    lact.Add(act);
-                                    viewModel[j].IndicadorPOAs = lact;
 
-
-                                }
                             }
+                            else
+                            {
+
+                                var responseIndicadorProducto = await _mediator.Send(new GetIndicadorPOAByIdObjetivoQuery() { IdObjetivoEstrategico = idObjetivo, IdColaborador = idColaborador });
+                                if (responseIndicadorProducto.Succeeded)
+                                {
+                                    var ListatableroModel = new List<TableroControlViewModel>();
+                                    var viewModelIndicador = _mapper.Map<List<IndicadorPOAViewModel>>(responseIndicadorProducto.Data.Where(c => c.Responsable == idColaborador));
+                                    if (viewModelIndicador.Count() != 0)
+                                    {
+                                        for (var k = 0; k < viewModelIndicador.Count(); k++)
+                                        {
+
+                                            viewModelIndicador[k].DescResponsable = colaborador.Data.Where(c => c.Id == viewModelIndicador[k].Responsable).FirstOrDefault().Alias;
+                                            if (viewModelIndicador[k].Actividades.Count() != 0)
+                                            {
+                                                for (var l = 0; l < viewModelIndicador[k].Actividades.Count(); l++)
+                                                {
+                                                    var tableroModel = new TableroControlViewModel();
+                                                    tableroModel.IdObjetivoEstrategico = idObjetivo;
+                                                    tableroModel.IdFactor = viewModelIndicador[k].Productos.IndicadorEstrategicos.FactorCriticoExitos.Id;
+                                                    tableroModel.DescFactor = viewModelIndicador[k].Productos.IndicadorEstrategicos.FactorCriticoExitos.FactorCritico;
+
+                                                    tableroModel.IdIndicadorEstrategico = viewModelIndicador[k].Productos.IndicadorEstrategicos.Id;
+                                                    tableroModel.DescIndicadorEstrategico = viewModelIndicador[k].Productos.IndicadorEstrategicos.IndicadorResultado;
+                                                    tableroModel.IdRespIndicadorEstrategico = (int)viewModelIndicador[k].Productos.IndicadorEstrategicos.Responsable;
+
+                                                    tableroModel.IdProducto = viewModelIndicador[k].Productos.Id;
+                                                    tableroModel.DescProducto = viewModelIndicador[k].Productos.DescProducto;
+                                                    tableroModel.IdRespProducto = (int)viewModelIndicador[k].Productos.IdCargoResponsable;
+
+                                                    tableroModel.IdIndicadorProducto = viewModelIndicador[k].Id;
+                                                    tableroModel.DescIndicadorProducto = viewModelIndicador[k].IndicadorProducto;
+                                                    tableroModel.IdRespIndicadorProducto = (int)viewModelIndicador[k].Responsable;
+
+                                                    tableroModel.IdActividad = viewModelIndicador[k].Actividades[l].Id;
+                                                    tableroModel.DescActividad = viewModelIndicador[k].Actividades[l].DescripcionActividad;
+                                                    tableroModel.IdRespActividad = (int)viewModelIndicador[k].Actividades[l].IdCargoResponsable;
+                                                    ListatableroModel.Add(tableroModel);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                var lact = new List<ActividadViewModel>();
+                                                var act = new ActividadViewModel();
+                                                lact.Add(act);
+                                                viewModelIndicador[k].Actividades = lact;
+
+                                                var tableroModel = new TableroControlViewModel();
+                                                tableroModel.IdObjetivoEstrategico = idObjetivo;
+                                                tableroModel.IdFactor = viewModelIndicador[k].Productos.IndicadorEstrategicos.FactorCriticoExitos.Id;
+                                                tableroModel.DescFactor = viewModelIndicador[k].Productos.IndicadorEstrategicos.FactorCriticoExitos.FactorCritico;
+
+                                                tableroModel.IdIndicadorEstrategico = viewModelIndicador[k].Productos.IndicadorEstrategicos.Id;
+                                                tableroModel.DescIndicadorEstrategico = viewModelIndicador[k].Productos.IndicadorEstrategicos.IndicadorResultado;
+                                                tableroModel.IdRespIndicadorEstrategico = (int)viewModelIndicador[k].Productos.IndicadorEstrategicos.Responsable;
+
+                                                tableroModel.IdProducto = viewModelIndicador[k].Productos.Id;
+                                                tableroModel.DescProducto = viewModelIndicador[k].Productos.DescProducto;
+                                                tableroModel.IdRespProducto = (int)viewModelIndicador[k].Productos.IdCargoResponsable;
+
+                                                tableroModel.IdIndicadorProducto = viewModelIndicador[k].Id;
+                                                tableroModel.DescIndicadorProducto = viewModelIndicador[k].IndicadorProducto;
+                                                tableroModel.IdRespIndicadorProducto = (int)viewModelIndicador[k].Responsable;
+
+                                                tableroModel.IdActividad = 0;
+                                                tableroModel.DescActividad = null;
+                                                tableroModel.IdRespActividad = 0;
+                                                ListatableroModel.Add(tableroModel);
+                                            }
+
+                                        }
+
+                                        var viewModelP = new ProductoViewModel();
+                                        viewModelP.IndicadorPOAs = viewModelIndicador;
+                                     
+                                        viewModel = new List<ProductoViewModel>();
+                                        viewModel.Add(viewModelP);
+                                        
+                                    }
+                                    else
+                                    {
+                                        var lact = new List<IndicadorPOAViewModel>();
+                                        var act = new IndicadorPOAViewModel();
+                                        var lact1 = new List<ActividadViewModel>();
+                                        var act1 = new ActividadViewModel();
+                                        lact1.Add(act1);
+                                        act.Actividades = lact1;
+                                        lact.Add(act);
+                                        viewModelIndicador = lact;
 
 
+                                    }
+                                    //var viewModelP = new ProductoViewModel();
+                                    //viewModelP.IndicadorPOAs = viewModelIndicador;
+                                    //viewModel = new List<ProductoViewModel>();
+                                    //viewModel.Add(viewModelP);
+                                }
+                               
+
+                            }
                             return PartialView("_ViewAllxProducto", viewModel);
                         }
                         break;

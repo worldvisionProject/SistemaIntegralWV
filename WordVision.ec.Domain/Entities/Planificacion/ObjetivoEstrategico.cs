@@ -33,5 +33,8 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         [ForeignKey("IdObjetivoEstra")]
         public ICollection<FactorCriticoExito> FactorCriticoExitos { get; set; }
 
+        [ForeignKey("IdObjetivoEstra")]
+        public ICollection<ProductoObjetivo> ProductoObjetivos { get; set; }
+
     }
 }

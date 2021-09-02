@@ -116,7 +116,10 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
     .ToTable("TechoPresupuestarios", "planifica");
             builder.Entity<Seguimiento>()
    .ToTable("Seguimientos", "planifica");
-
+            builder.Entity<ProductoObjetivo>()
+ .ToTable("ProductoObjetivos", "planifica");
+            builder.Entity<IndicadorProductoObjetivo>()
+ .ToTable("IndicadorProductoObjetivos", "planifica");
             builder
        .Entity<Tercero>()
        .HasMany(e => e.FormularioTerceros).WithOne(e=> e.Terceros)

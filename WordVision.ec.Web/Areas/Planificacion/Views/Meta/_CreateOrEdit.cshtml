@@ -79,73 +79,150 @@
 
             </div>
         </div>
-
-        <br />
-        <div id="divMetas">
-            <table id="metasTableM" class="table table-striped  rwd-table" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        @*<th>Id</th>*@
-                        <th>Meses</th>
-                        @*<th>Medida/Unidad</th>*@
-                        <th>Meta</th>
-                        <th>Entregable</th>
-                        <th class="text-right">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.MetaEstrategicas != null)
-                    {
-
-                        @foreach (var metaanual in Model.MetaEstrategicas)
-                        {
-                            <tr id="@metaanual.Id" class="rowdata">
-                                @*<td>
-
-                        @colaborador.Id
-                    </td>*@
-                                <td class="mes">
-
-                                    @metaanual.NumMeses
-
-                                </td>
-                                @*<td>
-
-                        @{
-                            var selectedCity = Model.UnidadList;
-                            string txt = selectedCity.Where(x => x.Value == metaanual.TipoMedida.ToString()).FirstOrDefault().Text;
-                        }
-                        @txt
-                    </td>*@
-                                <td class="meta">
-                                    @metaanual.Valor
-                                </td>
-                                <td>
-                                    @metaanual.Entregable
-                                </td>
-
-                                <td class="text-right">
-                                    <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFila(@metaanual.Id,@metaanual.NumMeses,@metaanual.Valor.ToString().Replace(",", "."),'@metaanual.Entregable')">
-                                        <i class="fas fa-pencil-alt"></i>
-                                    </button>
-                                    <button type="button" onclick="EliminaFila(@metaanual.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
-
-                                </td>
-
-                            </tr>
-                        }}
-
-                    <input type="hidden" id="idact" name="idact" />
-                </tbody>
-            </table>
-
-            <br />
-            <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-                <button type="submit" class="btn btn-success">Guardar</button>
-                <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group row">
+                    <div class="col-md-1">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Oct</label>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Nov</label>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Dic</label>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Ene</label>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Feb</label>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Mar</label>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Abr</label>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">May</label>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Jun</label>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Jul</label>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Ago</label>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Sep</label>
+                        </div>
+                    </div>
+                </div>
+                </div>
             </div>
-        </div>
-    </form>
+                <br />
+                <div id="divMetas">
+                    <table id="metasTableM" class="table table-striped  rwd-table" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                @*<th>Id</th>*@
+                                <th>Meses</th>
+                                @*<th>Medida/Unidad</th>*@
+                                <th>Meta</th>
+                                <th>Entregable</th>
+                                <th class="text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.MetaEstrategicas != null)
+                            {
+
+                                @foreach (var metaanual in Model.MetaEstrategicas)
+                                {
+                                    <tr id="@metaanual.Id" class="rowdata">
+                                        @*<td>
+
+                                        @colaborador.Id
+                                    </td>*@
+                                        <td class="mes">
+
+                                            @metaanual.NumMeses
+
+                                        </td>
+                                        @*<td>
+
+                                        @{
+                                            var selectedCity = Model.UnidadList;
+                                            string txt = selectedCity.Where(x => x.Value == metaanual.TipoMedida.ToString()).FirstOrDefault().Text;
+                                        }
+                                        @txt
+                                    </td>*@
+                                        <td class="meta">
+                                            @metaanual.Valor
+                                        </td>
+                                        <td>
+                                            @metaanual.Entregable
+                                        </td>
+
+                                        <td class="text-right">
+                                            <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFila(@metaanual.Id,@metaanual.NumMeses,@metaanual.Valor.ToString().Replace(",", "."),'@metaanual.Entregable')">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </button>
+                                            <button type="button" onclick="EliminaFila(@metaanual.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                                        </td>
+
+                                    </tr>
+                                }}
+
+                            <input type="hidden" id="idact" name="idact" />
+                        </tbody>
+                    </table>
+
+                    <br />
+                    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+</form>
 
 
 

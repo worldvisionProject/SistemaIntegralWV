@@ -403,6 +403,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                 ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
                 ReturnUrl = returnUrl;
+                _logger.LogError(ex, "Error autenticarse con Windows ");
             }
             return this.Page();
         }
@@ -602,7 +603,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
 
             int idColabora = 0;
 
-            var response = await _mediator.Send(new GetColaboradorByIdentificacionQuery() { Identificacion = logindetails.Cedula });
+            var response = await _mediator.Send(new GetColaboradorByIdentificacionQuery() { Identificacion = logindetails.Cedula, UserName = idUsername });
             if (response != null)
             {
                 if (response.Succeeded)
@@ -727,8 +728,8 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
             }
             catch (Exception ex)
             {
-                // Info
-                _logger.LogError("Error autenticarse", ex);
+                _notyf.Error("Error en crear Claims.");
+                _logger.LogError(ex, "Error autenticarse: " + idUsername);
             }
         }
 
