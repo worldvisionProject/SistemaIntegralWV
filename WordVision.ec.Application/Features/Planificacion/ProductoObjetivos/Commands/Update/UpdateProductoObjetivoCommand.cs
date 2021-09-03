@@ -7,7 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
+using WordVision.ec.Application.Interfaces.Repositories.Registro;
 
 namespace WordVision.ec.Application.Features.Planificacion.ProductoObjetivos.Commands.Update
 {
@@ -15,7 +16,8 @@ namespace WordVision.ec.Application.Features.Planificacion.ProductoObjetivos.Com
     public class UpdateProductoObjetivoCommand : IRequest<Result<int>>
     {
 		public int Id { get; set; }
-        <campos a actualizar>
+        public string Producto { get; set; }
+        public int IdObjetivoEstra { get; set; }
         public class UpdateProductoObjetivoCommandHandler : IRequestHandler<UpdateProductoObjetivoCommand, Result<int>>
         {
             private readonly IUnitOfWork _unitOfWork;
@@ -33,17 +35,15 @@ namespace WordVision.ec.Application.Features.Planificacion.ProductoObjetivos.Com
             {
                 var obj = await _entidadRepository.GetByIdAsync(command.Id);
 
-                if ((obj == null)
+                if (obj == null)
                 {
                     return Result<int>.Fail($"ProductoObjetivo no encontrado.");
                 }
 
 
-                obj.IdIndicadorEstrategico = command.IdIndicadorEstrategico;
-                obj.IdGestion = command.IdGestion;
-                obj.DescProductoObjetivo = command.DescProductoObjetivo;
-                obj.IdCargoResponsable = command.IdCargoResponsable;
-
+                obj.IdObjetivoEstra = command.IdObjetivoEstra;
+                obj.Producto = command.Producto;
+             
                 await _entidadRepository.UpdateAsync(obj);
 
 

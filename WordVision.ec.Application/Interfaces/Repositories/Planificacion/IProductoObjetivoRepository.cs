@@ -9,7 +9,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Planificacion
 {
     public interface IProductoObjetivoRepository
     {
-        IQueryable<ProductoObjetivo> Entidades { get; }
+        IQueryable<ProductoObjetivo> ProductoObjetivos { get; }
        
         Task<List<ProductoObjetivo>> GetListAsync();
         Task<ProductoObjetivo> GetByIdAsync(int id);

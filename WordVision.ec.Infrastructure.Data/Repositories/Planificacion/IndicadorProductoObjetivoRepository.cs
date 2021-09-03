@@ -11,40 +11,40 @@ using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 {
-    public class ProductoObjetivoRepository : IProductoObjetivoRepository
+    class IndicadorProductoObjetivoRepository : IIndicadorProductoObjetivoRepository
     {
-        private readonly IRepositoryAsync<ProductoObjetivo> _repository;
+        private readonly IRepositoryAsync<IndicadorProductoObjetivo> _repository;
         private readonly IDistributedCache _distributedCache;
 
-        public ProductoObjetivoRepository(IDistributedCache distributedCache, IRepositoryAsync<ProductoObjetivo> repository)
+        public IndicadorProductoObjetivoRepository(IDistributedCache distributedCache, IRepositoryAsync<IndicadorProductoObjetivo> repository)
         {
             _distributedCache = distributedCache;
             _repository = repository;
         }
-        public IQueryable<ProductoObjetivo> ProductoObjetivos => _repository.Entities;
+        public IQueryable<IndicadorProductoObjetivo> IndicadorProductoObjetivos => _repository.Entities;
 
-        public async Task DeleteAsync(ProductoObjetivo entidad)
+        public async Task DeleteAsync(IndicadorProductoObjetivo entidad)
         {
             await _repository.DeleteAsync(entidad);
         }
 
-        public async Task<ProductoObjetivo> GetByIdAsync(int id)
+        public async Task<IndicadorProductoObjetivo> GetByIdAsync(int id)
         {
-           return await _repository.Entities.Where(x => x.Id == id).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<List<ProductoObjetivo>> GetListAsync()
+        public async Task<List<IndicadorProductoObjetivo>> GetListAsync()
         {
             return await _repository.Entities.ToListAsync();
         }
 
-        public async Task<int> InsertAsync(ProductoObjetivo entidad)
+        public async Task<int> InsertAsync(IndicadorProductoObjetivo entidad)
         {
             await _repository.AddAsync(entidad);
             return entidad.Id;
         }
 
-        public async Task UpdateAsync(ProductoObjetivo entidad)
+        public async Task UpdateAsync(IndicadorProductoObjetivo entidad)
         {
             await _repository.UpdateAsync(entidad);
         }

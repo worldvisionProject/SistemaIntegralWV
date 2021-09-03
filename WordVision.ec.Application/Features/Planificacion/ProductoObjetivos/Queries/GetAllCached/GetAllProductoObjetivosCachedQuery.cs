@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 
 namespace WordVision.ec.Application.Features.Planificacion.ProductoObjetivos.Queries.GetAllCached
 {

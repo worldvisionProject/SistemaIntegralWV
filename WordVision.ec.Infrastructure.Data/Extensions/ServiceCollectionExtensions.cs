@@ -97,6 +97,8 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<IFechaCantidadRecursoRepository, FechaCantidadRecursoRepository>();
             services.AddTransient<ITechoPresupuestarioRepository, TechoPresupuestarioRepository>();
             services.AddTransient<ISeguimientoRepository, SeguimientoRepository>();
+            services.AddTransient<IProductoObjetivoRepository, ProductoObjetivoRepository>();
+
 
             #endregion Repositories
         }

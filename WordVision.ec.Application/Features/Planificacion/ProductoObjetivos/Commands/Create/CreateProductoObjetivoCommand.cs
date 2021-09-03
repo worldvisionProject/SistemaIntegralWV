@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Domain.Entities.Planificacion;
 
