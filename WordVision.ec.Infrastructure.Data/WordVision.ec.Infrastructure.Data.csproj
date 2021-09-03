@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <Folder Include="CacheRepositories\Identity\" />
+    <Folder Include="Migrations\SoporteDb\" />
   </ItemGroup>
 
 </Project>

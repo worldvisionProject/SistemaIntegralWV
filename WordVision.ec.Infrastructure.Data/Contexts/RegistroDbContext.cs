@@ -132,11 +132,11 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
                  .ToTable("EstadosSolicitudes", "soporte");
             builder.Entity<Email>()
                 .ToTable("Emails", "soporte");
-            builder.Entity<Email>()
+            builder.Entity<Donante>()
                 .ToTable("Donantes", "soporte");
-            builder.Entity<Email>()
+            builder.Entity<Personal>()
                 .ToTable("Personales", "soporte");
-            builder.Entity<Email>()
+            builder.Entity<Ponente>()
                .ToTable("Ponentes", "soporte");
 
             //builder.Entity<Colaborador>().HasMany(m => m.Formularios)
