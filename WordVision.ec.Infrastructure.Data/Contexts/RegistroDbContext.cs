@@ -11,6 +11,7 @@ using WordVision.ec.Application.Interfaces.Contexts;
 using WordVision.ec.Application.Interfaces.Shared;
 using WordVision.ec.Domain.Contracts;
 using WordVision.ec.Domain.Entities.Maestro;
+using WordVision.ec.Domain.Entities.Soporte;
 using WordVision.ec.Domain.Entities.Planificacion;
 using WordVision.ec.Domain.Entities.Presupuesto;
 using WordVision.ec.Domain.Entities.Registro;
@@ -124,31 +125,43 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
        .Entity<Tercero>()
        .HasMany(e => e.FormularioTerceros).WithOne(e=> e.Terceros)
        .OnDelete(DeleteBehavior.ClientCascade);
-
+//Aqui se colocan las nuevas tablas
+            builder.Entity<Solicitud>()
+                 .ToTable("Solicitudes", "soporte");//la palabra "soporte" se refiere al esquema de la base
+            builder.Entity<EstadosSolicitud>()
+                 .ToTable("EstadosSolicitudes", "soporte");
+            builder.Entity<Email>()
+                .ToTable("Emails", "soporte");
+            builder.Entity<Email>()
+                .ToTable("Donantes", "soporte");
+            builder.Entity<Email>()
+                .ToTable("Personales", "soporte");
+            builder.Entity<Email>()
+               .ToTable("Ponentes", "soporte");
 
             //builder.Entity<Colaborador>().HasMany(m => m.Formularios)
             //     .WithOne(c => c.Colaboradores)
             //     .HasForeignKey(k => k.IdColaborador);
 
-      //      builder.Entity<Actividad>()
-      //   .HasOne(p => p.IndicadorPOAs)
-      //   .WithMany(b => b.Actividades)
-      //   .IsRequired(false);
+            //      builder.Entity<Actividad>()
+            //   .HasOne(p => p.IndicadorPOAs)
+            //   .WithMany(b => b.Actividades)
+            //   .IsRequired(false);
 
-      //      builder.Entity<IndicadorPOA>()
-      //  .HasOne(p => p.Productos)
-      //  .WithMany(b => b.IndicadorPOAs)
-      //  .IsRequired(false);
+            //      builder.Entity<IndicadorPOA>()
+            //  .HasOne(p => p.Productos)
+            //  .WithMany(b => b.IndicadorPOAs)
+            //  .IsRequired(false);
 
-      //      builder.Entity<Producto>()
-      // .HasOne(p => p.IndicadorEstrategicos)
-      // .WithMany(b => b.Productos)
-      // .IsRequired(false);
+            //      builder.Entity<Producto>()
+            // .HasOne(p => p.IndicadorEstrategicos)
+            // .WithMany(b => b.Productos)
+            // .IsRequired(false);
 
-      //      builder.Entity<IndicadorEstrategico>()
-      //.HasOne(p => p.FactorCriticoExitos)
-      //.WithMany(b => b.IndicadorEstrategicos)
-      //.IsRequired(false);
+            //      builder.Entity<IndicadorEstrategico>()
+            //.HasOne(p => p.FactorCriticoExitos)
+            //.WithMany(b => b.IndicadorEstrategicos)
+            //.IsRequired(false);
 
             foreach (var property in builder.Model.GetEntityTypes()
             .SelectMany(t => t.GetProperties())
