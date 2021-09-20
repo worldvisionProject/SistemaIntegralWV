@@ -27,5 +27,6 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public SelectList ProgramaList { get; set; }
         public SelectList CwboList { get; set; }
         public virtual List<FactorCriticoExito> FactorCriticoExitos { get; set; }
+        public ICollection<ProductoObjetivo> ProductoObjetivos { get; set; }
     }
 }

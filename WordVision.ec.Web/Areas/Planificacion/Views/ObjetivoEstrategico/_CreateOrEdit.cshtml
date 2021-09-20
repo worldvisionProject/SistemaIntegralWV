@@ -14,59 +14,60 @@
                     {
                         <textarea asp-for="Descripcion" name="Descripcion" class="form-control"></textarea>
                     }
-                    else { <textarea asp-for="Descripcion" name="Descripcion" class="form-control" readonly></textarea>}
+                    else
+                    { <textarea asp-for="Descripcion" name="Descripcion" class="form-control" readonly></textarea>}
 
-                        <span asp-validation-for="Descripcion" class="text-danger"></span>
-                    </div>
+                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                </div>
             </div>
             <div class="form-group row">
                 @*<div class="col-md-3">*@
                 @*<label class="col-md-12 col-form-label texto-pregunta">Categoria</label>
-            <select asp-for="Categoria" name="Categoria" class="form-control">
-                <option value="N">Nacional</option>
-                <option value="B">Bloque</option>
+                    <select asp-for="Categoria" name="Categoria" class="form-control">
+                        <option value="N">Nacional</option>
+                        <option value="B">Bloque</option>
 
-            </select>
-            <span asp-validation-for="Categoria" class="text-danger"></span>*@
+                    </select>
+                    <span asp-validation-for="Categoria" class="text-danger"></span>*@
                 @Html.HiddenFor(x => x.Categoria, new { name = "Categoria" })
                 @Html.HiddenFor(x => x.IdEstrategia, new { name = "IdEstrategia" })
 
                 @*</div>*@
 
                 @*<div class="col-md-4">
-            <label class="col-md-12 col-form-label texto-pregunta text-left">Area Prioridad</label>*@
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Area Prioridad</label>*@
                 @*<select asp-for="AreaPrioridad" name="AreaPrioridad" class="form-control">
-                <option value="N">Area1</option>
-                <option value="B">Area2</option>
+                        <option value="N">Area1</option>
+                        <option value="B">Area2</option>
 
-            </select>*@
+                    </select>*@
                 @* @Html.DropDownListFor(x => x.AreaPrioridad, Model.AreaList, new { @class = "form-control" })*@
                 @*<span asp-validation-for="AreaPrioridad" class="text-danger"></span>
-            </div>*@
+                    </div>*@
 
                 <div class="col-md-6">
                     <label class="col-md-12 col-form-label texto-pregunta">Area</label>
                     @*<select asp-for="Dimension" name="Dimension" class="form-control">
-                    <option value="A">Dim1</option>
-                    <option value="C">Dim2</option>
-                    <option value="F">Dim3</option>
+                            <option value="A">Dim1</option>
+                            <option value="C">Dim2</option>
+                            <option value="F">Dim3</option>
 
-                </select>*@
+                        </select>*@
                     @Html.DropDownListFor(x => x.AreaPrioridad, Model.AreaList, new { @class = "form-control" })
                     <span asp-validation-for="AreaPrioridad" class="text-danger"></span>
                 </div>
                 <input type="hidden" value="1" name="CargoResponsable" />
 
                 @*<div class="col-md-4">
-                <label class="col-md-12 col-form-label texto-pregunta">Responsable</label>
-                <select asp-for="CargoResponsable" name="CargoResponsable" class="form-control">
-                    <option value="1">Responsable1</option>
-                    <option value="2">Responsable2</option>
-                    <option value="3">Responsable3</option>
+                        <label class="col-md-12 col-form-label texto-pregunta">Responsable</label>
+                        <select asp-for="CargoResponsable" name="CargoResponsable" class="form-control">
+                            <option value="1">Responsable1</option>
+                            <option value="2">Responsable2</option>
+                            <option value="3">Responsable3</option>
 
-                </select>
-                <span asp-validation-for="CargoResponsable" class="text-danger"></span>
-            </div>*@
+                        </select>
+                        <span asp-validation-for="CargoResponsable" class="text-danger"></span>
+                    </div>*@
 
             </div>
 
@@ -76,11 +77,11 @@
                         <div class="col-md-12">
                             <label class="col-md-12 col-form-label texto-pregunta">Programa Tecnico</label>
                             @*@if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Edit)).Result.Succeeded)
-        {
-            <textarea asp-for="Programa" name="Programa" class="form-control"></textarea>
-        }
-        else
-        { <textarea asp-for="Programa" name="Programa" class="form-control" readonly></textarea>}*@
+                                {
+                                    <textarea asp-for="Programa" name="Programa" class="form-control"></textarea>
+                                }
+                                else
+                                { <textarea asp-for="Programa" name="Programa" class="form-control" readonly></textarea>}*@
                             @Html.DropDownListFor(x => x.Programa, Model.ProgramaList, new { @class = "form-control" })
                             <span asp-validation-for="Programa" class="text-danger"></span>
                         </div>
@@ -94,10 +95,10 @@
                         <div class="col-md-12">
                             <label class="col-md-12 col-form-label texto-pregunta ">CWBO</label>
                             @*@if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Edit)).Result.Succeeded)
-        {
-            <textarea asp-for="Cwbo" name="Cwbo" class="form-control"></textarea>
-        }
-        else {<textarea asp-for="Cwbo" name="Cwbo" class="form-control" readonly></textarea> }*@
+                                {
+                                    <textarea asp-for="Cwbo" name="Cwbo" class="form-control"></textarea>
+                                }
+                                else {<textarea asp-for="Cwbo" name="Cwbo" class="form-control" readonly></textarea> }*@
                             @Html.DropDownListFor(x => x.Cwbo, Model.CwboList, new { @class = "form-control" })
                             <span asp-validation-for="Cwbo" class="text-danger"></span>
                         </div>
@@ -113,15 +114,65 @@
     </div>
 
     <br />
-    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
-        {<input type="hidden" value="false" name="band" id="band" />
-            <button type="submit" class="btn btn-success">Guardar</button>
-        }
-        else
-        { <input type="hidden" value="true" name="band" id="band" />}
-        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
-    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id&categoria=2','Crear Objetivos Resultados')">
+                        <i class="fa fa-plus-square"></i>
+                        Agregar
+                    </button>
+
+                    <table id="metasTableM" class="table table-striped  rwd-table" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                               
+                                <th>Producto</th>
+                                <th class="text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.ProductoObjetivos != null)
+                            {
+
+                                @foreach (var producto in Model.ProductoObjetivos)
+                                {
+                                    <tr id="@producto.Id" class="rowdata">
+                                       
+                                        <td >
+
+                                            @producto.Producto
+
+                                        </td>
+                                      
+                                       
+                                        <td class="text-right">
+                                            <button type="button" onclick="EliminaFila(@producto.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+                </div>
+            </div>
+        </div>
+                    <br />
+                    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                        {<input type="hidden" value="false" name="band" id="band" />
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                        }
+                        else
+                        { <input type="hidden" value="true" name="band" id="band" />}
+                        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+                    </div>
 </form>
 
 

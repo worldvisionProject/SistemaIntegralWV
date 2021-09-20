@@ -20,6 +20,7 @@ namespace WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes
         public string DescAreaPrioridad { get; set; }
         public string DescDimension { get; set; }
         public virtual ICollection<FactorCriticoExito> FactorCriticoExitos { get; set; }
+        public virtual ICollection<ProductoObjetivo> ProductoObjetivos { get; set; }
 
     }
 }
