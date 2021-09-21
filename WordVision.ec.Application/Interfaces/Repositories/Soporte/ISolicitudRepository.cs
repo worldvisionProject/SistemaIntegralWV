@@ -24,12 +24,12 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Soporte
 
         Task DeleteAsync(Solicitud solicitud);
 
-        Task<Solicitud> GetSolicitudAsync(int idSolicitud);
+        Task<Solicitud> GetByIdAsync(int idSolicitud);
 
         Task<List<Solicitud>> GetListSolicitudxAsignadoAsync(int idAsignadoA);
 
+        Task<List<Solicitud>> GetListSolicitudxSolicitanteAsync(int idSolicitante);
 
-
-
+        Task<List<Solicitud>> GetListSolicitudxEstadoAsync(int idEstado);
     }
 }

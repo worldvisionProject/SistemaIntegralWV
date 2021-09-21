@@ -77,6 +77,7 @@
     <Folder Include="Features\Registro\Colaboradores\Commands\Delete\" />
     <Folder Include="Features\Registro\Pregunta\Commands\Create\" />
     <Folder Include="Features\Registro\Pregunta\Commands\Update\" />
+    <Folder Include="Features\Soporte\Solicitudes\Commands\Delete\" />
     <Folder Include="Interfaces\CacheRepositories\Identity\" />
     <Folder Include="Mappings\DashBoard\" />
     <Folder Include="Mappings\Identity\" />

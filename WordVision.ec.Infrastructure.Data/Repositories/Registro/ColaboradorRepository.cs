@@ -38,6 +38,11 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
             return await _repository.Entities.Where(p => p.IdEstructura == idEstructura).FirstOrDefaultAsync();
         }
 
+        public async Task<List<Colaborador>> GetByIdAreaAsync(int idArea)
+        {
+            return await _repository.Entities.Where(p => p.Area == idArea).ToListAsync();
+        }
+
         public async Task<Colaborador> GetByIdAsync(int colaboradorId)
         {
             return await _repository.Entities.Where(p => p.Id == colaboradorId)

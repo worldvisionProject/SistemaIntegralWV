@@ -17,6 +17,7 @@ using WordVision.ec.Application.Interfaces.Repositories.Maestro;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Presupuesto;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
+using WordVision.ec.Application.Interfaces.Repositories.Soporte;
 using WordVision.ec.Infrastructure.Data.CacheRepositories;
 
 using WordVision.ec.Infrastructure.Data.CacheRepositories.Maestro;
@@ -25,9 +26,11 @@ using WordVision.ec.Infrastructure.Data.Contexts;
 using WordVision.ec.Infrastructure.Data.Repositories.Identity;
 using WordVision.ec.Infrastructure.Data.Repositories.Log;
 using WordVision.ec.Infrastructure.Data.Repositories.Maestro;
+using WordVision.ec.Infrastructure.Data.Repositories.Mensajeria;
 using WordVision.ec.Infrastructure.Data.Repositories.Planificacion;
 using WordVision.ec.Infrastructure.Data.Repositories.Presupuesto;
 using WordVision.ec.Infrastructure.Data.Repositories.Registro;
+using WordVision.ec.Infrastructure.Data.Repositories.Soporte;
 
 namespace WordVision.ec.Infrastructure.Data.Extensions
 {
@@ -100,6 +103,12 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<IProductoObjetivoRepository, ProductoObjetivoRepository>();
             services.AddTransient<IIndicadorProductoObjetivoRepository, IndicadorProductoObjetivoRepository>();
 
+            services.AddTransient<ISolicitudRepository, SolicitudRepository>();
+            services.AddTransient<IEmailRepository, EmailRepository>();
+            services.AddTransient<IEstadosSolicitudRepository, EstadosSolicitudRepository>();
+            services.AddTransient<IPersonalRepository, PersonalRepository>();
+            services.AddTransient<IPonenteRepository, PonenteRepository>();
+            services.AddTransient<IDonanteRepository, DonanteRepository>();
 
             #endregion Repositories
         }

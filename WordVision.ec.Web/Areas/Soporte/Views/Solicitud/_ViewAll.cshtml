@@ -1,0 +1,120 @@
+﻿@using WordVision.ec.Web.Areas.Soporte.Models
+@model List<SolicitudViewModel>
+
+<table id="solicitudTable" class="table table-striped " width="100%" cellspacing="0">
+    <thead>
+        <tr>
+
+            <th>Num.Orden</th>
+            <th data-priority="1">Solicitado por</th>
+            <th data-priority="1">Fecha Solicitud</th>
+            <th data-priority="1">Asignado A</th>
+            <th data-priority="1">Estado</th>
+            <th data-priority="1">Dirección Entrega</th>
+            <th data-priority="1">Fecha requiere</th>
+            <th data-priority="2" class="acciones-th">Acciones</th>
+
+        </tr>
+    </thead>
+    <tbody>
+     
+@foreach (var solicitud in Model)
+{
+        <tr>
+            <td>
+                @solicitud.Id
+            </td>
+            <td>
+                @solicitud.CreatedBy
+            </td>
+            <td>
+
+                @solicitud.CreatedOn
+            </td>
+            <td>
+
+                @solicitud.AsignadoA
+            </td>
+            <td>
+                @{ var selectedCity = (IEnumerable<SelectListItem>)ViewBag.EstadoList;
+                    string txt = selectedCity.Where(x => x.Value == solicitud.Estado.ToString()).FirstOrDefault().Text; }
+
+                @switch (solicitud.Estado)
+                {
+                    case 1:<span class="badge badge-info">@txt</span> break;
+                    case 2:<span class="badge badge-warning">@txt</span> break;
+                    case 3:<span class="badge badge-success">@txt</span> break;
+                    case 4:<span class="badge badge-info">@txt</span>break;
+                    case 5:<span class="badge badge-success">@txt</span>break;
+                }
+            </td>
+            <td>
+
+                @solicitud.Direccion
+            </td>
+            <td>
+
+                @solicitud.FechaRequerida
+            </td>
+
+            <td class="acciones-td">
+                <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Editar" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Soporte/Solicitud/OnGetCreateOrEdit?id=@solicitud.Id&op=@ViewBag.Op','Solicitud')">
+                    <i class="fas fa-eye"></i>
+                </button>
+
+                @*<button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/OnGetCreateOrEdit?id=0&idProducto=@producto.Id&idGestion=@Model.IdGestion&idIndicadorEstrategia=@Model.Id','Indicador de Producto')">
+                    <i class="fas fa-plus-square"></i>
+                </button>*@
+            </td>
+
+
+
+
+
+        </tr>                }
+    </tbody>
+</table>
+
+<script>
+
+    $(document).ready(function () {
+                    var table = $("#solicitudTable").DataTable({
+                    aoColumnDefs: [
+                        { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                            "url": "/lib/datatables/language/Spanish.json"
+            },
+
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 }
+            ],
+            "info": false
+                        //columnDefs: [
+                        //    { responsivePriority: 1, targets: 0 },
+                        //    { responsivePriority: 10001, targets: 4 },
+                        //    { responsivePriority: 2, targets: -2 }
+                        //]
+                    });
+
+        //var column = table.column(0);
+        //// Toggle the visibility
+        //column.visible(false);
+
+
+
+        $('#solicitudTable tbody').on('dblclick', 'tr', function () {
+            var data = table.row(this).data();
+
+            jQueryModalGet('/Soporte/Soicitud/OnGetCreateOrEdit?id='+data[0],'Solicitud');
+
+
+        });
+
+      /*  $(".dynmic-hidden-col").hide();*/
+
+    });
+</script>

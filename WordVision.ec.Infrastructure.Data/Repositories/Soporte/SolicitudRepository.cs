@@ -38,10 +38,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
 
         public async Task<List<Solicitud>> GetListSolicitudxAsignadoAsync(int idAsignadoA)
         {
-            return await _repository.Entities.Where(x=>x.AsignadoA== idAsignadoA).ToListAsync();
+            return await _repository.Entities.Where(x=>x.AsignadoA== idAsignadoA && (x.Estado==2|| x.Estado == 3)).ToListAsync();
         }
 
-        public async Task<Solicitud> GetSolicitudAsync(int idSolicitud)
+        public async Task<Solicitud> GetByIdAsync(int idSolicitud)
         {
             return await _repository.Entities.Where(x => x.Id == idSolicitud).FirstOrDefaultAsync();
         }
@@ -55,6 +55,16 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
         public async Task UpdateAsync(Solicitud solicitud)
         {
             await _repository.UpdateAsync(solicitud);
+        }
+
+        public async Task<List<Solicitud>> GetListSolicitudxSolicitanteAsync(int idSolicitante)
+        {
+            return await _repository.Entities.Where(x => x.Solicitante == idSolicitante).ToListAsync();
+        }
+
+        public async Task<List<Solicitud>> GetListSolicitudxEstadoAsync(int idEstado)
+        {
+            return await _repository.Entities.Where(x => x.Estado == idEstado).ToListAsync();
         }
     }
 }

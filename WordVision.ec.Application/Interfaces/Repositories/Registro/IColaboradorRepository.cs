@@ -17,6 +17,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Registro
         Task<Colaborador> GetByIdentificacionAsync(string identificacion);
         Task<Colaborador> GetByUserNameAsync(string username);
         Task<List<Colaborador>> GetByNivelAsync(int nivel1, int nivel2);
+        Task<List<Colaborador>> GetByIdAreaAsync(int idArea);
         Task<Colaborador> GetByEstructuraAsync(int idEstructura);
         Task<int> InsertAsync(Colaborador colaborador);
 

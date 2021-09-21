@@ -1,0 +1,35 @@
+﻿
+@using WordVision.ec.Web.Areas.Soporte.Models
+@model SolicitudViewModel
+
+
+    <div class="card">
+        @if (@Model.AsignadoA == 1)
+        {
+        <div class="col-sm-12 header-button">
+
+            <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Soporte/Solicitud/OnGetCreateOrEdit?id=0','Solicitud')">
+                <i class="fa fa-plus-square"></i>
+                Agregar
+            </button>
+
+        </div>
+        }
+        <div id="viewAll" class="card-body table-responsive">
+        </div>
+    </div>
+
+
+    @section Scripts
+{
+        <script src="~/js/site.js"></script>
+        <script>
+            $(document).ready(function () {
+                loadData();
+            });
+            function loadData() {
+                /**/
+                $('#viewAll').load('/Soporte/Solicitud/LoadAll?idSolicitante=@Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value)&op=@Model.AsignadoA');
+            /**/
+        }</script>
+    }
