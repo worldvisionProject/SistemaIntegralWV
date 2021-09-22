@@ -67,7 +67,9 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
 
         public async Task<Colaborador> GetByUserNameAsync(string username)
         {
-            return await _repository.Entities.Where(p => p.Alias == username).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(p => p.Alias == username).Include(e => e.Estructuras)
+                .ThenInclude(em => em.Empresas)
+                .FirstOrDefaultAsync(); ;
         }
 
         public async Task<List<Colaborador>> GetListAsync()
