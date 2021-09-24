@@ -1,0 +1,86 @@
+﻿@using WordVision.ec.Web.Areas.Soporte.Models
+@model IEnumerable<DonanteViewModel>
+
+
+<table id="personalTable" class="table table-striped " width="100%" cellspacing="0">
+            <thead>
+                <tr>
+
+
+                    <th data-priority="1">IDHubspot</th>
+                    <th data-priority="1">Campana</th>
+                    <th data-priority="1">Nombre1</th>
+                    <th data-priority="1">Apellido1</th>
+                    <th data-priority="1">Cedula</th>
+                    <th data-priority="1">EstadoDonante</th>
+                    <th data-priority="1">Ciudad</th>
+                    <th data-priority="1">Cantidad</th>
+                
+
+                    <th data-priority="2" class="acciones-th">Acciones</th>
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+               
+                @foreach (var donante in Model)
+                {
+                <tr>
+                    <td>
+                        @donante.IDHubspot
+                    </td>
+                    <td>
+                        @donante.Campana
+                    </td>
+                    <td>
+                        @donante.Nombre1
+                    </td>
+                    <td>
+                        @donante.Apellido1
+                    </td>
+                    <td>
+                        @donante.Cedula
+                    </td>
+                    <td>
+                        @donante.EstadoDonante
+                    </td>
+                    <td>
+                        @donante.Ciudad
+                    </td>
+                    <td>
+                        @donante.Cantidad
+                    </td>
+
+
+                    <td class="acciones-td">
+
+                        <button type="button" class="btn btn-warning  btn-xp" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Soporte/Donante/OnGetCreateOrEdit?id=@donante.Id', 'Donante')">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                    </td>
+
+
+                </tr>
+                }
+                
+            </tbody>
+        </table>
+
+<script>
+
+    $(document).ready(function () {
+        var table = $("#personalTable").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            }
+        });
+
+        
+    });
+</script>

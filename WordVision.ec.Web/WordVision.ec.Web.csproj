@@ -77,6 +77,9 @@
     <None Include="Areas\Admin\Views\User\Index.cshtml" />
     <None Include="Areas\Admin\Views\User\_Create.cshtml" />
     <None Include="Areas\Admin\Views\User\_ViewAll.cshtml" />
+    <None Include="Areas\Soporte\Views\Donante\Index.cshtml" />
+    <None Include="Areas\Soporte\Views\Donante\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Soporte\Views\Donante\_ViewAll.cshtml" />
     <None Include="Views\Shared\Components\Culture\Default.cshtml" />
     <None Include="Views\Shared\Components\Footer\Default.cshtml" />
     <None Include="Views\Shared\Components\FormModal\Default.cshtml" />
