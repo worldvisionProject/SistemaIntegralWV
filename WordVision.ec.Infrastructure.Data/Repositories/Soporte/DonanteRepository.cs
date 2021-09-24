@@ -56,5 +56,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
         {
             await _repository.UpdateAsync(donante);
         }
+
+        public async Task<Donante> GetByIdAsync(int idDonante)
+        {
+            return await _repository.Entities.Where(x => x.Id == idDonante).FirstOrDefaultAsync();
+        }
     }
 }

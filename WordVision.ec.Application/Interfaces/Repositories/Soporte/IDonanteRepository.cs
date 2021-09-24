@@ -17,6 +17,6 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Soporte
         Task UpdateAsync(Donante donante);
         Task DeleteAsync(Donante donante);
         Task<Donante> GetDonantesAsync(int idDonante);
-       
+        Task<Donante> GetByIdAsync(int idDonante);
     }
 }
