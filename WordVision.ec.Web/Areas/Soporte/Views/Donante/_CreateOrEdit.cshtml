@@ -3,7 +3,7 @@
 @using WordVision.ec.Infrastructure.Data.Identity.Models;
 @model DonanteViewModel
 
-<hr />
+
 
 
 <form id="create-form" method="post" asp-controller="Donante" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
@@ -41,31 +41,24 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-                <div class="col-md-12">
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta">Fecha de conversion</label>
                     <input asp-for="FechaConversion" type="text" name="FechaConversion" class="datepicker form-control" />
                     <span asp-validation-for="FechaConversion" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+          
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta">Canal</label>
-                    <input asp-for="Canal" type="text" name="Canal" class="form-control" />
+                    <select asp-for="Canal" name="Canal" class="form-control" id="Canal">
+                        <option value="1">Canal1</option>
+                        <option value="2">Canal2</option>
+                        <option value="3">Canal3</option>
+                        <option value="4">Canal4</option>
+                    </select>
                     <span asp-validation-for="Canal" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+           
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta">Responsable</label>
                     <input asp-for="Responsable" type="text" name="Responsable" class="form-control" />
                     <span asp-validation-for="Responsable" class="text-danger"></span>
@@ -77,79 +70,64 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-                <div class="col-md-12">
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta">Tipo</label>
-                    <input asp-for="Tipo" type="text" name="FechaConversion" class="form-control" />
+                    <select asp-for="Tipo" name="Tipo" class="form-control" id="Tipo">
+                        <option value="1">Tipo1</option>
+                        <option value="2">Tipo2</option>
+                        <option value="3">Tipo3</option>
+                        <option value="4" >Tipo4</option>
+                    </select>
                     <span asp-validation-for="Tipo" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+           
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta">Categoria</label>
-                    <input asp-for="Categoria" type="text" name="Categoria" class="form-control" />
+                    <select asp-for="Categoria" name="Categoria" class="form-control" id="Categoria">
+                        <option value="1">Categoria1</option>
+                        <option value="2">Categoria2</option>
+                        <option value="3">Categoria3</option>
+                        <option value="4">Categoria4</option>
+                    </select>
                     <span asp-validation-for="Categoria" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+            
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta">EstadoDonante</label>
-                    <input asp-for="EstadoDonante" type="text" name="EstadoDonante" class="form-control" />
+                    <select asp-for="EstadoDonante" name="EstadoDonante" class="form-control" id="EstadoDonante">
+                        <option value="1">EstadoDonante1</option>
+                        <option value="2">EstadoDonante2</option>
+                        <option value="3">EstadoDonante3</option>
+                        <option value="4">EstadoDonante4</option>
+                    </select>
                     <span asp-validation-for="EstadoDonante" class="text-danger"></span>
                 </div>
             </div>
 
         </div>
-    </div>
+    </div><hr />
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-                <div class="col-md-12">
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">Nombre1</label>
                     <input asp-for="Nombre1" type="text" name="Nombre1" class="form-control" />
                     <span asp-validation-for="Nombre1" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+            
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">Nombre2</label>
                     <input asp-for="Nombre2" type="text" name="Nombre2" class="form-control" />
                     <span asp-validation-for="Nombre2" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+           
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">Apellido1</label>
                     <input asp-for="Apellido1" type="text" name="Apellido1" class="form-control" />
                     <span asp-validation-for="Apellido1" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+          
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">Apellido2</label>
                     <input asp-for="Apellido2" type="text" name="Apellido2" class="form-control" />
                     <span asp-validation-for="Apellido2" class="text-danger"></span>
@@ -161,45 +139,36 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-                <div class="col-md-12">
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">Genero</label>
-                    <input asp-for="Genero" type="text" name="Genero" class="form-control" />
+                    <select asp-for="Genero" name="Genero" class="form-control" id="Genero">
+                        <option value="1">Genero1</option>
+                        <option value="2">Genero2</option>
+                        <option value="3">Genero3</option>
+                        <option value="4">Genero4</option>
+                    </select>
                     <span asp-validation-for="Genero" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">Cedula</label>
-                    <input asp-for="Cedula" type="text" name="Cedula" class="form-control" />
+           
+                <div class="col-md-3">
+                    <label class="col-md-12 col-form-label texto-pregunta">Tipo Id</label>
+                    <select asp-for="Cedula" name="Cedula" class="form-control" id="Cedula">
+                        <option value="1">Cedula</option>
+                        <option value="2">Ruc</option>
+                        <option value="3">Pasaporte</option>
+                    </select>
                     <span asp-validation-for="Cedula" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">RUC</label>
+           
+                <div class="col-md-3">
+                    <label class="col-md-12 col-form-label texto-pregunta">Identificaciòn</label>
                     <input asp-for="RUC" type="text" name="RUC" class="form-control" />
                     <span asp-validation-for="RUC" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+           
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">FechaNacimiento</label>
-                    <input asp-for="FechaNacimiento" type="text" name="FechaNacimiento" class="form-control" />
+                    <input asp-for="FechaNacimiento" type="text" name="FechaNacimiento" class="datepicker form-control" />
                     <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
                 </div>
             </div>
@@ -209,45 +178,42 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-                <div class="col-md-12">
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">Edad</label>
                     <input asp-for="Edad" type="text" name="Edad" class="form-control" />
                     <span asp-validation-for="Edad" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+            
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">Region</label>
-                    <input asp-for="Region" type="text" name="Region" class="form-control" />
+                    <select asp-for="Region" name="Region" class="form-control" id="Region">
+                        <option value="1">Costa</option>
+                        <option value="2">Sierra</option>
+                        <option value="3">Oriente</option>
+                        <option value="4">Insular</option>
+                    </select>
                     <span asp-validation-for="Region" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+           
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">Provincia</label>
-                    <input asp-for="Provincia" type="text" name="Provincia" class="form-control" />
+                    <select asp-for="Provincia" name="Provincia" class="form-control" id="Provincia">
+                        <option value="1">Guayas</option>
+                        <option value="2">Pichincha</option>
+                        <option value="3">Chimborazo</option>
+                        <option value="4">Cotopaxi</option>
+                    </select>
                     <span asp-validation-for="Provincia" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+          
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">Ciudad</label>
-                    <input asp-for="Ciudad" type="text" name="Ciudad" class="form-control" />
+                    <select asp-for="Ciudad" name="Ciudad" class="form-control" id="Ciudad">
+                        <option value="1">Guayaquil</option>
+                        <option value="2">Quito</option>
+                        <option value="3">Riobamba</option>
+                        <option value="4">Latacunga</option>
+                    </select>
                     <span asp-validation-for="Ciudad" class="text-danger"></span>
                 </div>
             </div>
@@ -257,43 +223,25 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-                <div class="col-md-12">
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">Direccion</label>
                     <input asp-for="Direccion" type="text" name="Direccion" class="form-control" />
                     <span asp-validation-for="Direccion" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+           
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">TelefonoConvencional</label>
                     <input asp-for="TelefonoConvencional" type="text" name="TelefonoConvencional" class="form-control" />
                     <span asp-validation-for="TelefonoConvencional" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+           
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">TelefonoCelular</label>
                     <input asp-for="TelefonoCelular" type="text" name="TelefonoCelular" class="form-control" />
                     <span asp-validation-for="TelefonoCelular" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+            
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">WhatsApp</label>
                     <input asp-for="WhatsApp" type="checkbox" name="WhatsApp" class="form-control" />
                     <span asp-validation-for="WhatsApp" class="text-danger"></span>
@@ -305,45 +253,32 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-                <div class="col-md-12">
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">Email</label>
                     <input asp-for="Email" type="text" name="Email" class="form-control" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+           
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">FrecuenciaDonacion</label>
-                    <input asp-for="FrecuenciaDonacion" type="text" name="FrecuenciaDonacion" class="form-control" />
+                    <select asp-for="FrecuenciaDonacion" name="FrecuenciaDonacion" class="form-control" id="FrecuenciaDonacion">
+                        <option value="1">Quincenal</option>
+                        <option value="2">Mensual</option>
+                        <option value="3">Trimestral</option>
+                        <option value="4">Anual</option>
+                    </select>
                     <span asp-validation-for="FrecuenciaDonacion" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+           
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">Cantidad</label>
                     <input asp-for="Cantidad" type="text" name="Cantidad" class="form-control" />
                     <span asp-validation-for="Cantidad" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">MesInicialDebito</label>
-                    <input asp-for="MesInicialDebito" type="text" name="MesInicialDebito" class="form-control" />
+          
+                <div class="col-md-3">
+                    <label class="col-md-12 col-form-label texto-pregunta">Fecha Inicio Debito</label>
+                    <input asp-for="MesInicialDebito" type="text" name="MesInicialDebito" class="datepicker form-control" />
                     <span asp-validation-for="MesInicialDebito" class="text-danger"></span>
                 </div>
             </div>
@@ -353,7 +288,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-                <div class="col-md-12">
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">FormaPago</label>
                     <input asp-for="FormaPago" type="text" name="FormaPago" class="form-control" />
                     <span asp-validation-for="FormaPago" class="text-danger"></span>
@@ -367,31 +302,19 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-                <div class="col-md-12">
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta">NumReferencia</label>
                     <input asp-for="NumReferencia" type="text" name="NumReferencia" class="form-control" />
                     <span asp-validation-for="NumReferencia" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+           
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta">TipoCuenta</label>
                     <input asp-for="TipoCuenta" type="text" name="TipoCuenta" class="form-control" />
                     <span asp-validation-for="TipoCuenta" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+           
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta">NumeroCuenta</label>
                     <input asp-for="NumeroCuenta" type="text" name="NumeroCuenta" class="form-control" />
                     <span asp-validation-for="NumeroCuenta" class="text-danger"></span>
@@ -403,31 +326,19 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-                <div class="col-md-12">
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta">TiposTarjetasCredito</label>
                     <input asp-for="TiposTarjetasCredito" type="text" name="TiposTarjetasCredito" class="form-control" />
                     <span asp-validation-for="TiposTarjetasCredito" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+           
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta">NumeroTarjeta</label>
                     <input asp-for="NumeroTarjeta" type="text" name="NumeroTarjeta" class="form-control" />
                     <span asp-validation-for="NumeroTarjeta" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
+           
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta">FechaCaducidad</label>
                     <input asp-for="FechaCaducidad" type="text" name="FechaCaducidad" class="datepicker form-control" />
                     <span asp-validation-for="FechaCaducidad" class="text-danger"></span>
@@ -439,22 +350,20 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">FechaVencimiento</label>
+                <div class="col-md-4">
+                    <label class="col-md-4 col-form-label texto-pregunta">FechaVencimiento</label>
                     <input asp-for="FechaVencimiento" type="text" name="FechaVencimiento" class="datepicker form-control" />
                     <span asp-validation-for="FechaVencimiento" class="text-danger"></span>
                 </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta">Banco</label>
-                    <input asp-for="Banco" type="text" name="Banco" class="form-control" />
+           
+                <div class="col-md-4">
+                    <label class="col-md-4 col-form-label texto-pregunta">Banco</label>
+                    <select asp-for="Banco" name="Banco" class="form-control" id="Banco">
+                        <option value="1">Banco Pichincha</option>
+                        <option value="2">Banco Guayaquil</option>
+                        <option value="3">Produbanco</option>
+                        <option value="4">Solidario</option>
+                    </select>
                     <span asp-validation-for="Banco" class="text-danger"></span>
                 </div>
             </div>
@@ -483,8 +392,8 @@
         $("#botonpagos").hide();
         $("#FormaPago").change(function () {
             var seleccionar = $("#FormaPago option:selected").val();
-            alert(seleccionar);
-            alert(seleccionar.indexOf("1"));
+            //alert(seleccionar);
+            //alert(seleccionar.indexOf("1"));
             if (seleccionar.indexOf("1")>=0) {
                 
                 $("#botonpagos").show();
