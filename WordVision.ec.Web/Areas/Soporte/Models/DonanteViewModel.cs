@@ -8,7 +8,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
     public class DonanteViewModel
     {
         public int Id { get; set; }
-        public int IDHubspot { get; set; }
+        public string IDHubspot { get; set; }
 
         public DateTime FechaConversion { get; set; }
 
@@ -25,7 +25,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         public string Apellido2 { get; set; }
         public int Genero { get; set; }
         public int Cedula { get; set; }
-        public int RUC { get; set; }
+        public string RUC { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public int Edad { get; set; }
         public int Region { get; set; }
@@ -33,8 +33,8 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
 
         public int Ciudad { get; set; }
         public string Direccion { get; set; }
-        public int TelefonoConvencional { get; set; }
-        public int TelefonoCelular { get; set; }
+        public string TelefonoConvencional { get; set; }
+        public string TelefonoCelular { get; set; }
         public bool WhatsApp { get; set; }
         public string Email { get; set; }
         public int FrecuenciaDonacion { get; set; }
@@ -42,14 +42,15 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         public DateTime MesInicialDebito { get; set; }
 
         public int FormaPago { get; set; }
-        public int NumReferencia { get; set; }
+        public string NumReferencia { get; set; }
         public int TipoCuenta { get; set; }
-        public int NumeroCuenta { get; set; }
+        public string NumeroCuenta { get; set; }
         public int TiposTarjetasCredito { get; set; }
-        public int NumeroTarjeta { get; set; }
+        public string NumeroTarjeta { get; set; }
 
         public DateTime FechaCaducidad { get; set; }
         public DateTime FechaVencimiento { get; set; }
         public int Banco { get; set; }
+
     }
 }
