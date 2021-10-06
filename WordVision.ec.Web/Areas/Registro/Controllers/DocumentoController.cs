@@ -503,6 +503,57 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             };
 
         }
+
+        public async Task<FileResult> ShowPDF(int idColaborador,int tipo)
+        {
+            var responseC = await _mediator.Send(new GetFormularioByIdQuery() { Id = idColaborador });
+            if (responseC.Succeeded)
+            {
+                var formularioViewModel = _mapper.Map<FormularioViewModel>(responseC.Data);
+                switch (tipo)
+                {
+                    case 1:
+                        if (formularioViewModel.ImageCedula != null)
+                        {
+                            byte[] dataArray = formularioViewModel.ImageCedula;
+                            return File(dataArray, "application/pdf");
+                        }
+                        break;
+                    case 2:
+                        if (formularioViewModel.ImagePapeleta != null)
+                        {
+                            byte[] dataArray = formularioViewModel.ImagePapeleta;
+                            return File(dataArray, "application/pdf");
+                        }
+                        break;
+                    case 3:
+                        if (formularioViewModel.ImageCovid != null)
+                        {
+                            byte[] dataArray = formularioViewModel.ImageCovid;
+                            return File(dataArray, "application/pdf");
+                        }
+                        break;
+                    case 4:
+                        if (formularioViewModel.ImageDiscapacidad != null)
+                        {
+                            byte[] dataArray = formularioViewModel.ImageDiscapacidad;
+                            return File(dataArray, "application/pdf");
+                        }
+                        break;
+                    case 5:
+                        if (formularioViewModel.ImageDiscapacidadFamiliar != null)
+                        {
+                            byte[] dataArray = formularioViewModel.ImageDiscapacidadFamiliar;
+                            return File(dataArray, "application/pdf");
+                        }
+                        break;
+                }
+                
+
+            }
+
+            return null;
+        }
         public async Task<FormularioAdjunto> LoadDocumentoAdjuntar(string id = "", string idColaborador = "")
         {
             FormularioAdjunto salida = new FormularioAdjunto();

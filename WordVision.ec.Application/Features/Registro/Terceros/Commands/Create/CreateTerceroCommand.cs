@@ -35,6 +35,8 @@ namespace WordVision.ec.Application.Features.Registro.Terceros.Commands.Create
         public int idFormulario { get; set; }
         public int IdColaborador { get; set; }
         public string TipoGrupo { get; set; }
+
+        public byte[] ImageCedula { get; set; }
     }
 
     public class CreateTerceroCommandHandler : IRequestHandler<CreateTerceroCommand, Result<int>>

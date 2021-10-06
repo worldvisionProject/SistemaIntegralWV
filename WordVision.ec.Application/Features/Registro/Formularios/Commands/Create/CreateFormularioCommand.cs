@@ -90,6 +90,12 @@ namespace WordVision.ec.Application.Features.Registro.Formularios.Commands.Creat
         public int IdColaborador { get; set; }
         public byte[] Image { get; set; }
         public byte[] Pdf { get; set; }
+
+        public byte[] ImageCedula { get; set; }
+        public byte[] ImagePapeleta { get; set; }
+        public byte[] ImageCovid { get; set; }
+        public byte[] ImageDiscapacidad { get; set; }
+        public byte[] ImageDiscapacidadFamiliar { get; set; }
     }
 
     public class CreateFormuarioCommandHandler : IRequestHandler<CreateFormularioCommand, Result<int>>

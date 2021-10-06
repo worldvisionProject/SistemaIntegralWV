@@ -57,7 +57,26 @@
             <span asp-validation-for="PorcentajeDiscapacidad" class="text-danger"></span>
         </div>
     </div>
+    <div class="form-group row" id="discapacidad">
+        <div class="custom-file form-image">
+            <input accept=".pdf"
+                   asp-for="@Model.ImageDiscapacidad"
+                   type="file" class="custom-file-input"
+                   onchange="document.getElementById('viewableImageDiscapacidad').src = window.URL.createObjectURL(this.files[0])"
+                   id="customFile">
 
+            @if (Model.ImageDiscapacidad != null && Model.ImageDiscapacidad.Length > 0)
+            {
+                <label class="custom-file-label"  style="background-color: green; color: white" for="customFile">Pdf de carnet discapacidad Almacenado</label>
+            }
+            else
+            {
+                <label class="custom-file-label" style="background-color:red" for="customFile">Buscar Pdf de carnet discapacidad</label>
+            }
+        </div>
+
+    </div>
+    <br />
     <div class="form-group row">
         <label class="col-md-2 col-form-label texto-pregunta">Familiar Discapacidad</label>
         <div class="col-md-2">
@@ -94,12 +113,110 @@
         </div>
 
     </div>
+    <div class="form-group row" id="discapacidadF">
+        <div class="custom-file form-image">
+            <input accept=".pdf"
+                   asp-for="@Model.ImageDiscapacidadFamiliar"
+                   type="file" class="custom-file-input"
+                   onchange="document.getElementById('viewableImageDiscapacidadF').src = window.URL.createObjectURL(this.files[0])"
+                   id="customFile">
 
+            @if (Model.ImageDiscapacidadFamiliar != null && Model.ImageDiscapacidadFamiliar.Length > 0)
+            {
+                <label class="custom-file-label" style="background-color: green; color: white" for="customFile">Pdf de carnet discapacidad Almacenado</label>
+            }
+            else
+            {
+                <label class="custom-file-label" style="background-color:red" for="customFile">Buscar Pdf de carnet discapacidad</label>
+            }
+        </div>
+
+    </div>
 
     <br />
     <div class="row">
         <div class="col-md-12">
-            <label class="col-md-12"><span class="texto-simple">Firma del Colaborador</span></label>
+            <label>Adjuntar Documentos</label>
+            <hr />
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="custom-file form-image">
+                    <input accept=".pdf"
+                           asp-for="@Model.ImageCedula"
+                           type="file" class="custom-file-input"
+                           id="customFile">
+
+                    @if (Model.ImageCedula != null && Model.ImageCedula.Length > 0)
+                    {
+                        <label class="custom-file-label" style="background-color: green; color: white" for="customFile">Pdf de cédula almacenado</label>
+                    }
+                    else
+                    {
+                        <label class="custom-file-label" style="background-color:red" for="customFile">Buscar Pdf de cédula</label>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="custom-file form-image">
+                    <input accept=".pdf"
+                           asp-for="@Model.ImagePapeleta"
+                           type="file" class="custom-file-input"
+                           id="customFile">
+
+                    @if (Model.ImagePapeleta != null && Model.ImagePapeleta.Length > 0)
+                    {
+                        <label class="custom-file-label" style="background-color: green; color: white" for="customFile">Pdf de papeleta de votación</label>
+                    }
+                    else
+                    {
+                        <label class="custom-file-label" style="background-color:red" for="customFile">Buscar Pdf de papeleta de votación</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="custom-file form-image">
+                    <input accept=".pdf"
+                           asp-for="@Model.ImageCovid"
+                           type="file" class="custom-file-input"
+                           id="customFile">
+
+                    @if (Model.ImageCovid != null && Model.ImageCovid.Length > 0)
+                    {
+                        <label class="custom-file-label" style="background-color:green; color:white" for="customFile">Pdf de carnet COVID</label>
+                    }
+                    else
+                    {
+                        <label class="custom-file-label" style="background-color:red" for="customFile">Buscar Pdf de carnet COVID</label>
+                    }
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr />
+        </div>
+
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <label>Firma del Colaborador</label>
         </div>
     </div>
     <div class="form-group">
@@ -114,11 +231,11 @@
         </div>
         @if (Model.Image != null && Model.Image.Length > 0)
         {
-                    <input type="hidden" id="Idioma" name="Idioma" value="S" />
-                    <img id="viewableImage" class="viewableImage" asp-for="@Model.Image" style="object-fit: cover;padding-top: 10px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" alt> @*<button onclick="document.getElementById('achimage').src = null;" type="button" style="margin-top:10px" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove Image</button>*@ }
-                else
-                {
-    <img id="viewableImage" class="viewableImage" style="object-fit: cover;padding-top:10px;" src="" alt>}
+            <input type="hidden" id="Idioma" name="Idioma" value="S" />
+            <img id="viewableImage" class="viewableImage" asp-for="@Model.Image" style="object-fit: cover;padding-top: 10px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" alt> @*<button onclick="document.getElementById('achimage').src = null;" type="button" style="margin-top:10px" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove Image</button>*@ }
+        else
+        {
+            <img id="viewableImage" class="viewableImage" style="object-fit: cover;padding-top:10px;" src="">}
     </div>
     <br />
     <div class="row">
@@ -134,11 +251,35 @@
     <br />
 
 </div>
-<script>
-  $(document).ready(function () {
+        <script>
+            $(document).ready(function () {
+                $("#discapacidad").hide();
+                $("#discapacidadF").hide();
+
+                $("#DiscapacidadSN").change(function () {
+                    var selectedSubject = $("#DiscapacidadSN option:selected").val();
+                    //alert("You have selected the country - " + selectedSubject);
+                    //alert(selectedSubject.indexOf("575"));
+
+                    if (selectedSubject.indexOf("S") >= 0)
+                        $("#discapacidad").show(1000);
+                    else
+                        $("#discapacidad").hide(1000);
+                });
+
+                $("#FamiliaDiscapacidadSN").change(function () {
+                    var selectedSubject = $("#FamiliaDiscapacidadSN option:selected").val();
+                    //alert("You have selected the country - " + selectedSubject);
+                    //alert(selectedSubject.indexOf("575"));
+
+                    if (selectedSubject.indexOf("S") >= 0)
+                        $("#discapacidadF").show(1000);
+                    else
+                        $("#discapacidadF").hide(1000);
+                });
             loadData();
     });
         function loadData() {
             $('#viewAll').load('/registro/formulario/LoadIdioma?id=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value.ToString()');
             }
-</script>
+        </script>

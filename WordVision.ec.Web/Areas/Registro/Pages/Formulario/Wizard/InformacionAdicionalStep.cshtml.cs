@@ -26,6 +26,11 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
         public string Colaborador { get; set; }
         public string Identificacion { get; set; }
         public byte[] Image { get; set; }
+        public byte[] ImageDiscapacidad { get; set; }
+        public byte[] ImageDiscapacidadFamiliar { get; set; }
+        public byte[] ImageCedula { get; set; }
+        public byte[] ImagePapeleta { get; set; }
+        public byte[] ImageCovid { get; set; }
         public ICollection<IdiomaViewModel> Idiomas { get; set; }
         public InformacionAdicionalStep()
         {

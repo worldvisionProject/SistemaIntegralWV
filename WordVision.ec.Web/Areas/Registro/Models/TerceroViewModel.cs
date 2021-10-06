@@ -28,6 +28,7 @@ namespace WordVision.ec.Web.Areas.Registro.Models
         public int idFormulario { get; set; }
         public int IdColaborador { get; set; }
         public string TipoGrupo { get; set; }
+        public byte[] ImageCedula { get; set; }
         //public List<FormularioTerceroViewModel> FormularioTerceros { get; set; }
     }
 }

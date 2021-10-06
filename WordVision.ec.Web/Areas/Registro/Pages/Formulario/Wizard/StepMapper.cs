@@ -20,6 +20,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                         contact.FormacionAcademica = s.FormacionAcademica;
                         contact.Identificacion = s.Identificacion;
                         contact.Nacionalidad = s.Nacionalidad;
+                        
 
                         break;
                     case DatosContactoStep s:
@@ -84,7 +85,6 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                         contact.PorcentajeEscrito = s.PorcentajeEscrito;
                         contact.PorcentajeHablado = s.PorcentajeHablado;
                         contact.TipoDiscapacidad = s.TipoDiscapacidad;
-
                         break;
                 }
             }
@@ -100,7 +100,8 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
             FechaNacimiento = contact.FechaNacimiento,
             FormacionAcademica = contact.FormacionAcademica,
             Identificacion = contact.Identificacion,
-            Nacionalidad = contact.Nacionalidad
+            Nacionalidad = contact.Nacionalidad,
+            
                 },
             new DatosContactoStep { CalleResidencia = contact.CalleResidencia,
 CalleSecundariaResidencia = contact.CalleSecundariaResidencia,
@@ -159,7 +160,11 @@ PorcentajeHablado = contact.PorcentajeHablado,
 TipoDiscapacidad = contact.TipoDiscapacidad,
 Image=contact.Image,
 Colaborador=contact.Colaboradores.Apellidos+" "+contact.Colaboradores.ApellidoMaterno+" "+contact.Colaboradores.PrimerNombre+" "+contact.Colaboradores.SegundoNombre,
-Identificacion=contact.Colaboradores.Identificacion
+Identificacion=contact.Colaboradores.Identificacion,
+ImageDiscapacidad=contact.ImageDiscapacidad,
+ImageDiscapacidadFamiliar=contact.ImageDiscapacidadFamiliar,ImageCedula=contact.ImageCedula,
+            ImagePapeleta=contact.ImagePapeleta,
+            ImageCovid=contact.ImageCovid
               }
 
 

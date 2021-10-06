@@ -4,7 +4,7 @@
 @model FormularioViewModel
 
 <div class="form-group row">
-    <label class="col-md-1 col-form-label texto-pregunta">Idioma</label>
+    <label class="col-md-1 col-form-label texto-pregunta">&nbsp;&nbsp; Idioma</label>
     <div class="col-md-2">
         <select asp-for="Idioma" name="Idioma" class="form-control">
             <option selected></option>
@@ -33,7 +33,7 @@
 @Html.HiddenFor(x => x.Id, new { name = "IdFormulario", @Value = Model.Id })
 <br />
 <div id="divIdiomas">
-    <table id="idiomaTable" class="table table-striped" width="100%" cellspacing="0">
+    <table id="idiomaTable" class="table table-striped" width="80%" cellspacing="0">
         <thead>
             <tr>
                 @*<th>Id</th>*@

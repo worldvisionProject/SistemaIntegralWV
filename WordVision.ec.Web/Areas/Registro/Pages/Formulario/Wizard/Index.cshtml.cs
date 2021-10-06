@@ -192,9 +192,55 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                         }
                         if (Request.Form.Files.Count > 0)
                         {
-                            IFormFile file = Request.Form.Files.FirstOrDefault();
-                            var image = file.OptimizeImageSize(700, 700);
-                            client.Image = image;
+                            for (int i = 0; i<  Request.Form.Files.Count;i++)
+                            {
+                                IFormFile file = Request.Form.Files[i];
+                                
+                                switch (Request.Form.Files[i].Name)
+                                {
+                                    case "ImageCedula":
+                                        var imageC = file.OpenReadStream();
+                                        MemoryStream ms = new MemoryStream();
+                                        imageC.CopyTo(ms);
+                                        client.ImageCedula = ms.ToArray();
+                                        break;
+                                    case "ImagePapeleta":
+                                        var imageP = file.OpenReadStream();
+                                        MemoryStream msP = new MemoryStream();
+                                        imageP.CopyTo(msP);
+                                        client.ImagePapeleta = msP.ToArray();
+                                        break;
+                                    case "ImageCovid":
+                                        var imageCo = file.OpenReadStream();
+                                        MemoryStream msCo = new MemoryStream();
+                                        imageCo.CopyTo(msCo);
+                                        client.ImageCovid = msCo.ToArray();
+                                        break;
+                                    case "ImageDiscapacidad":
+                                        var imageD = file.OpenReadStream();
+                                        MemoryStream msD = new MemoryStream();
+                                        imageD.CopyTo(msD);
+                                        client.ImageDiscapacidad = msD.ToArray();
+                                        break;
+                                    case "ImageDiscapacidadFamiliar":
+                                        var imageDF = file.OpenReadStream();
+                                        MemoryStream msDF = new MemoryStream();
+                                        imageDF.CopyTo(msDF);
+                                        client.ImageDiscapacidadFamiliar = msDF.ToArray();
+                                        break;
+                                    case "Image":
+                                        var image1 = file.OptimizeImageSize(700, 700);
+                                        client.Image = image1;
+                                        break;
+
+
+                                }
+                              
+                                
+                               
+
+                            }
+                           
                         }
                     }
                     client.IdColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);

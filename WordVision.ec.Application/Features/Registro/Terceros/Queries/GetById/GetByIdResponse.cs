@@ -25,6 +25,7 @@ namespace WordVision.ec.Application.Features.Registro.Terceros.Queries.GetById
         public string Telefono { get; set; }
         public string Celular { get; set; }
         public string Email { get; set; }
+        public byte[] ImageCedula { get; set; }
         public virtual ICollection<FormularioTercero> FormularioTerceros { get; set; }
     }
 }

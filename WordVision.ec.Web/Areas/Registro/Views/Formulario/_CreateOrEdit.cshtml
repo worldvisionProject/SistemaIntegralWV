@@ -37,146 +37,172 @@
         }
 
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12">Apellido Paterno</label>
-
-                    <input type="text" asp-for="PrimerApellido" name="PrimerApellido" class="form-control">
-                    <span asp-validation-for="PrimerApellido" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 ">Apellido Materno</label>
-
-                    <input type="text"  asp-for="SegundoApellido" name="SegundoApellido" class="form-control">
-                    <span asp-validation-for="SegundoApellido" class="text-danger"></span>
-                </div>
-            </div>
-
-
-        </div>
-
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12">Primer Nombre</label>
-
-                    <input type="text" asp-for="PrimerNombre" name="PrimerNombre" class="form-control">
-                    <span asp-validation-for="PrimerNombre" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12">Segundo Nombre</label>
-
-                    <input type="text" asp-for="SegundoNombre" name="SegundoNombre" class="form-control">
-                    <span asp-validation-for="SegundoNombre" class="text-danger"></span>
-                </div>
-            </div>
-
-
-        </div>
-
-    </div>
-
     @if (!Model.TipoGrupo.Equals("C"))
     {
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-md-6">
-                        <label class="col-md-12">Fecha Nacimiento</label>
+                <div class="form-group">
+                    <div class="custom-file form-image">
+                        <input accept=".pdf"
+                               asp-for="@Model.ImageCedula"
+                               type="file" class="custom-file-input"
+                               id="customFile">
 
-                        <input type="text" asp-for="FecNacimiento" name="FecNacimiento"    class="datepicker form-control">
-                        <span asp-validation-for="FecNacimiento" class="text-danger"></span>
+                        @if (Model.ImageCedula != null && Model.ImageCedula.Length > 0)
+                        {
+                            <label class="custom-file-label" for="customFile">Pdf de cédula almacenado</label>
+                        }
+                        else
+                        {
+                            <label class="custom-file-label" for="customFile">Buscar Pdf de cédula</label>
+                        }
                     </div>
-                    <div class="col-md-6">
-                        <label class="col-md-12">Genero</label>
+                   
+                </div>
+            </div>
+        </div>
 
-                        <select asp-for="Genero" name="Genero" class="form-control">
-                            <option value="M">Masculino</option>
-                            <option value="F">Femenino</option>
+    }
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label class="col-md-12">Apellido Paterno</label>
 
-                        </select>
-                        <span asp-validation-for="Genero" class="text-danger"></span>
+                        <input type="text" asp-for="PrimerApellido" name="PrimerApellido" class="form-control">
+                        <span asp-validation-for="PrimerApellido" class="text-danger"></span>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group row">
-                    <div class="col-md-6">
-                        <label class="col-md-12">Fecha Emision</label>
+                    <div class="col-md-12">
+                        <label class="col-md-12 ">Apellido Materno</label>
 
-                        <input type="text" asp-for="VigDesde" name="VigDesde"  class="datepicker form-control">
-                        <span asp-validation-for="VigDesde" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="col-md-12">Fecha Caducidad</label>
-
-                        <input type="text" asp-for="VigHasta" name="VigHasta"   class="datepicker form-control">
-                        <span asp-validation-for="VigHasta" class="text-danger"></span>
+                        <input type="text" asp-for="SegundoApellido" name="SegundoApellido" class="form-control">
+                        <span asp-validation-for="SegundoApellido" class="text-danger"></span>
                     </div>
                 </div>
-            </div>
-        </div>
-    }
 
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group row">
-                <div class="col-md-2">
-                    <label class="col-md-2 ">Cod.</label>
-
-                    <input type="text" asp-for="CodigoArea" name="CodigoArea" class="form-control">
-                    <span asp-validation-for="CodigoArea" class="text-danger"></span>
-                </div>
-                <div class="col-md-5">
-                    <label class="col-md-2">Telefono</label>
-
-                    <input type="text" asp-for="Telefono" name="Telefono" class="form-control">
-                    <span asp-validation-for="Telefono" class="text-danger"></span>
-                </div>
-                <div class="col-md-5">
-                    <label class="col-md-2 ">Celular</label>
-
-                    <input type="text" asp-for="Celular" name="Celular" class="form-control">
-                    <span asp-validation-for="Celular" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-2 ">Email</label>
-
-                    <input type="text" asp-for="Email" name="Email" class="form-control">
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
 
             </div>
+
         </div>
 
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label class="col-md-12">Primer Nombre</label>
 
-    </div>
+                        <input type="text" asp-for="PrimerNombre" name="PrimerNombre" class="form-control">
+                        <span asp-validation-for="PrimerNombre" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label class="col-md-12">Segundo Nombre</label>
 
-    <br />
-    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-        <button type="submit" class="btn btn-success">Guardar</button>
-        <button type="submit" class="btn btn-default close-button" id="close-button" data-dismiss="modal">Cancelar</button>
-    </div>
-</form>
+                        <input type="text" asp-for="SegundoNombre" name="SegundoNombre" class="form-control">
+                        <span asp-validation-for="SegundoNombre" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        @if (!Model.TipoGrupo.Equals("C"))
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label class="col-md-12">Fecha Nacimiento</label>
+
+                            <input type="text" asp-for="FecNacimiento" name="FecNacimiento" class="datepicker form-control">
+                            <span asp-validation-for="FecNacimiento" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-md-12">Genero</label>
+
+                            <select asp-for="Genero" name="Genero" class="form-control">
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+
+                            </select>
+                            <span asp-validation-for="Genero" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label class="col-md-12">Fecha Emision</label>
+
+                            <input type="text" asp-for="VigDesde" name="VigDesde" class="datepicker form-control">
+                            <span asp-validation-for="VigDesde" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-md-12">Fecha Caducidad</label>
+
+                            <input type="text" asp-for="VigHasta" name="VigHasta" class="datepicker form-control">
+                            <span asp-validation-for="VigHasta" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <label class="col-md-2 ">Cod.</label>
+
+                        <input type="text" asp-for="CodigoArea" name="CodigoArea" class="form-control">
+                        <span asp-validation-for="CodigoArea" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-5">
+                        <label class="col-md-2">Telefono</label>
+
+                        <input type="text" asp-for="Telefono" name="Telefono" class="form-control">
+                        <span asp-validation-for="Telefono" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-5">
+                        <label class="col-md-2 ">Celular</label>
+
+                        <input type="text" asp-for="Celular" name="Celular" class="form-control">
+                        <span asp-validation-for="Celular" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label class="col-md-2 ">Email</label>
+
+                        <input type="text" asp-for="Email" name="Email" class="form-control">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+        <br />
+        <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+            <button type="submit" class="btn btn-success">Guardar</button>
+            <button type="submit" class="btn btn-default close-button" id="close-button" data-dismiss="modal">Cancelar</button>
+        </div>
+    </form>
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
 

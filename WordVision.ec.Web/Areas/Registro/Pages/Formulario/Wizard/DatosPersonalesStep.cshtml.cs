@@ -16,7 +16,8 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
         public string Nacionalidad { get; set; }
         public string EstadoCivil { get; set; }
         public string FormacionAcademica { get; set; }
-
+        
+       
         public DatosPersonalesStep()
         {
             Position = 0;

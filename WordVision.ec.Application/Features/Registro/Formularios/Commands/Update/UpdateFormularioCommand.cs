@@ -88,6 +88,11 @@ namespace WordVision.ec.Application.Features.Registro.Formularios.Commands.Updat
         public byte[] Image { get; set; }
         public byte[] Pdf { get; set; }
         public int IdColaborador { get; set; }
+        public byte[] ImageCedula { get; set; }
+        public byte[] ImagePapeleta { get; set; }
+        public byte[] ImageCovid { get; set; }
+        public byte[] ImageDiscapacidad { get; set; }
+        public byte[] ImageDiscapacidadFamiliar { get; set; }
 
         public Colaborador Colaboradores { get; set; }
         public class UpdateFormularioCommandHandler : IRequestHandler<UpdateFormularioCommand, Result<int>>
@@ -179,7 +184,12 @@ namespace WordVision.ec.Application.Features.Registro.Formularios.Commands.Updat
                     formulario.FamiliaDiscapacidadRelacion = command.FamiliaDiscapacidadRelacion ?? formulario.FamiliaDiscapacidadRelacion;
                     formulario.IdColaborador = command.IdColaborador==0 ? formulario.IdColaborador: command.IdColaborador;
                     formulario.Image = command.Image.Length== 0 ? formulario.Image : command.Image;
-                   
+                    formulario.ImageCedula = command.ImageCedula.Length == 0 ? formulario.ImageCedula : command.ImageCedula;
+                    formulario.ImageCovid = command.ImageCovid.Length == 0 ? formulario.ImageCovid : command.ImageCovid;
+                    formulario.ImagePapeleta = command.ImagePapeleta.Length == 0 ? formulario.ImagePapeleta : command.ImagePapeleta;
+                    formulario.ImageDiscapacidad = command.ImageDiscapacidad.Length == 0 ? formulario.ImageDiscapacidad : command.ImageDiscapacidad;
+                    formulario.ImageDiscapacidadFamiliar = command.ImageDiscapacidadFamiliar.Length == 0 ? formulario.ImageDiscapacidadFamiliar : command.ImageDiscapacidadFamiliar;
+
                     await _formularioRepository.UpdateAsync(formulario);
                     await _unitOfWork.Commit(cancellationToken);
                     return Result<int>.Success(formulario.Id);

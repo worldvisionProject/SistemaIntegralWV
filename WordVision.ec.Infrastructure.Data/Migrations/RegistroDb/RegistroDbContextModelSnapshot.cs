@@ -544,6 +544,39 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.ToTable("IndicadorAFs", "planifica");
                 });
 
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorCicloEstrategico", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdEstrategia")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IndicadorCiclo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdEstrategia");
+
+                    b.ToTable("IndicadorCicloEstrategico", "planifica");
+                });
+
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorEstrategico", b =>
                 {
                     b.Property<int>("Id")
@@ -706,6 +739,41 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.HasIndex("IdProductoObjetivo");
 
                     b.ToTable("IndicadorProductoObjetivos", "planifica");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.MetaCicloEstrategico", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdGestion")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdIndicadorCicloEstrategico")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal?>("Meta")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdIndicadorCicloEstrategico");
+
+                    b.ToTable("MetaCicloEstrategico", "planifica");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.MetaEstrategica", b =>
@@ -1618,6 +1686,21 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<byte[]>("Image")
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<byte[]>("ImageCedula")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("ImageCovid")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("ImageDiscapacidad")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("ImageDiscapacidadFamiliar")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("ImagePapeleta")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("InfoResidencia")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -1898,6 +1981,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<string>("Identificacion")
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
+
+                    b.Property<byte[]>("ImageCedula")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
@@ -2487,6 +2573,17 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Navigation("IndicadorEstrategicos");
                 });
 
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorCicloEstrategico", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Planificacion.EstrategiaNacional", "EstrategiaNacionales")
+                        .WithMany("IndicadorCicloEstrategicos")
+                        .HasForeignKey("IdEstrategia")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EstrategiaNacionales");
+                });
+
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorEstrategico", b =>
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Planificacion.FactorCriticoExito", "FactorCriticoExitos")
@@ -2518,6 +2615,17 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .IsRequired();
 
                     b.Navigation("ProductoObjetivos");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.MetaCicloEstrategico", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Planificacion.IndicadorCicloEstrategico", "IndicadorCicloEstrategicos")
+                        .WithMany("MetaCicloEstrategicos")
+                        .HasForeignKey("IdIndicadorCicloEstrategico")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("IndicadorCicloEstrategicos");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.MetaEstrategica", b =>
@@ -2713,12 +2821,19 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                 {
                     b.Navigation("Gestiones");
 
+                    b.Navigation("IndicadorCicloEstrategicos");
+
                     b.Navigation("ObjetivoEstrategicos");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.FactorCriticoExito", b =>
                 {
                     b.Navigation("IndicadorEstrategicos");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorCicloEstrategico", b =>
+                {
+                    b.Navigation("MetaCicloEstrategicos");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorEstrategico", b =>

@@ -73,5 +73,10 @@ namespace WordVision.ec.Application.Features.Registro.Formularios.Queries.GetAll
         public string FamiliaDiscapacidadRelacion { get; set; }
         public byte[] Pdf { get; set; }
         public int IdColaborador { get; set; }
+        public byte[] ImageCedula { get; set; }
+        public byte[] ImagePapeleta { get; set; }
+        public byte[] ImageCovid { get; set; }
+        public byte[] ImageDiscapacidad { get; set; }
+        public byte[] ImageDiscapacidadFamiliar { get; set; }
     }
 }

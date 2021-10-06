@@ -33,5 +33,8 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public ICollection<Gestion> Gestiones { get; set; }
         [ForeignKey("IdEstrategia")]
         public ICollection<ObjetivoEstrategico> ObjetivoEstrategicos { get; set; }
+
+        [ForeignKey("IdEstrategia")]
+        public ICollection<IndicadorCicloEstrategico> IndicadorCicloEstrategicos { get; set; }
     }
 }

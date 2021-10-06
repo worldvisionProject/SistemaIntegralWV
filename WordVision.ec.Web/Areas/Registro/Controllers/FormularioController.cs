@@ -295,7 +295,15 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                 //        tercero.VigHasta = DateTime.Now;
                 //        tercero.Genero = "0";
                 //    }
-                    if (id == 0)
+                if (Request.Form.Files.Count > 0)
+                {
+                    IFormFile file = Request.Form.Files.FirstOrDefault();
+                    var image = file.OpenReadStream();
+                    MemoryStream ms = new MemoryStream();
+                    image.CopyTo(ms);
+                    tercero.ImageCedula = ms.ToArray();
+                }
+                if (id == 0)
                     {
 
                         var createTerceroCommand = _mapper.Map<CreateTerceroCommand>(tercero);

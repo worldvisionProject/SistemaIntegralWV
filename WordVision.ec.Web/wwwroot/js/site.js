@@ -138,6 +138,9 @@
                             case 101:
                                 $(res.page).html(res.html);
                                 break;
+                            case 102:
+                                $(res.page).html(res.html);
+                                break;
                             default:
                                 $('#viewAll').html(res.html);
                                 break;

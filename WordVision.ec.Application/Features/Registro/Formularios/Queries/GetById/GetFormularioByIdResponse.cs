@@ -81,6 +81,11 @@ namespace WordVision.ec.Application.Features.Registro.Formularios.Queries.GetByI
         public byte[] Image { get; set; }
         public byte[] Pdf { get; set; }
         public int IdColaborador { get; set; }
+        public byte[] ImageCedula { get; set; }
+        public byte[] ImagePapeleta { get; set; }
+        public byte[] ImageCovid { get; set; }
+        public byte[] ImageDiscapacidad { get; set; }
+        public byte[] ImageDiscapacidadFamiliar { get; set; }
         public virtual Colaborador Colaboradores { get; set; }
         public virtual List<Idioma> Idiomas { get; set; }
         public virtual List<FormularioTercero> FormularioTerceros { get; set; }

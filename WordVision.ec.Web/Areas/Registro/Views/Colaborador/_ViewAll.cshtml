@@ -15,6 +15,7 @@
             @*@if ((AuthorizationService.AuthorizeAsync(User, Permissions.colaboradors.Delete)).Result.Succeeded
            || (AuthorizationService.AuthorizeAsync(User, Permissions.colaboradors.Edit)).Result.Succeeded)
         {*@
+            <th data-priority="2">Documentos</th>
             <th data-priority="2">Formularios</th>
             @*}*@
         </tr>
@@ -32,7 +33,7 @@
                 @colaborador.PrimerNombre  @colaborador.SegundoNombre
             </td>
             <td>
-                @colaborador.Alias  
+                @colaborador.Alias
             </td>
             <td>
                 @colaborador.ActDatos
@@ -47,6 +48,28 @@
                 <button type="button" onclick="jQueryModalGet('/registro/colaborador/OnGetCreateOrEdit?id=@colaborador.Id','Editar Colaborador')" class="btn btn-warning btn-xp"><i class="fas fa-pencil-alt"></i></button>
 
             </td>
+            <td class="text-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Descargar
+                    </button>
+                    <div class="dropdown-menu shadow animated--grow-in">
+
+                        <a href="/registro/documento/ShowPDF?idColaborador=@colaborador.Id&tipo=1" target="_blank" class="dropdown-item"><i class="fas fa-file"></i>  Cédula</a>
+                        <a href='/registro/documento/ShowPDF?idColaborador=@colaborador.Id&tipo=2' target="_blank" class="dropdown-item"><i class="fas fa-handshake"></i>  Papeleta</a>
+                        <a href='/registro/documento/ShowPDF?idColaborador=@colaborador.Id&tipo=3' target="_blank" class="dropdown-item"><i class="fas fa-dollar-sign"></i>  COVID</a>
+                        <a href='/registro/documento/ShowPDF?idColaborador=@colaborador.Id&tipo=4' target="_blank" class="dropdown-item"><i class="fas fa-confluence"></i>  Discapacidad</a>
+                        <a href='/registro/documento/ShowPDF?idColaborador=@colaborador.Id&tipo=5' target="_blank" class="dropdown-item"><i class="fas fa-hospital-alt"></i>  Discapacidad Familiar</a>
+
+
+                        @*<form id="form_delete_@colaborador.Id" asp-area="Catalog" asp-controller="colaborador" method="post" asp-action="OnPostDelete" asp-route-id="@colaborador.Id" onsubmit="return jQueryModalDelete(this)">
+                        <a href="javascript:$('#form_delete_@colaborador.Id').submit();" class="dropdown-item"><i class="fas fa-trash-alt"></i>  Delete</a>
+                    </form>*@
+
+                    </div>
+                </div>
+            </td>
+
             <td class="text-right">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

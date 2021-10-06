@@ -9,6 +9,7 @@
     <Compile Remove="Features\Planificacion\FactorCriticoExitoes\Queries\GetAllPaged\**" />
     <Compile Remove="Features\Planificacion\Gestiones\Queries\GetAllPaged\**" />
     <Compile Remove="Features\Planificacion\IndicadorAFes\Queries\GetAllPaged\**" />
+    <Compile Remove="Features\Planificacion\IndicadorCicloEstrategicos\Queries\GetAllCached\**" />
     <Compile Remove="Features\Planificacion\IndicadorEstrategicoes\Queries\GetAllPaged\**" />
     <Compile Remove="Features\Planificacion\IndicadorPOAs\Queries\GetAllPaged\**" />
     <Compile Remove="Features\Planificacion\ObjetivoEstrategicoes\Queries\GetAllPaged\**" />
@@ -18,6 +19,7 @@
     <EmbeddedResource Remove="Features\Planificacion\FactorCriticoExitoes\Queries\GetAllPaged\**" />
     <EmbeddedResource Remove="Features\Planificacion\Gestiones\Queries\GetAllPaged\**" />
     <EmbeddedResource Remove="Features\Planificacion\IndicadorAFes\Queries\GetAllPaged\**" />
+    <EmbeddedResource Remove="Features\Planificacion\IndicadorCicloEstrategicos\Queries\GetAllCached\**" />
     <EmbeddedResource Remove="Features\Planificacion\IndicadorEstrategicoes\Queries\GetAllPaged\**" />
     <EmbeddedResource Remove="Features\Planificacion\IndicadorPOAs\Queries\GetAllPaged\**" />
     <EmbeddedResource Remove="Features\Planificacion\ObjetivoEstrategicoes\Queries\GetAllPaged\**" />
@@ -27,6 +29,7 @@
     <None Remove="Features\Planificacion\FactorCriticoExitoes\Queries\GetAllPaged\**" />
     <None Remove="Features\Planificacion\Gestiones\Queries\GetAllPaged\**" />
     <None Remove="Features\Planificacion\IndicadorAFes\Queries\GetAllPaged\**" />
+    <None Remove="Features\Planificacion\IndicadorCicloEstrategicos\Queries\GetAllCached\**" />
     <None Remove="Features\Planificacion\IndicadorEstrategicoes\Queries\GetAllPaged\**" />
     <None Remove="Features\Planificacion\IndicadorPOAs\Queries\GetAllPaged\**" />
     <None Remove="Features\Planificacion\ObjetivoEstrategicoes\Queries\GetAllPaged\**" />

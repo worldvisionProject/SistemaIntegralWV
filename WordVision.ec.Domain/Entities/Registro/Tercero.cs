@@ -48,6 +48,7 @@ namespace WordVision.ec.Domain.Entities.Registro
         public string Celular { get; set; }
         [StringLength(150)]
         public string Email { get; set; }
+        public byte[] ImageCedula { get; set; }
 
         [ForeignKey("IdTecero")]
         public virtual ICollection<FormularioTercero> FormularioTerceros { get; set; }

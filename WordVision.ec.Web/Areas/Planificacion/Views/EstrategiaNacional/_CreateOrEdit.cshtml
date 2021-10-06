@@ -139,21 +139,27 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group row">
-                                                    <div class="col-md-12">
-                                                        <label class="col-md-12 col-form-label texto-pregunta">Indicador</label>
-                                                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
-                                                        {
-                                                            <textarea asp-for="Indicador" name="Indicador" class="form-control"></textarea>
-                                                        }
-                                                        else
-                                                        { <textarea asp-for="Indicador" name="Indicador" class="form-control" readonly></textarea>}
+                                                    <div class="col-md-2">
+                                                        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorCicloEstrategico/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id','Crear Gestion')">
+                                                            <i class="fa fa-plus-square"></i>
+                                                            Agregar
+                                                        </button>
+                                                        @*<label class="col-md-12 col-form-label texto-pregunta">Indicador</label>
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
+                        {
+                            <textarea asp-for="Indicador" name="Indicador" class="form-control"></textarea>
+                        }
+                        else
+                        { <textarea asp-for="Indicador" name="Indicador" class="form-control" readonly></textarea>}
 
-                                                        <span asp-validation-for="Indicador" class="text-danger"></span>
+                        <span asp-validation-for="Indicador" class="text-danger"></span>*@
                                                     </div>
                                                 </div>
 
 
                                             </div>
+                                        </div> 
+                                        <div id="viewAllIndicador" class="card-body table-responsive" style="padding: 0;">
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
@@ -168,29 +174,29 @@
 
                                                         @foreach (var gestion in Model.Gestiones.ToList())
                                                         {
-                                                    <div class="col-md-2">
-                                                        <label class="col-md-12 col-form-label texto-pregunta">@gestion.Anio</label>
-                                                        <input name="gestiones[@i].Meta" type="text" value="@gestion.Meta" class="form-control" />
-                                                        <label class="col-md-12 col-form-label texto-pregunta">Logro: @gestion.Anio</label>
-                                                        <input name="gestiones[@i].Logro" type="text" value="@gestion.Logro" class="form-control" />
+                                                            <div class="col-md-2">
+                                                                <label class="col-md-12 col-form-label texto-pregunta">@gestion.Anio</label>
+                                                                <input name="gestiones[@i].Meta" type="text" value="@gestion.Meta" class="form-control" />
+                                                                <label class="col-md-12 col-form-label texto-pregunta">Logro: @gestion.Anio</label>
+                                                                <input name="gestiones[@i].Logro" type="text" value="@gestion.Logro" class="form-control" />
 
-                                                        
-                                                        <input name="gestiones[@i].Id" id="@gestion.Id" value="@gestion.Id" type="hidden" />
 
-                                                    </div>
+                                                                <input name="gestiones[@i].Id" id="@gestion.Id" value="@gestion.Id" type="hidden" />
+
+                                                            </div>
                                                             valor = valor + Convert.ToDecimal(gestion.Meta);
                                                             logro = logro + Convert.ToDecimal(gestion.Logro);
                                                             i = i + 1;
                                                         }
                                                     }
 
-                                                <div class="col-md-2">
-                                                    <label class="col-md-12 col-form-label texto-pregunta">Meta Acumulada</label>
-                                                    <input id="af1" type="text" value="@valor" readonly class="form-control" />
-                                                    <label class="col-md-12 col-form-label texto-pregunta">Logro Acumulada</label>
-                                                    <input id="af11" type="text" value="@logro" readonly class="form-control" />
-                                                </div>
-                                                   
+                                                    <div class="col-md-2">
+                                                        <label class="col-md-12 col-form-label texto-pregunta">Meta Acumulada</label>
+                                                        <input id="af1" type="text" value="@valor" readonly class="form-control" />
+                                                        <label class="col-md-12 col-form-label texto-pregunta">Logro Acumulada</label>
+                                                        <input id="af11" type="text" value="@logro" readonly class="form-control" />
+                                                    </div>
+
                                                 </div>
 
                                             </div>
@@ -312,6 +318,7 @@
             $('#viewAll').load('/Planificacion/ObjetivoEstrategico/LoadObjetivo?idEstrategia=@Model.Id&idCategoria=2&AnioGestion=@Model.AnioGestion&esCoordinadorEstrategico=@Model.EsCoordinadorEstrategico');
             $('#viewAllNacional').load('/Planificacion/ObjetivoEstrategico/LoadObjetivo?idEstrategia=@Model.Id&idCategoria=1&AnioGestion=@Model.AnioGestion&esCoordinadorEstrategico=@Model.EsCoordinadorEstrategico');
             $('#viewAllGestion').load('/Planificacion/Gestion/LoadGestiones?idEstrategico=@Model.Id');
+            $('#viewAllIndicador').load('/Planificacion/IndicadorCicloEstrategico/LoadIndicadores?idEstrategia=@Model.Id');
         }
 
 

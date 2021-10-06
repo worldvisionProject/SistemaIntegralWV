@@ -1,0 +1,81 @@
+﻿@using WordVision.ec.Web.Areas.Planificacion.Models
+@model IEnumerable<IndicadorCicloEstrategicoViewModel>
+
+
+<table id="gestionTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Indicador</th>
+        
+            <th class="acciones-th">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+       
+            @foreach (var indicador in Model.ToList())
+            {
+                <tr id="Gest_@indicador.Id">
+
+                    <td>
+
+                        @indicador.Id
+                    </td>
+                  
+                    <td class="acciones-td">
+                        <button type="button" onclick="EliminaFila(@indicador.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
+
+                    </td>
+
+                </tr>
+            }
+
+
+    </tbody>
+</table>
+
+<script>
+
+    $(document).ready(function () {
+
+
+        var table = $("#gestionTable").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },
+
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 }
+            ],
+            "info": false
+            //columnDefs: [
+            //    { responsivePriority: 1, targets: 0 },
+            //    { responsivePriority: 10001, targets: 4 },
+            //    { responsivePriority: 2, targets: -2 }
+            //]
+        });
+
+
+        var column = table.column(0);
+        // Toggle the visibility
+        column.visible(false);
+
+
+
+        $('#gestionTable tbody').on('dblclick', 'tr', function () {
+            var data = table.row(this).data();
+
+
+            jQueryModalGet('/Planificacion/IndicadorCicloEstrategico/OnGetCreateOrEdit?id=' + data[0] + '&idObjetivoEstra=' + data[1], 'Gestión');
+
+        });
+
+        $(".dynmic-hidden-col").hide();
+    });
+</script>

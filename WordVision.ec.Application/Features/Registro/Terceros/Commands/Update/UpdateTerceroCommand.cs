@@ -29,7 +29,7 @@ namespace WordVision.ec.Application.Features.Registro.Terceros.Commands.Update
         public string Celular { get; set; }
         public string Email { get; set; }
 
-
+        public byte[] ImageCedula { get; set; }
 
         public class UpdateTerceroCommandHandler : IRequestHandler<UpdateTerceroCommand, Result<int>>
         {
@@ -66,6 +66,7 @@ namespace WordVision.ec.Application.Features.Registro.Terceros.Commands.Update
                     tercero.Celular = command.Celular ?? tercero.Celular;
                     tercero.Email = command.Email ?? tercero.Email;
                     tercero.Tipo = command.Tipo ?? tercero.Tipo;
+                    tercero.ImageCedula = command.ImageCedula ?? tercero.ImageCedula;
 
                     await _terceroRepository.UpdateAsync(tercero);
                     await _unitOfWork.Commit(cancellationToken);
