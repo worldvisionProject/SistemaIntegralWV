@@ -121,11 +121,21 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                             colaborador.Mail = output.Email;
                             colaborador.Cedula = output.Identificacion;
                             colaborador.IdEmpresa = 3;
-                            var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 6 });
-                            colaborador.Department = cat1.Data.Where(c => c.Secuencia == output.Cargo.ToString()).FirstOrDefault().Nombre;
-                            cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 8 });
-                            colaborador.PhysicalDeliveryOfficeName = cat1.Data.Where(c => c.Secuencia == output.Area.ToString()).FirstOrDefault().Nombre;
 
+                            if (output.Cargo != null)
+                            {
+                                var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 6 });
+                                colaborador.Department = cat1.Data.Where(c => c.Secuencia == output.Cargo.ToString()).FirstOrDefault().Nombre;
+                                cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 8 });
+                                colaborador.PhysicalDeliveryOfficeName = cat1.Data.Where(c => c.Secuencia == output.Area.ToString()).FirstOrDefault().Nombre;
+
+                            }
+                            else
+                            {
+                                colaborador.Department = "NA";
+                                colaborador.PhysicalDeliveryOfficeName = "NA";
+                            }
+                          
                             var defaultUser = new ApplicationUser
                             {
                                 UserName = userName,
@@ -200,10 +210,20 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                                     if (responseC.Succeeded)
                                     {
                                         var output = responseC.Data;
-                                        var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 6 });
-                                        logindetails.Department = cat1.Data.Where(c => c.Secuencia == output.Cargo.ToString()).FirstOrDefault().Nombre;
-                                        cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 8 });
-                                        logindetails.PhysicalDeliveryOfficeName = cat1.Data.Where(c => c.Secuencia == output.Area.ToString()).FirstOrDefault().Nombre;
+                                        if (output.Cargo != null)
+                                        {
+                                            var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 6 });
+                                            logindetails.Department = cat1.Data.Where(c => c.Secuencia == output.Cargo.ToString()).FirstOrDefault().Nombre;
+                                            cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 8 });
+                                            logindetails.PhysicalDeliveryOfficeName = cat1.Data.Where(c => c.Secuencia == output.Area.ToString()).FirstOrDefault().Nombre;
+
+                                        }
+                                        else
+                                        {
+                                            logindetails.Department = "NA";
+                                            logindetails.PhysicalDeliveryOfficeName = "NA";
+                                        }
+
                                     }
                                 }
                             }
@@ -335,10 +355,19 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                         if (responseC.Succeeded)
                         {
                             var output = responseC.Data;
-                            var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 6 });
-                            logindetails.Department = cat1.Data.Where(c => c.Secuencia == output.Cargo.ToString()).FirstOrDefault().Nombre;
-                            cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 8 });
-                            logindetails.PhysicalDeliveryOfficeName = cat1.Data.Where(c => c.Secuencia == output.Area.ToString()).FirstOrDefault().Nombre;
+                            if (output.Cargo!=null)
+                            {
+                                var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 6 });
+                                logindetails.Department = cat1.Data.Where(c => c.Secuencia == output.Cargo.ToString()).FirstOrDefault().Nombre;
+                                cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 8 });
+                                logindetails.PhysicalDeliveryOfficeName = cat1.Data.Where(c => c.Secuencia == output.Area.ToString()).FirstOrDefault().Nombre;
+
+                            }
+                            else
+                            {
+                                logindetails.Department = "NA";
+                                logindetails.PhysicalDeliveryOfficeName = "NA";
+                            }
                         }
                     }
                     else

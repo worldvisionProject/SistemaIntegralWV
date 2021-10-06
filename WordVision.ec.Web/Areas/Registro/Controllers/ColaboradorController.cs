@@ -85,6 +85,12 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                 if (response.Succeeded)
                 {
                     var colaboradorViewModel = _mapper.Map<ColaboradorViewModel>(response.Data);
+                    if (colaboradorViewModel==null)
+                    {
+                        _notify.Information($"Colaborador con ID {id} no tiene datos para mostrar. Llene los datos.");
+                        return new JsonResult(new { isValid = true, solocerrar = true });
+                                           
+                    }
                     colaboradorViewModel.CargoList = CargoList;
                     colaboradorViewModel.AreaList = DepartamentoList;
                     colaboradorViewModel.LugarTrabajoList = DireccionList;
