@@ -32,6 +32,7 @@ using WordVision.ec.Application.Features.Registro.Formularios.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
+using WordVision.ec.Application.Features.Registro.Terceros.Queries.GetById;
 
 namespace WordVision.ec.Web.Areas.Registro.Controllers
 {
@@ -554,6 +555,25 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
 
             return null;
         }
+
+        public async Task<FileResult> ShowPDFTercero(int idTercero)
+        {
+            var responseC = await _mediator.Send(new GetTerceroByIdFormularioQuery() { Id = idTercero });
+            if (responseC.Succeeded)
+            {
+                var formularioViewModel = _mapper.Map<TerceroViewModel>(responseC.Data);
+               
+                        if (formularioViewModel.ImageCedula != null)
+                        {
+                            byte[] dataArray = formularioViewModel.ImageCedula;
+                            return File(dataArray, "application/pdf");
+                        }
+                       
+
+            }
+
+            return null;
+        }
         public async Task<FormularioAdjunto> LoadDocumentoAdjuntar(string id = "", string idColaborador = "")
         {
             FormularioAdjunto salida = new FormularioAdjunto();
@@ -593,7 +613,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         }
                     }
 
-                    var responseCola = await _mediator.Send(new GetColaboradorByIdQuery() { Id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
+                    var responseCola = await _mediator.Send(new GetColaboradorByIdQuery() { Id = Convert.ToInt32(id.Split('|')[1]) });
                     if (responseCola.Succeeded)
                     {
                         documentoViewModel.Colaborador = responseCola.Data.Apellidos + " " + responseCola.Data.ApellidoMaterno + " " + responseCola.Data.PrimerNombre + " " + responseCola.Data.SegundoNombre;
@@ -683,7 +703,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                             PageSize = Infrastructure.Shared.Pdf.Options.Size.A4
                         }.BuildFile(this.ControllerContext);
                         stream = new MemoryStream(actionPDF.Result);
-                        attachment = new Attachment(stream, "DocumentosClaves.pdf");
+                        attachment = new Attachment(stream, apellidos + nombres + "_DocumentosClaves.pdf");
                         attachments.Add(attachment);
 
                        
@@ -695,7 +715,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                             if (formularioViewModel.Pdf!=null)
                             {
                                 stream = new MemoryStream(formularioViewModel.Pdf);
-                                attachment = new Attachment(stream, "DatosPersonales.pdf");
+                                attachment = new Attachment(stream, apellidos + nombres + "_DatosPersonales.pdf");
                                 attachments.Add(attachment);
                             }
  
@@ -715,7 +735,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                       
                         stream = new MemoryStream(actionPDF.Result);
                         // = new Attachment(stream, "xxx.pdf");
-                        attachment = new Attachment(stream, "AcumulacionDecimosTercero.pdf");
+                        attachment = new Attachment(stream, apellidos + nombres + "_AcumulacionDecimosTercero.pdf");
                         attachments.Add(attachment);
 
 
@@ -727,7 +747,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                             PageSize = Infrastructure.Shared.Pdf.Options.Size.A4
                         }.BuildFile(this.ControllerContext);
                         stream = new MemoryStream(actionPDF.Result);
-                        attachment = new Attachment(stream, "PlanSeguroMedico.pdf");
+                        attachment = new Attachment(stream, apellidos + nombres + "_PlanSeguroMedico.pdf");
                         attachments.Add(attachment);
                         break;
 
@@ -744,7 +764,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         }.BuildFile(this.ControllerContext);
 
                         stream = new MemoryStream(actionPDF.Result);
-                        attachment = new Attachment(stream, "FormularioPoliticas.pdf");
+                        attachment = new Attachment(stream, apellidos + nombres + "_FormularioPoliticas.pdf");
                         attachments.Add(attachment);
 
                         param1 = "5|" + User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value;
@@ -756,7 +776,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         }.BuildFile(this.ControllerContext);
 
                         stream = new MemoryStream(actionPDF.Result);
-                        attachment = new Attachment(stream, "DeclaracionConflicto.pdf");
+                        attachment = new Attachment(stream, apellidos + nombres + "_DeclaracionConflicto.pdf");
                         attachments.Add(attachment);
                         break;
                     case 0:
@@ -786,7 +806,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         }.BuildFile(this.ControllerContext);
 
                         stream = new MemoryStream(actionPDF.Result);
-                        attachment = new Attachment(stream, "AcumulacionDecimo.pdf");
+                        attachment = new Attachment(stream, apellidos + nombres + "_AcumulacionDecimo.pdf");
                         attachments.Add(attachment);
                        
                         break;
@@ -803,7 +823,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         }.BuildFile(this.ControllerContext);
 
                         stream = new MemoryStream(actionPDF.Result);
-                        attachment = new Attachment(stream, "DeclaracionConflicto.pdf");
+                        attachment = new Attachment(stream, apellidos + nombres + "_DeclaracionConflicto.pdf");
                         attachments.Add(attachment);
                         break;
                     case 10:
@@ -819,7 +839,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         }.BuildFile(this.ControllerContext);
 
                         stream = new MemoryStream(actionPDF.Result);
-                        attachment = new Attachment(stream, "SeguroPrivado.pdf");
+                        attachment = new Attachment(stream, apellidos + nombres + "_SeguroPrivado.pdf");
                         attachments.Add(attachment);
                         break;
                 }

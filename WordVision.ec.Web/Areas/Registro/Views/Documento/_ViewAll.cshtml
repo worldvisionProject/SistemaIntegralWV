@@ -9,10 +9,10 @@
         <div class="card-body">
             <div class="container-fluid-card">
                 @*<div class="row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label">@Model.Titulo</label>
-                </div>
-            </div>*@
+            <div class="col-md-12">
+                <label class="col-md-12 col-form-label">@Model.Titulo</label>
+            </div>
+        </div>*@
                 @*@Html.HiddenFor(x => x.Id, new { id = "IdColaborador", @value = "@User.Claims.FirstOrDefault(x => x.Type == 'Id')?.Value" })*@
 
                 <div class="row">
@@ -90,6 +90,28 @@
                             </div>}
 
 
+                        @if (!String.IsNullOrEmpty(pregunta.DescripcionUrl3))
+                        {
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @if (@pregunta.Url3.ToUpper().Contains("HTTP") || @pregunta.Url3.ToUpper().Contains("HTTPS"))
+                                    {
+                                        <a href="@pregunta.Url3" target="_blank" class="col-md-12 col-form-label">  @pregunta.DescripcionUrl3 </a>
+                                    }
+                                    else
+                                    {
+                                        @if (@pregunta.Id == 4)
+                                        {
+                                            <a href="@pregunta.Url3">  <label class="col-md-12 col-form-label"><span class="texto-simple">@pregunta.DescripcionUrl3</span> </label> </a>
+                                        }
+                                        else
+                                        {
+                                            <a onclick="jQueryModalGet('@pregunta.Url3','')" href="#">  <label class="col-md-12 col-form-label"><span class="texto-simple">@pregunta.DescripcionUrl3</span> </label> </a>}
+                                    }
+
+                                </div>
+                            </div>}
+
 
                         <div class="row">
                             <div class="col-md-12">
@@ -109,13 +131,13 @@
                                     </label>
 
                                     @*@if (resp.Equals("SI"))
-                                    {*@
-                                        <input type="radio" name="Preguntas[@i].Estado" id="Estado[@i]" value="SI" checked="checked" />
+                            {*@
+                                    <input type="radio" name="Preguntas[@i].Estado" id="Estado[@i]" value="SI" checked="checked" />
                                     @*}
-                                    else
-                                    {
-                                        <input type="radio" name="Preguntas[@i].Estado" id="Estado[@i]" value="SI" />
-                                    }*@
+                            else
+                            {
+                                <input type="radio" name="Preguntas[@i].Estado" id="Estado[@i]" value="SI" />
+                            }*@
 
                                     @*@Html.RadioButtonFor(x => x.Preguntas[i].Estado, "SI", new {@checked="checked",@class="inputradio" })*@
 
@@ -168,10 +190,10 @@
                                     }
                                 </div>
                             </div>}
-                            i = i + 1;
-                        }
-
+                        i = i + 1;
                     }
+
+                }
             </div>
             <br />
             <div class="row">

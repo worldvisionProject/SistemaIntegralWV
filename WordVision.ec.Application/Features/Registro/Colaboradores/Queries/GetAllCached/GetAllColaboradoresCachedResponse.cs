@@ -1,4 +1,6 @@
-﻿using WordVision.ec.Domain.Entities.Maestro;
+﻿using System.Collections.Generic;
+using WordVision.ec.Domain.Entities.Maestro;
+using WordVision.ec.Domain.Entities.Registro;
 
 namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllCached
 {
@@ -26,5 +28,6 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetA
 
         public string Nombres { get; set; }
         public Estructura Estructuras { get; set; }
+        public virtual List<Formulario> Formularios { get; set; }
     }
 }

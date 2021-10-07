@@ -29,7 +29,9 @@ namespace WordVision.ec.Web.Areas.Registro.Mappings
             CreateMap<Tercero, TerceroViewModel>().ReverseMap();
             CreateMap<FormularioTercero, FormularioTerceroViewModel>().ReverseMap();
             CreateMap<Idioma, IdiomaViewModel>().ReverseMap();
+            CreateMap<Formulario, FormularioViewModel>().ReverseMap();
         }
     }
-}
+    }
+
 

@@ -35,23 +35,71 @@
             </div>
             <div class="form-group row">
                 <div class="col-md-6">
-                    <label class="col-md-3 col-form-label">Identificacion</label>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="col-md-3 col-form-label">Identificacion</label>
 
-                    <input type="text" asp-for="Identificacion" name="Identificacion" class="form-control" />
-                    <span asp-validation-for="Identificacion" class="text-danger"></span>
+                            <input type="text" asp-for="Identificacion" name="Identificacion" class="form-control" />
+                            <span asp-validation-for="Identificacion" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="col-md-3 col-form-label">Direccion</label>
+
+                            @Html.DropDownListFor(x => x.LugarTrabajo, Model.LugarTrabajoList, new { @class = "form-control" })
+
+                            <span asp-validation-for="LugarTrabajo" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-
-            <div class="form-group row">
                 <div class="col-md-6">
-                    <label class="col-md-3 col-form-label">Direccion</label>
+                    <table id="colaboradorTable" class="table table-striped " width="100%" height="100%" cellspacing="0">
+                        <thead>
+                            <tr>
 
-                        @Html.DropDownListFor(x => x.LugarTrabajo, Model.LugarTrabajoList, new { @class = "form-control" })
+                                <th data-priority="1">Apellidos</th>
+                                <th>Nombres</th>
+                              
+                                <th data-priority="2">Documentos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           @if (Model.Formularios!=null)
+                            @foreach (var formulario in Model.Formularios)
+                            {
+                                @foreach (var colaborador in formulario.FormularioTerceros)
+                                {
+                                    <tr>
 
-                        <span asp-validation-for="LugarTrabajo" class="text-danger"></span>
+                                        <td>
+                                            @colaborador.Terceros.PrimerApellido @colaborador.Terceros.SegundoApellido
+                                        </td>
+                                        <td>
+                                            @colaborador.Terceros.PrimerNombre @colaborador.Terceros.SegundoNombre
+                                        </td>
+
+                                        <td class="text-right">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Descargar
+                                                </button>
+                                                <div class="dropdown-menu shadow animated--grow-in">
+
+                                                    <a href="/registro/documento/ShowPDFTercero?idTercero=@colaborador.Terceros.Id" target="_blank" class="dropdown-item"><i class="fas fa-file"></i>  Cédula</a>
+                                                   
+
+                                                </div>
+                                            </div>
+                                        </td>
+
+
+                                    </tr>
+                            }}
+                        </tbody>
+                    </table>
                 </div>
             </div>
+
+
 
             <div class="form-group row">
                 <div class="col-md-6">
@@ -69,8 +117,9 @@
                     <span asp-validation-for="Cargo" class="text-danger"></span>
                 </div>
             </div>
-
         </div>
+
+
     </div>
 
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">

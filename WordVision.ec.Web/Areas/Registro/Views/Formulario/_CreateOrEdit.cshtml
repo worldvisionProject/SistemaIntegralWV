@@ -46,7 +46,7 @@
                         <input accept=".pdf"
                                asp-for="@Model.ImageCedula"
                                type="file" class="custom-file-input"
-                               id="customFile">
+                               id="customFile" required>
 
                         @if (Model.ImageCedula != null && Model.ImageCedula.Length > 0)
                         {

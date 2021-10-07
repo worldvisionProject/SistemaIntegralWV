@@ -303,6 +303,11 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                     image.CopyTo(ms);
                     tercero.ImageCedula = ms.ToArray();
                 }
+                else
+                {
+                    _notify.Error("Ingrese la cédula.");
+                    return new JsonResult(new { isValid = false });
+                }
                 if (id == 0)
                     {
 
@@ -488,7 +493,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         if (result.Succeeded)
                         {
                             stream = new MemoryStream(actionPDF.Result);
-                            attachment = new Attachment(stream, "DatosPersonales.pdf");
+                            attachment = new Attachment(stream, apellidos+nombres+"_DatosPersonales.pdf");
                             attachments.Add(attachment);
                         }
                         else
@@ -546,7 +551,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error en enviar Mail.", ex);
+                _logger.LogError(ex,$"Error en enviar Mail.");
             }
 
             //   return new JsonResult(new { isValid = true });

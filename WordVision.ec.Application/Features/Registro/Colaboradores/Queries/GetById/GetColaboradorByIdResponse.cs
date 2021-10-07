@@ -1,4 +1,6 @@
-﻿using WordVision.ec.Domain.Entities.Maestro;
+﻿using System.Collections.Generic;
+using WordVision.ec.Domain.Entities.Maestro;
+using WordVision.ec.Domain.Entities.Registro;
 
 namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById
 {
@@ -27,6 +29,7 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetB
 
         public int CodReportaA { get; set; }
         public Estructura Estructuras { get; set; }
+        public virtual List<Formulario> Formularios { get; set; }
         //public string ActPoliticas { get; set; }
         //public string ActDocumentos { get; set; }
         //public string ActDatos { get; set; }

@@ -16,7 +16,8 @@ namespace WordVision.ec.Web.Areas.Registro.Models
         public string Url1 { get; set; }
         public string DescripcionUrl2 { get; set; }
         public string Url2 { get; set; }
-
+        public string DescripcionUrl3 { get; set; }
+        public string Url3 { get; set; }
         public string Estado { get; set; }
 
         public int IdDocumento { get; set; }

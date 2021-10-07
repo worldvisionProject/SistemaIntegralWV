@@ -48,6 +48,9 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
             return await _repository.Entities.Where(p => p.Id == colaboradorId)
                  .Include(e => e.Estructuras)
                 .ThenInclude(em => em.Empresas)
+                .Include(f=>f.Formularios)
+                .ThenInclude(f1 => f1.FormularioTerceros)
+                .ThenInclude(f2 => f2.Terceros)
                 .FirstOrDefaultAsync();
         }
 

@@ -63,7 +63,7 @@
                    asp-for="@Model.ImageDiscapacidad"
                    type="file" class="custom-file-input"
                    onchange="document.getElementById('viewableImageDiscapacidad').src = window.URL.createObjectURL(this.files[0])"
-                   id="customFile">
+                   id="customFile" >
 
             @if (Model.ImageDiscapacidad != null && Model.ImageDiscapacidad.Length > 0)
             {
@@ -119,7 +119,7 @@
                    asp-for="@Model.ImageDiscapacidadFamiliar"
                    type="file" class="custom-file-input"
                    onchange="document.getElementById('viewableImageDiscapacidadF').src = window.URL.createObjectURL(this.files[0])"
-                   id="customFile">
+                   id="customFile" >
 
             @if (Model.ImageDiscapacidadFamiliar != null && Model.ImageDiscapacidadFamiliar.Length > 0)
             {
@@ -148,7 +148,7 @@
                     <input accept=".pdf"
                            asp-for="@Model.ImageCedula"
                            type="file" class="custom-file-input"
-                           id="customFile">
+                           id="customFile" required>
 
                     @if (Model.ImageCedula != null && Model.ImageCedula.Length > 0)
                     {
@@ -168,7 +168,7 @@
                     <input accept=".pdf"
                            asp-for="@Model.ImagePapeleta"
                            type="file" class="custom-file-input"
-                           id="customFile">
+                           id="customFile" required>
 
                     @if (Model.ImagePapeleta != null && Model.ImagePapeleta.Length > 0)
                     {
@@ -189,7 +189,7 @@
                     <input accept=".pdf"
                            asp-for="@Model.ImageCovid"
                            type="file" class="custom-file-input"
-                           id="customFile">
+                           id="customFile" required>
 
                     @if (Model.ImageCovid != null && Model.ImageCovid.Length > 0)
                     {

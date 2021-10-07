@@ -26,6 +26,9 @@ namespace WordVision.ec.Domain.Entities.Registro
         public string DescripcionUrl2 { get; set; }
         public string Url2 { get; set; }
 
+        public string DescripcionUrl3 { get; set; }
+        public string Url3 { get; set; }
+
         [StringLength(1)]
         [Required]
         public string Estado { get; set; }
