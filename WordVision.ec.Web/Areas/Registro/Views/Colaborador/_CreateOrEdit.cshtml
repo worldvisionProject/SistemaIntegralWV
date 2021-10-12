@@ -63,11 +63,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                           @if (Model.Formularios!=null)
-                            @foreach (var formulario in Model.Formularios)
-                            {
-                                @foreach (var colaborador in formulario.FormularioTerceros)
+                           @if (Model.FormularioTerceros!=null)
+                            
+                                @foreach (var colaborador in Model.FormularioTerceros)
                                 {
+                                    @if (colaborador.Tipo=="D")
+                                    {
                                     <tr>
 
                                         <td>
@@ -93,7 +94,8 @@
 
 
                                     </tr>
-                            }}
+                            }
+                            }
                         </tbody>
                     </table>
                 </div>

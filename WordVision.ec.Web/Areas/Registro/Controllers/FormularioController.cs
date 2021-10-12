@@ -281,32 +281,34 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             try
             {
                 if (tercero.TipoGrupo != "C")
-                   if (!ModelState.IsValid)
-                    
+                {
+                    if (!ModelState.IsValid)
+
                     {
                         var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", tercero);
                         return new JsonResult(new { isValid = false, html = html });
                     }
 
-                //if (tercero.TipoGrupo=="C")
-                //    {
-                //        tercero.FecNacimiento = DateTime.Now;
-                //        tercero.VigDesde = DateTime.Now;
-                //        tercero.VigHasta = DateTime.Now;
-                //        tercero.Genero = "0";
-                //    }
-                if (Request.Form.Files.Count > 0)
-                {
-                    IFormFile file = Request.Form.Files.FirstOrDefault();
-                    var image = file.OpenReadStream();
-                    MemoryStream ms = new MemoryStream();
-                    image.CopyTo(ms);
-                    tercero.ImageCedula = ms.ToArray();
-                }
-                else
-                {
-                    _notify.Error("Ingrese la cédula.");
-                    return new JsonResult(new { isValid = false });
+                    //if (tercero.TipoGrupo=="C")
+                    //    {
+                    //        tercero.FecNacimiento = DateTime.Now;
+                    //        tercero.VigDesde = DateTime.Now;
+                    //        tercero.VigHasta = DateTime.Now;
+                    //        tercero.Genero = "0";
+                    //    }
+                    if (Request.Form.Files.Count > 0)
+                    {
+                        IFormFile file = Request.Form.Files.FirstOrDefault();
+                        var image = file.OpenReadStream();
+                        MemoryStream ms = new MemoryStream();
+                        image.CopyTo(ms);
+                        tercero.ImageCedula = ms.ToArray();
+                    }
+                    else
+                    {
+                        _notify.Error("Ingrese PDF de la cédula.");
+                        return new JsonResult(new { isValid = false });
+                    }
                 }
                 if (id == 0)
                     {

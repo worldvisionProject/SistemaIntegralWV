@@ -31,6 +31,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
            // return await _repository.Entities.Where(p => p.Colaboradores.Id == FormularioId).FirstOrDefaultAsync();
         }
 
+       
         public async Task<Formulario> GetByIdFormularioAsync(int DocumentoId)
         {
             return await _repository.Entities.Where(p => p.Id == DocumentoId).FirstOrDefaultAsync();

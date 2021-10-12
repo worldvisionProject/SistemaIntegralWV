@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Create;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Update;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
+using WordVision.ec.Application.Features.Registro.Formularios.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Registro.Models;
 
@@ -91,6 +93,20 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         return new JsonResult(new { isValid = true, solocerrar = true });
                                            
                     }
+
+                    var responseT = await _mediator.Send(new GetFormularioByIdQuery() { Id = id });
+                    if (responseT.Succeeded)
+                    {
+                        var formularioViewModel = _mapper.Map<FormularioViewModel>(responseT.Data);
+                        if (formularioViewModel!=null)
+                        colaboradorViewModel.FormularioTerceros = formularioViewModel.FormularioTerceros;
+                        else
+                        {
+                             formularioViewModel = new FormularioViewModel();
+                            colaboradorViewModel.FormularioTerceros = formularioViewModel.FormularioTerceros;
+                        }
+                    }
+
                     colaboradorViewModel.CargoList = CargoList;
                     colaboradorViewModel.AreaList = DepartamentoList;
                     colaboradorViewModel.LugarTrabajoList = DireccionList;
@@ -103,46 +119,60 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
         [HttpPost]
         public async Task<JsonResult> OnPostCreateOrEdit(int id, ColaboradorViewModel colaborador)
         {
-            if (ModelState.IsValid)
+            try
             {
-               
-                if (id == 0)
+                if (ModelState.IsValid)
                 {
-                    var createBrandCommand = _mapper.Map<CreateColaboradorCommand>(colaborador);
-                    var result = await _mediator.Send(createBrandCommand);
-                    if (result.Succeeded)
+
+                    if (id == 0)
                     {
-                        id = result.Data;
-                        _notify.Success($"Colaborador con ID {result.Data} creado.");
+                        var createBrandCommand = _mapper.Map<CreateColaboradorCommand>(colaborador);
+                        var result = await _mediator.Send(createBrandCommand);
+                        if (result.Succeeded)
+                        {
+                            id = result.Data;
+                            _notify.Success($"Colaborador con ID {result.Data} creado.");
+                        }
+                        else _notify.Error(result.Message);
                     }
-                    else _notify.Error(result.Message);
+                    else
+                    {
+                        var updateBrandCommand = _mapper.Map<UpdateColaboradorCommand>(colaborador);
+                        var result = await _mediator.Send(updateBrandCommand);
+                        if (result.Succeeded) _notify.Information($"Colaborador con ID {result.Data} actualizado.");
+                        else _notify.Error(result.Message);
+                    }
+
+                    //var response = await _mediator.Send(new GetAllColaboradoresCachedQuery());
+                    //if (response.Succeeded)
+                    //{
+                    //    var viewModel = _mapper.Map<List<ColaboradorViewModel>>(response.Data);
+                    //    var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                    //    return new JsonResult(new { isValid = true, html = html });
+                    //}
+                    //else
+                    //{
+                    //    _notify.Error(response.Message);
+                    //    return null;
+                    //}
+
+                    return new JsonResult(new { isValid = true,  solocerrar = true });
                 }
                 else
                 {
-                    var updateBrandCommand = _mapper.Map<UpdateColaboradorCommand>(colaborador);
-                    var result = await _mediator.Send(updateBrandCommand);
-                    if (result.Succeeded) _notify.Information($"Colaborador con ID {result.Data} actualizado.");
-                    else _notify.Error(result.Message);
-                }
-                
-                var response = await _mediator.Send(new GetAllColaboradoresCachedQuery());
-                if (response.Succeeded)
-                {
-                    var viewModel = _mapper.Map<List<ColaboradorViewModel>>(response.Data);
-                    var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
-                    return new JsonResult(new { isValid = true, html = html });
-                }
-                else
-                {
-                    _notify.Error(response.Message);
-                    return null;
+                    var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", colaborador);
+                    return new JsonResult(new { isValid = false, html = html });
                 }
             }
-            else
+            catch (Exception ex)
             {
-                var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", colaborador);
-                return new JsonResult(new { isValid = false, html = html });
+                //_notify.Error($"Error en actualizar los datos del colabrador.");
+                //var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", formulario);
+                _logger.LogError(ex,$"Error en actualizar los datos del colabrador.");
+              
+                return new JsonResult(new { isValid = false });
             }
+            
         }
     }
 }

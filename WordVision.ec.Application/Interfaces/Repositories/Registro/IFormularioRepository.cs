@@ -14,7 +14,6 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Registro
         Task<List<Formulario>> GetListAsync();
 
         Task<Formulario> GetByIdAsync(int DocumentoId);
-
         Task<Formulario> GetByIdFormularioAsync(int DocumentoId);
         Task<int> InsertAsync(Formulario formulario);
 

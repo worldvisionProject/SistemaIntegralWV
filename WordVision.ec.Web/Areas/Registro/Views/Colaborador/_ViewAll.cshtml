@@ -78,7 +78,7 @@
                     <div class="dropdown-menu shadow animated--grow-in">
 
                         @*<a onclick="jQueryModalGet('/registro/colaborador/OnGetCreateOrEdit?id=@colaborador.Id','Editar Colaborador')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a>*@
-                        <a href='/registro/formulario/LoadFormulario/@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value' class="dropdown-item"><i class="fas fa-user-edit"></i>  Datos Personales</a>
+                        <a href='/registro/formulario/LoadFormulario/@colaborador.Id' class="dropdown-item"><i class="fas fa-user-edit"></i>  Datos Personales</a>
                         <a href="/registro/documento/DescargaDocumento?id=3&idColaborador=@colaborador.Id&nombreFormulario=@colaborador.Apellidos@colaborador.PrimerNombre" class="dropdown-item"><i class="fas fa-file"></i>  Documentos Claves</a>
                         <a href='/registro/documento/DescargaDocumento?id=4&idColaborador=@colaborador.Id&nombreFormulario=@colaborador.Apellidos@colaborador.PrimerNombre' class="dropdown-item"><i class="fas fa-handshake"></i>  Politicas</a>
                         <a href='/registro/documento/DescargaDocumento?id=7&idColaborador=@colaborador.Id&nombreFormulario=@colaborador.Apellidos@colaborador.PrimerNombre' class="dropdown-item"><i class="fas fa-dollar-sign"></i>  Acumulacion Decimos</a>
