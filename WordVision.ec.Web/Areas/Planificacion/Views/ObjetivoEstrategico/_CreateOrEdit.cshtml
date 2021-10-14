@@ -181,7 +181,10 @@
     $.validator.unobtrusive.parse(document);
             $(function () {
                 $('#create-form *').prop('disabled', (document.getElementById("band").value == "true"));
-        $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+                $(".datepicker").datepicker({
+                    format: "dd-mm-yyyy",
+                    autoclose: true,
+                    todayBtn: true });
         //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
         //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });
 

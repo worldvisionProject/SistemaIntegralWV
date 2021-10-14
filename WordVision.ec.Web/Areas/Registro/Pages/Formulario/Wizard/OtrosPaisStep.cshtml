@@ -55,9 +55,18 @@
     <script>
         $.validator.unobtrusive.parse(document);
         $(function () {
-            $("#FechaNacimiento").datepicker({ dateFormat: 'dd-mm-yy' });
-            $("#VigenciaDesde").datepicker({ dateFormat: 'dd-mm-yy' });
-            $("#VigenciaHasta").datepicker({ dateFormat: 'dd-mm-yy' });
+            $("#FechaNacimiento").datepicker({
+                format: "dd-mm-yyyy",
+                autoclose: true,
+                todayBtn: true });
+            $("#VigenciaDesde").datepicker({
+                format: "dd-mm-yyyy",
+                autoclose: true,
+                todayBtn: true });
+            $("#VigenciaHasta").datepicker({
+                format: "dd-mm-yyyy",
+                autoclose: true,
+                todayBtn: true });
 
         });
 

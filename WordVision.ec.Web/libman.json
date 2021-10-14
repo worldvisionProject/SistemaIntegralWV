@@ -21,6 +21,10 @@
     {
       "library": "bootstrap-modal@2.2.6",
       "destination": "wwwroot/lib/bootstrap-modal/"
+    },
+    {
+      "library": "bootstrap-datepicker@1.9.0",
+      "destination": "wwwroot/lib/bootstrap-datepicker/"
     }
   ]
 }

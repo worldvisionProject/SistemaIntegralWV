@@ -231,7 +231,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             //var formualrioViewModel = new FormularioViewModel();
             //return PartialView("_ViewAll", formualrioViewModel);
 
-            var response = await _mediator.Send(new GetFormularioByIdQuery() { Id = id });
+            var response = await _mediator.Send(new GetFormularioByIdQuery() { Id = id,Tipo=tipo });
             if (response.Succeeded)
             {
                 var formularioViewModel = _mapper.Map<FormularioViewModel>(response.Data);

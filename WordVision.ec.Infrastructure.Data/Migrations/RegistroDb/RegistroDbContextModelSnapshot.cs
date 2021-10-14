@@ -2316,6 +2316,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<byte[]>("Archivo")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<int>("AreaSolicitante")
                         .HasColumnType("int");
 
@@ -2401,9 +2404,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<string>("MensajeClave")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NombreArchivo")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("NombredelEvento")
                         .HasColumnType("nvarchar(max)");
 
@@ -2446,9 +2446,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.Property<int>("Responsable")
                         .HasColumnType("int");
-
-                    b.Property<string>("Ruta")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SituacionesInteresParaWorldVision")
                         .HasColumnType("nvarchar(max)");

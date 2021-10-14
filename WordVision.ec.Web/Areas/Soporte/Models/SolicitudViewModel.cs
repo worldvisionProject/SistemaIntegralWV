@@ -26,9 +26,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
 
         public DateTime? FechaRequerida { get; set; }
 
-        public string Ruta { get; set; }
-        public string NombreArchivo { get; set; }
-
+        public byte[] Archivo { get; set; }
         public int TiposTramites { get; set; }
 
         public string DescripcionTramite { get; set; }
@@ -90,5 +88,6 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         public string PublicoObjetivo { get; set; }
         public string MensajeClave { get; set; }
         public string DocumentoBasedeTrabajo { get; set; }
+        public int Op { get; set; }
     }
 }

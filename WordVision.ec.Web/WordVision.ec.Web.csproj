@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Compile Remove="Areas\Planificacion\Controllers\AnioFiscalController.cs" />
+    <Compile Remove="Areas\Registro\Validators\ContactosStepValidator.cs" />
   </ItemGroup>
 
   <ItemGroup>

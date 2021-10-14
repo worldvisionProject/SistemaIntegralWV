@@ -75,19 +75,21 @@ namespace WordVision.ec.Web
             services.AddControllers().AddJsonOptions(x =>
                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
-            services.AddControllersWithViews()
-                    .AddNewtonsoftJson(options =>
-                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                );
+            //services.AddControllersWithViews()
+            //        .AddNewtonsoftJson(options =>
+            //        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            //    );
+
+
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddControllers(options =>
             {
                 options.OutputFormatters.RemoveType<SystemTextJsonOutputFormatter>();
-                options.OutputFormatters.Add(new SystemTextJsonOutputFormatter(new JsonSerializerOptions(JsonSerializerDefaults.Web)
-                {
-                    ReferenceHandler = ReferenceHandler.Preserve,
-                }));
+                //options.OutputFormatters.Add(new SystemTextJsonOutputFormatter(new JsonSerializerOptions(JsonSerializerDefaults.Web)
+                //{
+                //    ReferenceHandler = ReferenceHandler.Preserve,
+                //}));
             });
 
             services.AddBreadcrumbs(GetType().Assembly,options =>

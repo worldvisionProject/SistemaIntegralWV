@@ -8,6 +8,7 @@
     <div class="row">
         <div class="col-md-12">
             <input type="hidden" value="Mensajeria" asp-for="TipoSistema" name="TipoSistema" class="form-control">
+            <input type="hidden"  asp-for="Op" name="Op" class="form-control">
             <input type="hidden" asp-for="Solicitante" name="Solicitante" value="@Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value)" class="form-control">
             @if (Model.Estado == 2)
             {
@@ -24,7 +25,7 @@
             <div class="form-group row">
                 <div class="col-md-2">
                     <label class="col-md-12 col-form-label texto-pregunta">Estado</label>
-                    @Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)Model.EstadoList, new { @class = "form-control" })
+                    @Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)Model.EstadoList, new { @class = "form-control", @disabled = "disabled" })
 
                     <span asp-validation-for="Estado" class="text-danger"></span>
                 </div>
@@ -50,10 +51,24 @@
                     <input type="text" asp-for="FechaRequerida" name="FechaRequerida" class="datepicker form-control" />
                     <span asp-validation-for="FechaRequerida" class="text-danger"></span>
                 </div>
+
                 <div class="col-md-6">
-                    <label class="col-md-12 col-form-label texto-pregunta">Adjunto documento</label>
-                    <input asp-for="NombreArchivo" name="NombreArchivo" class="form-control" />
-                    <span asp-validation-for="NombreArchivo" class="text-danger"></span>
+                    <label class="col-md-12 col-form-label texto-pregunta">Archivo adjunto</label>
+                    <div class="custom-file form-image">
+                        <input accept="*.*"
+                               asp-for="@Model.Archivo"
+                               type="file" class="custom-file-input"
+                               id="customFile" required>
+
+                        @if (Model.Archivo != null && Model.Archivo.Length > 0)
+                        {
+                            <label class="custom-file-label" for="customFile">Archivo almacenado</label>
+                        }
+                        else
+                        {
+                            <label class="custom-file-label" for="customFile">Buscar Archivo</label>
+                        }
+                    </div>
                 </div>
             </div>
 
@@ -96,7 +111,10 @@
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
     $(function () {
-        $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+        $(".datepicker").datepicker({
+            format: "dd-mm-yyyy",
+            autoclose: true,
+            todayBtn: true});
         //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
         //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });
 

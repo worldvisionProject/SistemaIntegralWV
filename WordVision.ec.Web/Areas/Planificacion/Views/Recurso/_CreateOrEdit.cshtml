@@ -199,7 +199,10 @@
     $.validator.unobtrusive.parse(document);
     $(function () {
         $("#consultoria").hide();
-        $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+        $(".datepicker").datepicker({
+            format: "dd-mm-yyyy",
+            autoclose: true,
+            todayBtn: true });
 
 
         $("#CuentaCodigoCC").change(function () {

@@ -14,8 +14,8 @@ namespace WordVision.ec.Web.Areas.Registro.Validators
 
             RuleFor(p => int.Parse(p.NumContacto))
             .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
-            .NotNull()
-             .InclusiveBetween(2, 10).WithMessage("Contato debe ser mayor 2"); 
+            .NotNull();
+             //.InclusiveBetween(2, 10).WithMessage("Contato debe ser mayor 2"); 
         }
         }
     }

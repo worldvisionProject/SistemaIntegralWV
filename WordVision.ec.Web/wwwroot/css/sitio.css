@@ -820,3 +820,15 @@ nav > div a.nav-item.nav-link:focus {
 .operativo-th {
     background-color: #46bb95;
 }
+
+.datepicker .datepicker-switch, .datepicker .prev, .datepicker .next, .datepicker tfoot tr th {
+    cursor: pointer;
+    border-radius: 0px !important;
+}
+.datepicker table tr td, .datepicker table tr th {
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 0px !important;
+    border: none;
+}

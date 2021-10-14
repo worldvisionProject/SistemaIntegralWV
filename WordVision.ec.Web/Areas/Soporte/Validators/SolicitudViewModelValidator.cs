@@ -26,9 +26,9 @@ namespace WordVision.ec.Web.Areas.Soporte.Validators
                .NotNull()
                .MaximumLength(10).WithMessage("{PropertyName} must not exceed 10 characters.");
 
-            RuleFor(p => p.NombreArchivo)
-               .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
-               .NotNull();
+            //RuleFor(p => p.Archivo)
+            //   .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            //   .NotNull();
 
 
             RuleFor(p => p.DescripcionTramite)

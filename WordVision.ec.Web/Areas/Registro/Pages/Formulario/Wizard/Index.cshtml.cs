@@ -120,7 +120,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
             }
             catch(Exception ex)
             {
-                _logger.LogError("Error al traer datos del Colaborador.", ex);
+                _logger.LogError(ex,"Error al traer datos del Colaborador.");
                 _notify.Error("Error al traer datos del Colaborador.");
             }
             return Page();

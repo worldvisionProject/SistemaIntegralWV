@@ -36,8 +36,14 @@
                 @solicitud.AsignadoA
             </td>
             <td>
-                @{ var selectedCity = (IEnumerable<SelectListItem>)ViewBag.EstadoList;
-                    string txt = selectedCity.Where(x => x.Value == solicitud.Estado.ToString()).FirstOrDefault().Text; }
+                @{ string txt = "";
+                    try
+                    {
+                        var selectedCity = (IEnumerable<SelectListItem>)TempData["EstadoList"];
+                        txt = selectedCity.Where(x => x.Value == solicitud.Estado.ToString()).FirstOrDefault().Text;
+                    }
+                    catch { }
+                    }
 
                 @switch (solicitud.Estado)
                 {

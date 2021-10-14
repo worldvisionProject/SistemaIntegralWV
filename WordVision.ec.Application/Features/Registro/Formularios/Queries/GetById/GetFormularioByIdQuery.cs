@@ -11,14 +11,14 @@ namespace WordVision.ec.Application.Features.Registro.Formularios.Queries.GetByI
     public class GetFormularioByIdQuery : IRequest<Result<GetFormularioByIdResponse>>
     {
         public int Id { get; set; }
-
+        public string Tipo { get; set; }
         public class GetFormularioByIdQueryHandler : IRequestHandler<GetFormularioByIdQuery, Result<GetFormularioByIdResponse>>
         {
             private readonly IFormularioRepository _FormularioCache;
             private readonly ITerceroRepository _terceroCache;
             private readonly IMapper _mapper;
 
-            public GetFormularioByIdQueryHandler(ITerceroRepository terceroCache,IFormularioRepository FormularioCache, IMapper mapper)
+            public GetFormularioByIdQueryHandler(ITerceroRepository terceroCache, IFormularioRepository FormularioCache, IMapper mapper)
             {
                 _FormularioCache = FormularioCache;
                 _terceroCache = terceroCache;
@@ -28,8 +28,8 @@ namespace WordVision.ec.Application.Features.Registro.Formularios.Queries.GetByI
             public async Task<Result<GetFormularioByIdResponse>> Handle(GetFormularioByIdQuery query, CancellationToken cancellationToken)
             {
                 var formulario = await _FormularioCache.GetByIdAsync(query.Id);
-                if (formulario!=null)
-                 formulario.FormularioTerceros= await _terceroCache.GetByIdFormularioAsync(formulario.Id);
+                //if (formulario!=null)
+                // formulario.FormularioTerceros= await _terceroCache.GetByIdFormularioAsync(formulario.Id, query.Tipo);
                 var mappedColaborador = _mapper.Map<GetFormularioByIdResponse>(formulario);
                 return Result<GetFormularioByIdResponse>.Success(mappedColaborador);
             }

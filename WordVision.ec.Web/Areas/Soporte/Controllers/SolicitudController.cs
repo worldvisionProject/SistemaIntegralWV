@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
@@ -40,7 +42,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     {
                         var viewModel = _mapper.Map<List<SolicitudViewModel>>(response.Data);
                         var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
-                        ViewBag.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                        TempData["EstadoList"] = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
                         return PartialView("_ViewAll", viewModel);
                     }
@@ -52,7 +54,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     {
                         var viewModel = _mapper.Map<List<SolicitudViewModel>>(response.Data);
                         var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
-                        ViewBag.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                        TempData["EstadoList"] = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
                         return PartialView("_ViewAll", viewModel);
                     }
@@ -64,7 +66,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     {
                         var viewModel = _mapper.Map<List<SolicitudViewModel>>(response.Data);
                         var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
-                        ViewBag.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                        TempData["EstadoList"] = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
                         return PartialView("_ViewAll", viewModel);
                     }
@@ -81,6 +83,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
             {
                 var entidadViewModel = new SolicitudViewModel();
                 entidadViewModel.Estado = 1;
+                entidadViewModel.Op = op;
                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
                 entidadViewModel.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
@@ -91,7 +94,8 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                 var response = await _mediator.Send(new GetSolicitudByIdQuery() { Id = id });
                 if (response.Succeeded)
                 {
-                    var entidadViewModel = _mapper.Map<SolicitudViewModel>(response.Data); 
+                    var entidadViewModel = _mapper.Map<SolicitudViewModel>(response.Data);
+                    entidadViewModel.Op = op;
                     switch (op)
                     {
                         case 1:
@@ -128,6 +132,15 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if (Request.Form.Files.Count > 0)
+                    {
+                        IFormFile file = Request.Form.Files.FirstOrDefault();
+                        var image = file.OpenReadStream();
+                        MemoryStream ms = new MemoryStream();
+                        image.CopyTo(ms);
+                        entidad.Archivo = ms.ToArray();
+                    }
+
                     if (id == 0)
                     {
                         entidad.Estado = 1;
@@ -142,7 +155,8 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     }
                     else
                     {
-                        var updateEntidadCommand = _mapper.Map<UpdateSolicitudCommand>(entidad);
+                        entidad.Estado = entidad.Op;
+                           var updateEntidadCommand = _mapper.Map<UpdateSolicitudCommand>(entidad);
                         var result = await _mediator.Send(updateEntidadCommand);
                         if (result.Succeeded) _notify.Information($"Solicitud con ID {result.Data} Actualizado.");
                     }
@@ -157,8 +171,9 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                             {
                                 var viewModel = _mapper.Map<List<SolicitudViewModel>>(response1.Data);
                                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
-                                ViewBag.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
-
+                               // ViewBag.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                                TempData["EstadoList"] = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                              
                                 var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
                                 return new JsonResult(new { isValid = true, html = html1 });
                             }

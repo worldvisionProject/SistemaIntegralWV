@@ -75,7 +75,10 @@
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
     $(function () {
-        $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+        $(".datepicker").datepicker({
+            format: "dd-mm-yyyy",
+            autoclose: true,
+            todayBtn: true });
         //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
         //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });
 

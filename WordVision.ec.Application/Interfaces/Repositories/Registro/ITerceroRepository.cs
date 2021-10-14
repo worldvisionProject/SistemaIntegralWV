@@ -15,7 +15,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Registro
 
         Task<Tercero> GetByIdAsync(int terceroId);
 
-        Task<List<FormularioTercero>> GetByIdFormularioAsync(int formularioId);
+        Task<List<FormularioTercero>> GetByIdFormularioAsync(int formularioId, string tipo);
       
         Task<int> InsertAsync(Tercero tercero);
 

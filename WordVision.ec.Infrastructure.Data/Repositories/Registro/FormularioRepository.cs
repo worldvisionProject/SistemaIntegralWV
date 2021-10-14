@@ -26,7 +26,11 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
         public async Task<Formulario> GetByIdAsync(int FormularioId)
         {
 
-            return await _repository.Entities.Where(p => p.IdColaborador == FormularioId).Include(x => x.Colaboradores).Include(z=>z.FormularioTerceros).Include(v=>v.Idiomas).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(p => p.IdColaborador == FormularioId).Include(x => x.Colaboradores)
+                .Include(z=>z.FormularioTerceros)
+                .ThenInclude(c=>c.Terceros)
+                .Include(v=>v.Idiomas)
+                .FirstOrDefaultAsync();
 
            // return await _repository.Entities.Where(p => p.Colaboradores.Id == FormularioId).FirstOrDefaultAsync();
         }

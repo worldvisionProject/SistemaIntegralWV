@@ -29,9 +29,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
 
         public DateTime FechaRequerida { get; set; }
 
-        public string Ruta { get; set; }
-        public string NombreArchivo { get; set; }
-
+        public byte[] Archivo { get; set; }
         public int TiposTramites { get; set; }
 
         public string DescripcionTramite { get; set; }
