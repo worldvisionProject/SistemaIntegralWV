@@ -23,10 +23,10 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
     [Authorize]
     public class SolicitudController :  BaseController<SolicitudController>
     {
-        public IActionResult Index(int op=0)
+        public IActionResult Index(int id=0)
         {
             var model = new SolicitudViewModel();
-            model.AsignadoA = op;
+            model.IdAsignadoA = id;
             return View(model);
         }
 
@@ -98,9 +98,10 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     entidadViewModel.Op = op;
                     switch (op)
                     {
-                        case 1:
-                            entidadViewModel.Estado = 1;
-                            break;
+                        //case 1:
+                        //    if (entidadViewModel.Estado==null)
+                        //        entidadViewModel.Estado = 1;
+                        //    break;
                         case 2:
                             entidadViewModel.Estado = 2;
                             var colaborador = await _mediator.Send(new GetColaboradorByIdAreaQuery() { Id = 17 });
@@ -130,6 +131,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
         {
             try
             {
+                var op = entidad.Op;
                 if (ModelState.IsValid)
                 {
                     if (Request.Form.Files.Count > 0)
@@ -138,7 +140,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                         var image = file.OpenReadStream();
                         MemoryStream ms = new MemoryStream();
                         image.CopyTo(ms);
-                        entidad.Archivo = ms.ToArray();
+                        entidad.Mensajerias.Archivo = ms.ToArray();
                     }
 
                     if (id == 0)
@@ -155,18 +157,18 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     }
                     else
                     {
-                        entidad.Estado = entidad.Op;
+                        entidad.Estado = entidad.Fin == 0 ? entidad.Op : entidad.Fin;
                            var updateEntidadCommand = _mapper.Map<UpdateSolicitudCommand>(entidad);
                         var result = await _mediator.Send(updateEntidadCommand);
                         if (result.Succeeded) _notify.Information($"Solicitud con ID {result.Data} Actualizado.");
                     }
 
-                    var op = entidad.Estado;
+                    
                     ViewBag.Op = op;
                     switch (op)
                     {
                         case 1:
-                            var response1 = await _mediator.Send(new GetSolicitudByIdSolicitanteQuery() { Id = entidad.Solicitante });
+                            var response1 = await _mediator.Send(new GetSolicitudByIdSolicitanteQuery() { Id = entidad.IdColaborador });
                             if (response1.Succeeded)
                             {
                                 var viewModel = _mapper.Map<List<SolicitudViewModel>>(response1.Data);
@@ -193,7 +195,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                             break;
 
                         case >=3:
-                            response1 = await _mediator.Send(new GetSolicitudByIdAsignadoQuery() { Id = entidad.Solicitante });
+                            response1 = await _mediator.Send(new GetSolicitudByIdAsignadoQuery() { Id = entidad.IdColaborador });
                             if (response1.Succeeded)
                             {
                                 var viewModel = _mapper.Map<List<SolicitudViewModel>>(response1.Data);
@@ -233,6 +235,31 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                 _logger.LogError("OnPostCreateOrEdit", ex);
                 _notify.Error("Error al insertar Gestion");
             }
+            return null;
+        }
+
+
+        public async Task<FileResult> ShowPDF(int idSolicitud, int tipo)
+        {
+            var responseC = await _mediator.Send(new GetSolicitudByIdQuery() { Id = idSolicitud });
+            if (responseC.Succeeded)
+            {
+                var entidadViewModel = _mapper.Map<SolicitudViewModel>(responseC.Data);
+                switch (tipo)
+                {
+                    case 1:
+                        if (entidadViewModel.Mensajerias.Archivo != null)
+                        {
+                            byte[] dataArray = entidadViewModel.Mensajerias.Archivo;
+                            return File(dataArray, "application/pdf");
+                        }
+                        break;
+                    
+                }
+
+
+            }
+
             return null;
         }
 

@@ -11,17 +11,17 @@ namespace WordVision.ec.Web.Areas.Soporte.Validators
     {
         public SolicitudViewModelValidator()
         {
-            RuleFor(p => p.PersonaaContactar)
+            RuleFor(p => p.Mensajerias.PersonaaContactar)
                 .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
                 .NotNull()
                 .MaximumLength(15).WithMessage("{PropertyName} must not exceed 15 characters.");
 
-            RuleFor(p => p.Telefono)
+            RuleFor(p => p.Mensajerias.Telefono)
                 .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
                 .NotNull()
                 .MaximumLength(15).WithMessage("{PropertyName} must not exceed 15 characters.");
 
-            RuleFor(p => p.Celular)
+            RuleFor(p => p.Mensajerias.Celular)
                .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
                .NotNull()
                .MaximumLength(10).WithMessage("{PropertyName} must not exceed 10 characters.");
@@ -31,15 +31,15 @@ namespace WordVision.ec.Web.Areas.Soporte.Validators
             //   .NotNull();
 
 
-            RuleFor(p => p.DescripcionTramite)
+            RuleFor(p => p.Mensajerias.DescripcionTramite)
              .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
              .NotNull().MaximumLength(500).WithMessage("{PropertyName} must not exceed 500 characters.");
 
-            RuleFor(p => p.Direccion)
+            RuleFor(p => p.Mensajerias.Direccion)
              .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
              .NotNull().MaximumLength(500).WithMessage("{PropertyName} must not exceed 500 characters."); 
 
-            RuleFor(p => p.InformacionAdicional)
+            RuleFor(p => p.Mensajerias.InformacionAdicional)
              .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
              .NotNull().MaximumLength(500).WithMessage("{PropertyName} must not exceed 500 characters.");
         }

@@ -229,34 +229,49 @@
 
                 }
 
-                <li class="nav-item">
-                    <a is-active-route asp-area="Soporte" asp-controller="Solicitud" asp-action="Index" asp-route-op="1" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                <li class="nav-header">@localizer["Soporte"]</li>
+                <li is-active-route asp-area="Soporte" class="nav-item has-treeview">
+                    <a is-active-route asp-area="Soporte" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
                         <p>
-                            @localizer["Ingreso Mensajeria"]
-                            @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                            @localizer["GEO"]
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a is-active-route asp-area="Soporte" asp-controller="Solicitud" asp-action="Index" asp-route-op="2" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            @localizer["Asignación"]
-                            @*<span class="right badge badge-danger">@localizer["New"]</span>*@
-                        </p>
-                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a is-active-route asp-area="Soporte" asp-controller="Solicitud" asp-action="Index" asp-route-id="1" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    @localizer["Mis Requerimientos"]
+                                    @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a is-active-route asp-area="Soporte" asp-controller="Solicitud" asp-action="Index" asp-route-id="2" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    @localizer["Asignación"]
+                                    @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a is-active-route asp-area="Soporte" asp-controller="Solicitud" asp-action="Index" asp-route-id="3" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    @localizer["Resolución"]
+                                    @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                </p>
+                            </a>
+                        </li>
+
+                    </ul>
+
                 </li>
 
-                <li class="nav-item">
-                    <a is-active-route asp-area="Soporte" asp-controller="Solicitud" asp-action="Index" asp-route-op="3" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            @localizer["Resolución"]
-                            @*<span class="right badge badge-danger">@localizer["New"]</span>*@
-                        </p>
-                    </a>
-                </li>
                 <li class="nav-item">
                     <a is-active-route asp-area="Soporte" asp-controller="Donante" asp-action="Index" asp-route-op="3" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
@@ -318,15 +333,6 @@
                         </li>
 
 
-
-                        <!--<li is-active-route asp-area="Registro" class="nav-item has-treeview">-->
-                        @*<a is-active-route asp-area="Registro" class="nav-link">
-                    <i class="nav-icon fas fa-user"></i>
-                    <p>
-                        @localizer["Gestion"]
-                        <i class="right fas fa-angle-left"></i>
-                    </p>
-                </a>*@
                         <!--<ul class="nav nav-treeview">-->
                         @if (User.IsInRole("CoordGenteCultura"))
                         {
@@ -358,11 +364,7 @@
                                 </a>
                             </li>
                         }
-                        @*</ul>
-                </li>*@
-
-
-
+                     
 
                     </ul>
                 </li>
@@ -430,7 +432,7 @@
 
                 }
             </ul>
-        </nav>
+</nav>
     </div>
 </aside>
 <script>

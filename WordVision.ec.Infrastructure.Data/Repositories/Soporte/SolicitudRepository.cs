@@ -33,17 +33,20 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
 
         public async Task<List<Solicitud>> GetListAsync()
         {
-            return await _repository.Entities.ToListAsync();
+            return await _repository.Entities.Include(x=>x.Colaboradores).Include(m=>m.Mensajerias)
+                .Include(m => m.Comunicaciones).ToListAsync();
         }
 
         public async Task<List<Solicitud>> GetListSolicitudxAsignadoAsync(int idAsignadoA)
         {
-            return await _repository.Entities.Where(x=>x.AsignadoA== idAsignadoA && (x.Estado==2|| x.Estado == 3)).ToListAsync();
+            return await _repository.Entities.Where(x=>x.IdAsignadoA== idAsignadoA && (x.Estado==2|| x.Estado == 3 || x.Estado == 4 )).Include(x => x.Colaboradores).Include(m => m.Mensajerias)
+                .Include(m => m.Comunicaciones).ToListAsync();
         }
 
         public async Task<Solicitud> GetByIdAsync(int idSolicitud)
         {
-            return await _repository.Entities.Where(x => x.Id == idSolicitud).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(x => x.Id == idSolicitud).Include(x => x.Colaboradores).Include(m => m.Mensajerias)
+                .Include(m => m.Comunicaciones).FirstOrDefaultAsync();
         }
 
         public async Task<int> InsertAsync(Solicitud solicitud)
@@ -59,12 +62,14 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
 
         public async Task<List<Solicitud>> GetListSolicitudxSolicitanteAsync(int idSolicitante)
         {
-            return await _repository.Entities.Where(x => x.Solicitante == idSolicitante).ToListAsync();
+            return await _repository.Entities.Where(x => x.IdColaborador == idSolicitante).Include(v=>v.Colaboradores).Include(b=>b.Mensajerias).ToListAsync();
         }
 
         public async Task<List<Solicitud>> GetListSolicitudxEstadoAsync(int idEstado)
         {
-            return await _repository.Entities.Where(x => x.Estado == idEstado).ToListAsync();
+            return await _repository.Entities.Include(v => v.Colaboradores).Include(b => b.Mensajerias).ToListAsync();
         }
+
+       
     }
 }

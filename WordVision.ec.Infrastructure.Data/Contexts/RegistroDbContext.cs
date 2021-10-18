@@ -142,6 +142,10 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
                 .ToTable("Personales", "soporte");
             builder.Entity<Ponente>()
                .ToTable("Ponentes", "soporte");
+            builder.Entity<Mensajeria>()
+                .ToTable("Mensajerias", "soporte");
+            builder.Entity<Comunicacion>()
+                .ToTable("Comunicaciones", "soporte");
 
             //builder.Entity<Colaborador>().HasMany(m => m.Formularios)
             //     .WithOne(c => c.Colaboradores)

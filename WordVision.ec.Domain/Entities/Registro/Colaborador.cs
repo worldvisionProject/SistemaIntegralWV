@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Domain.Contracts;
 using WordVision.ec.Domain.Entities.Maestro;
+using WordVision.ec.Domain.Entities.Soporte;
 
 namespace WordVision.ec.Domain.Entities.Registro
 {
@@ -54,7 +55,8 @@ namespace WordVision.ec.Domain.Entities.Registro
 
         [ForeignKey("IdColaborador")]
         public virtual ICollection<Formulario> Formularios { get; set; }
-
+        [ForeignKey("IdColaborador")]
+        public virtual ICollection<Solicitud> Solicitudes { get; set; }
         public int IdEstructura { get; set; }
         public Estructura Estructuras { get; set; }
 

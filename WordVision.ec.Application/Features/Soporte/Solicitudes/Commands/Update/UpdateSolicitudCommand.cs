@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Application.Interfaces.Repositories.Soporte;
 
@@ -38,7 +39,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
 
         public string InformacionAdicional { get; set; }
 
-        public int AsignadoA { get; set; }
+        public int IdAsignadoA { get; set; }
 
 
         public int Estado { get; set; }
@@ -95,11 +96,13 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
         {
             private readonly IUnitOfWork _unitOfWork;
             private readonly ISolicitudRepository _entidadRepository;
+            private readonly IColaboradorRepository _entidadRepositoryC;
             private readonly IMapper _mapper;
 
-            public UpdateSolicitudeCommandHandler(ISolicitudRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
+            public UpdateSolicitudeCommandHandler(IColaboradorRepository entidadRepositoryC,ISolicitudRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
             {
                 _entidadRepository = entidadRepository;
+                _entidadRepositoryC = entidadRepositoryC;
                 _unitOfWork = unitOfWork;
                 _mapper = mapper;
             }
@@ -113,10 +116,15 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                     return Result<int>.Fail($"Solicitude no encontrado.");
                 }
 
-               
-                obj.AsignadoA = command.AsignadoA==0? obj.AsignadoA: command.AsignadoA;
-                obj.Estado = command.Estado;
+                var objColaborador = await _entidadRepositoryC.GetByIdAsync(command.IdAsignadoA);
+                var mappedColaborador = _mapper.Map<GetColaboradorByIdResponse>(objColaborador);
+
+                obj.IdAsignadoA = command.IdAsignadoA==0? obj.IdAsignadoA: command.IdAsignadoA;
+                obj.AsignadoA = command.IdAsignadoA == 0 ? obj.AsignadoA: mappedColaborador.Apellidos + " " + mappedColaborador.ApellidoMaterno + " " + mappedColaborador.PrimerNombre + " " + mappedColaborador.SegundoNombre;
                 obj.EstadoSatisfaccion = command.EstadoSatisfaccion;
+                obj.Estado = command.Estado;
+                obj.ObservacionesSolucion = command.ObservacionesSolucion?? obj.ObservacionesSolucion;
+                obj.DescripcionSolucion = command.DescripcionSolucion ?? obj.DescripcionSolucion;
 
                 await _entidadRepository.UpdateAsync(obj);
 

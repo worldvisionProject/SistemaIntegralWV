@@ -12,6 +12,7 @@
             <th data-priority="1">Estado</th>
             <th data-priority="1">Dirección Entrega</th>
             <th data-priority="1">Fecha requiere</th>
+            <th data-priority="1">Satisfacción(1-5)</th>
             <th data-priority="2" class="acciones-th">Acciones</th>
 
         </tr>
@@ -25,7 +26,7 @@
                 @solicitud.Id
             </td>
             <td>
-                @solicitud.CreatedBy
+                @solicitud.Colaboradores.Apellidos  @solicitud.Colaboradores.ApellidoMaterno  @solicitud.Colaboradores.PrimerNombre @solicitud.Colaboradores.SegundoNombre
             </td>
             <td>
 
@@ -43,24 +44,28 @@
                         txt = selectedCity.Where(x => x.Value == solicitud.Estado.ToString()).FirstOrDefault().Text;
                     }
                     catch { }
-                    }
+                }
 
                 @switch (solicitud.Estado)
                 {
-                    case 1:<span class="badge badge-info">@txt</span> break;
-                    case 2:<span class="badge badge-warning">@txt</span> break;
-                    case 3:<span class="badge badge-success">@txt</span> break;
-                    case 4:<span class="badge badge-info">@txt</span>break;
-                    case 5:<span class="badge badge-success">@txt</span>break;
+                    case 1:<span class="badge badge-primary">Nuevo</span> break;
+                    case 2:<span class="badge badge-warning">Asignada</span> break;
+                    case 3:<span class="badge badge-warning">En proceso</span> break;
+                    case 4:<span class="badge badge-info">Finalizado</span>break;
+                    case 5:<span class="badge badge-success">Cerrado</span>break;
                 }
             </td>
             <td>
 
-                @solicitud.Direccion
+                @solicitud.Mensajerias.Direccion
             </td>
             <td>
 
-                @solicitud.FechaRequerida
+                @solicitud.Mensajerias.FechaRequerida.ToShortDateString()
+            </td>
+            <td>
+
+                @solicitud.EstadoSatisfaccion
             </td>
 
             <td class="acciones-td">
@@ -69,8 +74,8 @@
                 </button>
 
                 @*<button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/OnGetCreateOrEdit?id=0&idProducto=@producto.Id&idGestion=@Model.IdGestion&idIndicadorEstrategia=@Model.Id','Indicador de Producto')">
-                    <i class="fas fa-plus-square"></i>
-                </button>*@
+                <i class="fas fa-plus-square"></i>
+            </button>*@
             </td>
 
 
@@ -92,7 +97,13 @@
             "language": {
                             "url": "/lib/datatables/language/Spanish.json"
             },
-
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'copyHtml5',
+                            'excelHtml5',
+                            'csvHtml5',
+                            'pdfHtml5'
+                        ],
             responsive: true,
             columnDefs: [
                 { responsivePriority: 1, targets: 0 },
