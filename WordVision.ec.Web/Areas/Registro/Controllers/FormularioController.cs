@@ -397,6 +397,8 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                 _notify.Error(deleteCommand.Message);
                 return null;
             }
+
+
         }
 
 

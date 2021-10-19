@@ -37,15 +37,7 @@
                 @solicitud.AsignadoA
             </td>
             <td>
-                @{ string txt = "";
-                    try
-                    {
-                        var selectedCity = (IEnumerable<SelectListItem>)TempData["EstadoList"];
-                        txt = selectedCity.Where(x => x.Value == solicitud.Estado.ToString()).FirstOrDefault().Text;
-                    }
-                    catch { }
-                }
-
+               
                 @switch (solicitud.Estado)
                 {
                     case 1:<span class="badge badge-primary">Nuevo</span> break;

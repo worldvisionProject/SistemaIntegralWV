@@ -41,8 +41,8 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     if (response.Succeeded)
                     {
                         var viewModel = _mapper.Map<List<SolicitudViewModel>>(response.Data);
-                        var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
-                        TempData["EstadoList"] = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                        //var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
+                        //TempData["EstadoList"] = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
                         return PartialView("_ViewAll", viewModel);
                     }
@@ -53,8 +53,8 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     if (response.Succeeded)
                     {
                         var viewModel = _mapper.Map<List<SolicitudViewModel>>(response.Data);
-                        var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
-                        TempData["EstadoList"] = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                        //var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
+                        //TempData["EstadoList"] = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
                         return PartialView("_ViewAll", viewModel);
                     }
@@ -65,8 +65,8 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     if (response.Succeeded)
                     {
                         var viewModel = _mapper.Map<List<SolicitudViewModel>>(response.Data);
-                        var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
-                        TempData["EstadoList"] = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                        //var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
+                        //TempData["EstadoList"] = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
                         return PartialView("_ViewAll", viewModel);
                     }
@@ -172,11 +172,12 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                             if (response1.Succeeded)
                             {
                                 var viewModel = _mapper.Map<List<SolicitudViewModel>>(response1.Data);
-                                var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
-                               // ViewBag.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
-                                TempData["EstadoList"] = new SelectList(cat2.Data, "Secuencia", "Nombre");
-                              
+                                //  var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
+                                // ViewBag.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                                // TempData["EstadoList"] = new SelectList(cat2.Data, "Secuencia", "Nombre");
+
                                 var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                                html1 = html1.Replace("&op=", "&op=1");
                                 return new JsonResult(new { isValid = true, html = html1 });
                             }
                             break;
@@ -186,10 +187,11 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                             if (response1.Succeeded)
                             {
                                 var viewModel = _mapper.Map<List<SolicitudViewModel>>(response1.Data);
-                                var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
-                                ViewBag.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                                //  var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
+                                //   ViewBag.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
                                 var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                                html1 = html1.Replace("&op=", "&op=2");
                                 return new JsonResult(new { isValid = true, html = html1 });
                             }
                             break;
@@ -199,10 +201,11 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                             if (response1.Succeeded)
                             {
                                 var viewModel = _mapper.Map<List<SolicitudViewModel>>(response1.Data);
-                                var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
-                                ViewBag.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                                //  var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
+                                //  ViewBag.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
                                 var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                                html1 = html1.Replace("&op=", "&op=2");
                                 return new JsonResult(new { isValid = true, html = html1 });
                             }
                             break;
@@ -251,7 +254,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                         if (entidadViewModel.Mensajerias.Archivo != null)
                         {
                             byte[] dataArray = entidadViewModel.Mensajerias.Archivo;
-                            return File(dataArray, "application/pdf");
+                            return File(dataArray, "application/octet-stream");
                         }
                         break;
                     
