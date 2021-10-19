@@ -56,12 +56,14 @@
                     <label class="col-md-12 col-form-label texto-pregunta">Archivo adjunto</label>
                     <div class="custom-file form-image">
                         @if (Model.Mensajerias != null)
-                        
+                        {
                             if (Model.Mensajerias.Archivo != null && Model.Mensajerias.Archivo.Length > 0)
                             {
                                 <a href='/soporte/solicitud/ShowPDF?idSolicitud=@Model.Id&tipo=1' target="_blank" ><i class="fas fa-handshake"></i>Archivo Adjunto</a>
                             }
-                            else
+                        }
+                        else
+                            
                             {
                                 <input accept="*.*"
                                        asp-for="@Model.Mensajerias.Archivo"
@@ -84,6 +86,7 @@
                                     <label class="custom-file-label" for="customFile">Buscar Archivo</label>
                                 }
                             }
+                        
                             </div>
                 </div>
             </div>
