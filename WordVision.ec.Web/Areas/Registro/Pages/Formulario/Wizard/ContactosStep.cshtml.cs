@@ -12,7 +12,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
         public int Id { get; set; }
         public int IdColaborador { get; set; }
 
-        public string NumContacto { get; set; }
+        public int NumContacto { get; set; }
         public List<FormularioTerceroViewModel> FormularioTerceros { get; set; }
         public ContactosStep()
         {

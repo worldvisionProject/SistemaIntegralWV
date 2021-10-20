@@ -85,6 +85,14 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                         contact.PorcentajeEscrito = s.PorcentajeEscrito;
                         contact.PorcentajeHablado = s.PorcentajeHablado;
                         contact.TipoDiscapacidad = s.TipoDiscapacidad;
+                        contact.Image = contact.Image;
+                        //contact.Colaborador = s.Colaboradores.Apellidos + " " + contact.Colaboradores.ApellidoMaterno + " " + contact.Colaboradores.PrimerNombre + " " + contact.Colaboradores.SegundoNombre;
+                        //contact.Identificacion = s.Colaboradores.Identificacion;
+                        contact.ImageDiscapacidad = s.ImageDiscapacidad;
+                        contact.ImageDiscapacidadFamiliar = s.ImageDiscapacidadFamiliar; 
+                        contact.ImageCedula = s.ImageCedula;
+                        contact.ImagePapeleta = s.ImagePapeleta;
+                        contact.ImageCovid = s.ImageCovid;
                         break;
                 }
             }

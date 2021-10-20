@@ -126,18 +126,84 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
             return Page();
 
         }
-        public PageResult OnPostStepLink(StepViewModel currentStep, int idStep)
+        public async Task<PageResult> OnPostStepLink(StepViewModel currentStep, int idStep)
         {
-            JumpToStepAsync(currentStep, idStep);
+            if (currentStep.Position == 5)
+            {
+                var c = (WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard.ContactosStep)currentStep;
+
+                int num = c.NumContacto;
+                if (num >= 2)
+                {
+
+                    if (ModelState.IsValid) MoveToNextStep(currentStep);
+                    return Page();
+                }
+                else
+                {
+                    _notify.Error("Debe ingresar minimo dos Contactos.");
+
+                    var response = await _mediator.Send(new GetFormularioByIdQuery() { Id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
+                    if (response.Succeeded)
+                    {
+                        var formularioViewModel = _mapper.Map<FormularioViewModel>(response.Data);
+                        if (formularioViewModel != null)
+                        {
+                            num = formularioViewModel.FormularioTerceros.Where(x => x.Tipo == "C").Count();
+                        }
+                        LoadWizardData(formularioViewModel);
+                    }
+
+                    return Page();
+                }
+
+            }
+            else
+            {
+                JumpToStepAsync(currentStep, idStep);
              return Page();
+            }
         }
 
-      
-        public PageResult OnPostNext(StepViewModel currentStep)
+
+        public async Task<PageResult> OnPostNext(StepViewModel currentStep)
         {
+            if (currentStep.Position == 5)
+            {
+                var c = (WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard.ContactosStep)currentStep;
+                
+                int num = c.NumContacto;
+                if (num >= 2)
+                {
+
+                    if (ModelState.IsValid) MoveToNextStep(currentStep);
+                    return Page();
+                }
+                else
+                {
+                    _notify.Error("Debe ingresar minimo dos Contactos.");
+
+                    var response = await _mediator.Send(new GetFormularioByIdQuery() { Id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
+                    if (response.Succeeded)
+                    {
+                        var formularioViewModel = _mapper.Map<FormularioViewModel>(response.Data);
+                        if (formularioViewModel != null)
+                        {
+                            num = formularioViewModel.FormularioTerceros.Where(x => x.Tipo == "C").Count();
+                        }
+                        LoadWizardData(formularioViewModel);
+                    }
+
+                    return Page();
+                }
+           
+            }
+            else
+            { 
 
             if (ModelState.IsValid) MoveToNextStep(currentStep);
             return Page();
+            }
         }
 
         public PageResult OnPostPrevious(StepViewModel currentStep)
@@ -241,6 +307,11 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
 
                             }
                            
+                        }
+                        else
+                        {
+                            _notify.Error("Ingrese PDF de la cédula,Papeleta de Votación y Carnet de COVID.");
+                            return Page();
                         }
                     }
                     client.IdColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
