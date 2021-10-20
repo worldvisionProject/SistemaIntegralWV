@@ -7,7 +7,8 @@
 
     <div class="row">
         <div class="col-md-12">
-
+            <label class="col-md-12 col-form-label texto-pregunta">No. Solicitud: @Model.Id </label>
+            <br /><br />
             <input type="hidden" asp-for="Op" name="Op" class="form-control">
             <input type="hidden" asp-for="IdColaborador" name="IdColaborador" value="@Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value)" class="form-control">
             @if (Model.Estado == 2)
@@ -59,35 +60,35 @@
                         {
                             if (Model.Mensajerias.Archivo != null && Model.Mensajerias.Archivo.Length > 0)
                             {
-                                <a href='/soporte/solicitud/ShowPDF?idSolicitud=@Model.Id&tipo=1' target="_blank" ><i class="fas fa-handshake"></i>Archivo Adjunto</a>
+                                <a href='/soporte/solicitud/ShowPDF?idSolicitud=@Model.Id&tipo=1' target="_blank"><i class="fas fa-handshake"></i>Archivo Adjunto</a>
                             }
                         }
                         else
-                            
-                            {
-                                <input accept="*.*"
-                                       asp-for="@Model.Mensajerias.Archivo"
-                                       type="file" class="custom-file-input"
-                                       id="customFile">
 
-                                if (Model.Mensajerias != null)
+                        {
+                            <input accept="*.*"
+                                   asp-for="@Model.Mensajerias.Archivo"
+                                   type="file" class="custom-file-input"
+                                   id="customFile">
+
+                            if (Model.Mensajerias != null)
+                            {
+                                if (Model.Mensajerias.Archivo != null && Model.Mensajerias.Archivo.Length > 0)
                                 {
-                                    if (Model.Mensajerias.Archivo != null && Model.Mensajerias.Archivo.Length > 0)
-                                    {
-                                        <label class="custom-file-label" for="customFile">Archivo almacenado</label>
-                                    }
-                                    else
-                                    {
-                                        <label class="custom-file-label" for="customFile">Buscar Archivo</label>
-                                    }
+                                    <label class="custom-file-label" for="customFile">Archivo almacenado</label>
                                 }
                                 else
                                 {
                                     <label class="custom-file-label" for="customFile">Buscar Archivo</label>
                                 }
                             }
-                        
-                            </div>
+                            else
+                            {
+                                <label class="custom-file-label" for="customFile">Buscar Archivo</label>
+                            }
+                        }
+
+                    </div>
                 </div>
             </div>
 
@@ -133,7 +134,7 @@
 
                     }
                 </div>
-                @if (Model.Op==1)
+                @if (Model.Op == 1)
                 {
                     <div class="form-group row">
                         <div class="col-md-6">
@@ -145,14 +146,14 @@
                                 <input class="star" type="radio" asp-for="EstadoSatisfaccion" name="EstadoSatisfaccion" value="4" />
                                 <input class="star" type="radio" asp-for="EstadoSatisfaccion" name="EstadoSatisfaccion" value="5" />
                             </div>
-                                <span asp-validation-for="EstadoSatisfaccion" class="text-danger"></span>
-                            </div>
+                            <span asp-validation-for="EstadoSatisfaccion" class="text-danger"></span>
                         </div>
+                    </div>
 
                 }
             }
 
-            </div>
+        </div>
             </div>
 
 
