@@ -1680,7 +1680,7 @@
                     item.element = liElement;
                     mainElements.push(liElement);
 
-                    // count the number of characters in the option - not perfect, but should work in most cases
+                    // count the number of caracteres in the option - not perfect, but should work in most cases
                     if (item.display) combinedLength += item.display.length;
                     if (item.subtext) combinedLength += item.subtext.length;
                     // if there is an icon, ensure this option's width is checked

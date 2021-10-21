@@ -157,17 +157,17 @@ $.validator.addMethod( "bankorgiroaccountNL", function( value, element ) {
 /**
  * BIC is the business identifier code (ISO 9362). This BIC check is not a guarantee for authenticity.
  *
- * BIC pattern: BBBBCCLLbbb (8 or 11 characters long; bbb is optional)
+ * BIC pattern: BBBBCCLLbbb (8 or 11 caracteres long; bbb is optional)
  *
  * Validation is case-insensitive. Please make sure to normalize input yourself.
  *
  * BIC definition in detail:
- * - First 4 characters - bank code (only letters)
- * - Next 2 characters - ISO 3166-1 alpha-2 country code (only letters)
- * - Next 2 characters - location code (letters and digits)
+ * - First 4 caracteres - bank code (only letters)
+ * - Next 2 caracteres - ISO 3166-1 alpha-2 country code (only letters)
+ * - Next 2 caracteres - location code (letters and digits)
  *   a. shall not start with '0' or '1'
  *   b. second character must be a letter ('O' is not allowed) or digit ('0' for test (therefore not allowed), '1' denoting passive participant, '2' typically reverse-billing)
- * - Last 3 characters - branch code, optional (shall not start with 'X' except in case of 'XXX' for primary office) (letters and digits)
+ * - Last 3 caracteres - branch code, optional (shall not start with 'X' except in case of 'XXX' for primary office) (letters and digits)
  */
 $.validator.addMethod( "bic", function( value, element ) {
     return this.optional( element ) || /^([A-Z]{6}[A-Z2-9][A-NP-Z1-9])(X{3}|[A-WY-Z0-9][A-Z0-9]{2})?$/.test( value.toUpperCase() );
@@ -184,8 +184,8 @@ $.validator.addMethod( "bic", function( value, element ) {
  * Where:
  *
  * T: 1 character. Kind of Organization Letter: [ABCDEFGHJKLMNPQRSUVW]
- * P: 2 characters. Province.
- * N: 5 characters. Secuencial Number within the province.
+ * P: 2 caracteres. Province.
+ * N: 5 caracteres. Secuencial Number within the province.
  * C: 1 character. Control Digit: [0-9A-J].
  *
  * [ T ]: Kind of Organizations. Possible values:
@@ -294,7 +294,7 @@ $.validator.addMethod( "cifES", function( value, element ) {
  */
 $.validator.addMethod( "cnhBR", function( value ) {
 
-  // Removing special characters from value
+  // Removing special caracteres from value
   value = value.replace( /([~!@#$%^&*()_+=`{}\[\]\-|\\:;'<>,.\/? ])+/g, "" );
 
   // Checking value to have 11 digits only
@@ -424,7 +424,7 @@ $.validator.addMethod( "cpfBR", function( value, element ) {
 		return true;
 	}
 
-	// Removing special characters from value
+	// Removing special caracteres from value
 	value = value.replace( /([~!@#$%^&*()_+=`{}\[\]\-|\\:;'<>,.\/? ])+/g, "" );
 
 	// Checking value to have 11 digits only
@@ -930,7 +930,7 @@ $.validator.addMethod( "maxsize", function( value, element, param ) {
 	}
 
 	return true;
-}, $.validator.format( "File size must not exceed {0} bytes each." ) );
+}, $.validator.format( "File size no debe exceder {0} bytes each." ) );
 
 // Limit the size of all files in a FileList.
 $.validator.addMethod( "maxsizetotal", function( value, element, param ) {
@@ -952,7 +952,7 @@ $.validator.addMethod( "maxsizetotal", function( value, element, param ) {
 	}
 
 	return true;
-}, $.validator.format( "Total size of all files must not exceed {0} bytes." ) );
+}, $.validator.format( "Total size of all files no debe exceder {0} bytes." ) );
 
 
 $.validator.addMethod( "mobileNL", function( value, element ) {
@@ -1094,7 +1094,7 @@ $.validator.addMethod( "nisBR", function( value ) {
 	var count;
 	var multiplier;
 
-	// Removing special characters from value
+	// Removing special caracteres from value
 	value = value.replace( /([~!@#$%^&*()_+=`{}\[\]\-|\\:;'<>,.\/? ])+/g, "" );
 
 	// Checking value to have 11 digits only
@@ -1431,7 +1431,7 @@ $.validator.addMethod( "stateUS", function( value, element, options ) {
 // TODO check if value starts with <, otherwise don't try stripping anything
 $.validator.addMethod( "strippedminlength", function( value, element, param ) {
 	return $( value ).text().length >= param;
-}, $.validator.format( "Please enter at least {0} characters" ) );
+}, $.validator.format( "Please enter at least {0} caracteres" ) );
 
 $.validator.addMethod( "time", function( value, element ) {
 	return this.optional( element ) || /^([01]\d|2[0-3]|[0-9])(:[0-5]\d){1,2}$/.test( value );

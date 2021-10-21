@@ -1309,7 +1309,7 @@
 	// implementations differ between browsers.
 	var _re_date = /^\d{2,4}[\.\/\-]\d{1,2}[\.\/\-]\d{1,2}([T ]{1}\d{1,2}[:\.]\d{2}([\.:]\d{2})?)?$/;
 
-	// Escape regular expression special characters
+	// Escape regular expression special caracteres
 	var _re_escape_regex = new RegExp( '(\\' + [ '/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\', '$', '^', '-' ].join('|\\') + ')', 'g' );
 
 	// http://en.wikipedia.org/wiki/Foreign_exchange_market
@@ -1335,7 +1335,7 @@
 		return !isNaN(integer) && isFinite(s) ? integer : null;
 	};
 
-	// Convert from a formatted number with characters other than `.` as the
+	// Convert from a formatted number with caracteres other than `.` as the
 	// decimal place, to a Javascript number
 	var _numToDecimal = function ( num, decimalPoint ) {
 		// Cache created regular expressions for speed as this function is called often
@@ -7743,7 +7743,7 @@
 			// jQuery here - hence a custom implementation. This does not match
 			// Sizzle's fast selector or HTML4 - in HTML5 the ID can be anything,
 			// but to select it using a CSS selector engine (like Sizzle or
-			// querySelect) it would need to need to be escaped for some characters.
+			// querySelect) it would need to need to be escaped for some caracteres.
 			// DataTables simplifies this for row selectors since you can select
 			// only a row. A # indicates an id any anything that follows is the id -
 			// unescaped.
@@ -9274,7 +9274,7 @@
 		/**
 		 * Flag to indicate if the search term should be interpreted as a
 		 * regular expression (true) or not (false) and therefore and special
-		 * regex characters escaped.
+		 * regex caracteres escaped.
 		 *  @type boolean
 		 *  @default false
 		 */
@@ -11251,7 +11251,7 @@
 			 * Note that numbers with different decimal places cannot be shown in
 			 * the same table and still be sortable, the table must be consistent.
 			 * However, multiple different tables on the page can use different
-			 * decimal place characters.
+			 * decimal place caracteres.
 			 *  @type string
 			 *  @default
 			 *
@@ -11982,9 +11982,9 @@
 		 *      `browser.name`. If your object parameter name contains a period, use
 		 *      `\\` to escape it - i.e. `first\\.name`.
 		 *    * `[]` - Array notation. DataTables can automatically combine data
-		 *      from and array source, joining the data with the characters provided
+		 *      from and array source, joining the data with the caracteres provided
 		 *      between the two brackets. For example: `name[, ]` would provide a
-		 *      comma-space separated list from the source array. If no characters
+		 *      comma-space separated list from the source array. If no caracteres
 		 *      are provided between the brackets, the original array source is
 		 *      returned.
 		 *    * `()` - Function notation. Adding `()` to the end of a parameter will
@@ -12157,9 +12157,9 @@
 		 *      `browser.name`. If your object parameter name contains a period, use
 		 *      `\\` to escape it - i.e. `first\\.name`.
 		 *    * `[]` - Array notation. DataTables can automatically combine data
-		 *      from and array source, joining the data with the characters provided
+		 *      from and array source, joining the data with the caracteres provided
 		 *      between the two brackets. For example: `name[, ]` would provide a
-		 *      comma-space separated list from the source array. If no characters
+		 *      comma-space separated list from the source array. If no caracteres
 		 *      are provided between the brackets, the original array source is
 		 *      returned.
 		 *    * `()` - Function notation. Adding `()` to the end of a parameter will

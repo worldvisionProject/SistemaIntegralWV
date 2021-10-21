@@ -14,22 +14,22 @@ namespace WordVision.ec.Web.Areas.Registro.Validators
             RuleFor(p => p.Apellidos)
                 .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
                 .NotNull()
-                .MaximumLength(500).WithMessage("{PropertyName} must not exceed 500 characters.");
+                .MaximumLength(500).WithMessage("{PropertyName} no debe exceder 500 caracteres.");
 
             RuleFor(p => p.PrimerNombre)
                 .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
                 .NotNull()
-                .MaximumLength(150).WithMessage("{PropertyName} must not exceed 150 characters.");
+                .MaximumLength(150).WithMessage("{PropertyName} no debe exceder 150 caracteres.");
 
             RuleFor(p => p.SegundoNombre)
                .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
                .NotNull()
-               .MaximumLength(150).WithMessage("{PropertyName} must not exceed 150 characters.");
+               .MaximumLength(150).WithMessage("{PropertyName} no debe exceder 150 caracteres.");
 
             RuleFor(p => p.Identificacion)
                .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
                .NotNull()
-               .MaximumLength(13).WithMessage("{PropertyName} must not exceed 13 characters.");
+               .MaximumLength(13).WithMessage("{PropertyName} no debe exceder 13 caracteres.");
 
 
             RuleFor(p => p.Cargo)

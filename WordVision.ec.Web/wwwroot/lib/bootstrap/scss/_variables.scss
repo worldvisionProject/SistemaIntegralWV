@@ -59,7 +59,7 @@ $yiq-contrasted-threshold: 150 !default;
 $yiq-text-dark: $gray-900 !default;
 $yiq-text-light: $white !default;
 
-// Characters which are escaped by the escape-svg function
+// caracteres which are escaped by the escape-svg function
 $escaped-characters: ( ("<","%3c"), (">","%3e"), ("#","%23"), ("(","%28"), (")","%29"), ) !default;
 
 // Options

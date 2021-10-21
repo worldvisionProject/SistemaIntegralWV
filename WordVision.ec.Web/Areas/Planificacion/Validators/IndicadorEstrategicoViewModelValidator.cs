@@ -19,7 +19,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Validators
 
             RuleFor(p => p.LineaBase)
                 .Cascade(CascadeMode.Stop)
-                //.Must(IsValidCost).WithMessage("{PropertyName} contains invalid characters")
+                //.Must(IsValidCost).WithMessage("{PropertyName} contains invalid caracteres")
                .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
                .NotNull()
                ;

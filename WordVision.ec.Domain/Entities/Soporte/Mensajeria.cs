@@ -11,7 +11,7 @@ namespace WordVision.ec.Domain.Entities.Soporte
     public class Mensajeria : AuditableEntity
     { 
         //Estructura de Mensajeria
-        [StringLength(15)]
+        [StringLength(150)]
         public string PersonaaContactar { get; set; }
 
         [StringLength(15)]

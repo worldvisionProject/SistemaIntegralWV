@@ -394,7 +394,7 @@
             }
             /**
              * Convert a raw string to an array of little-endian words
-             * Characters >255 have their high-byte silently ignored.
+             * caracteres >255 have their high-byte silently ignored.
              *
              * @param {string} input Raw input string
              * @returns {Array<number>} Array of little-endian words

@@ -229,16 +229,19 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                 }
                 else
                 {
-                    var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidad);
-                    return new JsonResult(new { isValid = false, html = html });
+                    var result = string.Join(',', ModelState.Values.SelectMany(v => v.Errors).Select(a => a.ErrorMessage));
+                    _notify.Error("Error al insertar soporte");
+                    _logger.LogError(result);
+                  
+                    return new JsonResult(new { isValid = false});
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError("OnPostCreateOrEdit", ex);
+                _logger.LogError(ex,"OnPostCreateOrEdit");
                 _notify.Error("Error al insertar Gestion");
             }
-            return null;
+            return new JsonResult(new { isValid = false });
         }
 
 
@@ -254,7 +257,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                         if (entidadViewModel.Mensajerias.Archivo != null)
                         {
                             byte[] dataArray = entidadViewModel.Mensajerias.Archivo;
-                            return File(dataArray, "application/octet-stream");
+                            return File(dataArray, "application/pdf");
                         }
                         break;
                     
