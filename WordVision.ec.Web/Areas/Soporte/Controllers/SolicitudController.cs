@@ -88,7 +88,8 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                 entidadViewModel.Op = op;
                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
                 entidadViewModel.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
-
+                cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 20 });
+                entidadViewModel.TiposTramitesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             else
@@ -122,6 +123,9 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     }
                     var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
                     entidadViewModel.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+
+                     cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 20 });
+                    entidadViewModel.TiposTramitesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }

@@ -53,8 +53,8 @@
 
     <div class="row">
         <div class="col-md-12">
-            <label class="col-md-12 col-form-label texto-pregunta">No. Solicitud: @Model.Id </label>
-            <br /><br />
+
+
             <input type="hidden" asp-for="Op" name="Op" class="form-control">
             <input type="hidden" asp-for="IdColaborador" name="IdColaborador" value="@Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value)" class="form-control">
             @if (Model.Estado == 2)
@@ -69,13 +69,45 @@
                 </div>
 
             }
+            <br />
             <div class="form-group row">
+                <div class="col-md-2">
+                    <label class="col-md-12 col-form-label texto-pregunta">No. Solicitud</label>
+                    <input asp-for="Id" name="Id" class="form-control" readonly />
+                </div>
+                <div class="col-md-4">
+                    <label class="col-md-12 col-form-label texto-pregunta">Tipo de Tramite</label>
+                    @if (Model.Estado == 1)
+                    {
+                        @Html.DropDownListFor(x => x.Mensajerias.TiposTramites, (IEnumerable<SelectListItem>)Model.TiposTramitesList, new { @class = "form-control" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(x => x.Mensajerias.TiposTramites, (IEnumerable<SelectListItem>)Model.TiposTramitesList, new { @class = "form-control", @disabled = "disabled" })
+                    }
+                    <span asp-validation-for="Mensajerias.TiposTramites" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label class="col-md-12 col-form-label texto-pregunta">Fecha requerida</label>
+                    @if (Model.Estado == 1)
+                    {
+                        <input type="text" asp-for="Mensajerias.FechaRequerida" name="Mensajerias.FechaRequerida" class="datepicker form-control" />
+                    }
+                    else
+                    {
+                        <input type="text" asp-for="Mensajerias.FechaRequerida" name="Mensajerias.FechaRequerida" class="datepicker form-control" disabled />
+                    }
+                    <span asp-validation-for="Mensajerias.FechaRequerida" class="text-danger"></span>
+                </div>
                 <div class="col-md-2">
                     <label class="col-md-12 col-form-label texto-pregunta">Estado</label>
                     @Html.DropDownListFor(x => x.Estado, (IEnumerable<SelectListItem>)Model.EstadoList, new { @class = "form-control", @disabled = "disabled" })
 
                     <span asp-validation-for="Estado" class="text-danger"></span>
                 </div>
+            </div>
+            <div class="form-group row">
+
                 <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta">Persona de contacto</label>
                     @if (Model.Estado == 1)
@@ -90,7 +122,7 @@
 
                     <span asp-validation-for="Mensajerias.PersonaaContactar" class="text-danger"></span>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="col-md-12 col-form-label texto-pregunta">Teléfono</label>
                     @if (Model.Estado == 1)
                     {
@@ -103,7 +135,7 @@
 
                     <span asp-validation-for="Mensajerias.Telefono" class="text-danger"></span>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="col-md-12 col-form-label texto-pregunta">Celular</label>
                     @if (Model.Estado == 1)
                     {
@@ -111,33 +143,19 @@
                     }
                     else
                     {
-                        <input asp-for="Mensajerias.Celular" name="Mensajerias.Celular" class="form-control" readonly/>
+                        <input asp-for="Mensajerias.Celular" name="Mensajerias.Celular" class="form-control" readonly />
                     }
                     <span asp-validation-for="Mensajerias.Celular" class="text-danger"></span>
                 </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-6">
-                    <label class="col-md-12 col-form-label texto-pregunta">Fecha requerida</label>
-                    @if (Model.Estado == 1)
-                    {
-                        <input type="text" asp-for="Mensajerias.FechaRequerida" name="Mensajerias.FechaRequerida" class="datepicker form-control" />
-                    }
-                    else
-                    {
-                        <input type="text" asp-for="Mensajerias.FechaRequerida" name="Mensajerias.FechaRequerida" class="datepicker form-control" disabled />
-                    }
-                    <span asp-validation-for="Mensajerias.FechaRequerida" class="text-danger"></span>
-                </div>
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta">Archivo adjunto</label>
                     <div class="custom-file form-image">
                         @if (Model.Mensajerias != null)
                         {
                             if (Model.Mensajerias.Archivo != null && Model.Mensajerias.Archivo.Length > 0)
                             {
-                                <a href='/soporte/solicitud/ShowPDF?idSolicitud=@Model.Id&tipo=1' target="_blank"><i class="fas fa-handshake"></i>Archivo Adjunto</a>
+                                <a href='/soporte/solicitud/ShowPDF?idSolicitud=@Model.Id&tipo=1' target="_blank"><i class="fas fa-newspaper"></i> Ver Adjunto</a>
                             }
                         }
                         else
@@ -167,8 +185,9 @@
 
                     </div>
                 </div>
-            </div>
 
+            </div>
+         
             <div class="form-group row">
                 <div class="col-md-12">
                     <label class="col-md-12 col-form-label texto-pregunta">Descripción del tramite</label>
@@ -181,8 +200,8 @@
                     {
                         <textarea asp-for="Mensajerias.DescripcionTramite" name="Mensajerias.DescripcionTramite" class="form-control" readonly></textarea>
                     }
-                        <span asp-validation-for="Mensajerias.DescripcionTramite" class="text-danger"></span>
-                    </div>
+                    <span asp-validation-for="Mensajerias.DescripcionTramite" class="text-danger"></span>
+                </div>
 
             </div>
             <div class="form-group row">
@@ -243,7 +262,7 @@
                         </div>
                         <div class="col-md-6">
                             <br />
-                           
+
                             <div onmouseout="CRateSelected()">
                                 <span id="span1" onmouseout="CRateOut(1)" onmouseover="CRateOver(1)" onclick="CRateClick(1)" class="fa fa-star-o fa-2x"></span>
                                 <span id="span2" onmouseout="CRateOut(2)" onmouseover="CRateOver(2)" onclick="CRateClick(2)" class="fa fa-star-o fa-2x"></span>
@@ -253,7 +272,7 @@
                             </div>
                             <input type="hidden" id="lblRating" asp-for="EstadoSatisfaccion" name="EstadoSatisfaccion" />
                         </div>
-                        </div>
+                    </div>
 
                 }
             }
@@ -262,31 +281,31 @@
             </div>
 
 
-    <br />
-    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-        @if (Model.Op != 1)
-        {
-            <button type="submit" class="btn btn-success">Guardar</button>
-        }
-        @if (Model.Id == 0)
-        {
-            <button type="submit" class="btn btn-success">Guardar</button>
-        }
-        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
-        @if (Model.Estado == 4 || Model.Estado == 3)
-        {
-            @if (Model.Op == 1)
-            {
-                <input type="hidden" asp-for="Fin" name="Fin" class="form-control" value="5">
-            }
-            else
-            {
-                <input type="hidden" asp-for="Fin" name="Fin" class="form-control" value="4">
+            <br />
+            <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+                @if (Model.Op != 1)
+                {
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                }
+                @if (Model.Id == 0)
+                {
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                }
+                <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+                @if (Model.Estado == 4 || Model.Estado == 3)
+                {
+                    @if (Model.Op == 1)
+                    {
+                        <input type="hidden" asp-for="Fin" name="Fin" class="form-control" value="5">
+                    }
+                    else
+                    {
+                        <input type="hidden" asp-for="Fin" name="Fin" class="form-control" value="4">
 
-            }
-            <button type="submit" class="btn btn-primary">Finalizar Soporte</button>
-        }
-    </div>
+                    }
+                    <button type="submit" class="btn btn-primary">Finalizar Soporte</button>
+                }
+            </div>
 </form>
 
 <script type="text/javascript" language=javascript>

@@ -19,7 +19,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         public SelectList AsignadoAList { get; set; }
         public int Estado { get; set; }
         public SelectList EstadoList { get; set; }
-
+        public SelectList TiposTramitesList { get; set; }
         public string DescripcionSolucion { get; set; }
         public string ObservacionesSolucion { get; set; }
         public string ComentarioSatisfaccion { get; set; }
