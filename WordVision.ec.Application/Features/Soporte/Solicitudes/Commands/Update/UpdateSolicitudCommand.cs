@@ -48,7 +48,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
 
 
         public string ObservacionesSolucion { get; set; }
-
+        public string ComentarioSatisfaccion { get; set; }
         public int EstadoSatisfaccion { get; set; }
 
 
@@ -121,6 +121,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
 
                 obj.IdAsignadoA = command.IdAsignadoA==0? obj.IdAsignadoA: command.IdAsignadoA;
                 obj.AsignadoA = command.IdAsignadoA == 0 ? obj.AsignadoA: mappedColaborador.Apellidos + " " + mappedColaborador.ApellidoMaterno + " " + mappedColaborador.PrimerNombre + " " + mappedColaborador.SegundoNombre;
+                obj.ComentarioSatisfaccion = command.ComentarioSatisfaccion ?? obj.ComentarioSatisfaccion;
                 obj.EstadoSatisfaccion = command.EstadoSatisfaccion;
                 obj.Estado = command.Estado;
                 obj.ObservacionesSolucion = command.ObservacionesSolucion?? obj.ObservacionesSolucion;

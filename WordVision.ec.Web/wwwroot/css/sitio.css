@@ -832,3 +832,7 @@ nav > div a.nav-item.nav-link:focus {
     border-radius: 0px !important;
     border: none;
 }
+
+.color-estrella {
+    color:gold;
+}

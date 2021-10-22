@@ -22,6 +22,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
 
         public string DescripcionSolucion { get; set; }
         public string ObservacionesSolucion { get; set; }
+        public string ComentarioSatisfaccion { get; set; }
         public int EstadoSatisfaccion { get; set; }
         public ICollection<EstadosSolicitudViewModel> EstadosSolicitudes { get; set; }
 

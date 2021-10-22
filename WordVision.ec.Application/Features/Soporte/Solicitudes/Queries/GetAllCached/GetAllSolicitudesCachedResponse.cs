@@ -21,6 +21,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Queries.GetAllC
         public int Estado { get; set; }
         public string DescripcionSolucion { get; set; }
         public string ObservacionesSolucion { get; set; }
+        public string ComentarioSatisfaccion { get; set; }
         public int EstadoSatisfaccion { get; set; }
        public ICollection<EstadosSolicitud> EstadosSolicitudes { get; set; }
 

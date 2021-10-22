@@ -14,5 +14,6 @@ namespace WordVision.ec.Application.Interfaces.Shared
         Task SendEmailAsync(string email, string subject, string message);
 
         Task SendEmailAsync(string email, string subject, string message, List<Attachment> adjunto);
+        Task SendEmailAsync(string email, string subject, string message,string copia);
     }
 }

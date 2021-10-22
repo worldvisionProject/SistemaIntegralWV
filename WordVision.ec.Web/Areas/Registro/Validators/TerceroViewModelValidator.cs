@@ -27,7 +27,7 @@ namespace WordVision.ec.Web.Areas.Registro.Validators
               .MaximumLength(150).WithMessage("{PropertyName} no debe exceder 150 caracteres.");
 
 
-            RuleFor(p => p.SegundoApellido)
+            RuleFor(p => p.SegundoNombre)
               .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
               .NotNull()
               .MaximumLength(150).WithMessage("{PropertyName} no debe exceder 150 caracteres.");

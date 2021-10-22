@@ -14,6 +14,7 @@ namespace WordVision.ec.Domain.Entities.Soporte
         public int Estado { get; set; }
         public string DescripcionSolucion { get; set; }
         public string ObservacionesSolucion { get; set; }
+        public string ComentarioSatisfaccion { get; set; }
         public int EstadoSatisfaccion { get; set; }
        
         [ForeignKey("IdSolicitud")]

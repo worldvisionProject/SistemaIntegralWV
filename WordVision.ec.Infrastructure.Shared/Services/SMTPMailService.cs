@@ -56,5 +56,10 @@ namespace WordVision.ec.Infrastructure.Shared.Services
         {
             throw new System.NotImplementedException();
         }
+
+        public Task SendEmailAsync(string email, string subject, string message, string copia)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

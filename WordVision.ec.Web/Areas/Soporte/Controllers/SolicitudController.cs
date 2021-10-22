@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
@@ -104,20 +106,21 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                         //    break;
                         case 2:
                             entidadViewModel.Estado = 2;
-                            var colaborador = await _mediator.Send(new GetColaboradorByIdAreaQuery() { Id = 17 });
-                            if (colaborador.Succeeded)
-                            {
-                                var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
-                                entidadViewModel.AsignadoAList = new SelectList(responsable, "Id", "Nombres");
-                            }
+                           
                             
                             break;
                         case 3:
                             entidadViewModel.Estado =3;
                             break;
                     }
+                    
+                    var colaborador = await _mediator.Send(new GetColaboradorByIdAreaQuery() { Id = 17 });
+                    if (colaborador.Succeeded)
+                    {
+                        var responsable = _mapper.Map<List<ColaboradorViewModel>>(colaborador.Data);
+                        entidadViewModel.AsignadoAList = new SelectList(responsable, "Id", "Nombres");
+                    }
                     var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
-
                     entidadViewModel.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
@@ -178,6 +181,8 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
 
                                 var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
                                 html1 = html1.Replace("&op=", "&op=1");
+                                await EnviarMail(id);
+
                                 return new JsonResult(new { isValid = true, html = html1 });
                             }
                             break;
@@ -192,6 +197,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
 
                                 var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
                                 html1 = html1.Replace("&op=", "&op=2");
+                                await EnviarMail(id);
                                 return new JsonResult(new { isValid = true, html = html1 });
                             }
                             break;
@@ -206,6 +212,9 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
 
                                 var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
                                 html1 = html1.Replace("&op=", "&op=2");
+
+                                await EnviarMail(id);
+
                                 return new JsonResult(new { isValid = true, html = html1 });
                             }
                             break;
@@ -225,7 +234,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     //    return null;
                     //}
 
-
+                   
                 }
                 else
                 {
@@ -266,6 +275,109 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
 
             }
 
+            return null;
+        }
+
+
+        public async Task<ActionResult> EnviarMail(int idSoporte)
+        {
+           
+            DateTime fechaRequerida =DateTime.Now;
+            string descripcion = "";
+            string mail = "";
+            int estado = 0;
+            int calificacion = 0;
+                int idAsignado = 0;
+            string asignado = "";
+            
+            try
+            {
+                var response = await _mediator.Send(new GetSolicitudByIdQuery() { Id = idSoporte });
+                if (response.Succeeded)
+                {
+                    fechaRequerida = response.Data.Mensajerias.FechaRequerida.Value;
+                    descripcion = response.Data.Mensajerias.DescripcionTramite;
+                    mail = response.Data.Colaboradores.Email;
+                    estado = response.Data.Estado;
+                    asignado = response.Data.AsignadoA;
+                    calificacion = response.Data.EstadoSatisfaccion;
+                    idAsignado = response.Data.IdAsignadoA;
+                }
+
+                
+
+                    string plantilla = "";
+                string asunto = "";
+                switch (estado)
+                {
+
+                    case 1:
+                        plantilla = "NuevaSolicitud.html";
+                        asunto = _configuration["NuevaSolicitud"] + "#" + idSoporte;
+                        break;
+                    case 2:
+                        plantilla = "AsignacionSolicitud.html";
+                        asunto = _configuration["AsignacionSolicitud"] + "#" + idSoporte;
+                        var responseC = await _mediator.Send(new GetColaboradorByIdQuery() { Id = idAsignado });
+                        if (responseC.Succeeded)
+                        {
+                            mail = responseC.Data.Email;
+                        }
+                        break;
+                    case 4:
+                        plantilla = "ResolucionSolicitud.html";
+                        asunto = _configuration["ResolucionSolicitud"] + "#" + idSoporte;
+                        break;
+                
+                    case 5:
+                        plantilla = "CalificacionSolicitud.html";
+                        asunto = _configuration["CalificacionSolicitud"] + "#" + idSoporte;
+                        break;
+
+                }
+                //Get TemplateFile located at wwwroot/Templates/EmailTemplate/Register_EmailTemplate.html  
+                var pathToFile = _env.WebRootPath
+                        + Path.DirectorySeparatorChar.ToString()
+                        + "Templates"
+                        + Path.DirectorySeparatorChar.ToString()
+                        + "EmailTemplate"
+                        + Path.DirectorySeparatorChar.ToString()
+                        + plantilla;
+
+
+                var builder = new BodyBuilder();
+                using (StreamReader SourceReader = System.IO.File.OpenText(pathToFile))
+                {
+                    builder.HtmlBody = SourceReader.ReadToEnd();
+                }
+               
+
+                string messageBody = string.Format(builder.HtmlBody,
+                    idSoporte,
+                    String.Format("{0:dddd, d MMMM yyyy}", fechaRequerida),
+                    descripcion,
+                    _configuration["linkSistema"],
+                    asignado,
+                    calificacion
+                    );
+
+
+                await _emailSender
+                    .SendEmailAsync(mail, asunto, messageBody, _configuration["CopiaMensajeria"])
+                    .ConfigureAwait(false);
+
+
+                _notify.Success($"Mail Enviado.");
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error en enviar Mail.");
+            }
+
+            //   return new JsonResult(new { isValid = true });
+            // return RedirectToPage("/Wizard/Index", new { area = "Registro" });
             return null;
         }
 

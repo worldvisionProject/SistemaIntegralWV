@@ -48,6 +48,16 @@ namespace WordVision.ec.Web.Services.Email
             return Cliente.SendMailAsync(correo);
         }
 
+        public Task SendEmailAsync(string email, string subject, string message,  string copia)
+        {
+            var correo = new MailMessage(from: Options.Email, to: email, subject: subject, body: message);
+           
+            if (copia.Length != 0)
+                correo.CC.Add(copia);
+            correo.IsBodyHtml = true;
+            return Cliente.SendMailAsync(correo);
+        }
+
         public Task SendAsync(MailRequest request)
         {
             var correo = new MailMessage(from: request.From, to: request.To, subject: request.Subject, body: request.Body);

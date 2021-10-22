@@ -208,6 +208,22 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
       
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idFormulario = 0,int IdColaborador=0,string tipo="")
         {
+            if (idFormulario == 0)
+            {
+                var responseT = await _mediator.Send(new GetFormularioByIdQuery() { Id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
+                if (responseT.Succeeded)
+                {
+                    var formularioViewModel = _mapper.Map<FormularioViewModel>(responseT.Data);
+                    if (formularioViewModel != null)
+                    {
+                        idFormulario = formularioViewModel.Id;
+                        IdColaborador = formularioViewModel.IdColaborador;
+                    }
+                   
+                }
+            }
+
+            
             var response = await _mediator.Send(new GetTerceroByIdFormularioQuery() { Id = id });
             if (response.Succeeded)
             {

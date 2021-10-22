@@ -126,7 +126,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
             return Page();
 
         }
-        public async Task<PageResult> OnPostStepLink(StepViewModel currentStep, int idStep)
+        public PageResult OnPostStepLink(StepViewModel currentStep, int idStep)
         {
             if (currentStep.Position == 5)
             {
@@ -142,17 +142,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                 else
                 {
                     _notify.Error("Debe ingresar minimo dos Contactos.");
-
-                    var response = await _mediator.Send(new GetFormularioByIdQuery() { Id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
-                    if (response.Succeeded)
-                    {
-                        var formularioViewModel = _mapper.Map<FormularioViewModel>(response.Data);
-                        if (formularioViewModel != null)
-                        {
-                            num = formularioViewModel.FormularioTerceros.Where(x => x.Tipo == "C").Count();
-                        }
-                        LoadWizardData(formularioViewModel);
-                    }
+             
 
                     return Page();
                 }
@@ -166,7 +156,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
         }
 
 
-        public async Task<PageResult> OnPostNext(StepViewModel currentStep)
+        public PageResult OnPostNext(StepViewModel currentStep)
         {
             if (currentStep.Position == 5)
             {
@@ -182,17 +172,6 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                 else
                 {
                     _notify.Error("Debe ingresar minimo dos Contactos.");
-
-                    var response = await _mediator.Send(new GetFormularioByIdQuery() { Id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
-                    if (response.Succeeded)
-                    {
-                        var formularioViewModel = _mapper.Map<FormularioViewModel>(response.Data);
-                        if (formularioViewModel != null)
-                        {
-                            num = formularioViewModel.FormularioTerceros.Where(x => x.Tipo == "C").Count();
-                        }
-                        LoadWizardData(formularioViewModel);
-                    }
 
                     return Page();
                 }
@@ -410,29 +389,40 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
 
         private void JumpToStepAsync(StepViewModel currentStep, int nextStepPosition)
         {
-            if (currentStep.Position!=3 && currentStep.Position != 5)
-                TempData.Set($"Step{CurrentStepIndex}", currentStep);
-            //else
-            //{
-            //    var response = await _mediator.Send(new GetFormularioByIdQuery() { Id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
-            //    if (response.Succeeded)
-            //    {
-            //        var formularioViewModel = _mapper.Map<FormularioViewModel>(response.Data);
-            //        if (formularioViewModel == null)
-            //        {
-            //            formularioViewModel = new FormularioViewModel();
-            //            formularioViewModel.Id = 0;
-            //        }
+            try
+            {
+                if (currentStep.Position != 3 && currentStep.Position != 5)
+                    TempData.Set($"Step{CurrentStepIndex}", currentStep);
+                //else
+                //{
+                //    var response = await _mediator.Send(new GetFormularioByIdQuery() { Id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
+                //    if (response.Succeeded)
+                //    {
+                //        var formularioViewModel = _mapper.Map<FormularioViewModel>(response.Data);
+                //        if (formularioViewModel == null)
+                //        {
+                //            formularioViewModel = new FormularioViewModel();
+                //            formularioViewModel.Id = 0;
+                //        }
 
-            //        formularioViewModel.IdColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
-            //        // LoadWizardData(formularioViewModel);
-            //        TempData.Set($"Step{CurrentStepIndex}", formularioViewModel.FormularioTerceros);
-                   
-            //    }
-            //}
-            CurrentStepIndex = nextStepPosition;
-            JsonConvert.PopulateObject((string) TempData.Peek($"Step{CurrentStepIndex}"), Steps[CurrentStepIndex]);
-            ModelState.Clear();
+                //        formularioViewModel.IdColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
+                //        // LoadWizardData(formularioViewModel);
+                //        TempData.Set($"Step{CurrentStepIndex}", formularioViewModel.FormularioTerceros);
+
+                //    }
+                //}
+                CurrentStepIndex = nextStepPosition;
+                JsonConvert.PopulateObject((string)TempData.Peek($"Step{CurrentStepIndex}"), Steps[CurrentStepIndex]);
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                _notify.Error($"Error ingrese nuevamenete al sistema.");
+                _logger.LogError($"Error en insertar los datos Formulario.", ex);
+                //var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", formulario);
+               
+            }
+
         }
 
         private FormularioViewModel ProcessSteps(StepViewModel finalStep)

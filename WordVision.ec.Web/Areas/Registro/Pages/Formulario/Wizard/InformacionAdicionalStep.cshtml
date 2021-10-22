@@ -67,11 +67,11 @@
 
             @if (Model.ImageDiscapacidad != null && Model.ImageDiscapacidad.Length > 0)
             {
-                <label class="custom-file-label"  style="background-color: green; color: white" for="customFile">Pdf de carnet discapacidad Almacenado</label>
+                <label class="custom-file-label"  style="background-color: green; color: white" for="customFile">Carnet discapacidad Almacenado</label>
             }
             else
             {
-                <label class="custom-file-label" style="background-color:red" for="customFile">Buscar Pdf de carnet discapacidad</label>
+                <label class="custom-file-label"  for="customFile">Buscar Carnet discapacidad</label>
             }
         </div>
 
@@ -116,18 +116,19 @@
     <div class="form-group row" id="discapacidadF">
         <div class="custom-file form-image">
             <input accept=".pdf"
-                   asp-for="@Model.ImageDiscapacidadFamiliar"
+                   asp-for="ImageDiscapacidadFamiliar"
+                   name="ImageDiscapacidadFamiliar"
                    type="file" class="custom-file-input"
                    onchange="document.getElementById('viewableImageDiscapacidadF').src = window.URL.createObjectURL(this.files[0])"
                    id="customFile" >
 
             @if (Model.ImageDiscapacidadFamiliar != null && Model.ImageDiscapacidadFamiliar.Length > 0)
             {
-                <label class="custom-file-label" style="background-color: green; color: white" for="customFile">Pdf de carnet discapacidad Almacenado</label>
+                <label class="custom-file-label" style="background-color: green; color: white" for="customFile">Carnet discapacidad Almacenado</label>
             }
             else
             {
-                <label class="custom-file-label" style="background-color:red" for="customFile">Buscar Pdf de carnet discapacidad</label>
+                <label class="custom-file-label"  for="customFile">Buscar Carnet discapacidad</label>
             }
         </div>
 
@@ -143,40 +144,52 @@
     </div>
     <div class="row">
         <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Cédula del Colaborador</label>
+                </div>
+            </div>
             <div class="form-group">
                 <div class="custom-file form-image">
                     <input accept=".pdf"
                            asp-for="@Model.ImageCedula"
                            type="file" class="custom-file-input"
-                           id="customFile" >
+                           id="customFile">
 
                     @if (Model.ImageCedula != null && Model.ImageCedula.Length > 0)
                     {
-                        <label class="custom-file-label" style="background-color: green; color: white" for="customFile">Pdf de cédula almacenado</label>
+                        <label class="custom-file-label" style="background-color: green; color: white" for="customFile">Cédula almacenada</label>
                     }
                     else
                     {
-                        <label class="custom-file-label" style="background-color:red" for="customFile">Buscar Pdf de cédula</label>
+                        <label class="custom-file-label"  for="customFile">Buscar Cédula</label>
                     }
                 </div>
+            
             </div>
         </div>
 
         <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Papeleta de Votación</label>
+                </div>
+            </div>
             <div class="form-group">
                 <div class="custom-file form-image">
                     <input accept=".pdf"
-                           asp-for="@Model.ImagePapeleta"
+                           asp-for="ImagePapeleta"
+                           name="ImagePapeleta"
                            type="file" class="custom-file-input"
-                           id="customFile" >
+                           id="customFile">
 
                     @if (Model.ImagePapeleta != null && Model.ImagePapeleta.Length > 0)
                     {
-                        <label class="custom-file-label" style="background-color: green; color: white" for="customFile">Pdf de papeleta de votación</label>
+                        <label class="custom-file-label" style="background-color: green; color: white" for="customFile">Papeleta de votación almacenada</label>
                     }
                     else
                     {
-                        <label class="custom-file-label" style="background-color:red" for="customFile">Buscar Pdf de papeleta de votación</label>
+                        <label class="custom-file-label" for="customFile">Buscar Papeleta de votación</label>
                     }
                 </div>
             </div>
@@ -184,20 +197,26 @@
     </div>
     <div class="row">
         <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Carnet de Covid</label>
+                </div>
+            </div>
             <div class="form-group">
                 <div class="custom-file form-image">
                     <input accept=".pdf"
-                           asp-for="@Model.ImageCovid"
+                           asp-for="ImageCovid"
+                           name="ImageCovid"
                            type="file" class="custom-file-input"
-                           id="customFile" >
+                           id="customFile">
 
                     @if (Model.ImageCovid != null && Model.ImageCovid.Length > 0)
                     {
-                        <label class="custom-file-label" style="background-color:green; color:white" for="customFile">Pdf de carnet COVID</label>
+                        <label class="custom-file-label" style="background-color:green; color:white" for="customFile">Carnet Covid almacenado</label>
                     }
                     else
                     {
-                        <label class="custom-file-label" style="background-color:red" for="customFile">Buscar Pdf de carnet COVID</label>
+                        <label class="custom-file-label" for="customFile">Buscar Carnet COVID</label>
                     }
                 </div>
 
@@ -220,37 +239,44 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="custom-file form-image">
-            <input accept=".png,.jpg,.jpeg,.gif,.tif"
-                   asp-for="@Model.Image"
-                   type="file" class="custom-file-input"
-                   onchange="document.getElementById('viewableImage').src = window.URL.createObjectURL(this.files[0])"
-                   id="customFile">
+        <div class="row">
+            <div class="col-md-6">
+                @if (Model.Image != null)
+                {
+                    <img id="imagen" style="width: 50%;object-fit: cover;padding-bottom: 10px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))">
+                }
+                else
+                {
+                    <img id="imagen" style="width: 50%;object-fit: cover;padding-bottom: 10px;" src="">
+                }
+                <div class="custom-file ">
+                    <input accept=".png,.jpg,.jpeg,.gif,.tif"
+                           asp-for="Image"
+                           type="file" class="custom-file-input"
+                           onchange="document.getElementById('imagen').src = window.URL.createObjectURL(this.files[0])"
+                           id="customFile">
+                    <label class="custom-file-label" for="customFile">Buscar Firma</label>
+                </div>
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+        </div>
+        </div>
+        <br />
+        @*<div class="row">
+            <div class="col-md-12">
+                <input type="hidden" asp-for="Colaborador" name="Colaborador" class="form-control">
+                <label class="col-md-12" asp-for="Colaborador"><span class="texto-simple">@Model.Colaborador</span></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="hidden" asp-for="Identificacion" name="Identificacion" class="form-control">
+                <label class="col-md-12" asp-for="Identificacion"><span class="texto-simple">@Model.Identificacion</span></label>
+            </div>
+        </div>
+        <br />*@
 
-            <label class="custom-file-label" for="customFile">Buscar imágen para Firmar el documento</label>
-        </div>
-        @if (Model.Image != null && Model.Image.Length > 0)
-        {
-            <input type="hidden" id="Idioma" name="Idioma" value="S" />
-            <img id="viewableImage" class="viewableImage" asp-for="@Model.Image" style="object-fit: cover;padding-top: 10px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" alt> @*<button onclick="document.getElementById('achimage').src = null;" type="button" style="margin-top:10px" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove Image</button>*@ }
-        else
-        {
-            <img id="viewableImage" class="viewableImage" style="object-fit: cover;padding-top:10px;" src="">}
     </div>
-    <br />
-    <div class="row">
-        <div class="col-md-12">
-            <label class="col-md-12"><span class="texto-simple">@Model.Colaborador</span></label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <label class="col-md-12"><span class="texto-simple">@Model.Identificacion</span></label>
-        </div>
-    </div>
-    <br />
-
-</div>
         <script>
             $(document).ready(function () {
                 $("#discapacidad").hide();
