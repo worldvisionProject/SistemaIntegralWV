@@ -11,7 +11,7 @@ namespace WordVision.ec.Domain.Entities.Soporte
     {
         public string IDHubspot { get; set; }
 
-        public DateTime FechaConversion { get; set; }
+        public DateTime? FechaConversion { get; set; }
 
         public int Canal { get; set; }
         public string Responsable { get; set; }
@@ -27,7 +27,7 @@ namespace WordVision.ec.Domain.Entities.Soporte
         public int Genero { get; set; }
         public int Cedula { get; set; }
         public string RUC { get; set; }
-        public DateTime FechaNacimiento { get; set; }
+        public DateTime? FechaNacimiento { get; set; }
         public int Edad { get; set; }
         public int Region { get; set; }
         public int Provincia { get; set; }
@@ -39,21 +39,28 @@ namespace WordVision.ec.Domain.Entities.Soporte
         public bool WhatsApp { get; set; }
         public string Email { get; set; }
         public int FrecuenciaDonacion { get; set; }
-        public int Cantidad { get; set; }
-        public DateTime MesInicialDebito { get; set; }
+        public decimal? Cantidad { get; set; }
+        public DateTime? MesInicialDebito { get; set; }
 
         public int FormaPago { get; set; }
         public string NumReferencia { get; set; }
-        public int TipoCuenta { get; set; }
+        public int? TipoCuenta { get; set; }
         public string NumeroCuenta { get; set; }
-        public int TiposTarjetasCredito { get; set; }
+        public int? TiposTarjetasCredito { get; set; }
         public string NumeroTarjeta { get; set; }
 
-        public DateTime FechaCaducidad { get; set; }
-        public DateTime FechaVencimiento { get; set; }
-        public int Banco { get; set; }
+        public DateTime? FechaCaducidad { get; set; }
+         public int? Banco { get; set; }
 
-        
+
+        public string NumReferenciaBp { get; set; }
+        public int? TipoCuentaBp { get; set; }
+        public string NumeroCuentaBp { get; set; }
+        public int? TiposTarjetasCreditoBp { get; set; }
+        public string NumeroTarjetaBp { get; set; }
+        public DateTime? FechaCaducidadBp { get; set; }
+        public DateTime? FechaVencimiento { get; set; }
+        public int? BancoBp { get; set; }
 
 
     }

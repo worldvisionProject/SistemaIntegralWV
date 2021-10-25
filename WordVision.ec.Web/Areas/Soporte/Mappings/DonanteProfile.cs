@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Soporte.Donantes.Commands.Create;
+using WordVision.ec.Application.Features.Soporte.Donantes.Commands.Update;
 using WordVision.ec.Application.Features.Soporte.Donantes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Soporte.Donantes.Queries.GetById;
 using WordVision.ec.Domain.Entities.Soporte;
@@ -17,6 +18,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Mappings
         public DonanteProfile()
         {
             CreateMap<CreateDonanteCommand, DonanteViewModel>().ReverseMap();
+            CreateMap<UpdateDonanteCommand, DonanteViewModel>().ReverseMap();
             CreateMap<GetAllDonantesResponse, DonanteViewModel>().ReverseMap();
             CreateMap<GetDonantesByIdResponse, DonanteViewModel>().ReverseMap();
             CreateMap<Donante, DonanteViewModel>().ReverseMap();

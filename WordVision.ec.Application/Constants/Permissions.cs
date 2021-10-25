@@ -78,7 +78,13 @@ namespace WordVision.ec.Application.Constants
             public const string Edit = "Permissions.IndicadorPOA.Edit";
             public const string Delete = "Permissions.IndicadorPOA.Delete";
         }
-
+        public static class Donante
+        {
+            public const string View = "Permissions.Donante.View";
+            public const string Create = "Permissions.Donante.Create";
+            public const string Edit = "Permissions.Donante.Edit";
+            public const string Delete = "Permissions.Donante.Delete";
+        }
         public static class Users
         {
             public const string View = "Permissions.Users.View";

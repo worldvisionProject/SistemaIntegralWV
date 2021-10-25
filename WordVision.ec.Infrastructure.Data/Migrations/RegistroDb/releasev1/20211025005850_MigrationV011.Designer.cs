@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
-namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
+namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev1
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211025005850_MigrationV011")]
+    partial class MigrationV011
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2170,9 +2172,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<int?>("Banco")
                         .HasColumnType("int");
 
-                    b.Property<int?>("BancoBp")
-                        .HasColumnType("int");
-
                     b.Property<int>("Campana")
                         .HasColumnType("int");
 
@@ -2210,9 +2209,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("FechaCaducidad")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaCaducidadBp")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("FechaConversion")
@@ -2254,19 +2250,10 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<string>("NumReferencia")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NumReferenciaBp")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("NumeroCuenta")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NumeroCuentaBp")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("NumeroTarjeta")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NumeroTarjetaBp")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Provincia")
@@ -2293,13 +2280,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<int?>("TipoCuenta")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TipoCuentaBp")
-                        .HasColumnType("int");
-
                     b.Property<int?>("TiposTarjetasCredito")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TiposTarjetasCreditoBp")
                         .HasColumnType("int");
 
                     b.Property<bool>("WhatsApp")

@@ -272,20 +272,37 @@
                                     </p>
                                 </a>
                             </li>
-                             }
-                        </ul>
+                        }
+                    </ul>
 
                 </li>
 
-                <li class="nav-item">
-                    <a is-active-route asp-area="Soporte" asp-controller="Donante" asp-action="Index" asp-route-op="3" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+
+                <li class="nav-header">@localizer["Marketing"]</li>
+                <li is-active-route asp-area="Soporte" class="nav-item has-treeview">
+                    <a is-active-route asp-area="Soporte" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
                         <p>
-                            @localizer["Donantes"]
-                            @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                            @localizer["Gestión"]
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a is-active-route asp-area="Soporte" asp-controller="Donante" asp-action="Index"  class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    @localizer["Donantes"]
+                                    @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                </p>
+                            </a>
+                        </li>
+                       
+                    </ul>
+
                 </li>
+
+              
 
                 <li class="nav-header">@localizer["Gente y Cultura"]</li>
                 <li is-active-route asp-area="Registro" class="nav-item has-treeview">
@@ -369,7 +386,7 @@
                                 </a>
                             </li>
                         }
-                     
+
 
                     </ul>
                 </li>
