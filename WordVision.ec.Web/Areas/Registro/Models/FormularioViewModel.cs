@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Domain.Entities.Registro;
@@ -72,7 +73,9 @@ namespace WordVision.ec.Web.Areas.Registro.Models
         public string EmailContacto { get; set; }
 
         public string Idioma { get; set; }
+        [Range(0, 100, ErrorMessage = "Ingresar valores entre 0 y 100")]
         public int PorcentajeHablado { get; set; }
+        [Range(0, 100, ErrorMessage = "Ingresar valores entre 0 y 100")]
         public int PorcentajeEscrito { get; set; }
         public string CreenciaReligiosa { get; set; }
         public string Iglesia { get; set; }

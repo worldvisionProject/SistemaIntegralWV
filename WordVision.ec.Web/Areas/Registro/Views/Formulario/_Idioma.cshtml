@@ -17,12 +17,12 @@
     </div>
     <label class="col-md-2 col-form-label texto-pregunta text-right">Hablado</label>
     <div class="col-md-2">
-        <input type="number" asp-for="PorcentajeHablado" name="PorcentajeHablado" class="form-control">
+        <input type="number" min="0" max="100" asp-for="PorcentajeHablado" name="PorcentajeHablado" class="form-control">
         <span asp-validation-for="PorcentajeHablado" class="text-danger"></span>
     </div>
     <label class="col-md-1 col-form-label texto-pregunta">Escrito</label>
     <div class="col-md-2">
-        <input type="number" asp-for="PorcentajeEscrito" name="PorcentajeEscrito" class="form-control">
+        <input type="number" min="0" max="100"  asp-for="PorcentajeEscrito" name="PorcentajeEscrito" class="form-control">
         <span asp-validation-for="PorcentajeEscrito" class="text-danger"></span>
     </div>
     <div class="col-md-2">
@@ -89,8 +89,16 @@
                 alert("Ingrese el Idioma.");
                 return;
             }
+            alert(parseInt(Escrito));
+            if (parseInt(Escrito) >= 0 && parseInt(Escrito) <= 0) {
+                alert("Ingrese valores entre 0 a 100.");
+                return;
+            }
 
-
+            if (parseInt(Hablado) >= 0 && parseInt(Hablado) <= 0) {
+                alert("Ingrese valores entre 0 a 100.");
+                return;
+            }
             //agregamos tabla
             let Tabla = document.getElementById("idiomaTable");
             let TR = document.createElement("tr");
