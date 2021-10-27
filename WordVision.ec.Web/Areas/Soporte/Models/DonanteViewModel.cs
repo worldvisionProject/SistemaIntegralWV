@@ -14,12 +14,15 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha de convesión")]
         public DateTime? FechaConversion { get; set; }
-
+        [Display(Name = "Canal")]
         public int Canal { get; set; }
-        public string Responsable { get; set; }
+        public int Responsable { get; set; }
         public int Tipo { get; set; }
+        [Display(Name = "Categoría")]
         public int Categoria { get; set; }
+        [Display(Name = "Campaña")]
         public int Campana { get; set; }
+        [Display(Name = "Estado Donante")]
         public int EstadoDonante { get; set; }
         [Display(Name = "Primer nombre")]
         public string Nombre1 { get; set; }
@@ -29,16 +32,23 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         public string Apellido1 { get; set; }
         [Display(Name = "Segundo apellido")]
         public string Apellido2 { get; set; }
+        [Display(Name = "Género")]
         public int Genero { get; set; }
+
+        [Display(Name = "Tipo Id.")]
         public int Cedula { get; set; }
+
+        [Display(Name = "Identificación")]
         public string RUC { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? FechaNacimiento { get; set; }
         public int? Edad { get; set; }
+        [Display(Name = "Región")]
         public int Region { get; set; }
         public int Provincia { get; set; }
 
         public int Ciudad { get; set; }
+        [Display(Name = "Dirección")]
         public string Direccion { get; set; }
         [Display(Name = "Teléfono")]
         public string TelefonoConvencional { get; set; }
@@ -47,26 +57,35 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         public bool WhatsApp { get; set; }
         [EmailAddress]
         public string Email { get; set; }
+        [Display(Name = "Frecuencia Donación")]
         public int FrecuenciaDonacion { get; set; }
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string Cantidad { get; set; }
 
+        [Display(Name = "Mes inicial débito")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? MesInicialDebito { get; set; }
 
+        [Display(Name = "Forma de pago")]
         public int FormaPago { get; set; }
+        [Display(Name = "Num. referencia")]
         public string NumReferencia { get; set; }
+        [Display(Name = "Tipo de cuenta")]
         public int? TipoCuenta { get; set; }
+        [Display(Name = "Número de cuenta")]
         public string NumeroCuenta { get; set; }
+        [Display(Name = "Tipo de tarjetas")]
         public int? TiposTarjetasCredito { get; set; }
+        [Display(Name = "Número de tarjeta")]
         public string NumeroTarjeta { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? FechaCaducidad { get; set; }
 
-          public int? Banco { get; set; }
+        [Display(Name = "Banco")]
+        public int? Banco { get; set; }
 
 
-
+        [Display(Name = "Num. referencia")]
         public string NumReferenciaBp { get; set; }
         public int? TipoCuentaBp { get; set; }
         public string NumeroCuentaBp { get; set; }
@@ -75,6 +94,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? FechaCaducidadBp { get; set; }
 
+        [Display(Name = "Fecha de vencimiento")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? FechaVencimiento { get; set; }
         public int? BancoBp { get; set; }

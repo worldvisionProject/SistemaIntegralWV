@@ -14,7 +14,7 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Queries.GetAllCach
         public DateTime? FechaConversion { get; set; }
 
         public int Canal { get; set; }
-        public string Responsable { get; set; }
+        public int Responsable { get; set; }
         public int Tipo { get; set; }
         public int Categoria { get; set; }
         public int Campana { get; set; }

@@ -85,6 +85,14 @@ namespace WordVision.ec.Application.Constants
             public const string Edit = "Permissions.Donante.Edit";
             public const string Delete = "Permissions.Donante.Delete";
         }
+
+        public static class Catalogo
+        {
+            public const string View = "Permissions.Catalogo.View";
+            public const string Create = "Permissions.Catalogo.Create";
+            public const string Edit = "Permissions.Catalogo.Edit";
+            public const string Delete = "Permissions.Catalogo.Delete";
+        }
         public static class Users
         {
             public const string View = "Permissions.Users.View";

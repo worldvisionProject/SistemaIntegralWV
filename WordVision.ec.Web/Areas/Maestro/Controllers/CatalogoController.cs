@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,21 +38,35 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0)
         {
            // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
-
-            if (id == 0)
-            {
-                var entidadViewModel = new CatalogoViewModel();
-                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
-            }
-            else
-            {
-                var response = await _mediator.Send(new GetCatalogoByIdQuery() { Id = id });
-                if (response.Succeeded)
+           try
+            { 
+                if (id == 0)
                 {
-                    var entidadViewModel = _mapper.Map<CatalogoViewModel>(response.Data);
+                    var entidadViewModel = new CatalogoViewModel();
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
-                return null;
+                else
+                {
+                    var response = await _mediator.Send(new GetCatalogoByIdQuery() { Id = id });
+                    if (response.Succeeded)
+                    {
+                        var entidadViewModel = _mapper.Map<CatalogoViewModel>(response.Data);
+                        return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+                    }
+                    return new JsonResult(new
+                    {
+                        isValid = false
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("OnGetCreateOrEdit", ex);
+                _notify.Error("Error al consultar el Catalogo");
+                return new JsonResult(new
+                {
+                    isValid = false
+                });
             }
         }
 
