@@ -15,12 +15,12 @@
         </select>
         <span asp-validation-for="Idioma" class="text-danger"></span>
     </div>
-    <label class="col-md-2 col-form-label texto-pregunta text-right">Hablado</label>
+    <label class="col-md-2 col-form-label texto-pregunta text-right">% Hablado</label>
     <div class="col-md-2">
         <input type="number" min="0" max="100" asp-for="PorcentajeHablado" name="PorcentajeHablado" class="form-control">
         <span asp-validation-for="PorcentajeHablado" class="text-danger"></span>
     </div>
-    <label class="col-md-1 col-form-label texto-pregunta">Escrito</label>
+    <label class="col-md-1 col-form-label texto-pregunta">% Escrito</label>
     <div class="col-md-2">
         <input type="number" min="0" max="100"  asp-for="PorcentajeEscrito" name="PorcentajeEscrito" class="form-control">
         <span asp-validation-for="PorcentajeEscrito" class="text-danger"></span>

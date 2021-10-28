@@ -137,7 +137,7 @@
 
                 <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta"  asp-for="FechaNacimiento"></label>
-                    <input asp-for="FechaNacimiento" type="text" name="FechaNacimiento" class="datepicker form-control" />
+                    <input asp-for="FechaNacimiento" type="text" name="FechaNacimiento" id="FechaNacimiento" class="datepicker form-control" />
                     <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
                 </div>
             </div>
@@ -149,7 +149,7 @@
             <div class="form-group row">
                 <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta"  asp-for="Edad"></label>
-                    <input asp-for="Edad" type="text" name="Edad" class="form-control" />
+                    <input asp-for="Edad" type="text" name="Edad" id="Edad" class="form-control" />
                     <span asp-validation-for="Edad" class="text-danger"></span>
                 </div>
 
@@ -464,6 +464,8 @@
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
     $(function () {
+
+        $('#FechaNacimiento').on('change', calcularEdad);
         $('#create-form *').prop('disabled', (document.getElementById("band").value == "true"));
         $(".datepicker").datepicker({
             format: "dd-mm-yyyy",
@@ -518,4 +520,21 @@
         });
     });
 
+
+    function calcularEdad() {
+
+        fecha = $(this).val();
+        var date_string = moment(fecha, "DD.MM.YYYY").format("YYYY-MM-DD");
+        alert(date_string);
+        var hoy = new Date();
+        var cumpleanos = new Date(fecha);
+      /*  alert(cumpleanos);*/
+        var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+        var m = hoy.getMonth() - cumpleanos.getMonth();
+
+        if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+            edad--;
+        }
+        $('#Edad').val(edad);
+    }
 </script>
