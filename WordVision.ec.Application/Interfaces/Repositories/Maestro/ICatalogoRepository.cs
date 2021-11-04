@@ -11,7 +11,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Maestro
     {
         IQueryable<Catalogo> Catalogos { get; }
 
-        Task<List<Catalogo>> GetListAsync();
+        Task<List<Catalogo>> GetListAsync(string idRol);
 
         Task<Catalogo> GetByIdAsync(int id);
 

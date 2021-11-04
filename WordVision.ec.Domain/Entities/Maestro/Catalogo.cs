@@ -17,6 +17,8 @@ namespace WordVision.ec.Domain.Entities.Maestro
         [Required]
         public int Estado { get; set; }
 
+        public string IdRol { get; set; }
+
         [ForeignKey("IdCatalogo")]
         public ICollection<DetalleCatalogo> DetalleCatalogos { get; set; }
     }

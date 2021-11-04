@@ -9,10 +9,8 @@ namespace WordVision.ec.Domain.Entities.Soporte
 {
     public class Donante : AuditableEntity
     {
-        public string IDHubspot { get; set; }
-
         public DateTime? FechaConversion { get; set; }
-
+        public byte[] EvidenciaConversion { get; set; }
         public int Canal { get; set; }
         public int Responsable { get; set; }
         public int Tipo { get; set; }

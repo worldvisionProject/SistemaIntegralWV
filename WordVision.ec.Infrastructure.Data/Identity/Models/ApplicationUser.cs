@@ -15,6 +15,6 @@ namespace WordVision.ec.Infrastructure.Data.Identity.Models
         public bool IsActive { get; set; } = false;
 
         public int IdEmpresa { get; set; }
-
+     
     }
 }

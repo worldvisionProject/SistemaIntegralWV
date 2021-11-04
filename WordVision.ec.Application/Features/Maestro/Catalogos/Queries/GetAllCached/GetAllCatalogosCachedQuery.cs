@@ -14,6 +14,7 @@ namespace WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetAllCac
 {
     public class GetAllCatalogosCachedQuery : IRequest<Result<List<GetAllCatalogosCachedResponse>>>
     {
+        public string IdRol { get; set; }
         public GetAllCatalogosCachedQuery()
         {
         }
@@ -37,7 +38,7 @@ namespace WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetAllCac
 
         public async Task<Result<List<GetAllCatalogosCachedResponse>>> Handle(GetAllCatalogosCachedQuery request, CancellationToken cancellationToken)
         {
-            var CatalogosList = await _CatalogosCache.GetCachedListAsync();
+            var CatalogosList = await _CatalogosCache.GetCachedListAsync(request.IdRol);
             var mappedCatalogos = _mapper.Map<List<GetAllCatalogosCachedResponse>>(CatalogosList);
             
             return Result<List<GetAllCatalogosCachedResponse>>.Success(mappedCatalogos);

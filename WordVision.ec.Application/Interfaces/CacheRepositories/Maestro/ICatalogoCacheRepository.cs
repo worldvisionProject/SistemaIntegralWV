@@ -9,7 +9,7 @@ namespace WordVision.ec.Application.Interfaces.CacheRepositories.Maestro
 {
    public interface ICatalogoCacheRepository
     {
-        Task<List<Catalogo>> GetCachedListAsync();
+        Task<List<Catalogo>> GetCachedListAsync(string idRol);
 
         Task<Catalogo> GetByIdAsync(int id);
 

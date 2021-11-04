@@ -11,10 +11,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Validators
     {
         public DonanteViewModelValidator()
         {
-            RuleFor(p => p.IDHubspot)
-               .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
-               .NotNull()
-               .MaximumLength(15).WithMessage("{PropertyName} No debe exceder 15 caracteres.");
+         
             RuleFor(p => p.FormaPago)
              .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
              .NotNull();

@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
@@ -31,11 +33,20 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
             var response = await _mediator.Send(new GetAllDonantesQuery());
             if (response.Succeeded)
             {
+                DonanteViewModelView entidad =new DonanteViewModelView();
 
                 var viewModel = _mapper.Map<List<DonanteViewModel>>(response.Data);
-
-
-                return PartialView("_ViewAll", viewModel);
+                entidad.DonanteViewModels = viewModel;
+                var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 26, Ninguno = true });
+                var campana = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                entidad.CampanaList = campana;
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 27, Ninguno = true });
+                var estadoDonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                entidad.EstadoDonanteList = estadoDonante;
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 33, Ninguno = true });
+                var ciudad = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                entidad.CiudadList = ciudad;
+                return PartialView("_ViewAll", entidad);
             }
 
             return null;
@@ -77,6 +88,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
             catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 37, Ninguno = true });
             var banco = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
+       
 
             if (id == 0)
             {
@@ -97,7 +109,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                 entidadViewModel.TipoCuentaList = tipoCuenta;
                 entidadViewModel.TipoTarjetaList = tipoTarjeta;
                 entidadViewModel.BancoList = banco;
-           
+          
 
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
@@ -123,6 +135,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     entidadViewModel.TipoCuentaList = tipoCuenta;
                     entidadViewModel.TipoTarjetaList = tipoTarjeta;
                     entidadViewModel.BancoList = banco;
+              
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;
@@ -137,6 +150,15 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if (Request.Form.Files.Count > 0)
+                    {
+                        IFormFile file = Request.Form.Files.FirstOrDefault();
+                        var image = file.OpenReadStream();
+                        MemoryStream ms = new MemoryStream();
+                        image.CopyTo(ms);
+                        entidad.EvidenciaConversion = ms.ToArray();
+                    }
+
                     if (id == 0)
                     {
                         var createEntidadCommand = _mapper.Map<CreateDonanteCommand>(entidad);
@@ -180,6 +202,30 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                 _logger.LogError("OnPostCreateOrEdit", ex);
                 _notify.Error("Error al insertar el Donante");
             }
+            return null;
+        }
+
+        public async Task<FileResult> ShowPDF(int id, int tipo)
+        {
+            var responseC = await _mediator.Send(new GetDonantesByIdQuery() { Id = id });
+            if (responseC.Succeeded)
+            {
+                var entidadViewModel = _mapper.Map<DonanteViewModel>(responseC.Data);
+                switch (tipo)
+                {
+                    case 1:
+                        if (entidadViewModel.EvidenciaConversion != null)
+                        {
+                            byte[] dataArray = entidadViewModel.EvidenciaConversion;
+                            return File(dataArray, "application/pdf");
+                        }
+                        break;
+
+                }
+
+
+            }
+
             return null;
         }
 

@@ -37,16 +37,27 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories.Maestro
             return Catalogo;
         }
 
-        public async Task<List<Catalogo>> GetCachedListAsync()
+        public async Task<List<Catalogo>> GetCachedListAsync(string idRol)
         {
-            string cacheKey = CatalogoCacheKeys.ListKey;
-            var CatalogoList = await _distributedCache.GetAsync<List<Catalogo>>(cacheKey);
-            if (CatalogoList == null)
+            if (idRol.Length == 0)
             {
-                CatalogoList = await _CatalogoRepository.GetListAsync();
-                await _distributedCache.SetAsync(cacheKey, CatalogoList);
+                string cacheKey = CatalogoCacheKeys.ListKey;
+                var CatalogoList = await _distributedCache.GetAsync<List<Catalogo>>(cacheKey);
+                if (CatalogoList == null)
+                {
+                    CatalogoList = await _CatalogoRepository.GetListAsync(idRol);
+                    await _distributedCache.SetAsync(cacheKey, CatalogoList);
+                }
+                return CatalogoList;
             }
-            return CatalogoList;
+            else
+            {
+                string cacheKey = CatalogoCacheKeys.ListKey;
+                var CatalogoList = await _CatalogoRepository.GetListAsync(idRol);
+                await _distributedCache.SetAsync(cacheKey, CatalogoList);
+                return CatalogoList;
+            }
+           
         }
 
         public async Task<ICollection<DetalleCatalogo>> GetDetalleByIdAsync(int id, string secuencia)

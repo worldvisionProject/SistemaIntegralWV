@@ -17,10 +17,10 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Update
     public class UpdateDonanteCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
-        public string IDHubspot { get; set; }
+   
 
         public DateTime? FechaConversion { get; set; }
-
+        public byte[] EvidenciaConversion { get; set; }
         public int Canal { get; set; }
         public int Responsable { get; set; }
         public int Tipo { get; set; }
@@ -117,7 +117,7 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Update
                     Donante.FechaNacimiento = command.FechaNacimiento;
                     Donante.FechaVencimiento = command.FechaVencimiento;
                     Donante.Genero = command.Genero == 0 ? Donante.Genero : command.Genero;
-                    Donante.IDHubspot = command.IDHubspot;
+               
                     Donante.NumeroCuenta = command.NumeroCuenta;
                     Donante.NumReferencia = command.NumReferencia;
                     Donante.Provincia = command.Provincia == 0 ? Donante.Provincia : command.Provincia;
@@ -130,6 +130,7 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Update
                     Donante.TipoCuenta = command.TipoCuenta == 0 ? Donante.TipoCuenta : command.TipoCuenta;
                     Donante.TiposTarjetasCredito = command.TiposTarjetasCredito == 0 ? Donante.TiposTarjetasCredito : command.TiposTarjetasCredito;
                     Donante.WhatsApp = command.WhatsApp;
+                    Donante.NumeroTarjeta = command.NumeroTarjeta;
 
                     Donante.NumReferenciaBp = command.NumReferenciaBp;
                     Donante.TipoCuentaBp = command.TipoCuentaBp == 0 ? Donante.TipoCuentaBp : command.TipoCuentaBp;

@@ -51,9 +51,9 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
 
         }
 
-        public async Task<List<Catalogo>> GetListAsync()
+        public async Task<List<Catalogo>> GetListAsync(string idRol)
         {
-            return await _repository.Entities.Where(p => p.Estado == 1).ToListAsync();
+            return await _repository.Entities.Where(p => p.IdRol.ToUpper()==idRol || idRol.Length==0).ToListAsync();
         }
 
         public async Task<int> InsertAsync(Catalogo Catalogo)

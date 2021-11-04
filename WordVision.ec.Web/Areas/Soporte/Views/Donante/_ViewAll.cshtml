@@ -1,5 +1,5 @@
 ﻿@using WordVision.ec.Web.Areas.Soporte.Models
-@model IEnumerable<DonanteViewModel>
+@model DonanteViewModelView
 
 
 <table id="personalTable" class="table table-striped " width="100%" cellspacing="0">
@@ -7,10 +7,9 @@
                 <tr>
 
 
-                    <th data-priority="1">IDHubspot</th>
-                    <th data-priority="1">Campana</th>
-                    <th data-priority="1">Nombre1</th>
-                    <th data-priority="1">Apellido1</th>
+                     <th data-priority="1">Campana</th>
+                    <th data-priority="1">Nombre</th>
+                    <th data-priority="1">Apellido</th>
                     <th data-priority="1">Cedula</th>
                     <th data-priority="1">EstadoDonante</th>
                     <th data-priority="1">Ciudad</th>
@@ -25,14 +24,13 @@
             </thead>
             <tbody>
                
-                @foreach (var donante in Model)
+                @foreach (var donante in Model.DonanteViewModels)
                 {
                 <tr>
+                   
                     <td>
-                        @donante.IDHubspot
-                    </td>
-                    <td>
-                        @donante.Campana
+                        @Model.CampanaList.Where(x => x.Value == donante.Campana.ToString()).FirstOrDefault().Text
+                     
                     </td>
                     <td>
                         @donante.Nombre1
@@ -41,13 +39,14 @@
                         @donante.Apellido1
                     </td>
                     <td>
-                        @donante.Cedula
+                        @donante.RUC
                     </td>
                     <td>
-                        @donante.EstadoDonante
+                        @Model.EstadoDonanteList.Where(x => x.Value == donante.EstadoDonante.ToString()).FirstOrDefault().Text
+                      
                     </td>
                     <td>
-                        @donante.Ciudad
+                        @Model.CiudadList.Where(x => x.Value == @donante.Ciudad.ToString()).FirstOrDefault().Text
                     </td>
                     <td>
                         @donante.Cantidad

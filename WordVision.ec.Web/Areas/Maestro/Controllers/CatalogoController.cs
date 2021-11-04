@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using WordVision.ec.Application.Features.Maestro.Catalogos.Commands.Create;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Commands.Update;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
+using WordVision.ec.Infrastructure.Data.Identity.Models;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Maestro.Models;
 
@@ -17,22 +19,56 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
     [Area("Maestro")]
     public class CatalogoController : BaseController<CatalogoController>
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public CatalogoController(UserManager<ApplicationUser> userManager)
+        {
+            _userManager = userManager;
+         
+        }
         public IActionResult Index()
         {
             var model = new CatalogoViewModel();
             return View(model);
         }
 
-        public async Task<IActionResult> LoadAll()
+        public async Task<IActionResult> LoadAll(string idRol="")
         {
-            var response = await _mediator.Send(new GetAllCatalogosCachedQuery());
-            if (response.Succeeded)
+            var user = await _userManager.FindByNameAsync(User.Identity.Name.ToUpper());
+            IList<string> userRoles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+
+
+            List<CatalogoViewModel> viewModel=new List<CatalogoViewModel>();
+            for (int i = 0; i <= userRoles.Count - 1; i++)
             {
-                var viewModel = _mapper.Map<List<CatalogoViewModel>>(response.Data);
-             
-                return PartialView("_ViewAll", viewModel);
+                idRol = userRoles[i].ToUpper();
+                if (userRoles[i].ToUpper().Contains("SUPERADMIN"))
+                {
+                    idRol = "";
+                    i = userRoles.Count;
+                }
+                var response = await _mediator.Send(new GetAllCatalogosCachedQuery() { IdRol = idRol });
+                if (response.Succeeded)
+                {
+                    if (response.Data!=null)
+                    {
+                        if (response.Data.Count>0)
+                        {
+                            var uno = _mapper.Map<List<CatalogoViewModel>>(response.Data);
+                            viewModel.AddRange(uno);
+
+                           
+                        }
+                           
+                    }
+                  
+                }
             }
-            return null;
+
+            //var viewModelR = _mapper.Map<List<CatalogoViewModel>>(viewModel);
+
+            return PartialView("_ViewAll", viewModel);
+
         }
 
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0)

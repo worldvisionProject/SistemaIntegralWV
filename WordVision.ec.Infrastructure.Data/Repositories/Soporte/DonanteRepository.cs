@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Application.Interfaces.Repositories.Soporte;
+using WordVision.ec.Domain.Entities.Maestro;
 using WordVision.ec.Domain.Entities.Soporte;
 
 namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
@@ -19,6 +20,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
     {
 
         private readonly IRepositoryAsync<Donante> _repository;
+        private readonly IRepositoryAsync<DetalleCatalogo> _repositoryDetalle;
         private readonly IDistributedCache _distributedCache;
 
         public DonanteRepository(IRepositoryAsync<Donante> repository, IDistributedCache distributedCache)

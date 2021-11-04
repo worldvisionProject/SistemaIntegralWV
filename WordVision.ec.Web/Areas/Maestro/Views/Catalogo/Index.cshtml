@@ -27,6 +27,6 @@
             loadData();
     });
         function loadData() {
-            $('#viewAll').load('/Maestro/Catalogo/LoadAll');
+            $('#viewAll').load('/Maestro/Catalogo/LoadAll?idRol=@User.IsInRole("DirectorNacional")');
         }</script>
         }

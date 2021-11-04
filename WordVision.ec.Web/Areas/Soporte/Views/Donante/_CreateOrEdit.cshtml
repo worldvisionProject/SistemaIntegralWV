@@ -227,7 +227,7 @@
 
                 <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="MesInicialDebito"></label>
-                    <input asp-for="MesInicialDebito" type="text" name="MesInicialDebito" class="datepicker form-control" />
+                    <input asp-for="MesInicialDebito" type="month" name="MesInicialDebito" class="form-control" />
                     <span asp-validation-for="MesInicialDebito" class="text-danger"></span>
                 </div>
             </div>
@@ -236,16 +236,47 @@
     </div>
 
     <div class="row">
-    <div class="col-md-6">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="FormaPago"></label>
+    <div class="col-md-10">
+        <div class="form-group row">
+            <div class="col-md-8">
+                <label class="col-md-12 col-form-label texto-pregunta" asp-for="FormaPago"></label>
 
-                    @Html.DropDownListFor(x => x.FormaPago, (IEnumerable<SelectListItem>)Model.FormaPagoList, new { @class = "form-control" })
+                @Html.DropDownListFor(x => x.FormaPago, (IEnumerable<SelectListItem>)Model.FormaPagoList, new { @class = "form-control" })
 
-                    <span asp-validation-for="FormaPago" class="text-danger"></span>
+                <span asp-validation-for="FormaPago" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label class="col-md-12 col-form-label texto-pregunta" asp-for="EvidenciaConversion"></label>
+                <div class="custom-file form-image">
+                   
+                        @if (Model.EvidenciaConversion != null && Model.EvidenciaConversion.Length > 0)
+                        {
+                            <a href='/soporte/donante/ShowPDF?id=@Model.Id&tipo=1' target="_blank"><i class="fas fa-newspaper"></i> Ver Adjunto</a>
+                        }
+                    else
+                    {
+                        <input accept=".pdf"
+                               asp-for="@Model.EvidenciaConversion"
+                               type="file" class="custom-file-input"
+                               id="customFile">
+
+                        
+                            if (Model.EvidenciaConversion != null && Model.EvidenciaConversion.Length > 0)
+                            {
+                                <label class="custom-file-label" for="customFile">Archivo almacenado</label>
+                            }
+                            else
+                            {
+                                <label class="custom-file-label" for="customFile">Buscar Archivo</label>
+
+                            }
+                        }
+
                 </div>
             </div>
+
+        </div>
 
         </div>
     </div>
@@ -420,20 +451,20 @@
                         <div class="col-md-12">
                             <div class="form-group row">
                                 <div class="col-md-4">
-                                    <label class="col-md-12 col-form-label texto-pregunta"  asp-for="TiposTarjetasCredito"></label>
+                                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="TiposTarjetasCredito"></label>
                                     @Html.DropDownListFor(x => x.TiposTarjetasCredito, (IEnumerable<SelectListItem>)Model.TipoTarjetaList, new { @class = "form-control" })
                                     <span asp-validation-for="TiposTarjetasCredito" class="text-danger"></span>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label class="col-md-12 col-form-label texto-pregunta"  asp-for="NumeroTarjeta"></label>
+                                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="NumeroTarjeta"></label>
                                     <input asp-for="NumeroTarjeta" type="text" name="NumeroTarjeta" class="form-control" />
                                     <span asp-validation-for="NumeroTarjeta" class="text-danger"></span>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaCaducidad"></label>
-                                    <input asp-for="FechaCaducidad" type="text" name="FechaCaducidad" class="datepicker form-control" />
+                                    <input asp-for="FechaCaducidad" type="month"  name="FechaCaducidad" class=" form-control" />
                                     <span asp-validation-for="FechaCaducidad" class="text-danger"></span>
                                 </div>
                             </div>
@@ -464,7 +495,7 @@
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
     $(function () {
-
+      
         $('#FechaNacimiento').on('change', calcularEdad);
         $('#create-form *').prop('disabled', (document.getElementById("band").value == "true"));
         $(".datepicker").datepicker({
@@ -476,65 +507,67 @@
         $("#debitobancario").hide();
         $("#deposito").hide();
         $("#tarjeta").hide();
+        cambiaFormaPago();
         $("#FormaPago").change(function () {
-            var seleccionar = $("#FormaPago option:selected").val();
-            //alert(seleccionar);
-            //alert(seleccionar.indexOf("1"));
-            if (seleccionar.indexOf("1")>=0) {
-                
-                $("#botonpagos").show();
-
-            }
-            else {
-
-                $("#botonpagos").hide();
-            }
-            if (seleccionar.indexOf("2") >= 0) {
-
-                $("#debitobancario").show();
-
-            }
-            else {
-
-                $("#debitobancario").hide();
-            }
-            if (seleccionar.indexOf("3") >= 0) {
-
-                $("#deposito").show();
-
-            }
-            else {
-
-                $("#deposito").hide();
-            }
-            if (seleccionar.indexOf("4") >= 0) {
-
-                $("#tarjeta").show();
-
-            }
-            else {
-
-                $("#tarjeta").hide();
-            }
+            cambiaFormaPago();
 
         });
     });
 
+    function cambiaFormaPago() {
+        var seleccionar = $("#FormaPago option:selected").val();
+        //alert(seleccionar.indexOf("1"));
+        if (seleccionar.indexOf("1") >= 0) {
+
+            $("#botonpagos").show();
+
+        }
+        else {
+
+            $("#botonpagos").hide();
+        }
+        if (seleccionar.indexOf("2") >= 0) {
+
+            $("#debitobancario").show();
+
+        }
+        else {
+
+            $("#debitobancario").hide();
+        }
+        if (seleccionar.indexOf("3") >= 0) {
+
+            $("#deposito").show();
+
+        }
+        else {
+
+            $("#deposito").hide();
+        }
+        if (seleccionar.indexOf("4") >= 0) {
+
+            $("#tarjeta").show();
+
+        }
+        else {
+
+            $("#tarjeta").hide();
+        }
+    }
 
     function calcularEdad() {
-
+    
         fecha = $(this).val();
-        var date_string = moment(fecha, "DD.MM.YYYY").format("YYYY-MM-DD");
-        alert(date_string);
-        var hoy = new Date();
-        var cumpleanos = new Date(fecha);
-      /*  alert(cumpleanos);*/
-        var edad = hoy.getFullYear() - cumpleanos.getFullYear();
-        var m = hoy.getMonth() - cumpleanos.getMonth();
-
-        if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
-            edad--;
-        }
-        $('#Edad').val(edad);
+        var birthday_arr = fecha.split("-");
+        var fecha = new Date(birthday_arr[2], birthday_arr[1] - 1, birthday_arr[0]);
+        
+        var today = new Date();
+        //Restamos los años
+        anos = today.getFullYear() - fecha.getFullYear();
+        // Si no ha llegado su cumpleaños le restamos el año por cumplir
+        if (fecha.getMonth() > (today.getMonth()) || fecha.getDay() > today.getDay())
+            anos--;
+   
+        $('#Edad').val(anos);
     }
 </script>

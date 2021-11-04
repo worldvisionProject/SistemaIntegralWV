@@ -135,7 +135,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                                 colaborador.Department = "NA";
                                 colaborador.PhysicalDeliveryOfficeName = "NA";
                             }
-                          
+                         
                             var defaultUser = new ApplicationUser
                             {
                                 UserName = userName,
@@ -407,7 +407,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                     var result1 = await _signInManager.PasswordSignInAsync(usrname, "123Pa$$word!", false, lockoutOnFailure: false);
                     if (result.Succeeded)
                     {
-
+                      
                         await _mediator.Send(new AddActivityLogCommand() { userId = users.Id, Action = "Logged In" });
                         _logger.LogInformation("Usuario conectado.");
                         _notyf.Success($"Conectado como { wp.Identity.Name.Split((char)92)[1] }.");
