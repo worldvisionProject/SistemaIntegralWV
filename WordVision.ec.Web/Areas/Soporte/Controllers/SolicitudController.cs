@@ -105,11 +105,11 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                         //    if (entidadViewModel.Estado==null)
                         //        entidadViewModel.Estado = 1;
                         //    break;
-                        case 2:
-                            entidadViewModel.Estado = 2;
+                        //case 2:
+                        //    entidadViewModel.Estado = 2;
                            
                             
-                            break;
+                        //    break;
                         case 3:
                             entidadViewModel.Estado =3;
                             break;
