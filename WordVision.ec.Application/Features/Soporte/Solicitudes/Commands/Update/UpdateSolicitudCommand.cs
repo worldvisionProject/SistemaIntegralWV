@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Application.Interfaces.Repositories.Soporte;
+using WordVision.ec.Domain.Entities.Soporte;
 
 namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
 {
@@ -96,13 +97,15 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
         {
             private readonly IUnitOfWork _unitOfWork;
             private readonly ISolicitudRepository _entidadRepository;
+            private readonly IEstadosSolicitudRepository _entidadRepositoryE;
             private readonly IColaboradorRepository _entidadRepositoryC;
             private readonly IMapper _mapper;
 
-            public UpdateSolicitudeCommandHandler(IColaboradorRepository entidadRepositoryC,ISolicitudRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
+            public UpdateSolicitudeCommandHandler(IEstadosSolicitudRepository entidadRepositoryE,IColaboradorRepository entidadRepositoryC,ISolicitudRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
             {
                 _entidadRepository = entidadRepository;
                 _entidadRepositoryC = entidadRepositoryC;
+                _entidadRepositoryE = entidadRepositoryE;
                 _unitOfWork = unitOfWork;
                 _mapper = mapper;
             }
@@ -126,6 +129,16 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                 obj.Estado = command.Estado;
                 obj.ObservacionesSolucion = command.ObservacionesSolucion?? obj.ObservacionesSolucion;
                 obj.DescripcionSolucion = command.DescripcionSolucion ?? obj.DescripcionSolucion;
+
+                EstadosSolicitud e = new()
+                {
+                    IdSolicitud = command.Id,
+                    Estado = command.Estado
+                };
+
+                var objEstados = _mapper.Map<EstadosSolicitud>(e);
+                await _entidadRepositoryE.InsertAsync(objEstados);
+
 
                 await _entidadRepository.UpdateAsync(obj);
 

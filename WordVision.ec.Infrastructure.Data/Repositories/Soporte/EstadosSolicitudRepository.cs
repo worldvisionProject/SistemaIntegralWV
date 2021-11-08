@@ -23,7 +23,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
             _repository = repository;
             _distributedCache = distributedCache;
         }
-        public IQueryable<EstadosSolicitud> estadosSolicitudes => throw new NotImplementedException();
+        public IQueryable<EstadosSolicitud> EstadosSolicitudes => throw new NotImplementedException();
 
         public async Task DeleteAsync(EstadosSolicitud estadosSolicitud)
         {

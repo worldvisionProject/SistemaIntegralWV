@@ -107,6 +107,7 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
 
             services.AddTransient<ISolicitudRepository, SolicitudRepository>();
             services.AddTransient<IMensajeriaRepository, MensajeriaRepository>();
+            services.AddTransient<IComunicacionRepository, ComunicacionRepository>();
             services.AddTransient<IEmailRepository, EmailRepository>();
             services.AddTransient<IEstadosSolicitudRepository, EstadosSolicitudRepository>();
             services.AddTransient<IPersonalRepository, PersonalRepository>();

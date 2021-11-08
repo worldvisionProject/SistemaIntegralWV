@@ -10,7 +10,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Soporte
     public interface IEstadosSolicitudRepository
     {
         //Permite hacer una consulta con where, insert, update,delete,etc.. a la entidad Solcitudes
-        IQueryable<EstadosSolicitud> estadosSolicitudes { get; }
+        IQueryable<EstadosSolicitud> EstadosSolicitudes { get; }
 
         //Permite hacer un select * from
         Task<List<EstadosSolicitud>> GetListAsync();

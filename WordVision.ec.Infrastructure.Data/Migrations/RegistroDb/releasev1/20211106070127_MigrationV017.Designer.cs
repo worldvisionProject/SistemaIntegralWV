@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
-namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
+namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev1
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211106070127_MigrationV017")]
+    partial class MigrationV017
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2047,17 +2049,11 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<byte[]>("AutorizaciondelLider")
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<byte[]>("DisponibilidadPresupuestaria")
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("DocumentoBase")
                         .HasColumnType("nvarchar(max)");
@@ -2068,8 +2064,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<DateTime?>("FechaSolicitud")
                         .HasColumnType("datetime2");
 
-                    b.Property<byte[]>("GuionEvento")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("GuionEvento")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("HoraEvento")
                         .HasColumnType("datetime2");

@@ -17,7 +17,9 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Queries.GetById
     public class GetSolicitudByIdSolicitanteQuery : IRequest<Result<List<GetSolicitudByIdResponse>>>
     {
         public int Id { get; set; }
-      
+
+        public int Tipo { get; set; }
+
         public class GetSolicitudByIdSolicitanteQueryHandler : IRequestHandler<GetSolicitudByIdSolicitanteQuery, Result<List<GetSolicitudByIdResponse>>>
         {
             private readonly ISolicitudRepository _entidadRepository;
@@ -32,10 +34,21 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Queries.GetById
 
             public async Task<Result<List<GetSolicitudByIdResponse>>> Handle(GetSolicitudByIdSolicitanteQuery query, CancellationToken cancellationToken)
             {
-                var obj = await _entidadRepository.GetListSolicitudxSolicitanteAsync(query.Id);
-                var mappedObj = _mapper.Map< List<GetSolicitudByIdResponse>>(obj);
+                if (query.Tipo==0)
+                {
+                    var obj = await _entidadRepository.GetListSolicitudxSolicitanteAsync(query.Id);
+                    var mappedObj = _mapper.Map<List<GetSolicitudByIdResponse>>(obj);
 
-                return Result< List<GetSolicitudByIdResponse>>.Success(mappedObj);
+                    return Result<List<GetSolicitudByIdResponse>>.Success(mappedObj);
+                }
+                else
+                {
+                    var obj = await _entidadRepository.GetListSolicitudxSolicitanteComunicaAsync(query.Id);
+                    var mappedObj = _mapper.Map<List<GetSolicitudByIdResponse>>(obj);
+
+                    return Result<List<GetSolicitudByIdResponse>>.Success(mappedObj);
+                }
+               
             }
         }
     }

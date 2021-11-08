@@ -14,6 +14,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         public DateTime? CreatedOn { get; set; }
         public string LastModifiedBy { get; set; }
         public DateTime? LastModifiedOn { get; set; }
+        public int TipoSistema { get; set; }
         public int IdAsignadoA { get; set; }
         public string AsignadoA { get; set; }
         public SelectList AsignadoAList { get; set; }

@@ -22,7 +22,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
             _distributedCache = distributedCache;
         }
 
-        public IQueryable<Solicitud> solicitudes => _repository.Entities;
+        public IQueryable<Solicitud> Solicitudes => _repository.Entities;
 
 
 
@@ -62,7 +62,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
 
         public async Task<List<Solicitud>> GetListSolicitudxSolicitanteAsync(int idSolicitante)
         {
-            return await _repository.Entities.Where(x => x.IdColaborador == idSolicitante).Include(v=>v.Colaboradores).Include(b=>b.Mensajerias).ToListAsync();
+            return await _repository.Entities.Where(x => x.IdColaborador == idSolicitante && x.TipoSistema==1).Include(v=>v.Colaboradores).Include(b=>b.Mensajerias).ToListAsync();
         }
 
         public async Task<List<Solicitud>> GetListSolicitudxEstadoAsync(int idEstado)
@@ -70,6 +70,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
             return await _repository.Entities.Include(v => v.Colaboradores).Include(b => b.Mensajerias).ToListAsync();
         }
 
-       
+        public async Task<List<Solicitud>> GetListSolicitudxSolicitanteComunicaAsync(int idSolicitante)
+        {
+            return await _repository.Entities.Where(x => x.IdColaborador == idSolicitante && x.TipoSistema == 2).Include(v => v.Colaboradores).Include(b => b.Comunicaciones).ToListAsync();
+
+        }
     }
 }

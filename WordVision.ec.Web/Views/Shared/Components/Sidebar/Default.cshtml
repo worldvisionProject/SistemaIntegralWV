@@ -204,8 +204,8 @@
 
 
 
-                @if (User.IsInRole("SuperAdmin")  )
-             
+                @if (User.IsInRole("SuperAdmin"))
+
                 {
                     <li class="nav-header">@localizer["Maestro"]</li>
                     <li is-active-route asp-area="Maestro" class="nav-item has-treeview">
@@ -278,6 +278,56 @@
 
                 </li>
 
+
+                <li class="nav-header">@localizer["Servicios Comunicación"]</li>
+                <li is-active-route asp-area="Soporte" class="nav-item has-treeview">
+                    <a is-active-route asp-area="Soporte" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            @localizer["GEO"]
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a is-active-route asp-area="Soporte" asp-controller="Comunicacion" asp-action="Index" asp-route-id="1" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    @localizer["Mis Requerimientos"]
+                                    @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                </p>
+                            </a>
+                        </li>
+                        @if (User.IsInRole("CoordMensajeria"))
+                        {
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Soporte" asp-controller="Comunicacion" asp-action="Index" asp-route-id="2" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
+                                    <p>
+                                        @localizer["Asignación"]
+                                        @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                    </p>
+                                </a>
+                            </li>
+
+                        }
+                        @if (User.IsInRole("EjecutorMensajeria"))
+                        {
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Soporte" asp-controller="Comunicacion" asp-action="Index" asp-route-id="3" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
+                                    <p>
+                                        @localizer["Resolución"]
+                                        @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                    </p>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+                </li>
+
+
                 @if (User.IsInRole("DonanteEdicion") || User.IsInRole("DonantesVisualizacion"))
                 {
                     <li class="nav-header">@localizer["Marketing"]</li>
@@ -315,156 +365,156 @@
 
                 }
 
-                    <li class="nav-header">@localizer["Gente y Cultura"]</li>
-                    <li is-active-route asp-area="Registro" class="nav-item has-treeview">
-                        <a is-active-route asp-area="Registro" class="nav-link">
+                <li class="nav-header">@localizer["Gente y Cultura"]</li>
+                <li is-active-route asp-area="Registro" class="nav-item has-treeview">
+                    <a is-active-route asp-area="Registro" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            @localizer["Datos y Documentos"]
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a is-active-route asp-area="Registro" asp-controller="Colaborador" asp-action="Colaborador" class="nav-link">
+                                <i class="nav-icon fas fa-id-card"></i>
+                                <p>
+                                    @localizer["Datos del Colaborador"]
+                                    @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a is-active-route asp-area="Registro" asp-page="/Formulario/Wizard/Index" class="nav-link">
+                                <i class="nav-icon fas fa-user-edit"></i>
+                                <p>
+                                    @localizer["Actualización de Datos"]
+                                    @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a is-active-route asp-area="Registro" asp-controller="Documento" asp-action="Index" asp-route-id="3" class="nav-link">
+                                <i class="nav-icon fas fa-file"></i>
+                                <p>
+                                    @localizer["Documentos Claves"]
+                                    @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a is-active-route asp-area="Registro" asp-controller="Documento" asp-action="Index" asp-route-id="4" class="nav-link">
+                                <i class="nav-icon fas fa-handshake"></i>
+                                <p>
+                                    @localizer["Actualización de Politicas"]
+                                    @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                </p>
+                            </a>
+                        </li>
+
+
+                        <!--<ul class="nav nav-treeview">-->
+                        @if (User.IsInRole("CoordGenteCultura"))
+                        {
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Registro" asp-controller="Colaborador" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fas fa-building"></i>
+                                    <p>
+                                        @localizer["Colaboradores"]
+                                        @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                    </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="Estructura" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fas fa-sitemap"></i>
+                                    <p>
+                                        @localizer["Organigrama"]
+
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Registro" asp-controller="Documento" asp-action="Documento" class="nav-link">
+                                    <i class="nav-icon fas fa-cubes"></i>
+                                    <p>
+                                        @localizer["Documentos Parametros"]
+                                    </p>
+                                </a>
+                            </li>
+                        }
+
+
+                    </ul>
+                </li>
+
+
+                @if (User.IsInRole("PresupuestoOn"))
+                {
+                    <li class="nav-header">@localizer["Presupuesto"]</li>
+                    <li is-active-route asp-area="Admin" class="nav-item has-treeview">
+                        <a is-active-route asp-area="Admin" class="nav-link">
                             <i class="nav-icon fas fa-user"></i>
                             <p>
-                                @localizer["Datos y Documentos"]
+                                @localizer["Gestion"]
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Registro" asp-controller="Colaborador" asp-action="Colaborador" class="nav-link">
-                                    <i class="nav-icon fas fa-id-card"></i>
+                                <a is-active-route asp-area="Planificacion" asp-controller="TechoPresupuestario" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
                                     <p>
-                                        @localizer["Datos del Colaborador"]
+                                        @localizer["Techo Presupuestario"]
                                         @*<span class="right badge badge-danger">@localizer["New"]</span>*@
                                     </p>
                                 </a>
                             </li>
-
                             <li class="nav-item">
-                                <a is-active-route asp-area="Registro" asp-page="/Formulario/Wizard/Index" class="nav-link">
-                                    <i class="nav-icon fas fa-user-edit"></i>
+                                <a is-active-route asp-area="Presupuesto" asp-controller="DatosLDR" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
                                     <p>
-                                        @localizer["Actualización de Datos"]
+                                        @localizer["LDR"]
                                         @*<span class="right badge badge-danger">@localizer["New"]</span>*@
                                     </p>
                                 </a>
                             </li>
-
                             <li class="nav-item">
-                                <a is-active-route asp-area="Registro" asp-controller="Documento" asp-action="Index" asp-route-id="3" class="nav-link">
-                                    <i class="nav-icon fas fa-file"></i>
+                                <a is-active-route asp-area="Presupuesto" asp-controller="DatosT5" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
                                     <p>
-                                        @localizer["Documentos Claves"]
+                                        @localizer["Lineamientos"]
                                         @*<span class="right badge badge-danger">@localizer["New"]</span>*@
                                     </p>
                                 </a>
                             </li>
-
                             <li class="nav-item">
-                                <a is-active-route asp-area="Registro" asp-controller="Documento" asp-action="Index" asp-route-id="4" class="nav-link">
-                                    <i class="nav-icon fas fa-handshake"></i>
+                                <a is-active-route asp-area="Presupuesto" asp-controller="Presupuesto" asp-action="Presupuesto" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
                                     <p>
-                                        @localizer["Actualización de Politicas"]
+                                        @localizer["Presupuesto"]
                                         @*<span class="right badge badge-danger">@localizer["New"]</span>*@
                                     </p>
                                 </a>
                             </li>
-
-
-                            <!--<ul class="nav nav-treeview">-->
-                            @if (User.IsInRole("CoordGenteCultura"))
-                            {
-                                <li class="nav-item">
-                                    <a is-active-route asp-area="Registro" asp-controller="Colaborador" asp-action="Index" class="nav-link">
-                                        <i class="nav-icon fas fa-building"></i>
-                                        <p>
-                                            @localizer["Colaboradores"]
-                                            @*<span class="right badge badge-danger">@localizer["New"]</span>*@
-                                        </p>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a is-active-route asp-area="Maestro" asp-controller="Estructura" asp-action="Index" class="nav-link">
-                                        <i class="nav-icon fas fa-sitemap"></i>
-                                        <p>
-                                            @localizer["Organigrama"]
-
-                                        </p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a is-active-route asp-area="Registro" asp-controller="Documento" asp-action="Documento" class="nav-link">
-                                        <i class="nav-icon fas fa-cubes"></i>
-                                        <p>
-                                            @localizer["Documentos Parametros"]
-                                        </p>
-                                    </a>
-                                </li>
-                            }
-
-
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Presupuesto" asp-controller="Presupuesto" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
+                                    <p>
+                                        @localizer["Reporte Presupuesto"]
+                                        @* <span class="right badge badge-danger">@localizer["New"]</span>*@
+                                    </p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
 
-
-                    @if (User.IsInRole("PresupuestoOn"))
-                    {
-                        <li class="nav-header">@localizer["Presupuesto"]</li>
-                        <li is-active-route asp-area="Admin" class="nav-item has-treeview">
-                            <a is-active-route asp-area="Admin" class="nav-link">
-                                <i class="nav-icon fas fa-user"></i>
-                                <p>
-                                    @localizer["Gestion"]
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a is-active-route asp-area="Planificacion" asp-controller="TechoPresupuestario" asp-action="Index" class="nav-link">
-                                        <i class="nav-icon fas fa-th"></i>
-                                        <p>
-                                            @localizer["Techo Presupuestario"]
-                                            @*<span class="right badge badge-danger">@localizer["New"]</span>*@
-                                        </p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a is-active-route asp-area="Presupuesto" asp-controller="DatosLDR" asp-action="Index" class="nav-link">
-                                        <i class="nav-icon fas fa-th"></i>
-                                        <p>
-                                            @localizer["LDR"]
-                                            @*<span class="right badge badge-danger">@localizer["New"]</span>*@
-                                        </p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a is-active-route asp-area="Presupuesto" asp-controller="DatosT5" asp-action="Index" class="nav-link">
-                                        <i class="nav-icon fas fa-th"></i>
-                                        <p>
-                                            @localizer["Lineamientos"]
-                                            @*<span class="right badge badge-danger">@localizer["New"]</span>*@
-                                        </p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a is-active-route asp-area="Presupuesto" asp-controller="Presupuesto" asp-action="Presupuesto" class="nav-link">
-                                        <i class="nav-icon fas fa-th"></i>
-                                        <p>
-                                            @localizer["Presupuesto"]
-                                            @*<span class="right badge badge-danger">@localizer["New"]</span>*@
-                                        </p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a is-active-route asp-area="Presupuesto" asp-controller="Presupuesto" asp-action="Index" class="nav-link">
-                                        <i class="nav-icon fas fa-th"></i>
-                                        <p>
-                                            @localizer["Reporte Presupuesto"]
-                                            @* <span class="right badge badge-danger">@localizer["New"]</span>*@
-                                        </p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                    }
-                </ul>
+                }
+            </ul>
 </nav>
     </div>
 </aside>

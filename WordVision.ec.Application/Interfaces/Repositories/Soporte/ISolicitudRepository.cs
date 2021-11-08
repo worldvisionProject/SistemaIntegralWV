@@ -12,7 +12,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Soporte
 
 
         //Permite hacer una consulta con where, insert, update,delete,etc.. a la entidad Solcitudes
-        IQueryable<Solicitud> solicitudes { get; }
+        IQueryable<Solicitud> Solicitudes { get; }
 
 
         //Permite hacer un select * from
@@ -29,6 +29,8 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Soporte
         Task<List<Solicitud>> GetListSolicitudxAsignadoAsync(int idAsignadoA);
 
         Task<List<Solicitud>> GetListSolicitudxSolicitanteAsync(int idSolicitante);
+
+        Task<List<Solicitud>> GetListSolicitudxSolicitanteComunicaAsync(int idSolicitante);
 
         Task<List<Solicitud>> GetListSolicitudxEstadoAsync(int idEstado);
     }

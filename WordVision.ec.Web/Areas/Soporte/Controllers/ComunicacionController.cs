@@ -23,7 +23,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
 {
     [Area("Soporte")]
     [Authorize]
-    public class SolicitudController :  BaseController<SolicitudController>
+    public class ComunicacionController :  BaseController<ComunicacionController>
     {
         public IActionResult Index(int id=0)
         {
@@ -39,7 +39,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
             switch (op)
             {
                 case 1:
-                    var response = await _mediator.Send(new GetSolicitudByIdSolicitanteQuery() { Id = idSolicitante });
+                    var response = await _mediator.Send(new GetSolicitudByIdSolicitanteQuery() { Id = idSolicitante,Tipo=2 });
                     if (response.Succeeded)
                     {
                         var viewModel = _mapper.Map<List<SolicitudViewModel>>(response.Data);
@@ -86,9 +86,10 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                 var entidadViewModel = new SolicitudViewModel();
                 entidadViewModel.Estado = 1;
                 entidadViewModel.Op = op;
+                entidadViewModel.CreatedOn = DateTime.Now;
                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
                 entidadViewModel.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
-                cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 20 });
+                cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 38 });
                 entidadViewModel.TiposTramitesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
@@ -153,7 +154,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     if (id == 0)
                     {
                         entidad.Estado = 1;
-                        entidad.TipoSistema = 1;
+                        entidad.TipoSistema = 2;
                         var createEntidadCommand = _mapper.Map<CreateSolicitudCommand>(entidad);
                         var result = await _mediator.Send(createEntidadCommand);
                         if (result.Succeeded)
@@ -176,7 +177,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     switch (op)
                     {
                         case 1:
-                            var response1 = await _mediator.Send(new GetSolicitudByIdSolicitanteQuery() { Id = entidad.IdColaborador });
+                            var response1 = await _mediator.Send(new GetSolicitudByIdSolicitanteQuery() { Id = entidad.IdColaborador, Tipo = 2 });
                             if (response1.Succeeded)
                             {
                                 var viewModel = _mapper.Map<List<SolicitudViewModel>>(response1.Data);

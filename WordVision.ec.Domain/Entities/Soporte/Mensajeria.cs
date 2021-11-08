@@ -12,6 +12,7 @@ namespace WordVision.ec.Domain.Entities.Soporte
     { 
         //Estructura de Mensajeria
         [StringLength(150)]
+        [Required]
         public string PersonaaContactar { get; set; }
 
         [StringLength(15)]
@@ -22,10 +23,13 @@ namespace WordVision.ec.Domain.Entities.Soporte
         public byte[] Archivo { get; set; }
         public int TiposTramites { get; set; }
         [StringLength(500)]
+        [Required]
         public string DescripcionTramite { get; set; }
         [StringLength(500)]
+        [Required]
         public string Direccion { get; set; }
         [StringLength(500)]
+        [Required]
         public string InformacionAdicional { get; set; }
      
         public int IdSolicitud { get; set; }

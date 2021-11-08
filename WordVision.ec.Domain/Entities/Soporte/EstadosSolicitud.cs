@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace WordVision.ec.Domain.Entities.Soporte
 {
     public class EstadosSolicitud : AuditableEntity
     {
+        [Required]
         public int Estado { get; set; }
         public int IdSolicitud { get; set; }
         //Tabla Padre
