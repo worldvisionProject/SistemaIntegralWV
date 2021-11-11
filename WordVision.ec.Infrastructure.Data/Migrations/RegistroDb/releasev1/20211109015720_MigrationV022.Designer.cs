@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
-namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
+namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev1
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211109015720_MigrationV022")]
+    partial class MigrationV022
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2076,6 +2078,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
+                    b.Property<int?>("IdComunicacion")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdSolicitud")
                         .HasColumnType("int");
 
@@ -2084,6 +2089,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("LogosSocios")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LugarEvento")
                         .HasMaxLength(250)
@@ -2132,6 +2140,10 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdComunicacion")
+                        .IsUnique()
+                        .HasFilter("[IdComunicacion] IS NOT NULL");
 
                     b.ToTable("Comunicaciones", "soporte");
                 });
@@ -2392,9 +2404,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdComunicacion");
-
-                    b.ToTable("LogoSocios", "soporte");
+                    b.ToTable("LogoSocio");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Soporte.Mensajeria", b =>
@@ -2529,8 +2539,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdComunicacion");
 
                     b.ToTable("Ponentes", "soporte");
                 });
@@ -2897,6 +2905,21 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Navigation("Colaboradores");
                 });
 
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Soporte.Comunicacion", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Soporte.LogoSocio", "LogoSocios")
+                        .WithOne("Comunicaciones")
+                        .HasForeignKey("WordVision.ec.Domain.Entities.Soporte.Comunicacion", "IdComunicacion");
+
+                    b.HasOne("WordVision.ec.Domain.Entities.Soporte.Ponente", "Ponentes")
+                        .WithOne("Comunicaciones")
+                        .HasForeignKey("WordVision.ec.Domain.Entities.Soporte.Comunicacion", "IdComunicacion");
+
+                    b.Navigation("LogoSocios");
+
+                    b.Navigation("Ponentes");
+                });
+
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Soporte.EstadosSolicitud", b =>
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Soporte.Solicitud", "Solicitudes")
@@ -2906,28 +2929,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .IsRequired();
 
                     b.Navigation("Solicitudes");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Soporte.LogoSocio", b =>
-                {
-                    b.HasOne("WordVision.ec.Domain.Entities.Soporte.Comunicacion", "Comunicaciones")
-                        .WithMany("LogoSocios")
-                        .HasForeignKey("IdComunicacion")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Comunicaciones");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Soporte.Ponente", b =>
-                {
-                    b.HasOne("WordVision.ec.Domain.Entities.Soporte.Comunicacion", "Comunicaciones")
-                        .WithMany("Ponentes")
-                        .HasForeignKey("IdComunicacion")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Comunicaciones");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Soporte.Solicitud", b =>
@@ -3070,16 +3071,22 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Soporte.Comunicacion", b =>
                 {
-                    b.Navigation("LogoSocios");
-
-                    b.Navigation("Ponentes");
-
                     b.Navigation("Solicitudes");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Soporte.LogoSocio", b =>
+                {
+                    b.Navigation("Comunicaciones");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Soporte.Mensajeria", b =>
                 {
                     b.Navigation("Solicitudes");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Soporte.Ponente", b =>
+                {
+                    b.Navigation("Comunicaciones");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Soporte.Solicitud", b =>

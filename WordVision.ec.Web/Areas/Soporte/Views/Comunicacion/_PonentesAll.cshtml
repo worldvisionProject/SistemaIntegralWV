@@ -1,0 +1,116 @@
+﻿@using WordVision.ec.Web.Areas.Soporte.Models
+@using WordVision.ec.Infrastructure.Data.Identity.Models;
+@model List<PonenteViewModel>
+<div class="col-sm-12 header-button">
+
+            <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGetHijo('2','/Soporte/Comunicacion/OnGetCreateOrEditPonente?id=0&idComunicacion=','Ponentes')">
+                <i class="fa fa-plus-square"></i>
+                Agregar
+            </button>
+
+</div>
+
+<table id="ponenteTable" class="table table-striped " width="100%" cellspacing="0">
+    <thead>
+        <tr>
+
+            <th>Ponente</th>
+            <th data-priority="1">Cargo</th>
+            <th data-priority="1">Perfíl</th>
+            <th data-priority="1">Tema</th>
+            <th data-priority="2" class="acciones-th">Acciones</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var solicitud in Model)
+        {
+        <tr>
+            <td>
+                @solicitud.Id
+            </td>
+            <td>
+                @solicitud.NombreApellido  
+            </td>
+            <td>
+                @solicitud.Cargo 
+            </td>
+            <td>
+
+                @solicitud.Perfil
+            </td>
+            <td>
+
+                @solicitud.Tema
+            </td>
+           
+
+            <td class="acciones-td">
+                <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Editar" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Soporte/Comunicacion/OnGetCreateOrEditPonente?id=@solicitud.Id&idComunicacion=@solicitud.IdComunicacion','Ponentes')">
+                    <i class="fas fa-eye"></i>
+                </button>
+
+                <form id="form_delete_@solicitud.Id" asp-area="Planificacion" asp-controller="ObjetivoEstrategico" method="post" asp-action="OnPostDeletePonente" asp-route-id="@solicitud.Id"  onsubmit="return jQueryModalDelete(this)">
+                    <a href="javascript:$('#form_delete_@solicitud.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
+                </form>
+
+            </td>
+
+
+
+
+        </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+
+    $(document).ready(function () {
+        var table = $("#ponenteTable").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },
+            //dom: 'Bfrtip',
+            //buttons: [
+            //    'copyHtml5',
+            //    'excelHtml5',
+            //    'csvHtml5',
+            //    'pdfHtml5'
+            //],
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 }
+            ],
+            "info": false
+            //columnDefs: [
+            //    { responsivePriority: 1, targets: 0 },
+            //    { responsivePriority: 10001, targets: 4 },
+            //    { responsivePriority: 2, targets: -2 }
+            //]
+        });
+
+        //var column = table.column(0);
+        //// Toggle the visibility
+        //column.visible(false);
+
+
+
+        $('#solicitudTable tbody').on('dblclick', 'tr', function () {
+            var data = table.row(this).data();
+
+            jQueryModalGet('/Soporte/Comunicacion/OnGetCreateOrEditPonente?id=' + data[0], 'Ponentes');
+
+
+        });
+
+        /*  $(".dynmic-hidden-col").hide();*/
+
+    });
+</script>

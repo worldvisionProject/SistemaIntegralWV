@@ -16,6 +16,8 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
         private readonly IRepositoryAsync<Ponente> _repository;
         private readonly IDistributedCache _distributedCache;
 
+        public IQueryable<Ponente> Ponentes => _repository.Entities;
+
         public PonenteRepository(IRepositoryAsync<Ponente> repository, IDistributedCache distributedCache)
         {
             _repository = repository;
@@ -26,12 +28,12 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
             await _repository.DeleteAsync(ponente);
         }
 
-        public async Task<List<Ponente>> GetListAsync()
+        public async Task<List<Ponente>> GetListAsync(int IdComunicacion)
         {
-            return await _repository.Entities.ToListAsync();
+            return await _repository.Entities.Where(x=>x.IdComunicacion== IdComunicacion).ToListAsync();
         }
 
-        public async Task<Ponente> GetPonenteAsync(int idPonente)
+        public async Task<Ponente> GetByIdAsync(int idPonente)
         {
             return await _repository.Entities.Where(x => x.Id == idPonente).FirstOrDefaultAsync();
         }

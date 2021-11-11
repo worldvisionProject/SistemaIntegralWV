@@ -62,18 +62,22 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Create
         public async Task<Result<int>> Handle(CreateSolicitudCommand request, CancellationToken cancellationToken)
         {
 
-            var solicitud = _mapper.Map<Solicitud>(request);
-            await _entidadRepository.InsertAsync(solicitud);
+           
 
             EstadosSolicitud e = new()
             {
-                IdSolicitud = solicitud.Id,
+                //IdSolicitud = solicitud.Id,
                 Estado = 1
             };
 
             var objEstados = _mapper.Map<EstadosSolicitud>(e);
-            objEstados.IdSolicitud = solicitud.Id;
+            //objEstados.IdSolicitud = solicitud.Id;
             await _entidadRepositoryE.InsertAsync(objEstados);
+
+            List<EstadosSolicitud> le = new List<EstadosSolicitud> { objEstados };
+            var solicitud = _mapper.Map<Solicitud>(request);
+            solicitud.EstadosSolicitudes = le;
+            await _entidadRepository.InsertAsync(solicitud);
 
             if (request.Mensajerias != null)
             {

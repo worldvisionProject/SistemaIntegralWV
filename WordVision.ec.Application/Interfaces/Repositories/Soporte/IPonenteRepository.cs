@@ -10,13 +10,14 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Soporte
 {
     public interface IPonenteRepository
     {
-        Task<List<Ponente>> GetListAsync();
+        IQueryable<Ponente> Ponentes { get; }
+        Task<List<Ponente>> GetListAsync(int IdComunicacion);
 
         Task<int> InsertAsync(Ponente ponente);
 
         Task UpdateAsync(Ponente ponente);
         Task DeleteAsync(Ponente ponente);
-        Task<Ponente> GetPonenteAsync(int idPonente);
+        Task<Ponente> GetByIdAsync(int idPonente);
       
     }
 }

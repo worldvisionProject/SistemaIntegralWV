@@ -53,8 +53,8 @@ namespace WordVision.ec.Domain.Entities.Soporte
 
         [Required]
         public int TipoSolicitud { get; set; }
-        [Required]
-        public DateTime? FechaSolicitud { get; set; }
+        //[Required]
+        //public DateTime? FechaSolicitud { get; set; }
         [Required]
         public decimal Presupuesto { get; set; }
         [Required]
@@ -71,9 +71,10 @@ namespace WordVision.ec.Domain.Entities.Soporte
         [Required]
         public string NombreEvento { get; set; }
         [Required]
-        public DateTime FechaEvento { get; set; }
+        public DateTime? FechaEvento { get; set; }
+        [StringLength(15)]
         [Required]
-        public DateTime? HoraEvento { get; set; }
+        public string HoraEvento { get; set; }
         [StringLength(250)]
         public string LugarEvento { get; set; }
         [StringLength(550)]
@@ -85,7 +86,7 @@ namespace WordVision.ec.Domain.Entities.Soporte
         public int NumeroParticipantes { get; set; }
         public bool TransmisionVirtual { get; set; }
         public byte[] GuionEvento { get; set; }
-        public string LogosSocios { get; set; }
+        //public string LogosSocios { get; set; }
         public string PersonasAsistiran { get; set; }
         public string PersonalWV { get; set; }
         public string SituacionesInteresWV { get; set; }
@@ -96,14 +97,14 @@ namespace WordVision.ec.Domain.Entities.Soporte
         //public string ObjetivoProducto { get; set; }
         //public string PublicoObjetivo { get; set; }
         public string MensajeClave { get; set; }
-        public string DocumentoBase { get; set; }
+        public byte[] DocumentoBase { get; set; }
 
         public int IdSolicitud { get; set; }
         public virtual Solicitud Solicitudes { get; set; }
 
         [ForeignKey("IdComunicacion")]
-        public Ponente Ponentes { get; set; }
+        public ICollection<Ponente> Ponentes { get; set; }
         [ForeignKey("IdComunicacion")]
-        public LogoSocio LogoSocios { get; set; }
+        public ICollection<LogoSocio> LogoSocios { get; set; }
     }
 }

@@ -1,0 +1,70 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Web.Areas.Soporte.Models
+@using WordVision.ec.Infrastructure.Data.Identity.Models;
+@model PonenteViewModel
+
+
+
+
+<form id="create-form" method="post" asp-controller="Comunicacion" asp-action="OnPostCreateOrEditPonente" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+
+   
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="NombreApellido"></label>
+                    <input asp-for="NombreApellido" type="text" name="FechaConversion" class="datepicker form-control" />
+                    <span asp-validation-for="NombreApellido" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Cargo"></label>
+                    <input asp-for="Cargo" type="text" name="Cargo" class=" form-control" />
+                    <span asp-validation-for="Cargo" class="text-danger"></span>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Perfil"></label>
+                    <textarea asp-for="Perfil"  name="Perfil" class=" form-control" ></textarea>
+                    <span asp-validation-for="Perfil" class="text-danger"></span>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+   
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Tema"></label>
+                    <textarea asp-for="Tema"  name="Tema" class=" form-control" ></textarea>
+                    <span asp-validation-for="Tema" class="text-danger"></span>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+    <br />
+    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+        
+       <button type="submit" class="btn btn-success">Guardar</button>
+     
+        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+    </div>
+</form>

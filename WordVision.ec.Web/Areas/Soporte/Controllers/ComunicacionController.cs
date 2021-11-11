@@ -12,6 +12,9 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
+using WordVision.ec.Application.Features.Soporte.Ponentes.Commands.Create;
+using WordVision.ec.Application.Features.Soporte.Ponentes.Commands.Update;
+using WordVision.ec.Application.Features.Soporte.Ponentes.Queries.GetAll;
 using WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Create;
 using WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update;
 using WordVision.ec.Application.Features.Soporte.Solicitudes.Queries.GetById;
@@ -142,13 +145,38 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                 var op = entidad.Op;
                 if (ModelState.IsValid)
                 {
+                   
                     if (Request.Form.Files.Count > 0)
                     {
-                        IFormFile file = Request.Form.Files.FirstOrDefault();
-                        var image = file.OpenReadStream();
-                        MemoryStream ms = new MemoryStream();
-                        image.CopyTo(ms);
-                        entidad.Mensajerias.Archivo = ms.ToArray();
+                       for (int i=0;i<= Request.Form.Files.Count-1;i++)
+                        {
+                            IFormFile file = Request.Form.Files[i];
+                            var image = file.OpenReadStream();
+                            
+                            switch (Request.Form.Files[i].Name)
+                            {
+
+                                case "Comunicaciones.DisponibilidadPresupuestaria":
+                                    MemoryStream ms = new();
+                                    image.CopyTo(ms);
+                                    entidad.Comunicaciones.DisponibilidadPresupuestaria = ms.ToArray();
+                                    break;
+                                case "Comunicaciones.DocumentoBase":
+                                    MemoryStream msd = new();
+                                    image.CopyTo(msd);
+                                    entidad.Comunicaciones.DocumentoBase = msd.ToArray();
+                                    break;
+                                case "Comunicaciones.GuionEvento":
+                                     MemoryStream msg = new();
+                                    image.CopyTo(msg);
+                                    entidad.Comunicaciones.GuionEvento = msg.ToArray();
+                                    break;
+                                
+                            }
+                        }
+
+
+                        
                     }
 
                     if (id == 0)
@@ -187,7 +215,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
 
                                 var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
                                 html1 = html1.Replace("&op=", "&op=1");
-                                await EnviarMail(id);
+                                //await EnviarMail(id);
 
                                 return new JsonResult(new { isValid = true, html = html1 });
                             }
@@ -203,7 +231,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
 
                                 var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
                                 html1 = html1.Replace("&op=", "&op=2");
-                                await EnviarMail(id);
+                                //await EnviarMail(id);
                                 return new JsonResult(new { isValid = true, html = html1 });
                             }
                             break;
@@ -219,7 +247,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                                 var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
                                 html1 = html1.Replace("&op=", "&op=2");
 
-                                await EnviarMail(id);
+                                //await EnviarMail(id);
 
                                 return new JsonResult(new { isValid = true, html = html1 });
                             }
@@ -269,13 +297,34 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                 switch (tipo)
                 {
                     case 1:
-                        if (entidadViewModel.Mensajerias.Archivo != null)
+                        if (entidadViewModel.Comunicaciones.DisponibilidadPresupuestaria != null)
                         {
-                            byte[] dataArray = entidadViewModel.Mensajerias.Archivo;
+                            byte[] dataArray = entidadViewModel.Comunicaciones.DisponibilidadPresupuestaria;
                             return File(dataArray, "application/pdf");
                         }
                         break;
-                    
+                    case 2:
+                        if (entidadViewModel.Comunicaciones.AutorizaciondelLider != null)
+                        {
+                            byte[] dataArray = entidadViewModel.Comunicaciones.AutorizaciondelLider;
+                            return File(dataArray, "application/pdf");
+                        }
+                        break;
+                    case 4:
+                        if (entidadViewModel.Comunicaciones.DocumentoBase != null)
+                        {
+                            byte[] dataArray = entidadViewModel.Comunicaciones.DocumentoBase;
+                            return File(dataArray, "application/pdf");
+                        }
+                        break;
+                    case 3:
+                        if (entidadViewModel.Comunicaciones.GuionEvento != null)
+                        {
+                            byte[] dataArray = entidadViewModel.Comunicaciones.GuionEvento;
+                            return File(dataArray, "application/pdf");
+                        }
+                        break;
+
                 }
 
 
@@ -384,6 +433,105 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
 
             //   return new JsonResult(new { isValid = true });
             // return RedirectToPage("/Wizard/Index", new { area = "Registro" });
+            return null;
+        }
+
+
+
+        public async Task<JsonResult> LoadAllPonente(int idComunicacion)
+        {
+            try
+            {
+
+                var response = await _mediator.Send(new GetAllPonentesQuery() { IdComunicacion = idComunicacion });
+                if (response.Succeeded)
+                {
+                    var viewModel = _mapper.Map<List<PonenteViewModel>>(response.Data);
+                    var html = await _viewRenderer.RenderViewToStringAsync("_PonentesAll", viewModel);
+                    html = html.Replace("&idComunicacion=", "&idComunicacion="+ idComunicacion.ToString());
+                    return new JsonResult(new { isValid = true, html });
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "LoadAllPonente");
+              
+            }
+            return null;
+        }
+
+
+        public async Task<JsonResult> OnGetCreateOrEditPonente(int id = 0, int idComunicacion = 0)
+        {
+            try
+            {
+                if (id == 0)
+                {
+                    var entidadViewModel = new PonenteViewModel();
+                    entidadViewModel.IdComunicacion = idComunicacion;
+                    return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEditPonente", entidadViewModel) });
+                }
+                else
+                {
+                    var response = await _mediator.Send(new GetPonenteByIdQuery() { Id = id });
+                    if (response.Succeeded)
+                    {
+                        var entidadViewModel = _mapper.Map<PonenteViewModel>(response.Data);
+
+
+                        return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEditPonente", entidadViewModel) });
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "OnGetCreateOrEditPonente");
+
+            }
+            return null;
+        }
+
+
+        [HttpPost]
+        public async Task<JsonResult> OnPostCreateOrEditPonente(int id, PonenteViewModel entidad)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (id == 0)
+                    {
+                        var createEntidadCommand = _mapper.Map<CreatePonenteCommand>(entidad);
+                        var result = await _mediator.Send(createEntidadCommand);
+                        if (result.Succeeded)
+                        {
+                            id = result.Data;
+                    }
+                            _notify.Success($"Ponente con ID {result.Data} Creado.");
+                        }
+                        else _notify.Error(result.Message);
+                    else
+                    {
+                        var updateEntidadCommand = _mapper.Map<UpdatePonenteCommand>(entidad);
+                        var result = await _mediator.Send(updateEntidadCommand);
+                        if (result.Succeeded) _notify.Information($"Ponente con ID {result.Data} Actualizado.");
+                    }
+                    return new JsonResult(new { isValid = true, solocerrar = true });
+                }
+                else
+                {
+                    var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEditPonente", entidad);
+                    return new JsonResult(new { isValid = false, html = html });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("OnPostCreateOrEdit", ex);
+                _notify.Error("Error al insertar IndicadorEstrategico");
+            }
             return null;
         }
 
