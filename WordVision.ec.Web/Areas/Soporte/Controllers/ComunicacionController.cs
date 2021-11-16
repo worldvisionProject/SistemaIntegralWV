@@ -438,7 +438,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
 
 
 
-        public async Task<JsonResult> LoadAllPonente(int idComunicacion)
+        public async Task<IActionResult> LoadAllPonente(int idComunicacion)
         {
             try
             {
@@ -447,11 +447,11 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                 if (response.Succeeded)
                 {
                     var viewModel = _mapper.Map<List<PonenteViewModel>>(response.Data);
-                    var html = await _viewRenderer.RenderViewToStringAsync("_PonentesAll", viewModel);
-                    html = html.Replace("&idComunicacion=", "&idComunicacion="+ idComunicacion.ToString());
-                    return new JsonResult(new { isValid = true, html });
-
-
+                    //var html = await _viewRenderer.RenderViewToStringAsync("_PonentesAll", viewModel);
+                    //html = html.Replace("&idComunicacion=", "&idComunicacion="+ idComunicacion.ToString());
+                    //return new JsonResult(new { isValid = true, html });
+                   
+                    return PartialView("_PonentesAll", viewModel);
                 }
             }
             catch (Exception ex)
@@ -502,24 +502,28 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (id == 0)
-                    {
-                        var createEntidadCommand = _mapper.Map<CreatePonenteCommand>(entidad);
-                        var result = await _mediator.Send(createEntidadCommand);
-                        if (result.Succeeded)
-                        {
-                            id = result.Data;
-                    }
-                            _notify.Success($"Ponente con ID {result.Data} Creado.");
-                        }
-                        else _notify.Error(result.Message);
-                    else
-                    {
-                        var updateEntidadCommand = _mapper.Map<UpdatePonenteCommand>(entidad);
-                        var result = await _mediator.Send(updateEntidadCommand);
-                        if (result.Succeeded) _notify.Information($"Ponente con ID {result.Data} Actualizado.");
-                    }
-                    return new JsonResult(new { isValid = true, solocerrar = true });
+                    //if (id == 0)
+                    //{
+                    //    var createEntidadCommand = _mapper.Map<CreatePonenteCommand>(entidad);
+                    //    var result = await _mediator.Send(createEntidadCommand);
+                    //    if (result.Succeeded)
+                    //    {
+                    //        id = result.Data;
+
+                    //        _notify.Success($"Ponente con ID {result.Data} Creado.");
+                    //    }
+                    //    else _notify.Error(result.Message);
+                    //}
+                    //else
+                    //{
+                    //    var updateEntidadCommand = _mapper.Map<UpdatePonenteCommand>(entidad);
+                    //    var result = await _mediator.Send(updateEntidadCommand);
+                    //    if (result.Succeeded) _notify.Information($"Ponente con ID {result.Data} Actualizado.");
+                    //}
+                    var viewModel = new List<PonenteViewModel>();
+                    viewModel.Add(entidad);
+
+                    return new JsonResult(new { isValid = true, opcion = 103,page= "#viewAllPonente", html= await _viewRenderer.RenderViewToStringAsync("_PonentesAll", viewModel) });
                 }
                 else
                 {

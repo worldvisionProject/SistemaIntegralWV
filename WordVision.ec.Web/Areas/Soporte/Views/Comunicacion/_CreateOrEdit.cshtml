@@ -435,10 +435,14 @@
 
             <div class="form-group row">
               
-               <div class="col-md-4">
-                    <button type="button" class="btn btn-primary btn-xp" onclick="jQueryModalGetHijo('1','/Soporte/Comunicacion/LoadAllPonente?idComunicacion=@Model.Id','Ponentes')">
+               <div class="col-md-6">
+                    <button type="button" class="btn btn-primary btn-xp" onclick="jQueryModalGetHijo('1','/Soporte/Comunicacion/OnGetCreateOrEditPonente?id=0&idComunicacion=','Ponentes')">
                     <i class="fas fa-plus-square"></i>
                 </button>
+                
+        <div id="viewAllPonente" class="card-body table-responsive">
+        </div>
+
                </div>
             
                     <div class="col-md-2">
@@ -589,6 +593,10 @@
 </form>
 
 <script type="text/javascript" language=javascript>
+
+     $('#viewAllPonente').load('/Soporte/Comunicacion/LoadAllPonente?idComunicacion=@Model.Id');
+      
+
     $.validator.unobtrusive.parse(document);
     $('#create-form').disableAutoFill();
     $("#comentario").hide();
