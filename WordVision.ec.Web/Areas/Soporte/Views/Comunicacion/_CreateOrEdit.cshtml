@@ -146,8 +146,8 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Comunicaciones.DisponibilidadPresupuestaria"></label>
-                    <div class="custom-file form-image">
+                    <label class="col-md-12 col-form-label1 texto-pregunta" asp-for="Comunicaciones.DisponibilidadPresupuestaria"></label>
+                    <div class="custom-file1 form-image">
                         @if (Model.Comunicaciones != null)
                         {
                             if (Model.Comunicaciones.DisponibilidadPresupuestaria != null && Model.Comunicaciones.DisponibilidadPresupuestaria.Length > 0)
@@ -158,26 +158,33 @@
                         else
 
                         {
-                            <input accept=".pdf"
+                           @* <input accept=".pdf"
                                    asp-for="@Model.Comunicaciones.DisponibilidadPresupuestaria"
-                                   type="file" class="custom-file-input"
-                                   id="customFile">
+                                   type="file" class="custom-file-input1"
+                                   id="customFile1">*@
 
-                            if (Model.Comunicaciones != null)
+                                    <div class="upload">
+                                        <input type="button" class="uploadButton" value="Browse" />
+                                        <input type="file" name="upload" accept=".pdf" id="fileUpload" />
+                                        <span class="fileName">Select file..</span>
+                                    </div>
+
+
+                           @* if (Model.Comunicaciones != null)
                             {
                                 if (Model.Comunicaciones.DisponibilidadPresupuestaria != null && Model.Comunicaciones.DisponibilidadPresupuestaria.Length > 0)
                                 {
-                                    <label class="custom-file-label" for="customFile">Archivo almacenado</label>
+                                    <label class="custom-file-label1" for="customFile1">Archivo almacenado</label>
                                 }
                                 else
                                 {
-                                    <label class="custom-file-label" for="customFile">Buscar Archivo</label>
+                                    <label class="custom-file-label1" for="customFile1">Buscar Archivo</label>
                                 }
                             }
                             else
                             {
-                                <label class="custom-file-label" for="customFile">Buscar Archivo</label>
-                            }
+                                <label class="custom-file-label1" for="customFile1">Buscar Archivo1</label>
+                            }*@
                         }
 
                     </div>
@@ -433,24 +440,85 @@
             </div>
 
 
-            <div class="form-group row">
+            <div class="form-group row" id="divPonente">
               
-               <div class="col-md-6">
-                    <button type="button" class="btn btn-primary btn-xp" onclick="jQueryModalGetHijo('1','/Soporte/Comunicacion/OnGetCreateOrEditPonente?id=0&idComunicacion=','Ponentes')">
+               <div class="col-md-7">
+                    <button type="button" class="btn btn-primary" id="btnAddPonente" data-toggle="modal" data-target="#form-add">
                     <i class="fas fa-plus-square"></i>
+                    Ponentes
                 </button>
                 
-        <div id="viewAllPonente" class="card-body table-responsive">
-        </div>
+       @* <div  class="card-body table-responsive">*@
+               <table id="ponenteTable" class="table table-striped" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                
+                        <th>Ponente</th>
+                        <th>Cargo</th>
+                        <th>Perfíl</th>
+                        <th>Tema</th>
+
+                        <th class="acciones-th">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Comunicaciones != null)
+                    {
+
+                        @foreach (var ponentes in Model.Comunicaciones.Ponentes.ToList())
+                        {
+                    <tr id="Ponente_@ponentes.Id">
+
+               
+                        <td>
+
+                            @ponentes.NombreApellido
+                        </td>
+                        <td>
+                            @ponentes.Cargo
+                        </td>
+                        <td>
+                            @ponentes.Perfil
+                        </td>
+                        <td>
+                             @ponentes.Tema
+                        </td>
+
+                        <td class="acciones-td">
+                             <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFila(@ponentes.Id,@ponentes.NombreApellido,@ponentes.Cargo,@ponentes.Perfil,@ponentes.Tema)" data-toggle="modal" data-target="#form-add">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </button>
+                            <button type="button" onclick="EliminaFila(@ponentes.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
+
+                        </td>
+
+                    </tr>
+                        }}
+
+                         <input type="hidden" id="idact" name="idact" />
+                </tbody>
+               </table>
+       @* </div>*@
 
                </div>
             
-                    <div class="col-md-2">
-                        <input type = "button" value = "Agregar logo" onclick = "addFile ()" />
+                  <div class="col-md-5">
+                       <div class="form-group row" >
+                           <div class="col-md-12">
+                                <button type = "button" class="btn btn-primary"  onclick = "addFile ()" >
+                                    <i class="fas fa-plus-square"></i>
+                                    Logos
+                                </button>
+                            </div>
+                       </div>
+                        <div class="form-group row">
+                       
+                         <div class="col-md-12" id="_container">
+                            <input type="file"  name="File" class="custom-file-input" />
+                          </div>
+                       </div>
                   </div>
-                  <div class="col-md-4" id="_container">
-                    <input type="file" size="50" name="File" />
-                  </div>
+                 
               
             </div>
 
@@ -592,10 +660,92 @@
                 </div>
 </form>
 
+
+<div class="modal fade" id="form-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        
+      </div>
+      <div class="modal-body">
+        
+          <form id="create-form" >
+
+   
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="col-md-12 col-form-label texto-pregunta" >Nombre y Apellido</label>
+                    <input  type="text" name="NombreApellido" id="NombreApellido" class=" form-control" />
+                    <span  class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="col-md-12 col-form-label texto-pregunta" >Cargo</label>
+                    <input  type="text" name="Cargo"  id="Cargo" class=" form-control" />
+                    <span  class="text-danger"></span>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta" >Perfil</label>
+                    <textarea  name="Perfil" id="Perfil" class=" form-control" ></textarea>
+                    <span class="text-danger"></span>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+   
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta" >Tema</label>
+                    <textarea   name="Tema" id="Tema" class=" form-control" ></textarea>
+                    <span  class="text-danger"></span>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+    <br />
+    
+</form>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btnAgregar">Agregar</button>
+          <button type="button" class="btn btn-secondary" id="btnCerrar">Cerrar</button>
+ 
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript" language=javascript>
 
      $('#viewAllPonente').load('/Soporte/Comunicacion/LoadAllPonente?idComunicacion=@Model.Id');
       
+     $('input[type=file]').change(function(e) {
+    $in = $(this);
+    $in.next().html($in.val());
+    
+    });
 
     $.validator.unobtrusive.parse(document);
     $('#create-form').disableAutoFill();
@@ -609,6 +759,7 @@
             cambiaTipoSolicitud();
 
         });
+         
     
 
     function cambiaTipoSolicitud() {
@@ -639,19 +790,36 @@
 
     function addFile() {
       var div = document.createElement("div");
-      
-       var d = document.createElement("input");
+      div.setAttribute("class", "row");
+       div.setAttribute("style", "padding: 3px;");
+
+       var divc1 = document.createElement("div");
+      divc1.setAttribute("class", "col-md-1");
+
+      var d = document.createElement("button");
       d.setAttribute("type", "button");
       d.setAttribute("onclick", "deteFile(this)");
       d.setAttribute ("value", "Eliminar");
-      div.appendChild(d);
+      d.setAttribute("class", "btn btn-danger");
+       d.setAttribute("style", "padding: 2px 5px 3px 5px;");
+          
+      
+      var ii = document.createElement("i");
+      ii.setAttribute("class", "fas fa-trash");
+      d.appendChild(ii);
 
- 
+      divc1.appendChild(d);
+      div.appendChild(divc1);
+
+  var divc2 = document.createElement("div");
+      divc2.setAttribute("class", "col-md-11");
       var f = document.createElement("input");
       f.setAttribute("type", "file");
       f.setAttribute("name", "File");
       f.setAttribute("size", "50");
-      div.appendChild(f);
+
+      divc2.appendChild(f);
+      div.appendChild(divc2);
 
      
       document.getElementById("_container").appendChild(div);
@@ -670,6 +838,22 @@
         $("#comentario").hide();
     }
 
+    $("#btnAddPonente").click(function () {
+         document.getElementById("idact").value = "";
+            
+        });
+
+    $("#btnAgregar").click(function () {
+         
+          Agregar();
+           
+        });
+
+    $("#btnCerrar").click(function () {
+         
+          $('#form-add').modal('hide');
+           
+        });
 
     $(function () {
 
@@ -690,137 +874,145 @@
                             //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
                             //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });
 
-                        });
-
-    $("#BrandId").select2({
-                            placeholder: "Select a Category",
-        theme: "bootstrap4",
-        escapeMarkup: function (m) {
-                                    return m;
-                                }
-                            });
+      });
 
 
                         var num = 0;
-                            function AgregaConcepto() {
-                                let Anio = document.getElementById("AnioGestion").value;
-                                let Descripcion = document.getElementById("DescGestion").value;
-                                let Estado = document.getElementById("EstadoGestion").value;
-                                let IdEstrategia = document.getElementById("Id").value;
+                            function Agregar() {
 
-                                if (Descripcion.length == 0) {
-                                    alert("Ingrese la Gestion.");
+                                let idact = document.getElementById("idact").value;
+
+                                if (idact.length != 0) {
+                                    EliminaFila(idact);
+                                }
+
+                                let nombres = document.getElementById("NombreApellido").value;
+                                let cargo = document.getElementById("Cargo").value;
+                                let perfil = document.getElementById("Perfil").value;
+                                let tema = document.getElementById("Tema").value;
+                                let IdPonente = document.getElementById("Id").value;
+
+                                if (nombres.length == 0) {
+                                    alert("Ingrese el ponente.");
+                                    return;
+                                }
+                                if (cargo.length == 0) {
+                                    alert("Ingrese el cargo.");
+                                    return;
+                                }
+                                
+                                if (perfil.length == 0) {
+                                    alert("Ingrese el perfil.");
+                                    return;
+                                }
+                                if (tema.length == 0) {
+                                    alert("Ingrese el tema.");
                                     return;
                                 }
 
-
                                 //agregamos tabla
-                                let Tabla = document.getElementById("gestionTable");
+                                let Tabla = document.getElementById("ponenteTable");
                                 let TR = document.createElement("tr");
                                 TR.setAttribute('id', num);
                                 // let TDId = document.createElement("td");
-                                let TDAnio = document.createElement("td");
-                                let TDDescripcion = document.createElement("td");
-                                let TDEstado = document.createElement("td");
+                                let TDPonente = document.createElement("td");
+                                let TDCargo = document.createElement("td");
+                                let TDPerfil = document.createElement("td");
+                                let TDTema = document.createElement("td");
                                 let TDEliminar = document.createElement("td");
                                 TDEliminar.className = "text-right";
                                 //let TDTotal = document.createElement("td");
                                 // TR.appendChild(TDId);
-                                TR.appendChild(TDAnio);
-                                TR.appendChild(TDDescripcion);
-                                TR.appendChild(TDEstado);
+                                TR.appendChild(TDPonente);
+                                TR.appendChild(TDCargo);
+                                TR.appendChild(TDPerfil);
+                                TR.appendChild(TDTema);
                                 TR.appendChild(TDEliminar);
                                 //TR.appendChild(TDTotal);
                                 // TDId.innerHTML = num;
-                                TDAnio.innerHTML = Anio;
-                                TDDescripcion.innerHTML = Descripcion;
-                                TDEstado.innerHTML = Estado;
-                                TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i>  Eliminar</button>";
+                                TDPonente.innerHTML = nombres;
+                                TDCargo.innerHTML = cargo;
+                                TDPerfil.innerHTML = perfil;
+                                TDTema.innerHTML = tema;
+                                TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick=\"ActualizaFila(" + num + ",\'" + nombres.toString() + "\',\'" + cargo.toString()+"\',\'"+perfil.replace(/(\r\n|\n|\r)/gm, " ")+"\',\'"+tema.replace(/(\r\n|\n|\r)/gm, " ")+"\')\" data-toggle='modal' data-target='#form-add'> <i class='fas fa-pencil-alt'></i> </button> <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+          
                                 //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
                                 Tabla.appendChild(TR);
 
                                 //agregamos hiddens
-                                let DivConceptos = document.getElementById("divGestion");
+                                let DivConceptos = document.getElementById("divPonente");
                                 let HiddenIndex = document.createElement("input");
-                                let HiddenAnio = document.createElement("input");
-                                let HiddenDescripcion = document.createElement("input");
-                                let HiddenEstado = document.createElement("input");
-                                HiddenIndex.name = "gestion.Index";
+                                let HiddenPonente = document.createElement("input");
+                                let HiddenCargo = document.createElement("input");
+                                let HiddenPerfil = document.createElement("input");
+                                let HiddenTema = document.createElement("input");
+                                HiddenIndex.name = "ponentes.Index";
                                 HiddenIndex.value = num;
                                 HiddenIndex.type = "hidden";
-                                HiddenAnio.name = "gestion[" + num + "].Anio";
-                                HiddenAnio.value = Anio;
-                                HiddenAnio.type = "hidden";
-                                HiddenDescripcion.name = "gestion[" + num + "].Descripcion";
-                                HiddenDescripcion.value = Descripcion;
-                                HiddenDescripcion.type = "hidden";
-                                HiddenEstado.name = "gestion[" + num + "].Estado";
-                                HiddenEstado.value = Estado;
-                                HiddenEstado.type = "hidden";
-                                DivConceptos.appendChild(HiddenIndex);
-                                DivConceptos.appendChild(HiddenAnio);
-                                DivConceptos.appendChild(HiddenDescripcion);
-                                DivConceptos.appendChild(HiddenEstado);
+                                HiddenPonente.name = "ponentes[" + num + "].NombreApellido";
+                                HiddenPonente.value = nombres;
+                                HiddenPonente.type = "hidden";
+                                HiddenCargo.name = "ponentes[" + num + "].Cargo";
+                                HiddenCargo.value = cargo;
+                                HiddenCargo.type = "hidden";
+                                HiddenPerfil.name = "ponentes[" + num + "].Perfil";
+                                HiddenPerfil.value = perfil;
+                                HiddenPerfil.type = "hidden";
+                                HiddenTema.name = "ponentes[" + num + "].Tema";
+                                HiddenTema.value = tema;
+                                HiddenTema.type = "hidden";
+                                DivConceptos.appendChild(HiddenPonente);
+                                DivConceptos.appendChild(HiddenCargo);
+                                DivConceptos.appendChild(HiddenPerfil);
+                                DivConceptos.appendChild(HiddenTema);
 
-                                document.getElementById("AnioGestion").value = "";
-                                document.getElementById("DescGestion").value = "";
-                                document.getElementById("EstadoGestion").value = "";
+                                document.getElementById("NombreApellido").value = "";
+                                document.getElementById("Cargo").value = "";
+                                document.getElementById("Perfil").value = "";
+                                document.getElementById("Tema").value = "";
 
                                 num++;
 
 
 
-                                var GestionViewModel = {
-                Descripcion: Descripcion,
-                Anio: Anio,
-                Estado: Estado,
-                IdEstrategia: IdEstrategia
-    
-            };
-
-        $.ajax({
-                            type: "post",
-            url:'@Url.Action("OnPostCreateOrEdit", "Gestion", new { area = "Planificacion" })',
-            data: GestionViewModel,
-            datatype: "json",
-            cache: false,
-            success: function (data) {
-                                    /* alert('Validooo');*/
-
-                                },
-            error: function(xhr) {
-                                    //    alert('No Valid Data');
-                                }
-                            });
-
+       
         }
 
-                        function deleteRow(id) {
-        $("#" + id).remove();
-                        }
+        
+        function EliminaFila(id) {
 
-                        function EliminaFila(id) {
+            $("#" + id).remove();
 
-        $("#" + id).remove();
+            var GestionViewModel = {
+                id: id
+            };
 
-                            var GestionViewModel = {
-            id: id
-        };
+            // $.ajax({
+            //    type: "post",
+            //    url:'@Url.Action("OnPostDelete", "Meta", new { area = "Planificacion" })',
+            //     data: GestionViewModel,
+            //    datatype: "json",
+            //    cache: false,
+            //    success: function (data) {
+            //    /*  alert('Validooo');*/
 
-         @*$.ajax({
-            type: "post",
-            url:'@Url.Action("OnPostDelete", "Idioma", new { area = "Registro" })',
-             data: GestionViewModel,
-            datatype: "json",
-            cache: false,
-            success: function (data) {
-            /*  alert('Validooo');*/
+            //    },
+            //    error: function(xhr) {
+            //       // alert('No Valid Data');
+            //    }
+            //});
+        }
 
-            },
-            error: function(xhr) {
-               // alert('No Valid Data');
-            }
-        });*@
-    }
 
+        function ActualizaFila(id, nombre, cargo,perfil, tema) {
+         
+            alert(id);
+            document.getElementById("idact").value = id;
+
+            document.getElementById("NombreApellido").value=nombre;
+            document.getElementById("Cargo").value=cargo;
+            document.getElementById("Perfil").value=perfil;
+            document.getElementById("Tema").value=tema;
+           
+        }
 </script>

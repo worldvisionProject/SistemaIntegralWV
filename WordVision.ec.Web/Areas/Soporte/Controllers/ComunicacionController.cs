@@ -523,7 +523,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     var viewModel = new List<PonenteViewModel>();
                     viewModel.Add(entidad);
 
-                    return new JsonResult(new { isValid = true, opcion = 103,page= "#viewAllPonente", html= await _viewRenderer.RenderViewToStringAsync("_PonentesAll", viewModel) });
+                    return new JsonResult(new { isValid = true, opcion = 103,page= "#viewAllPonente", html= await _viewRenderer.RenderViewToStringAsync("_CreateOrEditPonente", viewModel) });
                 }
                 else
                 {
