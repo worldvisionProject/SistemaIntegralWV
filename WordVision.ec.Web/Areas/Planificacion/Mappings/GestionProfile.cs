@@ -1,8 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetAllCached;
@@ -12,7 +8,7 @@ using WordVision.ec.Web.Areas.Planificacion.Models;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Mappings
 {
-    internal class GestionProfile: Profile
+    internal class GestionProfile : Profile
     {
         public GestionProfile()
         {

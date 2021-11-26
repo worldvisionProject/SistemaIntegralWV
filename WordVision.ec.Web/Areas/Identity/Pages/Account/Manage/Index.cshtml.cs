@@ -1,12 +1,12 @@
-﻿using WordVision.ec.Infrastructure.Data.Identity.Models;
-using WordVision.ec.Web.Extensions;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using WordVision.ec.Infrastructure.Data.Identity.Models;
+using WordVision.ec.Web.Extensions;
 
 namespace WordVision.ec.Web.Areas.Identity.Pages.Account.Manage
 {

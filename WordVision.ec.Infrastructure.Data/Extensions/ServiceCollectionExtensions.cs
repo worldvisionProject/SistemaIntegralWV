@@ -1,17 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.CacheRepositories;
 
 using WordVision.ec.Application.Interfaces.CacheRepositories.Maestro;
 using WordVision.ec.Application.Interfaces.CacheRepositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Contexts;
-using WordVision.ec.Application.Interfaces.Repositories.Identity;
 using WordVision.ec.Application.Interfaces.Repositories.Log;
 using WordVision.ec.Application.Interfaces.Repositories.Maestro;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -23,7 +17,6 @@ using WordVision.ec.Infrastructure.Data.CacheRepositories;
 using WordVision.ec.Infrastructure.Data.CacheRepositories.Maestro;
 using WordVision.ec.Infrastructure.Data.CacheRepositories.Planificacion;
 using WordVision.ec.Infrastructure.Data.Contexts;
-using WordVision.ec.Infrastructure.Data.Repositories.Identity;
 using WordVision.ec.Infrastructure.Data.Repositories.Log;
 using WordVision.ec.Infrastructure.Data.Repositories.Maestro;
 using WordVision.ec.Infrastructure.Data.Repositories.Mensajeria;
@@ -57,7 +50,7 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<IPreguntaCacheRepository, PreguntaCacheRepository>();
             services.AddTransient<IFormularioRepository, FormularioRepository>();
             services.AddTransient<IFormularioCacheRepository, FormularioCacheRepository>();
-         
+
             //services.AddTransient<IIdentityCacheRepository, IdentityCacheRepository>();
             services.AddTransient<Application.Interfaces.Repositories.Identity.IUnitOfWork, Repositories.Identity.UnitOfWork>();
 

@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 
 namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
 {
@@ -12,7 +8,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
         public string Message { get; private set; } = "PageModel in C#";
         public WizardModel()//ContactService service)
         {
-            
+
         }
         public void OnGet()
         {

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Domain.Entities.Maestro;
 
@@ -15,7 +13,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Maestro
 
         Task<Catalogo> GetByIdAsync(int id);
 
-        Task<DetalleCatalogo> GetDetalleByIdAsync(int id,string secuencia);
+        Task<DetalleCatalogo> GetDetalleByIdAsync(int id, string secuencia);
 
         Task<List<DetalleCatalogo>> GetDetalleByIdCatalogoAsync(int id);
 

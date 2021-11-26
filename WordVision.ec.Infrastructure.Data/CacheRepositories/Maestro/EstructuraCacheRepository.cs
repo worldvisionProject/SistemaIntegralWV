@@ -3,13 +3,9 @@ using AspNetCoreHero.ThrowR;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.CacheRepositories;
 using WordVision.ec.Application.Interfaces.CacheRepositories.Maestro;
 using WordVision.ec.Application.Interfaces.Repositories.Maestro;
-using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Domain.Entities.Maestro;
-using WordVision.ec.Domain.Entities.Registro;
-using WordVision.ec.Infrastructure.Data.CacheKeys;
 using WordVision.ec.Infrastructure.Data.CacheKeys.Maestro;
 
 namespace WordVision.ec.Infrastructure.Data.CacheRepositories.Maestro

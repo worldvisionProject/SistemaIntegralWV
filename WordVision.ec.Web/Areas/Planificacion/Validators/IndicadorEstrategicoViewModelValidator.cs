@@ -1,9 +1,7 @@
 ﻿using FluentValidation;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using WordVision.ec.Web.Areas.Planificacion.Models;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Validators
@@ -19,7 +17,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Validators
 
             RuleFor(p => p.LineaBase)
                 .Cascade(CascadeMode.Stop)
-                //.Must(IsValidCost).WithMessage("{PropertyName} contains invalid caracteres")
+               //.Must(IsValidCost).WithMessage("{PropertyName} contains invalid caracteres")
                .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
                .NotNull()
                ;
@@ -43,12 +41,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Validators
             ;
 
 
-     
+
         }
 
         private bool IsValidCost(decimal? arg)
         {
-         return   String.Concat(arg.ToString().Where(c => !Char.IsWhiteSpace(c))) != "" && Regex.IsMatch(arg.ToString(), @"^-?[0-9]*\,?[0-9]+$");
+            return String.Concat(arg.ToString().Where(c => !Char.IsWhiteSpace(c))) != "" && Regex.IsMatch(arg.ToString(), @"^-?[0-9]*\,?[0-9]+$");
         }
 
         //protected bool IsValidCost(decimal cost) => 

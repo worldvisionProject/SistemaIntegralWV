@@ -41,7 +41,7 @@ namespace WordVision.ec.Application.Features.Registro.Documentos.Queries.GetAllP
                 Descripcion = e.Descripcion,
                 DescripcionAcepto = e.DescripcionAcepto,
                 Estado = e.Estado
-               
+
             };
             var paginatedList = await _repository.Documentos
                 .Select(expression)

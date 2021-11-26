@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Models
 {
@@ -12,7 +9,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string Causa { get; set; }
         public string MetaRegional { get; set; }
         public string MetaNacional { get; set; }
-      public string Estado { get; set; }
+        public string Estado { get; set; }
 
         public string AnioGestion { get; set; }
         public string DescGestion { get; set; }

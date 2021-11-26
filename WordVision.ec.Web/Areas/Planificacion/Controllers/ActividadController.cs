@@ -11,15 +11,10 @@ using WordVision.ec.Application.Features.Planificacion.Actividades.Commands.Crea
 using WordVision.ec.Application.Features.Planificacion.Actividades.Commands.Delete;
 using WordVision.ec.Application.Features.Planificacion.Actividades.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.Actividades.Queries.GetById;
-using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
-using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Create;
-using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Update;
-using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorPOAes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Commands.Create;
-using WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Commands.Delete;
 using WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.Productos.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllCached;
@@ -119,7 +114,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (responseG.Succeeded)
             {
                 var entidadViewModel = _mapper.Map<GestionViewModel>(responseG.Data);
-                descGestion = entidadViewModel?.Anio??"";
+                descGestion = entidadViewModel?.Anio ?? "";
             }
 
             var responseI = await _mediator.Send(new GetIndicadorEstrategicoByIdQuery() { Id = idIndicadorEstrategia });

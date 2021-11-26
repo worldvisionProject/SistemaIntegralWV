@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Planificacion.IndicadorAFes.Commands.Delete;
 using WordVision.ec.Web.Abstractions;
@@ -24,7 +21,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (deleteCommand.Succeeded)
             {
                 _notify.Information($"Indicador Año Fiscal con Id {id} Eliminado.");
-                return new JsonResult(new { isValid = true});
+                return new JsonResult(new { isValid = true });
             }
             else
             {

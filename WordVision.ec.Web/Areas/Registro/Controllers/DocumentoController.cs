@@ -1,38 +1,31 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Claims;
+using System.Net.Mail;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Documentos.Commands.Create;
 using WordVision.ec.Application.Features.Registro.Documentos.Commands.Update;
 using WordVision.ec.Application.Features.Registro.Documentos.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Registro.Documentos.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Firma.Commands.Create;
 using WordVision.ec.Application.Features.Registro.Firma.Queries.GetById;
-using WordVision.ec.Application.Features.Registro.Pregunta.Queries.GetAllCached;
+using WordVision.ec.Application.Features.Registro.Formularios.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Pregunta.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Respuestas.Commands.Create;
 using WordVision.ec.Application.Features.Registro.Respuestas.Commands.Update;
 using WordVision.ec.Application.Features.Registro.Respuestas.Queries.GetById;
-using WordVision.ec.Application.Interfaces.Shared;
+using WordVision.ec.Application.Features.Registro.Terceros.Queries.GetById;
+using WordVision.ec.Infrastructure.Shared.Pdf;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Registro.Models;
 using WordVision.ec.Web.Extensions;
-using WordVision.ec.Infrastructure.Shared.Pdf;
-using System.Net.Mail;
-using SelectPdf;
-using WordVision.ec.Application.Features.Registro.Formularios.Queries.GetById;
-using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Logging;
-using WordVision.ec.Application.Features.Registro.Terceros.Queries.GetById;
 
 namespace WordVision.ec.Web.Areas.Registro.Controllers
 {
@@ -42,12 +35,12 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
     [Authorize]
     public class DocumentoController : BaseController<DocumentoController>
     {
-     //   private readonly FormularioController _myControllerIwantToInject;
+        //   private readonly FormularioController _myControllerIwantToInject;
 
-     //public DocumentoController(FormularioController myControllerIwantToInject)
-     //   {
-     //       _myControllerIwantToInject = myControllerIwantToInject;
-     //   }
+        //public DocumentoController(FormularioController myControllerIwantToInject)
+        //   {
+        //       _myControllerIwantToInject = myControllerIwantToInject;
+        //   }
         public IActionResult Index(int id = 0, string ventana = "N")
         {
             var model = new DocumentoViewModel();
@@ -100,18 +93,18 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         if (responseFirma.Data != null)
                         {
                             documentoViewModel.Image = responseFirma.Data.Image;
-                         }
+                        }
                     }
 
                     var responseCola = await _mediator.Send(new GetColaboradorByIdQuery() { Id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
                     if (responseCola.Succeeded)
                     {
-                        documentoViewModel.Colaborador = responseCola.Data.Apellidos + " " + responseCola.Data.ApellidoMaterno+" "+responseCola.Data.PrimerNombre + " " + responseCola.Data.SegundoNombre;
+                        documentoViewModel.Colaborador = responseCola.Data.Apellidos + " " + responseCola.Data.ApellidoMaterno + " " + responseCola.Data.PrimerNombre + " " + responseCola.Data.SegundoNombre;
                         documentoViewModel.Identificacion = responseCola.Data.Identificacion;
-                       
+
                     }
 
-                   
+
 
                     //if (preguntaResponse.Succeeded)
                     //{
@@ -188,14 +181,14 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         if (responseFirma.Data != null)
                         {
                             documentoViewModel.Image = responseFirma.Data.Image;
-                         }
+                        }
                     }
                     var responseCola = await _mediator.Send(new GetColaboradorByIdQuery() { Id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
                     if (responseCola.Succeeded)
                     {
                         documentoViewModel.Colaborador = responseCola.Data.Apellidos + " " + responseCola.Data.ApellidoMaterno + " " + responseCola.Data.PrimerNombre + " " + responseCola.Data.SegundoNombre;
                         documentoViewModel.Identificacion = responseCola.Data.Identificacion;
-                       
+
                     }
                     //if (preguntaResponse.Succeeded)
                     //{
@@ -229,7 +222,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             catch (Exception EX)
             {
                 _notify.Error($"Respuesta con con error.");
-                _logger.LogError(EX,$"Respuesta con con error.");
+                _logger.LogError(EX, $"Respuesta con con error.");
             }
 
             return null;
@@ -395,99 +388,99 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             //    return new JsonResult(new { isValid = true });
             //}
 
-                int i = 0, idDocumento = 0;
-                idDocumento = documento.Id;
-                foreach (var c in preguntas)
+            int i = 0, idDocumento = 0;
+            idDocumento = documento.Id;
+            foreach (var c in preguntas)
+            {
+                RespuestaViewModel respuesta = new RespuestaViewModel();
+                respuesta.IdColaborador = idColaborador;
+                respuesta.IdDocumento = c.IdDocumento;
+                respuesta.IdPregunta = c.Id;
+                respuesta.DescRespuesta = c.Estado == null ? c.DescripcionUrl1 + "|" + c.DescripcionUrl2 : c.Estado;
+                if (c.Id == 29 && c.IdDocumento == 5)
+                    respuesta.DescRespuesta = documento.Estado ?? "";
+                idDocumento = c.IdDocumento;
+                try
                 {
-                    RespuestaViewModel respuesta = new RespuestaViewModel();
-                    respuesta.IdColaborador = idColaborador;
-                    respuesta.IdDocumento = c.IdDocumento;
-                    respuesta.IdPregunta = c.Id;
-                    respuesta.DescRespuesta = c.Estado == null ? c.DescripcionUrl1 + "|" + c.DescripcionUrl2 : c.Estado;
-                    if (c.Id == 29 && c.IdDocumento == 5)
-                        respuesta.DescRespuesta = documento.Estado??"";
-                    idDocumento = c.IdDocumento;
-                    try
+                    var response1 = await _mediator.Send(new GetByIdColaboradorQuery() { IdColaorador = idColaborador, IdDocumento = c.IdDocumento, IdPregunta = c.Id });
+                    if (response1.Succeeded)
                     {
-                        var response1 = await _mediator.Send(new GetByIdColaboradorQuery() { IdColaorador = idColaborador, IdDocumento = c.IdDocumento, IdPregunta = c.Id });
-                        if (response1.Succeeded)
+
+                        if (response1.Data != null)
                         {
-
-                            if (response1.Data != null)
+                            var updateBrandCommand = _mapper.Map<UpdateRespuestaCommand>(respuesta);
+                            var result = await _mediator.Send(updateBrandCommand);
+                            if (result.Succeeded)
                             {
-                                var updateBrandCommand = _mapper.Map<UpdateRespuestaCommand>(respuesta);
-                                var result = await _mediator.Send(updateBrandCommand);
-                                if (result.Succeeded)
-                                {
 
-                                    i++;
-                                }
-                                else _notify.Error(result.Message);
+                                i++;
                             }
-                            else
+                            else _notify.Error(result.Message);
+                        }
+                        else
+                        {
+                            var createBrandCommand = _mapper.Map<CreateRespuestaCommand>(respuesta);
+                            var result = await _mediator.Send(createBrandCommand);
+                            if (result.Succeeded)
                             {
-                                var createBrandCommand = _mapper.Map<CreateRespuestaCommand>(respuesta);
-                                var result = await _mediator.Send(createBrandCommand);
-                                if (result.Succeeded)
-                                {
 
-                                    i++;
-                                }
-                                else _notify.Error(result.Message);
+                                i++;
                             }
-
+                            else _notify.Error(result.Message);
                         }
 
-
                     }
-                    catch (Exception EX)
-                    {
-                        _notify.Error($"Respuesta con con error.");
+
+
+                }
+                catch (Exception EX)
+                {
+                    _notify.Error($"Respuesta con con error.");
                     _logger.LogError(EX, $"Respuesta con con error.");
                 }
 
-                }
+            }
 
 
-                if (Request.Form.Files.Count > 0)
+            if (Request.Form.Files.Count > 0)
+            {
+                IFormFile file = Request.Form.Files.FirstOrDefault();
+                var image = file.OptimizeImageSize(700, 700);
+                // await _mediator.Send(new UpdateProductImageCommand() { Id = id, Image = image });
+
+                FirmaViewModel firma = new FirmaViewModel();
+                firma.IdColaborador = idColaborador;
+                firma.IdDocumento = idDocumento;
+                firma.Image = image;
+
+                var createFirmaCommand = _mapper.Map<CreateFirmaCommand>(firma);
+                var resultFirma = await _mediator.Send(createFirmaCommand);
+                if (resultFirma.Succeeded)
                 {
-                    IFormFile file = Request.Form.Files.FirstOrDefault();
-                    var image = file.OptimizeImageSize(700, 700);
-                    // await _mediator.Send(new UpdateProductImageCommand() { Id = id, Image = image });
 
-                    FirmaViewModel firma = new FirmaViewModel();
-                    firma.IdColaborador = idColaborador;
-                    firma.IdDocumento = idDocumento;
-                    firma.Image = image;
-
-                    var createFirmaCommand = _mapper.Map<CreateFirmaCommand>(firma);
-                    var resultFirma = await _mediator.Send(createFirmaCommand);
-                    if (resultFirma.Succeeded)
-                    {
-
-                        i++;
-                    }
-                    else _notify.Error(resultFirma.Message);
-
+                    i++;
                 }
+                else _notify.Error(resultFirma.Message);
 
-                _notify.Success($"{i} Respuesta almacenadas.");
+            }
 
-                //if (poppup == "N")
-                //{
-                if (idDocumento == 10)
-                {
-                    await EnviarMail(idDocumento, idColaborador);
-                    await EnviarMail(-1, idColaborador);
-                }
-                else
-                    await EnviarMail(idDocumento, idColaborador);
+            _notify.Success($"{i} Respuesta almacenadas.");
 
-                //}
+            //if (poppup == "N")
+            //{
+            if (idDocumento == 10)
+            {
+                await EnviarMail(idDocumento, idColaborador);
+                await EnviarMail(-1, idColaborador);
+            }
+            else
+                await EnviarMail(idDocumento, idColaborador);
+
+            //}
 
             //}
             return new JsonResult(new { isValid = true });
-           
+
         }
 
         public async Task<IActionResult> DescargaDocumento(string id = "", string idColaborador = "", string nombreFormulario = "")
@@ -505,7 +498,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
 
         }
 
-        public async Task<FileResult> ShowPDF(int idColaborador,int tipo)
+        public async Task<FileResult> ShowPDF(int idColaborador, int tipo)
         {
             var responseC = await _mediator.Send(new GetFormularioByIdQuery() { Id = idColaborador });
             if (responseC.Succeeded)
@@ -549,7 +542,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         }
                         break;
                 }
-                
+
 
             }
 
@@ -562,13 +555,13 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             if (responseC.Succeeded)
             {
                 var formularioViewModel = _mapper.Map<TerceroViewModel>(responseC.Data);
-               
-                        if (formularioViewModel.ImageCedula != null)
-                        {
-                            byte[] dataArray = formularioViewModel.ImageCedula;
-                            return File(dataArray, "application/pdf");
-                        }
-                       
+
+                if (formularioViewModel.ImageCedula != null)
+                {
+                    byte[] dataArray = formularioViewModel.ImageCedula;
+                    return File(dataArray, "application/pdf");
+                }
+
 
             }
 
@@ -618,9 +611,9 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                     {
                         documentoViewModel.Colaborador = responseCola.Data.Apellidos + " " + responseCola.Data.ApellidoMaterno + " " + responseCola.Data.PrimerNombre + " " + responseCola.Data.SegundoNombre;
                         documentoViewModel.Identificacion = responseCola.Data.Identificacion;
-                        
+
                     }
-                   
+
                     //var response1 = await _mediator.Send(new GetCountByIdColaboradorQuery() { IdColaorador = Convert.ToInt32(id.Split('|')[1]), IdDocumento = Convert.ToInt32(id.Split('|')[0]) });
                     //if (response1.Succeeded)
                     //{
@@ -679,15 +672,16 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                 var response = await _mediator.Send(new GetColaboradorByIdQuery() { Id = idColaborador });
                 if (response.Succeeded)
                 {
-                    apellidos= response.Data.Apellidos+" "+response.Data.ApellidoMaterno;
+                    apellidos = response.Data.Apellidos + " " + response.Data.ApellidoMaterno;
                     nombres = response.Data.PrimerNombre + " " + response.Data.SegundoNombre;
                     mail = response.Data.Email;
                 }
 
-               
+
                 string plantilla = "";
                 string asunto = "";
-                switch (idDocumento) {
+                switch (idDocumento)
+                {
 
                     case 3:
                         plantilla = "DocumentosPersonales.html";
@@ -706,19 +700,19 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         attachment = new Attachment(stream, apellidos + nombres + "_DocumentosClaves.pdf");
                         attachments.Add(attachment);
 
-                       
+
 
                         var responseC = await _mediator.Send(new GetFormularioByIdQuery() { Id = idColaborador });
                         if (response.Succeeded)
                         {
                             var formularioViewModel = _mapper.Map<FormularioViewModel>(responseC.Data);
-                            if (formularioViewModel.Pdf!=null)
+                            if (formularioViewModel.Pdf != null)
                             {
                                 stream = new MemoryStream(formularioViewModel.Pdf);
                                 attachment = new Attachment(stream, apellidos + nombres + "_DatosPersonales.pdf");
                                 attachments.Add(attachment);
                             }
- 
+
                         }
 
 
@@ -732,7 +726,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                             // Establece la Cabecera y el Pie de página
                             // CustomSwitches = "--page-offset 0 --footer-center [page] --footer-font-size 12"
                         }.BuildFile(this.ControllerContext);
-                      
+
                         stream = new MemoryStream(actionPDF.Result);
                         // = new Attachment(stream, "xxx.pdf");
                         attachment = new Attachment(stream, apellidos + nombres + "_AcumulacionDecimosTercero.pdf");
@@ -808,12 +802,12 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         stream = new MemoryStream(actionPDF.Result);
                         attachment = new Attachment(stream, apellidos + nombres + "_AcumulacionDecimo.pdf");
                         attachments.Add(attachment);
-                       
+
                         break;
                     case 5:
                         plantilla = "DeclaracionConflicto.html";
                         asunto = "AsuntoDeclaracionConflicto";
-                       
+
                         param1 = "5|" + User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value;
                         adjunto = await LoadDocumentoAdjuntar(param1, "N");
                         actionPDF = new ViewAsPdf(adjunto.Vista, (DocumentoViewModel)adjunto.Modelo)
@@ -852,7 +846,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         + Path.DirectorySeparatorChar.ToString()
                         + plantilla;
 
-                var subject = _configuration[asunto] + apellidos+" "+nombres;
+                var subject = _configuration[asunto] + apellidos + " " + nombres;
 
                 var builder = new BodyBuilder();
                 using (StreamReader SourceReader = System.IO.File.OpenText(pathToFile))
@@ -868,7 +862,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                 //{6} : callbackURL  
 
                 string messageBody = string.Format(builder.HtmlBody,
-                    apellidos+" "+nombres,
+                    apellidos + " " + nombres,
                     apellidos + " " + nombres,
                     String.Format("{0:dddd, d MMMM yyyy}", DateTime.Now)
                     //User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value,
@@ -890,7 +884,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             }
             catch (Exception ex)
             {
-              
+
                 _notify.Success($"Error al Enviar el Mail.");
                 _logger.LogError(ex, $"Error al Enviar el Mail.");
                 return new JsonResult(new { isValid = false });

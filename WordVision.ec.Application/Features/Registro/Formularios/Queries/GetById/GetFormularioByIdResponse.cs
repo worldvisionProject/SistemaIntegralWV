@@ -91,6 +91,6 @@ namespace WordVision.ec.Application.Features.Registro.Formularios.Queries.GetByI
         public virtual List<FormularioTercero> FormularioTerceros { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? LastModifiedOn { get; set; }
-       
+
     }
 }

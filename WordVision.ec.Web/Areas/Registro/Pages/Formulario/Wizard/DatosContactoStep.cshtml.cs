@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-
 namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
 {
-    public class DatosContactoStep: StepViewModel
+    public class DatosContactoStep : StepViewModel
     {
         public string PaisResidencia { get; set; }
         public string ProvinciaResidencia { get; set; }

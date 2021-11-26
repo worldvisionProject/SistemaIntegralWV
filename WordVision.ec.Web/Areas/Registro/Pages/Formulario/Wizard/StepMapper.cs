@@ -14,13 +14,13 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                 {
                     case DatosPersonalesStep s:
                         contact.Colaboradores = s.Colaboradores;
-                      
+
                         contact.EstadoCivil = s.EstadoCivil;
                         contact.FechaNacimiento = s.FechaNacimiento;
                         contact.FormacionAcademica = s.FormacionAcademica;
                         contact.Identificacion = s.Identificacion;
                         contact.Nacionalidad = s.Nacionalidad;
-                        
+
 
                         break;
                     case DatosContactoStep s:
@@ -89,7 +89,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                         //contact.Colaborador = s.Colaboradores.Apellidos + " " + contact.Colaboradores.ApellidoMaterno + " " + contact.Colaboradores.PrimerNombre + " " + contact.Colaboradores.SegundoNombre;
                         //contact.Identificacion = s.Colaboradores.Identificacion;
                         contact.ImageDiscapacidad = s.ImageDiscapacidad;
-                        contact.ImageDiscapacidadFamiliar = s.ImageDiscapacidadFamiliar; 
+                        contact.ImageDiscapacidadFamiliar = s.ImageDiscapacidadFamiliar;
                         contact.ImageCedula = s.ImageCedula;
                         contact.ImagePapeleta = s.ImagePapeleta;
                         contact.ImageCovid = s.ImageCovid;
@@ -109,7 +109,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
             FormacionAcademica = contact.FormacionAcademica,
             Identificacion = contact.Identificacion,
             Nacionalidad = contact.Nacionalidad,
-            
+
                 },
             new DatosContactoStep { CalleResidencia = contact.CalleResidencia,
 CalleSecundariaResidencia = contact.CalleSecundariaResidencia,

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WordVision.ec.Domain.Contracts;
 
 namespace WordVision.ec.Domain.Entities.Planificacion
@@ -19,7 +15,7 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         //[Required]
         //public string IdCategoria { get; set; }
         [Required]
-         public string DescProducto { get; set; }
+        public string DescProducto { get; set; }
 
         [Required]
         public int IdCargoResponsable { get; set; }

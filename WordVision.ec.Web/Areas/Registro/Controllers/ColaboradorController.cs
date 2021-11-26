@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Create;
@@ -38,12 +36,12 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
 
         public async Task<IActionResult> LoadColaborador(int id = 0)
         {
-          
+
             var response = await _mediator.Send(new GetColaboradorByIdQuery() { Id = id });
             if (response.Succeeded)
             {
                 var documentoViewModel = _mapper.Map<ColaboradorViewModel>(response.Data);
-                
+
                 return PartialView("_ViewColaborador", documentoViewModel);
                 // return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", documentoViewModel) });
             }
@@ -87,22 +85,22 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                 if (response.Succeeded)
                 {
                     var colaboradorViewModel = _mapper.Map<ColaboradorViewModel>(response.Data);
-                    if (colaboradorViewModel==null)
+                    if (colaboradorViewModel == null)
                     {
                         _notify.Information($"Colaborador con ID {id} no tiene datos para mostrar. Llene los datos.");
                         return new JsonResult(new { isValid = true, solocerrar = true });
-                                           
+
                     }
 
                     var responseT = await _mediator.Send(new GetFormularioByIdQuery() { Id = id });
                     if (responseT.Succeeded)
                     {
                         var formularioViewModel = _mapper.Map<FormularioViewModel>(responseT.Data);
-                        if (formularioViewModel!=null)
-                        colaboradorViewModel.FormularioTerceros = formularioViewModel.FormularioTerceros;
+                        if (formularioViewModel != null)
+                            colaboradorViewModel.FormularioTerceros = formularioViewModel.FormularioTerceros;
                         else
                         {
-                             formularioViewModel = new FormularioViewModel();
+                            formularioViewModel = new FormularioViewModel();
                             colaboradorViewModel.FormularioTerceros = formularioViewModel.FormularioTerceros;
                         }
                     }
@@ -156,7 +154,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                     //    return null;
                     //}
 
-                    return new JsonResult(new { isValid = true,  solocerrar = true });
+                    return new JsonResult(new { isValid = true, solocerrar = true });
                 }
                 else
                 {
@@ -168,11 +166,11 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             {
                 //_notify.Error($"Error en actualizar los datos del colabrador.");
                 //var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", formulario);
-                _logger.LogError(ex,$"Error en actualizar los datos del colabrador.");
-              
+                _logger.LogError(ex, $"Error en actualizar los datos del colabrador.");
+
                 return new JsonResult(new { isValid = false });
             }
-            
+
         }
     }
 }

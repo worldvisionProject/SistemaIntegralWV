@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using WordVision.ec.Domain.Contracts;
 
 namespace WordVision.ec.Domain.Entities.Presupuesto
 {
     public class DatosT5 : AuditableEntity
     {
-      
+
         [StringLength(150)]
         [Required]
         public string Codigo { get; set; }
@@ -27,9 +22,9 @@ namespace WordVision.ec.Domain.Entities.Presupuesto
         [StringLength(150)]
         public string DescripcionT2 { get; set; }
 
-    
+
         public int Tipo { get; set; }
-        
+
 
     }
 }

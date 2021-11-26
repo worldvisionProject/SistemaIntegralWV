@@ -3,7 +3,6 @@ using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Domain.Entities.Registro;

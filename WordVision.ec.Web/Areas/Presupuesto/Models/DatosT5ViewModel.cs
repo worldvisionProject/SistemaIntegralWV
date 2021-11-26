@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WordVision.ec.Web.Areas.Presupuesto.Models
+﻿namespace WordVision.ec.Web.Areas.Presupuesto.Models
 {
     public class DatosT5ViewModel
     {

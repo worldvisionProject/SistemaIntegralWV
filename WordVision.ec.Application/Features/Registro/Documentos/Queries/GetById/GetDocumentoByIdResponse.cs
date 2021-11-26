@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using WordVision.ec.Domain.Entities.Registro;
 
 namespace WordVision.ec.Application.Features.Registro.Documentos.Queries.GetById
 {

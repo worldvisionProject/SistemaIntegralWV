@@ -1,17 +1,13 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Presupuesto;
 
 namespace WordVision.ec.Application.Features.Presupuesto.DatosLDR.Queries.GetById
 {
-   public class GetDatosLDRByIdQuery : IRequest<Result<GetDatosLDRByIdResponse>>
+    public class GetDatosLDRByIdQuery : IRequest<Result<GetDatosLDRByIdResponse>>
     {
         public int Id { get; set; }
         public class GetDatosLDRByIdQueryHandler : IRequestHandler<GetDatosLDRByIdQuery, Result<GetDatosLDRByIdResponse>>

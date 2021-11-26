@@ -1,9 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -30,7 +27,7 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
             private readonly IUnitOfWork _unitOfWork;
             private readonly IEstrategiaNacionalRepository _EstrategiaNacionalRepository;
             private readonly IGestionRepository _GestionRepository;
-            public UpdateProductCommandHandler(IGestionRepository gestionRepository,IEstrategiaNacionalRepository EstrategiaNacionalRepository, IUnitOfWork unitOfWork)
+            public UpdateProductCommandHandler(IGestionRepository gestionRepository, IEstrategiaNacionalRepository EstrategiaNacionalRepository, IUnitOfWork unitOfWork)
             {
                 _EstrategiaNacionalRepository = EstrategiaNacionalRepository;
                 _GestionRepository = gestionRepository;
@@ -55,7 +52,7 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
                     EstrategiaNacional.Indicador = command.Indicador;
                     EstrategiaNacional.Estado = command.Estado;
 
-                    foreach (var g in  command.Gestiones)
+                    foreach (var g in command.Gestiones)
                     {
                         var Gestion = await _GestionRepository.GetByIdAsync(g.Id);
                         Gestion.Meta = g.Meta;

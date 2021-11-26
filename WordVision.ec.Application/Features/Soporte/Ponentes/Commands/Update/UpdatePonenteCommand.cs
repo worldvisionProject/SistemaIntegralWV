@@ -1,10 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -28,13 +24,13 @@ namespace WordVision.ec.Application.Features.Soporte.Ponentes.Commands.Update
         {
             private readonly IUnitOfWork _unitOfWork;
             private readonly IPonenteRepository _entidadRepository;
-          
+
             private readonly IMapper _mapper;
 
             public UpdatePonenteCommandHandler(IPonenteRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
             {
                 _entidadRepository = entidadRepository;
-            
+
                 _unitOfWork = unitOfWork;
                 _mapper = mapper;
             }
@@ -52,8 +48,8 @@ namespace WordVision.ec.Application.Features.Soporte.Ponentes.Commands.Update
                 obj.Cargo = command.Cargo;
                 obj.Perfil = command.Perfil;
                 obj.Tema = command.Tema;
-              
-               
+
+
                 await _entidadRepository.UpdateAsync(obj);
 
 

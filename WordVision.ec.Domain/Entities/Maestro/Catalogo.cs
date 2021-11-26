@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace WordVision.ec.Domain.Entities.Maestro
 {
@@ -23,7 +22,7 @@ namespace WordVision.ec.Domain.Entities.Maestro
         public ICollection<DetalleCatalogo> DetalleCatalogos { get; set; }
     }
 
-    public class DetalleCatalogo 
+    public class DetalleCatalogo
     {
         [Key]
         public int Id { get; set; }

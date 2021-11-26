@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WordVision.ec.Application.Features.Soporte.Donantes.Queries.GetAllCached
 {
@@ -48,7 +44,7 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Queries.GetAllCach
         public string NumeroTarjeta { get; set; }
 
         public DateTime? FechaCaducidad { get; set; }
-      
+
         public int? Banco { get; set; }
 
         public string NumReferenciaBp { get; set; }

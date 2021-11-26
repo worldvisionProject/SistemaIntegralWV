@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WordVision.ec.Infrastructure.Data.CacheKeys
+﻿namespace WordVision.ec.Infrastructure.Data.CacheKeys
 {
     public class PreguntaCacheKeys
     {

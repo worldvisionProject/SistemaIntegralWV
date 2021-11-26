@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Estructuras.Queries.GetAllCached;
 using WordVision.ec.Web.Abstractions;

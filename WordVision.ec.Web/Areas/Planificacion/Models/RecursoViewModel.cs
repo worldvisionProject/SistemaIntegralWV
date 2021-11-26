@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Models
 {
@@ -32,7 +29,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public ICollection<FechaCantidadRecursoViewModel> FechaCantidadRecursos { get; set; }
 
 
-       public SelectList CategoriaList { get; set; }
+        public SelectList CategoriaList { get; set; }
         public SelectList InsumoList { get; set; }
         public SelectList CentroCostosList { get; set; }
         public SelectList CuentaCCList { get; set; }

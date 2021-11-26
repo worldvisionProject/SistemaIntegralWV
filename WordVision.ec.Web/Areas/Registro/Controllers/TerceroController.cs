@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Registro.Formularios.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Terceros.Commands.Create;
@@ -15,9 +13,9 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
 {
     [Area("Registro")]
     [Authorize]
-    public class TerceroController :  BaseController<TerceroController>
+    public class TerceroController : BaseController<TerceroController>
     {
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0,int idFormulario=0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idFormulario = 0)
         {
             var response = await _mediator.Send(new GetTerceroByIdFormularioQuery() { Id = id });
             if (response.Succeeded)
@@ -26,7 +24,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                 terceroViewModel.idFormulario = idFormulario;
                 if (response.Data != null)
                     terceroViewModel = _mapper.Map<TerceroViewModel>(response.Data);
-     
+
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", terceroViewModel) });
             }
             return null;

@@ -1,9 +1,6 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace WordVision.ec.Domain.Entities.Maestro
 {
@@ -33,6 +30,6 @@ namespace WordVision.ec.Domain.Entities.Maestro
         [ForeignKey("IdProvincia")]
         public ICollection<Ciudad> Ciudades { get; set; }
 
-       
+
     }
 }

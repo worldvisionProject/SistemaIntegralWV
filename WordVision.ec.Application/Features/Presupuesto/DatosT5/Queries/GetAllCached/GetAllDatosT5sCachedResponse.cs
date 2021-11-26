@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WordVision.ec.Application.Features.Presupuesto.DatosT5.Queries.GetAllCached
+﻿namespace WordVision.ec.Application.Features.Presupuesto.DatosT5.Queries.GetAllCached
 {
     public class GetAllDatosT5sCachedResponse
     {

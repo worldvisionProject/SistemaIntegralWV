@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -19,12 +16,12 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorProductoObje
     {
         private readonly IIndicadorProductoObjetivoRepository _entidadCache;
         private readonly IMapper _mapper;
-     
+
         public GetAllIndicadorProductoObjetivosCachedQueryHandler(IIndicadorProductoObjetivoRepository entidadCache, IMapper mapper)
         {
             _entidadCache = entidadCache;
             _mapper = mapper;
-        
+
         }
 
         public async Task<Result<List<GetAllIndicadorProductoObjetivosCachedResponse>>> Handle(GetAllIndicadorProductoObjetivosCachedQuery request, CancellationToken cancellationToken)

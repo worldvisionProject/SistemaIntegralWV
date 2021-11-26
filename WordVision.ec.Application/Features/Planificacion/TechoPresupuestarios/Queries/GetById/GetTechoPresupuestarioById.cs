@@ -1,10 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -18,7 +14,7 @@ namespace WordVision.ec.Application.Features.Planificacion.TechoPresupuestarios.
         public class GetTechoPresupuestarioByIdHandler : IRequestHandler<GetTechoPresupuestarioById, Result<GetTechoPresupuestarioByIdResponse>>
         {
             private readonly ITechoPresupuestarioRepository _techoPresupuestarioRepository;
-          
+
             private readonly IMapper _mapper;
 
             public GetTechoPresupuestarioByIdHandler(ITechoPresupuestarioRepository techoPresupuestarioRepository, IMapper mapper)

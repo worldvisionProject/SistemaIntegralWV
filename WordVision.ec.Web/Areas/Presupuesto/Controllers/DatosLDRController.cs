@@ -1,10 +1,8 @@
-﻿using CsvHelper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +15,7 @@ namespace WordVision.ec.Web.Areas.Presupuesto.Controllers
 {
     [Area("Presupuesto")]
     [Authorize]
-    public class DatosLDRController :  BaseController<DatosLDRController>
+    public class DatosLDRController : BaseController<DatosLDRController>
     {
         public IActionResult Index(int id)
         {
@@ -27,7 +25,7 @@ namespace WordVision.ec.Web.Areas.Presupuesto.Controllers
 
         }
 
-     
+
 
         public async Task<IActionResult> LoadDatosLDR(int id = 0)
         {
@@ -73,7 +71,7 @@ namespace WordVision.ec.Web.Areas.Presupuesto.Controllers
                             var linea = stream.ReadLine();
                             strContent.Add(linea);//agrego al List el contenido del archivo                   
                         }
-                         i = 0;
+                        i = 0;
                         foreach (var item in strContent.Skip(1))//salteo las cabeceras
                         {
                             var cells = item.Split(";");//separo por ;
@@ -94,7 +92,7 @@ namespace WordVision.ec.Web.Areas.Presupuesto.Controllers
                             D.T8 = cells[13];
                             D.T9 = cells[14];
                             D.FijoEventual = cells[15].ToString() == "X" ? "F" : "E";
-                            D.Ldr =Convert.ToDecimal( cells[17].ToString()) ;
+                            D.Ldr = Convert.ToDecimal(cells[17].ToString());
 
                             var createLDRCommand = _mapper.Map<CreateDatosLDRCommand>(D);
                             var resultLDR = await _mediator.Send(createLDRCommand);
@@ -118,12 +116,12 @@ namespace WordVision.ec.Web.Areas.Presupuesto.Controllers
                 _notify.Success($"{i} Registros almacenadas.");
                 return new JsonResult(new { isValid = true });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _notify.Success($"Error al Insertar.");
                 return new JsonResult(new { isValid = false });
             }
-           
+
         }
     }
 }

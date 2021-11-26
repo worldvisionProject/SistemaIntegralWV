@@ -1,10 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -29,7 +25,7 @@ namespace WordVision.ec.Application.Features.Registro.Firma.Queries.GetById
 
             public async Task<Result<GetFirmaByIdResponse>> Handle(GetFirmaByIdQuery query, CancellationToken cancellationToken)
             {
-                var Colaborador = await _firmaCache.GetByIdColaboradorAsync(query.IdColaborador,query.IdDocumento);
+                var Colaborador = await _firmaCache.GetByIdColaboradorAsync(query.IdColaborador, query.IdDocumento);
                 var mappedColaborador = _mapper.Map<GetFirmaByIdResponse>(Colaborador);
                 return Result<GetFirmaByIdResponse>.Success(mappedColaborador);
             }

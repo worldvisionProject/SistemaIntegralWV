@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WordVision.ec.Web.Areas.Soporte.Models
+﻿namespace WordVision.ec.Web.Areas.Soporte.Models
 {
     public class EstadosSolicitudViewModel
     {

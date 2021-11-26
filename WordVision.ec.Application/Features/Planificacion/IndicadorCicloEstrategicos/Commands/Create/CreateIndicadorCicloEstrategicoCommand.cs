@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -13,7 +10,7 @@ using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategicos.Commands.Create
 {
-  
+
     public class CreateIndicadorCicloEstrategicoCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
@@ -38,9 +35,9 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrate
 
         public async Task<Result<int>> Handle(CreateIndicadorCicloEstrategicoCommand request, CancellationToken cancellationToken)
         {
-           
-                var obj = _mapper.Map<IndicadorCicloEstrategico>(request);
-                await _entidadRepository.InsertAsync(obj);
+
+            var obj = _mapper.Map<IndicadorCicloEstrategico>(request);
+            await _entidadRepository.InsertAsync(obj);
             await _unitOfWork.Commit(cancellationToken);
             return Result<int>.Success();
         }

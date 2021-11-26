@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WordVision.ec.Domain.Contracts;
 
 namespace WordVision.ec.Domain.Entities.Planificacion
 {
     public class IndicadorEstrategico : AuditableEntity
     {
-       
+
         [Required]
         public string IndicadorResultado { get; set; }
-      
+
         [Required]
         public string MedioVerificacion { get; set; }
         [Required]

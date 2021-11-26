@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Presupuesto.DatosLDR.Commands.Update;
 using WordVision.ec.Application.Features.Presupuesto.DatosLDR.Queries.GetAllCached;
@@ -16,7 +15,7 @@ namespace WordVision.ec.Web.Areas.Presupuesto.Controllers
 {
     [Area("Presupuesto")]
     [Authorize]
-    public class PresupuestoController :    BaseController<DatosLDRController>
+    public class PresupuestoController : BaseController<DatosLDRController>
     {
         public IActionResult Index(int id)
         {
@@ -62,11 +61,11 @@ namespace WordVision.ec.Web.Areas.Presupuesto.Controllers
             if (response.Succeeded)
             {
                 var models = new AsignarViewModel();
-             
+
                 var viewModel = _mapper.Map<List<DatosLDRViewModel>>(response.Data);
                 models.LDRs = viewModel;
 
-                var responseT5=  await _mediator.Send(new GetAllDatosT5sCachedQuery());
+                var responseT5 = await _mediator.Send(new GetAllDatosT5sCachedQuery());
                 var viewModelT5 = _mapper.Map<List<DatosT5ViewModel>>(responseT5.Data);
 
                 models.T5Combo = viewModelT5;
@@ -96,7 +95,7 @@ namespace WordVision.ec.Web.Areas.Presupuesto.Controllers
                 }
                 else
                     con = 170;
-               
+
 
                 PresupuestoViewModel p = new PresupuestoViewModel();
                 p.T5 = model.IdT5;
@@ -110,8 +109,8 @@ namespace WordVision.ec.Web.Areas.Presupuesto.Controllers
 
                 //if (id == 0)
                 //{
-                    var createBrandCommand = _mapper.Map<CreatePresupuestoCommand>(p);
-                    var result = await _mediator.Send(createBrandCommand);
+                var createBrandCommand = _mapper.Map<CreatePresupuestoCommand>(p);
+                var result = await _mediator.Send(createBrandCommand);
                 if (result.Succeeded)
                 {
 
@@ -150,7 +149,7 @@ namespace WordVision.ec.Web.Areas.Presupuesto.Controllers
                 //{
                 //    var viewModel = _mapper.Map<List<ColaboradorViewModel>>(response.Data);
                 //    var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
-                    return new JsonResult(new { isValid = true });
+                return new JsonResult(new { isValid = true });
                 //}
                 //else
                 //{

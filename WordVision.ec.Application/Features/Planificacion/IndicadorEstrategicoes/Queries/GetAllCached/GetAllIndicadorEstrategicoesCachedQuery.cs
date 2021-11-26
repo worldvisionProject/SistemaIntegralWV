@@ -5,8 +5,6 @@ using MediatR;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.CacheRepositories;
-using WordVision.ec.Application.Interfaces.CacheRepositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 
@@ -39,7 +37,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
         {
             var IndicadorEstrategicoList = await _IndicadorEstrategicoCache.GetListAsync();
             var mappedIndicadorEstrategicoes = _mapper.Map<List<GetAllIndicadorEstrategicoesCachedResponse>>(IndicadorEstrategicoList);
-           
+
             return Result<List<GetAllIndicadorEstrategicoesCachedResponse>>.Success(mappedIndicadorEstrategicoes);
         }
     }

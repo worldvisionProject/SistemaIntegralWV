@@ -15,7 +15,7 @@ namespace WordVision.ec.Application.Mappings.Maestro
             CreateMap<CreateEstructuraCommand, Estructura>().ReverseMap();
             CreateMap<GetEstructuraByIdResponse, Estructura>().ReverseMap();
             CreateMap<GetAllEstructurasCachedResponse, Estructura>().ReverseMap();
-         
+
         }
     }
 }

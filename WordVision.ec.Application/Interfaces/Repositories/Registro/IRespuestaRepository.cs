@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Domain.Entities.Registro;
 
@@ -16,7 +14,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Registro
         Task<Respuesta> GetByIdAsync(int respuestaId);
 
         Task<int> GetCountByIdColaboradorAsync(int colaoradorId, int documentoId);
-       
+
         Task<Respuesta> GetByIdColaboradorAsync(int colaoradorId, int documentoId, int preguntaId);
 
         Task<List<Respuesta>> GetListByIdDocumentoAsync(int documentoId);

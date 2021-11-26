@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Maestro;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -41,19 +39,19 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
 
         public async Task<DetalleCatalogo> GetDetalleByIdAsync(int id, string secuencia)
         {
-            return await _repositoryDetalle.Entities.Where(p => p.IdCatalogo==id && p.Secuencia == secuencia).FirstOrDefaultAsync();
+            return await _repositoryDetalle.Entities.Where(p => p.IdCatalogo == id && p.Secuencia == secuencia).FirstOrDefaultAsync();
 
         }
 
         public async Task<List<DetalleCatalogo>> GetDetalleByIdCatalogoAsync(int id)
         {
-            return await _repositoryDetalle.Entities.Where(p => p.IdCatalogo == id ).ToListAsync();
+            return await _repositoryDetalle.Entities.Where(p => p.IdCatalogo == id).ToListAsync();
 
         }
 
         public async Task<List<Catalogo>> GetListAsync(string idRol)
         {
-            return await _repository.Entities.Where(p => p.IdRol.ToUpper()==idRol || idRol.Length==0).ToListAsync();
+            return await _repository.Entities.Where(p => p.IdRol.ToUpper() == idRol || idRol.Length == 0).ToListAsync();
         }
 
         public async Task<int> InsertAsync(Catalogo Catalogo)
@@ -65,14 +63,14 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
                 var detailBudget = new DetalleCatalogo
                 {
                     Nombre = detail.Nombre,
-                    Estado=detail.Estado,
-                    Secuencia=detail.Secuencia,
-                    IdCatalogo=Catalogo.Id
+                    Estado = detail.Estado,
+                    Secuencia = detail.Secuencia,
+                    IdCatalogo = Catalogo.Id
                 };
-              await  _repositoryDetalle.AddAsync(detailBudget);
+                await _repositoryDetalle.AddAsync(detailBudget);
             }
 
-           
+
             await _distributedCache.RemoveAsync(CatalogoCacheKeys.ListKey);
             return Catalogo.Id;
         }

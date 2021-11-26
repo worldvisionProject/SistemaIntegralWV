@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using WordVision.ec.Domain.Contracts;
 
 namespace WordVision.ec.Domain.Entities.Registro
 {
-    public class Pregunta: AuditableEntity
+    public class Pregunta : AuditableEntity
     {
-       
+
         [Required]
         public int NumPregunta { get; set; }
 

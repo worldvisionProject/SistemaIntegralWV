@@ -1,8 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Soporte.Donantes.Commands.Create;
 using WordVision.ec.Application.Features.Soporte.Donantes.Commands.Update;
 using WordVision.ec.Application.Features.Soporte.Donantes.Queries.GetAllCached;
@@ -24,5 +20,5 @@ namespace WordVision.ec.Web.Areas.Soporte.Mappings
             CreateMap<Donante, DonanteViewModel>().ReverseMap();
         }
     }
-    
+
 }

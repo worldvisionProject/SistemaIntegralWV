@@ -13,7 +13,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Mappings
     {
         public EstructuraProfile()
         {
-             CreateMap<GetAllEstructurasCachedResponse, EstructuraViewModel>().ReverseMap();
+            CreateMap<GetAllEstructurasCachedResponse, EstructuraViewModel>().ReverseMap();
             CreateMap<GetEstructuraByIdResponse, EstructuraViewModel>().ReverseMap();
             CreateMap<CreateEstructuraCommand, EstructuraViewModel>().ReverseMap();
             CreateMap<UpdateEstructuraCommand, EstructuraViewModel>().ReverseMap();

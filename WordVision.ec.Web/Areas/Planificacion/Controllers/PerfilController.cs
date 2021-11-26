@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
@@ -31,13 +29,13 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             var modelista = new List<PerfilDesempenioViewModel>();
             var model = new PerfilDesempenioViewModel();
             model.ResponsabilidadCargo = "Coordina la adopción de iniciativas globales , asegurando su correcto funcionamiento a nivel local.";
-            model.Indicador ="100% de Aplicaciones de iniciativas del Centro Global implementadas acorde a los cronogramas establecidos por LACRO o GC.";
+            model.Indicador = "100% de Aplicaciones de iniciativas del Centro Global implementadas acorde a los cronogramas establecidos por LACRO o GC.";
             model.MetaAnual = "100%";
-            
+
 
             modelista.Add(model);
 
-             model = new PerfilDesempenioViewModel();
+            model = new PerfilDesempenioViewModel();
             model.ResponsabilidadCargo = "Garantizar la continuidad y funcionalidad de las aplicaciones mediante el soporte a nivel nacional. A fin de asegurar la disponibilidad de las aplicaciones en función de la resolución de incidentes frecuentes en el menor tiempo.";
             model.Indicador = "Informe del estado de las aplicaciones mediante la solución de incidentes resueltos en el soporte de aplicaciones";
             model.MetaAnual = "40%";
@@ -51,7 +49,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
             return PartialView("_ViewAll", modelista);
             //}
-           
+
         }
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idNivel = 0)
         {
@@ -59,7 +57,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (id == 0)
             {
                 var entidadViewModel = new AcuerdoDesempenioViewModel();
-               
+
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             //else
@@ -80,7 +78,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (id == 0)
             {
                 var entidadViewModel = new PerfilDesempenioViewModel();
-               
+
                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                 entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                 var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 11 });

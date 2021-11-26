@@ -2,22 +2,17 @@
 using AutoMapper;
 using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Application.Interfaces.Repositories.Soporte;
-using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Update
 {
     public class UpdateDonanteCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
-   
+
 
         public DateTime? FechaConversion { get; set; }
         public byte[] EvidenciaConversion { get; set; }
@@ -117,7 +112,7 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Update
                     Donante.FechaNacimiento = command.FechaNacimiento;
                     Donante.FechaVencimiento = command.FechaVencimiento;
                     Donante.Genero = command.Genero == 0 ? Donante.Genero : command.Genero;
-               
+
                     Donante.NumeroCuenta = command.NumeroCuenta;
                     Donante.NumReferencia = command.NumReferencia;
                     Donante.Provincia = command.Provincia == 0 ? Donante.Provincia : command.Provincia;
@@ -142,7 +137,7 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Update
 
                     await _donanteRepository.UpdateAsync(Donante);
 
-                    
+
                     await _unitOfWork.Commit(cancellationToken);
                     return Result<int>.Success(Donante.Id);
                 }

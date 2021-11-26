@@ -1,9 +1,5 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -28,7 +24,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Productos.Commands.De
 
             public async Task<Result<int>> Handle(DeleteProductoCommand command, CancellationToken cancellationToken)
             {
-                var IndicadorAF = await _ProductoRepository.GetByIdAsync(command.Id,0,"");
+                var IndicadorAF = await _ProductoRepository.GetByIdAsync(command.Id, 0, "");
                 await _ProductoRepository.DeleteAsync(IndicadorAF);
                 await _unitOfWork.Commit(cancellationToken);
                 return Result<int>.Success(IndicadorAF.Id);

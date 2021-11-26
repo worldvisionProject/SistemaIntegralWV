@@ -3,7 +3,6 @@ using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -42,7 +41,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 
         public async Task<List<Seguimiento>> GetListByIdicadorAsync(int idIndicador, string tipoSeguimiento)
         {
-            return await _repository.Entities.Where(p => p.IdIndicador == idIndicador && p.Tipo==tipoSeguimiento).ToListAsync();
+            return await _repository.Entities.Where(p => p.IdIndicador == idIndicador && p.Tipo == tipoSeguimiento).ToListAsync();
         }
 
         public async Task<int> InsertAsync(Seguimiento Seguimiento)

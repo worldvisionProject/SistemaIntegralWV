@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WordVision.ec.Application.Features.Presupuesto.DatosLDR.Queries.GetAllCached
+﻿namespace WordVision.ec.Application.Features.Presupuesto.DatosLDR.Queries.GetAllCached
 {
     public class GetAllDatosLDRsCachedResponse
     {

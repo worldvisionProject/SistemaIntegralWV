@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -30,7 +28,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 
         public async Task<Actividad> GetByIdAsync(int actividadId)
         {
-            return await _repository.Entities.Where(p => p.Id == actividadId).Include(r=>r.Recursos).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(p => p.Id == actividadId).Include(r => r.Recursos).FirstOrDefaultAsync();
         }
 
         public async Task<List<Actividad>> GetListAsync()
@@ -40,7 +38,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 
         public async Task<List<Actividad>> GetListByIdAsync(int idIndicador)
         {
-            return await _repository.Entities.Where(x=>x.IdIndicadorPOA==idIndicador).ToListAsync();
+            return await _repository.Entities.Where(x => x.IdIndicadorPOA == idIndicador).ToListAsync();
         }
 
         public async Task<List<Actividad>> GetListxObjetivoAsync(int idObjetivoEstrategico, int idColaborador)
@@ -51,7 +49,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
                             .ThenInclude(i => i.IndicadorEstrategicos)
                             .ThenInclude(a => a.IndicadorAFs)
                             .ThenInclude(ie => ie.IndicadorEstrategicos)
-                            .ThenInclude(fc => fc.FactorCriticoExitos).Where(dd=>dd.IndicadorPOAs.Productos.IndicadorEstrategicos.FactorCriticoExitos.IdObjetivoEstra== idObjetivoEstrategico && dd.IdCargoResponsable==idColaborador)
+                            .ThenInclude(fc => fc.FactorCriticoExitos).Where(dd => dd.IndicadorPOAs.Productos.IndicadorEstrategicos.FactorCriticoExitos.IdObjetivoEstra == idObjetivoEstrategico && dd.IdCargoResponsable == idColaborador)
                             .ToListAsync();
         }
 

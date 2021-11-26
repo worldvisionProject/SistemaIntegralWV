@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WordVision.ec.Domain.Entities.Registro;
+﻿using System.Collections.Generic;
 using WordVision.ec.Web.Areas.Registro.Models;
 
 namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard

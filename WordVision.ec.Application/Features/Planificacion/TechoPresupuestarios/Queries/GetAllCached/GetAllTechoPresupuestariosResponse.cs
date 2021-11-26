@@ -1,6 +1,4 @@
-﻿using WordVision.ec.Domain.Entities.Maestro;
-
-namespace WordVision.ec.Application.Features.Registro.TechoPresupuestarios.Queries.GetAllCached
+﻿namespace WordVision.ec.Application.Features.Registro.TechoPresupuestarios.Queries.GetAllCached
 {
     public class GetAllTechoPresupuestariosResponse
     {

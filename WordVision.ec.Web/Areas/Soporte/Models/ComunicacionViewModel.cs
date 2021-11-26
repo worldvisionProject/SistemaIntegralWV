@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WordVision.ec.Web.Areas.Soporte.Models
 {
@@ -46,9 +44,12 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         public string PublicoObjetivo { get; set; }
         [Display(Name = "Num. participantes")]
         [Required(ErrorMessage = "Num. participantes requerida.")]
-        public int NumeroParticipantes { get; set; }
+        public int? NumeroParticipantes { get; set; }
+        [Required(ErrorMessage = "Num. participantes requerida.")]
+        public int? NumeroParticipantesP { get; set; }
+
         [Display(Name = "Transmisión virtual")]
-        public bool TransmisionVirtual { get; set; }
+        public int TransmisionVirtual { get; set; }
         [Display(Name = "Guión evento")]
         public byte[] GuionEvento { get; set; }
         [Display(Name = "Logos socios")]
@@ -73,6 +74,6 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         public int IdSolicitud { get; set; }
         public virtual SolicitudViewModel Solicitudes { get; set; }
         public ICollection<PonenteViewModel> Ponentes { get; set; }
-       public ICollection<LogoSocioViewModel> LogoSocios { get; set; }
+        public ICollection<LogoSocioViewModel> LogoSocios { get; set; }
     }
 }

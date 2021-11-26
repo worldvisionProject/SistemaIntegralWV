@@ -1,8 +1,4 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WordVision.ec.Web.Areas.Registro.Models;
 
 namespace WordVision.ec.Web.Areas.Registro.Validators
@@ -35,7 +31,7 @@ namespace WordVision.ec.Web.Areas.Registro.Validators
             RuleFor(p => p.Cargo)
              .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
              .NotNull();
-            
+
             RuleFor(p => p.Area)
              .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
              .NotNull();

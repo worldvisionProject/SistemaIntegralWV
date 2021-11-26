@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Planificacion.Actividades.Queries.GetById;
@@ -32,7 +29,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Actividades.Queries.G
 
         public async Task<Result<List<GetActividadByIdResponse>>> Handle(GetAllActividadesQuery request, CancellationToken cancellationToken)
         {
-            var actividadList = await _actividadCache.GetListxObjetivoAsync(request.IdObjetivoEstrategico,request.IdColaborador);
+            var actividadList = await _actividadCache.GetListxObjetivoAsync(request.IdObjetivoEstrategico, request.IdColaborador);
             var mappedactividads = _mapper.Map<List<GetActividadByIdResponse>>(actividadList);
 
             return Result<List<GetActividadByIdResponse>>.Success(mappedactividads);

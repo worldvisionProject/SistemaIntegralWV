@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -13,7 +10,7 @@ using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Create
 {
-  
+
     public partial class CreateIndicadorEstrategicoCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
@@ -35,7 +32,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
 
         private IUnitOfWork _unitOfWork { get; set; }
 
-        public CreateIndicadorEstrategicoCommandHandler(IIndicadorAFRepository indicadorAFRepository,IIndicadorEstrategicoRepository IndicadorEstrategicoRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateIndicadorEstrategicoCommandHandler(IIndicadorAFRepository indicadorAFRepository, IIndicadorEstrategicoRepository IndicadorEstrategicoRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _IndicadorEstrategicoRepository = IndicadorEstrategicoRepository;
             _IndicadorAFRepository = indicadorAFRepository;
@@ -54,7 +51,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
                 IndicadorAF.IdIndicadorEstrategico = IndicadorEstrategico.Id;
                 await _IndicadorAFRepository.InsertAsync(IndicadorAF);
             }
-            
+
             await _unitOfWork.Commit(cancellationToken);
             return Result<int>.Success(IndicadorEstrategico.Id);
         }

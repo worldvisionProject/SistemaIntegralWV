@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Domain.Entities.Registro;
@@ -15,9 +13,9 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
         private readonly IRepositoryAsync<FormularioTercero> _repFormulario;
 
         //private readonly IDistributedCache _distributedCache;
-        public TerceroRepository( IRepositoryAsync<Tercero> repository,IRepositoryAsync<FormularioTercero> repFormulario)
+        public TerceroRepository(IRepositoryAsync<Tercero> repository, IRepositoryAsync<FormularioTercero> repFormulario)
         {
-           
+
             _repository = repository;
             _repFormulario = repFormulario;
 
@@ -37,15 +35,15 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
 
         public async Task<List<FormularioTercero>> GetByIdFormularioAsync(int formularioId, string tipo)
         {
-            return await _repFormulario.Entities.Where(p => p.Formularios.Id == formularioId && p.Tipo==tipo).Include(x => x.Terceros).ToListAsync();
-          
+            return await _repFormulario.Entities.Where(p => p.Formularios.Id == formularioId && p.Tipo == tipo).Include(x => x.Terceros).ToListAsync();
+
         }
 
         public async Task<List<Tercero>> GetListAsync()
         {
             return await _repository.Entities.ToListAsync();
         }
-    
+
 
         public async Task<int> InsertAsync(Tercero tercero)
         {

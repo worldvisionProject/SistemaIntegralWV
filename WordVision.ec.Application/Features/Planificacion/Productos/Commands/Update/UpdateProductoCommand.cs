@@ -1,23 +1,18 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
-using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Application.Features.Planificacion.Productos.Commands.Update
 {
-   
+
     public class UpdateProductoCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
-         public string DescProducto { get; set; }
+        public string DescProducto { get; set; }
         public int IdCargoResponsable { get; set; }
 
         public int IdIndicadorEstrategico { get; set; }
@@ -37,7 +32,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Productos.Commands.Up
 
             public async Task<Result<int>> Handle(UpdateProductoCommand command, CancellationToken cancellationToken)
             {
-                var producto = await _ProductoRepository.GetByIdAsync(command.Id,0, "");
+                var producto = await _ProductoRepository.GetByIdAsync(command.Id, 0, "");
 
                 if (producto == null)
                 {

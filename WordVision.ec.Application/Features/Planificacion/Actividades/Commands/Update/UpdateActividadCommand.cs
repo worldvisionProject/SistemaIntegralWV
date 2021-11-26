@@ -3,8 +3,6 @@ using AutoMapper;
 using MediatR;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -59,7 +57,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Actividades.Commands.
                 {
                     actividad.DescripcionActividad = command.DescripcionActividad ?? actividad.DescripcionActividad;
                     actividad.Entregable = command.Entregable ?? actividad.Entregable;
-                    actividad.IdCargoResponsable = command.IdCargoResponsable==0? actividad.IdCargoResponsable: command.IdCargoResponsable;
+                    actividad.IdCargoResponsable = command.IdCargoResponsable == 0 ? actividad.IdCargoResponsable : command.IdCargoResponsable;
                     actividad.FechaInicio = command.FechaInicio;
                     actividad.FechaFin = command.FechaFin;
                     actividad.Ponderacion = command.Ponderacion ?? actividad.Ponderacion;
@@ -67,7 +65,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Actividades.Commands.
                     actividad.TechoPresupuestoCC = command.TechoPresupuestoCC ?? actividad.TechoPresupuestoCC;
                     actividad.TotalRecurso = command.TotalRecurso ?? actividad.TotalRecurso;
                     actividad.Saldo = command.Saldo ?? actividad.Saldo;
-                    actividad.IdIndicadorPOA = command.IdIndicadorPOA==0 ? actividad.IdIndicadorPOA : command.IdIndicadorPOA;
+                    actividad.IdIndicadorPOA = command.IdIndicadorPOA == 0 ? actividad.IdIndicadorPOA : command.IdIndicadorPOA;
 
                     await _actividadRepository.UpdateAsync(actividad);
 
@@ -108,7 +106,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Actividades.Commands.
                             }
                             else
                             {
-                                cantidad.Mes = a.Mes==0? cantidad.Mes: a.Mes;
+                                cantidad.Mes = a.Mes == 0 ? cantidad.Mes : a.Mes;
                                 cantidad.Valor = a.Valor == 0 ? cantidad.Valor : a.Valor;
 
 
@@ -118,7 +116,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Actividades.Commands.
 
                     }
 
-                    
+
 
 
 

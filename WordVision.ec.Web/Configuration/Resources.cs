@@ -1,9 +1,6 @@
 ﻿using IdentityModel;
 using IdentityServer4.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using static IdentityServer4.IdentityServerConstants;
 
 namespace WordVision.ec.Web.Configuration

@@ -3,10 +3,9 @@ using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.Repositories.Soporte;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
+using WordVision.ec.Application.Interfaces.Repositories.Soporte;
 using WordVision.ec.Domain.Entities.Soporte;
 
 namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
@@ -40,7 +39,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
             return await _repository.Entities.Where(x => x.Estado == idEstadosSolicitud).ToListAsync();
         }
 
-     
+
         public async Task<int> InsertAsync(EstadosSolicitud estadosSolicitud)
         {
             await _repository.AddAsync(estadosSolicitud);
@@ -52,6 +51,6 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
             await _repository.UpdateAsync(estadosSolicitud);
         }
 
-       
+
     }
 }

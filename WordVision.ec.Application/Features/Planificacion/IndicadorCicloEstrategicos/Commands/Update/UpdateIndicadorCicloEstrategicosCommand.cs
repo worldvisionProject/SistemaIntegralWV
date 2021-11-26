@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -13,10 +10,10 @@ using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategicos.Commands.Update
 {
-   
+
     public class UpdateIndicadorCicloEstrategicoCommand : IRequest<Result<int>>
     {
-		public int Id { get; set; }
+        public int Id { get; set; }
         public string IndicadorCiclo { get; set; }
         public int IdEstrategia { get; set; }
         public ICollection<MetaCicloEstrategico> MetaCicloEstrategicos { get; set; }
@@ -45,7 +42,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrate
 
                 obj.IndicadorCiclo = command.IndicadorCiclo;
                 obj.IdEstrategia = command.IdEstrategia;
-                
+
 
                 await _entidadRepository.UpdateAsync(obj);
 

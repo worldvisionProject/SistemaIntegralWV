@@ -1,10 +1,7 @@
-﻿using AspNetCoreHero.ThrowR;
-using AspNetCoreHero.Extensions.Caching;
+﻿using AspNetCoreHero.Extensions.Caching;
+using AspNetCoreHero.ThrowR;
 using Microsoft.Extensions.Caching.Distributed;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.CacheRepositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;

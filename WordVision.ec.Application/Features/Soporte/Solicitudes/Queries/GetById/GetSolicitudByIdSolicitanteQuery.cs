@@ -1,18 +1,14 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Features.Soporte.Solicitudes.Queries.GetById;
 using WordVision.ec.Application.Interfaces.Repositories.Soporte;
 
 namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Queries.GetById
 {
-  
+
 
     public class GetSolicitudByIdSolicitanteQuery : IRequest<Result<List<GetSolicitudByIdResponse>>>
     {
@@ -34,7 +30,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Queries.GetById
 
             public async Task<Result<List<GetSolicitudByIdResponse>>> Handle(GetSolicitudByIdSolicitanteQuery query, CancellationToken cancellationToken)
             {
-                if (query.Tipo==0)
+                if (query.Tipo == 0)
                 {
                     var obj = await _entidadRepository.GetListSolicitudxSolicitanteAsync(query.Id);
                     var mappedObj = _mapper.Map<List<GetSolicitudByIdResponse>>(obj);
@@ -48,7 +44,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Queries.GetById
 
                     return Result<List<GetSolicitudByIdResponse>>.Success(mappedObj);
                 }
-               
+
             }
         }
     }

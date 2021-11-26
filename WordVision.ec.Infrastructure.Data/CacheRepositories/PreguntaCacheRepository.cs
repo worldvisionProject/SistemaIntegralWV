@@ -35,7 +35,7 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories
 
         public async Task<List<Pregunta>> GetByIdDocumentoAsync(int documentoId)
         {
-           var pregunta = await _PreguntaRepository.GetByIdDocumentoAsync(documentoId);
+            var pregunta = await _PreguntaRepository.GetByIdDocumentoAsync(documentoId);
             //    await _distributedCache.SetAsync(cacheKey, Pregunta);
             //}
             return pregunta;

@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
@@ -21,7 +19,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 {
     [Area("Planificacion")]
     [Authorize]
-    public class GestionController :  BaseController<GestionController>
+    public class GestionController : BaseController<GestionController>
     {
         public IActionResult Index()
         {
@@ -71,7 +69,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         {
             // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
             var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 2 });
-           
+
             if (id == 0)
             {
                 var entidadViewModel = new GestionViewModel();
@@ -122,10 +120,10 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     {
 
                         var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
-                        var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id =2 });
+                        var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 2 });
                         entidadViewModel.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
-                        var html1 = await _viewRenderer.RenderViewToStringAsync( "_ViewAll" , entidadViewModel);
-                        return new JsonResult(new { isValid = true, opcion = 99, page =  "#viewAllGestion" , html = html1 });
+                        var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", entidadViewModel);
+                        return new JsonResult(new { isValid = true, opcion = 99, page = "#viewAllGestion", html = html1 });
                     }
                     else
                     {
@@ -153,7 +151,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             {
                 _notify.Information($"Gestion con Id {id} Eliminado.");
                 return new JsonResult(new { isValid = true });
-           
+
             }
             else
             {

@@ -146,45 +146,41 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label class="col-md-12 col-form-label1 texto-pregunta" asp-for="Comunicaciones.DisponibilidadPresupuestaria"></label>
-                    <div class="custom-file1 form-image">
+                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Comunicaciones.DisponibilidadPresupuestaria"></label>
+                    <div class="custom-file form-image">
                         @if (Model.Comunicaciones != null)
                         {
                             if (Model.Comunicaciones.DisponibilidadPresupuestaria != null && Model.Comunicaciones.DisponibilidadPresupuestaria.Length > 0)
                             {
                                 <a href='/soporte/Comunicacion/ShowPDF?idSolicitud=@Model.Id&tipo=1' target="_blank"><i class="fas fa-newspaper"></i> Ver Adjunto</a>
                             }
+                          
                         }
                         else
 
                         {
-                           @* <input accept=".pdf"
+                            <input accept=".pdf"
                                    asp-for="@Model.Comunicaciones.DisponibilidadPresupuestaria"
-                                   type="file" class="custom-file-input1"
-                                   id="customFile1">*@
+                                   type="file" class="custom-file-input"
+                                   id="customFile">
 
-                                    <div class="upload">
-                                        <input type="button" class="uploadButton" value="Browse" />
-                                        <input type="file" name="upload" accept=".pdf" id="fileUpload" />
-                                        <span class="fileName">Select file..</span>
-                                    </div>
+                                  
 
-
-                           @* if (Model.Comunicaciones != null)
+                            if (Model.Comunicaciones != null)
                             {
                                 if (Model.Comunicaciones.DisponibilidadPresupuestaria != null && Model.Comunicaciones.DisponibilidadPresupuestaria.Length > 0)
                                 {
-                                    <label class="custom-file-label1" for="customFile1">Archivo almacenado</label>
+                                    <label class="custom-file-label" for="customFile">Archivo almacenado</label>
                                 }
                                 else
                                 {
-                                    <label class="custom-file-label1" for="customFile1">Buscar Archivo</label>
+                                    <label class="custom-file-label" for="customFile">Buscar Archivo</label>
                                 }
                             }
                             else
                             {
-                                <label class="custom-file-label1" for="customFile1">Buscar Archivo1</label>
-                            }*@
+                                <label class="custom-file-label" for="customFile">Buscar Archivo1</label>
+                            }
                         }
 
                     </div>
@@ -286,16 +282,16 @@
                     <span asp-validation-for="Comunicaciones.LugarEvento" class="text-danger"></span>
                 </div>
                  <div class="col-md-3">
-                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Comunicaciones.NumeroParticipantes"></label>
+                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Comunicaciones.NumeroParticipantesP"></label>
                     @if (Model.Estado == 1 && Model.Op == 1)
                     {
-                        <input type="number" asp-for="Comunicaciones.NumeroParticipantes" name="Comunicaciones.NumeroParticipantes" class="form-control">
+                        <input type="number" asp-for="Comunicaciones.NumeroParticipantesP" name="Comunicaciones.NumeroParticipantesP" class="form-control">
                     }
                     else
                     {
-                        <input type="number" asp-for="Comunicaciones.NumeroParticipantes" name="Comunicaciones.NumeroParticipantes" class="form-control" readonly>
+                        <input type="number" asp-for="Comunicaciones.NumeroParticipantesP" name="Comunicaciones.NumeroParticipantesP" class="form-control" readonly>
                     }
-                    <span asp-validation-for="Comunicaciones.NumeroParticipantes" class="text-danger"></span>
+                    <span asp-validation-for="Comunicaciones.NumeroParticipantesP" class="text-danger"></span>
                 </div>
             </div>
           
@@ -345,11 +341,23 @@
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Comunicaciones.TransmisionVirtual"></label>
                     @if (Model.Estado == 1 && Model.Op == 1)
                     {
-                        <input type="checkbox" asp-for="Comunicaciones.TransmisionVirtual" name="Comunicaciones.TransmisionVirtual" class="form-control">
+                         <select 
+                                asp-for="Comunicaciones.TransmisionVirtual" name="Comunicaciones.TransmisionVirtual" >
+
+                                <option value='1'>SI</option>
+                                <option value='0'>NO</option>
+                            </select>
+                        @*<input type="checkbox" asp-for="Comunicaciones.TransmisionVirtual" name="Comunicaciones.TransmisionVirtual" class="form-control">*@
                     }
                     else
                     {
-                        <input type="checkbox" asp-for="Comunicaciones.TransmisionVirtual" name="Comunicaciones.TransmisionVirtual" class="form-control" disabled>
+                        @*<input type="checkbox" asp-for="Comunicaciones.TransmisionVirtual" name="Comunicaciones.TransmisionVirtual" class="form-control" disabled>*@
+                            <select 
+                                asp-for="Comunicaciones.TransmisionVirtual" name="Comunicaciones.TransmisionVirtual" disabled>
+
+                                <option value='1'>SI</option>
+                                <option value='0'>NO</option>
+                            </select>
                     }
                     <span asp-validation-for="Comunicaciones.TransmisionVirtual" class="text-danger"></span>
                 </div>
@@ -358,6 +366,19 @@
             </div>
             <div class="form-group row" id="presencialP">
                
+                    <div class="col-md-4" >
+                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Comunicaciones.SituacionesInteresWV"></label>
+                    @if (Model.Estado == 1 && Model.Op == 1)
+                    {
+                        <textarea asp-for="Comunicaciones.SituacionesInteresWV" name="Comunicaciones.SituacionesInteresWV" class="form-control" ></textarea>
+                    }
+                    else
+                    {
+                        <textarea  asp-for="Comunicaciones.SituacionesInteresWV" name="Comunicaciones.SituacionesInteresWV" class="form-control" readonly ></textarea>
+                    }
+                    <span asp-validation-for="Comunicaciones.SituacionesInteresWV" class="text-danger"></span>
+                    </div>
+
                     <div class="col-md-4" >
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Comunicaciones.PersonasAsistiran"></label>
                     @if (Model.Estado == 1 && Model.Op == 1)
@@ -443,65 +464,62 @@
             <div class="form-group row" id="divPonente">
               
                <div class="col-md-7">
-                    <button type="button" class="btn btn-primary" id="btnAddPonente" data-toggle="modal" data-target="#form-add">
+                <button type="button" class="btn btn-primary" id="btnAddPonente" data-toggle="modal" data-target="#form-add">
                     <i class="fas fa-plus-square"></i>
                     Ponentes
                 </button>
                 
-       @* <div  class="card-body table-responsive">*@
                <table id="ponenteTable" class="table table-striped" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
+                    <thead>
+                        <tr>
                 
-                        <th>Ponente</th>
-                        <th>Cargo</th>
-                        <th>Perfíl</th>
-                        <th>Tema</th>
+                            <th>Ponente</th>
+                            <th>Cargo</th>
+                            <th>Perfíl</th>
+                            <th>Tema</th>
 
-                        <th class="acciones-th">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Comunicaciones != null)
-                    {
-
-                        @foreach (var ponentes in Model.Comunicaciones.Ponentes.ToList())
+                            <th class="acciones-th">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Comunicaciones != null)
                         {
-                    <tr id="Ponente_@ponentes.Id">
 
-               
-                        <td>
+                            @foreach (var ponentes in Model.Comunicaciones.Ponentes.ToList())
+                            {
+                        <tr id="Ponente_@ponentes.Id">
+                            <td>
+                                @ponentes.NombreApellido
+                            </td>
+                            <td>
+                                @ponentes.Cargo
+                            </td>
+                            <td>
+                                @ponentes.Perfil
+                            </td>
+                            <td>
+                                 @ponentes.Tema
+                            </td>
 
-                            @ponentes.NombreApellido
-                        </td>
-                        <td>
-                            @ponentes.Cargo
-                        </td>
-                        <td>
-                            @ponentes.Perfil
-                        </td>
-                        <td>
-                             @ponentes.Tema
-                        </td>
+                            <td class="acciones-td">
+                                 <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFila(@ponentes.Id,@ponentes.NombreApellido,@ponentes.Cargo,@ponentes.Perfil,@ponentes.Tema)" data-toggle="modal" data-target="#form-add">
+                                   <i class="fas fa-pencil-alt"></i>
+                                 </button>
+                                <button type="button" onclick="EliminaFila(@ponentes.Id)" class="btn btn-danger btn-xp">
+                                    <i class="fas fa-trash-alt"></i> 
+                                </button>
+                            </td>
 
-                        <td class="acciones-td">
-                             <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFila(@ponentes.Id,@ponentes.NombreApellido,@ponentes.Cargo,@ponentes.Perfil,@ponentes.Tema)" data-toggle="modal" data-target="#form-add">
-                                                        <i class="fas fa-pencil-alt"></i>
-                                                    </button>
-                            <button type="button" onclick="EliminaFila(@ponentes.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
+                        </tr>
+                            }}
 
-                        </td>
-
-                    </tr>
-                        }}
-
-                         <input type="hidden" id="idact" name="idact" />
-                </tbody>
+                             <input type="hidden" id="idact" name="idact" />
+                    </tbody>
                </table>
-       @* </div>*@
-
+      
                </div>
-            
+             </div>
+               <div class="form-group row" id="divLogo">
                   <div class="col-md-5">
                        <div class="form-group row" >
                            <div class="col-md-12">
@@ -518,8 +536,6 @@
                           </div>
                        </div>
                   </div>
-                 
-              
             </div>
 
 
@@ -670,63 +686,63 @@
       </div>
       <div class="modal-body">
         
-          <form id="create-form" >
+        <form id="create-form" >
 
    
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-6">
-                    <label class="col-md-12 col-form-label texto-pregunta" >Nombre y Apellido</label>
-                    <input  type="text" name="NombreApellido" id="NombreApellido" class=" form-control" />
-                    <span  class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="col-md-12 col-form-label texto-pregunta" >Cargo</label>
-                    <input  type="text" name="Cargo"  id="Cargo" class=" form-control" />
-                    <span  class="text-danger"></span>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
+            <div class="row">
                 <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta" >Perfil</label>
-                    <textarea  name="Perfil" id="Perfil" class=" form-control" ></textarea>
-                    <span class="text-danger"></span>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label class="col-md-12 col-form-label texto-pregunta" >Nombre y Apellido</label>
+                            <input  type="text" name="NombreApellido" id="NombreApellido" class=" form-control" />
+                            <span  class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="col-md-12 col-form-label texto-pregunta" >Cargo</label>
+                            <input  type="text" name="Cargo"  id="Cargo" class=" form-control" />
+                            <span  class="text-danger"></span>
+                        </div>
+
+                    </div>
+
                 </div>
-
-
-
             </div>
 
-        </div>
-    </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-form-label texto-pregunta" >Perfil</label>
+                            <textarea  name="Perfil" id="Perfil" class=" form-control" ></textarea>
+                            <span class="text-danger"></span>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
    
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
+            <div class="row">
                 <div class="col-md-12">
-                    <label class="col-md-12 col-form-label texto-pregunta" >Tema</label>
-                    <textarea   name="Tema" id="Tema" class=" form-control" ></textarea>
-                    <span  class="text-danger"></span>
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-form-label texto-pregunta" >Tema</label>
+                            <textarea   name="Tema" id="Tema" class=" form-control" ></textarea>
+                            <span  class="text-danger"></span>
+                        </div>
+
+
+
+                    </div>
+
                 </div>
-
-
-
             </div>
-
-        </div>
-    </div>
-    <br />
+            <br />
     
-</form>
+        </form>
       </div>
       <div class="modal-footer">
           <button type="button" class="btn btn-primary" id="btnAgregar">Agregar</button>
@@ -751,7 +767,9 @@
     $('#create-form').disableAutoFill();
     $("#comentario").hide();
   
-        $("#presencialP").hide();
+        $("#divPonente").hide();
+         $("#divLogo").hide();
+          $("#presencialP").hide();
         $("#presencial").hide();
         $("#virtual").hide();
         cambiaTipoSolicitud();
@@ -763,29 +781,34 @@
     
 
     function cambiaTipoSolicitud() {
-        var seleccionar = $("#Comunicaciones_TipoSolicitud option:selected").val();
-      
-        if (seleccionar.indexOf("2") >= 0) {
 
-            $("#presencial").show();
-             $("#presencialP").show();
+         var seleccionar = $("#Comunicaciones_TipoSolicitud option:selected").val();
+                 $("#virtual").hide();
+                 $("#presencial").hide();
+                 $("#presencialP").hide();
+                 $("#divPonente").hide();
+                 $("#divLogo").hide();
+        switch (seleccionar) {
+            case "1" :
+              $("#virtual").show();
+              $("#divPonente").show();
+               $("#divLogo").show();
+             break;
+              case "2":
+                 $("#presencial").show();
+                 $("#presencialP").show();
+                 $("#divPonente").show();
+                 $("#divLogo").show();
+             break;
+              case "3":
+                 $("#presencialP").show();
+             break;
+              case "4":
+                $("#divLogo").show();
+             break;
 
-        }
-        else {
-             $("#presencialP").hide();
-            $("#presencial").hide();
-        }
-       
-        if (seleccionar.indexOf("1") >= 0) {
+}
 
-            $("#virtual").show();
-          
-
-        }
-        else {
-             $("#virtual").hide();
-         
-        }
     }
 
     function addFile() {
@@ -877,8 +900,8 @@
       });
 
 
-                        var num = 0;
-                            function Agregar() {
+      var num = 0;
+      function Agregar() {
 
                                 let idact = document.getElementById("idact").value;
 
@@ -941,26 +964,34 @@
 
                                 //agregamos hiddens
                                 let DivConceptos = document.getElementById("divPonente");
+                                 let HiddenAux = document.createElement("input");
                                 let HiddenIndex = document.createElement("input");
                                 let HiddenPonente = document.createElement("input");
                                 let HiddenCargo = document.createElement("input");
                                 let HiddenPerfil = document.createElement("input");
                                 let HiddenTema = document.createElement("input");
-                                HiddenIndex.name = "ponentes.Index";
+                                HiddenAux.name = "Comunicaciones.Ponentes[" + num + "].Aux";
+                                HiddenAux.value = num;
+                                HiddenAux.type = "hidden";
+                                HiddenIndex.name = "Comunicaciones.Ponentes[" + num + "].IdAux";
                                 HiddenIndex.value = num;
                                 HiddenIndex.type = "hidden";
-                                HiddenPonente.name = "ponentes[" + num + "].NombreApellido";
+                                HiddenPonente.name = "Comunicaciones.Ponentes[" + num + "].NombreApellido";
                                 HiddenPonente.value = nombres;
                                 HiddenPonente.type = "hidden";
-                                HiddenCargo.name = "ponentes[" + num + "].Cargo";
+                               
+                                HiddenCargo.name = "Comunicaciones.Ponentes[" + num + "].Cargo";
                                 HiddenCargo.value = cargo;
                                 HiddenCargo.type = "hidden";
-                                HiddenPerfil.name = "ponentes[" + num + "].Perfil";
+                                HiddenPerfil.name = "Comunicaciones.Ponentes[" + num + "].Perfil";
                                 HiddenPerfil.value = perfil;
                                 HiddenPerfil.type = "hidden";
-                                HiddenTema.name = "ponentes[" + num + "].Tema";
+                                HiddenTema.name = "Comunicaciones.Ponentes[" + num + "].Tema";
                                 HiddenTema.value = tema;
                                 HiddenTema.type = "hidden";
+
+                                DivConceptos.appendChild(HiddenAux);
+                                DivConceptos.appendChild(HiddenIndex);
                                 DivConceptos.appendChild(HiddenPonente);
                                 DivConceptos.appendChild(HiddenCargo);
                                 DivConceptos.appendChild(HiddenPerfil);
@@ -972,10 +1003,6 @@
                                 document.getElementById("Tema").value = "";
 
                                 num++;
-
-
-
-       
         }
 
         

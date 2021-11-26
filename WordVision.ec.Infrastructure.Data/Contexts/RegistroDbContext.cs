@@ -1,36 +1,33 @@
 ﻿using AspNetCoreHero.EntityFrameworkCore.AuditTrail;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Contexts;
 using WordVision.ec.Application.Interfaces.Shared;
 using WordVision.ec.Domain.Contracts;
 using WordVision.ec.Domain.Entities.Maestro;
-using WordVision.ec.Domain.Entities.Soporte;
 using WordVision.ec.Domain.Entities.Planificacion;
 using WordVision.ec.Domain.Entities.Presupuesto;
 using WordVision.ec.Domain.Entities.Registro;
+using WordVision.ec.Domain.Entities.Soporte;
 
 namespace WordVision.ec.Infrastructure.Data.Contexts
 {
-    public  class RegistroDbContext : AuditableContext, IRegistroDbContext //AuditableContext
+    public class RegistroDbContext : AuditableContext, IRegistroDbContext //AuditableContext
     {
-      
+
         private readonly IDateTimeService _dateTime;
         private readonly IAuthenticatedUserService _authenticatedUser;
-        public RegistroDbContext(DbContextOptions<RegistroDbContext> options, IDateTimeService dateTime, IAuthenticatedUserService authenticatedUser) 
+        public RegistroDbContext(DbContextOptions<RegistroDbContext> options, IDateTimeService dateTime, IAuthenticatedUserService authenticatedUser)
             : base(options)
         {
             _dateTime = dateTime;
             _authenticatedUser = authenticatedUser;
         }
 
-      
+
 
         public IDbConnection Connection => Database.GetDbConnection();
         public bool HasChanges => ChangeTracker.HasChanges();
@@ -43,12 +40,12 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
                 {
                     case EntityState.Added:
                         entry.Entity.CreatedOn = _dateTime.NowUtc;
-                        entry.Entity.CreatedBy =  _authenticatedUser.Username;
+                        entry.Entity.CreatedBy = _authenticatedUser.Username;
                         break;
 
                     case EntityState.Modified:
                         entry.Entity.LastModifiedOn = _dateTime.NowUtc;
-                        entry.Entity.LastModifiedBy =  _authenticatedUser.Username;
+                        entry.Entity.LastModifiedBy = _authenticatedUser.Username;
                         break;
                 }
             }
@@ -59,14 +56,14 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             else
             {
                 //return await base.SaveChangesAsync("jlmoreno");//
-               return await base.SaveChangesAsync(_authenticatedUser.Username);
+                return await base.SaveChangesAsync(_authenticatedUser.Username);
             }
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<DatosLDR>()
-            .ToTable("DatosLDRs","pres");
+            .ToTable("DatosLDRs", "pres");
             builder.Entity<DatosT5>()
            .ToTable("DatosT5s", "pres");
             builder.Entity<Presupuesto>()
@@ -127,9 +124,9 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
 .ToTable("MetaCicloEstrategico", "planifica");
             builder
        .Entity<Tercero>()
-       .HasMany(e => e.FormularioTerceros).WithOne(e=> e.Terceros)
+       .HasMany(e => e.FormularioTerceros).WithOne(e => e.Terceros)
        .OnDelete(DeleteBehavior.ClientCascade);
-//Aqui se colocan las nuevas tablas
+            //Aqui se colocan las nuevas tablas
             builder.Entity<Solicitud>()
                  .ToTable("Solicitudes", "soporte");//la palabra "soporte" se refiere al esquema de la base
             builder.Entity<EstadosSolicitud>()
@@ -194,7 +191,7 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
         public DbSet<DatosLDR> DatosLDRs { get; set; }
         public DbSet<DatosT5> DatosT5s { get; set; }
         public DbSet<Presupuesto> Presupuestos { get; set; }
-       
+
 
     }
 }

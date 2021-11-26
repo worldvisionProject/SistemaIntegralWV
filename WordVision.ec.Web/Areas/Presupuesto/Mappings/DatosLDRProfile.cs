@@ -1,8 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Presupuesto.DatosLDR.Commands.Create;
 using WordVision.ec.Application.Features.Presupuesto.DatosLDR.Commands.Update;
 using WordVision.ec.Application.Features.Presupuesto.DatosLDR.Queries.GetAllCached;

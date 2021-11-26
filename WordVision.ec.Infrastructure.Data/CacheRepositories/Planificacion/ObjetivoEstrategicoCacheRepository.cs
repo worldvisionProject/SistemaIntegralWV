@@ -44,6 +44,6 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories.Planificacion
             return entidadList;
         }
 
-       
+
     }
 }

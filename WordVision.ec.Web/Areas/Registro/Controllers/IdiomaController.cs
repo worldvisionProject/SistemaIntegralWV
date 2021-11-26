@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Registro.Idiomas.Commands.Create;
 using WordVision.ec.Application.Features.Registro.Idiomas.Commands.Delete;
@@ -15,7 +12,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
 {
     [Area("Registro")]
     [Authorize]
-    public class IdiomaController :  BaseController<IdiomaController>
+    public class IdiomaController : BaseController<IdiomaController>
     {
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idFormulario = 0)
         {
@@ -73,7 +70,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             {
                 //var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", tercero);
                 _notify.Error("No se pudo insertar el Idioma.");
-                return new JsonResult(new { isValid = false});
+                return new JsonResult(new { isValid = false });
             }
 
             return new JsonResult(new { isValid = true });
@@ -87,7 +84,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             if (deleteCommand.Succeeded)
             {
                 _notify.Information($"Idioma con Id {id} Eliminado.");
-                
+
             }
             else
             {

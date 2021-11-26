@@ -3,9 +3,7 @@ using AutoMapper;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.CacheRepositories;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
-using WordVision.ec.Application.Interfaces.Repositories.Registro;
 
 namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById
 {
@@ -19,10 +17,10 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
             private readonly IIndicadorEstrategicoRepository _IndicadorEstrategicoCache;
             //private readonly IRespuestaRepository _respuestaCache;
             //private readonly IFormularioRepository _formularioCache;
-         
+
             private readonly IMapper _mapper;
 
-            public GetIndicadorEstrategicoByIdQueryHandler( IIndicadorEstrategicoRepository IndicadorEstrategicoCache, IMapper mapper)
+            public GetIndicadorEstrategicoByIdQueryHandler(IIndicadorEstrategicoRepository IndicadorEstrategicoCache, IMapper mapper)
             {
                 _IndicadorEstrategicoCache = IndicadorEstrategicoCache;
                 //_respuestaCache = respuestaCache;
@@ -32,10 +30,10 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
 
             public async Task<Result<GetIndicadorEstrategicoByIdResponse>> Handle(GetIndicadorEstrategicoByIdQuery query, CancellationToken cancellationToken)
             {
-              
-                var IndicadorEstrategico = await _IndicadorEstrategicoCache.GetByIdAsync(query.Id,query.IdColaborador, query.IdCreadoPor);
+
+                var IndicadorEstrategico = await _IndicadorEstrategicoCache.GetByIdAsync(query.Id, query.IdColaborador, query.IdCreadoPor);
                 var mappedIndicadorEstrategico = _mapper.Map<GetIndicadorEstrategicoByIdResponse>(IndicadorEstrategico);
-                
+
                 return Result<GetIndicadorEstrategicoByIdResponse>.Success(mappedIndicadorEstrategico);
             }
         }

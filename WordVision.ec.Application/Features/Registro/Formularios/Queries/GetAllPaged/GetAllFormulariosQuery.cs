@@ -37,8 +37,8 @@ namespace WordVision.ec.Application.Features.Registro.Formularios.Queries.GetAll
             Expression<Func<Formulario, GetAllFormulariosResponse>> expression = e => new GetAllFormulariosResponse
             {
                 Id = e.Id,
-               
-               
+
+
             };
             var paginatedList = await _repository.Formularios
                 .Select(expression)

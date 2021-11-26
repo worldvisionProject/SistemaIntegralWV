@@ -1,10 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WordVision.ec.Web.Helpers
+﻿namespace WordVision.ec.Web.Helpers
 {
     public class Util
     {

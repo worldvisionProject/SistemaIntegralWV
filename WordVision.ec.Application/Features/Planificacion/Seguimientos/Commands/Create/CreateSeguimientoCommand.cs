@@ -1,10 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -23,8 +19,8 @@ namespace WordVision.ec.Application.Features.Planificacion.Seguimientos.Commands
         public decimal? PorcentajeAvance { get; set; }
         public string RutaAdjunto { get; set; }
 
-         public string NombreAdjunto { get; set; }
-         public string AvanceCompetencia { get; set; }
+        public string NombreAdjunto { get; set; }
+        public string AvanceCompetencia { get; set; }
     }
 
     public class CreateSeguimientoCommandHandler : IRequestHandler<CreateSeguimientoCommand, Result<int>>
@@ -34,7 +30,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Seguimientos.Commands
 
         private IUnitOfWork _unitOfWork { get; set; }
 
-        public CreateSeguimientoCommandHandler(ISeguimientoRepository SeguimientoRepository,IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateSeguimientoCommandHandler(ISeguimientoRepository SeguimientoRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _SeguimientoRepository = SeguimientoRepository;
             _unitOfWork = unitOfWork;
@@ -43,11 +39,11 @@ namespace WordVision.ec.Application.Features.Planificacion.Seguimientos.Commands
 
         public async Task<Result<int>> Handle(CreateSeguimientoCommand request, CancellationToken cancellationToken)
         {
-            
-            
-                var meta = _mapper.Map<Seguimiento>(request);
-                await _SeguimientoRepository.InsertAsync(meta);
-          
+
+
+            var meta = _mapper.Map<Seguimiento>(request);
+            await _SeguimientoRepository.InsertAsync(meta);
+
             await _unitOfWork.Commit(cancellationToken);
             return Result<int>.Success();
         }

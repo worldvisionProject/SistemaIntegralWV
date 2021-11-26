@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using WordVision.ec.Domain.Contracts;
 
 namespace WordVision.ec.Domain.Entities.Registro
@@ -18,7 +13,7 @@ namespace WordVision.ec.Domain.Entities.Registro
         public int IdPregunta { get; set; }
         [Required]
         public string DescRespuesta { get; set; }
-      
+
 
     }
 }

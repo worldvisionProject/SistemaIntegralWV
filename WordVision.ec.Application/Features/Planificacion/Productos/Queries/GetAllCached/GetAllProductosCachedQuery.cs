@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -19,12 +16,12 @@ namespace WordVision.ec.Application.Features.Planificacion.Productos.Queries.Get
     {
         private readonly IProductoRepository _productoCache;
         private readonly IMapper _mapper;
-     
+
         public GetAllProductosCachedQueryHandler(IProductoRepository productoCache, IMapper mapper)
         {
             _productoCache = productoCache;
             _mapper = mapper;
-        
+
         }
 
         public async Task<Result<List<GetAllProductosCachedResponse>>> Handle(GetAllProductosCachedQuery request, CancellationToken cancellationToken)

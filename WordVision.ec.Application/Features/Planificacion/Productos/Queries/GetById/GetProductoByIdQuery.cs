@@ -1,17 +1,13 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 
 namespace WordVision.ec.Application.Features.Planificacion.Productos.Queries.GetById
 {
-  
+
 
     public class GetProductoByIdQuery : IRequest<Result<GetProductoByIdResponse>>
     {

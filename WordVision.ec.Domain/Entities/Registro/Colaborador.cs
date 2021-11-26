@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WordVision.ec.Domain.Contracts;
 using WordVision.ec.Domain.Entities.Maestro;
 using WordVision.ec.Domain.Entities.Soporte;
 
 namespace WordVision.ec.Domain.Entities.Registro
 {
-    public class Colaborador: AuditableEntity
+    public class Colaborador : AuditableEntity
     {
         [StringLength(500)]
         [Required]
@@ -34,15 +30,15 @@ namespace WordVision.ec.Domain.Entities.Registro
         [StringLength(150)]
         [Required]
         public string Email { get; set; }
-        
+
         public int? Cargo { get; set; }
 
-       
+
         public int? Area { get; set; }
 
-     
+
         public int? LugarTrabajo { get; set; }
-     
+
         [StringLength(100)]
         public string Alias { get; set; }
 

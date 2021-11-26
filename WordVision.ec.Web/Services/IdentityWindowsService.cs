@@ -1,12 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
-using WordVision.ec.Web.Areas.Registro.Models;
 using WordVision.ec.Web.Models;
 
 namespace WordVision.ec.Web.Services
@@ -33,11 +29,11 @@ namespace WordVision.ec.Web.Services
         {
             try
             {
-                              
+
                 var client = _clientFactory.CreateClient("windowsAuthClient");
                 client.BaseAddress = new Uri(_configurations["IdentityApiUrl"]);
                 // api / Identity / FindDomainUser /{ search}
-                var response = await client.GetAsync("api/Identity/FindDomainUser/"+ userWindows);
+                var response = await client.GetAsync("api/Identity/FindDomainUser/" + userWindows);
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await JsonSerializer.DeserializeAsync<IdentityWindows>(

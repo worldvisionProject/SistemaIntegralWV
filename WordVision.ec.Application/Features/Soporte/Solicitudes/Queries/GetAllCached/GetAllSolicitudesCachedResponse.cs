@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WordVision.ec.Domain.Entities.Registro;
 using WordVision.ec.Domain.Entities.Soporte;
 
@@ -11,7 +8,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Queries.GetAllC
     public class GetAllSolicitudesCachedResponse
     {
         public int Id { get; set; }
-         public string CreatedBy { get; set; }
+        public string CreatedBy { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string LastModifiedBy { get; set; }
         public DateTime? LastModifiedOn { get; set; }
@@ -23,7 +20,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Queries.GetAllC
         public string ObservacionesSolucion { get; set; }
         public string ComentarioSatisfaccion { get; set; }
         public int EstadoSatisfaccion { get; set; }
-       public ICollection<EstadosSolicitud> EstadosSolicitudes { get; set; }
+        public ICollection<EstadosSolicitud> EstadosSolicitudes { get; set; }
 
         public Mensajeria Mensajerias { get; set; }
 

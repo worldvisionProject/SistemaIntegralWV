@@ -54,16 +54,28 @@
                 }
             </td>
             <td>
-
-                @solicitud.Comunicaciones.TipoSolicitud
+                    @{
+                        if (solicitud.Comunicaciones != null)
+                            @solicitud.Comunicaciones.TipoSolicitud
+                       
+                      }
+                </td>
+            <td>
+            
+                    @{
+                        if (solicitud.Comunicaciones != null)
+                           @solicitud.Comunicaciones.NombreEvento
+                       
+                      }
+                
             </td>
             <td>
-
-                @solicitud.Comunicaciones.NombreEvento
-            </td>
-            <td>
-
-                @solicitud.Comunicaciones.FechaEvento.ToShortDateString()
+            @{
+                        if (solicitud.Comunicaciones != null)
+                           @solicitud.Comunicaciones.FechaEvento.ToShortDateString()
+                       
+                      }
+                
             </td>
 
             <td class="acciones-td">

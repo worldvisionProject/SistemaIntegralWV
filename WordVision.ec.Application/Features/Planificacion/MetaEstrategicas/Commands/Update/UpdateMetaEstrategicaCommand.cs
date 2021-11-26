@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -36,7 +33,7 @@ namespace WordVision.ec.Application.Features.Planificacion.MetaEstrategicas.Comm
 
             public async Task<Result<int>> Handle(UpdateMetaEstrategicaCommand command, CancellationToken cancellationToken)
             {
-                var IndicadorEstrategico = await _indicadorEstrategicoRepository.GetByIdAsync(command.Id,0,"");
+                var IndicadorEstrategico = await _indicadorEstrategicoRepository.GetByIdAsync(command.Id, 0, "");
 
                 if (IndicadorEstrategico == null)
                 {

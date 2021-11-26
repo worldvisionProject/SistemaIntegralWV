@@ -9,15 +9,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
-using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetById;
-using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Productos.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.Productos.Commands.Update;
-using WordVision.ec.Application.Features.Planificacion.Productos.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.Productos.Queries.GetById;
-using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
@@ -27,19 +23,19 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 {
     [Area("Planificacion")]
     [Authorize]
-    public class ProductoController :  BaseController<ProductoController>
+    public class ProductoController : BaseController<ProductoController>
     {
-        public async Task<IActionResult> Index(int id,int idObjetivo, int idEstrategia, int AnioGestion)
+        public async Task<IActionResult> Index(int id, int idObjetivo, int idEstrategia, int AnioGestion)
         {
             int idObjetivoEstra = idObjetivo;
             int idIndicadorEstra = id;
-            string descFactorCritico=String.Empty;
+            string descFactorCritico = String.Empty;
             string descMetaGestio = String.Empty;
             var response = await _mediator.Send(new GetObjetivoEstrategicoByIdQuery() { Id = idObjetivoEstra });
             if (response.Succeeded)
             {
                 ViewBag.Message = response.Data.Descripcion;
-              
+
                 //id = response.Data.IdEstrategia;
             }
             var gestionDesc = string.Empty;
@@ -61,7 +57,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (responseI.Succeeded)
             {
                 ViewBag.Indicador = responseI.Data.IndicadorResultado;
-                descFactorCritico=responseI.Data.FactorCriticoExitos.FactorCritico;
+                descFactorCritico = responseI.Data.FactorCriticoExitos.FactorCritico;
                 descMetaGestio = responseI.Data.IndicadorAFs.Where(m => m.Anio == AnioGestion.ToString()).FirstOrDefault().Meta.ToString();
                 //id = response.Data.IdEstrategia;
             }
@@ -115,7 +111,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             model.DescMetaGestion = descMetaGestio;
             model.DescGestion = gestionDesc;
             ViewBag.Nivel = User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value;
-            return View( model);
+            return View(model);
         }
 
         public async Task<IActionResult> LoadAll(int idIndicador, int idGestion)
@@ -126,17 +122,17 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 switch (Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value))
                 {
                     case 2:
-                        idColaborador =  Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
+                        idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
                         break;
-                    //case 3:
-                    //    idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
-                    //    break;
-                    //case 4:
-                    //    idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
-                    //    break;
+                        //case 3:
+                        //    idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
+                        //    break;
+                        //case 4:
+                        //    idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value);
+                        //    break;
                 }
 
-                var response = await _mediator.Send(new GetIndicadorEstrategicoByIdQuery() { Id = idIndicador ,IdColaborador=idColaborador,IdCreadoPor=User.Identity.Name});
+                var response = await _mediator.Send(new GetIndicadorEstrategicoByIdQuery() { Id = idIndicador, IdColaborador = idColaborador, IdCreadoPor = User.Identity.Name });
                 if (response.Succeeded)
                 {
                     var viewModel = _mapper.Map<IndicadorEstrategicoViewModel>(response.Data);
@@ -159,7 +155,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idGestion = 0, int idIndicadorEstra = 0)
         {
-            
+
             if (id == 0)
             {
                 var entidadViewModel = new ProductoViewModel();
@@ -201,11 +197,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                  
+
                     if (id == 0)
                     {
                         var createEntidadCommand = _mapper.Map<CreateProductoCommand>(producto);
-                      
+
                         var result = await _mediator.Send(createEntidadCommand);
                         if (result.Succeeded)
                         {
@@ -236,11 +232,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", entidadViewModel) });
                     }
                     else
-                    {   
+                    {
                         _notify.Error(response.Message);
                         return null;
                     }
-                    
+
 
                 }
                 else
@@ -258,7 +254,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
 
-         public async Task<IActionResult> LoadIndicadores(int id, int idObjetivo, int idEstrategia, int AnioGestion)
+        public async Task<IActionResult> LoadIndicadores(int id, int idObjetivo, int idEstrategia, int AnioGestion)
         {
             try
             {
@@ -337,7 +333,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     ViewBag.IdIndicadorEstrategico = idIndicadorEstra;
                     ViewBag.DescFactorCritico = descFactorCritico;
                     ViewBag.DescMetaGestion = descMetaGestio;
-                  
+
                     var viewModel = _mapper.Map<List<ProductoViewModel>>(responseIp.Data);
                     return View("_ViewAllxIndicador", viewModel);
                 }

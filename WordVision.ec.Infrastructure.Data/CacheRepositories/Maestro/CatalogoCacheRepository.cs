@@ -3,13 +3,9 @@ using AspNetCoreHero.ThrowR;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.CacheRepositories;
 using WordVision.ec.Application.Interfaces.CacheRepositories.Maestro;
 using WordVision.ec.Application.Interfaces.Repositories.Maestro;
-using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Domain.Entities.Maestro;
-using WordVision.ec.Domain.Entities.Registro;
-using WordVision.ec.Infrastructure.Data.CacheKeys;
 using WordVision.ec.Infrastructure.Data.CacheKeys.Maestro;
 
 namespace WordVision.ec.Infrastructure.Data.CacheRepositories.Maestro
@@ -18,7 +14,7 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories.Maestro
     {
         private readonly IDistributedCache _distributedCache;
         private readonly ICatalogoRepository _CatalogoRepository;
-     
+
         public CatalogoCacheRepository(IDistributedCache distributedCache, ICatalogoRepository CatalogoRepository)
         {
             _distributedCache = distributedCache;
@@ -57,7 +53,7 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories.Maestro
                 await _distributedCache.SetAsync(cacheKey, CatalogoList);
                 return CatalogoList;
             }
-           
+
         }
 
         public async Task<ICollection<DetalleCatalogo>> GetDetalleByIdAsync(int id, string secuencia)
@@ -77,7 +73,7 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories.Maestro
         {
             string cacheKey = CatalogoCacheKeys.GetDetailsKey(id);
             var Catalogo = await _distributedCache.GetAsync<List<DetalleCatalogo>>(cacheKey);
-            if (Catalogo == null || Catalogo.Count==0)
+            if (Catalogo == null || Catalogo.Count == 0)
             {
                 Catalogo = await _CatalogoRepository.GetDetalleByIdCatalogoAsync(id);
                 Throw.Exception.IfNull(Catalogo, "Catalogo", "No Catalogo Found");

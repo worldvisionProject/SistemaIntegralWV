@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Models
 {
@@ -11,7 +7,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-       
+
         public string MetaRegional { get; set; }
         public string MetaNacional { get; set; }
         public int IdEmpresa { get; set; }
@@ -39,7 +35,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
 
         public int CategoriaObjetivo { get; set; }
 
-          public string EsCoordinadorEstrategico { get; set; }
+        public string EsCoordinadorEstrategico { get; set; }
     }
 
     public class EstrategiaNacionalList

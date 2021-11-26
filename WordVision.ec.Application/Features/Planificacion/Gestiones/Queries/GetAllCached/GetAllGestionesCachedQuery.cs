@@ -5,7 +5,6 @@ using MediatR;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.CacheRepositories;
 using WordVision.ec.Application.Interfaces.CacheRepositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 
@@ -38,7 +37,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.Get
         {
             var GestionList = await _GestionCache.GetCachedListAsync();
             var mappedGestiones = _mapper.Map<List<GetAllGestionesCachedResponse>>(GestionList);
-       
+
             return Result<List<GetAllGestionesCachedResponse>>.Success(mappedGestiones);
         }
     }

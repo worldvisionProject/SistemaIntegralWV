@@ -1,23 +1,18 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Features.Soporte.Solicitudes.Queries.GetById;
 using WordVision.ec.Application.Interfaces.Repositories.Soporte;
 
 namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Queries.GetById
 {
-  
+
 
     public class GetPonenteByIdQuery : IRequest<Result<GetPonenteByIdResponse>>
     {
         public int Id { get; set; }
-      
+
         public class GetPonenteByIdQueryHandler : IRequestHandler<GetPonenteByIdQuery, Result<GetPonenteByIdResponse>>
         {
             private readonly IPonenteRepository _entidadRepository;

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WordVision.ec.Domain.Contracts;
 
 namespace WordVision.ec.Domain.Entities.Registro
 {
-    public class Documento: AuditableEntity
+    public class Documento : AuditableEntity
     {
-       
+
 
         [StringLength(1500)]
         [Required]
@@ -27,7 +23,7 @@ namespace WordVision.ec.Domain.Entities.Registro
         [Required]
         public string Estado { get; set; }
 
-       
+
         //public int IdColaborador { get; set; }
         //public Colaborador Colaboradores { get; set; }
 

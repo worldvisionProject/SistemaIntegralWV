@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -40,7 +38,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 
         public async Task<List<MetaEstrategica>> GetListByIdAsync(int idIndicador)
         {
-            return await _repository.Entities.Where(p=>p.IdIndicadorEstrategico== idIndicador).ToListAsync();
+            return await _repository.Entities.Where(p => p.IdIndicadorEstrategico == idIndicador).ToListAsync();
         }
 
         public async Task<int> InsertAsync(MetaEstrategica metaEstrategica)

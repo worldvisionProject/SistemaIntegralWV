@@ -1,10 +1,6 @@
 ﻿using AspNetCoreHero.Results;
-using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.CacheRepositories;
@@ -26,11 +22,11 @@ namespace WordVision.ec.Application.Features.Registro.DashBoards.Queries.GetAllD
         private readonly IDocumentoCacheRepository _documentoCache;
         private readonly IRespuestaRepository _respuestaCache;
         private readonly IColaboradorCacheRepository _colaboradorCache;
-       // private readonly IMapper _mapper;
+        // private readonly IMapper _mapper;
 
         public GetDashBoardsQueryHandler(IRespuestaRepository respuestaCache, IColaboradorCacheRepository colaboradorCache, IDocumentoCacheRepository documentoCache)//, IMapper mapper)
         {
-           // _usuarioCache = usuarioCache;
+            // _usuarioCache = usuarioCache;
             _documentoCache = documentoCache;
             _respuestaCache = respuestaCache;
             _colaboradorCache = colaboradorCache;
@@ -46,9 +42,9 @@ namespace WordVision.ec.Application.Features.Registro.DashBoards.Queries.GetAllD
             int numcolaboradores = colaboradoresList.Count();
 
             int numDocClaves = await _respuestaCache.GetCountByIdDocumentoAsync(3);
-          
+
             int numPoliticas = await _respuestaCache.GetCountByIdDocumentoAsync(4);
-          
+
             GetDashBoardsResponse respuesta = new GetDashBoardsResponse();
             respuesta.porcentajeIngreso = numcolaboradores * 100 / numusuarios;
             respuesta.pendientes = numusuarios - numcolaboradores;

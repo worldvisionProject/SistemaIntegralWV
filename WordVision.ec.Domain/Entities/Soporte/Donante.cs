@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WordVision.ec.Domain.Contracts;
 
 namespace WordVision.ec.Domain.Entities.Soporte
@@ -48,7 +44,7 @@ namespace WordVision.ec.Domain.Entities.Soporte
         public string NumeroTarjeta { get; set; }
 
         public DateTime? FechaCaducidad { get; set; }
-         public int? Banco { get; set; }
+        public int? Banco { get; set; }
 
 
         public string NumReferenciaBp { get; set; }

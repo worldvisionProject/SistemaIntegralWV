@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WordVision.ec.Web.Areas.Registro.Models
+﻿namespace WordVision.ec.Web.Areas.Registro.Models
 {
     public class PreguntaViewModel
     {

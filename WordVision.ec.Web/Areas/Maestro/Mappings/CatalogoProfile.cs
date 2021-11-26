@@ -1,8 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Commands.Create;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Commands.Update;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetAllCached;

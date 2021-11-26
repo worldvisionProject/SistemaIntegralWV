@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WordVision.ec.Web.Areas.Planificacion.Models
+﻿namespace WordVision.ec.Web.Areas.Planificacion.Models
 {
     public class MetaCicloEstrategicoViewModel
     {

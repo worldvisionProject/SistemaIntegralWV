@@ -23,7 +23,7 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories
 
         public async Task<Colaborador> GetByEstructuraAsync(int idEstructura)
         {
-           return await _colaboradorRepository.GetByEstructuraAsync(idEstructura);
+            return await _colaboradorRepository.GetByEstructuraAsync(idEstructura);
         }
 
         public async Task<Colaborador> GetByIdAsync(int colaboradorId)
@@ -45,20 +45,20 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories
             //var colaborador = await _distributedCache.GetAsync<Colaborador>(cacheKey);
             //if (colaborador == null)
             //{
-               var colaborador = await _colaboradorRepository.GetByIdentificacionAsync(identificacion);
-                //await _distributedCache.SetAsync(cacheKey, colaborador);
+            var colaborador = await _colaboradorRepository.GetByIdentificacionAsync(identificacion);
+            //await _distributedCache.SetAsync(cacheKey, colaborador);
             //}
             return colaborador;
         }
 
         public async Task<List<Colaborador>> GetByNivelAsync(int nivel1, int nivel2)
         {
-           
-            string cacheKey = ColaboradorCacheKeys.ListKeyNivel+nivel1+nivel2;
+
+            string cacheKey = ColaboradorCacheKeys.ListKeyNivel + nivel1 + nivel2;
             var colaboradorList = await _distributedCache.GetAsync<List<Colaborador>>(cacheKey);
             if (colaboradorList == null)
             {
-                colaboradorList = await _colaboradorRepository.GetByNivelAsync(nivel1,nivel2);
+                colaboradorList = await _colaboradorRepository.GetByNivelAsync(nivel1, nivel2);
                 await _distributedCache.SetAsync(cacheKey, colaboradorList);
             }
             return colaboradorList;
@@ -66,7 +66,7 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories
 
         public async Task<Colaborador> GetByUserNameAsync(string username)
         {
-           return await _colaboradorRepository.GetByUserNameAsync(username);
+            return await _colaboradorRepository.GetByUserNameAsync(username);
         }
 
         public async Task<List<Colaborador>> GetCachedListAsync()

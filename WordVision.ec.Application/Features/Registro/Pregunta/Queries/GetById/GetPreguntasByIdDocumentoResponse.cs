@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WordVision.ec.Application.Features.Registro.Pregunta.Queries.GetById
+﻿namespace WordVision.ec.Application.Features.Registro.Pregunta.Queries.GetById
 {
     public class GetPreguntasByIdDocumentoResponse
     {

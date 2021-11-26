@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Domain.Entities.Registro;
@@ -43,12 +41,12 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
         {
             return await _repository.Entities.ToListAsync();
         }
-    
+
         public async Task<int> InsertAsync(Idioma idioma)
         {
-        await _repository.AddAsync(idioma);
-        return idioma.Id;
-    }
+            await _repository.AddAsync(idioma);
+            return idioma.Id;
+        }
 
         public async Task UpdateAsync(Idioma idioma)
         {

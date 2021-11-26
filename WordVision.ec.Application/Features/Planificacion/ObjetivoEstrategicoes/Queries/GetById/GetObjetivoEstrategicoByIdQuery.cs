@@ -3,9 +3,7 @@ using AutoMapper;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.CacheRepositories;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
-using WordVision.ec.Application.Interfaces.Repositories.Registro;
 
 namespace WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetById
 {
@@ -18,10 +16,10 @@ namespace WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes
             private readonly IObjetivoEstrategicoRepository _ObjetivoEstrategicoCache;
             //private readonly IRespuestaRepository _respuestaCache;
             //private readonly IFormularioRepository _formularioCache;
-         
+
             private readonly IMapper _mapper;
 
-            public GetObjetivoEstrategicoByIdQueryHandler( IObjetivoEstrategicoRepository ObjetivoEstrategicoCache, IMapper mapper)
+            public GetObjetivoEstrategicoByIdQueryHandler(IObjetivoEstrategicoRepository ObjetivoEstrategicoCache, IMapper mapper)
             {
                 _ObjetivoEstrategicoCache = ObjetivoEstrategicoCache;
                 //_respuestaCache = respuestaCache;
@@ -33,7 +31,7 @@ namespace WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes
             {
                 var ObjetivoEstrategico = await _ObjetivoEstrategicoCache.GetByIdAsync(query.Id);
                 var mappedObjetivoEstrategico = _mapper.Map<GetObjetivoEstrategicoByIdResponse>(ObjetivoEstrategico);
-                
+
                 return Result<GetObjetivoEstrategicoByIdResponse>.Success(mappedObjetivoEstrategico);
             }
         }

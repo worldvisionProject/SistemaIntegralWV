@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using WordVision.ec.Domain.Entities.Maestro;
-using WordVision.ec.Domain.Entities.Registro;
+﻿using WordVision.ec.Domain.Entities.Maestro;
 
 namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllCached
 {

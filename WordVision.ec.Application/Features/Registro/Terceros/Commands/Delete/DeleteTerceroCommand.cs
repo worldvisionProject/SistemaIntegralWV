@@ -1,9 +1,5 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -20,7 +16,7 @@ namespace WordVision.ec.Application.Features.Registro.Terceros.Commands.Delete
             private readonly IFormularioTerceroRepository _formularioTerceroRepository;
             private readonly IUnitOfWork _unitOfWork;
 
-            public DeleteTerceroCommandHandler(IFormularioTerceroRepository formularioTerceroRepository,ITerceroRepository TerceroRepository, IUnitOfWork unitOfWork)
+            public DeleteTerceroCommandHandler(IFormularioTerceroRepository formularioTerceroRepository, ITerceroRepository TerceroRepository, IUnitOfWork unitOfWork)
             {
                 _TerceroRepository = TerceroRepository;
                 _formularioTerceroRepository = formularioTerceroRepository;

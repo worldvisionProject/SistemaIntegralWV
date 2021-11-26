@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace WordVision.ec.Application.Constants
 {
@@ -70,7 +66,7 @@ namespace WordVision.ec.Application.Constants
             public const string Edit = "Permissions.IndicadorAF.Edit";
             public const string Delete = "Permissions.IndicadorAF.Delete";
         }
-        
+
         public static class IndicadorPOA
         {
             public const string View = "Permissions.IndicadorPOA.View";
@@ -101,6 +97,6 @@ namespace WordVision.ec.Application.Constants
             public const string Delete = "Permissions.Users.Delete";
         }
 
-       
+
     }
 }

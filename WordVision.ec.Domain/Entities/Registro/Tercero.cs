@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using WordVision.ec.Domain.Contracts;
 
 namespace WordVision.ec.Domain.Entities.Registro
 {
     public class Tercero : AuditableEntity
     {
-       
+
         [StringLength(1)]
         [Required]
         public string Tipo { get; set; }
@@ -37,7 +33,7 @@ namespace WordVision.ec.Domain.Entities.Registro
         //[Required]
         [StringLength(1)]
         public string? Genero { get; set; }
-      
+
         public DateTime? VigDesde { get; set; }
         public DateTime? VigHasta { get; set; }
 
@@ -50,7 +46,7 @@ namespace WordVision.ec.Domain.Entities.Registro
         [StringLength(150)]
         public string Email { get; set; }
         public byte[] ImageCedula { get; set; }
-       
+
         [ForeignKey("IdTecero")]
         public virtual ICollection<FormularioTercero> FormularioTerceros { get; set; }
 

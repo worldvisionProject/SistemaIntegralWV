@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Models
 {
@@ -10,10 +8,10 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
     {
         public int Id { get; set; }
         public int IdIndicador { get; set; }
-         public string Tipo { get; set; }
+        public string Tipo { get; set; }
         public int Mes { get; set; }
-         public string Avance { get; set; }
-         public decimal? PorcentajeAvance { get; set; }
+        public string Avance { get; set; }
+        public decimal? PorcentajeAvance { get; set; }
 
         public string RutaAdjunto { get; set; }
         public string NombreAdjunto { get; set; }

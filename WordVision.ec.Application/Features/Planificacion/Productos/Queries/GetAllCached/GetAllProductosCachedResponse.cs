@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WordVision.ec.Domain.Entities.Planificacion;
+﻿using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Application.Features.Planificacion.Productos.Queries.GetAllCached
 {
@@ -15,6 +10,6 @@ namespace WordVision.ec.Application.Features.Planificacion.Productos.Queries.Get
 
         public int IdIndicadorEstrategico { get; set; }
         public int IdGestion { get; set; }
-         public IndicadorEstrategico IndicadorEstrategicos { get; set; }
+        public IndicadorEstrategico IndicadorEstrategicos { get; set; }
     }
 }

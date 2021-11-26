@@ -1,17 +1,14 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.CacheRepositories;
 
 namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById
 {
-   
+
     public class GetColaboradorByNivelQuery : IRequest<Result<List<GetColaboradorByIdResponse>>>
     {
         public int Nivel1 { get; set; }
@@ -24,7 +21,7 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetB
             public GetColaboradorByNivelQueryHandler(IColaboradorCacheRepository colaboradorCache, IMapper mapper)
             {
                 _ColaboradorCache = colaboradorCache;
-                 _mapper = mapper;
+                _mapper = mapper;
             }
 
 
@@ -32,9 +29,9 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetB
             {
                 var Colaborador = await _ColaboradorCache.GetByNivelAsync(request.Nivel1, request.Nivel2);
                 var mappedColaborador = _mapper.Map<List<GetColaboradorByIdResponse>>(Colaborador);
-                   
+
                 return Result<List<GetColaboradorByIdResponse>>.Success(mappedColaborador);
-                
+
             }
         }
     }

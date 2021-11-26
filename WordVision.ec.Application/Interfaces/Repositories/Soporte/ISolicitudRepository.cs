@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Domain.Entities.Soporte;
 
@@ -17,7 +15,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Soporte
 
         //Permite hacer un select * from
         Task<List<Solicitud>> GetListAsync();
-        
+
         Task<int> InsertAsync(Solicitud solicitud);
 
         Task UpdateAsync(Solicitud solicitud);
@@ -33,5 +31,6 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Soporte
         Task<List<Solicitud>> GetListSolicitudxSolicitanteComunicaAsync(int idSolicitante);
 
         Task<List<Solicitud>> GetListSolicitudxEstadoAsync(int idEstado);
+        Task<List<Solicitud>> GetListSolicitudxEstadoComunicaAsync(int idEstado);
     }
 }

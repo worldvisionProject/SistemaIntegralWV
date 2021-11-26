@@ -56,7 +56,7 @@ namespace WordVision.ec.Infrastructure.Shared.Pdf
             Model = model;
         }
 
-        public  ViewAsPdf(string viewName, object model, ViewDataDictionary viewData = null)
+        public ViewAsPdf(string viewName, object model, ViewDataDictionary viewData = null)
             : this(viewData)
         {
             ViewName = viewName;
@@ -137,7 +137,7 @@ namespace WordVision.ec.Infrastructure.Shared.Pdf
                     tempDataDictionary,
                     output,
                     new HtmlHelperOptions());
-                
+
                 await view.RenderAsync(viewContext);
 
                 html = output.GetStringBuilder();

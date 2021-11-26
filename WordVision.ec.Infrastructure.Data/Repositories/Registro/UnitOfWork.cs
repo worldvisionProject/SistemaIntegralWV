@@ -1,20 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.Repositories;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
-using WordVision.ec.Application.Interfaces.Shared;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
 namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
 {
     public class UnitOfWork : IUnitOfWork//<T> : IUnitOfWork<T> where T : DbContext
     {
-       // private readonly IAuthenticatedUserService _authenticatedUserService;
+        // private readonly IAuthenticatedUserService _authenticatedUserService;
         //private readonly DbContext _dbContext;
         private bool disposed;
         private readonly RegistroDbContext _dbContext;
@@ -25,9 +19,9 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
             //    _dbContext = _dbContextRegistro ?? throw new ArgumentNullException(nameof(dbContext));
             //    return;
             //}
-           
+
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-           // _authenticatedUserService = authenticatedUserService;
+            // _authenticatedUserService = authenticatedUserService;
         }
 
         public async Task<int> Commit(CancellationToken cancellationToken)

@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 using SmartBreadcrumbs.Attributes;
 using SmartBreadcrumbs.Nodes;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,7 +14,6 @@ using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Comm
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
-using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
 
@@ -29,8 +27,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         public IActionResult Index()
         {
             var model = new EstrategiaNacionalViewModel();
-            
-                return View(model);
+
+            return View(model);
         }
 
         public async Task<IActionResult> LoadAll()
@@ -43,11 +41,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var viewModel = _mapper.Map<List<EstrategiaNacionalViewModel>>(response.Data);
                     var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 2 });
                     ViewBag.EstadoList = new SelectList(cat1.Data, "Secuencia", "Nombre");
-                   
+
                     return PartialView("_ViewAll", viewModel);
                 }
             }
-           catch(Exception ex)
+            catch (Exception ex)
             {
                 _notify.Error("No se pudo cargar los Ciclos");
                 _logger.LogError("LoadAll", ex);
@@ -57,7 +55,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
         public async Task<JsonResult> LoadEstrategias()
         {
-          
+
             try
             {
                 var response = await _mediator.Send(new GetAllEstrategiaNacionalesCachedQuery());
@@ -76,7 +74,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
                     var dd = JsonConvert.SerializeObject(estrategia);
                     return Json(dd);
-                  //  return Json(viewModel);
+                    //  return Json(viewModel);
                 }
             }
             catch (Exception ex)
@@ -93,7 +91,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         {
             try
             {
-               
+
 
                 // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
                 var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 2 });
@@ -112,7 +110,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             catch (Exception ex)
             {
                 _notify.Error("No se pudo cargar los Catalogos");
-                _logger.LogError( "No se pudo cargar los Catalogos",ex);
+                _logger.LogError("No se pudo cargar los Catalogos", ex);
             }
 
 
@@ -127,7 +125,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = id });
                 if (response.Succeeded)
                 {
-                   
+
                     var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
                     ViewBag.Ciclo = entidadViewModel.Nombre;
                     var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
@@ -163,7 +161,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         var result = await _mediator.Send(updateEntidadCommand);
                         if (result.Succeeded) _notify.Information($"Estrategia con ID {result.Data} Actualizado.");
                     }
-                    return new JsonResult(new { isValid = true});
+                    return new JsonResult(new { isValid = true });
                     //var response = await _mediator.Send(new GetAllEstrategiaNacionalesCachedQuery());
                     //if (response.Succeeded)
                     //{
@@ -182,7 +180,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidad);
                     return new JsonResult(new { isValid = false, html = html });
                 }
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.LogError("OnPostCreateOrEdit", ex);
                 _notify.Error("Error al insertar Ciclo");
@@ -212,7 +211,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
             var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estratégico", false, null, "Planificacion")
             {
-                                             // Parent = childNode0
+                // Parent = childNode0
             };
             ViewData["BreadcrumbNode"] = childNode1;
 
@@ -248,12 +247,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
                 var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
                 ViewBag.Ciclo = entidadViewModel.Nombre;
-                ViewBag.GestionList =  new SelectList(entidadViewModel.Gestiones, "Id", "Anio"); 
+                ViewBag.GestionList = new SelectList(entidadViewModel.Gestiones, "Id", "Anio");
                 return View("_PlanImplementacion", entidadViewModel);
                 //return View("_CreateOrEdit", entidadViewModel);
                 //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
-            
+
             //  return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_PlanImplementacion", anioFiscalViewModeldet) });
             //}
             return null;
@@ -262,14 +261,14 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
 
 
-        public async Task<IActionResult> OnGetCreateOrEditEstrategia(int id = 0, int AnioGestion=0, int Categoria=2)
+        public async Task<IActionResult> OnGetCreateOrEditEstrategia(int id = 0, int AnioGestion = 0, int Categoria = 2)
         {
-           
+
             var ciclo = id;
             var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estratégico", false, null, "Planificacion")
             {
                 RouteValues = new { ciclo },//this comes in as a param into the action
-               // Parent = childNode0
+                                            // Parent = childNode0
             };
             var gestionDesc = string.Empty;
             var responseE = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = id });
@@ -288,7 +287,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 OverwriteTitleOnExactMatch = true,
                 Parent = childNode1
             };
-         
+
             var childNode3 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Objetivos")
             {
                 OverwriteTitleOnExactMatch = true,
@@ -333,7 +332,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     entidadViewModel.AnioGestion = AnioGestion.ToString();
                     entidadViewModel.CategoriaObjetivo = Categoria;
                     ViewBag.Ciclo = entidadViewModel.Nombre;
-                    ViewBag.Gestion = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault()?.Anio??string.Empty;
+                    ViewBag.Gestion = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault()?.Anio ?? string.Empty;
                     ViewBag.SNGestion = "N";
                     ViewBag.Nivel = User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value;
                     if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value == "4" && User.IsInRole("CoordPlanificacion"))

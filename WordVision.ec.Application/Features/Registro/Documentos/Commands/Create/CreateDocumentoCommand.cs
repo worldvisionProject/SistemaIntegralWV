@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Contexts;
@@ -31,7 +28,7 @@ namespace WordVision.ec.Application.Features.Registro.Documentos.Commands.Create
         private readonly IRegistroDbContext _context;
         private IUnitOfWork _unitOfWork { get; set; }
 
-        public CreateDocumentoCommandHandler(IDocumentoRepository documentoRepository, IPreguntaRepository preguntaRepository,IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateDocumentoCommandHandler(IDocumentoRepository documentoRepository, IPreguntaRepository preguntaRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _documentoRepository = documentoRepository;
             _preguntaRepository = preguntaRepository;
@@ -41,8 +38,8 @@ namespace WordVision.ec.Application.Features.Registro.Documentos.Commands.Create
 
         public async Task<Result<int>> Handle(CreateDocumentoCommand request, CancellationToken cancellationToken)
         {
-            
-             var documento = _mapper.Map<Documento>(request);
+
+            var documento = _mapper.Map<Documento>(request);
             await _documentoRepository.InsertAsync(documento);
             await _unitOfWork.Commit(cancellationToken);
             return Result<int>.Success(documento.Id);

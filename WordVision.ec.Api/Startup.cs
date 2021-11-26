@@ -1,23 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.AspNetCore.Server.IISIntegration;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Reflection;
-using System.Text.Json;
-using System.Threading.Tasks;
 using WordVision.Application.Extensions;
 using WordVision.ec.Api.Extensions;
 
@@ -54,17 +41,17 @@ namespace WordVision.ec.Api
                 o.Filters.Add(new AuthorizeFilter(policy));
             });
 
-           // services.AddScoped<IUserProvider, AdUserProvider>();
-           // services.AddControllers();
-           // services.AddSwaggerGen(c =>
-           // {
-           //     c.SwaggerDoc("v1", new OpenApiInfo { Title = "WordVision.ec.Api", Version = "v1" });
-           // });
+            // services.AddScoped<IUserProvider, AdUserProvider>();
+            // services.AddControllers();
+            // services.AddSwaggerGen(c =>
+            // {
+            //     c.SwaggerDoc("v1", new OpenApiInfo { Title = "WordVision.ec.Api", Version = "v1" });
+            // });
 
-           //// services.AddAuthentication(IISDefaults.AuthenticationScheme);
+            //// services.AddAuthentication(IISDefaults.AuthenticationScheme);
 
-           // services.AddControllers().AddJsonOptions(option =>
-           //     option.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
+            // services.AddControllers().AddJsonOptions(option =>
+            //     option.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
 
             //services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
             //services.AddTransient<IDateTimeService, SystemDateTimeService>();

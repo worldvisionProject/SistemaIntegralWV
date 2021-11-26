@@ -1,10 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -12,7 +8,7 @@ using WordVision.ec.Domain.Entities.Registro;
 
 namespace WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Create
 {
-  
+
     public partial class CreateColaboradorCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
@@ -27,7 +23,7 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Cre
         public string Email { get; set; }
         public int? Cargo { get; set; }
 
-         public int? Area { get; set; }
+        public int? Area { get; set; }
 
         public int? LugarTrabajo { get; set; }
 

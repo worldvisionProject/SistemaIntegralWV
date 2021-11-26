@@ -2,9 +2,6 @@
 using AutoMapper;
 using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
@@ -14,10 +11,10 @@ using WordVision.ec.Domain.Entities.Soporte;
 
 namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
 {
-   
+
     public class UpdateSolicitudCommand : IRequest<Result<int>>
     {
-		public int Id { get; set; }
+        public int Id { get; set; }
         public string TipoSistema { get; set; }
 
         //Estructura de Mensajeria
@@ -101,7 +98,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
             private readonly IColaboradorRepository _entidadRepositoryC;
             private readonly IMapper _mapper;
 
-            public UpdateSolicitudeCommandHandler(IEstadosSolicitudRepository entidadRepositoryE,IColaboradorRepository entidadRepositoryC,ISolicitudRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
+            public UpdateSolicitudeCommandHandler(IEstadosSolicitudRepository entidadRepositoryE, IColaboradorRepository entidadRepositoryC, ISolicitudRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
             {
                 _entidadRepository = entidadRepository;
                 _entidadRepositoryC = entidadRepositoryC;
@@ -122,12 +119,12 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                 var objColaborador = await _entidadRepositoryC.GetByIdAsync(command.IdAsignadoA);
                 var mappedColaborador = _mapper.Map<GetColaboradorByIdResponse>(objColaborador);
 
-                obj.IdAsignadoA = command.IdAsignadoA==0? obj.IdAsignadoA: command.IdAsignadoA;
-                obj.AsignadoA = command.IdAsignadoA == 0 ? obj.AsignadoA: mappedColaborador.Apellidos + " " + mappedColaborador.ApellidoMaterno + " " + mappedColaborador.PrimerNombre + " " + mappedColaborador.SegundoNombre;
+                obj.IdAsignadoA = command.IdAsignadoA == 0 ? obj.IdAsignadoA : command.IdAsignadoA;
+                obj.AsignadoA = command.IdAsignadoA == 0 ? obj.AsignadoA : mappedColaborador.Apellidos + " " + mappedColaborador.ApellidoMaterno + " " + mappedColaborador.PrimerNombre + " " + mappedColaborador.SegundoNombre;
                 obj.ComentarioSatisfaccion = command.ComentarioSatisfaccion ?? obj.ComentarioSatisfaccion;
                 obj.EstadoSatisfaccion = command.EstadoSatisfaccion;
                 obj.Estado = command.Estado;
-                obj.ObservacionesSolucion = command.ObservacionesSolucion?? obj.ObservacionesSolucion;
+                obj.ObservacionesSolucion = command.ObservacionesSolucion ?? obj.ObservacionesSolucion;
                 obj.DescripcionSolucion = command.DescripcionSolucion ?? obj.DescripcionSolucion;
 
                 EstadosSolicitud e = new()

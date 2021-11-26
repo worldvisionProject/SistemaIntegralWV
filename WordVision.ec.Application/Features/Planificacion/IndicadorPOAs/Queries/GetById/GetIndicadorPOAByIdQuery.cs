@@ -4,9 +4,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
-using WordVision.ec.Application.Interfaces.CacheRepositories;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
-using WordVision.ec.Application.Interfaces.Repositories.Registro;
 
 namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAes.Queries.GetById
 {
@@ -19,10 +17,10 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAes.Querie
             private readonly IIndicadorPOARepository _IndicadorPOACache;
             //private readonly IRespuestaRepository _respuestaCache;
             //private readonly IFormularioRepository _formularioCache;
-         
+
             private readonly IMapper _mapper;
 
-            public GetIndicadorPOAByIdQueryHandler( IIndicadorPOARepository IndicadorPOACache, IMapper mapper)
+            public GetIndicadorPOAByIdQueryHandler(IIndicadorPOARepository IndicadorPOACache, IMapper mapper)
             {
                 _IndicadorPOACache = IndicadorPOACache;
                 //_respuestaCache = respuestaCache;
@@ -34,7 +32,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAes.Querie
             {
                 var IndicadorPOA = await _IndicadorPOACache.GetByIdAsync(query.Id);
                 var mappedIndicadorPOA = _mapper.Map<GetIndicadorPOAByIdResponse>(IndicadorPOA);
-                
+
                 return Result<GetIndicadorPOAByIdResponse>.Success(mappedIndicadorPOA);
             }
         }

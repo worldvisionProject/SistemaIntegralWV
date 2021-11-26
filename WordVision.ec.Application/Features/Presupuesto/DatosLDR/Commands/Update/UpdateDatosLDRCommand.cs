@@ -1,9 +1,5 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Presupuesto;
@@ -65,10 +61,10 @@ namespace WordVision.ec.Application.Features.Presupuesto.DatosLDR.Commands.Updat
                     colaborador.T8 = command.T8 ?? colaborador.T8;
                     colaborador.T9 = command.T9 ?? colaborador.T9;
                     colaborador.FijoEventual = command.FijoEventual ?? colaborador.FijoEventual;
-                    colaborador.Ldr = command.Ldr==0? colaborador.Ldr: command.Ldr;
-                    colaborador.TotalGasto = command.TotalGasto == 0 ? colaborador.TotalGasto: command.TotalGasto;
-                    colaborador.PorceImputado = command.PorceImputado == 0 ? colaborador.PorceImputado: command.PorceImputado;
-                    colaborador.ValorImputado = command.ValorImputado == 0 ? colaborador.ValorImputado: command.ValorImputado;
+                    colaborador.Ldr = command.Ldr == 0 ? colaborador.Ldr : command.Ldr;
+                    colaborador.TotalGasto = command.TotalGasto == 0 ? colaborador.TotalGasto : command.TotalGasto;
+                    colaborador.PorceImputado = command.PorceImputado == 0 ? colaborador.PorceImputado : command.PorceImputado;
+                    colaborador.ValorImputado = command.ValorImputado == 0 ? colaborador.ValorImputado : command.ValorImputado;
 
                     await _datosLDRRepository.UpdateAsync(colaborador);
                     await _unitOfWork.Commit(cancellationToken);

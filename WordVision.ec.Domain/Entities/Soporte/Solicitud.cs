@@ -19,7 +19,7 @@ namespace WordVision.ec.Domain.Entities.Soporte
         public string ObservacionesSolucion { get; set; }
         public string ComentarioSatisfaccion { get; set; }
         public int EstadoSatisfaccion { get; set; }
-       
+
         [ForeignKey("IdSolicitud")]
         public ICollection<EstadosSolicitud> EstadosSolicitudes { get; set; }
 
@@ -29,9 +29,9 @@ namespace WordVision.ec.Domain.Entities.Soporte
         [ForeignKey("IdSolicitud")]
         public Comunicacion Comunicaciones { get; set; }
 
-       
+
         public int IdColaborador { get; set; }
         public virtual Colaborador Colaboradores { get; set; }
-       
+
     }
 }

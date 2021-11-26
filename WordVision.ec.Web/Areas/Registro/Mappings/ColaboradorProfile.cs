@@ -1,8 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Create;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Update;
@@ -17,7 +13,7 @@ namespace WordVision.ec.Web.Areas.Registro.Mappings
         public ColaboradorProfile()
         {
             CreateMap<GetAllColaboradoresCachedResponse, ColaboradorViewModel>()
-                   .ForMember(d => d.Nombres, n => n.MapFrom(x => string.Format("{0} {1} {2} {3}", x.Apellidos,x.ApellidoMaterno, x.PrimerNombre,x.SegundoNombre)))
+                   .ForMember(d => d.Nombres, n => n.MapFrom(x => string.Format("{0} {1} {2} {3}", x.Apellidos, x.ApellidoMaterno, x.PrimerNombre, x.SegundoNombre)))
                    .ReverseMap();
             CreateMap<GetColaboradorByIdResponse, ColaboradorViewModel>().ForMember(d => d.Nombres, n => n.MapFrom(x => string.Format("{0} {1} {2} {3}", x.Apellidos, x.ApellidoMaterno, x.PrimerNombre, x.SegundoNombre)))
                    .ReverseMap();

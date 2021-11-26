@@ -3,10 +3,7 @@ using AutoMapper;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
-using WordVision.ec.Application.Interfaces.CacheRepositories;
 using WordVision.ec.Application.Interfaces.Repositories.Maestro;
-using WordVision.ec.Application.Interfaces.Repositories.Registro;
 
 namespace WordVision.ec.Application.Features.Maestro.Estructuras.Queries.GetById
 {
@@ -19,17 +16,17 @@ namespace WordVision.ec.Application.Features.Maestro.Estructuras.Queries.GetById
             private readonly IEstructuraRepository _EstructuraCache;
             private readonly IMapper _mapper;
 
-            public GetEstructuraByIdQueryHandler( IEstructuraRepository EstructuraCache, IMapper mapper)
+            public GetEstructuraByIdQueryHandler(IEstructuraRepository EstructuraCache, IMapper mapper)
             {
                 _EstructuraCache = EstructuraCache;
-                 _mapper = mapper;
+                _mapper = mapper;
             }
 
             public async Task<Result<GetEstructuraByIdResponse>> Handle(GetEstructuraByIdQuery query, CancellationToken cancellationToken)
             {
                 var estructura = await _EstructuraCache.GetByIdAsync(query.Id);
                 var mappedEstructura = _mapper.Map<GetEstructuraByIdResponse>(estructura);
-                
+
                 return Result<GetEstructuraByIdResponse>.Success(mappedEstructura);
             }
         }

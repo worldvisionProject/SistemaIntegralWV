@@ -1,31 +1,25 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
-using System.Security.Claims;
 using System.Threading.Tasks;
-
 using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Update;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
-using WordVision.ec.Application.Features.Registro.Documentos.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Formularios.Commands.Create;
 using WordVision.ec.Application.Features.Registro.Formularios.Commands.Update;
 using WordVision.ec.Application.Features.Registro.Formularios.Queries.GetById;
-using WordVision.ec.Application.Features.Registro.Pregunta.Queries.GetAllCached;
-using WordVision.ec.Application.Features.Registro.Pregunta.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Terceros.Commands.Create;
 using WordVision.ec.Application.Features.Registro.Terceros.Commands.Delete;
 using WordVision.ec.Application.Features.Registro.Terceros.Commands.Update;
 using WordVision.ec.Application.Features.Registro.Terceros.Queries.GetById;
 using WordVision.ec.Infrastructure.Shared.Pdf;
 using WordVision.ec.Web.Abstractions;
-using WordVision.ec.Web.Areas.Identity.Models;
 using WordVision.ec.Web.Areas.Registro.Models;
 using WordVision.ec.Web.Extensions;
 
@@ -35,7 +29,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
     [Authorize]
     public class FormularioController : BaseController<FormularioController>
     {
-       
+
         public IActionResult Index()
         {
             var model = new FormularioViewModel();
@@ -88,7 +82,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                     formularioViewModel = new FormularioViewModel();
                     formularioViewModel.Id = 0;
                 }
-          
+
                 formularioViewModel.IdColaborador = id;
                 return PartialView("_ViewAll", formularioViewModel);
                 // return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", documentoViewModel) });
@@ -124,7 +118,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                             formulario.Image = image;
                         }
                     }
-                 
+
                     if (id == 0)
                     {
                         var createBrandCommand = _mapper.Map<CreateFormularioCommand>(formulario);
@@ -165,7 +159,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                     //usr.ApellidoMaterno = formulario.ApellidoMaterno;
                     //usr.PrimerNombre = formulario.PrimerNombre;
                     //usr.SegundoNombre = formulario.SegundoNombre;
-                   
+
 
                     //var updateUsuarioCommand = _mapper.Map<UpdateUsuarioCommand>(usr);
                     //var resultUsuario = await _mediator.Send(updateUsuarioCommand);
@@ -200,13 +194,13 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             {
                 _notify.Error($"Error en insertar los datos.");
                 //var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", formulario);
-                return new JsonResult(new { isValid = false});
+                return new JsonResult(new { isValid = false });
             }
         }
 
 
-      
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idFormulario = 0,int IdColaborador=0,string tipo="")
+
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idFormulario = 0, int IdColaborador = 0, string tipo = "")
         {
             if (idFormulario == 0)
             {
@@ -219,11 +213,11 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         idFormulario = formularioViewModel.Id;
                         IdColaborador = formularioViewModel.IdColaborador;
                     }
-                   
+
                 }
             }
 
-            
+
             var response = await _mediator.Send(new GetTerceroByIdFormularioQuery() { Id = id });
             if (response.Succeeded)
             {
@@ -242,12 +236,12 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
 
         }
 
-        public async Task<IActionResult> LoadTercero(int id = 0,string tipo="")
+        public async Task<IActionResult> LoadTercero(int id = 0, string tipo = "")
         {
             //var formualrioViewModel = new FormularioViewModel();
             //return PartialView("_ViewAll", formualrioViewModel);
 
-            var response = await _mediator.Send(new GetFormularioByIdQuery() { Id = id,Tipo=tipo });
+            var response = await _mediator.Send(new GetFormularioByIdQuery() { Id = id, Tipo = tipo });
             if (response.Succeeded)
             {
                 var formularioViewModel = _mapper.Map<FormularioViewModel>(response.Data);
@@ -259,7 +253,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
 
                 formularioViewModel.IdColaborador = id;
                 formularioViewModel.TipoContacto = tipo;
-                 formularioViewModel.NumContacto = formularioViewModel.FormularioTerceros.Where(x => x.Tipo == "C").Count();
+                formularioViewModel.NumContacto = formularioViewModel.FormularioTerceros.Where(x => x.Tipo == "C").Count();
                 return PartialView("_Tercero", formularioViewModel);
                 // return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", documentoViewModel) });
             }
@@ -283,7 +277,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                 }
 
                 formularioViewModel.IdColaborador = id;
-               
+
                 return PartialView("_Idioma", formularioViewModel);
                 // return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", documentoViewModel) });
             }
@@ -327,23 +321,23 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                     }
                 }
                 if (id == 0)
-                    {
+                {
 
-                        var createTerceroCommand = _mapper.Map<CreateTerceroCommand>(tercero);
-                        var result = await _mediator.Send(createTerceroCommand);
-                        if (result.Succeeded)
-                        {
-                            id = result.Data;
-                            _notify.Success($"Tercero con ID {result.Data} Creado.");
-                        }
-                        else _notify.Error(result.Message);
-                    }
-                    else
+                    var createTerceroCommand = _mapper.Map<CreateTerceroCommand>(tercero);
+                    var result = await _mediator.Send(createTerceroCommand);
+                    if (result.Succeeded)
                     {
-                        var updateBrandCommand = _mapper.Map<UpdateTerceroCommand>(tercero);
-                        var result = await _mediator.Send(updateBrandCommand);
-                        if (result.Succeeded) _notify.Information($"Tercero con ID  {result.Data} Actualizado.");
+                        id = result.Data;
+                        _notify.Success($"Tercero con ID {result.Data} Creado.");
                     }
+                    else _notify.Error(result.Message);
+                }
+                else
+                {
+                    var updateBrandCommand = _mapper.Map<UpdateTerceroCommand>(tercero);
+                    var result = await _mediator.Send(updateBrandCommand);
+                    if (result.Succeeded) _notify.Information($"Tercero con ID  {result.Data} Actualizado.");
+                }
 
 
 
@@ -357,7 +351,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         var viewModel = _mapper.Map<FormularioViewModel>(response.Data);
                         viewModel.TipoContacto = tercero.TipoGrupo;
                         viewModel.NumContacto = viewModel.FormularioTerceros.Where(x => x.Tipo == "C").Count();
-                         var html1 = await _viewRenderer.RenderViewToStringAsync("_Tercero", viewModel);
+                        var html1 = await _viewRenderer.RenderViewToStringAsync("_Tercero", viewModel);
                         return new JsonResult(new { isValid = true, html = html1 });
                     }
                     else
@@ -384,8 +378,8 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             }
         }
 
-       
-        public async Task<JsonResult> OnPostDelete(int id=0,int IdColaborador=0)
+
+        public async Task<JsonResult> OnPostDelete(int id = 0, int IdColaborador = 0)
         {
             var deleteCommand = await _mediator.Send(new DeleteTerceroCommand { Id = id });
             if (deleteCommand.Succeeded)
@@ -423,7 +417,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             try
             {
 
-                var response =await _mediator.Send(new GetFormularioByIdQuery() { Id = id });
+                var response = await _mediator.Send(new GetFormularioByIdQuery() { Id = id });
                 if (response.Succeeded)
                 {
                     var formularioViewModel = _mapper.Map<FormularioViewModel>(response);
@@ -445,8 +439,8 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                     return res.Result;
                 }
 
-                
-                
+
+
             }
             catch (Exception ex)
             {
@@ -459,7 +453,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
         public async Task<ActionResult> EnviarMail(int idDocumento, int idColaborador)
         {
             List<Attachment> attachments = new List<Attachment>();
-           
+
             FormularioAdjunto adjunto = new FormularioAdjunto();
             var actionPDF = new ViewAsPdf().BuildFile(this.ControllerContext); ;
             Stream stream = new MemoryStream();
@@ -488,7 +482,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
 
                         idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
                         var responseF = await _mediator.Send(new GetFormularioByIdQuery() { Id = idColaborador });
-                      
+
                         var formularioViewModel = _mapper.Map<FormularioViewModel>(responseF.Data);
                         if (formularioViewModel == null)
                         {
@@ -498,7 +492,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
 
                         formularioViewModel.IdColaborador = idColaborador;
 
-                         actionPDF = new ViewAsPdf("_ViewAll", formularioViewModel)
+                        actionPDF = new ViewAsPdf("_ViewAll", formularioViewModel)
                         {
                             PageOrientation = WordVision.ec.Infrastructure.Shared.Pdf.Options.Orientation.Portrait,
                             PageSize = Infrastructure.Shared.Pdf.Options.Size.A4
@@ -513,7 +507,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                         if (result.Succeeded)
                         {
                             stream = new MemoryStream(actionPDF.Result);
-                            attachment = new Attachment(stream, apellidos+nombres+"_DatosPersonales.pdf");
+                            attachment = new Attachment(stream, apellidos + nombres + "_DatosPersonales.pdf");
                             attachments.Add(attachment);
                         }
                         else
@@ -522,7 +516,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                             _logger.LogError($"Mail no Enviado vuelva a intentar. Al momento de guardar el pdf");
                         }
                         break;
-                   
+
                 }
                 //Get TemplateFile located at wwwroot/Templates/EmailTemplate/Register_EmailTemplate.html  
                 var pathToFile = _env.WebRootPath
@@ -571,7 +565,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex,$"Error en enviar Mail.");
+                _logger.LogError(ex, $"Error en enviar Mail.");
             }
 
             //   return new JsonResult(new { isValid = true });

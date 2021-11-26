@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -11,7 +9,7 @@ using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 {
-    public class IndicadorAFRepository: IIndicadorAFRepository
+    public class IndicadorAFRepository : IIndicadorAFRepository
     {
         private readonly IRepositoryAsync<IndicadorAF> _repository;
         private readonly IDistributedCache _distributedCache;

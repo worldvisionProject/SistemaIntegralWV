@@ -9,10 +9,8 @@ using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
-using WordVision.ec.Application.Features.Planificacion.IndicadorPOAes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Seguimientos.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.Seguimientos.Queries.GetById;
-using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
@@ -205,23 +203,23 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
         public async Task<JsonResult> LoadSeguimiento(int idIndicadorEstrategico, string tipo)
         {
-            var response = await _mediator.Send(new GetSeguimientoByIdIndicador() { Id = idIndicadorEstrategico,Tipo= tipo });
+            var response = await _mediator.Send(new GetSeguimientoByIdIndicador() { Id = idIndicadorEstrategico, Tipo = tipo });
             if (response.Succeeded)
             {
                 var entidadViewModel = _mapper.Map<List<SeguimientoViewModel>>(response.Data);
                 var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 16 });
-                for (var i=0;i< entidadViewModel.Count();i++)
+                for (var i = 0; i < entidadViewModel.Count(); i++)
                 {
                     entidadViewModel[i].DescMes = cat11.Data.Where(c => c.Secuencia == entidadViewModel[i].Mes.ToString()).FirstOrDefault().Nombre;
                 }
-                
-                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", entidadViewModel) });
+
+                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", entidadViewModel) });
 
             }
 
             return null;
         }
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int IdIndicador = 0, int IdEstrategia = 0, int idGestion = 0, string tipo="")
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int IdIndicador = 0, int IdEstrategia = 0, int idGestion = 0, string tipo = "")
         {
 
             var descGestion = "";
@@ -293,7 +291,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     }
                     return null;
                 }
-                
+
             }
             return null;
         }

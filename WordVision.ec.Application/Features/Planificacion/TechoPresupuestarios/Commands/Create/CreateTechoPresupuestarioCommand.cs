@@ -1,10 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -28,7 +24,7 @@ namespace WordVision.ec.Application.Features.Planificacion.TechoPresupuestarios.
 
         private IUnitOfWork _unitOfWork { get; set; }
 
-        public CreateTechoPresupuestarioCommandHandler(ITechoPresupuestarioRepository TechoPresupuestarioRepository,IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateTechoPresupuestarioCommandHandler(ITechoPresupuestarioRepository TechoPresupuestarioRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _TechoPresupuestarioRepository = TechoPresupuestarioRepository;
             _unitOfWork = unitOfWork;
@@ -37,10 +33,10 @@ namespace WordVision.ec.Application.Features.Planificacion.TechoPresupuestarios.
 
         public async Task<Result<int>> Handle(CreateTechoPresupuestarioCommand request, CancellationToken cancellationToken)
         {
-            
-           
-                var meta = _mapper.Map<TechoPresupuestario>(request);
-                await _TechoPresupuestarioRepository.InsertAsync(meta);
+
+
+            var meta = _mapper.Map<TechoPresupuestario>(request);
+            await _TechoPresupuestarioRepository.InsertAsync(meta);
             await _unitOfWork.Commit(cancellationToken);
             return Result<int>.Success();
         }

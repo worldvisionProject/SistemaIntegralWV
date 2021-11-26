@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
@@ -37,11 +36,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", entidadViewModel) });
 
             }
-             
+
             return null;
         }
 
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int IdFactorCritico = 0, int IdEstrategia = 0,int idGestion=0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int IdFactorCritico = 0, int IdEstrategia = 0, int idGestion = 0)
         {
 
             var descGestion = "";
@@ -68,7 +67,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 {
                     var entidadViewModel = _mapper.Map<IndicadorEstrategicoViewModel>(response.Data);
                     var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
-                   entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                    entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                     var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 11 });
                     entidadViewModel.NumMesesList = new SelectList(cat11.Data, "Secuencia", "Nombre");
                     entidadViewModel.IdFactorCritico = IdFactorCritico;
@@ -88,7 +87,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> OnPostCreateOrEdit(int id,int idGestion, List<MetaViewModel> meta)
+        public async Task<JsonResult> OnPostCreateOrEdit(int id, int idGestion, List<MetaViewModel> meta)
         {
             try
             {
@@ -118,7 +117,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         if (result.Succeeded) _notify.Information($"Meta Actualizada.");
                     }
                     return new JsonResult(new { isValid = true, solocerrar = true });
-                   
+
                 }
                 else
                 {

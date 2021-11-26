@@ -1,23 +1,18 @@
+using MediatR;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.DirectoryServices;
 using System.Linq;
-using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using IdentityModel;
-using IdentityServer4;
-using MediatR;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 using WordVision.ec.Application.Enums;
 using WordVision.ec.Application.Features.Identity.Usuarios.Queries.GetById;
 using WordVision.ec.Application.Features.Logs.Commands.AddActivityLog;
@@ -28,7 +23,6 @@ using WordVision.ec.Application.Features.Registro.Formularios.Commands.Create;
 using WordVision.ec.Application.Features.Registro.Formularios.Queries.GetById;
 using WordVision.ec.Infrastructure.Data.Identity.Models;
 using WordVision.ec.Web.Abstractions;
-using WordVision.ec.Web.Services;
 
 namespace WordVision.ec.Web.Areas.Identity.Pages.Account
 {
@@ -135,7 +129,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                                 colaborador.Department = "NA";
                                 colaborador.PhysicalDeliveryOfficeName = "NA";
                             }
-                         
+
                             var defaultUser = new ApplicationUser
                             {
                                 UserName = userName,
@@ -355,7 +349,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                         if (responseC.Succeeded)
                         {
                             var output = responseC.Data;
-                            if (output.Cargo!=null)
+                            if (output.Cargo != null)
                             {
                                 var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 6 });
                                 logindetails.Department = cat1.Data.Where(c => c.Secuencia == output.Cargo.ToString()).FirstOrDefault().Nombre;
@@ -407,7 +401,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                     var result1 = await _signInManager.PasswordSignInAsync(usrname, "123Pa$$word!", false, lockoutOnFailure: false);
                     if (result.Succeeded)
                     {
-                      
+
                         await _mediator.Send(new AddActivityLogCommand() { userId = users.Id, Action = "Logged In" });
                         _logger.LogInformation("Usuario conectado.");
                         _notyf.Success($"Conectado como { wp.Identity.Name.Split((char)92)[1] }.");

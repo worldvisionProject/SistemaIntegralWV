@@ -41,9 +41,9 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetA
                 PrimerNombre = e.PrimerNombre,
                 SegundoNombre = e.SegundoNombre,
                 Identificacion = e.Identificacion,
-                Cargo=e.Cargo,
-                Area=e.Area,
-                LugarTrabajo=e.LugarTrabajo
+                Cargo = e.Cargo,
+                Area = e.Area,
+                LugarTrabajo = e.LugarTrabajo
             };
             var paginatedList = await _repository.Colaboradores
                 .Select(expression)

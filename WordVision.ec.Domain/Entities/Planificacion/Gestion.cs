@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using WordVision.ec.Domain.Contracts;
 
 namespace WordVision.ec.Domain.Entities.Planificacion
@@ -16,7 +10,7 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public string Descripcion { get; set; }
         [Display(Name = "Año Fiscal")]
         [StringLength(15)]
-        public string  Anio { get; set; }
+        public string Anio { get; set; }
 
         [StringLength(1)]
         [Display(Name = "Estado de AF")]

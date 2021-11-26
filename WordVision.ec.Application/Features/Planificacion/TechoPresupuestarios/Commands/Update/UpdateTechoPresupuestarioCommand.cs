@@ -1,15 +1,10 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
-using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Application.Features.Planificacion.TechoPresupuestarios.Commands.Update
 {
@@ -26,7 +21,7 @@ namespace WordVision.ec.Application.Features.Planificacion.TechoPresupuestarios.
             private readonly ITechoPresupuestarioRepository _techoPresupuestarioRepository;
             private readonly IMapper _mapper;
 
-            public UpdateProductCommandHandler( ITechoPresupuestarioRepository TechoPresupuestarioRepository, IUnitOfWork unitOfWork, IMapper mapper)
+            public UpdateProductCommandHandler(ITechoPresupuestarioRepository TechoPresupuestarioRepository, IUnitOfWork unitOfWork, IMapper mapper)
             {
                 _techoPresupuestarioRepository = TechoPresupuestarioRepository;
                 _unitOfWork = unitOfWork;
@@ -48,8 +43,8 @@ namespace WordVision.ec.Application.Features.Planificacion.TechoPresupuestarios.
                     techoPresupuestario.CodigoCC = command.CodigoCC;
                     techoPresupuestario.DescripcionCC = command.DescripcionCC;
                     techoPresupuestario.Techo = command.Techo;
-                     await _techoPresupuestarioRepository.UpdateAsync(techoPresupuestario);
-                    
+                    await _techoPresupuestarioRepository.UpdateAsync(techoPresupuestario);
+
 
                     await _unitOfWork.Commit(cancellationToken);
                     return Result<int>.Success(techoPresupuestario.Id);

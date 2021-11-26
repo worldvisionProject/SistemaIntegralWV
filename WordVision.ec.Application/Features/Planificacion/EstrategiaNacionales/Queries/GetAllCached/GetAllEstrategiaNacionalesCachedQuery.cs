@@ -5,15 +5,9 @@ using MediatR;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
-using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetById;
-using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
-using WordVision.ec.Application.Interfaces.CacheRepositories;
 using WordVision.ec.Application.Interfaces.CacheRepositories.Maestro;
-using WordVision.ec.Application.Interfaces.CacheRepositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Maestro;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
-using WordVision.ec.Application.Interfaces.Repositories.Registro;
 
 namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetAllCached
 {
@@ -29,7 +23,7 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
         private readonly IEstrategiaNacionalRepository _EstrategiaNacionalCache;
         private readonly ICatalogoRepository _detalleCatalogo;
         private readonly IMapper _mapper;
-       
+
         private readonly ICatalogoCacheRepository _catalogoCache;
 
 
@@ -49,8 +43,8 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
             for (int i = 0; i <= mappedEstrategiaNacionales.Count - 1; i++)
             {
                 //GetAllEstrategiaNacionalesCachedResponse entidad = new GetAllEstrategiaNacionalesCachedResponse();
-                var e=_mapper.Map<GetAllEstrategiaNacionalesCachedResponse>(mappedEstrategiaNacionales[i]);
-                var c = await _detalleCatalogo.GetDetalleByIdAsync(2,e.Estado);
+                var e = _mapper.Map<GetAllEstrategiaNacionalesCachedResponse>(mappedEstrategiaNacionales[i]);
+                var c = await _detalleCatalogo.GetDetalleByIdAsync(2, e.Estado);
 
                 e.DescEstado = c.Nombre;
                 //List<GetObjetivoEstrategicoByIdResponse> listaO = new List<GetObjetivoEstrategicoByIdResponse>();
@@ -66,7 +60,7 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
 
 
                 //}
-                    lista.Add(e);
+                lista.Add(e);
             }
             return Result<List<GetAllEstrategiaNacionalesCachedResponse>>.Success(lista);
         }

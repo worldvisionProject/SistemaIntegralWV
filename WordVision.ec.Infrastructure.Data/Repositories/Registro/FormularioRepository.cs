@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Domain.Entities.Registro;
@@ -13,13 +11,13 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
     class FormularioRepository : IFormularioRepository
     {
         private readonly IRepositoryAsync<Formulario> _repository;
-    
+
         private readonly IDistributedCache _distributedCache;
         public FormularioRepository(IDistributedCache distributedCache, IRepositoryAsync<Formulario> repository)
         {
             _distributedCache = distributedCache;
             _repository = repository;
-       
+
         }
         public IQueryable<Formulario> Formularios => _repository.Entities;
 
@@ -27,15 +25,15 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
         {
 
             return await _repository.Entities.Where(p => p.IdColaborador == FormularioId).Include(x => x.Colaboradores)
-                .Include(z=>z.FormularioTerceros)
-                .ThenInclude(c=>c.Terceros)
-                .Include(v=>v.Idiomas)
+                .Include(z => z.FormularioTerceros)
+                .ThenInclude(c => c.Terceros)
+                .Include(v => v.Idiomas)
                 .FirstOrDefaultAsync();
 
-           // return await _repository.Entities.Where(p => p.Colaboradores.Id == FormularioId).FirstOrDefaultAsync();
+            // return await _repository.Entities.Where(p => p.Colaboradores.Id == FormularioId).FirstOrDefaultAsync();
         }
 
-       
+
         public async Task<Formulario> GetByIdFormularioAsync(int DocumentoId)
         {
             return await _repository.Entities.Where(p => p.Id == DocumentoId).FirstOrDefaultAsync();

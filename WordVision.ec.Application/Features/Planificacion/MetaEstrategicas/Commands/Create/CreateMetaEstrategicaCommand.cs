@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -26,7 +23,7 @@ namespace WordVision.ec.Application.Features.Planificacion.MetaEstrategicas.Comm
 
         private IUnitOfWork _unitOfWork { get; set; }
 
-        public CreateMetaEstrategicaCommandHandler(IMetaEstrategicaRepository metaEstrategicaRepository,IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateMetaEstrategicaCommandHandler(IMetaEstrategicaRepository metaEstrategicaRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _metaEstrategicaRepository = metaEstrategicaRepository;
             _unitOfWork = unitOfWork;
@@ -35,7 +32,7 @@ namespace WordVision.ec.Application.Features.Planificacion.MetaEstrategicas.Comm
 
         public async Task<Result<int>> Handle(CreateMetaEstrategicaCommand request, CancellationToken cancellationToken)
         {
-            
+
             foreach (var indicador in request.MetaEstrategicas)
             {
                 var meta = _mapper.Map<MetaEstrategica>(indicador);

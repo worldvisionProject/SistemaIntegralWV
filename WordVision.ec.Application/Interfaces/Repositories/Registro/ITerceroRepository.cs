@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Domain.Entities.Registro;
 
@@ -16,7 +14,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Registro
         Task<Tercero> GetByIdAsync(int terceroId);
 
         Task<List<FormularioTercero>> GetByIdFormularioAsync(int formularioId, string tipo);
-      
+
         Task<int> InsertAsync(Tercero tercero);
 
         Task UpdateAsync(Tercero tercero);

@@ -1,9 +1,5 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Maestro;
@@ -39,9 +35,9 @@ namespace WordVision.ec.Application.Features.Maestro.Estructuras.Commands.Update
                 else
                 {
                     estructura.Designacion = command.Designacion ?? estructura.Designacion;
-                    estructura.ReportaID = command.ReportaID==0 ? estructura.ReportaID: command.ReportaID;
-                    estructura.Estado = command.Estado == 0 ? estructura.Estado: command.Estado;
-                  
+                    estructura.ReportaID = command.ReportaID == 0 ? estructura.ReportaID : command.ReportaID;
+                    estructura.Estado = command.Estado == 0 ? estructura.Estado : command.Estado;
+
                     await _EstructuraRepository.UpdateAsync(estructura);
                     await _unitOfWork.Commit(cancellationToken);
                     return Result<int>.Success(estructura.Id);

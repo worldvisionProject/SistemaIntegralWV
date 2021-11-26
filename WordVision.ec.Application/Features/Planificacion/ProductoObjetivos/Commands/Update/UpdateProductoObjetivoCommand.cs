@@ -1,10 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -12,10 +8,10 @@ using WordVision.ec.Application.Interfaces.Repositories.Registro;
 
 namespace WordVision.ec.Application.Features.Planificacion.ProductoObjetivos.Commands.Update
 {
-   
+
     public class UpdateProductoObjetivoCommand : IRequest<Result<int>>
     {
-		public int Id { get; set; }
+        public int Id { get; set; }
         public string Producto { get; set; }
         public int IdObjetivoEstra { get; set; }
         public class UpdateProductoObjetivoCommandHandler : IRequestHandler<UpdateProductoObjetivoCommand, Result<int>>
@@ -43,7 +39,7 @@ namespace WordVision.ec.Application.Features.Planificacion.ProductoObjetivos.Com
 
                 obj.IdObjetivoEstra = command.IdObjetivoEstra;
                 obj.Producto = command.Producto;
-             
+
                 await _entidadRepository.UpdateAsync(obj);
 
 

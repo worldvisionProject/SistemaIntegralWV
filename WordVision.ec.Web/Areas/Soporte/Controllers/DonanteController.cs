@@ -33,7 +33,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
             var response = await _mediator.Send(new GetAllDonantesQuery());
             if (response.Succeeded)
             {
-                DonanteViewModelView entidad =new DonanteViewModelView();
+                DonanteViewModelView entidad = new DonanteViewModelView();
 
                 var viewModel = _mapper.Map<List<DonanteViewModel>>(response.Data);
                 entidad.DonanteViewModels = viewModel;
@@ -55,8 +55,8 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0)
         {
 
-              var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 21,Ninguno=true });
-             var formaPago = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 21, Ninguno = true });
+            var formaPago = new SelectList(catalogo.Data, "Secuencia", "Nombre");
             catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 22, Ninguno = true });
             var canal = new SelectList(catalogo.Data, "Secuencia", "Nombre");
             catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 23, Ninguno = true });
@@ -88,7 +88,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
             catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 37, Ninguno = true });
             var banco = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
-       
+
 
             if (id == 0)
             {
@@ -101,7 +101,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                 entidadViewModel.CampanaList = campana;
                 entidadViewModel.EstadoDonanteList = estadoDonante;
                 entidadViewModel.GeneroList = genero;
-                    entidadViewModel.TipoIdList = tipoId;
+                entidadViewModel.TipoIdList = tipoId;
                 entidadViewModel.RegionList = region;
                 entidadViewModel.ProvinciaList = provincia;
                 entidadViewModel.CiudadList = ciudad;
@@ -109,7 +109,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                 entidadViewModel.TipoCuentaList = tipoCuenta;
                 entidadViewModel.TipoTarjetaList = tipoTarjeta;
                 entidadViewModel.BancoList = banco;
-          
+
 
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
@@ -135,7 +135,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     entidadViewModel.TipoCuentaList = tipoCuenta;
                     entidadViewModel.TipoTarjetaList = tipoTarjeta;
                     entidadViewModel.BancoList = banco;
-              
+
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;
@@ -206,7 +206,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                 {
                     return new JsonResult(new { isValid = false });
                 }
-                
+
                 return new JsonResult(new { isValid = true, Id = id });
             }
             catch (Exception ex)

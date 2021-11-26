@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,7 +56,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 idResponsable = (int)entidadViewModel.Responsable;
                 descLineaBase = entidadViewModel.LineaBase;
                 metaIndicadorPOA = "100";// entidadViewModel.Productos.Where(p => p.Id == 1).FirstOrDefault().IndicadorPOAs.Where(p=>p.Id==1).FirstOrDefault().Meta;
-                
+
             }
             var modelista = new List<AcuerdoViewModel>();
             var model = new AcuerdoViewModel();
@@ -67,7 +66,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             model.Descripcion = descObjetivo;
             model.Contribucion = descIndicador;
             model.Meta = descMeta;
-           
+
             modelista.Add(model);
             responseI = await _mediator.Send(new GetIndicadorEstrategicoByIdQuery() { Id = 1023 });
             if (responseI.Succeeded)
@@ -113,7 +112,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
             return PartialView("_ViewAll", modelista);
             //}
-           
+
         }
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idNivel = 0)
         {
@@ -121,7 +120,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (id == 0)
             {
                 var entidadViewModel = new AcuerdoDesempenioViewModel();
-               
+
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             //else

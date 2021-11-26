@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -18,7 +15,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Seguimientos.Queries.
         public class GetSeguimientoByIdIndicadorHandler : IRequestHandler<GetSeguimientoByIdIndicador, Result<List<GetSeguimientoByIdResponse>>>
         {
             private readonly ISeguimientoRepository _SeguimientoRepository;
-          
+
             private readonly IMapper _mapper;
 
             public GetSeguimientoByIdIndicadorHandler(ISeguimientoRepository SeguimientoRepository, IMapper mapper)
@@ -29,7 +26,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Seguimientos.Queries.
 
             public async Task<Result<List<GetSeguimientoByIdResponse>>> Handle(GetSeguimientoByIdIndicador query, CancellationToken cancellationToken)
             {
-                var meta = await _SeguimientoRepository.GetListByIdicadorAsync(query.Id,query.Tipo);
+                var meta = await _SeguimientoRepository.GetListByIdicadorAsync(query.Id, query.Tipo);
                 var mappedMeta = _mapper.Map<List<GetSeguimientoByIdResponse>>(meta);
 
                 return Result<List<GetSeguimientoByIdResponse>>.Success(mappedMeta);

@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WordVision.ec.Web.Areas.Soporte.Models
 {
@@ -17,7 +15,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
     public class DonanteViewModel
     {
         public int Id { get; set; }
-      
+
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha de conversión")]
         public DateTime? FechaConversion { get; set; }
@@ -93,7 +91,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         [Display(Name = "Fecha de caducidad")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? FechaCaducidad { get; set; }
-    
+
         [Display(Name = "Banco")]
         public int? Banco { get; set; }
 

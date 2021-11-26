@@ -26,8 +26,8 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories
             //var Documento = await _distributedCache.GetAsync<Documento>(cacheKey);
             //if (Documento == null)
             //{
-             var  Documento = await _DocumentoRepository.GetByIdAsync(DocumentoId);
-                Throw.Exception.IfNull(Documento, "Documento", "No Documento Found");
+            var Documento = await _DocumentoRepository.GetByIdAsync(DocumentoId);
+            Throw.Exception.IfNull(Documento, "Documento", "No Documento Found");
             //    await _distributedCache.SetAsync(cacheKey, Documento);
             //}
             return Documento;

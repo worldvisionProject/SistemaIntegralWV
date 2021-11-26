@@ -3,7 +3,6 @@ using AutoMapper;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Features.Registro.Documentos.Queries.GetById;
 using WordVision.ec.Application.Interfaces.CacheRepositories;
 
 namespace WordVision.ec.Application.Features.Registro.Pregunta.Queries.GetById

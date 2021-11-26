@@ -2,12 +2,8 @@
 using AutoMapper;
 using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Features.Registro.Formularios.Queries.GetById;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Domain.Entities.Registro;
 
@@ -15,7 +11,7 @@ namespace WordVision.ec.Application.Features.Registro.Terceros.Commands.Create
 {
     public class CreateTerceroCommand : IRequest<Result<int>>
     {
-       
+
         public string Tipo { get; set; }
         public string Identificacion { get; set; }
         public string PrimerApellido { get; set; }
@@ -48,7 +44,7 @@ namespace WordVision.ec.Application.Features.Registro.Terceros.Commands.Create
 
         private IUnitOfWork _unitOfWork { get; set; }
 
-        public CreateTerceroCommandHandler(IFormularioRepository formularioCache,IFormularioTerceroRepository fterceroRepository,ITerceroRepository terceroRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateTerceroCommandHandler(IFormularioRepository formularioCache, IFormularioTerceroRepository fterceroRepository, ITerceroRepository terceroRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _terceroRepository = terceroRepository;
             _fterceroRepository = fterceroRepository;
@@ -60,7 +56,7 @@ namespace WordVision.ec.Application.Features.Registro.Terceros.Commands.Create
         public async Task<Result<int>> Handle(CreateTerceroCommand request, CancellationToken cancellationToken)
         {
             var formulario = await _FormularioCache.GetByIdFormularioAsync(request.idFormulario);
-           // var mappedColaborador = _mapper.Map<GetFormularioByIdResponse>(Colaborador);
+            // var mappedColaborador = _mapper.Map<GetFormularioByIdResponse>(Colaborador);
 
             var tercero = _mapper.Map<Tercero>(request);
             var inter = new FormularioTercero();
@@ -70,7 +66,7 @@ namespace WordVision.ec.Application.Features.Registro.Terceros.Commands.Create
 
             await _terceroRepository.InsertAsync(tercero);
             await _fterceroRepository.InsertAsync(inter);
-            
+
             await _unitOfWork.Commit(cancellationToken);
             return Result<int>.Success(tercero.Id);
         }

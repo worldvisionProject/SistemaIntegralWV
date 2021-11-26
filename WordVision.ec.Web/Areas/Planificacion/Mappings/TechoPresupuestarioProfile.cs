@@ -1,8 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Planificacion.TechoPresupuestarios.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.TechoPresupuestarios.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.TechoPresupuestarios.Queries.GetById;
@@ -12,7 +8,7 @@ using WordVision.ec.Web.Areas.Planificacion.Models;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Mappings
 {
-    public class TechoPresupuestarioProfile: Profile
+    public class TechoPresupuestarioProfile : Profile
     {
         public TechoPresupuestarioProfile()
         {

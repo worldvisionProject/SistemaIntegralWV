@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Logs.Commands.AddActivityLog;
 using WordVision.ec.Application.Interfaces.Shared;

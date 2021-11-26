@@ -3,9 +3,7 @@ using AutoMapper;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.CacheRepositories;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
-using WordVision.ec.Application.Interfaces.Repositories.Registro;
 
 namespace WordVision.ec.Application.Features.Planificacion.IndicadorAFes.Queries.GetById
 {
@@ -18,10 +16,10 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorAFes.Queries
             private readonly IIndicadorAFRepository _IndicadorAFCache;
             //private readonly IRespuestaRepository _respuestaCache;
             //private readonly IFormularioRepository _formularioCache;
-         
+
             private readonly IMapper _mapper;
 
-            public GetIndicadorAFByIdQueryHandler( IIndicadorAFRepository IndicadorAFCache, IMapper mapper)
+            public GetIndicadorAFByIdQueryHandler(IIndicadorAFRepository IndicadorAFCache, IMapper mapper)
             {
                 _IndicadorAFCache = IndicadorAFCache;
                 //_respuestaCache = respuestaCache;
@@ -33,7 +31,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorAFes.Queries
             {
                 var IndicadorAF = await _IndicadorAFCache.GetByIdAsync(query.Id);
                 var mappedIndicadorAF = _mapper.Map<GetIndicadorAFByIdResponse>(IndicadorAF);
-                
+
                 return Result<GetIndicadorAFByIdResponse>.Success(mappedIndicadorAF);
             }
         }

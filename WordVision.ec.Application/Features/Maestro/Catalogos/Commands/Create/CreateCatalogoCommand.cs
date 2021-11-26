@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.DTOs.Planificacion;
@@ -14,7 +11,7 @@ using WordVision.ec.Domain.Entities.Maestro;
 
 namespace WordVision.ec.Application.Features.Maestro.Catalogos.Commands.Create
 {
-   public  class CreateCatalogoCommand : IRequest<Result<int>>
+    public class CreateCatalogoCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
         public string Nombre { get; set; }

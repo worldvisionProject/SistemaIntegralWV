@@ -56,7 +56,7 @@ namespace WordVision.ec.Web.Extensions
         {
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddPersistenceContexts(configuration);
-           services.AddAuthenticationScheme(configuration);
+            services.AddAuthenticationScheme(configuration);
         }
 
         private static void AddAuthenticationScheme(this IServiceCollection services, IConfiguration configuration)
@@ -92,7 +92,7 @@ namespace WordVision.ec.Web.Extensions
         {
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
-               
+
                 services.AddDbContext<RegistroDbContext>(options =>
                     options.UseInMemoryDatabase("ApplicationDb"));
                 services.AddDbContext<IdentityContext>(options =>

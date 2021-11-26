@@ -2,15 +2,10 @@
 using AutoMapper;
 using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Application.Interfaces.Repositories.Soporte;
-using WordVision.ec.Domain.Entities.Planificacion;
 using WordVision.ec.Domain.Entities.Soporte;
 
 namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Create
@@ -56,7 +51,7 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Create
         public string NumeroTarjeta { get; set; }
 
         public DateTime? FechaCaducidad { get; set; }
-      
+
         public int? Banco { get; set; }
 
         public string NumReferenciaBp { get; set; }
@@ -72,18 +67,18 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Create
     public class CreateDonanteCommandHandler : IRequestHandler<CreateDonanteCommand, Result<int>>
     {
         private readonly IDonanteRepository _donanteRepository;
-  
+
 
         private readonly IMapper _mapper;//coge los campos de la interfaz con la bbdd hace un mapeo
 
         private IUnitOfWork _unitOfWork { get; set; }// hace la transaccionabilidad crea la cabecera y luego detalle
 
 
-        
+
         public CreateDonanteCommandHandler(IDonanteRepository donanteRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _donanteRepository = donanteRepository;
-           
+
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -93,7 +88,7 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Create
             var donante = _mapper.Map<Donante>(request);//mapea
             await _donanteRepository.InsertAsync(donante);//INsertar a la BBDD
 
-        
+
             await _unitOfWork.Commit(cancellationToken);//commit
             return Result<int>.Success(donante.Id);//devuelve le id existoso de la persona
         }

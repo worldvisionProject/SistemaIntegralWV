@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -33,11 +30,11 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Command
             private readonly IActividadRepository _actividadRepository;
             private readonly IMapper _mapper;
 
-            public UpdateIndicadorPOACommandHandler(IActividadRepository actividadRepository ,IMetaTacticaRepository metaTacticaRepository, IIndicadorPOARepository IndicadorPOARepository, IUnitOfWork unitOfWork, IMapper mapper)
+            public UpdateIndicadorPOACommandHandler(IActividadRepository actividadRepository, IMetaTacticaRepository metaTacticaRepository, IIndicadorPOARepository IndicadorPOARepository, IUnitOfWork unitOfWork, IMapper mapper)
             {
                 _IndicadorPOARepository = IndicadorPOARepository;
                 _metaTacticaRepository = metaTacticaRepository;
-                _actividadRepository=actividadRepository;
+                _actividadRepository = actividadRepository;
                 _unitOfWork = unitOfWork;
                 _mapper = mapper;
             }
@@ -84,7 +81,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Command
 
                     foreach (var a in command.Actividades)
                     {
-                       
+
                         var actividad = await _actividadRepository.GetByIdAsync(a.Id);
                         if (actividad == null)
                         {
@@ -101,7 +98,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Command
                             actividad.FechaFin = a.FechaFin;
                             actividad.TechoPresupuestoCC = a.TechoPresupuestoCC;
                             actividad.Ponderacion = a.Ponderacion;
-                           
+
                             await _actividadRepository.UpdateAsync(actividad);
                         }
                     }

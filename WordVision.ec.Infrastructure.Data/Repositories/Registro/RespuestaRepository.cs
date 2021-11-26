@@ -3,7 +3,6 @@ using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Domain.Entities.Registro;
@@ -33,18 +32,18 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
 
         public async Task<Respuesta> GetByIdColaboradorAsync(int colaoradorId, int documentoId, int preguntaId)
         {
-            return await _repository.Entities.Where(p => p.IdColaborador == colaoradorId && p.IdDocumento==documentoId && p.IdPregunta==preguntaId).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(p => p.IdColaborador == colaoradorId && p.IdDocumento == documentoId && p.IdPregunta == preguntaId).FirstOrDefaultAsync();
         }
 
         public async Task<int> GetCountByIdColaboradorAsync(int colaoradorId, int documentoId)
         {
-            int contar= _repository.Entities.Count(p => p.IdColaborador == colaoradorId && p.IdDocumento == documentoId);
-            return  contar;
+            int contar = _repository.Entities.Count(p => p.IdColaborador == colaoradorId && p.IdDocumento == documentoId);
+            return contar;
         }
 
         public async Task<int> GetCountByIdDocumentoAsync(int documentoId)
         {
-            int contar = _repository.Entities.Where(p => p.IdDocumento == documentoId).GroupBy(p=>p.IdColaborador).Count();
+            int contar = _repository.Entities.Where(p => p.IdDocumento == documentoId).GroupBy(p => p.IdColaborador).Count();
             return contar;
         }
 
@@ -55,7 +54,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
 
         public async Task<List<Respuesta>> GetListByIdDocumentoAsync(int documentoId)
         {
-            return await _repository.Entities.Where(r=>r.IdDocumento== documentoId).ToListAsync();
+            return await _repository.Entities.Where(r => r.IdDocumento == documentoId).ToListAsync();
         }
 
         public async Task<int> InsertAsync(Respuesta respuesta)

@@ -5,7 +5,6 @@ using MediatR;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.CacheRepositories;
 using WordVision.ec.Application.Interfaces.CacheRepositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 
@@ -38,7 +37,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorAFes.Queries
         {
             var IndicadorAFList = await _IndicadorAFCache.GetCachedListAsync();
             var mappedIndicadorAFes = _mapper.Map<List<GetAllIndicadorAFesCachedResponse>>(IndicadorAFList);
-           
+
             return Result<List<GetAllIndicadorAFesCachedResponse>>.Success(mappedIndicadorAFes);
         }
     }

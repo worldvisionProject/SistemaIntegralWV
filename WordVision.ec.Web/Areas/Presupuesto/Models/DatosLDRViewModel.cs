@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WordVision.ec.Web.Areas.Presupuesto.Models
+﻿namespace WordVision.ec.Web.Areas.Presupuesto.Models
 {
     public class DatosLDRViewModel
     {
@@ -39,7 +34,7 @@ namespace WordVision.ec.Web.Areas.Presupuesto.Models
 
     public class DatosLDRLoadViewModel
     {
-       
+
         public string Cedula { get; set; }
         public string Ubicacion { get; set; }
         public string T0 { get; set; }
@@ -56,6 +51,6 @@ namespace WordVision.ec.Web.Areas.Presupuesto.Models
         public string Eventual { get; set; }
         public decimal Ldr { get; set; }
 
-       
+
     }
 }

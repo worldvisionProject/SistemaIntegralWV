@@ -1,22 +1,18 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 
 namespace WordVision.ec.Application.Features.Planificacion.IndicadorProductoObjetivos.Queries.GetById
 {
-  
+
 
     public class GetIndicadorProductoObjetivoByIdQuery : IRequest<Result<GetIndicadorProductoObjetivoByIdResponse>>
     {
         public int Id { get; set; }
-      
+
         public class GetIndicadorProductoObjetivoByIdQueryHandler : IRequestHandler<GetIndicadorProductoObjetivoByIdQuery, Result<GetIndicadorProductoObjetivoByIdResponse>>
         {
             private readonly IIndicadorProductoObjetivoRepository _entidadRepository;

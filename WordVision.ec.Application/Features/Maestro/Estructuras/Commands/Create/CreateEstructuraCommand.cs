@@ -1,10 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Maestro;
@@ -13,13 +9,13 @@ using WordVision.ec.Domain.Entities.Maestro;
 
 namespace WordVision.ec.Application.Features.Maestro.Estructuras.Commands.Create
 {
-  
+
     public partial class CreateEstructuraCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
         public string Designacion { get; set; }
         public int ReportaID { get; set; }
-      public int Estado { get; set; }
+        public int Estado { get; set; }
 
     }
 

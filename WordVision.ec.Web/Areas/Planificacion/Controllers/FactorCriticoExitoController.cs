@@ -1,4 +1,4 @@
-﻿ using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SmartBreadcrumbs.Attributes;
@@ -15,21 +15,15 @@ using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Quer
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Commands.Delete;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Commands.Update;
-using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.FactorCriticoExitoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Queries.GetById;
-using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Commands.Create;
-using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Commands.Update;
-using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetById;
-using WordVision.ec.Application.Features.Planificacion.Productos.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.Productos.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
-using WordVision.ec.Web.Areas.Registro.Models;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 {
@@ -126,7 +120,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             };
 
             id = idEstrategia;
-            var childNode21 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Objetivo "+ TipoObjetivo)
+            var childNode21 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Objetivo " + TipoObjetivo)
             {
                 RouteValues = new { id, AnioGestion, Categoria },
                 OverwriteTitleOnExactMatch = true,
@@ -265,12 +259,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 //    return PartialView("_ViewAllxIndicador", viewModel);
                 //}
                 var colaborador = await _mediator.Send(new GetColaboradorByNivelQuery() { Nivel1 = 2, Nivel2 = 3 });
-               
+
                 switch (Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value))
                 {
                     case 2:
 
-                        var response = await _mediator.Send(new GetAllIndicadorEstrategicoesQuery() { IdObjetivoEstrategico = idObjetivo,IdColaborador=idColaborador });
+                        var response = await _mediator.Send(new GetAllIndicadorEstrategicoesQuery() { IdObjetivoEstrategico = idObjetivo, IdColaborador = idColaborador });
                         if (response.Succeeded)
                         {
                             ViewBag.IdGestion = idGestion;
@@ -280,9 +274,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                             var ListatableroModel = new List<TableroControlViewModel>();
                             var viewModel = _mapper.Map<List<IndicadorEstrategicoViewModel>>(response.Data.Where(i => i.Responsable == idColaborador));
                             var listTableroModel = new List<TableroControlViewModel>();
-                            for (var i=0;i< viewModel.Count();i++)
+                            for (var i = 0; i < viewModel.Count(); i++)
                             {
-                               
+
                                 if (viewModel[i].Productos.Count() != 0)
                                 {
                                     for (var j = 0; j < viewModel[i].Productos.Count(); j++)
@@ -352,21 +346,21 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
                                     var lact = new List<IndicadorPOAViewModel>();
                                     var act = new IndicadorPOAViewModel();
-                                    
+
                                     var lact1 = new List<ActividadViewModel>();
                                     var act1 = new ActividadViewModel();
                                     lact1.Add(act1);
-                                    
+
                                     act.Actividades = lact1;
                                     lact.Add(act);
-                                 
+
                                     pro.IndicadorPOAs = lact;
                                     lpro.Add(pro);
                                     viewModel[i].Productos = lpro;
                                 }
                             }
 
-                             return PartialView("_ViewAllxIndicador", viewModel);
+                            return PartialView("_ViewAllxIndicador", viewModel);
                         }
                         break;
                     case 3:
@@ -393,7 +387,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                                             {
                                                 for (var l = 0; l < viewModel[j].IndicadorPOAs[k].Actividades.Count(); l++)
                                                 {
-                                                    
+
                                                 }
                                             }
                                             else
@@ -496,10 +490,10 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
                                         var viewModelP = new ProductoViewModel();
                                         viewModelP.IndicadorPOAs = viewModelIndicador;
-                                     
+
                                         viewModel = new List<ProductoViewModel>();
                                         viewModel.Add(viewModelP);
-                                        
+
                                     }
                                     else
                                     {
@@ -519,7 +513,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                                     //viewModel = new List<ProductoViewModel>();
                                     //viewModel.Add(viewModelP);
                                 }
-                               
+
 
                             }
                             return PartialView("_ViewAllxProducto", viewModel);
@@ -527,7 +521,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         break;
 
                     case 4:
-                        var responseActividad = await _mediator.Send(new GetAllActividadesQuery() { IdObjetivoEstrategico = idObjetivo,IdColaborador=idColaborador });
+                        var responseActividad = await _mediator.Send(new GetAllActividadesQuery() { IdObjetivoEstrategico = idObjetivo, IdColaborador = idColaborador });
                         if (responseActividad.Succeeded)
                         {
                             ViewBag.IdGestion = idGestion;
@@ -544,9 +538,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
                 }
 
-                
 
-               
+
+
             }
             catch (Exception ex)
             {

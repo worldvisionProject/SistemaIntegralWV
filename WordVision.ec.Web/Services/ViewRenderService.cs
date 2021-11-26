@@ -14,7 +14,6 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using WordVision.ec.Web.Abstractions;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace WordVision.ec.Web.Services
 {
     public class ViewRenderService : IViewRenderService
@@ -73,7 +72,7 @@ namespace WordVision.ec.Web.Services
                     new ViewDataDictionary<T>(new EmptyModelMetadataProvider(), new ModelStateDictionary())
                     {
                         Model = model,
-                        
+
                     },
                     new TempDataDictionary(
                         _httpContext.HttpContext,
@@ -83,7 +82,7 @@ namespace WordVision.ec.Web.Services
                     new HtmlHelperOptions()
                 );
 
-                 var page = (result.Page);
+                var page = (result.Page);
                 //var page = ((Page)result.Page);
 
                 //page.PageContext = new Microsoft.AspNetCore.Mvc.RazorPages.PageContext
@@ -92,7 +91,7 @@ namespace WordVision.ec.Web.Services
 
                 //};
 
-                page.ViewContext = viewContext; 
+                page.ViewContext = viewContext;
 
                 _activator.Activate(page, viewContext);
 

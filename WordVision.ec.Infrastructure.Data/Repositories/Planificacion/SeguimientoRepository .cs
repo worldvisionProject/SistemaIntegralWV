@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -30,7 +28,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 
         public async Task<Recurso> GetByIdAsync(int recursoId)
         {
-            return await _repository.Entities.Where(p => p.Id == recursoId).Include(f=>f.FechaCantidadRecursos).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(p => p.Id == recursoId).Include(f => f.FechaCantidadRecursos).FirstOrDefaultAsync();
         }
 
         public async Task<List<Recurso>> GetListAsync()

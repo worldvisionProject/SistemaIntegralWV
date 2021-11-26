@@ -1,21 +1,13 @@
-﻿using AspNetCoreHero.EntityFrameworkCore.AuditTrail;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.Contexts;
 using WordVision.ec.Infrastructure.Data.Identity.Models;
 
 namespace WordVision.ec.Infrastructure.Data.Contexts
 {
-    public  class IdentityContext : IdentityDbContext<ApplicationUser>//DbContext, IIdentityDbContext
+    public class IdentityContext : IdentityDbContext<ApplicationUser>//DbContext, IIdentityDbContext
     {
-       
+
         public IdentityContext(DbContextOptions<IdentityContext> options)
             : base(options)
         {
@@ -73,7 +65,7 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             //});
         }
 
-      //  public DbSet<UsuariosActiveDirectory> UsuariosActiveDirectory { get; set; }
+        //  public DbSet<UsuariosActiveDirectory> UsuariosActiveDirectory { get; set; }
 
         //public IDbConnection Connection => Database.GetDbConnection();
 

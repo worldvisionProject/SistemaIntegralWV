@@ -1,26 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.Repositories;
 using WordVision.ec.Application.Interfaces.Repositories.Identity;
-using WordVision.ec.Application.Interfaces.Shared;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
 namespace WordVision.ec.Infrastructure.Data.Repositories.Identity
 {
     public class UnitOfWork : IUnitOfWork
     {
-       // private readonly IAuthenticatedUserService _authenticatedUserService;
+        // private readonly IAuthenticatedUserService _authenticatedUserService;
         private readonly IdentityContext _dbContext;
         private bool disposed;
 
         public UnitOfWork(IdentityContext dbContext)//, IAuthenticatedUserService authenticatedUserService)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-           // _authenticatedUserService = authenticatedUserService;
+            // _authenticatedUserService = authenticatedUserService;
         }
 
         public async Task<int> Commit(CancellationToken cancellationToken)

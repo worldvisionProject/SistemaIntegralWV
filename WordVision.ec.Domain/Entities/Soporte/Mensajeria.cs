@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WordVision.ec.Domain.Contracts;
 
 namespace WordVision.ec.Domain.Entities.Soporte
 {
     public class Mensajeria : AuditableEntity
-    { 
+    {
         //Estructura de Mensajeria
         [StringLength(150)]
         [Required]
@@ -31,7 +27,7 @@ namespace WordVision.ec.Domain.Entities.Soporte
         [StringLength(500)]
         [Required]
         public string InformacionAdicional { get; set; }
-     
+
         public int IdSolicitud { get; set; }
         public virtual Solicitud Solicitudes { get; set; }
     }

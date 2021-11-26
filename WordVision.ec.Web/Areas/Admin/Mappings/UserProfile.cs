@@ -1,9 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using WordVision.ec.Infrastructure.Data.Identity.Models;
 using WordVision.ec.Web.Areas.Admin.Models;
 

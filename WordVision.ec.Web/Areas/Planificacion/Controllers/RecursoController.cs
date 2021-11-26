@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.Actividades.Queries.GetById;
@@ -19,7 +18,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 {
     [Area("Planificacion")]
     [Authorize]
-    public class RecursoController  : BaseController<RecursoController>
+    public class RecursoController : BaseController<RecursoController>
     {
         public IActionResult Index()
         {
@@ -58,7 +57,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             }
             return null;
         }
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0,int idActividad = 0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idActividad = 0)
         {
 
             //var descGestion = "";
@@ -84,7 +83,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 var catMes = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 16 });
                 entidadViewModel.MesList = new SelectList(catMes.Data, "Secuencia", "Nombre");
 
-                return new JsonResult(new { isValid = true, hijo=true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+                return new JsonResult(new { isValid = true, hijo = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             else
             {
@@ -114,13 +113,13 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> OnPostCreateOrEdit(int id, int idActividad,RecursoViewModel recurso, List<FechaCantidadRecursoViewModel> mes)
+        public async Task<JsonResult> OnPostCreateOrEdit(int id, int idActividad, RecursoViewModel recurso, List<FechaCantidadRecursoViewModel> mes)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    recurso.Gtrm = recurso.Gtrm.ToUpper()=="FALSE" ? "N" : "S";
+                    recurso.Gtrm = recurso.Gtrm.ToUpper() == "FALSE" ? "N" : "S";
                     if (id == 0)
                     {
                         var createEntidadCommand = _mapper.Map<CreateRecursoCommand>(recurso);

@@ -1,9 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Planificacion.Actividades.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.Actividades.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.Actividades.Queries.GetById;

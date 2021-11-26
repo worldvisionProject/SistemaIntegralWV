@@ -1,53 +1,30 @@
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Server.IISIntegration;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
+using SmartBreadcrumbs.Extensions;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using IdentityServer4.Configuration;
 using WordVision.Application.Extensions;
-using SmartBreadcrumbs.Attributes;
-using WordVision.ec.Application.Interfaces.Shared;
-using WordVision.ec.Infrastructure.Data.Contexts;
 using WordVision.ec.Infrastructure.Data.Extensions;
 using WordVision.ec.Infrastructure.Shared.Pdf;
-using WordVision.ec.Infrastructure.Shared.Services;
 using WordVision.ec.Web.Abstractions;
-using WordVision.ec.Web.Areas.Registro.Controllers;
 using WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard;
-using WordVision.ec.Web.Configuration;
 using WordVision.ec.Web.Extensions;
 using WordVision.ec.Web.Permission;
 using WordVision.ec.Web.Services;
-using WordVision.ec.Infrastructure.Data.Identity.Models;
-using System.Net;
-using SmartBreadcrumbs.Extensions;
-using Newtonsoft;
-using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace WordVision.ec.Web
 {
@@ -92,16 +69,16 @@ namespace WordVision.ec.Web
                 //}));
             });
 
-            services.AddBreadcrumbs(GetType().Assembly,options =>
-            {
-                options.DontLookForDefaultNode = true;
-                //TagName = "nav";
-                //TagClasses = "";
-                //OlClasses = "breadcrumb";
-                //LiClasses = "breadcrumb-item";
-                //ActiveLiClasses = "breadcrumb-item active";
-                //SeparatorElement = "<li class=\"separator\">/</li>";
-            });
+            services.AddBreadcrumbs(GetType().Assembly, options =>
+             {
+                 options.DontLookForDefaultNode = true;
+                 //TagName = "nav";
+                 //TagClasses = "";
+                 //OlClasses = "breadcrumb";
+                 //LiClasses = "breadcrumb-item";
+                 //ActiveLiClasses = "breadcrumb-item active";
+                 //SeparatorElement = "<li class=\"separator\">/</li>";
+             });
 
             services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
@@ -154,7 +131,7 @@ namespace WordVision.ec.Web
         {
             if (env.IsDevelopment())
             {
-               app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
             }
             else
             {
@@ -163,10 +140,10 @@ namespace WordVision.ec.Web
                 app.UseHsts();
             }
 
-       
+
 
             app.UseDeveloperExceptionPage();
-           
+
             app.UseNotyf();
             app.UseHttpsRedirection();
             app.UseStaticFiles();

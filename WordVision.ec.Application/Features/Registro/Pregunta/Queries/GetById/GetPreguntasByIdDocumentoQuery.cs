@@ -5,7 +5,6 @@ using MediatR;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.CacheRepositories;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 
 namespace WordVision.ec.Application.Features.Registro.Pregunta.Queries.GetById
@@ -28,7 +27,7 @@ namespace WordVision.ec.Application.Features.Registro.Pregunta.Queries.GetById
             _mapper = mapper;
         }
 
-      
+
         public async Task<Result<List<GetPreguntasByIdDocumentoResponse>>> Handle(GetPreguntasByIdDocumentoQuery request, CancellationToken cancellationToken)
         {
             var documento = await _preguntaCache.GetByIdDocumentoAsync(request.Id);

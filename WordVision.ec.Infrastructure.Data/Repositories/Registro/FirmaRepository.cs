@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Domain.Entities.Registro;
@@ -29,7 +27,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
 
         public async Task<Firma> GetByIdColaboradorAsync(int colaboradorId, int documentoId)
         {
-            return await _repository.Entities.Where(p => p.IdColaborador == colaboradorId && p.IdDocumento==documentoId).Include(x => x.Colaboradores).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(p => p.IdColaborador == colaboradorId && p.IdDocumento == documentoId).Include(x => x.Colaboradores).FirstOrDefaultAsync();
 
         }
 
@@ -41,7 +39,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
         public async Task<int> InsertAsync(Firma firma)
         {
             await _repository.AddAsync(firma);
-          
+
             return firma.Id;
         }
 

@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Features.Maestro.Catalogos.Commands;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Commands.Create;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Commands.Update;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetAllCached;
@@ -24,7 +22,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
         public CatalogoController(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
-         
+
         }
         public IActionResult Index()
         {
@@ -32,13 +30,13 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> LoadAll(string idRol="")
+        public async Task<IActionResult> LoadAll(string idRol = "")
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name.ToUpper());
             IList<string> userRoles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
 
 
-            List<CatalogoViewModel> viewModel=new List<CatalogoViewModel>();
+            List<CatalogoViewModel> viewModel = new List<CatalogoViewModel>();
             for (int i = 0; i <= userRoles.Count - 1; i++)
             {
                 idRol = userRoles[i].ToUpper();
@@ -50,18 +48,18 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                 var response = await _mediator.Send(new GetAllCatalogosCachedQuery() { IdRol = idRol });
                 if (response.Succeeded)
                 {
-                    if (response.Data!=null)
+                    if (response.Data != null)
                     {
-                        if (response.Data.Count>0)
+                        if (response.Data.Count > 0)
                         {
                             var uno = _mapper.Map<List<CatalogoViewModel>>(response.Data);
                             viewModel.AddRange(uno);
 
-                           
+
                         }
-                           
+
                     }
-                  
+
                 }
             }
 
@@ -73,9 +71,9 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
 
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0)
         {
-           // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
-           try
-            { 
+            // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
+            try
+            {
                 if (id == 0)
                 {
                     var entidadViewModel = new CatalogoViewModel();

@@ -1,10 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -28,7 +24,7 @@ namespace WordVision.ec.Application.Features.Soporte.Ponentes.Commands.Create
     public class CreatePonenteCommandHandler : IRequestHandler<CreatePonenteCommand, Result<int>>
     {
         private readonly IPonenteRepository _entidadRepository;
-       
+
         private readonly IMapper _mapper;
 
         private IUnitOfWork _unitOfWork { get; set; }
@@ -36,7 +32,7 @@ namespace WordVision.ec.Application.Features.Soporte.Ponentes.Commands.Create
         public CreatePonenteCommandHandler(IPonenteRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _entidadRepository = entidadRepository;
-                    _unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -47,7 +43,7 @@ namespace WordVision.ec.Application.Features.Soporte.Ponentes.Commands.Create
             var entidad = _mapper.Map<Ponente>(request);
             await _entidadRepository.InsertAsync(entidad);
 
-        
+
             await _unitOfWork.Commit(cancellationToken);
             return Result<int>.Success(entidad.Id);
         }

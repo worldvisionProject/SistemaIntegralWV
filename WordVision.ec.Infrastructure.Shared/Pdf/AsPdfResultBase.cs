@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
+﻿using System;
 using System.Text;
 using WordVision.ec.Infrastructure.Shared.Pdf.Options;
 

@@ -8,14 +8,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Features.Identity.Usuarios.Queries.GetById;
 using WordVision.ec.Infrastructure.Data.Identity.Models;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Identity.Models;
 
 namespace WordVision.ec.Web.Areas.Identity.Controllers
 {
-   
+
     public class UsuarioController : BaseController<UsuarioController>
     {
         private readonly UserManager<ApplicationUser> _userManager;

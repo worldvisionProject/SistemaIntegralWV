@@ -1,9 +1,5 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Presupuesto;
@@ -13,7 +9,7 @@ namespace WordVision.ec.Application.Features.Presupuesto.DatosLDR.Queries.GetByI
     public class GetCountLDRByAreaQuery : IRequest<Result<int>>
     {
         public int Area { get; set; }
-   
+
         public class GetCountLDRByAreaQueryHandler : IRequestHandler<GetCountLDRByAreaQuery, Result<int>>
         {
             private readonly IDatosLDRRepository _respestaCache;

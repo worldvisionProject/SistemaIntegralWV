@@ -6,9 +6,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetAllCached;
-
-using WordVision.ec.Application.Interfaces.CacheRepositories;
-using WordVision.ec.Application.Interfaces.CacheRepositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 
@@ -41,7 +38,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Queries
         {
             var IndicadorPOAList = await _IndicadorPOACache.GetListAsync();
             var mappedIndicadorPOAs = _mapper.Map<List<GetAllIndicadorPOAsCachedResponse>>(IndicadorPOAList);
-           
+
             return Result<List<GetAllIndicadorPOAsCachedResponse>>.Success(mappedIndicadorPOAs);
         }
     }

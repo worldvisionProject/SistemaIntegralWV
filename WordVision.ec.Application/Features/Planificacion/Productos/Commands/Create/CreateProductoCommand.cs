@@ -1,10 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -13,10 +9,10 @@ using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Application.Features.Planificacion.Productos.Commands.Create
 {
-  
+
     public class CreateProductoCommand : IRequest<Result<int>>
     {
-      
+
         public string DescProducto { get; set; }
         public int IdCargoResponsable { get; set; }
 
@@ -40,9 +36,9 @@ namespace WordVision.ec.Application.Features.Planificacion.Productos.Commands.Cr
 
         public async Task<Result<int>> Handle(CreateProductoCommand request, CancellationToken cancellationToken)
         {
-           
-                var meta = _mapper.Map<Producto>(request);
-                await _ProductoRepository.InsertAsync(meta);
+
+            var meta = _mapper.Map<Producto>(request);
+            await _ProductoRepository.InsertAsync(meta);
             await _unitOfWork.Commit(cancellationToken);
             return Result<int>.Success();
         }

@@ -1,18 +1,13 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Application.Interfaces.Repositories.Soporte;
 
 namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Delete
 {
-   
+
     public class DeleteDonanteCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }

@@ -3,9 +3,7 @@ using AutoMapper;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Interfaces.CacheRepositories;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
-using WordVision.ec.Application.Interfaces.Repositories.Registro;
 
 namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById
 {
@@ -19,10 +17,10 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
             private readonly IEstrategiaNacionalRepository _EstrategiaNacionalCache;
             //private readonly IRespuestaRepository _respuestaCache;
             //private readonly IFormularioRepository _formularioCache;
-         
+
             private readonly IMapper _mapper;
 
-            public GetEstrategiaNacionalByIdQueryHandler( IEstrategiaNacionalRepository EstrategiaNacionalCache, IMapper mapper)
+            public GetEstrategiaNacionalByIdQueryHandler(IEstrategiaNacionalRepository EstrategiaNacionalCache, IMapper mapper)
             {
                 _EstrategiaNacionalCache = EstrategiaNacionalCache;
                 //_respuestaCache = respuestaCache;
@@ -40,7 +38,7 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
                     //switch (query.Nivel)
                     //{
                     //    case 2:
-                            EstrategiaNacional = await _EstrategiaNacionalCache.GetByIdAsync(query.Id, query.IdColaborador);
+                    EstrategiaNacional = await _EstrategiaNacionalCache.GetByIdAsync(query.Id, query.IdColaborador);
                     //        break;
                     //    case 3:
                     //        EstrategiaNacional = await _EstrategiaNacionalCache.GetByIdxOperativoAsync(query.Id, query.IdColaborador,0);
@@ -51,10 +49,10 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
                     //        break;
                     //}
 
-                   
+
                 }
                 var mappedEstrategiaNacional = _mapper.Map<GetEstrategiaNacionalByIdResponse>(EstrategiaNacional);
-                
+
                 return Result<GetEstrategiaNacionalByIdResponse>.Success(mappedEstrategiaNacional);
             }
         }

@@ -3,8 +3,6 @@ using AutoMapper;
 using MediatR;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -13,7 +11,7 @@ using WordVision.ec.Domain.Entities.Soporte;
 
 namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Create
 {
-  
+
     public partial class CreateSolicitudCommand : IRequest<Result<int>>
     {
         //public int Id { get; set; }
@@ -35,7 +33,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Create
 
         public Comunicacion Comunicaciones { get; set; }
         public int IdColaborador { get; set; }
-      
+
     }
 
     public class CreateSolicitudCommandHandler : IRequestHandler<CreateSolicitudCommand, Result<int>>
@@ -48,7 +46,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Create
 
         private IUnitOfWork _unitOfWork { get; set; }
 
-        public CreateSolicitudCommandHandler(IComunicacionRepository entidadRepositoryC,IEstadosSolicitudRepository entidadRepositoryE,ISolicitudRepository entidadRepository, IMensajeriaRepository entidadRepositoryM, IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateSolicitudCommandHandler(IComunicacionRepository entidadRepositoryC, IEstadosSolicitudRepository entidadRepositoryE, ISolicitudRepository entidadRepository, IMensajeriaRepository entidadRepositoryM, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _entidadRepository = entidadRepository;
             _entidadRepositoryE = entidadRepositoryE;
@@ -62,7 +60,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Create
         public async Task<Result<int>> Handle(CreateSolicitudCommand request, CancellationToken cancellationToken)
         {
 
-           
+
 
             EstadosSolicitud e = new()
             {
@@ -96,6 +94,6 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Create
             await _unitOfWork.Commit(cancellationToken);
             return Result<int>.Success(solicitud.Id);
         }
-            
+
     }
 }

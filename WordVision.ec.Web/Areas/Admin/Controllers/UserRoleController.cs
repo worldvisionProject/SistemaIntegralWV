@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -86,7 +85,7 @@ namespace WordVision.ec.Web.Areas.Admin.Controllers
             result = await _userManager.AddToRolesAsync(user, model.UserRoles.Where(x => x.Selected).Select(y => y.RoleName));
             var currentUser = await _userManager.GetUserAsync(User);
             await _signInManager.RefreshSignInAsync(currentUser);
-            await  Infrastructure.Data.Identity.Seeds.DefaultSuperAdminUser.SeedAsync(_userManager, _roleManager);
+            await Infrastructure.Data.Identity.Seeds.DefaultSuperAdminUser.SeedAsync(_userManager, _roleManager);
             _notify.Success($"Updated Roles for User '{user.Email}'");
             return RedirectToAction("Index", new { userId = id });
         }

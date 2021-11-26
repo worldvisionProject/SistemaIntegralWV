@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using SmartBreadcrumbs.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +23,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
     [Authorize]
     public class ObjetivoEstrategicoController : BaseController<ObjetivoEstrategicoController>
     {
-        
+
         public IActionResult Index()
         {
             var model = new ObjetivoEstrategicoViewModel();
-           
+
             return View(model);
         }
 
@@ -44,11 +43,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             return null;
         }
 
-        public async Task<IActionResult> LoadObjetivo(int idEstrategia,int idCategoria,string AnioGestion,string esCoordinadorEstrategico)
+        public async Task<IActionResult> LoadObjetivo(int idEstrategia, int idCategoria, string AnioGestion, string esCoordinadorEstrategico)
         {
             int idColaborador = 0;
             if (esCoordinadorEstrategico == "N")
-            { switch (Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value))
+            {
+                switch (Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value))
                 {
                     case 2:
                         idColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
@@ -63,14 +63,14 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         {
                             var responseNivel = await _mediator.Send(new GetColaboradorByNivelQuery() { Nivel1 = 1, Nivel2 = 2 });
 
-                            idColaborador= responseNivel.Data.Where(c => c.Cargo == responseGerencia.Data.Estructuras.ReportaID).FirstOrDefault().Id;
+                            idColaborador = responseNivel.Data.Where(c => c.Cargo == responseGerencia.Data.Estructuras.ReportaID).FirstOrDefault().Id;
                         }
-                            break;
+                        break;
                 }
-               
-               
+
+
             }
-            var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = idEstrategia ,IdColaborador=idColaborador,Nivel= Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value) });
+            var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = idEstrategia, IdColaborador = idColaborador, Nivel = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value) });
             if (response.Succeeded)
             {
 
@@ -81,13 +81,13 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 ViewBag.Ciclo = entidadViewModel.Nombre;
                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
                 entidadViewModel.AreaPrioridadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
-                return PartialView(idCategoria==2 ?"_ViewAll":"_ViewAllNacional", entidadViewModel);
-             }
+                return PartialView(idCategoria == 2 ? "_ViewAll" : "_ViewAllNacional", entidadViewModel);
+            }
             return null;
         }
 
         //[Breadcrumb("Objetivo", AreaName = "Planificacion", FromAction = "OnGetCreateOrEdit", FromController = typeof(EstrategiaNacionalController))]
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0,int idEstrategia=0,int categoria=0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idEstrategia = 0, int categoria = 0)
         {
             // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
             //var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 3 });
@@ -104,7 +104,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (id == 0)
             {
                 var entidadViewModel = new ObjetivoEstrategicoViewModel();
-                entidadViewModel.Categoria =categoria;
+                entidadViewModel.Categoria = categoria;
                 entidadViewModel.IdEstrategia = idEstrategia;
                 //entidadViewModel.DimensionList = DimList;
                 entidadViewModel.AreaList = AreaList;
@@ -159,13 +159,13 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = entidad.IdEstrategia });
                     if (response.Succeeded)
                     {
-                       
+
                         var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
                         entidadViewModel.CategoriaObjetivo = entidad.Categoria;
                         var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
                         entidadViewModel.AreaPrioridadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                         var html1 = await _viewRenderer.RenderViewToStringAsync(entidad.Categoria == 2 ? "_ViewAll" : "_ViewAllNacional", entidadViewModel);
-                        return new JsonResult(new { isValid = true, opcion=Convert.ToInt32( entidad.Categoria), page = entidad.Categoria == 2 ? "#viewAll" : "#viewAllNacional", html = html1 });
+                        return new JsonResult(new { isValid = true, opcion = Convert.ToInt32(entidad.Categoria), page = entidad.Categoria == 2 ? "#viewAll" : "#viewAllNacional", html = html1 });
                     }
                     else
                     {
@@ -178,7 +178,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidad);
                     return new JsonResult(new { isValid = false, html = html });
                 }
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.LogError("OnPostCreateOrEdit", ex);
                 _notify.Error("Error al insertar ObjetivoEstrategico");
@@ -187,7 +188,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
 
-        public async Task<JsonResult> OnPostDelete(int id = 0, int idEstrategia = 0,int idCategoria=0)
+        public async Task<JsonResult> OnPostDelete(int id = 0, int idEstrategia = 0, int idCategoria = 0)
         {
             var deleteCommand = await _mediator.Send(new DeleteObjetivoEstrategicoCommand { Id = id });
             if (deleteCommand.Succeeded)
@@ -197,14 +198,14 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
                 if (response.Succeeded)
                 {
-                 
+
                     var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
                     ViewBag.Ciclo = entidadViewModel.Nombre;
                     entidadViewModel.CategoriaObjetivo = idCategoria;
                     var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 4 });
                     entidadViewModel.AreaPrioridadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                     var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", entidadViewModel);
-                    return new JsonResult(new { isValid = true, opcion = Convert.ToInt32(idCategoria), page = "#viewAll" , html = html1 });
+                    return new JsonResult(new { isValid = true, opcion = Convert.ToInt32(idCategoria), page = "#viewAll", html = html1 });
                 }
                 else
                 {

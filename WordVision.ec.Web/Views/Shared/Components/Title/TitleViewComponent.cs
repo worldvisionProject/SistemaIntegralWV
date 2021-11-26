@@ -7,7 +7,7 @@ namespace WordVision.ec.Web.Views.Shared.Components.Title
     {
         public IViewComponentResult Invoke()
         {
-            if (ViewBag.SNGestion ==null)
+            if (ViewBag.SNGestion == null)
             {
                 var estrategico = new EstrategiaNacionalViewModel();
                 return View(estrategico);

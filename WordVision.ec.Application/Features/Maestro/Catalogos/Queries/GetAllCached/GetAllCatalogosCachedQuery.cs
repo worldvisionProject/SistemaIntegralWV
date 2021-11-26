@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.CacheRepositories.Maestro;
@@ -40,7 +37,7 @@ namespace WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetAllCac
         {
             var CatalogosList = await _CatalogosCache.GetCachedListAsync(request.IdRol);
             var mappedCatalogos = _mapper.Map<List<GetAllCatalogosCachedResponse>>(CatalogosList);
-            
+
             return Result<List<GetAllCatalogosCachedResponse>>.Success(mappedCatalogos);
         }
     }

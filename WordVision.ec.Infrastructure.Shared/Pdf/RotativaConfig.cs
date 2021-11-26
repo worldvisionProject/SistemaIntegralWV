@@ -1,14 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using System;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Hosting;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Text;
 
 namespace WordVision.ec.Infrastructure.Shared.Pdf
 {
@@ -33,7 +24,7 @@ namespace WordVision.ec.Infrastructure.Shared.Pdf
         /// </summary>
         /// <param name="env">The IHostingEnvironment object</param>
         /// <param name="wkhtmltopdfRelativePath">Optional. Relative path to the directory containing wkhtmltopdf.exe. Default is "Rotativa". Download at https://wkhtmltopdf.org/downloads.html</param>
-        public static void Setup(Microsoft.AspNetCore.Hosting.IWebHostEnvironment env, string wkhtmltopdfRelativePath = "Rotativa") 
+        public static void Setup(Microsoft.AspNetCore.Hosting.IWebHostEnvironment env, string wkhtmltopdfRelativePath = "Rotativa")
         {
             var rotativaPath = Path.Combine(env.WebRootPath, wkhtmltopdfRelativePath);
 

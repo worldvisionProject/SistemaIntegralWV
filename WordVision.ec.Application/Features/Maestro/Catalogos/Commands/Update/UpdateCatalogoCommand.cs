@@ -1,9 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.DTOs.Planificacion;
@@ -42,7 +39,7 @@ namespace WordVision.ec.Application.Features.Maestro.Catalogos.Commands.Update
                 {
                     Catalogo.Nombre = command.Nombre;
                     Catalogo.Estado = command.Estado;
-                  
+
 
                     await _CatalogoRepository.UpdateAsync(Catalogo);
                     await _unitOfWork.Commit(cancellationToken);

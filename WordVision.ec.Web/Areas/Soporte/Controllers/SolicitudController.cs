@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Mail;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
@@ -23,9 +22,9 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
 {
     [Area("Soporte")]
     [Authorize]
-    public class SolicitudController :  BaseController<SolicitudController>
+    public class SolicitudController : BaseController<SolicitudController>
     {
-        public IActionResult Index(int id=0)
+        public IActionResult Index(int id = 0)
         {
             var model = new SolicitudViewModel();
             model.IdAsignadoA = id;
@@ -33,7 +32,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
         }
 
 
-        public async Task<IActionResult> LoadAll(int idSolicitante,int op=0)
+        public async Task<IActionResult> LoadAll(int idSolicitante, int op = 0)
         {
             ViewBag.Op = op;
             switch (op)
@@ -51,7 +50,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     break;
 
                 case 2:
-                     response = await _mediator.Send(new GetSolicitudByIdEstadoQuery() { Id = 1 });
+                    response = await _mediator.Send(new GetSolicitudByIdEstadoQuery() { Id = 1 });
                     if (response.Succeeded)
                     {
                         var viewModel = _mapper.Map<List<SolicitudViewModel>>(response.Data);
@@ -74,13 +73,13 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     }
                     break;
             }
-           
-            
+
+
             return null;
         }
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0,int op=0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int op = 0)
         {
-           
+
             if (id == 0)
             {
                 var entidadViewModel = new SolicitudViewModel();
@@ -107,14 +106,14 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                         //    break;
                         //case 2:
                         //    entidadViewModel.Estado = 2;
-                           
-                            
+
+
                         //    break;
                         case 3:
-                            entidadViewModel.Estado =3;
+                            entidadViewModel.Estado = 3;
                             break;
                     }
-                    
+
                     var colaborador = await _mediator.Send(new GetColaboradorByIdAreaQuery() { Id = 17 });
                     if (colaborador.Succeeded)
                     {
@@ -124,7 +123,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
                     entidadViewModel.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
-                     cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 20 });
+                    cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 20 });
                     entidadViewModel.TiposTramitesList = new SelectList(cat2.Data, "Secuencia", "Nombre");
 
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
@@ -166,12 +165,12 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     else
                     {
                         entidad.Estado = entidad.Fin == 0 ? entidad.Op : entidad.Fin;
-                           var updateEntidadCommand = _mapper.Map<UpdateSolicitudCommand>(entidad);
+                        var updateEntidadCommand = _mapper.Map<UpdateSolicitudCommand>(entidad);
                         var result = await _mediator.Send(updateEntidadCommand);
                         if (result.Succeeded) _notify.Information($"Solicitud con ID {result.Data} Actualizado.");
                     }
 
-                    
+
                     ViewBag.Op = op;
                     switch (op)
                     {
@@ -207,7 +206,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                             }
                             break;
 
-                        case >=3:
+                        case >= 3:
                             response1 = await _mediator.Send(new GetSolicitudByIdAsignadoQuery() { Id = entidad.IdColaborador });
                             if (response1.Succeeded)
                             {
@@ -239,20 +238,20 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     //    return null;
                     //}
 
-                   
+
                 }
                 else
                 {
                     var result = string.Join(',', ModelState.Values.SelectMany(v => v.Errors).Select(a => a.ErrorMessage));
                     _notify.Error("Error al insertar soporte");
                     _logger.LogError(result);
-                  
-                    return new JsonResult(new { isValid = false});
+
+                    return new JsonResult(new { isValid = false });
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex,"OnPostCreateOrEdit");
+                _logger.LogError(ex, "OnPostCreateOrEdit");
                 _notify.Error("Error al insertar Gestion");
             }
             return new JsonResult(new { isValid = false });
@@ -274,7 +273,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                             return File(dataArray, "application/pdf");
                         }
                         break;
-                    
+
                 }
 
 
@@ -286,15 +285,15 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
 
         public async Task<ActionResult> EnviarMail(int idSoporte)
         {
-           
-            DateTime fechaRequerida =DateTime.Now;
+
+            DateTime fechaRequerida = DateTime.Now;
             string descripcion = "";
             string mail = "";
             int estado = 0;
             int calificacion = 0;
-                int idAsignado = 0;
+            int idAsignado = 0;
             string asignado = "";
-            
+
             try
             {
                 var response = await _mediator.Send(new GetSolicitudByIdQuery() { Id = idSoporte });
@@ -309,9 +308,9 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     idAsignado = response.Data.IdAsignadoA;
                 }
 
-                
 
-                    string plantilla = "";
+
+                string plantilla = "";
                 string asunto = "";
                 switch (estado)
                 {
@@ -333,7 +332,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                         plantilla = "ResolucionSolicitud.html";
                         asunto = _configuration["ResolucionSolicitud"] + "#" + idSoporte;
                         break;
-                
+
                     case 5:
                         plantilla = "CalificacionSolicitud.html";
                         asunto = _configuration["CalificacionSolicitud"] + "#" + idSoporte;
@@ -355,7 +354,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                 {
                     builder.HtmlBody = SourceReader.ReadToEnd();
                 }
-               
+
 
                 string messageBody = string.Format(builder.HtmlBody,
                     idSoporte,

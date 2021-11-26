@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.TechoPresupuestarios.Commands.Create;
@@ -52,10 +51,10 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (id == 0)
             {
                 var entidadViewModel = new TechoPresupuestarioViewModel();
-               
+
                 var catCentroCosto = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 14 });
                 entidadViewModel.CentroCostosList = new SelectList(catCentroCosto.Data, "Secuencia", "Nombre");
-                
+
                 return new JsonResult(new { isValid = true, hijo = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             else
@@ -64,10 +63,10 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 if (response.Succeeded)
                 {
                     var entidadViewModel = _mapper.Map<TechoPresupuestarioViewModel>(response.Data);
-                   
+
                     var catCentroCosto = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 14 });
                     entidadViewModel.CentroCostosList = new SelectList(catCentroCosto.Data, "Secuencia", "Nombre");
-               
+
                     return new JsonResult(new { isValid = true, hijo = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;
@@ -112,7 +111,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         _notify.Error(response.Message);
                         return null;
                     }
-                  
+
 
                 }
                 else

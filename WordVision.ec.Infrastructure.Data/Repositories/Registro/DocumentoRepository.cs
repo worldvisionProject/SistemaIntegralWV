@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Domain.Entities.Registro;
@@ -15,7 +13,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
         private readonly IRepositoryAsync<Documento> _repository;
         private readonly IRepositoryAsync<Pregunta> _repositoryP;
         private readonly IDistributedCache _distributedCache;
-        public DocumentoRepository(IDistributedCache distributedCache, IRepositoryAsync<Documento> repository,IRepositoryAsync<Pregunta> repositoryP)
+        public DocumentoRepository(IDistributedCache distributedCache, IRepositoryAsync<Documento> repository, IRepositoryAsync<Pregunta> repositoryP)
         {
             _distributedCache = distributedCache;
             _repository = repository;

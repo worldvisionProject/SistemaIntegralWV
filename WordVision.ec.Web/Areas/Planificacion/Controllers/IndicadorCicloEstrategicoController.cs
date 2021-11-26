@@ -4,11 +4,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
-using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategicos.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategicos.Commands.Delete;
 using WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategicos.Commands.Update;
@@ -20,7 +18,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 {
     [Area("Planificacion")]
     [Authorize]
-    
+
     public class IndicadorCicloEstrategicoController : BaseController<ActividadController>
     {
         public async Task<JsonResult> LoadIndicadores(int idEstrategia)
@@ -38,12 +36,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "LoadIndicadores");
                 _notify.Error("Error a cargar Indicadores Ciclo Estrategico");
             }
-           
+
             return null;
         }
 
@@ -62,7 +60,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             {
                 var entidadViewModel = new IndicadorCicloEstrategicoViewModel();
                 entidadViewModel.IdEstrategia = idEstrategia;
-                   return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             else
             {
@@ -70,7 +68,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 if (response.Succeeded)
                 {
                     var entidadViewModel = _mapper.Map<IndicadorCicloEstrategicoViewModel>(response.Data);
-                   
+
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;

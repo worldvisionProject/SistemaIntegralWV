@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Domain.Entities.Maestro;
@@ -48,7 +46,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
             return await _repository.Entities.Where(p => p.Id == colaboradorId)
                  .Include(e => e.Estructuras)
                 .ThenInclude(em => em.Empresas)
-                .Include(f=>f.Formularios)
+                .Include(f => f.Formularios)
                 .ThenInclude(f1 => f1.FormularioTerceros)
                 .ThenInclude(f2 => f2.Terceros)
                 .FirstOrDefaultAsync();

@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -18,7 +15,7 @@ namespace WordVision.ec.Application.Features.Planificacion.MetaEstrategicas.Quer
         public class GetMetaEstrategicaByIdIndicadorHandler : IRequestHandler<GetMetaEstrategicaByIdIndicador, Result<List<GetMetaEstrategicaByIdResponse>>>
         {
             private readonly IMetaEstrategicaRepository _metaEstrategicaRepository;
-          
+
             private readonly IMapper _mapper;
 
             public GetMetaEstrategicaByIdIndicadorHandler(IMetaEstrategicaRepository metaEstrategicaRepository, IMapper mapper)

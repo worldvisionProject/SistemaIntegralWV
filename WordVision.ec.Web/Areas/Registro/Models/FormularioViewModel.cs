@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using WordVision.ec.Domain.Entities.Registro;
 
 namespace WordVision.ec.Web.Areas.Registro.Models
 {

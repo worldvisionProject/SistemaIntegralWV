@@ -3,8 +3,6 @@ using AutoMapper;
 using MediatR;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -37,7 +35,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Actividades.Commands.
 
         private IUnitOfWork _unitOfWork { get; set; }
 
-        public CreateActividadCommandHandler(IActividadRepository actividadRepository, IRecursoRepository recursoRepository,  IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateActividadCommandHandler(IActividadRepository actividadRepository, IRecursoRepository recursoRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _actividadRepository = actividadRepository;
             _recursoRepository = recursoRepository;

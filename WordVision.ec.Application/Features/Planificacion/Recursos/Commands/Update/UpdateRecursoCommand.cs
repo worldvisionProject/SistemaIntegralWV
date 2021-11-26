@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -37,7 +34,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Recursos.Commands.Upd
             private readonly IFechaCantidadRecursoRepository _fechaRecursoRepository;
             private readonly IMapper _mapper;
 
-            public UpdateRecursoCommandHandler(IRecursoRepository RecursoRepository, IFechaCantidadRecursoRepository fechaRecursoRepository,  IUnitOfWork unitOfWork, IMapper mapper)
+            public UpdateRecursoCommandHandler(IRecursoRepository RecursoRepository, IFechaCantidadRecursoRepository fechaRecursoRepository, IUnitOfWork unitOfWork, IMapper mapper)
             {
                 _fechaRecursoRepository = fechaRecursoRepository;
                 _RecursoRepository = RecursoRepository;
@@ -62,7 +59,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Recursos.Commands.Upd
                     recurso.ParaqueConsultoria = command.ParaqueConsultoria;
                     recurso.Gtrm = command.Gtrm;
                     recurso.JustificacionConsultoria = command.JustificacionConsultoria;
-                    recurso.Cantidad = command.Cantidad ;
+                    recurso.Cantidad = command.Cantidad;
                     recurso.PrecioUnitario = command.PrecioUnitario;
                     recurso.Total = command.Total;
                     recurso.DetalleInsumo = command.DetalleInsumo;
@@ -77,20 +74,20 @@ namespace WordVision.ec.Application.Features.Planificacion.Recursos.Commands.Upd
                         {
                             var _fechaEntidad = _mapper.Map<FechaCantidadRecurso>(_fecha);
                             _fechaEntidad.IdRecurso = command.Id;
-                    
+
                             await _fechaRecursoRepository.InsertAsync(_fechaEntidad);
                         }
                         else
                         {
                             _fecha.Mes = fecha.Mes;
                             _fecha.Valor = fecha.Valor;
-                     
+
                             await _fechaRecursoRepository.UpdateAsync(_fecha);
                         }
 
 
                     }
-                   
+
 
                     await _unitOfWork.Commit(cancellationToken);
                     return Result<int>.Success(recurso.Id);

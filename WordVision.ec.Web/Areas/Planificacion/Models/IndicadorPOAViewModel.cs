@@ -2,18 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Models
 {
     public class IndicadorPOAViewModel
     {
-       public string DescObjetivo { get; set; }
-       public string DescFactor { get; set; }
-       public string DescIndicador { get; set; }
-       public string DescMeta { get; set; }
-       public string ResponsableIndicador { get; set; }
+        public string DescObjetivo { get; set; }
+        public string DescFactor { get; set; }
+        public string DescIndicador { get; set; }
+        public string DescMeta { get; set; }
+        public string ResponsableIndicador { get; set; }
         public string DescGestion { get; set; }
         public string DescLineaBase { get; set; }
 
@@ -69,6 +67,6 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
 
         public int IdIndicadorEstrategia { get; set; }
         public int IdGestion { get; set; }
-         public int IdResponsablePOA { get; set; }
+        public int IdResponsablePOA { get; set; }
     }
 }

@@ -1,10 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.CacheRepositories;
@@ -23,20 +19,20 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetB
             private readonly IEstructuraCacheRepository _estructuraCache;
             private readonly IMapper _mapper;
 
-            public GetColaboradorByUserNameQueryHandler(IEstructuraCacheRepository estructuraCache,IColaboradorCacheRepository colaboradorCache, IMapper mapper)
+            public GetColaboradorByUserNameQueryHandler(IEstructuraCacheRepository estructuraCache, IColaboradorCacheRepository colaboradorCache, IMapper mapper)
             {
                 _ColaboradorCache = colaboradorCache;
                 _estructuraCache = estructuraCache;
                 _mapper = mapper;
             }
 
-           
+
             public async Task<Result<GetColaboradorByIdResponse>> Handle(GetColaboradorByUserNameQuery request, CancellationToken cancellationToken)
             {
                 int nivel = 0;
                 var Colaborador = await _ColaboradorCache.GetByUserNameAsync(request.UserName);
                 if (Colaborador != null)
-                { 
+                {
                     try
                     {
                         var estructura = await _estructuraCache.GetByIdAsync(Colaborador.IdEstructura);

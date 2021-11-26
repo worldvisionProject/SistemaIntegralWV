@@ -1,9 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Commands.Create;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Commands.Update;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetAllCached;
@@ -20,7 +15,7 @@ namespace WordVision.ec.Application.Mappings.Maestro
             CreateMap<GetCatalogoByIdResponse, Catalogo>().ReverseMap();
             CreateMap<GetAllCatalogosCachedResponse, Catalogo>().ReverseMap();
             CreateMap<UpdateCatalogoCommand, Catalogo>().ReverseMap();
-     
+
             CreateMap<GetListByIdDetalleResponse, DetalleCatalogo>().ReverseMap();
 
         }

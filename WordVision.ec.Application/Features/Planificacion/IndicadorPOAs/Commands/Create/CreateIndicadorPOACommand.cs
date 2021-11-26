@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -13,7 +10,7 @@ using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Commands.Create
 {
-  
+
     public partial class CreateIndicadorPOACommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
@@ -28,7 +25,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Command
         public ICollection<Actividad> Actividades { get; set; }
         public ICollection<MetaTactica> MetaTacticas { get; set; }
 
- 
+
     }
 
     public class CreateIndicadorPOACommandHandler : IRequestHandler<CreateIndicadorPOACommand, Result<int>>
@@ -40,7 +37,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Command
 
         private IUnitOfWork _unitOfWork { get; set; }
 
-        public CreateIndicadorPOACommandHandler(IActividadRepository actividadRepository,IMetaTacticaRepository metaTacticaRepository, IIndicadorPOARepository IndicadorPOARepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateIndicadorPOACommandHandler(IActividadRepository actividadRepository, IMetaTacticaRepository metaTacticaRepository, IIndicadorPOARepository IndicadorPOARepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _IndicadorPOARepository = IndicadorPOARepository;
             _metaTacticaRepository = metaTacticaRepository;

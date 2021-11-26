@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Models
 {
@@ -15,6 +11,6 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string Entregable { get; set; }
         public string Anio { get; set; }
         public int IdIndicadorEstrategico { get; set; }
-      
+
     }
 }

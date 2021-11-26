@@ -1,10 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
@@ -12,7 +9,7 @@ using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 
 namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Queries.GetById
 {
-   
+
     public class GetIndicadorPOAByIdObjetivoQuery : IRequest<Result<List<GetIndicadorPOAByIdResponse>>>
     {
         public int IdObjetivoEstrategico { get; set; }
@@ -32,7 +29,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Queries
 
             public async Task<Result<List<GetIndicadorPOAByIdResponse>>> Handle(GetIndicadorPOAByIdObjetivoQuery query, CancellationToken cancellationToken)
             {
-                var meta = await _IndicadorPOARepository.GetListByIdObjetivoAsync(query.IdObjetivoEstrategico,query.IdColaborador);
+                var meta = await _IndicadorPOARepository.GetListByIdObjetivoAsync(query.IdObjetivoEstrategico, query.IdColaborador);
                 var mappedMeta = _mapper.Map<List<GetIndicadorPOAByIdResponse>>(meta);
 
                 return Result<List<GetIndicadorPOAByIdResponse>>.Success(mappedMeta);

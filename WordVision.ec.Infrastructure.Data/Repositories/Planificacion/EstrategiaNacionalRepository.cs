@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -31,14 +29,14 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
         public async Task<EstrategiaNacional> GetByIdAsync(int estrategiaNacionalId)
         {
             return await _repository.Entities.Where(p => p.Id == estrategiaNacionalId)
-                .Include(x=>x.ObjetivoEstrategicos).ThenInclude(c=>c.FactorCriticoExitos)
-                .Include(y=>y.Gestiones).FirstOrDefaultAsync();
+                .Include(x => x.ObjetivoEstrategicos).ThenInclude(c => c.FactorCriticoExitos)
+                .Include(y => y.Gestiones).FirstOrDefaultAsync();
         }
         public async Task<EstrategiaNacional> GetByIdAsync(int estrategiaNacionalId, int idColaborador)
         {
             return await _repository.Entities.Where(p => p.Id == estrategiaNacionalId)
                 .Include(x => x.ObjetivoEstrategicos).ThenInclude(c => c.FactorCriticoExitos)
-                .ThenInclude(i => i.IndicadorEstrategicos.Where(c=>c.Responsable== idColaborador))
+                .ThenInclude(i => i.IndicadorEstrategicos.Where(c => c.Responsable == idColaborador))
                 .Include(y => y.Gestiones).FirstOrDefaultAsync();
         }
         public async Task<EstrategiaNacional> GetByIdxTacticoAsync(int estrategiaNacionalId, int idColaborador, int idReportaA)
@@ -60,13 +58,13 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
                 .ThenInclude(i => i.IndicadorEstrategicos)
                 .ThenInclude(p => p.Productos)
                 .ThenInclude(p => p.IndicadorPOAs)
-                .ThenInclude(a=>a.Actividades.Where(c => c.IdCargoResponsable == idColaborador))
+                .ThenInclude(a => a.Actividades.Where(c => c.IdCargoResponsable == idColaborador))
                 .Include(y => y.Gestiones)
                 .FirstOrDefaultAsync();
         }
         public async Task<List<EstrategiaNacional>> GetListAsync()
         {
-            return await _repository.Entities.Include(x=>x.ObjetivoEstrategicos).ToListAsync();
+            return await _repository.Entities.Include(x => x.ObjetivoEstrategicos).ToListAsync();
 
         }
 

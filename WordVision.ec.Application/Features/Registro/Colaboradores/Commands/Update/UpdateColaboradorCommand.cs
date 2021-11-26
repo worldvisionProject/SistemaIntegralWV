@@ -1,9 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -59,7 +56,7 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Upd
                     colaborador.Area = command.Area == 0 ? colaborador.Area : Convert.ToInt32(command.Area);
                     colaborador.LugarTrabajo = command.LugarTrabajo == 0 ? colaborador.LugarTrabajo : Convert.ToInt32(command.LugarTrabajo);
 
-                    colaborador.IdEstructura = Convert.ToInt32( command.IdEstructura)==0? colaborador.IdEstructura: Convert.ToInt32(command.IdEstructura);
+                    colaborador.IdEstructura = Convert.ToInt32(command.IdEstructura) == 0 ? colaborador.IdEstructura : Convert.ToInt32(command.IdEstructura);
 
                     await _colaboradorRepository.UpdateAsync(colaborador);
                     await _unitOfWork.Commit(cancellationToken);

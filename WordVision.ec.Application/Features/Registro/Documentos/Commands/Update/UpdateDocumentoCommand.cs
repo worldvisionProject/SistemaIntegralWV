@@ -1,9 +1,5 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -44,7 +40,7 @@ namespace WordVision.ec.Application.Features.Registro.Documentos.Commands.Update
                     documento.Descripcion = command.Descripcion ?? documento.Descripcion;
                     documento.DescripcionAcepto = command.DescripcionAcepto ?? documento.DescripcionAcepto;
                     documento.Estado = command.Estado ?? documento.Estado;
-                   
+
                     await _documentoRepository.UpdateAsync(documento);
                     await _unitOfWork.Commit(cancellationToken);
                     return Result<int>.Success(documento.Id);

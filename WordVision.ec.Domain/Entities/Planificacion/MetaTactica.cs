@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WordVision.ec.Domain.Contracts;
+﻿using WordVision.ec.Domain.Contracts;
 
 namespace WordVision.ec.Domain.Entities.Planificacion
 {
@@ -26,7 +21,7 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public decimal Valor { get; set; }
         public string Entregable { get; set; }
         public int IdIndicadorPOA { get; set; }
-        
+
         public IndicadorPOA IndicadorPOAs { get; set; }
     }
 }

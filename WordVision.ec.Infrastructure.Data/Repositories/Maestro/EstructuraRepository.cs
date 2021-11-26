@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Maestro;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -39,7 +37,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
 
         public async Task<List<Estructura>> GetListAsync()
         {
-            return await _repository.Entities.Where(p => p.Estado == 1).Include(c=>c.Colaboradores).ToListAsync();
+            return await _repository.Entities.Where(p => p.Estado == 1).Include(c => c.Colaboradores).ToListAsync();
         }
 
         public async Task<int> InsertAsync(Estructura estructura)

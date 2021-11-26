@@ -1,13 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Mail;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using AutoMapper;
-    
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -17,17 +9,17 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using MimeKit;
 using Newtonsoft.Json;
-
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Update;
-using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Formularios.Commands.Create;
 using WordVision.ec.Application.Features.Registro.Formularios.Commands.Update;
 using WordVision.ec.Application.Features.Registro.Formularios.Queries.GetById;
 using WordVision.ec.Application.Interfaces.Shared;
-using WordVision.ec.Web.Abstractions;
-using WordVision.ec.Web.Areas.Identity.Models;
 using WordVision.ec.Web.Areas.Registro.Models;
 using WordVision.ec.Web.Extensions;
 
@@ -53,7 +45,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
         private readonly ILogger<IndexModel> _logger;
         // private readonly ContactService _service;
 
-        public IndexModel(ILogger<IndexModel> logger,IConfiguration configuration, IEmailSender email,IWebHostEnvironment env,IMediator mediator, IMapper mapper, INotyfService notify)//ContactService service)
+        public IndexModel(ILogger<IndexModel> logger, IConfiguration configuration, IEmailSender email, IWebHostEnvironment env, IMediator mediator, IMapper mapper, INotyfService notify)//ContactService service)
         {
             // _service = service;
             _configuration = configuration;
@@ -72,7 +64,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                 .Assembly
                 .GetTypes()
                 .Where(t => !t.IsAbstract && typeof(StepViewModel).IsAssignableFrom(t))
-                .Select(t => (StepViewModel) Activator.CreateInstance(t))
+                .Select(t => (StepViewModel)Activator.CreateInstance(t))
                 .OrderBy(x => x.Position)
                 .ToList();
         }
@@ -92,7 +84,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                             formularioViewModel = new FormularioViewModel();
                             formularioViewModel.Id = 0;
                         }
-                        if (id!=0)
+                        if (id != 0)
                             formularioViewModel.IdColaborador = id;
                         LoadWizardData(formularioViewModel);
                     }
@@ -118,9 +110,9 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                     SetEmptyTempData();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                _logger.LogError(ex,"Error al traer datos del Colaborador.");
+                _logger.LogError(ex, "Error al traer datos del Colaborador.");
                 _notify.Error("Error al traer datos del Colaborador.");
             }
             return Page();
@@ -142,7 +134,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                 else
                 {
                     _notify.Error("Debe ingresar minimo dos Contactos.");
-             
+
 
                     return Page();
                 }
@@ -151,7 +143,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
             else
             {
                 JumpToStepAsync(currentStep, idStep);
-             return Page();
+                return Page();
             }
         }
 
@@ -161,7 +153,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
             if (currentStep.Position == 5)
             {
                 var c = (WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard.ContactosStep)currentStep;
-                
+
                 int num = c.NumContacto;
                 if (num >= 2)
                 {
@@ -175,13 +167,13 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
 
                     return Page();
                 }
-           
+
             }
             else
-            { 
+            {
 
-            if (ModelState.IsValid) MoveToNextStep(currentStep);
-            return Page();
+                if (ModelState.IsValid) MoveToNextStep(currentStep);
+                return Page();
             }
         }
 
@@ -211,7 +203,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
             //    ModelState.AddModelError("", "Firma obligatoria");
             //    return Page();
             //}
-            
+
 
             //_service.Save(client);
 
@@ -237,10 +229,10 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                         }
                         if (Request.Form.Files.Count > 0)
                         {
-                            for (int i = 0; i<  Request.Form.Files.Count;i++)
+                            for (int i = 0; i < Request.Form.Files.Count; i++)
                             {
                                 IFormFile file = Request.Form.Files[i];
-                                
+
                                 switch (Request.Form.Files[i].Name)
                                 {
                                     case "ImageCedula":
@@ -280,12 +272,12 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
 
 
                                 }
-                              
-                                
-                               
+
+
+
 
                             }
-                           
+
                         }
                         else
                         {
@@ -326,7 +318,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                         else _notify.Error(result.Message);
                     }
 
-                   // ACTAULZIA EN TABLA ACTIVE
+                    // ACTAULZIA EN TABLA ACTIVE
                     //UsuarioViewModel usr = new UsuarioViewModel();
                     //usr.UserNameRegular = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
                     //usr.ApellidoPaterno = client.ApellidoPaterno;
@@ -338,8 +330,8 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
 
                     //var updateUsuarioCommand = _mapper.Map<UpdateUsuarioCommand>(usr);
                     //var resultUsuario = await _mediator.Send(updateUsuarioCommand);
-                 
-                    return RedirectToAction("EnviarMail", "Formulario", new { Area = "Registro", idDocumento=0, idColaborador= client.IdColaborador });
+
+                    return RedirectToAction("EnviarMail", "Formulario", new { Area = "Registro", idDocumento = 0, idColaborador = client.IdColaborador });
                     //return RedirectToPage("Index", new { id = client.Id });
 
                 }
@@ -359,15 +351,15 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
 
 
 
-          
+
         }
 
         private void LoadWizardData(FormularioViewModel client)
         {
             TempData["ClientId"] = client.Id;
-            
+
             Steps = StepMapper.ToSteps(client).OrderBy(x => x.Position).ToList();
-            
+
             for (var i = 0; i < Steps.Count; i++)
             {
                 TempData.Set($"Step{i}", Steps[i]);
@@ -420,7 +412,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
                 _notify.Error($"Error ingrese nuevamenete al sistema.");
                 _logger.LogError($"Error en insertar los datos Formulario.", ex);
                 //var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", formulario);
-               
+
             }
 
         }
@@ -430,7 +422,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
             for (var i = 0; i < Steps.Count; i++)
             {
                 var data = TempData.Peek($"Step{i}");
-                JsonConvert.PopulateObject((string) data, Steps[i]);
+                JsonConvert.PopulateObject((string)data, Steps[i]);
             }
 
             Steps[CurrentStepIndex] = finalStep;
@@ -438,9 +430,9 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
             var contact = new FormularioViewModel();
             if (TempData.Peek("ClientId") != null)
             {
-                contact.Id = (int) TempData["ClientId"];
+                contact.Id = (int)TempData["ClientId"];
             }
-    
+
             StepMapper.EnrichClient(contact, Steps);
             return contact;
         }

@@ -1,9 +1,5 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -39,7 +35,7 @@ namespace WordVision.ec.Application.Features.Registro.Idiomas.Commands.Update
                 else
                 {
                     idioma.Nombre = command.Nombre ?? idioma.Nombre;
-                    idioma.Hablado = command.Hablado==0 ? idioma.Hablado:command.Hablado;
+                    idioma.Hablado = command.Hablado == 0 ? idioma.Hablado : command.Hablado;
                     idioma.Escrito = command.Escrito == 0 ? idioma.Escrito : command.Escrito;
 
                     await _idiomaRepository.UpdateAsync(idioma);

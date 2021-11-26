@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Domain.Entities.Soporte;
 
 namespace WordVision.ec.Application.Interfaces.Repositories.Soporte
 {
-     public interface IEmailRepository
+    public interface IEmailRepository
     {
         IQueryable<Email> solicitudes { get; }
 

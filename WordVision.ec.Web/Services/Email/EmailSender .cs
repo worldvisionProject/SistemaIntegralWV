@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
 using WordVision.ec.Application.DTOs.Mail;
 using WordVision.ec.Application.Interfaces.Shared;
 
@@ -35,23 +35,23 @@ namespace WordVision.ec.Web.Services.Email
                 correo.CC.Add(Options.Copia);
             return Cliente.SendMailAsync(correo);
         }
-        public Task SendEmailAsync(string email, string subject, string message,List<Attachment> adjunto)
+        public Task SendEmailAsync(string email, string subject, string message, List<Attachment> adjunto)
         {
             var correo = new MailMessage(from: Options.Email, to: email, subject: subject, body: message);
-            for (int i = 0;i<= adjunto.Count - 1; i++)
+            for (int i = 0; i <= adjunto.Count - 1; i++)
             {
                 correo.Attachments.Add(adjunto[i]);
             }
-            if (Options.Copia.Length!=0)
-                correo.CC.Add( Options.Copia);
+            if (Options.Copia.Length != 0)
+                correo.CC.Add(Options.Copia);
             correo.IsBodyHtml = true;
             return Cliente.SendMailAsync(correo);
         }
 
-        public Task SendEmailAsync(string email, string subject, string message,  string copia)
+        public Task SendEmailAsync(string email, string subject, string message, string copia)
         {
             var correo = new MailMessage(from: Options.Email, to: email, subject: subject, body: message);
-           
+
             if (copia.Length != 0)
                 correo.CC.Add(copia);
             correo.IsBodyHtml = true;
