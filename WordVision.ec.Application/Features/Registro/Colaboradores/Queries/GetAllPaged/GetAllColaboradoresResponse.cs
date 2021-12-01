@@ -15,5 +15,6 @@
         public int? Area { get; set; }
 
         public int? LugarTrabajo { get; set; }
+        public int Estado { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace WordVision.ec.Domain.Entities.Registro
 
         [StringLength(100)]
         public string Alias { get; set; }
-
+        public int Estado { get; set; }
 
         [ForeignKey("IdColaborador")]
         public ICollection<Respuesta> Respuestas { get; set; }

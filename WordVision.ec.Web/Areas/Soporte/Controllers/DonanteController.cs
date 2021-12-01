@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
+using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Application.Features.Soporte.Donantes.Commands.Create;
 using WordVision.ec.Application.Features.Soporte.Donantes.Commands.Update;
 using WordVision.ec.Application.Features.Soporte.Donantes.Queries.GetAllCached;
@@ -109,7 +111,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                 entidadViewModel.TipoCuentaList = tipoCuenta;
                 entidadViewModel.TipoTarjetaList = tipoTarjeta;
                 entidadViewModel.BancoList = banco;
-
+                entidadViewModel.FechaConversion = DateTime.Now;
 
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
@@ -148,6 +150,13 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
         {
             try
             {
+                if (entidad.EsAdmin!=null)
+                {
+                    var updateEntidadCommand = _mapper.Map<UpdateDonanteCommand>(entidad);
+                    var result = await _mediator.Send(updateEntidadCommand);
+                    if (result.Succeeded) _notify.Information($"Donante con ID {result.Data} Actualizado.");
+                }
+
                 if (ModelState.IsValid)
                 {
                     if (Request.Form.Files.Count > 0)
@@ -167,6 +176,8 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                         {
                             id = result.Data;
                             _notify.Success($"Donante con ID {result.Data} Creado.");
+
+                            await EnviarMail(result.Data, 1);
                         }
                         else _notify.Error(result.Message);
                     }
@@ -175,6 +186,10 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                         var updateEntidadCommand = _mapper.Map<UpdateDonanteCommand>(entidad);
                         var result = await _mediator.Send(updateEntidadCommand);
                         if (result.Succeeded) _notify.Information($"Donante con ID {result.Data} Actualizado.");
+                        if (entidad.ComentarioActualizacion.Length!=0 && entidad.ComentarioResolucion.Length == 0)
+                             await EnviarMail(result.Data, 2);
+                        else if (entidad.ComentarioResolucion.Length != 0)
+                            await EnviarMail(result.Data, 3);
                     }
 
                     var response = await _mediator.Send(new GetAllDonantesQuery());
@@ -241,6 +256,118 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
             return null;
         }
 
+
+        public async Task<ActionResult> EnviarMail(int idDonante, int estado)
+        {
+
+            DateTime fechaEnvio = DateTime.Now;
+            string primerNombre = "";
+            string segundoNombre = "";
+            string primerApellido = "";
+            string segundoApellido = "";
+            string fechaConversion = "";
+            string comentario = "";
+            string comentarioResponsable = "";
+            string email = "";
+            string celular = "";
+            string responsable = "";
+            string emailResponsable = "";
+
+            try
+            {
+                var response = await _mediator.Send(new GetDonantesByIdQuery() { Id = idDonante });
+                if (response.Succeeded)
+                {
+                    primerNombre = response.Data.Nombre1;
+                    segundoNombre = response.Data.Nombre2;
+                    primerApellido = response.Data.Apellido1;
+                    segundoApellido = response.Data.Apellido2;
+                    fechaConversion = response.Data.FechaConversion.ToString();
+                    email = response.Data.Email;
+                    celular = response.Data.TelefonoCelular;
+                    comentario = response.Data.ComentarioActualizacion;
+                    comentarioResponsable = response.Data.ComentarioResolucion;
+                    responsable = response.Data.CreatedBy;
+                }
+
+                var responseC = await _mediator.Send(new GetColaboradorByUserNameQuery() { UserName = responsable });
+                if (responseC.Succeeded)
+                {
+                    emailResponsable = responseC.Data.Email;
+                    responsable = responseC.Data.PrimerNombre + " " + responseC.Data.Apellidos;
+                }
+
+                string plantilla = "";
+                string asunto = "";
+                switch (estado)
+                {
+
+                    case 1:
+                        plantilla = "Donantes\\Nuevo.html";
+                        asunto = "Ingreso de nuevo donante: " + primerNombre +" "+ primerApellido;
+                        email = _configuration["DestinoDonante"];
+                        break;
+                    case 2:
+                        plantilla = "Donantes\\Devolucion.html";
+                        email = emailResponsable;
+                        asunto = "Realizar cambios en la información del donante " + primerNombre + " " + primerApellido;
+                        break;
+                    case 3:
+                        plantilla = "Donantes\\Realizacion.html";
+                        asunto = "Confirmación de cambios realizados " + primerNombre + " " + primerApellido;
+                        email = _configuration["DestinoDonante"];
+                        comentario = comentarioResponsable;
+                        break;
+
+                
+
+                }
+                //Get TemplateFile located at wwwroot/Templates/EmailTemplate/Register_EmailTemplate.html  
+                var pathToFile = _env.WebRootPath
+                        + Path.DirectorySeparatorChar.ToString()
+                        + "Templates"
+                        + Path.DirectorySeparatorChar.ToString()
+                        + "EmailTemplate"
+                        + Path.DirectorySeparatorChar.ToString()
+                        + plantilla;
+
+
+                var builder = new BodyBuilder();
+                using (StreamReader SourceReader = System.IO.File.OpenText(pathToFile))
+                {
+                    builder.HtmlBody = SourceReader.ReadToEnd();
+                }
+
+
+                string messageBody = string.Format(builder.HtmlBody,
+                    String.Format("{0:dddd, d MMMM yyyy}", fechaConversion),
+                    primerNombre+" "+segundoNombre + " " +primerApellido + " " +segundoApellido,
+                    email,
+                    celular,
+                    responsable,
+                    comentario,
+                    String.Format("{0:dddd, d MMMM yyyy}", DateTime.Now)
+                    );
+
+
+                await _emailSender
+                    .SendEmailAsync(email, asunto, messageBody)
+                    .ConfigureAwait(false);
+
+
+                _notify.Success($"Mail Enviado.");
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error en enviar Mail.");
+            }
+
+            //   return new JsonResult(new { isValid = true });
+            // return RedirectToPage("/Wizard/Index", new { area = "Registro" });
+            return null;
+        }
 
 
     }

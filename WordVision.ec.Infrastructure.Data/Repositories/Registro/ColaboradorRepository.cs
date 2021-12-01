@@ -38,7 +38,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
 
         public async Task<List<Colaborador>> GetByIdAreaAsync(int idArea)
         {
-            return await _repository.Entities.Where(p => p.Area == idArea).ToListAsync();
+            return await _repository.Entities.Where(p => p.Area == idArea && p.Estado==1).ToListAsync();
         }
 
         public async Task<Colaborador> GetByIdAsync(int colaboradorId)

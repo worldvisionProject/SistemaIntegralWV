@@ -64,6 +64,9 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Update
         public DateTime? FechaCaducidadBp { get; set; }
         public DateTime? FechaVencimiento { get; set; }
         public int? BancoBp { get; set; }
+        public int? EsAdmin { get; set; }
+        public string ComentarioActualizacion { get; set; }
+        public string ComentarioResolucion { get; set; }
 
         public class UpdateDonanteCommandHandler : IRequestHandler<UpdateDonanteCommand, Result<int>>
         {
@@ -89,7 +92,9 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Update
                 }
                 else
                 {
-                    Donante.EstadoDonante = command.EstadoDonante == 0 ? Donante.EstadoDonante : command.EstadoDonante;
+                    if (command.EsAdmin==null)
+                    {
+                        Donante.EstadoDonante = command.EstadoDonante == 0 ? Donante.EstadoDonante : command.EstadoDonante;
                     Donante.FrecuenciaDonacion = command.FrecuenciaDonacion == 0 ? Donante.FrecuenciaDonacion : command.FrecuenciaDonacion;
                     Donante.Cantidad = command.Cantidad == 0 ? Donante.Cantidad : command.Cantidad;
                     Donante.Campana = command.Campana == 0 ? Donante.Campana : command.Campana;
@@ -134,6 +139,14 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Update
                     Donante.NumeroTarjetaBp = command.NumeroTarjetaBp;
                     Donante.FechaCaducidadBp = command.FechaCaducidadBp;
                     Donante.BancoBp = command.BancoBp == 0 ? Donante.BancoBp : command.BancoBp;
+                        Donante.ComentarioResolucion = command.ComentarioResolucion;
+                    }
+                    else
+                    {
+                        Donante.ComentarioActualizacion = command.ComentarioActualizacion;
+                        
+                    }
+                       
 
                     await _donanteRepository.UpdateAsync(Donante);
 

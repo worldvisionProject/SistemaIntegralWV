@@ -70,6 +70,8 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
             var DireccionList = new SelectList(cat2.Data, "Secuencia", "Nombre");
             var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 8 });
             var DepartamentoList = new SelectList(cat3.Data, "Secuencia", "Nombre");
+            cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 1 });
+            var EstadoList = new SelectList(cat3.Data, "Secuencia", "Nombre");
 
             if (id == 0)
             {
@@ -108,6 +110,7 @@ namespace WordVision.ec.Web.Areas.Registro.Controllers
                     colaboradorViewModel.CargoList = CargoList;
                     colaboradorViewModel.AreaList = DepartamentoList;
                     colaboradorViewModel.LugarTrabajoList = DireccionList;
+                    colaboradorViewModel.EstadoList = EstadoList;
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", colaboradorViewModel) });
                 }
                 return null;

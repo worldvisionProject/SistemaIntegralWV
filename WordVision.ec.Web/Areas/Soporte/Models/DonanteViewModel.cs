@@ -109,7 +109,12 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? FechaVencimiento { get; set; }
         public int? BancoBp { get; set; }
+        [Display(Name = "Comentario Actualización")]
+        public string ComentarioActualizacion { get; set; }
+        [Display(Name = "Comentario Resolución")]
+        public string ComentarioResolucion { get; set; }
 
+        public int? EsAdmin { get; set; }
         public SelectList FormaPagoList { get; set; }
         public SelectList CanalList { get; set; }
         public SelectList ResponsableList { get; set; }

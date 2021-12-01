@@ -328,7 +328,7 @@
                 </li>
 
 
-                @if (User.IsInRole("DonanteEdicion") || User.IsInRole("DonantesVisualizacion"))
+                @if (User.IsInRole("DonanteEdicion") || User.IsInRole("DonantesVisualizacion")|| User.IsInRole("DonantesAdministrador"))
                 {
                     <li class="nav-header">@localizer["Marketing"]</li>
                     <li is-active-route asp-area="Soporte" class="nav-item has-treeview">

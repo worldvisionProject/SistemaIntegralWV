@@ -55,6 +55,7 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Queries.GetAllCach
         public DateTime? FechaCaducidadBp { get; set; }
         public DateTime? FechaVencimiento { get; set; }
         public int? BancoBp { get; set; }
-
+        public string ComentarioActualizacion { get; set; }
+        public string ComentarioResolucion { get; set; }
     }
 }

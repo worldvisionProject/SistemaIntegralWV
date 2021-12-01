@@ -28,7 +28,7 @@
             <div class="form-group row">
                 <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaConversion"></label>
-                    <input asp-for="FechaConversion" type="text" name="FechaConversion" class="datepicker form-control" />
+                    <input asp-for="FechaConversion" type="text" name="FechaConversion" class=" form-control" readonly />
                     <span asp-validation-for="FechaConversion" class="text-danger"></span>
                 </div>
 
@@ -478,15 +478,55 @@
 
         </div>
     </div>
+
+    @if (User.IsInRole("DonantesAdministrador") || @Model.ComentarioActualizacion!=null )
+    {
+        <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="ComentarioActualizacion"></label>
+                    <textarea asp-for="ComentarioActualizacion" name="ComentarioActualizacion" class="form-control" ></textarea>
+                    <span asp-validation-for="ComentarioActualizacion" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+
+    @if (!User.IsInRole("DonantesAdministrador") && @Model.ComentarioActualizacion!=null )
+    {
+        <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="ComentarioResolucion"></label>
+                    <textarea asp-for="ComentarioResolucion" name="ComentarioResolucion" class="form-control" ></textarea>
+                    <span asp-validation-for="ComentarioResolucion" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+   
+
     <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Donante.Create)).Result.Succeeded)
-        {<input type="hidden" value="false" name="band" id="band" />
+        {
+            <input type="hidden" value="false" name="band" id="band" />
             <button type="submit" class="btn btn-success">Guardar</button>
         }
         else
-        { <input type="hidden" value="true" name="band" id="band" />}
-        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+        { 
+             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Donante.Edit)).Result.Succeeded)
+            {
+                 <button type="submit" id="btnGuardar"  class="btn btn-success">Guardar</button>
+                 <input asp-for="EsAdmin" type="hidden" name="EsAdmin" value=1 class="form-control" />
+            }
+            <input type="hidden" value="true" name="band" id="band" />
+        }
+        <button type="submit" id="btnCancelar" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
     </div>
 </form>
 
@@ -498,6 +538,12 @@
       
         $('#FechaNacimiento').on('change', calcularEdad);
         $('#create-form *').prop('disabled', (document.getElementById("band").value == "true"));
+        $('#ComentarioActualizacion').removeAttr("disabled"); 
+        $('#EsAdmin').removeAttr("disabled"); 
+        $('#btnCancelar').removeAttr("disabled");
+        $('#btnGuardar').removeAttr("disabled");
+        $('#ComentarioResolucion').removeAttr("disabled"); 
+        
         $(".datepicker").datepicker({
             format: "dd-mm-yyyy",
             autoclose: true,

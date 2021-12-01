@@ -29,6 +29,9 @@ namespace WordVision.ec.Web.Areas.Registro.Models
         public string ActDocumentos { get; set; }
         public string ActDatos { get; set; }
         public string Nombres { get; set; }
+
+        public int Estado { get; set; }
+        public SelectList EstadoList { get; set; }
         public List<FormularioTerceroViewModel> FormularioTerceros { get; set; }
         //public virtual List<FormularioViewModel> Formularios { get; set; }
     }

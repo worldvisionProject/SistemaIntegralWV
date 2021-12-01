@@ -5,6 +5,7 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Queries.GetById
     public class GetDonantesByIdResponse
     {
         public int Id { get; set; }
+        public string CreatedBy { get; set; }
         public DateTime? FechaConversion { get; set; }
         public byte[] EvidenciaConversion { get; set; }
         public int Canal { get; set; }
@@ -54,5 +55,7 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Queries.GetById
         public DateTime? FechaCaducidadBp { get; set; }
         public DateTime? FechaVencimiento { get; set; }
         public int? BancoBp { get; set; }
+        public string ComentarioActualizacion { get; set; }
+        public string ComentarioResolucion { get; set; }
     }
 }

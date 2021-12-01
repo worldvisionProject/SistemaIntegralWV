@@ -56,6 +56,7 @@ namespace WordVision.ec.Domain.Entities.Soporte
         public DateTime? FechaVencimiento { get; set; }
         public int? BancoBp { get; set; }
 
-
+        public string ComentarioActualizacion { get; set; }
+        public string ComentarioResolucion { get; set; }
     }
 }
