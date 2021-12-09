@@ -298,7 +298,7 @@
                                 </p>
                             </a>
                         </li>
-                        @if (User.IsInRole("CoordMensajeria"))
+                        @if (User.IsInRole("CoordComunicacion"))
                         {
                             <li class="nav-item">
                                 <a is-active-route asp-area="Soporte" asp-controller="Comunicacion" asp-action="Index" asp-route-id="2" class="nav-link">
@@ -311,7 +311,7 @@
                             </li>
 
                         }
-                        @if (User.IsInRole("EjecutorMensajeria"))
+                        @if (User.IsInRole("EjecutorComunicacion"))
                         {
                             <li class="nav-item">
                                 <a is-active-route asp-area="Soporte" asp-controller="Comunicacion" asp-action="Index" asp-route-id="3" class="nav-link">

@@ -79,7 +79,7 @@
             </td>
 
             <td class="acciones-td">
-                <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Editar" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Soporte/Comunicacion/OnGetCreateOrEdit?id=@solicitud.Id&op=@ViewBag.Op','Solicitud de Mensajería- @UserManager.GetUserAsync(User).Result.FirstName @UserManager.GetUserAsync(User).Result.LastName @User.Claims.FirstOrDefault(x => x.Type == "Area")?.Value')">
+                <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Editar" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Soporte/Comunicacion/OnGetCreateOrEdit?id=@solicitud.Id&op=@ViewBag.Op','Solicitud de Comunicación- @UserManager.GetUserAsync(User).Result.FirstName @UserManager.GetUserAsync(User).Result.LastName @User.Claims.FirstOrDefault(x => x.Type == "Area")?.Value')">
                     <i class="fas fa-eye"></i>
                 </button>
 

@@ -1,14 +1,14 @@
-﻿
+﻿@using WordVision.ec.Infrastructure.Data.Identity.Models;
 @using WordVision.ec.Web.Areas.Soporte.Models
 @model SolicitudViewModel
-
+@inject UserManager<ApplicationUser> UserManager
 
     <div class="card">
         @if (@Model.IdAsignadoA == 1)
         {
         <div class="col-sm-12 header-button">
 
-            <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Soporte/Comunicacion/OnGetCreateOrEdit?id=0&op=1','Solicitud')">
+            <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Soporte/Comunicacion/OnGetCreateOrEdit?id=0&op=1','Solicitud de Comunicación-@UserManager.GetUserAsync(User).Result.FirstName @UserManager.GetUserAsync(User).Result.LastName @User.Claims.FirstOrDefault(x => x.Type == "Area")?.Value')">
                 <i class="fa fa-plus-square"></i>
                 Agregar
             </button>

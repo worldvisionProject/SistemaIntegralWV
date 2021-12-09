@@ -69,14 +69,15 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Soporte
 
         public async Task<List<Solicitud>> GetListSolicitudxEstadoAsync(int idEstado)
         {
-            return await _repository.Entities.Include(v => v.Colaboradores).Include(b => b.Mensajerias).ToListAsync();
+            return await _repository.Entities.Where(x => x.TipoSistema == 1)
+                .Include(v => v.Colaboradores).Include(b => b.Mensajerias).ToListAsync();
         }
 
         public async Task<List<Solicitud>> GetListSolicitudxSolicitanteComunicaAsync(int idSolicitante)
         {
             return await _repository.Entities.Where(x => x.IdColaborador == idSolicitante && x.TipoSistema == 2).Include(v => v.Colaboradores)
                 .Include(b => b.Comunicaciones)
-                .Include(p =>p.Comunicaciones.Ponentes)
+                .Include(p => p.Comunicaciones.Ponentes)
                 .Include(p => p.Comunicaciones.LogoSocios)
                 .ToListAsync();
 

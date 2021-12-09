@@ -45,8 +45,56 @@
                                 <div class="col-lg-6 d-none d-lg-block" style=" background: url('/images/estrategia-login.jpg');background-position: center;background-size: cover;"></div>
                                 <div class="col-lg-6">
                                     <div style="padding:3rem 3rem 3rem 3rem !important;">
+                                        
+
+                                        @{
+                                            if (Model.ExternalLogins.Count > 0)
+                                            {
+                                                                                <form method="post" id="formExterno" asp-route-returnUrl="@Model.ReturnUrl">
+                                                                                    @*<div class="form-group">
+                                                                                        <input asp-for="Input.UsuarioAd" type="text" class="form-control form-control-user" id="UsuarioAd" aria-describedby="UsuarioAd" placeholder="Ingrese Usuario Interno...">
+
+                                                                                    </div>*@
+                                                                                   
+                                                                                    <div class="login100-form-social flex-c-m">
+                                                                                        @foreach (var provider in Model.ExternalLogins)
+                                                        {
+
+
+                                                                                        <div class="col-md-12"><div class="text-center">
+                                            <h1 class="h4 text-gray-900 mb-4">@localizer["Haga clic para iniciar sesión"]</h1>
+                                        </div> <div class="text-center">
+                                            <h1 style="font-size: 12px;">@localizer[" * Al dar clic debes ingresar tu usuario y contraseña de red."]</h1>
+                                        </div>
+                                                                                            <button class="btn-block btn btn-microsoft btn-default-login" style="height:80px" type="submit" value="@Model.ReturnUrl"
+                                                                                                    title="Logear usando @provider.DisplayName" name="returnUrl" asp-page-handler="LogInWin">
+                                                                                                @*<img src="~/images/Ecuador_flag.png" />*@
+
+                                                                                                <i class="fab fa-windows fa-3x fa-align-left social-icon"></i> 
+                                                                                            </button>
+
+                                                                                           
+                                                                                        </div>
+                                                        }
+                                                                                    </div>
+
+
+                                                                                </form>
+                                            }
+                                        }
+                                         <br />
+                                        <hr>
+                                        @*<div class="text-center">
+                                            <a asp-area="Identity" asp-page="/Account/ExternalLogin" class="small">@localizer["Externo?"]</a>
+                                        </div>*@
+
+                                        <br />
+
                                         <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">@localizer["Ingrese sus datos"]</h1>
+                                            <h1 class="h4 text-gray-900">@localizer["Ingrese sus datos"]</h1>
+                                        </div>
+                                        <div class="text-center">
+                                            <h1 style="font-size: 12px;">@localizer[" * Si no tiene usuario de red"]</h1>
                                         </div>
                                         <form class="user" id="account" method="post">
                                             @*@User.Identity.Name*@
@@ -78,40 +126,7 @@
         </a>*@
                                         </form>
 
-                                        @{
-                                            if (Model.ExternalLogins.Count > 0)
-                                            {
-                                                                                <form method="post" id="formExterno" asp-route-returnUrl="@Model.ReturnUrl">
-                                                                                    @*<div class="form-group">
-                                                                                        <input asp-for="Input.UsuarioAd" type="text" class="form-control form-control-user" id="UsuarioAd" aria-describedby="UsuarioAd" placeholder="Ingrese Usuario Interno...">
 
-                                                                                    </div>*@
-                                                                                    <br />
-                                                                                    <div class="login100-form-social flex-c-m">
-                                                                                        @foreach (var provider in Model.ExternalLogins)
-                                                        {
-
-
-                                                                                        <div class="col-md-12">
-                                                                                            <button class="btn-block btn btn-microsoft" type="submit" value="@Model.ReturnUrl"
-                                                                                                    title="Logear usando @provider.DisplayName" name="returnUrl" asp-page-handler="LogInWin">
-                                                                                                <img src="~/images/Ecuador_flag.png" />
-
-                                                                                                <i class="fab fa-windows fa-align-left social-icon"></i> Windows
-                                                                                            </button>
-                                                                                        </div>
-                                                        }
-                                                                                    </div>
-
-
-                                                                                </form>
-                                            }
-                                        }
-
-                                        <hr>
-                                        @*<div class="text-center">
-                                            <a asp-area="Identity" asp-page="/Account/ExternalLogin" class="small">@localizer["Externo?"]</a>
-                                        </div>*@
 
                                         <div class="text-center">
                                             <a asp-area="Identity" asp-page="/Account/forgotpassword" class="small">@localizer["Olvidaste la Contraseña?"]</a>
