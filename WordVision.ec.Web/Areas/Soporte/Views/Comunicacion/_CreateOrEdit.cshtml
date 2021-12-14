@@ -755,39 +755,48 @@
 
 <script type="text/javascript" language=javascript>
 
-     $('#viewAllPonente').load('/Soporte/Comunicacion/LoadAllPonente?idComunicacion=@Model.Id');
+    // $('#viewAllPonente').load('/Soporte/Comunicacion/LoadAllPonente?idComunicacion=@Model.Id');
       
      $('input[type=file]').change(function(e) {
-    $in = $(this);
-    $in.next().html($in.val());
-    
+        $in = $(this);
+        $in.next().html($in.val());
     });
 
     $.validator.unobtrusive.parse(document);
-    $('#create-form').disableAutoFill();
-    $("#comentario").hide();
+     $(function () {
+        $('#create-form').disableAutoFill();
+        $("#comentario").hide();
   
         $("#divPonente").hide();
-         $("#divLogo").hide();
-          $("#presencialP").hide();
+        $("#divLogo").hide();
+        $("#presencialP").hide();
         $("#presencial").hide();
         $("#virtual").hide();
+
         cambiaTipoSolicitud();
-        $("#Comunicaciones_TipoSolicitud").change(function () {
+        $('body').on('selected','#Comunicaciones_TipoSolicitud', function()  {
+             alert( this.value );
             cambiaTipoSolicitud();
 
         });
-         
+        $('body').on('change','#Comunicaciones_TipoSolicitud', function()  {
+         //    alert( this.value );
+            cambiaTipoSolicitud();
+
+        });
+      });    
     
 
     function cambiaTipoSolicitud() {
-
+        
          var seleccionar = $("#Comunicaciones_TipoSolicitud option:selected").val();
                  $("#virtual").hide();
                  $("#presencial").hide();
                  $("#presencialP").hide();
                  $("#divPonente").hide();
                  $("#divLogo").hide();
+                
+
         switch (seleccionar) {
             case "1" :
               $("#virtual").show();
