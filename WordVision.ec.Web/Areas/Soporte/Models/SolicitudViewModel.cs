@@ -12,7 +12,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         public string CreatedBy { get; set; }
 
         [Display(Name = "Fecha de Solicitud")]
-        public DateTime? CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; }
         public string LastModifiedBy { get; set; }
         public DateTime? LastModifiedOn { get; set; }
         public int TipoSistema { get; set; }

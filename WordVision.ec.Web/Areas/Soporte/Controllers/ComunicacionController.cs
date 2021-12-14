@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.MetaTacticas.Commands.Delete;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Application.Features.Soporte.Ponentes.Queries.GetAll;
 using WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Create;
@@ -43,9 +44,6 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                     if (response.Succeeded)
                     {
                         var viewModel = _mapper.Map<List<SolicitudViewModel>>(response.Data);
-                        //var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 19 });
-                        //TempData["EstadoList"] = new SelectList(cat2.Data, "Secuencia", "Nombre");
-
                         return PartialView("_ViewAll", viewModel);
                     }
                     break;
@@ -536,6 +534,33 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
             }
             return null;
         }
+
+        public async Task<JsonResult> OnPostDelete(int id = 0,int idColaborador=0)
+        {
+            var deleteCommand = await _mediator.Send(new DeleteSolicitudCommand { Id = id });
+            if (deleteCommand.Succeeded)
+            {
+                _notify.Information($"Solicitud con Id {id} Eliminado.");
+               
+                var response1 = await _mediator.Send(new GetSolicitudByIdSolicitanteQuery() { Id = idColaborador, Tipo = 2 });
+                if (response1.Succeeded)
+                {
+                    var viewModel = _mapper.Map<List<SolicitudViewModel>>(response1.Data);
+                    var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                    html1 = html1.Replace("&op=", "&op=1");
+                    return new JsonResult(new { isValid = true, html = html1 });
+                }
+                else
+                    return new JsonResult(new { isValid = true });
+
+            }
+            else
+            {
+                _notify.Error(deleteCommand.Message);
+                return null;
+            }
+        }
+
 
     }
 }

@@ -53,7 +53,21 @@
 
     <div class="row">
         <div class="col-md-12">
+            <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-form-label texto-pregunta-bold">
 
+                                NOTA: 
+Los productos que el área de Comunicaciones entrega son: </label>
+<label class="col-md-12 col-form-label texto-pregunta-bold">- Invitación general con datos del evento&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Piezas gráficas con perfiles de cada ponente
+</label>
+<label class="col-md-12 col-form-label texto-pregunta-bold">- Video en loop de bienvenida para inicio del evento&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Video en loop de cierre/agradecimiento para final del evento
+</label>
+<label class="col-md-12 col-form-label texto-pregunta-bold">- Láminas con perfil de cada ponente para su presentación durante el evento
+                            </label>
+                          
+                        </div>
+                    </div>
 
             <input type="hidden" asp-for="Op" name="Op" class="form-control">
             <input type="hidden" asp-for="IdColaborador" name="IdColaborador" value="@Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value)" class="form-control">
@@ -525,7 +539,7 @@
                            <div class="col-md-12">
                                 <button type = "button" class="btn btn-primary"  onclick = "addFile ()" >
                                     <i class="fas fa-plus-square"></i>
-                                    Logos
+                                    Logos Socios Involucrados
                                 </button>
                             </div>
                        </div>
@@ -678,7 +692,7 @@
 
 
 <div class="modal fade" id="form-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">New message</h5>
@@ -888,6 +902,10 @@
         });
 
     $(function () {
+
+        $('#form-add').on('hidden.bs.modal', function (e) { 
+           $("body").addClass("modal-open") 
+        });
 
         $('#nivelsino').change(function () {
             if (this.checked) {
