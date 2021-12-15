@@ -343,7 +343,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
             catch (Exception ex)
             {
                 _notify.Error($"Error en insertar los datos.");
-                _logger.LogError($"Error en insertar los datos Formulario.", ex);
+                _logger.LogError(ex,$"Error en insertar los datos Formulario.");
                 //var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", formulario);
                 return new JsonResult(new { isValid = false });
             }
@@ -410,7 +410,7 @@ namespace WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard
             catch (Exception ex)
             {
                 _notify.Error($"Error ingrese nuevamenete al sistema.");
-                _logger.LogError($"Error en insertar los datos Formulario.", ex);
+                _logger.LogError(ex,$"Error en insertar los datos Formulario.");
                 //var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", formulario);
 
             }
