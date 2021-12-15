@@ -21,7 +21,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
     public class IndicadorCicloEstrategicoController : BaseController<ActividadController>
     {
-        public async Task<JsonResult> LoadIndicadores(int idEstrategia)
+        public async Task<ActionResult> LoadIndicadores(int idEstrategia)
         {
             try
             {
@@ -30,9 +30,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 {
                     var viewModel = _mapper.Map<List<IndicadorCicloEstrategicoViewModel>>(response.Data);
                     ViewBag.IdEstrategia = idEstrategia;
-                    var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
-                    return new JsonResult(new { isValid = true, html = html1 });
-
+                    //var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                    //return new JsonResult(new { isValid = true, html = html1 });
+                    return PartialView("_ViewAll", viewModel);
 
                 }
             }
