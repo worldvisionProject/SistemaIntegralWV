@@ -10,14 +10,17 @@ namespace WordVision.ec.Web.Areas.Registro.Validators
 
             RuleFor(p => p.Preexistencia)
             .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            .MaximumLength(1500).WithMessage("{PropertyName} no debe exceder  caracteres.")
             .NotNull();
 
             RuleFor(p => p.Alergias)
             .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            .MaximumLength(1500).WithMessage("{PropertyName} no debe exceder  caracteres.")
             .NotNull();
 
             RuleFor(p => p.TipoSangre)
             .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            .MaximumLength(5).WithMessage("{PropertyName} no debe exceder  caracteres.")
             .NotNull();
 
 
