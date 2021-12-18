@@ -6,18 +6,15 @@
 <form id="create-form" method="post" asp-controller="ProductoObjetivo" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
     @Html.HiddenFor(x=>x.IdObjetivoEstra)
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="form-group row">
                 <input type="hidden" asp-for="IdObjetivoEstra" name="IdObjetivoEstra" />
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <label class="col-md-12 col-form-label texto-pregunta">Producto</label>
-                    <input type="text" asp-for="Producto" name="Producto" class="form-control">
+                    <textarea asp-for="Producto" name="Producto" class="form-control"></textarea>
                     <span asp-validation-for="Producto" class="text-danger"></span>
                 </div>
-
-                
-
-            </div>
+             </div>
            
          </div>
     </div>

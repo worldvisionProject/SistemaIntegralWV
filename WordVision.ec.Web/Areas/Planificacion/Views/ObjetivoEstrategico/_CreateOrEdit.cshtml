@@ -70,99 +70,101 @@
                     </div>*@
 
             </div>
-
-            @*<div class="form-group row">
-                <div class="col-md-6">
-                    <div class="form-group row">
-                        <div class="col-md-12">
-                            <label class="col-md-12 col-form-label texto-pregunta">Programa Tecnico</label>*@
-                            @*@if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Edit)).Result.Succeeded)
-                                {
-                                    <textarea asp-for="Programa" name="Programa" class="form-control"></textarea>
-                                }
-                                else
-                                { <textarea asp-for="Programa" name="Programa" class="form-control" readonly></textarea>}*@
-                           @* @Html.DropDownListFor(x => x.Programa, Model.ProgramaList, new { @class = "form-control" })
-                            <span asp-validation-for="Programa" class="text-danger"></span>
+            @if (Model.Categoria==1)
+            {
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <label class="col-md-12 col-form-label texto-pregunta">Programa Tecnico</label>
+                                @*@if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Edit)).Result.Succeeded)
+                                    {
+                                        <textarea asp-for="Programa" name="Programa" class="form-control"></textarea>
+                                    }
+                                    else
+                                    { <textarea asp-for="Programa" name="Programa" class="form-control" readonly></textarea>}*@
+                                @Html.DropDownListFor(x => x.Programa, Model.ProgramaList, new { @class = "form-control" })
+                                <span asp-validation-for="Programa" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
 
-
-                </div>*@
-
-                @*<div class="col-md-6">
-                    <div class="form-group row">
-                        <div class="col-md-12">
-                            <label class="col-md-12 col-form-label texto-pregunta ">CWBO</label>*@
-                            @*@if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Edit)).Result.Succeeded)
-                                {
-                                    <textarea asp-for="Cwbo" name="Cwbo" class="form-control"></textarea>
-                                }
-                                else {<textarea asp-for="Cwbo" name="Cwbo" class="form-control" readonly></textarea> }*@
-                           @* @Html.DropDownListFor(x => x.Cwbo, Model.CwboList, new { @class = "form-control" })*@
-                           @* <span asp-validation-for="Cwbo" class="text-danger"></span>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <label class="col-md-12 col-form-label texto-pregunta ">CWBO</label>
+                               @* @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Edit)).Result.Succeeded)
+                                    {
+                                        <textarea asp-for="Cwbo" name="Cwbo" class="form-control"></textarea>
+                                    }
+                                    else {<textarea asp-for="Cwbo" name="Cwbo" class="form-control" readonly></textarea> }*@
+                                @Html.DropDownListFor(x => x.Cwbo, Model.CwboList, new { @class = "form-control" })
+                                <span asp-validation-for="Cwbo" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-
-
                 </div>
-            </div>*@
+            }
+            
 
 
 
         </div>
     </div>
 
-    <br />
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group row">
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id&categoria=2','Crear Objetivos Resultados')">
-                        <i class="fa fa-plus-square"></i>
-                        Agregar
-                    </button>
+    @if (Model.Categoria == 2)
+    {
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ProductoObjetivo/OnGetCreateOrEdit?id=0&idObjetivo=@Model.Id','Crear Producto')">
+                            <i class="fa fa-plus-square"></i>
+                            Agregar
+                        </button>
+                        <br>
+                        <table id="metasTableM" class="table table-striped  rwd-table" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
 
-                    <table id="metasTableM" class="table table-striped  rwd-table" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                               
-                                <th>Producto</th>
-                                <th class="text-right">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model.ProductoObjetivos != null)
-                            {
-
-                                @foreach (var producto in Model.ProductoObjetivos)
+                                    <th>Producto</th>
+                                    <th class="text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.ProductoObjetivos != null)
                                 {
-                                    <tr id="@producto.Id" class="rowdata">
-                                       
-                                        <td >
 
-                                            @producto.Producto
+                                    @foreach (var producto in Model.ProductoObjetivos)
+                                    {
+                                        <tr id="@producto.Id" class="rowdata">
 
-                                        </td>
-                                      
-                                       
-                                        <td class="text-right">
-                                            <button type="button" onclick="EliminaFila(@producto.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+                                            <td >
 
-                                        </td>
+                                                @producto.Producto
 
-                                    </tr>
+                                            </td>
+
+
+                                            <td class="text-right">
+                                                <button type="button" onclick="EliminaFila(@producto.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                                            </td>
+
+                                        </tr>
+                                    }
                                 }
-                            }
 
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
 
                 </div>
                 </div>
             </div>
         </div>
+    }
                     <br />
                     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
                         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
