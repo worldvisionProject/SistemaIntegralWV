@@ -20,7 +20,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         //public SelectList DimensionesList { get; set; }
         public virtual List<GestionViewModel> Gestiones { get; set; }
         public virtual List<ObjetivoEstrategicoViewModel> ObjetivoEstrategicos { get; set; }
-
+        public virtual List<IndicadorCicloEstrategicoViewModel> IndicadorCicloEstrategicos { get; set; }
         public string AnioGestion { get; set; }
         public string DescGestion { get; set; }
         public string EstadoGestion { get; set; }

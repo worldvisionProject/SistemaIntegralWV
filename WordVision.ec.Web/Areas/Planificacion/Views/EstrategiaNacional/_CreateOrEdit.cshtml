@@ -169,12 +169,12 @@
                                                         decimal logro = 0;
                                                         int i = 0;
                                                     }
-                                                    @if (Model.Gestiones != null)
+                                                    @if (Model.IndicadorCicloEstrategicos != null)
                                                     {
 
-                                                        @foreach (var gestion in Model.Gestiones.ToList())
+                                                        @foreach (var gestion in Model.IndicadorCicloEstrategicos.ToList())
                                                         {
-                                                            <div class="col-md-2">
+                                                           @* <div class="col-md-2">
                                                                 <label class="col-md-12 col-form-label texto-pregunta">@gestion.Anio</label>
                                                                 <input name="gestiones[@i].Meta" type="text" value="@gestion.Meta" class="form-control" />
                                                                 <label class="col-md-12 col-form-label texto-pregunta">Logro: @gestion.Anio</label>
@@ -183,20 +183,23 @@
 
                                                                 <input name="gestiones[@i].Id" id="@gestion.Id" value="@gestion.Id" type="hidden" />
 
-                                                            </div>
+                                                            </div>*@
                                                             valor = valor + Convert.ToDecimal(gestion.Meta);
                                                             logro = logro + Convert.ToDecimal(gestion.Logro);
                                                             i = i + 1;
                                                         }
                                                     }
 
-                                                    <div class="col-md-2">
+                                                    <div class="col-md-6">
                                                         <label class="col-md-12 col-form-label texto-pregunta">Meta Acumulada</label>
                                                         <input id="af1" type="text" value="@valor" readonly class="form-control" />
+                                                       
+                                                    </div>
+                                                     <div class="col-md-6">
+                                                       
                                                         <label class="col-md-12 col-form-label texto-pregunta">Logro Acumulada</label>
                                                         <input id="af11" type="text" value="@logro" readonly class="form-control" />
                                                     </div>
-
                                                 </div>
 
                                             </div>

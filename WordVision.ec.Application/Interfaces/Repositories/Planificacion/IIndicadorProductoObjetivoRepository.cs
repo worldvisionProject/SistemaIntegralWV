@@ -11,6 +11,8 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Planificacion
 
         Task<List<IndicadorProductoObjetivo>> GetListAsync();
         Task<IndicadorProductoObjetivo> GetByIdAsync(int id);
+
+        Task<List<IndicadorProductoObjetivo>> GetByIdProductoObjetivoAsync(int idProductoObjetivo);
         Task<int> InsertAsync(IndicadorProductoObjetivo entidad);
 
         Task UpdateAsync(IndicadorProductoObjetivo entidad);

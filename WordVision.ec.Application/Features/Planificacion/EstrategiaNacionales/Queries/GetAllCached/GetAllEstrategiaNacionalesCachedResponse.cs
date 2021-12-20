@@ -18,5 +18,6 @@ namespace WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.
         public string Indicador { get; set; }
         public virtual List<Gestion> Gestiones { get; set; }
         public virtual List<ObjetivoEstrategico> ObjetivoEstrategicos { get; set; }
+        public virtual List<IndicadorCicloEstrategico> IndicadorCicloEstrategicos { get; set; }
     }
 }

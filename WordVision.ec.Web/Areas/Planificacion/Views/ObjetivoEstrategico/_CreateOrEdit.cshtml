@@ -112,59 +112,7 @@
         </div>
     </div>
 
-    @if (Model.Categoria == 2)
-    {
-        <br />
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group row">
-                    <div class="col-md-12">
-                        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ProductoObjetivo/OnGetCreateOrEdit?id=0&idObjetivo=@Model.Id','Crear Producto')">
-                            <i class="fa fa-plus-square"></i>
-                            Agregar
-                        </button>
-                        <br>
-                        <table id="metasTableM" class="table table-striped  rwd-table" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-
-                                    <th>Producto</th>
-                                    <th class="text-right">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (Model.ProductoObjetivos != null)
-                                {
-
-                                    @foreach (var producto in Model.ProductoObjetivos)
-                                    {
-                                        <tr id="@producto.Id" class="rowdata">
-
-                                            <td >
-
-                                                @producto.Producto
-
-                                            </td>
-
-
-                                            <td class="text-right">
-                                                <button type="button" onclick="EliminaFila(@producto.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
-
-                                            </td>
-
-                                        </tr>
-                                    }
-                                }
-
-
-                            </tbody>
-                        </table>
-
-                </div>
-                </div>
-            </div>
-        </div>
-    }
+   
                     <br />
                     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
                         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)

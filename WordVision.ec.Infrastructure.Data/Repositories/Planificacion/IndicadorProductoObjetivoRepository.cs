@@ -31,6 +31,11 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
             return await _repository.Entities.Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
+        public async Task<List<IndicadorProductoObjetivo>> GetByIdProductoObjetivoAsync(int idProductoObjetivo)
+        {
+            return await _repository.Entities.Where(c=>c.IdProductoObjetivo== idProductoObjetivo).ToListAsync();
+        }
+
         public async Task<List<IndicadorProductoObjetivo>> GetListAsync()
         {
             return await _repository.Entities.ToListAsync();

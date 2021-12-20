@@ -15,8 +15,15 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrate
     {
         public int Id { get; set; }
         public string IndicadorCiclo { get; set; }
+        public decimal? Meta { get; set; }
+        public decimal? Logro { get; set; }
+        public int AnioFiscal { get; set; }
         public int IdEstrategia { get; set; }
-        public ICollection<MetaCicloEstrategico> MetaCicloEstrategicos { get; set; }
+        public int TipoIndicador { get; set; }
+        public int CodigoIndicador { get; set; }
+        public int UnidadMedida { get; set; }
+        public string ActorParticipante { get; set; }
+        //public ICollection<MetaCicloEstrategico> MetaCicloEstrategicos { get; set; }
         public class UpdateIndicadorCicloEstrategicoCommandHandler : IRequestHandler<UpdateIndicadorCicloEstrategicoCommand, Result<int>>
         {
             private readonly IUnitOfWork _unitOfWork;
@@ -42,7 +49,13 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrate
 
                 obj.IndicadorCiclo = command.IndicadorCiclo;
                 obj.IdEstrategia = command.IdEstrategia;
-
+                obj.AnioFiscal = command.AnioFiscal;
+                obj.Meta = command.Meta;
+                obj.Logro = command.Logro;
+                obj.TipoIndicador = command.TipoIndicador;
+                obj.CodigoIndicador = command.CodigoIndicador;
+                obj.UnidadMedida = command.UnidadMedida;
+                obj.ActorParticipante = command.ActorParticipante;
 
                 await _entidadRepository.UpdateAsync(obj);
 

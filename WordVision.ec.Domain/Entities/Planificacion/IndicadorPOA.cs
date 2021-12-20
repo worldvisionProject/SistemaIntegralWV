@@ -28,7 +28,7 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public string Codigo { get; set; }
         public int Tipo { get; set; }
         public int Actor { get; set; }
-
+       
         public int IdProducto { get; set; }
         public Producto Productos { get; set; }
 

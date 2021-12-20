@@ -15,9 +15,14 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorProductoObje
 
         public int Id { get; set; }
         public string Indicador { get; set; }
-
+        public decimal? Meta { get; set; }
+        public decimal? Logro { get; set; }
         public int AnioFiscal { get; set; }
         public int IdProductoObjetivo { get; set; }
+        public int TipoIndicador { get; set; }
+        public int CodigoIndicador { get; set; }
+        public int UnidadMedida { get; set; }
+        public string ActorParticipante { get; set; }
         public ProductoObjetivo ProductoObjetivos { get; set; }
         public class UpdateIndicadorProductoObjetivoCommandHandler : IRequestHandler<UpdateIndicadorProductoObjetivoCommand, Result<int>>
         {
@@ -44,7 +49,11 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorProductoObje
 
                 obj.Indicador = command.Indicador;
                 obj.AnioFiscal = command.AnioFiscal;
-                obj.IdProductoObjetivo = command.IdProductoObjetivo;
+                obj.IdProductoObjetivo = command.IdProductoObjetivo; 
+                obj.TipoIndicador = command.TipoIndicador;
+                obj.CodigoIndicador = command.CodigoIndicador;
+                obj.UnidadMedida = command.UnidadMedida;
+                obj.ActorParticipante = command.ActorParticipante;
 
                 await _entidadRepository.UpdateAsync(obj);
                 await _unitOfWork.Commit(cancellationToken);
