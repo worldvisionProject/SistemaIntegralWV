@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="CacheRepositories\Identity\IdentityCacheRepository.cs" />
+    <Compile Remove="CacheRepositories\Valoracion\ObjetivoCacheRepository.cs" />
     <Compile Remove="Contexts\ActiveContext.cs" />
     <Compile Remove="Contexts\PresupuestoDbContext.cs" />
     <Compile Remove="Migrations\RegistroDb\20210504040335_InitialMigration.cs" />

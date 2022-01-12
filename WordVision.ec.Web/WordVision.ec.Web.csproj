@@ -2278,7 +2278,7 @@
     <Folder Include="Areas\Maestro\Validators\" />
     <Folder Include="Areas\Presupuesto\Validators\" />
     <Folder Include="Areas\Registro\Views\Tercero\" />
-    <Folder Include="Areas\Valoracion\Models\" />
+    <Folder Include="Areas\Valoracion\Validators\" />
     <Folder Include="Logs\" />
     <Folder Include="wwwroot\Logs\" />
     <Folder Include="wwwroot\Upload\" />

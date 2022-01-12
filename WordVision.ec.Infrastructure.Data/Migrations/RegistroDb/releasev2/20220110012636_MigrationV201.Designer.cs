@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
-namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
+namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220110012636_MigrationV201")]
+    partial class MigrationV201
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2698,10 +2700,10 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("FechaFin")
+                    b.Property<DateTime>("FechaFin")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("FechaInicio")
+                    b.Property<DateTime>("FechaInicio")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("IdColaborador")
@@ -2716,10 +2718,10 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal?>("Meta")
+                    b.Property<decimal>("Meta")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal?>("Ponderacion")
+                    b.Property<decimal>("Ponderacion")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -2742,7 +2744,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("IdResponsabilidad")
+                    b.Property<int?>("IdObjetivo")
                         .HasColumnType("int");
 
                     b.Property<string>("Indicador")
@@ -2764,7 +2766,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdResponsabilidad");
+                    b.HasIndex("IdObjetivo");
 
                     b.ToTable("Responsabilidad");
                 });
@@ -2782,9 +2784,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdObjetivoAnioFiscal")
-                        .HasColumnType("int");
-
                     b.Property<string>("Indicador")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -2799,12 +2798,15 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ObjetivoAnioFiscalesId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Tipo")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdObjetivoAnioFiscal");
+                    b.HasIndex("ObjetivoAnioFiscalesId");
 
                     b.ToTable("Resultados", "valoracion");
                 });
@@ -3182,16 +3184,14 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Valoracion.Objetivo", null)
                         .WithMany("Responsabilidades")
-                        .HasForeignKey("IdResponsabilidad");
+                        .HasForeignKey("IdObjetivo");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.Resultado", b =>
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Valoracion.ObjetivoAnioFiscal", "ObjetivoAnioFiscales")
-                        .WithMany("Resultados")
-                        .HasForeignKey("IdObjetivoAnioFiscal")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("ObjetivoAnioFiscalesId");
 
                     b.Navigation("ObjetivoAnioFiscales");
                 });
@@ -3330,11 +3330,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Navigation("ObjetivoAnioFiscales");
 
                     b.Navigation("Responsabilidades");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.ObjetivoAnioFiscal", b =>
-                {
-                    b.Navigation("Resultados");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.Resultado", b =>

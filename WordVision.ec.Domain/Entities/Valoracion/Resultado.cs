@@ -17,9 +17,10 @@ namespace WordVision.ec.Domain.Entities.Valoracion
         public string Indicador { get; set; }
         [Required]
         public int Tipo { get; set; }
-        //public ObjetivoAnioFiscal ObjetivoAnioFiscales { get; set; }
+        public int IdObjetivoAnioFiscal { get; set; }
+        public ObjetivoAnioFiscal ObjetivoAnioFiscales { get; set; }
 
-        //[ForeignKey("IdResultado")]
-        //public ICollection<PlanificacionResultado> PlanificacionResultados { get; set; }
+        [ForeignKey("IdResultado")]
+        public ICollection<PlanificacionResultado> PlanificacionResultados { get; set; }
     }
 }

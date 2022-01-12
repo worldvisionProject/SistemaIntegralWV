@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
-namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
+namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220112155623_MigrationV206")]
+    partial class MigrationV206
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2785,6 +2787,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<int>("IdObjetivoAnioFiscal")
                         .HasColumnType("int");
 
+                    b.Property<int?>("IdResultado")
+                        .HasColumnType("int");
+
                     b.Property<string>("Indicador")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -2804,7 +2809,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdObjetivoAnioFiscal");
+                    b.HasIndex("IdResultado");
 
                     b.ToTable("Resultados", "valoracion");
                 });
@@ -3189,9 +3194,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Valoracion.ObjetivoAnioFiscal", "ObjetivoAnioFiscales")
                         .WithMany("Resultados")
-                        .HasForeignKey("IdObjetivoAnioFiscal")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdResultado");
 
                     b.Navigation("ObjetivoAnioFiscales");
                 });

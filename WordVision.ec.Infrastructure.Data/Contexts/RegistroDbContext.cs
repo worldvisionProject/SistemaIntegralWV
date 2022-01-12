@@ -12,6 +12,7 @@ using WordVision.ec.Domain.Entities.Planificacion;
 using WordVision.ec.Domain.Entities.Presupuesto;
 using WordVision.ec.Domain.Entities.Registro;
 using WordVision.ec.Domain.Entities.Soporte;
+using WordVision.ec.Domain.Entities.Valoracion;
 
 namespace WordVision.ec.Infrastructure.Data.Contexts
 {
@@ -147,6 +148,16 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
                .ToTable("LogoSocios", "soporte");
             builder.Entity<Ponente>()
                .ToTable("Ponentes", "soporte");
+
+            builder.Entity<Objetivo>()
+              .ToTable("Objetivos", "valoracion");
+            builder.Entity<ObjetivoAnioFiscal>()
+             .ToTable("ObjetivoAnioFiscales", "valoracion");
+            builder.Entity<Resultado>()
+             .ToTable("Resultados", "valoracion");
+            builder.Entity<PlanificacionResultado>()
+             .ToTable("PlanificacionResultados", "valoracion");
+
 
             //builder.Entity<Colaborador>().HasMany(m => m.Formularios)
             //     .WithOne(c => c.Colaboradores)

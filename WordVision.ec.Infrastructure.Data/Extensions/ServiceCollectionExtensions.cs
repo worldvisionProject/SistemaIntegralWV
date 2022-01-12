@@ -5,6 +5,7 @@ using WordVision.ec.Application.Interfaces.CacheRepositories;
 
 using WordVision.ec.Application.Interfaces.CacheRepositories.Maestro;
 using WordVision.ec.Application.Interfaces.CacheRepositories.Planificacion;
+using WordVision.ec.Application.Interfaces.CacheRepositories.Valoracion;
 using WordVision.ec.Application.Interfaces.Contexts;
 using WordVision.ec.Application.Interfaces.Repositories.Log;
 using WordVision.ec.Application.Interfaces.Repositories.Maestro;
@@ -12,10 +13,12 @@ using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Presupuesto;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Application.Interfaces.Repositories.Soporte;
+using WordVision.ec.Application.Interfaces.Repositories.Valoracion;
 using WordVision.ec.Infrastructure.Data.CacheRepositories;
 
 using WordVision.ec.Infrastructure.Data.CacheRepositories.Maestro;
 using WordVision.ec.Infrastructure.Data.CacheRepositories.Planificacion;
+using WordVision.ec.Infrastructure.Data.CacheRepositories.Valoracion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 using WordVision.ec.Infrastructure.Data.Repositories.Log;
 using WordVision.ec.Infrastructure.Data.Repositories.Maestro;
@@ -24,6 +27,7 @@ using WordVision.ec.Infrastructure.Data.Repositories.Planificacion;
 using WordVision.ec.Infrastructure.Data.Repositories.Presupuesto;
 using WordVision.ec.Infrastructure.Data.Repositories.Registro;
 using WordVision.ec.Infrastructure.Data.Repositories.Soporte;
+using WordVision.ec.Infrastructure.Data.Repositories.Valoracion;
 
 namespace WordVision.ec.Infrastructure.Data.Extensions
 {
@@ -106,6 +110,11 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<IPersonalRepository, PersonalRepository>();
             services.AddTransient<IPonenteRepository, PonenteRepository>();
             services.AddTransient<IDonanteRepository, DonanteRepository>();
+
+            services.AddTransient<IObjetivoRepository, ObjetivoRepository>();
+            services.AddTransient<IResultadoRepository, ResultadoRepository>();
+            services.AddTransient<IResultadoCacheRepository, ResultadoCacheRepository>();
+            services.AddTransient<IPlanificacionResultadoRepository, PlanificacionResultadoRepository>();
 
             #endregion Repositories
         }

@@ -22,7 +22,7 @@ namespace WordVision.ec.Domain.Entities.Valoracion
         [ForeignKey("IdObjetivo")]
         public ICollection<ObjetivoAnioFiscal> ObjetivoAnioFiscales { get; set; }
 
-        [ForeignKey("IdObjetivo")]
+        [ForeignKey("IdResponsabilidad")]
         public ICollection<Responsabilidad> Responsabilidades { get; set; }
 
     }

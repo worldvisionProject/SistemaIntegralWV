@@ -1,0 +1,155 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WordVision.ec.Web.Areas.Valoracion.Models
+@using WordVision.ec.Infrastructure.Data.Identity.Models;
+@model List<ObjetivoResponseViewModel>
+@inject UserManager<ApplicationUser> UserManager
+
+
+@foreach (var objetivo in Model)
+        {
+             <br />
+            <div  style="background-color:#EC7D31; height: 60px;color:beige; padding: 20px 10px 20px 10px;">@objetivo.Numero @objetivo.NombreObjetivo @objetivo.Descripcion
+
+            <button type="button" class="btn btn-primary" id="btnViewModel@objetivo.Numero" onclick="jQueryModalGet('/Soporte/Comunicacion/OnGetCreateOrEdit?id=0&op=1','Solicitud de Comunicación-@UserManager.GetUserAsync(User).Result.FirstName @UserManager.GetUserAsync(User).Result.LastName @User.Claims.FirstOrDefault(x => x.Type == "Area")?.Value')">
+                <i class="fa fa-plus-square"></i>
+                
+            </button>
+
+        </div>
+@foreach (var anio in objetivo.AnioFiscales)
+        {
+<table id="valoracionTable" class="table table-striped " width="100%" cellspacing="0">
+    <thead>
+        <tr>
+
+            <th style="background-color:#F9D6BF;" width="30%">Resultado Esperado</th>
+            <th data-priority="1" style="background-color:#F9D6BF;" width="20%">Indicador Cumplimiento</th>
+            <th data-priority="1" style="background-color:#F9D6BF;" width="5%">Tipo(#,%;$)</th>
+            <th data-priority="1" style="background-color:#70AD47;" width="5%">Meta</th>
+            <th data-priority="1" style="background-color:#91CE4F;" width="10%">Fecha Inicio</th>
+            <th data-priority="1" style="background-color:#91CE4F;" width="10%">Fecha Fin</th>
+            <th data-priority="1" style="background-color:#91CE4F;" width="10%">Ponderación Objetivo especifico</th>
+            <th data-priority="1" style="background-color:#FEFE00;" width="10%">Ponderación Resultado</th>
+          
+
+            <th data-priority="2" class="acciones-th">Acciones</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var planificacion in anio.PlanificacionResultados)
+        {
+        <tr>
+            <td>
+                @planificacion.Nombre
+            </td>
+            <td>
+                @planificacion.Indicador
+            </td>
+            <td>
+                
+                @switch (planificacion.Tipo)
+                {
+                    case 13:<span class="badge badge-primary">$</span> break;
+                    case 28:<span class="badge badge-warning">%</span> break;
+                    case 29:<span class="badge badge-warning">#</span> break;
+                }
+            </td>
+            <td>
+
+                @planificacion.Meta
+            </td>
+            <td>
+               @if (planificacion.FechaInicio!=null)
+                {
+                                @planificacion.FechaInicio.Value.ToShortDateString();
+                            }
+               
+            </td>
+            <td>
+                @if (planificacion.FechaFin!=null)
+                {
+                                @planificacion.FechaFin.Value.ToShortDateString();
+                            }
+                
+            </td>
+            <td>
+                    @planificacion.Ponderacion
+                </td>
+            <td>
+            
+                   @planificacion.Ponderacion
+                
+            </td>
+           
+
+            <td class="acciones-td">
+           
+                <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Editar" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=@planificacion.IdPlanificacion&idColaborador=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value&idObjetivo=@objetivo.IdObjetivo&idObjetivoAnioFiscal=@anio.Id&idResultado=@planificacion.IdResultado','Objetivos')">
+                    <i class="fas fa-eye"></i>
+                </button>
+
+                @*<button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/OnGetCreateOrEdit?id=0&idProducto=@producto.Id&idGestion=@Model.IdGestion&idIndicadorEstrategia=@Model.Id','Indicador de Producto')">
+                <i class="fas fa-plus-square"></i>
+            </button>*@
+            </td>
+
+
+
+
+
+        </tr>
+        }
+    </tbody>
+</table>
+}}
+<script>
+
+    $(document).ready(function () {
+        var table = $("#solicitudTable").DataTable({
+            //aoColumnDefs: [
+            //    { "aTargets": [0], "bSortable": true },
+            //    { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            //],
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },
+            dom: 'Bfrtip',
+            //buttons: [
+            //    'copyHtml5',
+            //    'excelHtml5',
+            //    'csvHtml5',
+            //    'pdfHtml5'
+            //],
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 }
+            ],
+            "info": false
+            //columnDefs: [
+            //    { responsivePriority: 1, targets: 0 },
+            //    { responsivePriority: 10001, targets: 4 },
+            //    { responsivePriority: 2, targets: -2 }
+            //]
+        });
+
+        //var column = table.column(0);
+        //// Toggle the visibility
+        //column.visible(false);
+
+
+
+        $('#solicitudTable tbody').on('dblclick', 'tr', function () {
+            var data = table.row(this).data();
+
+            jQueryModalGet('/Soporte/Comunicacion/OnGetCreateOrEdit?id=' + data[0], 'Solicitud');
+
+
+        });
+
+        /*  $(".dynmic-hidden-col").hide();*/
+
+    });
+</script>
