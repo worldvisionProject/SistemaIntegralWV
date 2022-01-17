@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WordVision.ec.Domain.Entities.Valoracion;
 
 namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Queries.GetById
 {
@@ -20,5 +21,6 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
         public DateTime? FechaFin { get; set; }
 
         public decimal? Ponderacion { get; set; }
+        public Resultado Resultados { get; set; }
     }
 }

@@ -46,11 +46,20 @@ namespace WordVision.ec.Web
         {
             services.AddLogging(loggingBuilder =>
           loggingBuilder.AddSerilog(dispose: true));
-            services.AddRazorPages().AddJsonOptions(option =>
-                  option.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
+            services.AddRazorPages().AddJsonOptions(x =>
+            {
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                x.JsonSerializerOptions.MaxDepth = 256;
+                x.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            }
+                  );
 
             services.AddControllers().AddJsonOptions(x =>
-               x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+            {
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                x.JsonSerializerOptions.MaxDepth = 256;
+            }
+               ) ;
 
             //services.AddControllersWithViews()
             //        .AddNewtonsoftJson(options =>

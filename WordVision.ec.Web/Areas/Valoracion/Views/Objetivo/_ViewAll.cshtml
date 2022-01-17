@@ -4,32 +4,47 @@
 @model List<ObjetivoResponseViewModel>
 @inject UserManager<ApplicationUser> UserManager
 
-
+<div class="row">
+    <div class="col-md-12">
+        <label class="col-md-12 col-form-label texto-pregunta" style="color:#666666">Para mantener Nuestra Promesa</label>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <label class="col-md-12 col-form-label texto-pregunta" style="color:#EC7D31">Establecer 3-5 objetivos de Desempeño para este año - CLARIDAD</label>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <label class="col-md-12 col-form-label texto-pregunta">Incluya tanto el QUÉ <font style="color:#2ED4E0">(Resultado)</font> como el CÓMO <font style="color:#2ED4E0">(mentalidades y comportamientos)</font> se lograrán los objetivos. Utiliza los hitos para considerar cómo vas a hacer un seguimiento del progreso a lo largo del año, al menos trimestralmente*.</label>
+    </div>
+</div>
 @foreach (var objetivo in Model)
         {
              <br />
-            <div  style="background-color:#EC7D31; height: 60px;color:beige; padding: 20px 10px 20px 10px;">@objetivo.Numero @objetivo.NombreObjetivo @objetivo.Descripcion
-
-            <button type="button" class="btn btn-primary" id="btnViewModel@objetivo.Numero" onclick="jQueryModalGet('/Soporte/Comunicacion/OnGetCreateOrEdit?id=0&op=1','Solicitud de Comunicación-@UserManager.GetUserAsync(User).Result.FirstName @UserManager.GetUserAsync(User).Result.LastName @User.Claims.FirstOrDefault(x => x.Type == "Area")?.Value')">
+            <div  style="background-color:#EC7D31; height: 60px;color:beige; padding: 5px 10px 20px 10px;">
+                <label class="col-md-12 col-form-label texto-pregunta">Descripción de objetivo @objetivo.Numero: @objetivo.NombreObjetivo </label>
+                <label class="col-md-12 col-form-label texto-pregunta">@objetivo.Descripcion</label>
+            @*<button type="button" class="btn btn-primary" id="btnViewModel@objetivo.Numero" onclick="jQueryModalGet('/Soporte/Comunicacion/OnGetCreateOrEdit?id=0&op=1','Solicitud de Comunicación-@UserManager.GetUserAsync(User).Result.FirstName @UserManager.GetUserAsync(User).Result.LastName @User.Claims.FirstOrDefault(x => x.Type == "Area")?.Value')">
                 <i class="fa fa-plus-square"></i>
                 
             </button>
-
+*@
         </div>
 @foreach (var anio in objetivo.AnioFiscales)
         {
-<table id="valoracionTable" class="table table-striped " width="100%" cellspacing="0">
+<table id="@objetivo.Numero"  class="table table-bordered " width="100%" cellspacing="0">
     <thead>
         <tr>
 
             <th style="background-color:#F9D6BF;" width="30%">Resultado Esperado</th>
             <th data-priority="1" style="background-color:#F9D6BF;" width="20%">Indicador Cumplimiento</th>
             <th data-priority="1" style="background-color:#F9D6BF;" width="5%">Tipo(#,%;$)</th>
-            <th data-priority="1" style="background-color:#70AD47;" width="5%">Meta</th>
-            <th data-priority="1" style="background-color:#91CE4F;" width="10%">Fecha Inicio</th>
-            <th data-priority="1" style="background-color:#91CE4F;" width="10%">Fecha Fin</th>
-            <th data-priority="1" style="background-color:#91CE4F;" width="10%">Ponderación Objetivo especifico</th>
-            <th data-priority="1" style="background-color:#FEFE00;" width="10%">Ponderación Resultado</th>
+            <th data-priority="1" style="background-color:#2ED4E0;" width="5%">Meta</th>
+            <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Fecha Inicio</th>
+            <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Fecha Fin</th>
+            <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Ponderación Objetivo especifico</th>
+            <th data-priority="1" style="background-color:#F9D6BF;" width="10%">Ponderación Resultado</th>
           
 
             <th data-priority="2" class="acciones-th">Acciones</th>
@@ -77,17 +92,20 @@
             <td>
                     @planificacion.Ponderacion
                 </td>
-            <td>
+            <td style="
+      vertical-align: middle;
+    
+">
             
-                   @planificacion.Ponderacion
+                   @anio.Ponderacion
                 
             </td>
            
 
             <td class="acciones-td">
            
-                <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Editar" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=@planificacion.IdPlanificacion&idColaborador=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value&idObjetivo=@objetivo.IdObjetivo&idObjetivoAnioFiscal=@anio.Id&idResultado=@planificacion.IdResultado','Objetivos')">
-                    <i class="fas fa-eye"></i>
+                <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Editar" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=@planificacion.IdPlanificacion&idColaborador=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value&idObjetivo=@objetivo.IdObjetivo&idObjetivoAnioFiscal=@anio.Id&idResultado=@planificacion.IdResultado&anioFiscal=@anio.AnioFiscal','Objetivos')">
+                    <i class="fas fa-edit"></i>
                 </button>
 
                 @*<button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/OnGetCreateOrEdit?id=0&idProducto=@producto.Id&idGestion=@Model.IdGestion&idIndicadorEstrategia=@Model.Id','Indicador de Producto')">
@@ -107,32 +125,54 @@
 <script>
 
     $(document).ready(function () {
-        var table = $("#solicitudTable").DataTable({
-            //aoColumnDefs: [
-            //    { "aTargets": [0], "bSortable": true },
-            //    { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
-            //],
+        var table = $("#1").DataTable({
+aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "bFilter": false ,
+               "bLengthChange" : false,"bPaginate": false,
             "language": {
                 "url": "/lib/datatables/language/Spanish.json"
             },
-            dom: 'Bfrtip',
-            //buttons: [
-            //    'copyHtml5',
-            //    'excelHtml5',
-            //    'csvHtml5',
-            //    'pdfHtml5'
+            'rowsGroup': [7],
+            "info": false,"length":false
+        });
+         var table = $("#2").DataTable({
+            //aoColumnDefs: [
+            // { "visible": false, "targets": 0 }
             //],
-            responsive: true,
-            columnDefs: [
-                { responsivePriority: 1, targets: 0 },
-                { responsivePriority: 2, targets: -1 }
-            ],
-            "info": false
-            //columnDefs: [
-            //    { responsivePriority: 1, targets: 0 },
-            //    { responsivePriority: 10001, targets: 4 },
-            //    { responsivePriority: 2, targets: -2 }
-            //]
+            "bFilter": false ,
+               "bLengthChange" : false,"bPaginate": false,
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },
+            'rowsGroup': [7],
+            "info": false,"length":false
+        });
+         var table = $("#3").DataTable({
+            //aoColumnDefs: [
+            // { "visible": false, "targets": 0 }
+            //],
+            "bFilter": false ,
+               "bLengthChange" : false,"bPaginate": false,
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },
+            'rowsGroup': [7],
+            "info": false,"length":false
+        });
+         var table = $("#4").DataTable({
+            //aoColumnDefs: [
+            // { "visible": false, "targets": 0 }
+            //],
+            "bFilter": false ,
+               "bLengthChange" : false,"bPaginate": false,
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },
+            'rowsGroup': [7],
+            "info": false,"length":false
         });
 
         //var column = table.column(0);
@@ -141,10 +181,10 @@
 
 
 
-        $('#solicitudTable tbody').on('dblclick', 'tr', function () {
+        $('#valoracionTable tbody').on('dblclick', 'tr', function () {
             var data = table.row(this).data();
 
-            jQueryModalGet('/Soporte/Comunicacion/OnGetCreateOrEdit?id=' + data[0], 'Solicitud');
+            jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=' + data[0], 'Solicitud');
 
 
         });

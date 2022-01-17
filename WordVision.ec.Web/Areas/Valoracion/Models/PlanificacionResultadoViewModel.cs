@@ -38,5 +38,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public DateTime? FechaFin { get; set; }
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string Ponderacion { get; set; }
+
+        public ResultadoViewModel Resultados { get; set; }
     }
 }

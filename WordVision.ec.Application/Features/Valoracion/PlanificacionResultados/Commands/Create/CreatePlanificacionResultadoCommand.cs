@@ -26,7 +26,7 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
         public DateTime? FechaFin { get; set; }
 
         public decimal? Ponderacion { get; set; }
-        public Resultado Resultados { get; set; }
+        //public Resultado Resultados { get; set; }
     }
     public class CreatePlanificacionResultadoCommandHandler : IRequestHandler<CreatePlanificacionResultadoCommand, Result<int>>
     {
@@ -45,11 +45,11 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
 
         public async Task<Result<int>> Handle(CreatePlanificacionResultadoCommand request, CancellationToken cancellationToken)
         {
-            var objEntidad = _mapper.Map<PlanificacionResultado>(request);
-            await _entidadRepository.InsertAsync(objEntidad);
+            var planificacion = _mapper.Map<PlanificacionResultado>(request);
+            await _entidadRepository.InsertAsync(planificacion);
 
             await _unitOfWork.Commit(cancellationToken);
-            return Result<int>.Success(objEntidad.Id);
+            return Result<int>.Success(planificacion.Id);
         }
 
     }

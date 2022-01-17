@@ -2,10 +2,13 @@
 @using WordVision.ec.Web.Areas.Valoracion.Models
 @model PlanificacionResultadoViewModel
 
-<form id="create-form" method="post" asp-controller="Objetivo" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+<form id="create-form" method="post" asp-controller="Objetivo" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" asp-route-idAnioFiscal="@Model." onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
 
-
+<input type="hidden" asp-for="Resultados.Id" name="Resultados.Id"  class="form-control">
            
+           <input type="hidden" asp-for="Resultados.ObjetivoAnioFiscales.AnioFiscal" name="Resultados.ObjetivoAnioFiscales.AnioFiscal"  class="form-control">
+           <input type="hidden" asp-for="IdResultado" name="IdResultado"  class="form-control">
+           <input type="hidden" asp-for="Resultados.ObjetivoAnioFiscales.IdObjetivo" name="Resultados.ObjetivoAnioFiscales.IdObjetivo"  class="form-control">
             <input type="hidden" asp-for="IdColaborador" name="IdColaborador" value="@Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value)" class="form-control">
            
                     <div class="form-group row">
@@ -21,7 +24,7 @@
             <div class="form-group row">
                 <div class="col-md-2">
                     <label class="col-md-12 col-form-label texto-pregunta">Meta</label>
-                    <input asp-for="Meta" name="Meta" class="form-control"  />
+                    <input asp-for="Meta" type="text" name="Meta" class="form-control"  />
                     <span asp-validation-for="Meta" class="text-danger"></span>
                 </div>
                  <div class="col-md-4">
@@ -35,8 +38,8 @@
                     <span asp-validation-for="FechaFin" class="text-danger"></span>
                 </div>
                  <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta">Ponderación</label>
-                    <input asp-for="Ponderacion" name="Ponderacion" class="form-control"  />
+                    <label class="col-md-12 col-form-label texto-pregunta">Ponderación resultado</label>
+                    <input asp-for="Ponderacion" type="text" name="Ponderacion" class="form-control"  />
                     <span asp-validation-for="Ponderacion" class="text-danger"></span>
                 </div>
             </div>
@@ -54,7 +57,7 @@
 
 
 <script type="text/javascript" language=javascript>
-
+      $.validator.unobtrusive.parse(document);
    $(".datepicker").datepicker({
                                 format: "dd-mm-yyyy",
             autoclose: true,

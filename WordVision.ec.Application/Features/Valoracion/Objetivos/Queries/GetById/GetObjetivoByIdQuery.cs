@@ -7,7 +7,7 @@ using WordVision.ec.Application.Features.Planificacion.Actividades.Queries.GetBy
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Valoracion;
 
-namespace WordVision.ec.Application.Features.Planificacion.Objetivoes.Queries.GetById
+namespace WordVision.ec.Application.Features.Valoracion.Objetivos.Queries.GetById
 {
     public class GetObjetivoByIdQuery : IRequest<Result<GetObjetivoByIdResponse>>
     {

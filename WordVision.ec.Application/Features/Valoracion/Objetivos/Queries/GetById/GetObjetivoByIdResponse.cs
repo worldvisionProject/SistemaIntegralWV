@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using WordVision.ec.Domain.Entities.Planificacion;
+using WordVision.ec.Domain.Entities.Valoracion;
 
 namespace WordVision.ec.Application.Features.Planificacion.Actividades.Queries.GetById
 {
@@ -15,5 +16,6 @@ namespace WordVision.ec.Application.Features.Planificacion.Actividades.Queries.G
         public string Descripcion { get; set; }
         [Required]
         public int Estado { get; set; }
+        public ICollection<ObjetivoAnioFiscal> ObjetivoAnioFiscales { get; set; }
     }
 }

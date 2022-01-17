@@ -13,6 +13,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Valoracion
         IQueryable<PlanificacionResultado> planificacionResultados { get; }
 
         Task<List<PlanificacionResultado>> GetListAsync();
+        Task<List<PlanificacionResultado>> GetListxObjetivoAsync(int idObjetivo);
         Task<List<ObjetivoResponse>> GetListxObjetivoxColaboradorAsync(int idAnioFiscal, int idColaborador);
         Task<PlanificacionResultado> GetByIdAsync(int planificacionResultadoId);
         Task<int> InsertAsync(PlanificacionResultado planificacionResultado);

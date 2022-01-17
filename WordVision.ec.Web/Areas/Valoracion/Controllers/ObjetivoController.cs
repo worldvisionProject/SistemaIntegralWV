@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update;
+using WordVision.ec.Application.Features.Valoracion.Objetivos.Queries.GetById;
 using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Commands.Create;
 using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Queries.GetById;
@@ -27,11 +28,11 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
         }
 
 
-        public async Task<IActionResult> LoadAll(int idAnioFiscal)
+        public async Task<IActionResult> LoadAll(int idAnioFiscal,int idColaborador)
         {
             try
             {
-                var response = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdObjetivo = idAnioFiscal, IdColaborador = 1 });
+                var response = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = idAnioFiscal, IdColaborador = idColaborador });
                 if (response.Succeeded)
                 {
                         var viewModel = _mapper.Map<List<ObjetivoResponseViewModel>>(response.Data);
@@ -46,15 +47,22 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
             
             return null;     
         }
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idColaborador = 0,int idObjetivo=0,int idObjetivoAnioFiscal=0, int idResultado = 0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idColaborador = 0,int idObjetivo=0,int idObjetivoAnioFiscal=0, int idResultado = 0,int anioFiscal=0)
         {
             try
             {
                 if (id == 0)
                 {
                     var entidadViewModel = new PlanificacionResultadoViewModel();
+                    var resultadoViewModel = new ResultadoViewModel();
+                    var anioFiscalViewModel = new ObjetivoAnioFiscalViewModel();
+                    anioFiscalViewModel.AnioFiscal = anioFiscal;
+                    anioFiscalViewModel.IdObjetivo = idObjetivo;
+                    resultadoViewModel.ObjetivoAnioFiscales = anioFiscalViewModel;
+                    resultadoViewModel.Id = idResultado;
                     entidadViewModel.IdColaborador = idColaborador;
-                    entidadViewModel.IdResultado = idResultado; 
+                    entidadViewModel.IdResultado = idResultado;
+                    entidadViewModel.Resultados= resultadoViewModel;
                     var entidadModelResultado = await _mediator.Send(new GetAllResultadosCachedQuery() { IdObjetivo = idObjetivo, IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
                     entidadViewModel.IdResultadoList = new SelectList(entidadModelResultado.Data, "Id", "Nombre");
 
@@ -88,8 +96,24 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
             {
                 
                 if (ModelState.IsValid)
-                {                    
-
+                {  var planifica = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoQuery() { IdObjetivo = entidad.Resultados.ObjetivoAnioFiscales.IdObjetivo });
+                   var d= planifica.Data.Where(b=>b.Id!=id).ToList();
+                    decimal suma = 0;
+                    decimal ponderaObjetivo = 0;
+                    foreach (var i in d)
+                    {
+                        suma = suma + Convert.ToDecimal( i.Ponderacion);
+                         ponderaObjetivo = i.Resultados.ObjetivoAnioFiscales.Ponderacion;
+                    }
+                    var total = suma + Convert.ToDecimal(entidad.Ponderacion);
+                  
+                    if (total > ponderaObjetivo)
+                    {
+                        
+                        _notify.Error("La suma de la ponderación de resultado no pude ser mayor a la Ponderacion de Objetivo " + ponderaObjetivo.ToString());
+                       
+                        return new JsonResult(new { isValid = false });
+                    }
                     if (id == 0)
                     {
                       
@@ -111,7 +135,15 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     }
 
 
-                   
+                    var response = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = entidad.Resultados.ObjetivoAnioFiscales.AnioFiscal, IdColaborador = entidad.IdColaborador });
+                    if (response.Succeeded)
+                    {
+                        var viewModel = _mapper.Map<List<ObjetivoResponseViewModel>>(response.Data);
+                        var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                        return new JsonResult(new { isValid = true, html = html1 });
+
+
+                    }
 
 
                 }

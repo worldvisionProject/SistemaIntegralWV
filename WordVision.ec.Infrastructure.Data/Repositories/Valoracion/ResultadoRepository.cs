@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WordVision.ec.Application.DTOs.Valoracion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Application.Interfaces.Repositories.Valoracion;
 using WordVision.ec.Domain.Entities.Valoracion;
@@ -44,12 +45,19 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                .Include(x => x.PlanificacionResultados).ToListAsync();
         }
 
-        public async Task<List<Resultado>> GetListxAnioAsync(int idObjetivoAnioFiscal, int idObjetivo)
+        public async Task<List<ResultadoResponse>> GetListxAnioAsync(int idObjetivoAnioFiscal, int idObjetivo)
         {
-            return await _repository.Entities
-                 
-                 .Where(c => c.IdObjetivoAnioFiscal == idObjetivoAnioFiscal)
-                 .ToListAsync();
+            var newsDtoList = _repository.Entities.Where(c => c.IdObjetivoAnioFiscal == idObjetivoAnioFiscal)
+          .Select(x => new ResultadoResponse
+          {
+              Id = x.Id,
+              Nombre = x.Nombre,
+              Indicador = x.Indicador,
+              Tipo = x.Tipo
+
+          }).ToListAsync();
+
+            return await newsDtoList;
         }
     
 

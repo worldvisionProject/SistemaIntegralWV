@@ -17,11 +17,13 @@ namespace WordVision.ec.Web.Areas.Valoracion.Mappings
             CreateMap<GetAllResultadosCachedResponse, ResultadoViewModel>().ReverseMap();
             CreateMap<Resultado, ResultadoViewModel>().ReverseMap();
             CreateMap<ObjetivoResponse, ObjetivoResponseViewModel>().ReverseMap();
+            CreateMap<ObjetivoAnioFiscal, ObjetivoAnioFiscalViewModel>().ReverseMap();
 
-            CreateMap<WordVision.ec.Application.DTOs.Valoracion.ObjetivoAnioFiscalResponse,WordVision.ec.Web.Areas.Valoracion.Models.ObjetivoAnioFiscalResponse>().ReverseMap();
+            CreateMap<WordVision.ec.Application.DTOs.Valoracion.ObjetivoAnioFiscalResponse, WordVision.ec.Web.Areas.Valoracion.Models.ObjetivoAnioFiscalResponse>().ReverseMap();
             CreateMap<WordVision.ec.Application.DTOs.Valoracion.PlanificacionResultadoResponse, WordVision.ec.Web.Areas.Valoracion.Models.PlanificacionResultadoResponse>().ReverseMap();
+            CreateMap<WordVision.ec.Application.DTOs.Valoracion.ResultadoResponse, WordVision.ec.Application.Features.Valoracion.Resultados.Queries.GetAllCached.GetAllResultadosCachedResponse>().ReverseMap();
 
-             CreateMap<GetPlanificacionResultadoByIdResponse, PlanificacionResultadoViewModel>().ReverseMap();
+            CreateMap<GetPlanificacionResultadoByIdResponse, PlanificacionResultadoViewModel>().ReverseMap();
             CreateMap<PlanificacionResultadoViewModel, PlanificacionResultado>().ReverseMap();
 
             CreateMap<CreatePlanificacionResultadoCommand, PlanificacionResultadoViewModel>().ReverseMap();

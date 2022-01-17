@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WordVision.ec.Application.DTOs.Valoracion;
 using WordVision.ec.Application.Interfaces.CacheRepositories.Valoracion;
 using WordVision.ec.Application.Interfaces.Repositories.Valoracion;
 using WordVision.ec.Domain.Entities.Valoracion;
@@ -37,10 +38,10 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories.Valoracion
             return resultado;
         }
 
-        public async Task<List<Resultado>> GetCachedListAsync(int idObjetivoAnioFiscal, int idObjetivo)
+        public async Task<List<ResultadoResponse>> GetCachedListAsync(int idObjetivoAnioFiscal, int idObjetivo)
         {
             string cacheKey = ResultadoCacheKey.ListKey;
-            var resultadoList = await _distributedCache.GetAsync<List<Resultado>>(cacheKey+ idObjetivoAnioFiscal.ToString()+ idObjetivo.ToString());
+            var resultadoList = await _distributedCache.GetAsync<List<ResultadoResponse>>(cacheKey+ idObjetivoAnioFiscal.ToString()+ idObjetivo.ToString());
             if (resultadoList == null)
             {
                 resultadoList = await _resultadoRepository.GetListxAnioAsync(idObjetivoAnioFiscal, idObjetivo);
