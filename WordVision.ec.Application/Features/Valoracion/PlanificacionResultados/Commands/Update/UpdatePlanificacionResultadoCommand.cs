@@ -27,6 +27,10 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
         public DateTime? FechaFin { get; set; }
 
         public decimal? Ponderacion { get; set; }
+        public string DatoManual1 { get; set; }
+
+        public string DatoManual2 { get; set; }
+        public int DatoManual3 { get; set; }
         public Resultado Resultados { get; set; }
         public class UpdatePlanificacionResultadoCommandHandler : IRequestHandler<UpdatePlanificacionResultadoCommand, Result<int>>
         {
@@ -55,7 +59,10 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                 obj.FechaInicio = command.FechaInicio;
                 obj.FechaFin = command.FechaFin;
                 obj.Ponderacion = command.Ponderacion;
-               
+                obj.DatoManual1 = command.DatoManual1;
+                obj.DatoManual2 = command.DatoManual2;
+                obj.DatoManual3 = command.DatoManual3;
+
                 await _entidadRepository.UpdateAsync(obj);
 
 

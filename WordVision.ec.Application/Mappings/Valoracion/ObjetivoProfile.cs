@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Planificacion.Actividades.Queries.GetById;
-using WordVision.ec.Application.Features.Valoracion.Objetivos.Queries.GetAllCached;
+
+using WordVision.ec.Application.Features.Valoracion.Objetivos.Queries.GetById;
 using WordVision.ec.Domain.Entities.Valoracion;
 
 namespace WordVision.ec.Application.Mappings.Valoracion
@@ -14,8 +15,8 @@ namespace WordVision.ec.Application.Mappings.Valoracion
     {
         public ObjetivoProfile()
         {
-            CreateMap<GetObjetivoByIdResponse, Objetivo>().ReverseMap();
-            CreateMap<GetAllObjetivosCachedResponse, Objetivo>().ReverseMap();
+            CreateMap<GetObjetivoPonderacionResponse, ObjetivoAnioFiscal>().ReverseMap();
+           
         }
     }
 }

@@ -685,6 +685,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                         logindetails.Nivel = colaborador.Estructuras?.Nivel ?? 0;
                         logindetails.ReportaA = colaborador.CodReportaA;
                         logindetails.IdEmpresa = colaborador.Estructuras?.Empresas.Id ?? 3;
+                        logindetails.IdEstrutura = colaborador.Estructuras?.Id ?? 0;
 
                         var responsef = await _mediator.Send(new GetFormularioByIdQuery() { Id = idColabora });
                         if (responsef.Succeeded)
@@ -742,6 +743,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                 claims.Add(new Claim("IdEmpresa", logindetails.IdEmpresa.ToString()));
                 claims.Add(new Claim("Nivel", logindetails.Nivel.ToString()));
                 claims.Add(new Claim("ReportaA", logindetails.ReportaA.ToString()));
+                claims.Add(new Claim("IdEstructura", logindetails.IdEstrutura.ToString()));
                 // await _signInManager.SignInWithClaimsAsync(user, new AuthenticationProperties() { IsPersistent = false }, claims);
 
                 var result = await _userManager.RemoveClaimsAsync(user, claims);

@@ -11,7 +11,13 @@ namespace WordVision.ec.Domain.Entities.Valoracion
     public class PlanificacionHito : AuditableEntity
     {
         [Required]
-        public int IdHito { get; set; }
+        public int IdPlanificacion { get; set; }
+        [Required]
+        public string Nombre { get; set; }
+        [Required]
+        public string Indicador { get; set; }
+        [Required]
+        public int Tipo { get; set; }
         [Required]
         public decimal Meta { get; set; }
         [Required]
@@ -19,6 +25,6 @@ namespace WordVision.ec.Domain.Entities.Valoracion
         [Required]
         public DateTime FechaFin { get; set; }
       
-        public Hito Hitos { get; set; }
+        public PlanificacionResultado PlanificacionResultados { get; set; }
     }
 }

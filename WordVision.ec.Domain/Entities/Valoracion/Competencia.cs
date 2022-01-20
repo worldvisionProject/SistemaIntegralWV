@@ -12,9 +12,15 @@ namespace WordVision.ec.Domain.Entities.Valoracion
     public class Competencia : AuditableEntity
     {
         [Required]
+        public int IdNivel { get; set; }
+        [Required]
+        public string NombreCompetencia { get; set; }
+        [Required]
+        public string Comportamiento { get; set; }
+        [Required]
         public int IdCompetencia { get; set; }
         [Required]
-        public int Comportamiento { get; set; }
+        public int Padre { get; set; }
         //[Required]
         //public int Tipo { get; set; }
         //public ObjetivoAnioFiscal ObjetivoAnioFiscales { get; set; }

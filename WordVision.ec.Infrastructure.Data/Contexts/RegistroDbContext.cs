@@ -158,6 +158,12 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             builder.Entity<PlanificacionResultado>()
              .ToTable("PlanificacionResultados", "valoracion");
 
+            builder.Entity<PlanificacionHito>()
+            .ToTable("PlanificacionHitos", "valoracion");
+            builder.Entity<Competencia>()
+           .ToTable("Competencias", "valoracion");
+            builder.Entity<Responsabilidad>()
+           .ToTable("Responsabilidades", "valoracion");
 
             //builder.Entity<Colaborador>().HasMany(m => m.Formularios)
             //     .WithOne(c => c.Colaboradores)

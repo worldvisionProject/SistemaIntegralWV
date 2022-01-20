@@ -2611,6 +2611,47 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.ToTable("Solicitudes", "soporte");
                 });
 
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.Competencia", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comportamiento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdCompetencia")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdNivel")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NombreCompetencia")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Padre")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Competencias", "valoracion");
+                });
+
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.Objetivo", b =>
                 {
                     b.Property<int>("Id")
@@ -2685,6 +2726,55 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.ToTable("ObjetivoAnioFiscales", "valoracion");
                 });
 
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.PlanificacionHito", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaFin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdPlanificacion")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Indicador")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Meta")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Tipo")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdPlanificacion");
+
+                    b.ToTable("PlanificacionHitos", "valoracion");
+                });
+
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.PlanificacionResultado", b =>
                 {
                     b.Property<int>("Id")
@@ -2697,6 +2787,15 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("DatoManual1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DatoManual2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DatoManual3")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("FechaFin")
                         .HasColumnType("datetime2");
@@ -2742,7 +2841,10 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("IdResponsabilidad")
+                    b.Property<int>("IdEstructura")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdResponsabilidad")
                         .HasColumnType("int");
 
                     b.Property<string>("Indicador")
@@ -2759,14 +2861,15 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Padre")
+                        .HasColumnType("int");
+
                     b.Property<int>("Tipo")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdResponsabilidad");
-
-                    b.ToTable("Responsabilidad");
+                    b.ToTable("Responsabilidades", "valoracion");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.Resultado", b =>
@@ -2800,6 +2903,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Tipo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TipoObjetivo")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -3167,6 +3273,17 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Navigation("Objetivos");
                 });
 
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.PlanificacionHito", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Valoracion.PlanificacionResultado", "PlanificacionResultados")
+                        .WithMany("PlanificacionHitos")
+                        .HasForeignKey("IdPlanificacion")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PlanificacionResultados");
+                });
+
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.PlanificacionResultado", b =>
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Valoracion.Resultado", "Resultados")
@@ -3176,13 +3293,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .IsRequired();
 
                     b.Navigation("Resultados");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.Responsabilidad", b =>
-                {
-                    b.HasOne("WordVision.ec.Domain.Entities.Valoracion.Objetivo", null)
-                        .WithMany("Responsabilidades")
-                        .HasForeignKey("IdResponsabilidad");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.Resultado", b =>
@@ -3328,13 +3438,16 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.Objetivo", b =>
                 {
                     b.Navigation("ObjetivoAnioFiscales");
-
-                    b.Navigation("Responsabilidades");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.ObjetivoAnioFiscal", b =>
                 {
                     b.Navigation("Resultados");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.PlanificacionResultado", b =>
+                {
+                    b.Navigation("PlanificacionHitos");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.Resultado", b =>

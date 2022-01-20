@@ -12,6 +12,7 @@ namespace WordVision.ec.Application.Features.Valoracion.Resultados.Queries.GetAl
         public string Nombre { get; set; }
         public string Indicador { get; set; }
         public int Tipo { get; set; }
+        public int TipoObjetivo { get; set; }
         public int IdObjetivoAnioFiscal { get; set; }
     }
 }

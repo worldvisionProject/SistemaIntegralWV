@@ -14,6 +14,7 @@ namespace WordVision.ec.Application.DTOs.Valoracion
         public string Indicador { get; set; }
        
         public int Tipo { get; set; }
+        public int TipoObjetivo { get; set; }
         public int IdObjetivoAnioFiscal { get; set; }
     }
 }

@@ -6,46 +6,276 @@
 
 <input type="hidden" asp-for="Resultados.Id" name="Resultados.Id"  class="form-control">
            
-           <input type="hidden" asp-for="Resultados.ObjetivoAnioFiscales.AnioFiscal" name="Resultados.ObjetivoAnioFiscales.AnioFiscal"  class="form-control">
-           <input type="hidden" asp-for="IdResultado" name="IdResultado"  class="form-control">
+           <input type="hidden" asp-for="Resultados.TipoObjetivo" name="Resultados.TipoObjetivo"  class="form-control">
+           <input type="hidden" asp-for="Resultados.IdObjetivoAnioFiscal" name="Resultados.IdObjetivoAnioFiscal"  class="form-control">
            <input type="hidden" asp-for="Resultados.ObjetivoAnioFiscales.IdObjetivo" name="Resultados.ObjetivoAnioFiscales.IdObjetivo"  class="form-control">
+            <input type="hidden" asp-for="Resultados.ObjetivoAnioFiscales.AnioFiscal" name="Resultados.ObjetivoAnioFiscales.AnioFiscal"  class="form-control">
+            <input type="hidden" asp-for="Resultados.ObjetivoAnioFiscales.Id" name="Resultados.ObjetivoAnioFiscales.Id"  class="form-control">
             <input type="hidden" asp-for="IdColaborador" name="IdColaborador" value="@Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value)" class="form-control">
-           
-                    <div class="form-group row">
-                        <div class="col-md-6">
-                            <label class="col-md-12 col-form-label texto-pregunta">Resultado</label>
-                            @Html.DropDownListFor(x => x.IdResultado, (IEnumerable<SelectListItem>)Model.IdResultadoList, new { @class = "form-control" })
-
-                            <span asp-validation-for="IdResultado" class="text-danger"></span>
-                        </div>
+     @if (Model.Resultados.TipoObjetivo==5 || Model.Resultados.TipoObjetivo==6|| Model.Resultados.TipoObjetivo==7)
+    {
+         <input asp-for="Meta" type="hidden" name="Meta" value="0" class="form-control"  />
+          <input asp-for="Ponderacion" type="hidden" name="Ponderacion" value="0" class="form-control"  />
+          <input asp-for="FechaInicio" type="hidden" name="FechaInicio" value="01-01-2022" class="form-control"  />
+        @if (Model.Resultados.TipoObjetivo==5)
+        {
+             <div class="form-group row">
+             <div class="col-md-8">
+                        <label class="col-md-12 col-form-label texto-pregunta">
+Objetivo De Desarrollo (Descripción de objetivo de Desarrollo)</label>
+                         <input type="text" asp-for="DatoManual1" name="DatoManual1" class=" form-control"  />
+                        <span asp-validation-for="DatoManual1" class="text-danger"></span>
                     </div>
-
-          
-            <div class="form-group row">
-                <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta">Meta</label>
-                    <input asp-for="Meta" type="text" name="Meta" class="form-control"  />
-                    <span asp-validation-for="Meta" class="text-danger"></span>
-                </div>
-                 <div class="col-md-4">
-                    <label class="col-md-12 col-form-label texto-pregunta">Fecha Inicio</label>
-                     <input type="text" asp-for="FechaInicio" name="FechaInicio" class="datepicker form-control"  />
-                    <span asp-validation-for="FechaInicio" class="text-danger"></span>
-                </div>
-                 <div class="col-md-4">
-                    <label class="col-md-12 col-form-label texto-pregunta">Fecha Fin</label>
-                     <input type="text" asp-for="FechaFin" name="FechaFin" class="datepicker form-control"  />
-                    <span asp-validation-for="FechaFin" class="text-danger"></span>
-                </div>
-                 <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta">Ponderación resultado</label>
-                    <input asp-for="Ponderacion" type="text" name="Ponderacion" class="form-control"  />
-                    <span asp-validation-for="Ponderacion" class="text-danger"></span>
-                </div>
+                     
+                    <div class="col-md-4">
+                        <label class="col-md-12 col-form-label texto-pregunta">Fecha Fin</label>
+                         <input type="text" asp-for="FechaFin" name="FechaFin" class="datepicker form-control"  />
+                        <span asp-validation-for="FechaFin" class="text-danger"></span>
+                    </div>
             </div>
-           
-           
+        }else if (Model.Resultados.TipoObjetivo==6)
+        {
+            <div class="form-group row">
+             <div class="col-md-5">
+                        <label class="col-md-12 col-form-label texto-pregunta">
+¿Cuál y cuándo sería el siguiente paso en mi carrera?</label>
+                         <input type="text" asp-for="DatoManual1" name="DatoManual1" class=" form-control"  />
+                        <span asp-validation-for="DatoManual1" class="text-danger"></span>
+                    </div>
+                     <div class="col-md-5">
+                        <label class="col-md-12 col-form-label texto-pregunta">
+¿Qué puedo hacer para conseguirlo?</label>
+                         <input type="text" asp-for="DatoManual2" name="DatoManual2" class=" form-control"  />
+                        <span asp-validation-for="DatoManual2" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="col-md-12 col-form-label texto-pregunta">Fecha Fin</label>
+                         <input type="text" asp-for="FechaFin" name="FechaFin" class="datepicker form-control"  />
+                        <span asp-validation-for="FechaFin" class="text-danger"></span>
+                    </div>
+            </div>
+        }else if (Model.Resultados.TipoObjetivo==7)
+        {
+             <div class="form-group row">
+             <div class="col-md-9">
+                        <label class="col-md-12 col-form-label texto-pregunta">¿Qué enfoque adoptará este año para garantizar el equilibrio vital y cómo sabrá que lo ha conseguido?</label>
+                         <input type="text" asp-for="DatoManual1" name="DatoManual1" class=" form-control"  />
+                        <span asp-validation-for="DatoManual1" class="text-danger"></span>
+                    </div>
+                     
+                    <div class="col-md-3">
+                        <label class="col-md-12 col-form-label texto-pregunta">Fecha Fin</label>
+                         <input type="text" asp-for="FechaFin" name="FechaFin" class="datepicker form-control"  />
+                        <span asp-validation-for="FechaFin" class="text-danger"></span>
+                    </div>
+            </div>
+        }
+
+    }     
+   else
+   {
+       @if (Model.Resultados.TipoObjetivo==1 || Model.Resultados.TipoObjetivo==2)
+                {
+               
+                   <input type="hidden" asp-for="IdResultado" name="IdResultado"  class="form-control">
+               
+
+                    <div class="form-group row">
+                         <div class="col-md-6">
+                             <label class="col-md-12 col-form-label texto-pregunta">Resultado</label>
+                             @Html.DropDownListFor(x => x.IdResultado, (IEnumerable<SelectListItem>)Model.IdResultadoList, new { @class = "form-control" })
+
+                             <span asp-validation-for="IdResultado" class="text-danger"></span>
+                         </div>
+                    </div>
         
+                }
+                else if (Model.Resultados.TipoObjetivo==3 )
+                {
+                    <div class="form-group row">
+                                            <div class="col-md-6">
+                                                <label class="col-md-12 col-form-label texto-pregunta">Responsabilidad</label>
+                                                @Html.DropDownListFor(x => x.IdResultado, (IEnumerable<SelectListItem>)Model.IdResponsabillidadList, new { @class = "form-control" })
+
+                                                <span asp-validation-for="IdResultado" class="text-danger"></span>
+                                            </div>
+                                        </div>
+        
+                }
+                else if (Model.Resultados.TipoObjetivo==4 )
+                {
+                    <div class="form-group row">
+                                            <div class="col-md-6">
+                                                <label class="col-md-12 col-form-label texto-pregunta">Competencia</label>
+                                          
+                                                    @Html.DropDownList("ddlCompetencia", (IEnumerable<SelectListItem>)Model.IdCompetenciaList,
+                               " -- Seleccionar Competencia --", new { @class = "form-control" })
+                                           
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="col-md-12 col-form-label texto-pregunta">Comportamientos</label>
+                                                @Html.DropDownListFor(x => x.IdResultado, new List<SelectListItem>(),
+                               " -- Seleccionar Comportamiento --", new { @class = "form-control" })
+
+                                                <span asp-validation-for="IdResultado" class="text-danger"></span>
+                                            </div> 
+                                        </div>
+        
+                }
+          
+                <div class="form-group row">
+                    @if (Model.Resultados.TipoObjetivo!=4 )
+                    {
+                         <div class="col-md-2">
+                                <label class="col-md-12 col-form-label texto-pregunta">Meta</label>
+                                <input asp-for="Meta" type="text" name="Meta" class="form-control"  />
+                                <span asp-validation-for="Meta" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                 <input asp-for="Meta" type="hidden" name="Meta" value="0" class="form-control"  />
+            }
+
+                     <div class="col-md-4">
+                        <label class="col-md-12 col-form-label texto-pregunta">Fecha Inicio</label>
+                         <input type="text" asp-for="FechaInicio" name="FechaInicio" class="datepicker form-control"  />
+                        <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                    </div>
+                     <div class="col-md-4">
+                        <label class="col-md-12 col-form-label texto-pregunta">Fecha Fin</label>
+                         <input type="text" asp-for="FechaFin" name="FechaFin" class="datepicker form-control"  />
+                        <span asp-validation-for="FechaFin" class="text-danger"></span>
+                    </div>
+                     <div class="col-md-2">
+                        <label class="col-md-12 col-form-label texto-pregunta">Ponderación resultado</label>
+                        <input asp-for="Ponderacion" type="text" name="Ponderacion" class="form-control"  />
+                        <span asp-validation-for="Ponderacion" class="text-danger"></span>
+                    </div>
+                </div>
+           
+               @if (Model.Resultados.TipoObjetivo==3 )
+               {
+                   <br/>
+                   <div class="card card-info">
+                    <div class="card-header card-header-int">
+                        Agregar Hitos
+                    </div>
+                        <div class="card-body">
+                            <div class="container-fluid">
+                           
+                               <div class="form-group row">
+                                   <div class="col-md-6">
+                                    <label class="col-md-12 col-form-label texto-pregunta">Hito</label>
+                                    <input asp-for="Hito" type="text" name="Hito" class="form-control"  />
+                                    <span asp-validation-for="Hito" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="col-md-12 col-form-label texto-pregunta">Indicador</label>
+                                        <input asp-for="IndicadorHito" type="text" name="IndicadorHito" class="form-control"  />
+                                        <span asp-validation-for="IndicadorHito" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="col-md-12 col-form-label texto-pregunta">Tipo($,%,#)</label>
+                                        @Html.DropDownListFor(x => x.TipoListHito, (IEnumerable<SelectListItem>)Model.TipoListHito, new { @class = "form-control" })
+                      
+                                        <span asp-validation-for="TipoListHito" class="text-danger"></span>
+                                    </div>
+                               </div>
+                                 <div class="form-group row">
+                                    <div class="col-md-2">
+                                        <label class="col-md-12 col-form-label texto-pregunta">Meta</label>
+                                        <input asp-for="MetaHito" type="text" name="MetaHito" class="form-control"  />
+                                        <span asp-validation-for="MetaHito" class="text-danger"></span>
+                                    </div>
+                                     <div class="col-md-4">
+                                        <label class="col-md-12 col-form-label texto-pregunta">Fecha Inicio</label>
+                                         <input type="text" asp-for="FechaInicioHito" name="FechaInicioHito" class="datepicker form-control"  />
+                                        <span asp-validation-for="FechaInicioHito" class="text-danger"></span>
+                                    </div>
+                                     <div class="col-md-4">
+                                        <label class="col-md-12 col-form-label texto-pregunta">Fecha Fin</label>
+                                         <input type="text" asp-for="FechaFinHito" name="FechaFinHito" class="datepicker form-control"  />
+                                        <span asp-validation-for="FechaFinHito" class="text-danger"></span>
+                                    </div>
+               
+                                 </div>
+                                <div class="form-group row">
+                                        <div class="col-md-4" style="padding-top: 25px;">
+                                            <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+                                        </div>
+                                </div>
+
+         
+                                <div id="divHitos">
+                                    <table id="hitosTable" class="table table-striped  rwd-table" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                @*<th>Id</th>*@
+                                                <th>Hito</th>
+                                                <th>Indicador</th>
+                                                <th>Tipo</th>
+                                                <th>Meta</th>
+                                                <th>Fecha Inicio</th>
+                                                <th>Fecha Fin</th>
+                                                <th class="text-right">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.Resultados.PlanificacionResultados != null)
+                                            {
+
+                                                @foreach (var planifica in Model.Resultados.PlanificacionResultados)
+                                                {
+                                                    @foreach (var hito in planifica.PlanificacionHitos)
+                                                    {
+                                    
+                                                    <tr id="@hito.Id" class="rowdata">
+                                        
+                                                        <td >
+
+                                                            @hito.Nombre
+
+                                                        </td>
+                                        
+                                                        <td >
+                                                            @hito.Indicador
+                                                        </td>
+                                                        <td>
+                                                            @hito.Tipo
+                                                        </td>
+                                                        <td class="mes">
+                                                            @hito.Meta
+                                                        </td>
+                                                        <td>
+                                                            @hito.FechaInicio.ToShortDateString()
+                                                        </td>
+                                                        <td>
+                                                            @hito.FechaFin.ToShortDateString()
+                                                        </td>
+                                        
+                                                        <td class="text-right">
+                                                            <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFila(@hito.Id,'@hito.Nombre','@hito.Indicador',@hito.Tipo,@hito.Meta.ToString().Replace(",", "."),@hito.FechaInicio,@hito.FechaFin)">
+                                                                <i class="fas fa-pencil-alt"></i>
+                                                            </button>
+                                                            <button type="button" onclick="EliminaFila(@hito.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                                                        </td>
+
+                                                    </tr>
+                                                    }
+                                                }}
+
+                                            <input type="hidden" id="idact" name="idact" />
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                               </div>
+                              </div>
+                </div>
+               }
+    }    
  <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
        
@@ -57,9 +287,197 @@
 
 
 <script type="text/javascript" language=javascript>
+
+     $(document).ready(function () {
+            $("#ddlCompetencia").change(function () {
+                $.get("/Valoracion/Objetivo/GetComportamientosList", { idCompetencia: $("#ddlCompetencia").val() }, function (data) {
+                    // VACIAMOS EL DropDownList
+                    $("#IdResultado").empty();
+                    // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                    $("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#ddlCompetencia option:selected").text() + " --</option>")
+                    // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                    $.each(data, function (index, row) {
+                        $("#IdResultado").append("<option value='" + row.id + "'>" + row.comportamiento + "</option>")
+                    });
+                });
+            });
+        });
+
       $.validator.unobtrusive.parse(document);
    $(".datepicker").datepicker({
                                 format: "dd-mm-yyyy",
             autoclose: true,
             todayBtn: true});
+
+            var num = 0;
+            function AgregaConcepto() {
+            let idact = document.getElementById("idact").value;
+
+            if (idact.length != 0) {
+                EliminaFila(idact);
+            }
+            let hito = document.getElementById("Hito").value;
+            let indicador = document.getElementById("IndicadorHito").value;
+            let tipo = document.getElementById("TipoListHito").value;
+            //var selection = document.getElementById("DatoManual3");
+            //let tipo = selection.options[selection.selectedIndex].innerHTML;
+            let meta = document.getElementById("MetaHito").value;
+            let fechaInicio = document.getElementById("FechaInicioHito").value;
+            let fechaFin = document.getElementById("FechaFinHito").value;
+                     
+            if (hito.length == 0) {
+                alert("Ingrese el Hito.");
+                return;
+            }
+           
+            if (indicador.length == 0) {
+                alert("Ingrese el Indicador.");
+                return;
+            }
+            if (meta.length == 0) {
+                alert("Ingrese la Meta.");
+                return;
+            }
+            if (fechaInicio.length == 0) {
+                alert("Ingrese la Fecha de Inicio.");
+                return;
+            }
+
+            if (fechaFin.length == 0) {
+                alert("Ingrese la Fecha Fin.");
+                return;
+            }
+
+            //agregamos tabla
+            let Tabla = document.getElementById("hitosTable");
+            let TR = document.createElement("tr");
+            TR.setAttribute('id', num);
+            TR.className = "rowdata";
+            let TDHito = document.createElement("td");
+            let TDIndicador = document.createElement("td");
+            let TDTipo = document.createElement("td");
+            let TDValorMeta = document.createElement("td");
+            let TDFechaInicio = document.createElement("td");
+            let TDFechaFin = document.createElement("td");
+            
+            let TDEliminar = document.createElement("td");
+            TDEliminar.className = "text-right";
+            TDValorMeta.className = "meta";
+          
+            TR.appendChild(TDHito);
+            TR.appendChild(TDIndicador);
+            TR.appendChild(TDTipo);
+            TR.appendChild(TDValorMeta);
+            TR.appendChild(TDFechaInicio);
+            TR.appendChild(TDFechaFin);
+           
+            TR.appendChild(TDEliminar);
+         
+            TDHito.innerHTML = hito;
+            TDIndicador.innerHTML = indicador;
+            TDTipo.innerHTML = tipo;
+            TDValorMeta.innerHTML = meta;
+            TDFechaInicio.innerHTML = fechaInicio;
+            TDFechaFin.innerHTML = fechaFin;
+            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFila(" + num + "," + hito.toString()+ "," + indicador.toString() + "," + tipo.toString()+ "," + meta.replace(',', '.')+","+fechaInicio.toString()+","+fechaFin.toString()+") '> <i class='fas fa-pencil-alt'></i> </button> <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
+            Tabla.appendChild(TR);
+
+            //if (sumar()) {
+            //    deleteRow(num);
+            //    return;
+            //}
+
+            //agregamos hiddens
+            let DivConceptos = document.getElementById("divHitos");
+            let HiddenIndex = document.createElement("input");
+            let HiddenNombre = document.createElement("input");
+            let HiddenIndicador = document.createElement("input");
+            let HiddenTipo = document.createElement("input");
+            let HiddenValorMeta = document.createElement("input");
+            let HiddenFechaInicio = document.createElement("input");
+            let HiddenFechaFin = document.createElement("input");
+            HiddenIndex.name = "PlanificacionHitos.Index";
+            HiddenIndex.value = num;
+            HiddenIndex.type = "hidden";
+            HiddenNombre.name = "PlanificacionHitos[" + num + "].Nombre";
+            HiddenNombre.value = hito;
+            HiddenNombre.type = "hidden";
+            HiddenIndicador.name = "PlanificacionHitos[" + num + "].Indicador";
+            HiddenIndicador.value = indicador;
+            HiddenIndicador.type = "hidden";
+            HiddenTipo.name = "PlanificacionHitos[" + num + "].Tipo";
+            HiddenTipo.value = tipo;
+            HiddenTipo.type = "hidden";
+            HiddenValorMeta.name = "PlanificacionHitos[" + num + "].Meta";
+            HiddenValorMeta.value = meta.replace('.', ',');;
+            HiddenValorMeta.type = "hidden";
+
+            HiddenFechaInicio.name = "PlanificacionHitos[" + num + "].FechaInicio";
+            HiddenFechaInicio.value = fechaInicio;
+            HiddenFechaInicio.type = "hidden";
+            HiddenFechaFin.name = "PlanificacionHitos[" + num + "].FechaFin";
+            HiddenFechaFin.value = fechaFin;
+            HiddenFechaFin.type = "hidden";
+
+            DivConceptos.appendChild(HiddenIndex);
+            DivConceptos.appendChild(HiddenNombre);
+            DivConceptos.appendChild(HiddenIndicador);
+            DivConceptos.appendChild(HiddenTipo);
+            DivConceptos.appendChild(HiddenValorMeta);
+            DivConceptos.appendChild(HiddenFechaInicio);
+            DivConceptos.appendChild(HiddenFechaFin);
+
+            document.getElementById("TipoListHito").value = "";
+            document.getElementById("Hito").value = "";
+            document.getElementById("IndicadorHito").value = "";
+            document.getElementById("MetaHito").value = "";
+            document.getElementById("FechaInicioHito").value = "";
+            document.getElementById("FechaFinHito").value = "";
+
+
+
+            num++;
+
+
+
+     }
+
+    function deleteRow(id) {
+        $("#" + id).remove();
+    }
+
+    function EliminaFila(id) {
+
+        $("#" + id).remove();
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "Meta", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+    }
+
+        function ActualizaFila(id, mes, meta, entregable) {
+            $("#NumMesesList").val(mes);
+            $("#NumMesesList").select2().trigger('change');
+
+            document.getElementById("idact").value = id;
+            document.getElementById("EntregableMeta").value = entregable;
+            document.getElementById("ValorMeta").value = meta;
+
+        }
 </script>

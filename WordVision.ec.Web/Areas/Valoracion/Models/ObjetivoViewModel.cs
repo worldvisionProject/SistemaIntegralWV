@@ -43,16 +43,16 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
     //{
     //    public int Id { get; set; }
     //    public string Nombre { get; set; }
-     
+
     //    public string Numero { get; set; }
-       
+
     //    public string Descripcion { get; set; }
-        
+
     //    public int Estado { get; set; }
-       
+
     //    public List<ObjetivoAnioFiscal> ObjetivoAnioFiscales { get; set; }
 
-       
+
     //    public List<Responsabilidad> Responsabilidades { get; set; }
 
     //}

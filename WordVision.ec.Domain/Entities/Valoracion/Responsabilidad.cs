@@ -12,11 +12,17 @@ namespace WordVision.ec.Domain.Entities.Valoracion
     public class Responsabilidad : AuditableEntity
     {
         [Required]
+        public int IdEstructura { get; set; }
+        [Required]
         public string Nombre { get; set; }
         [Required]
         public string Indicador { get; set; }
         [Required]
         public int Tipo { get; set; }
+        [Required]
+        public int IdResponsabilidad { get; set; }
+        [Required]
+        public int Padre { get; set; }
         //public ObjetivoAnioFiscal ObjetivoAnioFiscales { get; set; }
         //[ForeignKey("IdResponsabilidad")]
         //public ICollection<PlanificacionResponsabilidad> PlanificacionResponsabilidades { get; set; }

@@ -21,6 +21,11 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
         public DateTime? FechaFin { get; set; }
 
         public decimal? Ponderacion { get; set; }
+        public string DatoManual1 { get; set; }
+
+        public string DatoManual2 { get; set; }
+        public int DatoManual3 { get; set; }
         public Resultado Resultados { get; set; }
+        public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
     }
 }

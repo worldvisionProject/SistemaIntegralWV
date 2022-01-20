@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,14 @@ namespace WordVision.ec.Domain.Entities.Valoracion
         public DateTime? FechaFin { get; set; }
        
         public decimal? Ponderacion { get; set; }
+
+        public string DatoManual1 { get; set; }
+
+        public string DatoManual2 { get; set; }
+        public int DatoManual3 { get; set; }
         public Resultado Resultados { get; set; }
+
+        [ForeignKey("IdPlanificacion")]
+        public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
     }
 }

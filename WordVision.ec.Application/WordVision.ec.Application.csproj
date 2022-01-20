@@ -56,7 +56,6 @@
     <Compile Remove="Interfaces\Repositories\Presupuesto\IUnitOfWork.cs" />
     <Compile Remove="Interfaces\Repositories\Registro\IDocumentoUoW.cs" />
     <Compile Remove="Mappings\Identity\IdentityProfile.cs" />
-    <Compile Remove="Mappings\Valoracion\ObjetivoProfile.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -88,7 +87,6 @@
     <Folder Include="Features\Registro\Pregunta\Commands\Create\" />
     <Folder Include="Features\Registro\Pregunta\Commands\Update\" />
     <Folder Include="Features\Soporte\Ponentes\Commands\Create\" />
-    <Folder Include="Features\Valoracion\Objetivos\Queries\" />
     <Folder Include="Interfaces\CacheRepositories\Identity\" />
     <Folder Include="Mappings\DashBoard\" />
     <Folder Include="Mappings\Identity\" />

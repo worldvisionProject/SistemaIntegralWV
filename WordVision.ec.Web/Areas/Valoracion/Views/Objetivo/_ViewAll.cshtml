@@ -25,29 +25,99 @@
             <div  style="background-color:#EC7D31; height: 60px;color:beige; padding: 5px 10px 20px 10px;">
                 <label class="col-md-12 col-form-label texto-pregunta">Descripción de objetivo @objetivo.Numero: @objetivo.NombreObjetivo </label>
                 <label class="col-md-12 col-form-label texto-pregunta">@objetivo.Descripcion</label>
-            @*<button type="button" class="btn btn-primary" id="btnViewModel@objetivo.Numero" onclick="jQueryModalGet('/Soporte/Comunicacion/OnGetCreateOrEdit?id=0&op=1','Solicitud de Comunicación-@UserManager.GetUserAsync(User).Result.FirstName @UserManager.GetUserAsync(User).Result.LastName @User.Claims.FirstOrDefault(x => x.Type == "Area")?.Value')">
-                <i class="fa fa-plus-square"></i>
-                
-            </button>
-*@
-        </div>
+                  
+               
+        </div> 
 @foreach (var anio in objetivo.AnioFiscales)
         {
+            if (objetivo.Numero.Contains("3") )
+                  {
+                    <button type="button" class="btn btn-primary" id="btnViewModel@objetivo.Numero" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value&idObjetivo=@objetivo.IdObjetivo&idObjetivoAnioFiscal=@anio.Id&idResultado=0&anioFiscal=@anio.AnioFiscal&objNumero=@objetivo.Numero','Objetivos')">
+                        <i class="fa fa-plus-square"></i>
+                            Agregar responsabilidad
+                    </button>
+
+                  }
+                else if ( objetivo.Numero.Contains("4"))
+                  {
+                    <button type="button" class="btn btn-primary" id="btnViewModel@objetivo.Numero" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value&idObjetivo=@objetivo.IdObjetivo&idObjetivoAnioFiscal=@anio.Id&idResultado=0&anioFiscal=@anio.AnioFiscal&objNumero=@objetivo.Numero','Objetivos')">
+                        <i class="fa fa-plus-square"></i>
+                            Agregar competencia
+                    </button>
+
+                  }
+                  else if ( objetivo.Numero.Contains("5") || objetivo.Numero.Contains("6") || objetivo.Numero.Contains("7"))
+                  {
+                    <button type="button" class="btn btn-primary" id="btnViewModel@objetivo.Numero" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value&idObjetivo=@objetivo.IdObjetivo&idObjetivoAnioFiscal=@anio.Id&idResultado=0&anioFiscal=@anio.AnioFiscal&objNumero=@objetivo.Numero','Objetivos')">
+                        <i class="fa fa-plus-square"></i>
+                            Agregar 
+                    </button>
+
+                  }
+
 <table id="@objetivo.Numero"  class="table table-bordered " width="100%" cellspacing="0">
     <thead>
         <tr>
+                    @if (objetivo.Numero.Contains("4"))
+                    {
+                        <th data-priority="1" style="background-color:#F9D6BF;" width="30%">Competencia</th>
+                        <th data-priority="1" style="background-color:#F9D6BF;" width="20%">Comportamiento</th>
+ 
+                        <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Fecha Inicio</th>
+                        <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Fecha Fin</th>
+                        <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Ponderación Objetivo especifico</th>
+                        <th data-priority="1" style="background-color:#F9D6BF;" width="10%">Ponderación Resultado</th>
 
-            <th style="background-color:#F9D6BF;" width="30%">Resultado Esperado</th>
-            <th data-priority="1" style="background-color:#F9D6BF;" width="20%">Indicador Cumplimiento</th>
-            <th data-priority="1" style="background-color:#F9D6BF;" width="5%">Tipo(#,%;$)</th>
-            <th data-priority="1" style="background-color:#2ED4E0;" width="5%">Meta</th>
-            <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Fecha Inicio</th>
-            <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Fecha Fin</th>
-            <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Ponderación Objetivo especifico</th>
-            <th data-priority="1" style="background-color:#F9D6BF;" width="10%">Ponderación Resultado</th>
-          
 
-            <th data-priority="2" class="acciones-th">Acciones</th>
+                       
+                    }else if (objetivo.Numero.Contains("3"))
+                    {
+                        <th style="background-color:#F9D6BF;" width="30%">Responsabilidad Puesto</th>
+                        <th data-priority="1" style="background-color:#F9D6BF;" width="20%">Indicador Cumplimiento</th>
+                        <th data-priority="1" style="background-color:#F9D6BF;" width="5%">Tipo(#,%;$)</th>
+                        <th data-priority="1" style="background-color:#2ED4E0;" width="5%">Meta</th>
+                        <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Fecha Inicio</th>
+                        <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Fecha Fin</th>
+                        <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Ponderación Objetivo especifico</th>
+                        <th data-priority="1" style="background-color:#F9D6BF;" width="10%">Ponderación Resultado</th>
+
+
+                    }else if (objetivo.Numero.Contains("5"))
+                    {
+                        <th style="background-color:#F9D6BF;" width="30%">Objetivo De Desarrollo (Descripción de objetivo de Desarrollo)</th>
+                        <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Fecha Finalización</th>
+                    
+
+                    }else if (objetivo.Numero.Contains("6"))
+                    {
+                        <th style="background-color:#F9D6BF;" width="30%">¿Cuál y cuándo sería el siguiente paso en mi carrera?</th>
+                        <th data-priority="1" style="background-color:#F9D6BF;" width="20%">¿Qué puedo hacer para conseguirlo?</th>
+                        <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Fecha Finalización</th>
+                    
+
+                    }
+                    else if (objetivo.Numero.Contains("7"))
+                    {
+                        <th style="background-color:#F9D6BF;" width="30%">¿Qué enfoque adoptará este año para garantizar el equilibrio vital y cómo sabrá que lo ha conseguido?</th>
+                        <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Fecha Finalización</th>
+                    
+
+                    }
+                    else
+                    {
+                         <th style="background-color:#F9D6BF;" width="30%">Resultado Esperado</th>
+                        <th data-priority="1" style="background-color:#F9D6BF;" width="20%">Indicador Cumplimiento</th>
+                        <th data-priority="1" style="background-color:#F9D6BF;" width="5%">Tipo(#,%;$)</th>
+                        <th data-priority="1" style="background-color:#2ED4E0;" width="5%">Meta</th>
+                        <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Fecha Inicio</th>
+                        <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Fecha Fin</th>
+                        <th data-priority="1" style="background-color:#2ED4E0;" width="10%">Ponderación Objetivo especifico</th>
+                        <th data-priority="1" style="background-color:#F9D6BF;" width="10%">Ponderación Resultado</th>
+
+
+                        
+                    }
+                     <th data-priority="2" class="acciones-th">Acciones</th>
 
         </tr>
     </thead>
@@ -56,32 +126,49 @@
         @foreach (var planificacion in anio.PlanificacionResultados)
         {
         <tr>
-            <td>
+            <td  style="
+      vertical-align: middle;
+    
+">
                 @planificacion.Nombre
             </td>
-            <td>
-                @planificacion.Indicador
-            </td>
-            <td>
-                
-                @switch (planificacion.Tipo)
-                {
-                    case 13:<span class="badge badge-primary">$</span> break;
-                    case 28:<span class="badge badge-warning">%</span> break;
-                    case 29:<span class="badge badge-warning">#</span> break;
-                }
-            </td>
-            <td>
+             @if (objetivo.Numero.Contains("6"))
+                    {
+                           <td>
+                               @planificacion.Indicador
+                            </td> 
+                    }
 
-                @planificacion.Meta
-            </td>
+            @if (!objetivo.Numero.Contains("5"))
+            {
+           
+            @if (!objetivo.Numero.Contains("4"))
+                {
+                <td>
+               
+                    @switch (planificacion.Tipo)
+                    {
+                        case 13:<span class="badge badge-primary">$</span> break;
+                        case 28:<span class="badge badge-warning">%</span> break;
+                        case 29:<span class="badge badge-warning">#</span> break;
+                    }
+                </td>
+             }
+            @if (!objetivo.Numero.Contains("4"))
+            {
+                        <td>
+
+                            @planificacion.Meta
+                        </td>
+            }
             <td>
                @if (planificacion.FechaInicio!=null)
                 {
-                                @planificacion.FechaInicio.Value.ToShortDateString();
-                            }
+                    @planificacion.FechaInicio.Value.ToShortDateString();
+                }
                
             </td>
+            }
             <td>
                 @if (planificacion.FechaFin!=null)
                 {
@@ -89,10 +176,12 @@
                             }
                 
             </td>
-            <td>
-                    @planificacion.Ponderacion
-                </td>
-            <td style="
+             @if (!objetivo.Numero.Contains("5"))
+                        {
+                            <td>
+                                @planificacion.Ponderacion
+                            </td>
+                            <td style="
       vertical-align: middle;
     
 ">
@@ -100,11 +189,11 @@
                    @anio.Ponderacion
                 
             </td>
-           
+                        }
 
             <td class="acciones-td">
            
-                <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Editar" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=@planificacion.IdPlanificacion&idColaborador=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value&idObjetivo=@objetivo.IdObjetivo&idObjetivoAnioFiscal=@anio.Id&idResultado=@planificacion.IdResultado&anioFiscal=@anio.AnioFiscal','Objetivos')">
+                <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Editar" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=@planificacion.IdPlanificacion&idColaborador=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value&idObjetivo=@objetivo.IdObjetivo&idObjetivoAnioFiscal=@anio.Id&idResultado=@planificacion.IdResultado&anioFiscal=@anio.AnioFiscal&objNumero=@objetivo.Numero','Objetivos')">
                     <i class="fas fa-edit"></i>
                 </button>
 
@@ -171,7 +260,7 @@ aoColumnDefs: [
             "language": {
                 "url": "/lib/datatables/language/Spanish.json"
             },
-            'rowsGroup': [7],
+            'rowsGroup': [0,5],
             "info": false,"length":false
         });
 

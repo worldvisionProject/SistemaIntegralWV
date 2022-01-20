@@ -28,7 +28,10 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public int Id { get; set; }
         public int IdColaborador { get; set; }
         public int IdResultado { get; set; }
+        public SelectList TipoList { get; set; }
         public SelectList IdResultadoList { get; set; }
+        public SelectList IdResponsabillidadList { get; set; }
+        public SelectList IdCompetenciaList { get; set; }
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string Meta { get; set; }
 
@@ -38,7 +41,22 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public DateTime? FechaFin { get; set; }
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string Ponderacion { get; set; }
+        public string DatoManual1 { get; set; }
 
+        public string DatoManual2 { get; set; }
+        public int DatoManual3 { get; set; }
+
+        public string Hito { get; set; }
+        public string IndicadorHito { get; set; }
+        public SelectList TipoListHito { get; set; }
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+        public string MetaHito { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? FechaInicioHito { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? FechaFinHito { get; set; }
         public ResultadoViewModel Resultados { get; set; }
+
+        public ICollection<PlanificacionHitoViewModel> PlanificacionHitos { get; set; }
     }
 }

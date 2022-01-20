@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WordVision.ec.Application.DTOs.Valoracion;
 using WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update;
+using WordVision.ec.Application.Features.Valoracion.Objetivos.Queries.GetById;
 using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Commands.Create;
 using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Queries.GetById;
 using WordVision.ec.Application.Features.Valoracion.Resultados.Queries.GetAllCached;
@@ -28,6 +29,9 @@ namespace WordVision.ec.Web.Areas.Valoracion.Mappings
 
             CreateMap<CreatePlanificacionResultadoCommand, PlanificacionResultadoViewModel>().ReverseMap();
             CreateMap<UpdatePlanificacionResultadoCommand, PlanificacionResultadoViewModel>().ReverseMap();
+
+            CreateMap<GetObjetivoPonderacionResponse, ObjetivoAnioFiscalViewModel>().ReverseMap();
+            CreateMap<PlanificacionHito, PlanificacionHitoViewModel>().ReverseMap();
         }
     }
 }

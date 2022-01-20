@@ -16,12 +16,14 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
     {
         private readonly IRepositoryAsync<PlanificacionResultado> _repository;
         private readonly IRepositoryAsync<Objetivo> _repositoryResultado;
+       
         private readonly IDistributedCache _distributedCache;
         public PlanificacionResultadoRepository(IRepositoryAsync<PlanificacionResultado> repository, IRepositoryAsync<Objetivo> repositoryResultado, IDistributedCache distributedCache)
         {
             _repository = repository;
             _distributedCache = distributedCache;
             _repositoryResultado = repositoryResultado;
+           
         }
         public IQueryable<PlanificacionResultado> planificacionResultados => _repository.Entities;
         public IQueryable<Objetivo> resultados => _repositoryResultado.Entities;
@@ -34,6 +36,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
         public async Task<PlanificacionResultado> GetByIdAsync(int planificacionResultadoId)
         {
             return await _repository.Entities.Where(x => x.Id == planificacionResultadoId)
+                .Include(p=>p.PlanificacionHitos)
                 .Include(y =>y.Resultados)
                 .ThenInclude(x => x.ObjetivoAnioFiscales)
                 .ThenInclude(m => m.Objetivos)
@@ -79,7 +82,8 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                       Nombre=a.Nombre,
                       Indicador=a.Indicador,
                       Tipo=a.Tipo,
-                      IdColaborador=a.PlanificacionResultados.Where(u => u.IdResultado==a.Id).Select(q => q.IdColaborador).FirstOrDefault(),
+                        TipoObjetivo = a.TipoObjetivo,
+                        IdColaborador =a.PlanificacionResultados.Where(u => u.IdResultado==a.Id).Select(q => q.IdColaborador).FirstOrDefault(),
                         IdPlanificacion = a.PlanificacionResultados.Where(u => u.IdResultado == a.Id).Select(q => q.Id).FirstOrDefault(),
                         Meta = a.PlanificacionResultados.Where(u => u.IdResultado == a.Id).Select(q => q.Meta).FirstOrDefault(),
                         FechaInicio = a.PlanificacionResultados.Where(u => u.IdResultado == a.Id).Select(q => q.FechaInicio).FirstOrDefault(),

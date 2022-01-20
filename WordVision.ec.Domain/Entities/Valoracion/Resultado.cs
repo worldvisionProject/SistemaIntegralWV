@@ -17,6 +17,9 @@ namespace WordVision.ec.Domain.Entities.Valoracion
         public string Indicador { get; set; }
         [Required]
         public int Tipo { get; set; }
+
+        [Required]
+        public int TipoObjetivo { get; set; }
         public int IdObjetivoAnioFiscal { get; set; }
         public ObjetivoAnioFiscal ObjetivoAnioFiscales { get; set; }
 

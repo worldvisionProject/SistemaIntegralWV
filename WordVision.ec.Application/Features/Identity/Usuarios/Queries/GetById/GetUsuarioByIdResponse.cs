@@ -22,6 +22,6 @@
 
         public int Nivel { get; set; }
         public int ReportaA { get; set; }
-
+        public int IdEstrutura { get; set; }
     }
 }
