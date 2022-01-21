@@ -58,7 +58,7 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
 
         public async Task<Result<int>> Handle(CreatePlanificacionResultadoCommand request, CancellationToken cancellationToken)
         {
-            if (request.Resultados.TipoObjetivo==3)
+            if (request.Resultados.TipoObjetivo == 3)
             {
                 var _responsabilidad = await _responsabilidadRepository.GetByIdAsync(request.IdResultado);
                 var objResponsa = _mapper.Map<Responsabilidad>(_responsabilidad);
@@ -98,7 +98,12 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
                 request.Resultados.TipoObjetivo = 4;
                 request.Resultados.ObjetivoAnioFiscales = null;
             }
-
+            else if (request.Resultados.TipoObjetivo == 1 || request.Resultados.TipoObjetivo == 2)
+            {
+                request.Resultados.ObjetivoAnioFiscales = null;
+                request.Resultados = null;
+            }
+                
             var planificacion = _mapper.Map<PlanificacionResultado>(request);
             await _entidadRepository.InsertAsync(planificacion);
             foreach (var h in request.PlanificacionHitos)

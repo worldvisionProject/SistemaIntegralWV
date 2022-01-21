@@ -126,69 +126,65 @@
         @foreach (var planificacion in anio.PlanificacionResultados)
         {
         <tr>
-            <td  style="
-      vertical-align: middle;
-    
-">
+            <td  style="vertical-align: middle;">
                 @planificacion.Nombre
             </td>
-             @if (objetivo.Numero.Contains("6"))
-                    {
-                           <td>
+
+             
+                          
+                    
+            @if (!objetivo.Numero.Contains("5") && !objetivo.Numero.Contains("7"))
+            {
+                            <td>
                                @planificacion.Indicador
                             </td> 
-                    }
 
-            @if (!objetivo.Numero.Contains("5"))
-            {
-           
-            @if (!objetivo.Numero.Contains("4"))
+                @if (!objetivo.Numero.Contains("4") && !objetivo.Numero.Contains("6"))
                 {
-                <td>
+                    <td>
                
-                    @switch (planificacion.Tipo)
-                    {
-                        case 13:<span class="badge badge-primary">$</span> break;
-                        case 28:<span class="badge badge-warning">%</span> break;
-                        case 29:<span class="badge badge-warning">#</span> break;
-                    }
-                </td>
-             }
-            @if (!objetivo.Numero.Contains("4"))
-            {
-                        <td>
-
-                            @planificacion.Meta
-                        </td>
-            }
-            <td>
-               @if (planificacion.FechaInicio!=null)
+                        @switch (planificacion.Tipo)
+                        {
+                            case 13:<span class="badge badge-primary">$</span> break;
+                            case 28:<span class="badge badge-warning">%</span> break;
+                            case 29:<span class="badge badge-warning">#</span> break;
+                        }
+                    </td>
+              }
+                @if (!objetivo.Numero.Contains("4") && !objetivo.Numero.Contains("6"))
                 {
-                    @planificacion.FechaInicio.Value.ToShortDateString();
+                            <td>
+
+                                @planificacion.Meta
+                            </td>
                 }
+                @if (!objetivo.Numero.Contains("6"))
+                 {
+                   <td>
+                       @if (planificacion.FechaInicio!=null)
+                        {
+                            @planificacion.FechaInicio.Value.ToShortDateString();
+                        }
                
-            </td>
+                   </td>
+                 }
+                 
             }
-            <td>
-                @if (planificacion.FechaFin!=null)
-                {
-                                @planificacion.FechaFin.Value.ToShortDateString();
-                            }
+                <td>
+                    @if (planificacion.FechaFin!=null)
+                    {
+                       @planificacion.FechaFin.Value.ToShortDateString();
+                    }
                 
-            </td>
-             @if (!objetivo.Numero.Contains("5"))
+                </td>
+                @if (!objetivo.Numero.Contains("5") && !objetivo.Numero.Contains("6") && !objetivo.Numero.Contains("7"))
                         {
                             <td>
                                 @planificacion.Ponderacion
                             </td>
-                            <td style="
-      vertical-align: middle;
-    
-">
-            
-                   @anio.Ponderacion
-                
-            </td>
+                            <td style="vertical-align: middle;">
+                                   @anio.Ponderacion
+                            </td>
                         }
 
             <td class="acciones-td">
@@ -202,15 +198,13 @@
             </button>*@
             </td>
 
-
-
-
-
         </tr>
         }
     </tbody>
 </table>
-}}
+}
+
+}
 <script>
 
     $(document).ready(function () {

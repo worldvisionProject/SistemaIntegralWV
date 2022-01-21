@@ -104,6 +104,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                 //FechaFin=x.FechaFin,
                 //Ponderacion=x.Ponderacion,
             }).ToListAsync();
+
             return await newsDtoList;
         }
 

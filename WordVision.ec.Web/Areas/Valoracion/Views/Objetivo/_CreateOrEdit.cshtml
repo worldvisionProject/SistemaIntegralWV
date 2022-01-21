@@ -242,7 +242,12 @@ Objetivo De Desarrollo (Descripción de objetivo de Desarrollo)</label>
                                                             @hito.Indicador
                                                         </td>
                                                         <td>
-                                                            @hito.Tipo
+                                                            @switch (hito.Tipo)
+                                                                {
+                                                                    case 13:<span class="badge badge-primary">$</span> break;
+                                                                    case 28:<span class="badge badge-warning">%</span> break;
+                                                                    case 29:<span class="badge badge-warning">#</span> break;
+                                                                }
                                                         </td>
                                                         <td class="mes">
                                                             @hito.Meta
@@ -319,8 +324,9 @@ Objetivo De Desarrollo (Descripción de objetivo de Desarrollo)</label>
             let hito = document.getElementById("Hito").value;
             let indicador = document.getElementById("IndicadorHito").value;
             let tipo = document.getElementById("TipoListHito").value;
-            //var selection = document.getElementById("DatoManual3");
-            //let tipo = selection.options[selection.selectedIndex].innerHTML;
+            var selection = document.getElementById("TipoListHito");
+            let tipoDesc = selection.options[selection.selectedIndex].innerHTML;
+            
             let meta = document.getElementById("MetaHito").value;
             let fechaInicio = document.getElementById("FechaInicioHito").value;
             let fechaFin = document.getElementById("FechaFinHito").value;
@@ -375,7 +381,7 @@ Objetivo De Desarrollo (Descripción de objetivo de Desarrollo)</label>
          
             TDHito.innerHTML = hito;
             TDIndicador.innerHTML = indicador;
-            TDTipo.innerHTML = tipo;
+            TDTipo.innerHTML = tipoDesc;
             TDValorMeta.innerHTML = meta;
             TDFechaInicio.innerHTML = fechaInicio;
             TDFechaFin.innerHTML = fechaFin;
