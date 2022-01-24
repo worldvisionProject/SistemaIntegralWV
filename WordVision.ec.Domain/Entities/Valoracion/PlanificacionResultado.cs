@@ -28,8 +28,12 @@ namespace WordVision.ec.Domain.Entities.Valoracion
 
         public string DatoManual2 { get; set; }
         public int DatoManual3 { get; set; }
-        public Resultado Resultados { get; set; }
-
+        //public Resultado Resultados { get; set; }
+        [Required]
+        public int TipoObjetivo { get; set; }
+        public int IdObjetivoAnioFiscal { get; set; }
+        public ObjetivoAnioFiscal ObjetivoAnioFiscales { get; set; }
+        
         [ForeignKey("IdPlanificacion")]
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
     }

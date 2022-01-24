@@ -33,7 +33,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
             return await _repository.Entities.Where(x => x.Id == resultadoId)
                .Include(x => x.ObjetivoAnioFiscales)
                .ThenInclude(m => m.Objetivos)
-               .Include(x => x.PlanificacionResultados)
+               //.Include(x => x.PlanificacionResultados)
                .FirstOrDefaultAsync();
         }
 
@@ -42,7 +42,8 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
             return await _repository.Entities
                 .Include(x => x.ObjetivoAnioFiscales)
                .ThenInclude(m => m.Objetivos)
-               .Include(x => x.PlanificacionResultados).ToListAsync();
+               //.Include(x => x.PlanificacionResultados)
+               .ToListAsync();
         }
 
         public async Task<List<ResultadoResponse>> GetListxAnioAsync(int idObjetivoAnioFiscal, int idObjetivo)

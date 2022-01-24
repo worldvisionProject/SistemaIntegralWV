@@ -32,7 +32,9 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
 
         public string DatoManual2 { get; set; }
         public int DatoManual3 { get; set; }
-        public Resultado Resultados { get; set; }
+        public int TipoObjetivo { get; set; }
+        public int IdObjetivoAnioFiscal { get; set; }
+        //public Resultado Resultados { get; set; }
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
         public class UpdatePlanificacionResultadoCommandHandler : IRequestHandler<UpdatePlanificacionResultadoCommand, Result<int>>
         {
@@ -62,54 +64,55 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                     return Result<int>.Fail($"PlanificacionResultado no encontrado.");
                 }
 
-                if (command.Resultados.TipoObjetivo == 3)
-                {
-                    var _responsabilidad = await _responsabilidadRepository.GetByIdAsync(command.IdResultado);
-                    var objResponsa = _mapper.Map<Responsabilidad>(_responsabilidad);
-                    obj.Resultados.Nombre = objResponsa.Nombre;
-                    obj.Resultados.Indicador = objResponsa.Indicador;
-                    obj.Resultados.Tipo = objResponsa.Tipo;
-                    obj.Resultados.TipoObjetivo = 2;
-                    obj.Resultados.ObjetivoAnioFiscales = null;
-                }
-                else if (command.Resultados.TipoObjetivo == 4)
-                {
-                    var _competencia = await _competenciaRepository.GetByIdAsync(command.IdResultado);
-                    var objResponsa = _mapper.Map<Competencia>(_competencia);
-                    obj.Resultados.Nombre = objResponsa.NombreCompetencia;
-                    obj.Resultados.Indicador = objResponsa.Comportamiento;
-                    obj.Resultados.Tipo = 0;
-                    obj.Resultados.TipoObjetivo = 3;
-                    obj.Resultados.ObjetivoAnioFiscales = null;
-                }
-                else if (command.Resultados.TipoObjetivo == 5 || command.Resultados.TipoObjetivo == 7)
-                {
-                    var _competencia = await _competenciaRepository.GetByIdAsync(command.IdResultado);
-                    var objResponsa = _mapper.Map<Competencia>(_competencia);
-                    obj.Resultados.Nombre = command.DatoManual1;
-                    obj.Resultados.Indicador = String.Empty;
-                    obj.Resultados.Tipo = 0;
-                    obj.Resultados.TipoObjetivo = 4;
-                    obj.Resultados.ObjetivoAnioFiscales = null;
-                }
-                else if (command.Resultados.TipoObjetivo == 6)
-                {
-                    var _competencia = await _competenciaRepository.GetByIdAsync(command.IdResultado);
-                    var objResponsa = _mapper.Map<Competencia>(_competencia);
-                    obj.Resultados.Nombre = command.DatoManual1;
-                    obj.Resultados.Indicador = command.DatoManual2;
-                    obj.Resultados.Tipo = 0;
-                    obj.Resultados.TipoObjetivo = 4;
-                    obj.Resultados.ObjetivoAnioFiscales = null;
-                }
-                else if (command.Resultados.TipoObjetivo == 1 || command.Resultados.TipoObjetivo == 2)
-                {
-                    obj.Resultados.ObjetivoAnioFiscales = null;
-                    obj.Resultados = null;
-                }
+                //if (command.Resultados.TipoObjetivo == 3)
+                //{
+                //    var _responsabilidad = await _responsabilidadRepository.GetByIdAsync(command.IdResultado);
+                //    var objResponsa = _mapper.Map<Responsabilidad>(_responsabilidad);
+                //    obj.Resultados.Nombre = objResponsa.Nombre;
+                //    obj.Resultados.Indicador = objResponsa.Indicador;
+                //    obj.Resultados.Tipo = objResponsa.Tipo;
+                //    obj.Resultados.TipoObjetivo = 2;
+                //    obj.Resultados.ObjetivoAnioFiscales = null;
+                //}
+                //else if (command.Resultados.TipoObjetivo == 4)
+                //{
+                //    var _competencia = await _competenciaRepository.GetByIdAsync(command.IdResultado);
+                //    var objResponsa = _mapper.Map<Competencia>(_competencia);
+                //    obj.Resultados.Nombre = objResponsa.NombreCompetencia;
+                //    obj.Resultados.Indicador = objResponsa.Comportamiento;
+                //    obj.Resultados.Tipo = 0;
+                //    obj.Resultados.TipoObjetivo = 3;
+                //    obj.Resultados.ObjetivoAnioFiscales = null;
+                //}
+                //else if (command.Resultados.TipoObjetivo == 5 || command.Resultados.TipoObjetivo == 7)
+                //{
+                //    var _competencia = await _competenciaRepository.GetByIdAsync(command.IdResultado);
+                //    var objResponsa = _mapper.Map<Competencia>(_competencia);
+                //    obj.Resultados.Nombre = command.DatoManual1;
+                //    obj.Resultados.Indicador = String.Empty;
+                //    obj.Resultados.Tipo = 0;
+                //    obj.Resultados.TipoObjetivo = 4;
+                //    obj.Resultados.ObjetivoAnioFiscales = null;
+                //}
+                //else if (command.Resultados.TipoObjetivo == 6)
+                //{
+                //    var _competencia = await _competenciaRepository.GetByIdAsync(command.IdResultado);
+                //    var objResponsa = _mapper.Map<Competencia>(_competencia);
+                //    obj.Resultados.Nombre = command.DatoManual1;
+                //    obj.Resultados.Indicador = command.DatoManual2;
+                //    obj.Resultados.Tipo = 0;
+                //    obj.Resultados.TipoObjetivo = 4;
+                //    obj.Resultados.ObjetivoAnioFiscales = null;
+                //}
+                //else if (command.Resultados.TipoObjetivo == 1 || command.Resultados.TipoObjetivo == 2)
+                //{
+                //    obj.Resultados.ObjetivoAnioFiscales = null;
+                //    obj.Resultados = null;
+                //}
 
 
-                
+               
+                obj.IdResultado = command.IdResultado;
                 obj.Meta = command.Meta;
                 obj.FechaInicio = command.FechaInicio;
                 obj.FechaFin = command.FechaFin;
@@ -117,7 +120,8 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                 obj.DatoManual1 = command.DatoManual1;
                 obj.DatoManual2 = command.DatoManual2;
                 obj.DatoManual3 = command.DatoManual3;
-
+                obj.TipoObjetivo = command.TipoObjetivo;
+                obj.IdObjetivoAnioFiscal = command.IdObjetivoAnioFiscal;
                 foreach (var h in command.PlanificacionHitos)
                 {
                     var hito = _mapper.Map<PlanificacionHito>(h);

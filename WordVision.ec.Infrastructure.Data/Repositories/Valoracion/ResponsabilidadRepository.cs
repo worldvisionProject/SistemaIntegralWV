@@ -40,12 +40,12 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                .ToListAsync();
         }
 
-        public async Task<List<ResponsabilidadResponse>> GetListPadreAsync(int idEstructura)
+        public async Task<List<ResponsabilidadResponse>> GetListPadreAsync(int idEstructura,int idObjetivoAnioFiscal)
         {
-            return await _repository.Entities.Where(g => g.IdEstructura== idEstructura)
+            return await _repository.Entities.Where(g => g.IdEstructura== idEstructura && g.IdObjetivoAnioFiscal== idObjetivoAnioFiscal)
                 .Select(x => new ResponsabilidadResponse
-                {
-                    IdResponsabilidad = x.Id,
+                {   Id=x.Id,
+                    IdResponsabilidad = x.IdResponsabilidad,
                     NombreResponsabilidad = x.Nombre
                 }).Distinct().ToListAsync();
         }

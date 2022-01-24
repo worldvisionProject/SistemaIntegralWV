@@ -30,7 +30,22 @@
         </div> 
 @foreach (var anio in objetivo.AnioFiscales)
         {
-            if (objetivo.Numero.Contains("3") )
+            if (objetivo.Numero.Contains("1") )
+                  {
+                    <button type="button" class="btn btn-primary" id="btnViewModel@objetivo.Numero" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value&idObjetivo=@objetivo.IdObjetivo&idObjetivoAnioFiscal=@anio.Id&idResultado=0&anioFiscal=@anio.AnioFiscal&objNumero=@objetivo.Numero','Objetivos')">
+                        <i class="fa fa-plus-square"></i>
+                            Agregar Resultado
+                    </button>
+
+                  }else
+            if (objetivo.Numero.Contains("2") )
+                  {
+                    <button type="button" class="btn btn-primary" id="btnViewModel@objetivo.Numero" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value&idObjetivo=@objetivo.IdObjetivo&idObjetivoAnioFiscal=@anio.Id&idResultado=0&anioFiscal=@anio.AnioFiscal&objNumero=@objetivo.Numero','Objetivos')">
+                        <i class="fa fa-plus-square"></i>
+                            Agregar Resultado
+                    </button>
+
+                  }else  if (objetivo.Numero.Contains("3") )
                   {
                     <button type="button" class="btn btn-primary" id="btnViewModel@objetivo.Numero" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value&idObjetivo=@objetivo.IdObjetivo&idObjetivoAnioFiscal=@anio.Id&idResultado=0&anioFiscal=@anio.AnioFiscal&objNumero=@objetivo.Numero','Objetivos')">
                         <i class="fa fa-plus-square"></i>

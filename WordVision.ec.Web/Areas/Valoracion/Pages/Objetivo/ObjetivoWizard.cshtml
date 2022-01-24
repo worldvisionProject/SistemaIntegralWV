@@ -1,0 +1,18 @@
+﻿
+@using WordVision.ec.Web.Areas.Valoracion.Models
+
+<div id="viewAll" class="card-body card-body-card table-responsive">
+    <p><a asp-page="/valoracion/objetivo/objetivo/wizard/Index">Open the wizard</a></p>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>
+    $(document).ready(function () {
+           
+        });
+        function loadData() {
+            $('#viewAll').load('/Wizard');
+        }</script>
+}

@@ -8,6 +8,7 @@ namespace WordVision.ec.Application.DTOs.Valoracion
 {
     public class ResponsabilidadResponse
     {
+        public int Id { get; set; }
         public int IdResponsabilidad { get; set; }
         public string NombreResponsabilidad { get; set; }
     }

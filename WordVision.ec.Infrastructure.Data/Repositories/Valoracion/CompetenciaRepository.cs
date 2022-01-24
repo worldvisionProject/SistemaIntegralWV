@@ -47,6 +47,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                 return await _repository.Entities.Where(c => c.IdNivel == 0 || c.IdNivel == 1)
                  .Select(x => new CompetenciaResponse
                  {
+                     Id = x.Id,
                      IdCompetencia = x.IdCompetencia,
                      NombreCompetencia = x.NombreCompetencia
                  }).Distinct().ToListAsync();

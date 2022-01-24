@@ -16,9 +16,15 @@ namespace WordVision.ec.Domain.Entities.Valoracion
         [Required]
         public decimal Ponderacion { get; set; }
         public int IdObjetivo { get; set; }
+        public int Minimo { get; set; }
+        public int Maximo { get; set; }
         public Objetivo Objetivos { get; set; }
 
         [ForeignKey("IdObjetivoAnioFiscal")]
-        public ICollection<Resultado> Resultados { get; set; }
+        public ICollection<PlanificacionResultado> PlanificacionResultados { get; set; }
+        [ForeignKey("IdObjetivoAnioFiscal")]
+        public ICollection<Resultado> Resultado { get; set; }
+        [ForeignKey("IdObjetivoAnioFiscal")]
+        public ICollection<Responsabilidad> Responsabilidades { get; set; }
     }
 }

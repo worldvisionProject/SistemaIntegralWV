@@ -25,6 +25,8 @@ namespace WordVision.ec.Application.DTOs.Valoracion
         public int AnioFiscal { get; set; }
         public decimal Ponderacion { get; set; }
         public int IdObjetivo { get; set; }
+        public int Minimo { get; set; }
+        public int Maximo { get; set; }
         public List<PlanificacionResultadoResponse> PlanificacionResultados { get; set; }
     }
     public class PlanificacionResultadoResponse
@@ -42,7 +44,7 @@ namespace WordVision.ec.Application.DTOs.Valoracion
         public DateTime? FechaFin { get; set; }
         public decimal? Ponderacion { get; set; }
         public string DatoManual1 { get; set; }
-
+        public int IdObjetivoAnioFiscal { get; set; }
         public string DatoManual2 { get; set; }
         public int DatoManual3 { get; set; }
     }

@@ -122,6 +122,7 @@ namespace WordVision.ec.Web
                 // Adding your provider to the end of the collection may result in a built-in
                 // model binder being called before your custom binder has a chance.
                 options.ModelBinderProviders.Insert(0, new StepModelBinderProvider());
+                options.ModelBinderProviders.Insert(1, new WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.StepModelBinderProvider());
             }).AddSessionStateTempDataProvider();
             services.AddSession();
 

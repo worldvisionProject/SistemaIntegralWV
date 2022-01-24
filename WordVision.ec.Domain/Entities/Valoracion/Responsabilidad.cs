@@ -23,6 +23,10 @@ namespace WordVision.ec.Domain.Entities.Valoracion
         public int IdResponsabilidad { get; set; }
         [Required]
         public int Padre { get; set; }
+
+        public int IdObjetivoAnioFiscal { get; set; }
+        public ObjetivoAnioFiscal ObjetivoAnioFiscales { get; set; }
+
         //public ObjetivoAnioFiscal ObjetivoAnioFiscales { get; set; }
         //[ForeignKey("IdResponsabilidad")]
         //public ICollection<PlanificacionResponsabilidad> PlanificacionResponsabilidades { get; set; }

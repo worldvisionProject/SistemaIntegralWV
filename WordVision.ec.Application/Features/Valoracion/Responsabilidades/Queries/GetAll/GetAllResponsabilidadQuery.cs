@@ -14,6 +14,7 @@ namespace WordVision.ec.Application.Features.Valoracion.Responsabilidades.Querie
 {
     public class GetAllResponsabilidadQuery : IRequest<Result<List<ResponsabilidadResponse>>>
     {
+        public int IdObjetivoAnioFiscal { get; set; }
         public int IdEstructura { get; set; }
         public GetAllResponsabilidadQuery()
         {
@@ -36,7 +37,7 @@ namespace WordVision.ec.Application.Features.Valoracion.Responsabilidades.Querie
 
         public async Task<Result<List<ResponsabilidadResponse>>> Handle(GetAllResponsabilidadQuery request, CancellationToken cancellationToken)
         {
-            var obj = await _repository.GetListPadreAsync(request.IdEstructura);
+            var obj = await _repository.GetListPadreAsync(request.IdEstructura,request.IdObjetivoAnioFiscal);
             var mapped = _mapper.Map<List<ResponsabilidadResponse>>(obj);
 
             return Result<List<ResponsabilidadResponse>>.Success(mapped);

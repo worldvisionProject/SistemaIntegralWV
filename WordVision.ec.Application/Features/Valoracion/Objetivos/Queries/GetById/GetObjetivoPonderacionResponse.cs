@@ -11,5 +11,7 @@ namespace WordVision.ec.Application.Features.Valoracion.Objetivos.Queries.GetByI
         public int AnioFiscal { get; set; }
        public decimal Ponderacion { get; set; }
         public int IdObjetivo { get; set; }
+        public int Minimo { get; set; }
+        public int Maximo { get; set; }
     }
 }

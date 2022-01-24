@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.Actividades.Commands.Delete;
 using WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update;
 using WordVision.ec.Application.Features.Valoracion.Competencias.Queries.GetAll;
 using WordVision.ec.Application.Features.Valoracion.Competencias.Queries.GetById;
@@ -16,9 +17,11 @@ using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Comm
 using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Queries.GetById;
 using WordVision.ec.Application.Features.Valoracion.Responsabilidades.Queries.GetAll;
+using WordVision.ec.Application.Features.Valoracion.Responsabilidades.Queries.GetById;
 using WordVision.ec.Application.Features.Valoracion.Resultados.Queries.GetAllCached;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Valoracion.Models;
+using WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard;
 
 namespace WordVision.ec.Web.Areas.Valoracion.Controllers
 {
@@ -52,31 +55,32 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
             
             return null;     
         }
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idColaborador = 0,int idObjetivo=0,int idObjetivoAnioFiscal=0, int idResultado = 0,int anioFiscal=0,int objNumero=0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idColaborador = 0,int idObjetivo=0,int idObjetivoAnioFiscal=0, int idResultado = 0,int anioFiscal=0,int objNumero=0,int tipoObjetivo=0,decimal ponderacionObjetivo=decimal.Zero)
         {
             try
             {
                 if (id == 0)
                 {
                     var entidadViewModel = new PlanificacionResultadoViewModel();
-                    var resultadoViewModel = new ResultadoViewModel();
                     var anioFiscalViewModel = new ObjetivoAnioFiscalViewModel();
                     anioFiscalViewModel.AnioFiscal = anioFiscal;
                     anioFiscalViewModel.IdObjetivo = idObjetivo;
                     anioFiscalViewModel.Id = idObjetivoAnioFiscal;
-                    resultadoViewModel.ObjetivoAnioFiscales = anioFiscalViewModel;
-                    resultadoViewModel.Id = idResultado;
-                    resultadoViewModel.TipoObjetivo=objNumero;
-                    resultadoViewModel.IdObjetivoAnioFiscal = idObjetivoAnioFiscal;
                     entidadViewModel.IdColaborador = idColaborador;
                     entidadViewModel.IdResultado = idResultado;
-                    entidadViewModel.Resultados= resultadoViewModel;
-                     if (objNumero==3)
+                    entidadViewModel.IdObjetivoAnioFiscal = idObjetivoAnioFiscal;
+                    entidadViewModel.TipoObjetivo = tipoObjetivo;
+                    entidadViewModel.ObjetivoAnioFiscales = anioFiscalViewModel;
+                    entidadViewModel.IdObjetivo= idObjetivo;
+                    entidadViewModel.AnioFiscal = anioFiscal;
+                    entidadViewModel.PonderacionObjetivo = ponderacionObjetivo;
+                    entidadViewModel.NumeroObjetivo = objNumero;
+                    if (objNumero==3)
                     {
                         
                         var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                         entidadViewModel.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
-                        var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() {IdEstructura= Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "IdEstructura")?.Value) });
+                        var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() {IdEstructura= Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "IdEstructura")?.Value), IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
                         entidadViewModel.IdResponsabillidadList = new SelectList(entidadModelResponsabillidad.Data, "IdResponsabilidad", "NombreResponsabilidad");
                     }
                     else if (objNumero == 4)
@@ -97,17 +101,31 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
 
                     var entidadModel = await _mediator.Send(new GetPlanificacionResultadoByIdQuery() { Id = id });
                     var entidadMapper = _mapper.Map<PlanificacionResultadoViewModel>(entidadModel.Data);
-                    entidadMapper.Resultados.TipoObjetivo = objNumero;
+                    entidadMapper.TipoObjetivo = tipoObjetivo;
+                    entidadMapper.NumeroObjetivo = objNumero;
+                    entidadMapper.IdObjetivoAnioFiscal = idObjetivoAnioFiscal;
+                    var anioFiscalViewModel = new ObjetivoAnioFiscalViewModel();
+                    anioFiscalViewModel.AnioFiscal = anioFiscal;
+                    anioFiscalViewModel.IdObjetivo = idObjetivo;
+                    anioFiscalViewModel.Id = idObjetivoAnioFiscal;
+                    entidadMapper.ObjetivoAnioFiscales = anioFiscalViewModel;
+                    entidadMapper.IdObjetivo = idObjetivo;
+                    entidadMapper.AnioFiscal = anioFiscal;
+                    entidadMapper.PonderacionObjetivo = ponderacionObjetivo;
+
                     if (objNumero == 3)
                     {
-
+                        var entidadResponsabillidad = await _mediator.Send(new GetResponsabilidadByIdQuery() { Id = entidadMapper.IdResultado });
+                        entidadMapper.IdPadre = entidadResponsabillidad.Data.Padre;
                         var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                         entidadMapper.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
-                        var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() { IdEstructura = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "IdEstructura")?.Value) });
+                        var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() { IdEstructura = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "IdEstructura")?.Value), IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
                         entidadMapper.IdResponsabillidadList = new SelectList(entidadModelResponsabillidad.Data, "IdResponsabilidad", "NombreResponsabilidad");
                     }
                     else if (objNumero == 4)
                     {
+                        var entidadResponsabillidad = await _mediator.Send(new GetCompetenciaByIdQuery() { Id = entidadMapper.IdResultado });
+                        entidadMapper.IdPadreCompetencia = entidadResponsabillidad.Data.Padre;
                         var entidadModelResponsabillidad = await _mediator.Send(new GetAllCompetenciasQuery() { Nivel = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value) });
                         entidadMapper.IdCompetenciaList = new SelectList(entidadModelResponsabillidad.Data, "IdCompetencia", "NombreCompetencia");
                     }
@@ -137,9 +155,17 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
             var lista = _mapper.Map<List<CompetenciaViewModel>>(entidadModel.Data);
             return  Json(lista);
 
-    }
+        }
 
-    [HttpPost]
+        public async Task<JsonResult> GetIndicadorResponsabilidadList(int idResponsabilidad)
+        {
+            var entidadModel = await _mediator.Send(new GetResponsabilidadByIdPadreQuery() { IdPadre = idResponsabilidad });
+            var lista = _mapper.Map<List<ResponsabilidadViewModel>>(entidadModel.Data);
+            return Json(lista);
+
+        }
+
+        [HttpPost]
         public async Task<JsonResult> OnPostCreateOrEdit(int id, PlanificacionResultadoViewModel entidad)
         {
             try
@@ -148,12 +174,29 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 if (ModelState.IsValid)
                 {
                     decimal ponderaObjetivo = 0;
-                    var ponderacion = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = entidad.Resultados.ObjetivoAnioFiscales.IdObjetivo });
+                    var ponderacion = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = entidad.ObjetivoAnioFiscales.IdObjetivo });
                     ponderaObjetivo = ponderacion.Data.Ponderacion;
-                    var planifica = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoQuery() { IdObjetivo = entidad.Resultados.ObjetivoAnioFiscales.IdObjetivo });
-                   var d= planifica.Data.Where(b=>b.Id!=id).ToList();
+                    var planifica = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoQuery() { IdObjetivo = entidad.ObjetivoAnioFiscales.IdObjetivo });
+                    var contar = planifica.Data.Count();
+                    var d= planifica.Data.Where(b=>b.Id!=id).ToList();
+                    var existe= planifica.Data.Where(b => b.IdResultado ==entidad.IdResultado).Count();
                     decimal suma = 0;
                    
+                    if (existe>=1)
+                    {
+                        _notify.Error("Ya existe un Resultado/Responsabilidad/Competencias ingresado en este Objetivo.");
+
+                        return new JsonResult(new { isValid = false });
+                    }
+
+                    //if (!(contar>=ponderacion.Data.Minimo && contar <= ponderacion.Data.Maximo))
+                    if (!(contar<=ponderacion.Data.Maximo))
+                    {
+                        _notify.Error("El Objetivo "+ entidad.NumeroObjetivo.ToString() + " debe tener mínimo "+ ponderacion.Data.Minimo.ToString() + " y máximo "+ponderacion.Data.Maximo.ToString()+" Items.");
+
+                        return new JsonResult(new { isValid = false });
+                    }
+
                     foreach (var i in d)
                     {
                         suma = suma + Convert.ToDecimal( i.Ponderacion);
@@ -188,16 +231,23 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         if (result.Succeeded) _notify.Information($"PlanificacionResultado con ID {result.Data} Actualizado.");
                     }
 
-
-                    var response = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = entidad.Resultados.ObjetivoAnioFiscales.AnioFiscal, IdColaborador = entidad.IdColaborador });
+                    var viewModel = new Objetivo_1Step();
+                    viewModel.IdObjetivo = entidad.IdObjetivo;
+                    viewModel.AnioFiscal = entidad.AnioFiscal;
+                    viewModel.IdObjetivoAnioFiscal = entidad.IdObjetivoAnioFiscal;
+                    viewModel.NumeroObjetivo = entidad.NumeroObjetivo.ToString();
+                    viewModel.PonderacionObjetivo = entidad.PonderacionObjetivo;
+                    var response = await _mediator.Send(new GetPlanificacionResultadoByIdColabotadorQuery() { IdObjetivoAnioFiscal = entidad.IdObjetivoAnioFiscal, IdColaborador = entidad.IdColaborador });
                     if (response.Succeeded)
                     {
-                        var viewModel = _mapper.Map<List<ObjetivoResponseViewModel>>(response.Data);
-                        var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                        var entidadP = _mapper.Map<List<PlanificacionResultadoResponse>>(response.Data);
+                        viewModel.PlanificacionResultados = entidadP;
+                        string pagina = entidad.NumeroObjetivo == 4 ? "_ViewAllObjetivoCompetencia" : entidad.NumeroObjetivo == 5 || entidad.NumeroObjetivo == 6 || entidad.NumeroObjetivo == 7 ? "_ViewAllObjetivoPregunta" : "_ViewAllObjetivoResultado";
+                        var html1 = await _viewRenderer.RenderViewToStringAsync(pagina, viewModel);
                         return new JsonResult(new { isValid = true, html = html1 });
-
-
                     }
+
+
 
 
                 }
@@ -218,6 +268,66 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
             return new JsonResult(new { isValid = false });
         }
 
+        public async Task<JsonResult> OnPostDelete(int id = 0,int idColaborador=0, int idObjetivo = 0, int anioFiscal = 0, int idObjetivoAnioFiscal = 0, int numeroObjetivo = 0, int ponderacionObjetivo = 0)
+        {
+            try
+            {
+                var deleteCommand = await _mediator.Send(new DeletePlanificacionResultadoCommand { Id = id });
+                if (deleteCommand.Succeeded)
+                {
+                    _notify.Information($"Actividad con Id {id} Eliminado.");
+                }
+                else
+                {
+                    _notify.Error(deleteCommand.Message);
+                    return null;
+                }
 
+                var viewModel = new Objetivo_1Step();
+                viewModel.IdObjetivo = idObjetivo;
+                viewModel.AnioFiscal = anioFiscal;
+                viewModel.IdObjetivoAnioFiscal = idObjetivoAnioFiscal;
+                viewModel.NumeroObjetivo = numeroObjetivo.ToString();
+                viewModel.PonderacionObjetivo = ponderacionObjetivo;
+                var response = await _mediator.Send(new GetPlanificacionResultadoByIdColabotadorQuery() { IdObjetivoAnioFiscal = idObjetivoAnioFiscal, IdColaborador = idColaborador });
+                if (response.Succeeded)
+                {
+                    var entidadP = _mapper.Map<List<PlanificacionResultadoResponse>>(response.Data);
+                    viewModel.PlanificacionResultados = entidadP;
+                    string pagina = numeroObjetivo == 4 ? "_ViewAllObjetivoCompetencia" : numeroObjetivo == 5 || numeroObjetivo == 6 || numeroObjetivo == 7 ? "_ViewAllObjetivoPregunta" : "_ViewAllObjetivoResultado";
+                    var html1 = await _viewRenderer.RenderViewToStringAsync(pagina, viewModel);
+                    return new JsonResult(new { isValid = true, html = html1 });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "OnPostDelete");
+                _notify.Error("Error al Eliminar Planificacion.");
+            }
+           
+
+            return new JsonResult(new { isValid = false });
+        }
+
+        public async Task<IActionResult> LoadObjetivoResultado(int id = 0,int idObjetivo=0,int idObjetivoAnioFiscal=0,int anioFiscal=0,string objNumero="", List<PlanificacionResultadoResponse> entidad =null,decimal ponderacion=decimal.Zero)
+        {
+            var viewModel = new Objetivo_1Step();
+            viewModel.IdObjetivo = idObjetivo;
+            viewModel.AnioFiscal = anioFiscal;
+            viewModel.IdObjetivoAnioFiscal = idObjetivoAnioFiscal;
+            viewModel.NumeroObjetivo = objNumero;
+            viewModel.PonderacionObjetivo = ponderacion;
+            var response = await _mediator.Send(new GetPlanificacionResultadoByIdColabotadorQuery() { IdObjetivoAnioFiscal = idObjetivoAnioFiscal, IdColaborador = id });
+            if (response.Succeeded)
+            {
+                entidad = _mapper.Map<List<PlanificacionResultadoResponse>>(response.Data);
+            }
+            viewModel.PlanificacionResultados= entidad;
+            string pagina=objNumero=="4"?"_ViewAllObjetivoCompetencia":objNumero=="5" || objNumero == "6" || objNumero == "7" ? "_ViewAllObjetivoPregunta" :"_ViewAllObjetivoResultado";
+            //entidad.NumContacto = formularioViewModel.FormularioTerceros.Where(x => x.Tipo == "C").Count();
+            return PartialView(pagina, viewModel);
+               
+
+        }
     }
 }

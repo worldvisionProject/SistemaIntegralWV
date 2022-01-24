@@ -2716,6 +2716,12 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Maximo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Minimo")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Ponderacion")
                         .HasColumnType("decimal(18,2)");
 
@@ -2806,6 +2812,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<int>("IdColaborador")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdObjetivoAnioFiscal")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdResultado")
                         .HasColumnType("int");
 
@@ -2821,9 +2830,12 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<decimal?>("Ponderacion")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("TipoObjetivo")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("IdResultado");
+                    b.HasIndex("IdObjetivoAnioFiscal");
 
                     b.ToTable("PlanificacionResultados", "valoracion");
                 });
@@ -2842,6 +2854,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasColumnType("datetime2");
 
                     b.Property<int>("IdEstructura")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdObjetivoAnioFiscal")
                         .HasColumnType("int");
 
                     b.Property<int>("IdResponsabilidad")
@@ -2868,6 +2883,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdObjetivoAnioFiscal");
 
                     b.ToTable("Responsabilidades", "valoracion");
                 });
@@ -2903,9 +2920,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Tipo")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TipoObjetivo")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -3286,19 +3300,30 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.PlanificacionResultado", b =>
                 {
-                    b.HasOne("WordVision.ec.Domain.Entities.Valoracion.Resultado", "Resultados")
+                    b.HasOne("WordVision.ec.Domain.Entities.Valoracion.ObjetivoAnioFiscal", "ObjetivoAnioFiscales")
                         .WithMany("PlanificacionResultados")
-                        .HasForeignKey("IdResultado")
+                        .HasForeignKey("IdObjetivoAnioFiscal")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Resultados");
+                    b.Navigation("ObjetivoAnioFiscales");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.Responsabilidad", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Valoracion.ObjetivoAnioFiscal", "ObjetivoAnioFiscales")
+                        .WithMany("Responsabilidades")
+                        .HasForeignKey("IdObjetivoAnioFiscal")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ObjetivoAnioFiscales");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.Resultado", b =>
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Valoracion.ObjetivoAnioFiscal", "ObjetivoAnioFiscales")
-                        .WithMany("Resultados")
+                        .WithMany("Resultado")
                         .HasForeignKey("IdObjetivoAnioFiscal")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -3442,17 +3467,16 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.ObjetivoAnioFiscal", b =>
                 {
-                    b.Navigation("Resultados");
+                    b.Navigation("PlanificacionResultados");
+
+                    b.Navigation("Responsabilidades");
+
+                    b.Navigation("Resultado");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.PlanificacionResultado", b =>
                 {
                     b.Navigation("PlanificacionHitos");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.Resultado", b =>
-                {
-                    b.Navigation("PlanificacionResultados");
                 });
 #pragma warning restore 612, 618
         }

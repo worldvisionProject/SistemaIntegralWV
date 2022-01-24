@@ -31,7 +31,9 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
 
         public string DatoManual2 { get; set; }
         public int DatoManual3 { get; set; }
-        public Resultado Resultados { get; set; }
+        public int TipoObjetivo { get; set; }
+        public int IdObjetivoAnioFiscal { get; set; }
+        public ObjetivoAnioFiscal ObjetivoAnioFiscales { get; set; }
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
     }
     public class CreatePlanificacionResultadoCommandHandler : IRequestHandler<CreatePlanificacionResultadoCommand, Result<int>>
@@ -58,51 +60,51 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
 
         public async Task<Result<int>> Handle(CreatePlanificacionResultadoCommand request, CancellationToken cancellationToken)
         {
-            if (request.Resultados.TipoObjetivo == 3)
-            {
-                var _responsabilidad = await _responsabilidadRepository.GetByIdAsync(request.IdResultado);
-                var objResponsa = _mapper.Map<Responsabilidad>(_responsabilidad);
-                request.Resultados.Nombre = objResponsa.Nombre;
-                request.Resultados.Indicador = objResponsa.Indicador;
-                request.Resultados.Tipo = objResponsa.Tipo;
-                request.Resultados.TipoObjetivo = 2;
-                request.Resultados.ObjetivoAnioFiscales = null;
-            }
-            else if (request.Resultados.TipoObjetivo == 4)
-            {
-                var _competencia = await _competenciaRepository.GetByIdAsync(request.IdResultado);
-                var objResponsa = _mapper.Map<Competencia>(_competencia);
-                request.Resultados.Nombre = objResponsa.NombreCompetencia;
-                request.Resultados.Indicador = objResponsa.Comportamiento;
-                request.Resultados.Tipo = 0;
-                request.Resultados.TipoObjetivo = 3;
-                request.Resultados.ObjetivoAnioFiscales = null;
-            }
-            else if (request.Resultados.TipoObjetivo == 5 || request.Resultados.TipoObjetivo == 7)
-            {
-                var _competencia = await _competenciaRepository.GetByIdAsync(request.IdResultado);
-                var objResponsa = _mapper.Map<Competencia>(_competencia);
-                request.Resultados.Nombre = request.DatoManual1;
-                request.Resultados.Indicador = String.Empty;
-                request.Resultados.Tipo = 0;
-                request.Resultados.TipoObjetivo = 4;
-                request.Resultados.ObjetivoAnioFiscales = null;
-            }
-            else if (request.Resultados.TipoObjetivo == 6)
-            {
-                var _competencia = await _competenciaRepository.GetByIdAsync(request.IdResultado);
-                var objResponsa = _mapper.Map<Competencia>(_competencia);
-                request.Resultados.Nombre = request.DatoManual1;
-                request.Resultados.Indicador = request.DatoManual2;
-                request.Resultados.Tipo = 0;
-                request.Resultados.TipoObjetivo = 4;
-                request.Resultados.ObjetivoAnioFiscales = null;
-            }
-            else if (request.Resultados.TipoObjetivo == 1 || request.Resultados.TipoObjetivo == 2)
-            {
-                request.Resultados.ObjetivoAnioFiscales = null;
-                request.Resultados = null;
-            }
+            //if (request.Resultados.TipoObjetivo == 3)
+            //{
+            //    var _responsabilidad = await _responsabilidadRepository.GetByIdAsync(request.IdResultado);
+            //    var objResponsa = _mapper.Map<Responsabilidad>(_responsabilidad);
+            //    request.Resultados.Nombre = objResponsa.Nombre;
+            //    request.Resultados.Indicador = objResponsa.Indicador;
+            //    request.Resultados.Tipo = objResponsa.Tipo;
+            //    request.Resultados.TipoObjetivo = 2;
+            //    request.Resultados.ObjetivoAnioFiscales = null;
+            //}
+            //else if (request.Resultados.TipoObjetivo == 4)
+            //{
+            //    var _competencia = await _competenciaRepository.GetByIdAsync(request.IdResultado);
+            //    var objResponsa = _mapper.Map<Competencia>(_competencia);
+            //    request.Resultados.Nombre = objResponsa.NombreCompetencia;
+            //    request.Resultados.Indicador = objResponsa.Comportamiento;
+            //    request.Resultados.Tipo = 0;
+            //    request.Resultados.TipoObjetivo = 3;
+            //    request.Resultados.ObjetivoAnioFiscales = null;
+            //}
+            //else if (request.Resultados.TipoObjetivo == 5 || request.Resultados.TipoObjetivo == 7)
+            //{
+            //    var _competencia = await _competenciaRepository.GetByIdAsync(request.IdResultado);
+            //    var objResponsa = _mapper.Map<Competencia>(_competencia);
+            //    request.Resultados.Nombre = request.DatoManual1;
+            //    request.Resultados.Indicador = String.Empty;
+            //    request.Resultados.Tipo = 0;
+            //    request.Resultados.TipoObjetivo = 4;
+            //    request.Resultados.ObjetivoAnioFiscales = null;
+            //}
+            //else if (request.Resultados.TipoObjetivo == 6)
+            //{
+            //    var _competencia = await _competenciaRepository.GetByIdAsync(request.IdResultado);
+            //    var objResponsa = _mapper.Map<Competencia>(_competencia);
+            //    request.Resultados.Nombre = request.DatoManual1;
+            //    request.Resultados.Indicador = request.DatoManual2;
+            //    request.Resultados.Tipo = 0;
+            //    request.Resultados.TipoObjetivo = 4;
+            //    request.Resultados.ObjetivoAnioFiscales = null;
+            //}
+            //else if (request.Resultados.TipoObjetivo == 1 || request.Resultados.TipoObjetivo == 2)
+            //{
+               request.ObjetivoAnioFiscales = null;
+                //request.Resultados = null;
+            //}
                 
             var planificacion = _mapper.Map<PlanificacionResultado>(request);
             await _entidadRepository.InsertAsync(planificacion);

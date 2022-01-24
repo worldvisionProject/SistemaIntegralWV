@@ -14,7 +14,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Valoracion
 
         Task<List<Responsabilidad>> GetListAsync();
         Task<Responsabilidad> GetByIdAsync(int responsabilidadId);
-        Task<List<ResponsabilidadResponse>> GetListPadreAsync(int idEstructura);
+        Task<List<ResponsabilidadResponse>> GetListPadreAsync(int idEstructura, int idObjetivoAnioFiscal);
         Task<List<Responsabilidad>> GetListxPadreAsync(int idPadre);
         Task<int> InsertAsync(Responsabilidad responsabilidad);
 

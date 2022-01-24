@@ -15,6 +15,8 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Valoracion
         Task<List<PlanificacionResultado>> GetListAsync();
         Task<List<PlanificacionResultado>> GetListxObjetivoAsync(int idObjetivo);
         Task<List<ObjetivoResponse>> GetListxObjetivoxColaboradorAsync(int idAnioFiscal, int idColaborador);
+
+        Task<List<PlanificacionResultadoResponse>> GetListxColaboradorAsync(int idObjetivoAnioFiscal, int idColaborador);
         Task<PlanificacionResultado> GetByIdAsync(int planificacionResultadoId);
         Task<int> InsertAsync(PlanificacionResultado planificacionResultado);
 
