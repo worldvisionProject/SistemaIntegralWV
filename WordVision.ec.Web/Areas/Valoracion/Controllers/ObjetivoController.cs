@@ -98,7 +98,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 }
                 else
                 {
-
+                    tipoObjetivo= objNumero==3 ? 2 : objNumero == 4 ? 3:(objNumero == 5 || objNumero == 6 || objNumero == 7) ?4:1;
                     var entidadModel = await _mediator.Send(new GetPlanificacionResultadoByIdQuery() { Id = id });
                     var entidadMapper = _mapper.Map<PlanificacionResultadoViewModel>(entidadModel.Data);
                     entidadMapper.TipoObjetivo = tipoObjetivo;
@@ -112,6 +112,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     entidadMapper.IdObjetivo = idObjetivo;
                     entidadMapper.AnioFiscal = anioFiscal;
                     entidadMapper.PonderacionObjetivo = ponderacionObjetivo;
+                    entidadMapper.IdResultado = idResultado;
 
                     if (objNumero == 3)
                     {
@@ -165,6 +166,14 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
 
         }
 
+        public async Task<JsonResult> GetResultado(int idResultado)
+        {
+            var entidadModel = await _mediator.Send(new GetResultadoByIdQuery() { Id = idResultado });
+            var lista = _mapper.Map<ResultadoViewModel>(entidadModel.Data);
+            return Json(lista);
+
+        }
+
         [HttpPost]
         public async Task<JsonResult> OnPostCreateOrEdit(int id, PlanificacionResultadoViewModel entidad)
         {
@@ -181,13 +190,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     var d= planifica.Data.Where(b=>b.Id!=id).ToList();
                     var existe= planifica.Data.Where(b => b.IdResultado ==entidad.IdResultado).Count();
                     decimal suma = 0;
-                   
-                    if (existe>=1)
-                    {
-                        _notify.Error("Ya existe un Resultado/Responsabilidad/Competencias ingresado en este Objetivo.");
+                    decimal sumaBasePoderacion = 0;
 
-                        return new JsonResult(new { isValid = false });
-                    }
 
                     //if (!(contar>=ponderacion.Data.Minimo && contar <= ponderacion.Data.Maximo))
                     if (!(contar<=ponderacion.Data.Maximo))
@@ -196,24 +200,33 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
 
                         return new JsonResult(new { isValid = false });
                     }
-
+                    //foreach (var s in planifica.Data)
+                    //{
+                    //    sumaBasePoderacion = sumaBasePoderacion + Convert.ToDecimal(s.Ponderacion);
+                    //    //  ponderaObjetivo = i.Resultados.ObjetivoAnioFiscales.Ponderacion;
+                    //}
                     foreach (var i in d)
                     {
                         suma = suma + Convert.ToDecimal( i.Ponderacion);
                        //  ponderaObjetivo = i.Resultados.ObjetivoAnioFiscales.Ponderacion;
                     }
                     var total = suma + Convert.ToDecimal(entidad.Ponderacion);
-                  
+                    var restan = ponderaObjetivo-suma;
                     if (total > ponderaObjetivo)
                     {
                         
-                        _notify.Error("La suma de la ponderación de resultado no pude ser mayor a la Ponderacion de Objetivo " + ponderaObjetivo.ToString());
+                        _notify.Error("La suma de la ponderación de resultado no pude ser mayor a la Ponderacion de Objetivo " + ponderaObjetivo.ToString()+", restan "+restan.ToString()+" para llegar al máximo permitido.");
                        
                         return new JsonResult(new { isValid = false });
                     }
                     if (id == 0)
                     {
-                      
+                        if (existe >= 1)
+                        {
+                            _notify.Error("Ya existe un Resultado/Responsabilidad/Competencias ingresado en este Objetivo.");
+
+                            return new JsonResult(new { isValid = false });
+                        }
                         var createEntidadCommand = _mapper.Map<CreatePlanificacionResultadoCommand>(entidad);
                         var result = await _mediator.Send(createEntidadCommand);
                         if (result.Succeeded)

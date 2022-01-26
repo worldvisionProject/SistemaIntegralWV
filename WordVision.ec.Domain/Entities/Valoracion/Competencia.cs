@@ -15,6 +15,8 @@ namespace WordVision.ec.Domain.Entities.Valoracion
         public int IdNivel { get; set; }
         [Required]
         public string NombreCompetencia { get; set; }
+        public string Descripcion { get; set; }
+        public int EsObligatorio { get; set; }
         [Required]
         public string Comportamiento { get; set; }
         [Required]

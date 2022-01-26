@@ -12,7 +12,8 @@ namespace WordVision.ec.Application.Features.Valoracion.Competencias.Queries.Get
         public int IdNivel { get; set; }
        
         public string NombreCompetencia { get; set; }
-       
+        public string Descripcion { get; set; }
+        public int EsObligatorio { get; set; }
         public string Comportamiento { get; set; }
        
         public int IdCompetencia { get; set; }

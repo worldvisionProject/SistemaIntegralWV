@@ -84,8 +84,12 @@
                          <div class="col-md-6">
                              <label class="col-md-12 col-form-label texto-pregunta">Resultado</label>
                              @Html.DropDownListFor(x => x.IdResultado, (IEnumerable<SelectListItem>)Model.IdResultadoList, new { @class = "form-control" })
-
-                             <span asp-validation-for="IdResultado" class="text-danger"></span>
+                              <span asp-validation-for="IdResultado" class="text-danger"></span>
+                         </div>
+                    </div>
+                     <div class=" row" >
+                         <div class="col-md-12">
+                              <input type="text" value="" height="20" id="descResultado" name="descResultado" style="border:0px" class="col-md-12 col-form-label texto-pregunta" readonly  />
                          </div>
                     </div>
         
@@ -311,34 +315,41 @@
     
      $(document).ready(function () {
 
-        $.get("/Valoracion/Objetivo/GetIndicadorResponsabilidadList", { idResponsabilidad: $("#IdPadre").val() }, function (data) {
+         var numero=$("#NumeroObjetivo").val();
+         
+         if (numero===3 )
+         {
+                $.get("/Valoracion/Objetivo/GetIndicadorResponsabilidadList", { idResponsabilidad: $("#IdPadre").val() }, function (data) {
                     // VACIAMOS EL DropDownList
                     $("#IdResultado").empty();
                     // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
-                    $("#IdResultado").append("<option value> -- Seleccionar Indicador de " + $("#IdPadre option:selected").text() + " --</option>")
+                   // $("#IdResultado").append("<option value> -- Seleccionar Indicador de " + $("#IdPadre option:selected").text() + " --</option>")
                     // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
                     $.each(data, function (index, row) {
                         $("#IdResultado").append("<option value='" + row.id + "'>" + row.indicador + "</option>")
                     });
                  });
-
+        }
+ if (  numero===4)
+ {
                  $.get("/Valoracion/Objetivo/GetComportamientosList", { idCompetencia: $("#IdPadreCompetencia").val() }, function (data) {
                     // VACIAMOS EL DropDownList
                     $("#IdResultado").empty();
                     // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
-                    $("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
+                    //$("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
                     // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
                     $.each(data, function (index, row) {
                         $("#IdResultado").append("<option value='" + row.id + "'>" + row.comportamiento + "</option>")
                     });
                 });
+           }
 
             $("#IdPadreCompetencia").change(function () {
                 $.get("/Valoracion/Objetivo/GetComportamientosList", { idCompetencia: $("#IdPadreCompetencia").val() }, function (data) {
                     // VACIAMOS EL DropDownList
                     $("#IdResultado").empty();
                     // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
-                    $("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
+                   // $("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
                     // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
                     $.each(data, function (index, row) {
                         $("#IdResultado").append("<option value='" + row.id + "'>" + row.comportamiento + "</option>")
@@ -351,7 +362,7 @@
                     // VACIAMOS EL DropDownList
                     $("#IdResultado").empty();
                     // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
-                    $("#IdResultado").append("<option value> -- Seleccionar Indicador de " + $("#IdPadre option:selected").text() + " --</option>")
+                    //$("#IdResultado").append("<option value> -- Seleccionar Indicador de " + $("#IdPadre option:selected").text() + " --</option>")
                     // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
                     $.each(data, function (index, row) {
                         $("#IdResultado").append("<option value='" + row.id + "'>" + row.indicador + "</option>")
@@ -359,6 +370,12 @@
                 });
             });
 
+
+            $("#IdResultado").change(function () {
+                $.get("/Valoracion/Objetivo/GetResultado", { idResultado: $("#IdResultado").val() }, function (data) {
+                   $("#descResultado").val(data.indicador);
+                });
+            });
 
         });
 

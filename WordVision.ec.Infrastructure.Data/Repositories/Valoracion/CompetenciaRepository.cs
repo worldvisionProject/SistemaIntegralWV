@@ -44,20 +44,25 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
         {
           
             if (idNivel != 4)
-                return await _repository.Entities.Where(c => c.IdNivel == 0 || c.IdNivel == 1)
+                return await _repository.Entities.Where(c =>  c.IdNivel == 1)
                  .Select(x => new CompetenciaResponse
                  {
                      Id = x.Id,
                      IdCompetencia = x.IdCompetencia,
-                     NombreCompetencia = x.NombreCompetencia
+                     NombreCompetencia = x.NombreCompetencia,
+                     Descripcion = x.Descripcion,
+                     EsObligatorio = x.EsObligatorio
                  }).Distinct().ToListAsync();
             else
             {
                 return await _repository.Entities.Where(c => c.IdNivel == 0)
                   .Select(x => new CompetenciaResponse
                   {
+                      Id = x.Id,
                       IdCompetencia = x.IdCompetencia,
-                      NombreCompetencia = x.NombreCompetencia
+                      NombreCompetencia = x.NombreCompetencia,
+                      Descripcion = x.Descripcion,
+                      EsObligatorio = x.EsObligatorio
                   }).Distinct().ToListAsync();
             }
                

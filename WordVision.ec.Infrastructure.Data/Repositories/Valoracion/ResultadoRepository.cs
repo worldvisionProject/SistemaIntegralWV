@@ -54,7 +54,9 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
               Id = x.Id,
               Nombre = x.Nombre,
               Indicador = x.Indicador,
-              Tipo = x.Tipo
+              Tipo = x.Tipo,
+              Descripcion = x.Descripcion,
+              EsObligatorio = x.EsObligatorio
 
           }).ToListAsync();
 

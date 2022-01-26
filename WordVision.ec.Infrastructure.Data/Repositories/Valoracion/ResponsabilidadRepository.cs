@@ -46,7 +46,9 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                 .Select(x => new ResponsabilidadResponse
                 {   Id=x.Id,
                     IdResponsabilidad = x.IdResponsabilidad,
-                    NombreResponsabilidad = x.Nombre
+                    NombreResponsabilidad = x.Nombre,
+                    Descripcion = x.Descripcion,
+                    EsObligatorio = x.EsObligatorio
                 }).Distinct().ToListAsync();
         }
 

@@ -15,6 +15,8 @@ namespace WordVision.ec.Domain.Entities.Valoracion
         public int IdEstructura { get; set; }
         [Required]
         public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public int EsObligatorio { get; set; }
         [Required]
         public string Indicador { get; set; }
         [Required]

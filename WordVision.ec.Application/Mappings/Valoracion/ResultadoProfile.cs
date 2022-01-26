@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Queries.GetById;
 using WordVision.ec.Application.Features.Valoracion.Resultados.Queries.GetAllCached;
 using WordVision.ec.Domain.Entities.Valoracion;
 
@@ -15,6 +16,7 @@ namespace WordVision.ec.Application.Mappings.Valoracion
         {
             //CreateMap<CreateSeguimientoCommand, Resultado>().ReverseMap();
             CreateMap<GetAllResultadosCachedResponse, Resultado>().ReverseMap();
+            CreateMap<GetResultadoByIdResponse, Resultado>().ReverseMap();
 
 
         }

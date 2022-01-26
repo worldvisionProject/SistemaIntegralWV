@@ -10,6 +10,8 @@ namespace WordVision.ec.Application.Features.Valoracion.Resultados.Queries.GetAl
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public int EsObligatorio { get; set; }
         public string Indicador { get; set; }
         public int Tipo { get; set; }
         public int TipoObjetivo { get; set; }

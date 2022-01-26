@@ -24,12 +24,15 @@
         }
      }
 
-   
+   <div class="row">
+       <div class="col-md-4">
      <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=0&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=3&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivos 4')">
                         <i class="fa fa-plus-square"></i>
                             Agregar Competencia
-     </button> <label class="col-md-12 col-form-label texto-pregunta" style="font-size: 13px !important;">* Debe ingresar 2 Competencias obligatoriamente.</label>
-   
+     </button> 
+     </div> <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 15px !important;font-weight: bold;color:red">* Debe ingresar 2 Competencias obligatoriamente.</label>
+        </div>  
+ </div>  
     <div id="viewAll" class="card-body card-body-card table-responsive">
         
     </div>

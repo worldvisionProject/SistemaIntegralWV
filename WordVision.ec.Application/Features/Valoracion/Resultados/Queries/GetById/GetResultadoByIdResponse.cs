@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WordVision.ec.Domain.Entities.Valoracion;
 
-namespace WordVision.ec.Application.Features.Valoracion.Responsabilidades.Queries.GetById
+namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Queries.GetById
 {
-    public class GetResponsabilidadByIdResponse
+    public class GetResultadoByIdResponse
     {
-        public int Id { get; set; }
-        public int IdEstructura { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public int EsObligatorio { get; set; }
         public string Indicador { get; set; }
         public int Tipo { get; set; }
-        public int IdResponsabilidad { get; set; }
-        public int Padre { get; set; }
+        public int IdObjetivoAnioFiscal { get; set; }
     }
 }

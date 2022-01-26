@@ -11,6 +11,8 @@ namespace WordVision.ec.Application.DTOs.Valoracion
         public int Id { get; set; }
         public int IdCompetencia { get; set; }
         public string NombreCompetencia { get; set; }
-        
+        public string Descripcion { get; set; }
+        public int EsObligatorio { get; set; }
+
     }
 }
