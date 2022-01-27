@@ -179,7 +179,25 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
         {
             try
             {
+               if (entidad.NumeroObjetivo==3)
+                {
+                    var entidadModel = await _mediator.Send(new GetPlanificacionResultadoByIdQuery() { Id = id });
+                    var entidadMapper = _mapper.Map<PlanificacionResultadoViewModel>(entidadModel.Data);
+                    int hitoBd = 0;
+                    if (entidadMapper!=null)
+                     hitoBd = entidadMapper.PlanificacionHitos.Count();
+                    if (entidad.PlanificacionHitos!=null)
+                    {
+                        var cuenta = entidad.PlanificacionHitos.Count()+ hitoBd;
+                        if (cuenta>3)
+                        {
+                            _notify.Error("Debe ingresar máximo 3 Hitos por cada responsabilidad.");
+
+                            return new JsonResult(new { isValid = false });
+                        }
+                    }
                 
+                }
                 if (ModelState.IsValid)
                 {
                     decimal ponderaObjetivo = 0;
@@ -288,7 +306,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 var deleteCommand = await _mediator.Send(new DeletePlanificacionResultadoCommand { Id = id });
                 if (deleteCommand.Succeeded)
                 {
-                    _notify.Information($"Actividad con Id {id} Eliminado.");
+                    _notify.Information($"Planificacion con Id {id} Eliminado.");
                 }
                 else
                 {
@@ -318,6 +336,33 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 _notify.Error("Error al Eliminar Planificacion.");
             }
            
+
+            return new JsonResult(new { isValid = false });
+        }
+        public async Task<JsonResult> OnPostDeleteHito(int id = 0)
+        {
+            try
+            {
+                var deleteCommand = await _mediator.Send(new DeletePlanificacionHitoCommand { Id = id });
+                if (deleteCommand.Succeeded)
+                {
+                    _notify.Information($"Hito con Id {id} Eliminado.");
+                    return new JsonResult(new { isValid = true });
+                }
+                else
+                {
+                    _notify.Error(deleteCommand.Message);
+                    return null;
+                }
+
+               
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "OnPostDelete");
+                _notify.Error("Error al Eliminar Planificacion.");
+            }
+
 
             return new JsonResult(new { isValid = false });
         }
