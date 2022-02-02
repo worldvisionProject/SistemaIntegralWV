@@ -33,13 +33,19 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string EntregableAF { get; set; }
         public SelectList NumMesesList { get; set; }
         public SelectList UnidadList { get; set; }
-
+        public SelectList TipoIndicadorList { get; set; }
+        public SelectList CodigoIndicadorList { get; set; }
+        public SelectList ActorParticipanteList { get; set; }
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string ValorMeta { get; set; }
         public string EntregableMeta { get; set; }
         public string DescObjetivo { get; set; }
         public string DescFactor { get; set; }
         public string DescCategoria { get; set; }
+
+        public int Codigo { get; set; }
+        public int Tipo { get; set; }
+        public int Actor { get; set; }
         public FactorCriticoExitoViewModel FactorCriticoExitos { get; set; }
         public virtual List<IndicadorAFViewModel> IndicadorAFs { get; set; }
         public virtual List<MetaViewModel> MetaEstrategicas { get; set; }

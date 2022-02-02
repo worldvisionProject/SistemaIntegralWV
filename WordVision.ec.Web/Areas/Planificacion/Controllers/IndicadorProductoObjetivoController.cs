@@ -16,6 +16,7 @@ using WordVision.ec.Application.Features.Planificacion.IndicadorProductoObjetivo
 using WordVision.ec.Application.Features.Planificacion.IndicadorProductoObjetivos.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.IndicadorProductoObjetivos.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.IndicadorProductoObjetivos.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.TiposIndicadores.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
 
@@ -55,6 +56,21 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
 
+        public async Task<JsonResult> GetTiposIndicador(int idTipoIndicador)
+        {
+            var entidadModel = await _mediator.Send(new GetTiposIndicadorById() { IdTipoIndicador = idTipoIndicador });
+            var lista = _mapper.Map<List<TiposIndicadorViewModel>>(entidadModel.Data);
+            return Json(lista);
+
+        }
+
+        public async Task<JsonResult> GetDescTiposIndicador(int idCodigoIndicador)
+        {
+            var entidadModel = await _mediator.Send(new GetTiposIndicadorByIdCodigo() { Id = idCodigoIndicador });
+            var lista = _mapper.Map<TiposIndicadorViewModel>(entidadModel.Data);
+            return Json(lista);
+
+        }
 
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0,int idProductoObjetivo=0, int idEstrategia = 0)
         {

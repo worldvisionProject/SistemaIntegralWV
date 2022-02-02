@@ -25,8 +25,8 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public decimal? Meta { get; set; }
 
         public string EntregableAnual { get; set; }
-        [StringLength(15)]
-        public string Codigo { get; set; }
+       
+        public int Codigo { get; set; }
         public int Tipo { get; set; }
         public int Actor { get; set; }
 

@@ -20,6 +20,9 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
         public decimal? LineaBase { get; set; }
         public decimal? Meta { get; set; }
         public int IdFactorCritico { get; set; }
+        public int Codigo { get; set; }
+        public int Tipo { get; set; }
+        public int Actor { get; set; }
         public List<IndicadorAF> IndicadorAFs { get; set; }
         public class UpdateProductCommandHandler : IRequestHandler<UpdateIndicadorEstrategicoCommand, Result<int>>
         {
@@ -52,6 +55,9 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
                     IndicadorEstrategico.UnidadMedida = command.UnidadMedida;
                     IndicadorEstrategico.LineaBase = command.LineaBase;
                     IndicadorEstrategico.Meta = command.Meta;
+                    IndicadorEstrategico.Codigo = command.Codigo;
+                    IndicadorEstrategico.Tipo = command.Tipo;
+                    IndicadorEstrategico.Actor = command.Actor;
 
                     await _IndicadorEstrategicoRepository.UpdateAsync(IndicadorEstrategico);
 
