@@ -11,7 +11,7 @@
             <th width="20%">Area</th>
             @*<th class="acciones-th">Factor</th>*@
             <th class="acciones-th">Producto</th>
-            <th class="acciones-th">Indicadores</th>
+           @* <th class="acciones-th">Indicadores</th>*@
             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Delete)).Result.Succeeded)
             {
                 <th class="acciones-th" style="width:30% !important">Acciones</th>
@@ -161,8 +161,8 @@
         {
             <a asp-area="planificacion" asp-controller="FactorCriticoExito" asp-action="Index" asp-route-id="@objetivo.Id" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
         }*@
-            <button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ProductoObjetivo/LoadAll?idObjetivo=@objetivo.Id','Productos de Objetivo')">
-                <i class="fas fa-pen"></i>
+            <button type="button" class="btn btn-success  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ProductoObjetivo/LoadAll?idObjetivo=@objetivo.Id','Productos de Objetivo')">
+                <i class="fas fa-eye"></i>
             </button>
             <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ProductoObjetivo/OnGetCreateOrEdit?id=0&idObjetivo=@objetivo.Id','Productos de Objetivo')">
                 <i class="fas fa-plus-square"></i>
@@ -173,13 +173,19 @@
             {
 
             <td class="acciones-td">
-                @*<button type="button" title="Editar" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=@objetivo.Id&idEstrategia=@Model.Id&categoria=@Model.CategoriaObjetivo','Editar Objetivos')">
-                    <i class="fas fa-pencil-alt"></i>
-
-                </button>*@
-                <form id="form_delete_@objetivo.Id" asp-area="Planificacion" asp-controller="ObjetivoEstrategico" method="post" asp-action="OnPostDelete" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@Model.Id" asp-route-idCategoria="@Model.CategoriaObjetivo" onsubmit="return jQueryModalDelete(this)">
-                    <a href="javascript:$('#form_delete_@objetivo.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
-                </form>
+                 <div class="row">
+                    <div class="col-md-4">
+                        <button type="button" title="Editar" class="btn btn-warning  btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=@objetivo.Id&idEstrategia=@Model.Id&categoria=@Model.CategoriaObjetivo','Editar Objetivos')">
+                        <i class="fas fa-pencil-alt"></i>
+                        </button>
+                     </div>
+                     <div class="col-md-6">
+                        <form id="form_delete_@objetivo.Id" style="width:2px" asp-area="Planificacion" asp-controller="ObjetivoEstrategico" method="post" asp-action="OnPostDelete" asp-route-id="@objetivo.Id" asp-route-idEstrategia="@Model.Id" asp-route-idCategoria="@Model.CategoriaObjetivo" onsubmit="return jQueryModalDelete(this)">
+                            <a href="javascript:$('#form_delete_@objetivo.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
+                        </form>
+               </div></div>
+                
+               
 
                 @*<button type="button" onclick="EliminaFila(@objetivo.Id)" class="btn btn-danger btn-xp" title="Inactivar"><i class="fas fa-trash-alt"></i></button>*@
 

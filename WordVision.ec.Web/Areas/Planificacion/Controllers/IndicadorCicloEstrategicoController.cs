@@ -72,6 +72,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 40 });
             var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 39 });
             var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
+            var cat4 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 43 });
 
             if (id == 0)
             {
@@ -87,6 +88,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 entidadViewModel.CodigoIndicadorList = new SelectList(cat1.Data, "Secuencia", "Nombre");
                 entidadViewModel.TipoIndicadorList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                 entidadViewModel.UnidadMedidaList = new SelectList(cat3.Data, "Secuencia", "Nombre");
+                entidadViewModel.ActorParticipanteList = new SelectList(cat4.Data, "Secuencia", "Nombre");
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             else
@@ -105,6 +107,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     entidadViewModel.CodigoIndicadorList = new SelectList(cat1.Data, "Secuencia", "Nombre");
                     entidadViewModel.TipoIndicadorList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                     entidadViewModel.UnidadMedidaList = new SelectList(cat3.Data, "Secuencia", "Nombre");
+                    entidadViewModel.ActorParticipanteList = new SelectList(cat4.Data, "Secuencia", "Nombre");
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;

@@ -22,7 +22,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorProductoObje
         public int TipoIndicador { get; set; }
         public int CodigoIndicador { get; set; }
         public int UnidadMedida { get; set; }
-        public string ActorParticipante { get; set; }
+        public int ActorParticipante { get; set; }
         public ProductoObjetivo ProductoObjetivos { get; set; }
         public class UpdateIndicadorProductoObjetivoCommandHandler : IRequestHandler<UpdateIndicadorProductoObjetivoCommand, Result<int>>
         {

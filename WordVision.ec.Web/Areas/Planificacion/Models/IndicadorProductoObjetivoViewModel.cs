@@ -18,14 +18,16 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public int TipoIndicador { get; set; }
         public int CodigoIndicador { get; set; }
         public int UnidadMedida { get; set; }
-        public string ActorParticipante { get; set; }
+        public int ActorParticipante { get; set; }
         public SelectList TipoIndicadorList { get; set; }
         public SelectList CodigoIndicadorList { get; set; }
         public SelectList UnidadMedidaList { get; set; }
+        public SelectList ActorParticipanteList { get; set; }
         public ProductoObjetivoViewModel ProductoObjetivos { get; set; }
     }
     public class IndicadorProductoObjetivoViewModelMaster
     {
+        public int IdEstrategia { get; set; }
         public SelectList AnioFiscalList { get; set; }
         public List<IndicadorProductoObjetivoViewModel> IndicadorProductoObjetivoViewModel { get; set; }
     }

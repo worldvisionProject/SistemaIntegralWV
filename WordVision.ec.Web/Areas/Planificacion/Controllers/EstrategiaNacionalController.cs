@@ -106,6 +106,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
                 var cat4 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 5 });
                 ViewBag.CategoriaList = new SelectList(cat4.Data, "Secuencia", "Nombre");
+
+              
             }
             catch (Exception ex)
             {

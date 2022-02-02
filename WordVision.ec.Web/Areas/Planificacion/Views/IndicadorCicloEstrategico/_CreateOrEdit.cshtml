@@ -36,29 +36,136 @@
                 </div>
                  <div class="col-md-3"  style="text-align: right;">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Actores/Participantes</label>
-                    <input  type="text" name="ActorParticipante" asp-for="ActorParticipante" class="form-control"  />
+                    @Html.DropDownListFor(x => x.ActorParticipante, (IEnumerable<SelectListItem>)Model.ActorParticipanteList, new { @class = "form-control" })
+               
                     <span asp-validation-for="ActorParticipante" class="text-danger"></span>
        
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="col-md-3"  style="text-align: right;">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Año Fiscal</label>
-                     @Html.DropDownListFor(x => x.AnioFiscal, (IEnumerable<SelectListItem>)Model.AnioFiscalList, new { @class = "form-control" })
-                    <span asp-validation-for="AnioFiscal" class="text-danger"></span>
-                </div>
-                <div class="col-md-3"  style="text-align: right;">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Meta</label>
-                    <input  type="text" name="Meta"  asp-for="Meta" class="form-control" />
-                    <span asp-validation-for="Meta" class="text-danger"></span>
-                </div>
-                    <div class="col-md-3"  style="text-align: right;">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Logro</label>
-                    <input  type="text" name="Logro" asp-for="Logro" class="form-control"  />
-                    <span asp-validation-for="Logro" class="text-danger"></span>
+            @{
+                var contar = 0;
+            }
+            @foreach(var a in Model.AnioFiscalList)
+            {
+                switch (contar)
+                {
+                    case 0:
+                    <div class="form-group row">
+                            <div class="col-md-3"  style="text-align: right;">
+                                <label class="col-md-12 col-form-label texto-pregunta text-left">Año Fiscal</label>
+                                 @Html.DropDownListFor(x => x.AnioFiscal, (IEnumerable<SelectListItem>)Model.AnioFiscalList, new { @class = "form-control" })
+                                <span asp-validation-for="AnioFiscal" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-3"  style="text-align: right;">
+                                <label class="col-md-12 col-form-label texto-pregunta text-left">Meta</label>
+                                <input  type="text" name="Meta"  asp-for="Meta" class="form-control" />
+                                <span asp-validation-for="Meta" class="text-danger"></span>
+                            </div>
+                                <div class="col-md-3"  style="text-align: right;">
+                                <label class="col-md-12 col-form-label texto-pregunta text-left">Logro</label>
+                                <input  type="text" name="Logro" asp-for="Logro" class="form-control"  />
+                                <span asp-validation-for="Logro" class="text-danger"></span>
        
+                            </div>
+                            <div class="col-md-3"  style="text-align: right;">
+                                <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
+                                <input  type="text" name="LineBase" asp-for="LineBase" class="form-control"  />
+                                <span asp-validation-for="LineBase" class="text-danger"></span>
+       
+                            </div>
+                        </div>
+                        break;
+                        case 1:
+                            <div class="form-group row">
+                                    <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Año Fiscal</label>
+                                         @Html.DropDownListFor(x => x.AnioFiscal2, (IEnumerable<SelectListItem>)Model.AnioFiscalList, new { @class = "form-control" })
+                                        <span asp-validation-for="AnioFiscal2" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta</label>
+                                        <input  type="text" name="Meta2"  asp-for="Meta2" class="form-control" />
+                                        <span asp-validation-for="Meta2" class="text-danger"></span>
+                                    </div>
+                                        <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Logro</label>
+                                        <input  type="text" name="Logro2" asp-for="Logro2" class="form-control"  />
+                                        <span asp-validation-for="Logro2" class="text-danger"></span>
+       
+                                    </div>
+                                    <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
+                                        <input  type="text" name="LineBase2" asp-for="LineBase2" class="form-control"  />
+                                        <span asp-validation-for="LineBase2" class="text-danger"></span>
+       
+                                    </div>
+                                </div>
+                        break;
+
+                        case 2:
+                            <div class="form-group row">
+                                    <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Año Fiscal</label>
+                                         @Html.DropDownListFor(x => x.AnioFiscal3, (IEnumerable<SelectListItem>)Model.AnioFiscalList, new { @class = "form-control" })
+                                        <span asp-validation-for="AnioFiscal3" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta</label>
+                                        <input  type="text" name="Meta3"  asp-for="Meta3" class="form-control" />
+                                        <span asp-validation-for="Meta3" class="text-danger"></span>
+                                    </div>
+                                        <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Logro</label>
+                                        <input  type="text" name="Logro3" asp-for="Logro3" class="form-control"  />
+                                        <span asp-validation-for="Logro3" class="text-danger"></span>
+       
+                                    </div>
+                                    <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
+                                        <input  type="text" name="LineBase3" asp-for="LineBase3" class="form-control"  />
+                                        <span asp-validation-for="LineBase3" class="text-danger"></span>
+       
+                                    </div>
+                                </div>
+                        break;
+
+                        case 3:
+                            <div class="form-group row">
+                                    <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Año Fiscal</label>
+                                         @Html.DropDownListFor(x => x.AnioFiscal4, (IEnumerable<SelectListItem>)Model.AnioFiscalList, new { @class = "form-control",@readonly="readonly" })
+                                        <span asp-validation-for="AnioFiscal4" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta</label>
+                                        <input  type="text" name="Meta4"  asp-for="Meta4" class="form-control" />
+                                        <span asp-validation-for="Meta4" class="text-danger"></span>
+                                    </div>
+                                        <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Logro</label>
+                                        <input  type="text" name="Logro4" asp-for="Logro4" class="form-control"  />
+                                        <span asp-validation-for="Logro4" class="text-danger"></span>
+       
+                                    </div>
+                                    <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
+                                        <input  type="text" name="LineBase4" asp-for="LineBase4" class="form-control"  />
+                                        <span asp-validation-for="LineBase4" class="text-danger"></span>
+       
+                                    </div>
+                                </div>
+                        break;
+                        
+                }
+                
+
+            contar = contar + 1;
+            }
+            <div class="col-md-3"  style="text-align: right;">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Acumulada</label>
+                                <input  type="text" name="MetaAcumulada"  asp-for="MetaAcumulada" class="form-control" />
+                                <span asp-validation-for="MetaAcumulada" class="text-danger"></span>
                 </div>
-            </div>
         </div>
     </div>
 

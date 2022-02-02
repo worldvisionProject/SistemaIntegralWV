@@ -2,53 +2,147 @@
 @model IndicadorCicloEstrategicoViewModelMaster
 
 
-<table id="gestionTable" class="table table-striped" width="100%" cellspacing="0">
+<table id="indicadorTable" class="table table-striped" width="100%" cellspacing="0">
     <thead>
         <tr>
-            <th>Id</th><th>Idobjetivo</th>
-            <th>Indicador</th>
-            <th>Año Fiscal</th>
-            <th>Meta</th>
-            <th>Logro</th>
-            <th class="acciones-th">Acciones</th>
+           @* <th rowspan=2>Id</th><th rowspan=2>Idobjetivo</th>*@
+            <th rowspan=2 style="vertical-align: middle;text-align: center;">Indicador</th>
+            @foreach(var a in Model.AnioFiscalList)
+            {
+                <th colspan="3" style="vertical-align: middle;text-align: center;">Año Fiscal @a.Text</th>
+               
+            }
+             <th rowspan=2 style="vertical-align: middle;text-align: center;">Meta Acumulada</th>
+            <th rowspan=2 class="acciones-th" style="vertical-align: middle;text-align: center;">Acciones</th>
+        </tr>
+        <tr>
+             @foreach(var a in Model.AnioFiscalList)
+            {
+                  <th>Meta</th>
+                <th>Logro</th>
+                 <th>Línea Base</th>
+            }
+          
         </tr>
     </thead>
     <tbody>
 
             @foreach (var indicador in Model.IndicadorCicloEstrategicoViewModel.ToList())
             {
-                <tr id="Gest_@indicador.Id">
+                <tr id="Indi_@indicador.Id">
 
-                    <td>
+                    @*<td>
 
                         @indicador.Id
                     </td> <td>
 
                         @indicador.IdEstrategia
-                    </td><td>
+                    </td>*@
+                    <td style="font-weight:bold">
 
                         @indicador.IndicadorCiclo
                     </td>
-                   <td>
-                       @{ 
 
-                        var selectedCity = (IEnumerable<SelectListItem>)Model.AnioFiscalList;
-                        string txt = selectedCity.Where(x => x.Value == indicador.AnioFiscal.ToString()).FirstOrDefault()?.Text??string.Empty;
+                
+                    @*<td>
+                        @{
 
-                    }
-                @txt
-                   </td>
-                     <td>
+                            var selectedCity = (IEnumerable<SelectListItem>)Model.AnioFiscalList;
+                            string txt = selectedCity.Where(x => x.Value == indicador.AnioFiscal.ToString()).FirstOrDefault()?.Text ?? string.Empty;
+
+                        }
+                        @txt
+                    </td>*@
+                    <td>
 
                         @indicador.Meta
                     </td>
-                     <td>
+                    <td>
 
                         @indicador.Logro
                     </td>
-                  
-                    <td class="acciones-td">
-                        <button type="button" onclick="EliminaFila(@indicador.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
+                    <td>
+
+                        @indicador.LineBase
+                    </td>
+              
+                   @* <td>
+                        @{
+
+                           
+                            string txt2 = selectedCity.Where(x => x.Value == indicador.AnioFiscal2.ToString()).FirstOrDefault()?.Text ?? string.Empty;
+
+                        }
+                        @txt2
+                    </td>*@
+                    <td>
+
+                        @indicador.Meta2
+                    </td>
+                    <td>
+
+                        @indicador.Logro2
+                    </td>
+                    <td>
+
+                        @indicador.LineBase2
+                    </td>
+               
+                   @* <td>
+                        @{
+
+                             string txt3 = selectedCity.Where(x => x.Value == indicador.AnioFiscal3.ToString()).FirstOrDefault()?.Text ?? string.Empty;
+
+                        }
+                        @txt3
+                    </td>*@
+                    <td>
+
+                        @indicador.Meta3
+                    </td>
+                    <td>
+
+                        @indicador.Logro3
+                    </td>
+                    <td>
+
+                        @indicador.LineBase3
+                    </td>
+                @if (Model.AnioFiscalList.Count() == 4)
+                {
+                    @*<td>
+                        @{
+
+                            string txt4 = selectedCity.Where(x => x.Value == indicador.AnioFiscal4.ToString()).FirstOrDefault()?.Text ?? string.Empty;
+
+                        }
+                        @txt4
+                    </td>*@
+                    <td>
+
+                        @indicador.Meta4
+                    </td>
+                    <td>
+
+                        @indicador.Logro4
+                    </td>
+                    <td>
+
+                        @indicador.LineBase4
+                    </td>
+                }
+                <td style="font-weight:bold"> 
+                    @*@{
+                        decimal total = Convert.ToDecimal(indicador.Meta.Length==0?0:indicador.Meta) + Convert.ToDecimal(indicador.Meta2) + Convert.ToDecimal(indicador.Meta3) + Convert.ToDecimal(indicador.Meta4);
+                    }
+                    @total*@
+                     @indicador.MetaAcumulada
+                    </td>
+                <td class="acciones-td">
+                          <button type="button" class="btn btn-warning  btn-xp" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorCicloEstrategico/OnGetCreateOrEdit?id=@indicador.Id&idEstrategia=@indicador.IdEstrategia','Gestión')">
+                <i class="fas fa-pen"></i>
+            </button>
+                        <button type="button" onclick="EliminaFilaIndicador(@indicador.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
 
                     </td>
 
@@ -64,7 +158,7 @@
     $(document).ready(function () {
 
 
-        var table = $("#gestionTable").DataTable({
+        var table = $("#indicadorTable").DataTable({
             aoColumnDefs: [
                 { "aTargets": [0], "bSortable": true },
                 { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
@@ -87,10 +181,12 @@
         });
 
 
-        var column = table.column(0);
-        // Toggle the visibility
-        column.visible(false);
-
+        //var column = table.column(0);
+        //// Toggle the visibility
+        //column.visible(false);
+        //  var column1 = table.column(1);
+        //// Toggle the visibility
+        //column1.visible(false);
 
 
         $('#gestionTable tbody').on('dblclick', 'tr', function () {
@@ -103,4 +199,28 @@
 
         $(".dynmic-hidden-col").hide();
     });
+
+    function EliminaFilaIndicador(id) {
+
+        $("#Indi_" + id).remove();
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "IndicadorCicloEstrategico", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+    }
 </script>

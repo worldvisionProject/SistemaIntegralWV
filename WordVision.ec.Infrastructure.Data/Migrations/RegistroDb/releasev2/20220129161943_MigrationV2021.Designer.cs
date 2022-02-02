@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
-namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
+namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220129161943_MigrationV2021")]
+    partial class MigrationV2021
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -627,9 +629,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<decimal?>("Meta4")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal?>("MetaAcumulada")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("TipoIndicador")
                         .HasColumnType("int");
 
@@ -778,8 +777,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ActorParticipante")
-                        .HasColumnType("int");
+                    b.Property<string>("ActorParticipante")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("AnioFiscal")
                         .HasColumnType("int");

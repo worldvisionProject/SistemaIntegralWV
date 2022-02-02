@@ -3,7 +3,7 @@
 @model IndicadorProductoObjetivoViewModel
 
 
-<form id="create-form" method="post" asp-controller="IndicadorCicloEstrategico" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+<form id="create-form" method="post" asp-controller="IndicadorProductoObjetivo" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
    
     <div class="row">
         <div class="col-md-12">
@@ -36,7 +36,9 @@
                 </div>
                  <div class="col-md-3"  style="text-align: right;">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Actores/Participantes</label>
-                    <input  type="text" name="ActorParticipante" asp-for="ActorParticipante" class="form-control"  />
+                     @Html.DropDownListFor(x => x.ActorParticipante, (IEnumerable<SelectListItem>)Model.ActorParticipanteList, new { @class = "form-control" })
+               
+                 
                     <span asp-validation-for="ActorParticipante" class="text-danger"></span>
        
                 </div>
