@@ -83,7 +83,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 {
 
                     var gestionViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
-                    entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Descripcion"); 
+                    entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Anio"); 
                 }
                 entidadViewModel.CodigoIndicadorList = new SelectList(cat1.Data, "Secuencia", "Nombre");
                 entidadViewModel.TipoIndicadorList = new SelectList(cat2.Data, "Secuencia", "Nombre");
@@ -102,7 +102,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     {
 
                         var gestionViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
-                        entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Descripcion");
+                        entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Anio");
                     }
                     entidadViewModel.CodigoIndicadorList = new SelectList(cat1.Data, "Secuencia", "Nombre");
                     entidadViewModel.TipoIndicadorList = new SelectList(cat2.Data, "Secuencia", "Nombre");

@@ -58,9 +58,8 @@
                     </div>
                     <div class="col-md-3"  style="text-align: right;">
                         <label class="col-md-12 col-form-label texto-pregunta text-left">Codigo Indicador</label>
-                        @* @Html.DropDownListFor(x => x.CodigoIndicador, (IEnumerable<SelectListItem>)Model.CodigoIndicadorList, new { @class = "form-control" })*@
-                            @Html.DropDownListFor(x => x.Codigo, new List<SelectListItem>(), new { @class = "form-control" })
-
+                         @Html.DropDownListFor(x => x.Codigo, (IEnumerable<SelectListItem>)Model.CodigoIndicadorList, new { @class = "form-control" })
+                     
                         <span asp-validation-for="Codigo" class="text-danger"></span>
                     </div>
               
@@ -116,7 +115,7 @@
                         <span asp-validation-for="MetaAF" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="col-md-12 col-form-label texto-pregunta text-left">Entregable</label>
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Logro</label>
                         <input asp-for="EntregableAF" type="text" name="EntregableAF" class="form-control" />
                         <span asp-validation-for="EntregableAF" class="text-danger"></span>
                     </div>
@@ -139,7 +138,7 @@
                         @*<th>Id</th>*@
                         <th>Gestión</th>
                         <th>Metas Anuales</th>
-                        <th>Entregable</th>
+                        <th>Logro</th>
                         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Delete)).Result.Succeeded)
                         {
                             <th class="text-right">Acciones</th>
@@ -365,7 +364,7 @@
             TDAnio.innerHTML = AnioDesc;
             TDMeta.innerHTML = Meta;
             TDEntregable.innerHTML = Entregable;
-            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFila(" + num + "," + Anio+","+Meta.ToString().Replace(",", ".")+","+Entregable+")'> <i class='fas fa-pencil-alt'></i>  </button> <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFila(" + num + "," + Anio+","+Meta.replace(",", ".")+","+Entregable+")'> <i class='fas fa-pencil-alt'></i>  </button> <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
             //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
             Tabla.appendChild(TR);
 

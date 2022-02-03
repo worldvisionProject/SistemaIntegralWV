@@ -43,6 +43,12 @@
        
                 </div>
             </div>
+             <div class=" row" >
+                         <div class="col-md-12">
+                              <input type="text" value="" height="20" id="descResultado" name="descResultado" style="border:0px" class="col-md-12 col-form-label texto-pregunta" readonly  />
+                         </div>
+                    </div>
+                    <br />
             @{
                 var contar = 0;
             }
@@ -203,5 +209,21 @@
         }
     });
 
-
+     $("#TipoIndicador").change(function () {
+                $.get("/Planificacion/IndicadorProductoObjetivo/GetTiposIndicador", { idTipoIndicador: $("#TipoIndicador").val() }, function (data) {
+                    // VACIAMOS EL DropDownList
+                    $("#CodigoIndicador").empty();
+                    // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                   // $("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
+                    // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                    $.each(data, function (index, row) {
+                        $("#CodigoIndicador").append("<option value='" + row.id + "'>" + row.codigoIndicador + "</option>")
+                    });
+                });
+            });
+            $("#CodigoIndicador").change(function () {
+                $.get("/Planificacion/IndicadorProductoObjetivo/GetDescTiposIndicador", { idCodigoIndicador: $("#CodigoIndicador").val() }, function (data) {
+                   $("#descResultado").val(data.descripcion);
+                });
+            });
         </script>

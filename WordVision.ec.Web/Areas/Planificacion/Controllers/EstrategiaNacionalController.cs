@@ -185,10 +185,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("OnPostCreateOrEdit", ex);
+                _logger.LogError(ex,"OnPostCreateOrEdit");
                 _notify.Error("Error al insertar Ciclo");
+                return new JsonResult(new { isValid = false });
             }
-            return null;
+           
         }
         class Anios
         {

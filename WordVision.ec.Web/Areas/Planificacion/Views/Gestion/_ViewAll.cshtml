@@ -41,6 +41,9 @@
                 </td>
 
                 <td class="acciones-td">
+                     <button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Gestion/OnGetCreateOrEdit?id=@gestion.Id&idObjetivoEstra=@gestion.Anio','Gestión')">
+                        <i class="fas fa-pen"></i>
+                    </button>
                     <button type="button" onclick="EliminaFila(@gestion.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
 
                 </td>

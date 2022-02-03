@@ -25,8 +25,8 @@
                 </div>
                 <div class="col-md-3"  style="text-align: right;">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Codigo Indicador</label>
-                    @* @Html.DropDownListFor(x => x.CodigoIndicador, (IEnumerable<SelectListItem>)Model.CodigoIndicadorList, new { @class = "form-control" })*@
-                        @Html.DropDownListFor(x => x.CodigoIndicador, new List<SelectListItem>(), new { @class = "form-control" })
+                     @Html.DropDownListFor(x => x.CodigoIndicador, (IEnumerable<SelectListItem>)Model.CodigoIndicadorList, new { @class = "form-control" })
+                       
 
                     <span asp-validation-for="CodigoIndicador" class="text-danger"></span>
                 </div>

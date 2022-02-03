@@ -15,7 +15,7 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         [Required]
         public string MetaNacional { get; set; }
 
-        [Required]
+        //[Required]
         public string FactorCritico { get; set; }
 
         [Required]
