@@ -4,7 +4,7 @@
 
 
 <form id="create-form" method="post" asp-controller="IndicadorProductoObjetivo" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
-   
+    @Html.HiddenFor(x => x.IdEstrategia, new { name = "IdEstrategia", @Value = Model.IdEstrategia })
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
@@ -54,11 +54,11 @@
                     </div>
 
             <div class="form-group row">
-                <div class="col-md-3"  style="text-align: right;">
+               @* <div class="col-md-3"  style="text-align: right;">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Año Fiscal</label>
                      @Html.DropDownListFor(x => x.AnioFiscal, (IEnumerable<SelectListItem>)Model.AnioFiscalList, new { @class = "form-control" })
                     <span asp-validation-for="AnioFiscal" class="text-danger"></span>
-                </div>
+                </div>*@
                 <div class="col-md-3"  style="text-align: right;">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Meta</label>
                     <input  type="text" name="Meta"  asp-for="Meta" class="form-control" />

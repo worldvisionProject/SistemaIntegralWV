@@ -23,6 +23,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public SelectList AreaList { get; set; }
         public SelectList ProgramaList { get; set; }
         public SelectList CwboList { get; set; }
+        public SelectList AnioFiscalList { get; set; }
         public virtual List<FactorCriticoExito> FactorCriticoExitos { get; set; }
         public ICollection<ProductoObjetivo> ProductoObjetivos { get; set; }
     }

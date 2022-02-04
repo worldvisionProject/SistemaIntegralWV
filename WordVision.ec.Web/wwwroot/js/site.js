@@ -164,6 +164,9 @@
                             case 2:
                                 $('#form-modal-hijo-1').modal('hide');
                                 break;
+                            case 3:
+                                $('#form-modal-hijo-2').modal('hide');
+                                break;
                             default:
                                 $('#form-modal').modal('hide');
                                 break;

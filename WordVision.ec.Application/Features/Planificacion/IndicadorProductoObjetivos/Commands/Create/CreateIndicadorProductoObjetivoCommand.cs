@@ -16,7 +16,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorProductoObje
         public string Indicador { get; set; }
         public decimal? Meta { get; set; }
         public decimal? Logro { get; set; }
-        public int AnioFiscal { get; set; }
+        //public int AnioFiscal { get; set; }
         public int IdProductoObjetivo { get; set; }
 
         public int TipoIndicador { get; set; }

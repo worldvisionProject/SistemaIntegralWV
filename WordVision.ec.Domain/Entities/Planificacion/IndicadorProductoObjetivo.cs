@@ -10,8 +10,8 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public decimal? Meta { get; set; }
         public decimal? Logro { get; set; }
 
-        [Required]
-        public int AnioFiscal { get; set; }
+        //[Required]
+        //public int AnioFiscal { get; set; }
         public int IdEstrategia { get; set; }
         public int TipoIndicador { get; set; }
         public int CodigoIndicador { get; set; }

@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.ProductoObjetivos.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.ProductoObjetivos.Commands.Update;
@@ -26,6 +29,13 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (response.Succeeded)
             {
                 var entidadViewModel = _mapper.Map<ObjetivoEstrategicoViewModel>(response.Data);
+                var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = entidadViewModel.IdEstrategia });
+                if (responseE.Succeeded)
+                {
+
+                    var gestionViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
+                    entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Anio");
+                }
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", entidadViewModel) });
 
             }
@@ -33,13 +43,20 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             return null;
         }
 
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idObjetivo = 0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idObjetivo = 0,int idEstrategia=0)
         {
 
             if (id == 0)
             {
                 var entidadViewModel = new ProductoObjetivoViewModel();
                 entidadViewModel.IdObjetivoEstra = idObjetivo;
+                var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = idEstrategia });
+                if (responseE.Succeeded)
+                {
+
+                    var gestionViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
+                    entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Anio");
+                }
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             else
@@ -47,7 +64,14 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 var response = await _mediator.Send(new GetProductoObjetivoByIdQuery() { Id = id });
                 if (response.Succeeded)
                 {
-                    var entidadViewModel = _mapper.Map<ProductoObjetivoViewModel>(response.Data);
+                    var entidadViewModel = _mapper.Map<ProductoObjetivoViewModel>(response.Data); 
+                    var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = idEstrategia });
+                    if (responseE.Succeeded)
+                    {
+
+                        var gestionViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
+                        entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Anio");
+                    }
 
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }

@@ -7,7 +7,7 @@
         <tr>
             <th>Id</th>
             <th>Indicador</th>
-            <th>Año Fiscal</th>
+           @* <th>Año Fiscal</th>*@
             <th>Meta</th>
             <th>Logro</th>
             <th class="acciones-th">Acciones</th>
@@ -27,7 +27,7 @@
 
                         @indicador.Indicador
                     </td>
-                   <td>
+                  @* <td>
                        @{ 
 
                         var selectedCity = (IEnumerable<SelectListItem>)Model.AnioFiscalList;
@@ -35,7 +35,7 @@
 
                     }
                 @txt
-                   </td>
+                   </td>*@
                      <td>
 
                         @indicador.Meta
@@ -46,7 +46,7 @@
                     </td>
                   
                     <td class="acciones-td">
-                         <button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGetHijo('1','/Planificacion/IndicadorProductoObjetivo/OnGetCreateOrEdit?id=@indicador.Id&idProductoObjetivo=@indicador.IdProductoObjetivo&idEstrategia=@Model.IdEstrategia','Indicador de Productos de Objetivo')">
+                         <button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGetHijo('2','/Planificacion/IndicadorProductoObjetivo/OnGetCreateOrEdit?id=@indicador.Id&idProductoObjetivo=@indicador.IdProductoObjetivo&idEstrategia=@Model.IdEstrategia','Indicador de Productos de Objetivo')">
                         <i class="fas fa-pen"></i>
                     </button>
                         <button type="button" onclick="EliminaFila(@indicador.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>

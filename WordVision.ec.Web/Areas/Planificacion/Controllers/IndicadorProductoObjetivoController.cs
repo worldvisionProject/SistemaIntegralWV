@@ -27,7 +27,16 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
     public class IndicadorProductoObjetivoController : BaseController<IndicadorProductoObjetivoController>
     {
-        public async Task<ActionResult> LoadIndicadores(int idProductoObjetivo, int idEstrategia)
+        public async Task<IActionResult> Index(int idProductoObjetivo, int idEstrategia)
+        {
+            var model = new ProductoObjetivoViewModel();
+            model.Id=idProductoObjetivo;
+            model.IdObjetivoEstra = idEstrategia;
+            //return View(model);
+            return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("Index", model) });
+
+        }
+        public async Task<IActionResult> LoadIndicadores(int idProductoObjetivo, int idEstrategia)
         {
             try
             {
@@ -35,14 +44,14 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 if (response.Succeeded)
                 {
                     var viewModel = _mapper.Map<List<IndicadorProductoObjetivoViewModel>>(response.Data);
-                    var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = idEstrategia });
+                   // var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = idEstrategia });
                     var model = new IndicadorProductoObjetivoViewModelMaster();
                     model.IndicadorProductoObjetivoViewModel = viewModel;
-                    model.AnioFiscalList = new SelectList(responseE.Data, "Id", "Anio");
+                   // model.AnioFiscalList = new SelectList(responseE.Data, "Id", "Anio");
                     model.IdEstrategia = idEstrategia;
-                    return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", model) });
+                    //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", model) });
 
-                    //return PartialView("_ViewAll", model);
+                    return PartialView("_ViewAll", model);
 
                 }
             }
@@ -87,18 +96,19 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (id == 0)
             {
                 var entidadViewModel = new IndicadorProductoObjetivoViewModel();
-                var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = idEstrategia });
-                if (responseE.Succeeded)
-                {
+                //var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = idEstrategia });
+                //if (responseE.Succeeded)
+                //{
 
-                    var gestionViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
-                    entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Anio");
-                }
+                //    var gestionViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
+                //    entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Anio");
+                //}
                 entidadViewModel.CodigoIndicadorList = new SelectList(cat1.Data, "Secuencia", "Nombre");
                 entidadViewModel.TipoIndicadorList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                 entidadViewModel.UnidadMedidaList = new SelectList(cat3.Data, "Secuencia", "Nombre");
                 entidadViewModel.ActorParticipanteList = new SelectList(cat4.Data, "Secuencia", "Nombre");
                 entidadViewModel.IdProductoObjetivo = idProductoObjetivo;
+                entidadViewModel.IdEstrategia = idEstrategia;
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             else
@@ -108,17 +118,18 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 {
                     var entidadViewModel = _mapper.Map<IndicadorProductoObjetivoViewModel>(response.Data);
 
-                    var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = idEstrategia });
-                    if (responseE.Succeeded)
-                    {
+                    //var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = idEstrategia });
+                    //if (responseE.Succeeded)
+                    //{
 
-                        var gestionViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
-                        entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Anio");
-                    }
+                    //    var gestionViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
+                    //    entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Anio");
+                    //}
                     entidadViewModel.CodigoIndicadorList = new SelectList(cat1.Data, "Secuencia", "Nombre");
                     entidadViewModel.TipoIndicadorList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                     entidadViewModel.UnidadMedidaList = new SelectList(cat3.Data, "Secuencia", "Nombre");
                     entidadViewModel.ActorParticipanteList = new SelectList(cat4.Data, "Secuencia", "Nombre");
+                    entidadViewModel.IdEstrategia = idEstrategia;
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;
@@ -150,23 +161,25 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         if (result.Succeeded) _notify.Information($"Indicador con ID {result.Data} Actualizado.");
                     }
 
-                    //var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = entidad.IdEstrategia });
-                    //if (response.Succeeded)
-                    //{
+                    var response = await _mediator.Send(new GetAllIndicadorProductoObjetivosCachedQuery() { Id = entidad.IdProductoObjetivo });
+                    if (response.Succeeded)
+                    {
+                        var viewModel = _mapper.Map<List<IndicadorProductoObjetivoViewModel>>(response.Data);
+                        // var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = idEstrategia });
+                        var model = new IndicadorProductoObjetivoViewModelMaster();
+                        model.IndicadorProductoObjetivoViewModel = viewModel;
+                        // model.AnioFiscalList = new SelectList(responseE.Data, "Id", "Anio");
+                        model.IdEstrategia = entidad.IdEstrategia;
+                        var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", model);
+                        return new JsonResult(new { isValid = true, hijo = 3,opcion = 103, page = "#viewAllIndicadoresProducto", html = html1 });
+                    }
+                    else
+                    {
+                        _notify.Error(response.Message);
+                        return null;
+                    }
 
-                    //    var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
-                    //    var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 2 });
-                    //    entidadViewModel.EstadoList = new SelectList(cat2.Data, "Secuencia", "Nombre");
-                    //    var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", entidadViewModel);
-                    //    return new JsonResult(new { isValid = true, opcion = 102, page = "#viewAllIndicador", html = html1 });
-                    //}
-                    //else
-                    //{
-                    //    _notify.Error(response.Message);
-                    //    return null;
-                    //}
-
-
+                    
                 }
                 return new JsonResult(new { isValid = true, Id = id });
             }
