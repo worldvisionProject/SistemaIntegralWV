@@ -191,6 +191,19 @@
         
         <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
+
+     $.get("/Planificacion/IndicadorProductoObjetivo/GetTiposIndicador", { idTipoIndicador: $("#TipoIndicador").val() }, function (data) {
+                    // VACIAMOS EL DropDownList
+                    $("#CodigoIndicador").empty();
+                    // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                    $("#CodigoIndicador").append("<option value> -- Seleccionar --</option>")
+                    // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                    $.each(data, function (index, row) {
+                        $("#CodigoIndicador").append("<option value='" + row.id + "'>" + row.codigoIndicador + "</option>")
+                    });
+                });
+
+
     $(function () {
         $(".datepicker").datepicker({
             format: "dd-mm-yyyy",
@@ -214,7 +227,7 @@
                     // VACIAMOS EL DropDownList
                     $("#CodigoIndicador").empty();
                     // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
-                   // $("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
+                    $("#CodigoIndicador").append("<option value=-1> -- Seleccionar --</option>")
                     // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
                     $.each(data, function (index, row) {
                         $("#CodigoIndicador").append("<option value='" + row.id + "'>" + row.codigoIndicador + "</option>")
@@ -222,6 +235,7 @@
                 });
             });
             $("#CodigoIndicador").change(function () {
+                 $("#descResultado").empty();
                 $.get("/Planificacion/IndicadorProductoObjetivo/GetDescTiposIndicador", { idCodigoIndicador: $("#CodigoIndicador").val() }, function (data) {
                    $("#descResultado").val(data.descripcion);
                 });

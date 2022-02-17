@@ -113,8 +113,93 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
             return Page();
 
         }
-        public PageResult OnPostStepLink(StepViewModel currentStep, int idStep)
+        public async Task<PageResult> OnPostStepLink(StepViewModel currentStep, int idStep)
         {
+            switch (currentStep.Position)
+            {
+                case 0:
+                    var c = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_1Step)currentStep;
+                    var ponderacion = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c.IdObjetivo });
+                    var min = ponderacion.Data.Minimo;
+                    var max = ponderacion.Data.Maximo;
+                    var planifica = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoQuery() { IdObjetivo = c.IdObjetivo });
+                    var contar = planifica.Data.Count();
+                    if (contar == min)
+                    {
+                        if (ModelState.IsValid) MoveToNextStep(currentStep);
+
+                    }
+                    else
+                    {
+                        JumpToStepAsync(currentStep, 0);
+                        _notify.Error("Debe ingresar minimo " + min.ToString() + " Resultados.");
+                        return Page();
+                    }
+                    break;
+
+                case 1:
+                    var c1 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_2Step)currentStep;
+                    var ponderacion1 = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c1.IdObjetivo });
+                    var min1 = ponderacion1.Data.Minimo;
+                    var max1 = ponderacion1.Data.Maximo;
+                    var planifica1 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoQuery() { IdObjetivo = c1.IdObjetivo });
+                    var contar1 = planifica1.Data.Count();
+                    if (contar1 == min1)
+                    {
+                        if (ModelState.IsValid) MoveToNextStep(currentStep);
+
+                    }
+                    else
+                    {
+                        JumpToStepAsync(currentStep, 1);
+                        _notify.Error("Debe ingresar minimo " + min1.ToString() + " Resultados.");
+                        return Page();
+                    }
+                    break;
+                case 2:
+                    var c2 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_3Step)currentStep;
+                    var ponderacion2 = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c2.IdObjetivo });
+                    var min2 = ponderacion2.Data.Minimo;
+                    var max2 = ponderacion2.Data.Maximo;
+                    var planifica2 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoQuery() { IdObjetivo = c2.IdObjetivo });
+                    var contar2 = planifica2.Data.Count();
+                    if (contar2 == min2)
+                    {
+                        if (ModelState.IsValid) MoveToNextStep(currentStep);
+
+                    }
+                    else
+                    {
+                        JumpToStepAsync(currentStep, 2);
+                        _notify.Error("Debe ingresar minimo " + min2.ToString() + " Resultados.");
+                        return Page();
+                    }
+                    break;
+                case 3:
+                    var c3 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_4Step)currentStep;
+                    var ponderacion3 = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c3.IdObjetivo });
+                    var min3 = ponderacion3.Data.Minimo;
+                    var max3 = ponderacion3.Data.Maximo;
+                    var planifica3 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoQuery() { IdObjetivo = c3.IdObjetivo });
+                    var contar3 = planifica3.Data.Count();
+                    if (contar3 == min3)
+                    {
+                        if (ModelState.IsValid) MoveToNextStep(currentStep);
+
+                    }
+                    else
+                    {
+                        JumpToStepAsync(currentStep, 3);
+                        _notify.Error("Debe ingresar minimo " + min3.ToString() + " Resultados.");
+                        return Page();
+                    }
+                    break;
+
+                default:
+                    if (ModelState.IsValid) MoveToNextStep(currentStep);
+                    break;
+            }
+            return Page();
             //if (currentStep.Position == 5)
             //{
             //    var c = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_1Step)currentStep;
@@ -137,8 +222,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
             //}
             //else
             //{
-                JumpToStepAsync(currentStep, idStep);
-                return Page();
+            //JumpToStepAsync(currentStep, idStep);
+            //return Page();
             //}
         }
 

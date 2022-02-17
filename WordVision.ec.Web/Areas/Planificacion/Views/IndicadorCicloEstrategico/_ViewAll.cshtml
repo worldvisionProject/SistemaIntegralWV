@@ -142,6 +142,10 @@
                           <button type="button" class="btn btn-warning  btn-xp" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorCicloEstrategico/OnGetCreateOrEdit?id=@indicador.Id&idEstrategia=@indicador.IdEstrategia','Gestión')">
                 <i class="fas fa-pen"></i>
             </button>
+                          @*  <form id="form_delete_@indicador.Id" asp-controller="IndicadorCicloEstrategico" method="post" asp-action="OnPostDelete" asp-route-id="@indicador.Id" asp-route-idEstrategia="@indicador.IdEstrategia" onsubmit="return jQueryModalDelete(this)" class="d-inline">
+                                <a href="javascript:$('#form_delete_@indicador.Id').submit();" class="dropdown-item"><i class="fas fa-trash-alt"></i> @localizer["Delete"]</a>
+                            </form>*@
+
                         <button type="button" onclick="EliminaFilaIndicador(@indicador.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
 
                     </td>
@@ -201,9 +205,8 @@
     });
 
     function EliminaFilaIndicador(id) {
-
-        $("#Indi_" + id).remove();
-
+      if (confirm('¿Estás segura de eliminar este registro?')) {
+       
         var GestionViewModel = {
             id: id
         };
@@ -222,5 +225,10 @@
                // alert('No Valid Data');
             }
         });
+
+         $("#Indi_" + id).remove();
+
+
+      }
     }
 </script>

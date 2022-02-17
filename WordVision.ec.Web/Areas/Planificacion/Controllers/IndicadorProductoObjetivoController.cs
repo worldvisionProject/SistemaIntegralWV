@@ -77,6 +77,14 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         {
             var entidadModel = await _mediator.Send(new GetTiposIndicadorByIdCodigo() { Id = idCodigoIndicador });
             var lista = _mapper.Map<TiposIndicadorViewModel>(entidadModel.Data);
+            if (lista==null)
+            {
+                lista = new TiposIndicadorViewModel
+                {
+                    Descripcion = String.Empty,
+                    CodigoTipoIndicador = 0
+                };
+            }
             return Json(lista);
 
         }

@@ -36,14 +36,14 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     //{
 
                     //    var entidadViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
-                  
+
 
 
                     //     ViewBag.AnioList = entidadViewModel;
                     //}
                     var model = new IndicadorCicloEstrategicoViewModelMaster();
                     model.IndicadorCicloEstrategicoViewModel = viewModel;
-                    model.AnioFiscalList= new SelectList(responseE.Data, "Id", "Anio");
+                    model.AnioFiscalList = new SelectList(responseE.Data, "Id", "Anio");
                     //var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
                     //return new JsonResult(new { isValid = true, html = html1 });
                     return PartialView("_ViewAll", model);
@@ -83,7 +83,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 {
 
                     var gestionViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
-                    entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Anio"); 
+                    entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Anio");
                 }
                 entidadViewModel.CodigoIndicadorList = new SelectList(cat1.Data, "Secuencia", "Nombre");
                 entidadViewModel.TipoIndicadorList = new SelectList(cat2.Data, "Secuencia", "Nombre");
@@ -145,7 +145,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         var viewModel = _mapper.Map<List<IndicadorCicloEstrategicoViewModel>>(response.Data);
                         ViewBag.IdEstrategia = entidad.IdEstrategia;
                         var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = entidad.IdEstrategia });
-                  
+
                         var model = new IndicadorCicloEstrategicoViewModelMaster();
                         model.IndicadorCicloEstrategicoViewModel = viewModel;
                         model.AnioFiscalList = new SelectList(responseE.Data, "Id", "Anio");
@@ -172,18 +172,36 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
 
-        public async Task<JsonResult> OnPostDelete(int id = 0)
+        public async Task<JsonResult> OnPostDelete(int id = 0, int idEstrategia=0)
         {
             var deleteCommand = await _mediator.Send(new DeleteIndicadorCicloEstrategicoCommand { Id = id });
             if (deleteCommand.Succeeded)
             {
                 _notify.Information($"Indicador con Id {id} Eliminado.");
-                return new JsonResult(new { isValid = true });
-
+              
             }
             else
             {
                 _notify.Error(deleteCommand.Message);
+               
+            }
+            var response = await _mediator.Send(new GetIndicadorCicloEstrategicoByIdEstrategiaQuery() { Id = idEstrategia });
+            if (response.Succeeded)
+            {
+                var viewModel = _mapper.Map<List<IndicadorCicloEstrategicoViewModel>>(response.Data);
+                ViewBag.IdEstrategia = idEstrategia;
+                var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = idEstrategia });
+
+                var model = new IndicadorCicloEstrategicoViewModelMaster();
+                model.IndicadorCicloEstrategicoViewModel = viewModel;
+                model.AnioFiscalList = new SelectList(responseE.Data, "Id", "Anio");
+                var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", model);
+                return new JsonResult(new { isValid = true, opcion = 102, page = "#viewAllIndicador", html = html1 });
+
+            }
+            else
+            {
+                _notify.Error(response.Message);
                 return null;
             }
         }
