@@ -39,6 +39,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrate
         public decimal? Logro4 { get; set; }
         public decimal? LineBase4 { get; set; }
         public decimal? MetaAcumulada { get; set; }
+        public int TipoMeta { get; set; }
         //public ICollection<MetaCicloEstrategico> MetaCicloEstrategicos { get; set; }
     }
 

@@ -41,6 +41,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrate
         public decimal? Logro4 { get; set; }
         public decimal? LineBase4 { get; set; }
         public decimal? MetaAcumulada { get; set; }
+        public int TipoMeta { get; set; }
         public class UpdateIndicadorCicloEstrategicoCommandHandler : IRequestHandler<UpdateIndicadorCicloEstrategicoCommand, Result<int>>
         {
             private readonly IUnitOfWork _unitOfWork;
@@ -87,6 +88,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrate
                 obj.Logro4 = command.Logro4;
                 obj.LineBase4 = command.LineBase4;
                 obj.MetaAcumulada = command.MetaAcumulada;
+                obj.TipoMeta = command.TipoMeta;
                 await _entidadRepository.UpdateAsync(obj);
 
 

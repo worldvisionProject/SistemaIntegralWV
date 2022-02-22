@@ -53,6 +53,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
 
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string MetaAcumulada { get; set; }
+        public int TipoMeta { get; set; }
+        public SelectList TipoMetaList { get; set; }
         public ICollection<MetaCicloEstrategicoViewModel> MetaCicloEstrategicos { get; set; }
     }
 

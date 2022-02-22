@@ -30,5 +30,6 @@
         public decimal? Logro4 { get; set; }
         public decimal? LineBase4 { get; set; }
         public decimal? MetaAcumulada { get; set; }
+        public int TipoMeta { get; set; }
     }
 }
