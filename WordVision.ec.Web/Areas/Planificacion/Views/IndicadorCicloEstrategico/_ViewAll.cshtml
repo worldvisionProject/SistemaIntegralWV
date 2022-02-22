@@ -11,7 +11,7 @@
                 var c = 0;
             }
            @* <th rowspan=2>Id</th><th rowspan=2>Idobjetivo</th>*@
-            <th rowspan=2 style="vertical-align: middle;text-align: center;">Indicador</th>
+            <th rowspan=2 style="vertical-align: middle;text-align: center;" width="10%">Indicador</th>
             @foreach(var a in Model.AnioFiscalList)
             {
                 
@@ -26,8 +26,8 @@
                 }
                 c++;
             }
-             <th rowspan=2 style="vertical-align: middle;text-align: center;">Meta Acumulada</th>
-             <th rowspan=2 style="vertical-align: middle;text-align: center;">Logro Acumulado</th>
+             <th rowspan=2 style="vertical-align: middle;text-align: center;" width="5%">Meta Acumulada</th>
+             <th rowspan=2 style="vertical-align: middle;text-align: center;" width="5%">Logro Acumulado</th>
             <th rowspan=2 class="acciones-th" style="vertical-align: middle;text-align: center;">Acciones</th>
         </tr>
         <tr>@{
@@ -37,10 +37,10 @@
             { 
                 if(c==0)
                 {
-                   <th>Línea Base</th> 
+                   <th width="5%">Línea Base</th> 
                 }
-                 <th>Meta</th>
-                <th>Logro</th>
+                 <th width="5%">Meta</th>
+                <th width="5%">Logro</th>
                
                 c++;
             }
@@ -202,11 +202,11 @@
             },
 
             responsive: true,
-            columnDefs: [
-                { responsivePriority: 1, targets: 0 },
-                { responsivePriority: 2, targets: -1 }
-            ],
-            "info": false
+            //columnDefs: [
+            //    { responsivePriority: 1, targets: 0 },
+            //    { responsivePriority: 2, targets: -1 }
+            //],
+            "info": false,
             //columnDefs: [
             //    { responsivePriority: 1, targets: 0 },
             //    { responsivePriority: 10001, targets: 4 },
