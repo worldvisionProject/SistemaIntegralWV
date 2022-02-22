@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Models
@@ -16,7 +17,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string Logro { get; set; }
         public SelectList EstadoList { get; set; }
         public int IdEstrategia { get; set; }
-
+        public DateTime? FechaDesde { get; set; }
+        public DateTime? FechaHasta { get; set; }
         public EstrategiaNacionalViewModel EstrategiaNacionales { get; set; }
     }
 }

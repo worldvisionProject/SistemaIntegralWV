@@ -1,5 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -16,6 +17,8 @@ namespace WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Up
         public string Estado { get; set; }
         public decimal? Meta { get; set; }
         public decimal? Logro { get; set; }
+        public DateTime? FechaDesde { get; set; }
+        public DateTime? FechaHasta { get; set; }
         public int IdEstrategia { get; set; }
         public class UpdateProductCommandHandler : IRequestHandler<UpdateGestionCommand, Result<int>>
         {
@@ -42,7 +45,9 @@ namespace WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Up
                     Gestion.Anio = command.Anio;
                     Gestion.Estado = command.Estado;
                     Gestion.Meta = command.Meta;
-                    Gestion.Logro = command.Logro;
+                    Gestion.Logro = command.Logro; 
+                    Gestion.FechaDesde = command.FechaDesde;
+                    Gestion.FechaHasta = command.FechaHasta;
 
                     await _GestionRepository.UpdateAsync(Gestion);
                     await _unitOfWork.Commit(cancellationToken);

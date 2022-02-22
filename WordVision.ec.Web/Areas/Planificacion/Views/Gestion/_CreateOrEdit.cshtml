@@ -20,7 +20,16 @@
                     <input type="text" asp-for="Descripcion" name="Descripcion" class="form-control">
                     <span asp-validation-for="Descripcion" class="text-danger"></span>
                 </div>
-
+                <div class="col-md-2">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Fecha Desde</label>
+                    <input asp-for="FechaDesde" type="text" name="FechaDesde" class="datepicker form-control" />
+                    <span asp-validation-for="FechaDesde" class="text-danger"></span>
+                </div>
+                <div class="col-md-2">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Fecha Hasta</label>
+                    <input asp-for="FechaHasta" type="text" name="FechaHasta" class="datepicker form-control" />
+                    <span asp-validation-for="FechaHasta" class="text-danger"></span>
+                </div>
                @* <div class="col-md-2">
                     <label class="col-md-12 col-form-label texto-pregunta">Meta</label>
                     <input type="text" asp-for="Meta" name="Meta" class="form-control">
