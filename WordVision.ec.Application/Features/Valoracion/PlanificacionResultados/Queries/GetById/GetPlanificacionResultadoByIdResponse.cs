@@ -25,6 +25,9 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
 
         public string DatoManual2 { get; set; }
         public int DatoManual3 { get; set; }
+        public int ReportaId { get; set; }
+        public int Estado { get; set; }
+        public string ObservacionLider { get; set; }
         public Resultado Resultados { get; set; }
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
     }

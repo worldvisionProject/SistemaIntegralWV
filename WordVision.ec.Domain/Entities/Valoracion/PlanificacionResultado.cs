@@ -13,6 +13,7 @@ namespace WordVision.ec.Domain.Entities.Valoracion
     {
        
         public int IdColaborador { get; set; }
+        public int ReportaId { get; set; }
         [Required]
         public int IdResultado { get; set; }
         
@@ -32,6 +33,8 @@ namespace WordVision.ec.Domain.Entities.Valoracion
         [Required]
         public int TipoObjetivo { get; set; }
         public int IdObjetivoAnioFiscal { get; set; }
+        public int Estado { get; set; }
+        public string ObservacionLider { get; set; }
         public ObjetivoAnioFiscal ObjetivoAnioFiscales { get; set; }
         
         [ForeignKey("IdPlanificacion")]

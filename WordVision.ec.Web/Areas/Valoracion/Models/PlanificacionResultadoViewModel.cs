@@ -27,6 +27,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         //    public int Tipo { get; set; }
         public int Id { get; set; }
         public int IdColaborador { get; set; }
+        public int ReportaId { get; set; }
         public int IdPadre { get; set; }
         public int IdPadreCompetencia { get; set; }
         public int IdResultado { get; set; }
@@ -50,6 +51,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public int TipoObjetivo { get; set; }
         public int IdObjetivoAnioFiscal { get; set; }
         public int NumeroObjetivo { get; set; }
+        public int Estado { get; set; }
+        public string ObservacionLider { get; set; }
         public ObjetivoAnioFiscalViewModel ObjetivoAnioFiscales { get; set; }
         public string Hito { get; set; }
         public string IndicadorHito { get; set; }
@@ -61,7 +64,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? FechaFinHito { get; set; }
         //public ResultadoViewModel Resultados { get; set; }
-
+        public string DescEstado { get; set; }
+         public string NombreColaborador { get; set; }
         public ICollection<PlanificacionHitoViewModel> PlanificacionHitos { get; set; }
     }
 }

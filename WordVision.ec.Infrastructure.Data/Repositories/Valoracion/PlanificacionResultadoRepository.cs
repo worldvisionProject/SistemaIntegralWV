@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using WordVision.ec.Application.DTOs.Valoracion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Application.Interfaces.Repositories.Valoracion;
+using WordVision.ec.Domain.Entities.Maestro;
+using WordVision.ec.Domain.Entities.Registro;
 using WordVision.ec.Domain.Entities.Valoracion;
 
 namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
@@ -19,8 +21,11 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
         private readonly IRepositoryAsync<Resultado> _repositoryResultado;
         private readonly IRepositoryAsync<Responsabilidad> _repositoryResponsabilidad;
         private readonly IRepositoryAsync<Competencia> _repositoryCompetencia;
+        private readonly IRepositoryAsync<Colaborador> _repositoryColaborador;
+        private readonly IRepositoryAsync<DetalleCatalogo> _repositoryDetalleCatalogo;
+
         private readonly IDistributedCache _distributedCache;
-        public PlanificacionResultadoRepository(IRepositoryAsync<Competencia> repositoryCompetencia,IRepositoryAsync<Responsabilidad> repositoryResponsabilidad,IRepositoryAsync<Resultado> repositoryResultado,IRepositoryAsync<PlanificacionResultado> repository, IRepositoryAsync<Objetivo> repositoryObjetivo, IDistributedCache distributedCache)
+        public PlanificacionResultadoRepository(IRepositoryAsync<DetalleCatalogo> repositoryDetalleCatalogo,IRepositoryAsync<Colaborador> repositoryColaborador,IRepositoryAsync<Competencia> repositoryCompetencia,IRepositoryAsync<Responsabilidad> repositoryResponsabilidad,IRepositoryAsync<Resultado> repositoryResultado,IRepositoryAsync<PlanificacionResultado> repository, IRepositoryAsync<Objetivo> repositoryObjetivo, IDistributedCache distributedCache)
         {
             _repository = repository;
             _distributedCache = distributedCache;
@@ -28,6 +33,8 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
             _repositoryResultado = repositoryResultado;
             _repositoryResponsabilidad = repositoryResponsabilidad;
             _repositoryCompetencia = repositoryCompetencia;
+            _repositoryColaborador = repositoryColaborador;
+            _repositoryDetalleCatalogo = repositoryDetalleCatalogo;
 
         }
         public IQueryable<PlanificacionResultado> planificacionResultados => _repository.Entities;
@@ -84,6 +91,21 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
            // 
         }
 
+        public async Task<List<PlanificacionResultadoResponse>> GetListxLiderAsync(int idLider)
+        {
+            var result = _repository.Entities.Where(x => x.ReportaId == idLider)
+                .GroupBy(x=> new { x.IdColaborador ,x.Estado })
+                 .Select(a => new PlanificacionResultadoResponse
+                 {
+                    IdColaborador= a.Key.IdColaborador,
+                    DescEstado = _repositoryDetalleCatalogo.Entities.Where(c=>c.IdCatalogo==45 && c.Secuencia==a.Key.Estado.ToString()).FirstOrDefault().Nombre,
+                    NombreColaborador = _repositoryColaborador.Entities.Where(x=>x.Id==a.Key.IdColaborador).FirstOrDefault().Apellidos+" "+_repositoryColaborador.Entities.Where(x => x.Id == a.Key.IdColaborador).FirstOrDefault().ApellidoMaterno + " " + _repositoryColaborador.Entities.Where(x => x.Id == a.Key.IdColaborador).FirstOrDefault().PrimerNombre + " " + _repositoryColaborador.Entities.Where(x => x.Id == a.Key.IdColaborador).FirstOrDefault().SegundoNombre
+                 })
+                 .ToListAsync();
+
+            return await result;
+        }
+
         public async Task<List<PlanificacionResultado>> GetListxObjetivoAsync(int idObjetivo)
         {
             return await _repository.Entities//.Include(x => x.Resultados)
@@ -99,7 +121,8 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                 .ThenInclude(o => o.PlanificacionResultados)
             .Select(x => new ObjetivoResponse
             {
-                IdObjetivo=x.Id,
+                IdColaborador = idColaborador,
+                IdObjetivo =x.Id,
                 NombreObjetivo = x.Nombre,
                 Numero = x.Numero,
                 Descripcion = x.Descripcion,
@@ -153,6 +176,24 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
         public async Task UpdateAsync(PlanificacionResultado planificacionResultado)
         {
             await _repository.UpdateAsync(planificacionResultado);
+        }
+        public async Task UpdatexColaboradorAsync(int idColaborador,int estado)
+        {
+           var e= _repository.Entities.Where(x => x.IdColaborador == idColaborador).ToList();
+            foreach (var e2 in e)
+            {
+                e2.Estado = estado;
+                await _repository.UpdateAsync(e2);
+            }
+               
+        }
+
+        public async Task<List<PlanificacionResultado>> GetListObjetivoxColaboradorAsync(int idObjetivo, int idColaborador)
+        {
+            return await _repository.Entities//.Include(x => x.Resultados)
+              .Include(x => x.ObjetivoAnioFiscales)
+              .ThenInclude(m => m.Objetivos).Where(c => c.ObjetivoAnioFiscales.IdObjetivo == idObjetivo && c.IdColaborador==idColaborador)
+              .ToListAsync();
         }
     }
 }

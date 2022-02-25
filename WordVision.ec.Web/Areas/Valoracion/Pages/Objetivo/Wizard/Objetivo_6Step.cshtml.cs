@@ -10,6 +10,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
 {
     public class Objetivo_6Step : StepViewModel
     {
+        public int IdColaborador { get; set; }
         public int IdObjetivo { get; set; }
         public string NumeroObjetivo { get; set; }
         public string Objetivo { get; set; }

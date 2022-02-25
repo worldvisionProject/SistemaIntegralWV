@@ -17,6 +17,7 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
     {
         public int Id { get; set; }
         public int IdColaborador { get; set; }
+        public int ReportaId { get; set; }
         public int IdResultado { get; set; }
 
         public decimal? Meta { get; set; }
@@ -33,6 +34,7 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
         public int DatoManual3 { get; set; }
         public int TipoObjetivo { get; set; }
         public int IdObjetivoAnioFiscal { get; set; }
+        public int Estado { get; set; }
         public ObjetivoAnioFiscal ObjetivoAnioFiscales { get; set; }
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
     }

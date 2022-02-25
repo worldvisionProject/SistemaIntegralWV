@@ -19,6 +19,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
     {
         public int Id { get; set; }
         public int IdColaborador { get; set; }
+        public int ReportaId { get; set; }
         public int IdResultado { get; set; }
 
         public decimal? Meta { get; set; }
@@ -34,6 +35,8 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
         public int DatoManual3 { get; set; }
         public int TipoObjetivo { get; set; }
         public int IdObjetivoAnioFiscal { get; set; }
+        public int Estado { get; set; }
+        public string ObservacionLider { get; set; }
         //public Resultado Resultados { get; set; }
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
         public class UpdatePlanificacionResultadoCommandHandler : IRequestHandler<UpdatePlanificacionResultadoCommand, Result<int>>
@@ -57,6 +60,15 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
 
             public async Task<Result<int>> Handle(UpdatePlanificacionResultadoCommand command, CancellationToken cancellationToken)
             {
+                if (command.Estado==2 || command.Estado == 3 || command.Estado == 4)
+                {
+                    await _entidadRepository.UpdatexColaboradorAsync(command.IdColaborador, command.Estado);
+
+                    await _unitOfWork.Commit(cancellationToken);
+                    return Result<int>.Success(1);
+
+                }
+
                 var obj = await _entidadRepository.GetByIdAsync(command.Id);
 
                 if (obj == null)
@@ -111,7 +123,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                 //}
 
 
-               
+                obj.ReportaId = command.ReportaId;
                 obj.IdResultado = command.IdResultado;
                 obj.Meta = command.Meta;
                 obj.FechaInicio = command.FechaInicio;
@@ -122,6 +134,8 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                 obj.DatoManual3 = command.DatoManual3;
                 obj.TipoObjetivo = command.TipoObjetivo;
                 obj.IdObjetivoAnioFiscal = command.IdObjetivoAnioFiscal;
+                //obj.Estado=command.Estado;
+                obj.ObservacionLider = command.ObservacionLider;
                 foreach (var h in command.PlanificacionHitos)
                 {
                     var hito = _mapper.Map<PlanificacionHito>(h);

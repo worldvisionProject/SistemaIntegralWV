@@ -9,6 +9,7 @@ namespace WordVision.ec.Application.DTOs.Valoracion
 {
     public class ObjetivoResponse
     {
+        public int IdColaborador { get; set; }
         public int IdObjetivo { get; set; }
         public string NombreObjetivo { get; set; }
         public string Numero { get; set; }
@@ -49,5 +50,9 @@ namespace WordVision.ec.Application.DTOs.Valoracion
         public int IdObjetivoAnioFiscal { get; set; }
         public string DatoManual2 { get; set; }
         public int DatoManual3 { get; set; }
+        public int Estado { get; set; }
+        public string DescEstado { get; set; }
+        public string ObservacionLider { get; set; }
+        public string NombreColaborador { get; set; }
     }
 }

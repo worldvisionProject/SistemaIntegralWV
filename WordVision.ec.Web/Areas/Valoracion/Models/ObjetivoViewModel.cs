@@ -6,6 +6,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
 {
     public class ObjetivoResponseViewModel
     {
+        public int IdColaborador { get; set; }
         public int IdObjetivo { get; set; }
         public string NombreObjetivo { get; set; }
         public string Numero { get; set; }

@@ -1,4 +1,5 @@
 ﻿@model WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_7Step
+<input type="hidden" asp-for="IdColaborador" name="IdColaborador"  class="form-control">
 <input type="hidden" asp-for="IdObjetivo" name="IdObjetivo"  class="form-control">
            <input type="hidden" asp-for="NumeroObjetivo" name="NumeroObjetivo"  class="form-control">
            <input type="hidden" asp-for="AnioFiscal" name="AnioFiscal"  class="form-control">
@@ -25,7 +26,7 @@
     
 
         @if (num==0)
-        { <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=0&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=3&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivos 7')">
+        { <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=0&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=3&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivos 7')">
                             <i class="fa fa-plus-square"></i>
                                 Agregar Respuesta
          </button> 
@@ -44,7 +45,7 @@
             loadData();
     });
         function loadData() {
-            $('#viewAll').load('/valoracion/objetivo/LoadObjetivoResultado?id=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value.ToString()&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&entidad=@Model.PlanificacionResultados&ponderacion=@Model.PonderacionObjetivo.ToString().Replace(",",".")');
+            $('#viewAll').load('/valoracion/objetivo/LoadObjetivoResultado?id=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&entidad=@Model.PlanificacionResultados&ponderacion=@Model.PonderacionObjetivo.ToString().Replace(",",".")');
         }
 
    

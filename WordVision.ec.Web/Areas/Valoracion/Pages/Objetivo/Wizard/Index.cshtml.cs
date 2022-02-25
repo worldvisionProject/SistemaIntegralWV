@@ -75,12 +75,12 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
             {
                 if (id != null)
                 {
-                    
-                        var response = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = 1002, IdColaborador = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
-                        if (response.Succeeded)
-                        {
-                            var viewModel = _mapper.Map<List<ObjetivoResponseViewModel>>(response.Data);
-                        LoadWizardData(viewModel, Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value));
+
+                    var response = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = 1002, IdColaborador = id });
+                    if (response.Succeeded)
+                    {
+                        var viewModel = _mapper.Map<List<ObjetivoResponseViewModel>>(response.Data);
+                        LoadWizardData(viewModel, id);
                     }
 
                     if (id == 4)
@@ -115,6 +115,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
         }
         public async Task<PageResult> OnPostStepLink(StepViewModel currentStep, int idStep)
         {
+            var suma = decimal.Zero;
+            var porcentaje = decimal.Zero;
             switch (currentStep.Position)
             {
                 case 0:
@@ -122,12 +124,28 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     var ponderacion = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c.IdObjetivo });
                     var min = ponderacion.Data.Minimo;
                     var max = ponderacion.Data.Maximo;
-                    var planifica = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoQuery() { IdObjetivo = c.IdObjetivo });
+                    porcentaje = ponderacion.Data.Ponderacion;
+                    var planifica = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoColaboradorQuery() { IdObjetivo = c.IdObjetivo,IdColaborador= c.IdColaborador });
                     var contar = planifica.Data.Count();
+               
+                    foreach(var l in planifica.Data)
+                    {
+                        suma = suma + (decimal)l.Ponderacion;
+                    }
+
                     if (contar == min)
                     {
-                        if (ModelState.IsValid) MoveToNextStep(currentStep);
-
+                        if (suma == porcentaje)
+                        { 
+                            JumpToStepAsync(currentStep, idStep); 
+                        }
+                        else
+                        {
+                            JumpToStepAsync(currentStep, 0);
+                            _notify.Error("Los items debe  sumar un total del " + porcentaje.ToString() + " %, en la ponderación.");
+                            return Page();
+                        }
+                      
                     }
                     else
                     {
@@ -135,6 +153,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         _notify.Error("Debe ingresar minimo " + min.ToString() + " Resultados.");
                         return Page();
                     }
+                    
                     break;
 
                 case 1:
@@ -142,12 +161,25 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     var ponderacion1 = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c1.IdObjetivo });
                     var min1 = ponderacion1.Data.Minimo;
                     var max1 = ponderacion1.Data.Maximo;
-                    var planifica1 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoQuery() { IdObjetivo = c1.IdObjetivo });
+                    var planifica1 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoColaboradorQuery() { IdObjetivo = c1.IdObjetivo, IdColaborador = c1.IdColaborador });
                     var contar1 = planifica1.Data.Count();
+                    porcentaje = ponderacion1.Data.Ponderacion;
+                    foreach (var l in planifica1.Data)
+                    {
+                        suma = suma + (decimal)l.Ponderacion;
+                    }
                     if (contar1 == min1)
                     {
-                        if (ModelState.IsValid) MoveToNextStep(currentStep);
-
+                        if (suma == porcentaje)
+                        {
+                            JumpToStepAsync(currentStep, idStep);
+                        }
+                        else
+                        {
+                            JumpToStepAsync(currentStep, 1);
+                            _notify.Error("Los items debe  sumar un total del " + porcentaje.ToString() + " %, en la ponderación.");
+                            return Page();
+                        }
                     }
                     else
                     {
@@ -161,12 +193,25 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     var ponderacion2 = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c2.IdObjetivo });
                     var min2 = ponderacion2.Data.Minimo;
                     var max2 = ponderacion2.Data.Maximo;
-                    var planifica2 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoQuery() { IdObjetivo = c2.IdObjetivo });
-                    var contar2 = planifica2.Data.Count();
+                    var planifica2 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoColaboradorQuery() { IdObjetivo = c2.IdObjetivo, IdColaborador = c2.IdColaborador });
+                    var contar2 = planifica2.Data.Count(); 
+                    porcentaje = ponderacion2.Data.Ponderacion;
+                    foreach (var l in planifica2.Data)
+                    {
+                        suma = suma + (decimal)l.Ponderacion;
+                    }
                     if (contar2 == min2)
                     {
-                        if (ModelState.IsValid) MoveToNextStep(currentStep);
-
+                        if (suma == porcentaje)
+                        {
+                            JumpToStepAsync(currentStep, idStep);
+                        }
+                        else
+                        {
+                            JumpToStepAsync(currentStep, 2);
+                            _notify.Error("Los items debe  sumar un total del " + porcentaje.ToString() + " %, en la ponderación.");
+                            return Page();
+                        }
                     }
                     else
                     {
@@ -180,11 +225,25 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     var ponderacion3 = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c3.IdObjetivo });
                     var min3 = ponderacion3.Data.Minimo;
                     var max3 = ponderacion3.Data.Maximo;
-                    var planifica3 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoQuery() { IdObjetivo = c3.IdObjetivo });
+                    var planifica3 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoColaboradorQuery() { IdObjetivo = c3.IdObjetivo, IdColaborador = c3.IdColaborador });
                     var contar3 = planifica3.Data.Count();
+                    porcentaje = ponderacion3.Data.Ponderacion;
+                    foreach (var l in planifica3.Data)
+                    {
+                        suma = suma + (decimal)l.Ponderacion;
+                    }
                     if (contar3 == min3)
                     {
-                        if (ModelState.IsValid) MoveToNextStep(currentStep);
+                        if (suma == porcentaje)
+                        {
+                            JumpToStepAsync(currentStep, idStep);
+                        }
+                        else
+                        {
+                            JumpToStepAsync(currentStep,3);
+                            _notify.Error("Los items debe  sumar un total del " + porcentaje.ToString() + " %, en la ponderación.");
+                            return Page();
+                        }
 
                     }
                     else
@@ -196,7 +255,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     break;
 
                 default:
-                    if (ModelState.IsValid) MoveToNextStep(currentStep);
+                    JumpToStepAsync(currentStep, idStep);
                     break;
             }
             return Page();
@@ -237,19 +296,37 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     var ponderacion = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c.IdObjetivo });
                     var min = ponderacion.Data.Minimo;
                     var max = ponderacion.Data.Maximo;
-                    var planifica = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoQuery() { IdObjetivo = c.IdObjetivo });
+                    var planifica = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoColaboradorQuery() { IdObjetivo = c.IdObjetivo, IdColaborador =c.IdColaborador });
                     var contar = planifica.Data.Count();
+
+                    var porcentaje = ponderacion.Data.Ponderacion;
+                    var suma = decimal.Zero;
+                    foreach (var l in planifica.Data)
+                    {
+                        suma = suma + (decimal)l.Ponderacion;
+                    }
+
                     if (contar == min)
                     {
-                        if (ModelState.IsValid) MoveToNextStep(currentStep);
-
+                        if (suma == porcentaje)
+                        { 
+                            if (ModelState.IsValid) MoveToNextStep(currentStep); 
+                        }
+                        else
+                        {
+                            JumpToStepAsync(currentStep, 0);
+                            _notify.Error("Los items debe  sumar un total del " + porcentaje.ToString() + " %, en la ponderación.");
+                            return Page();
+                        }
+                      
                     }
                     else
                     {
                         JumpToStepAsync(currentStep, 0);
-                        _notify.Error("Debe ingresar minimo "+ min.ToString() + " Resultados.");
+                        _notify.Error("Debe ingresar minimo " + min.ToString() + " Resultados.");
                         return Page();
                     }
+                    
                     break;
 
                 case 1:
@@ -257,7 +334,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     var ponderacion1 = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c1.IdObjetivo });
                     var min1 = ponderacion1.Data.Minimo;
                     var max1 = ponderacion1.Data.Maximo;
-                    var planifica1 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoQuery() { IdObjetivo = c1.IdObjetivo });
+                    var planifica1 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoColaboradorQuery() { IdObjetivo = c1.IdObjetivo, IdColaborador = c1.IdColaborador });
                     var contar1 = planifica1.Data.Count();
                     if (contar1 == min1)
                     {
@@ -276,7 +353,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     var ponderacion2 = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c2.IdObjetivo });
                     var min2 = ponderacion2.Data.Minimo;
                     var max2 = ponderacion2.Data.Maximo;
-                    var planifica2 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoQuery() { IdObjetivo = c2.IdObjetivo });
+                    var planifica2 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoColaboradorQuery() { IdObjetivo = c2.IdObjetivo, IdColaborador = c2.IdColaborador });
                     var contar2 = planifica2.Data.Count();
                     if (contar2 == min2)
                     {
@@ -295,7 +372,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     var ponderacion3 = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c3.IdObjetivo });
                     var min3 = ponderacion3.Data.Minimo;
                     var max3 = ponderacion3.Data.Maximo;
-                    var planifica3 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoQuery() { IdObjetivo = c3.IdObjetivo });
+                    var planifica3 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoColaboradorQuery() { IdObjetivo = c3.IdObjetivo, IdColaborador = c3.IdColaborador });
                     var contar3 = planifica3.Data.Count();
                     if (contar3 == min3)
                     {
@@ -311,7 +388,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     break;
 
                 default:
-                     if (ModelState.IsValid) MoveToNextStep(currentStep);
+                    if (ModelState.IsValid) MoveToNextStep(currentStep);
                     break;
             }
             return Page();
@@ -374,8 +451,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
             //_service.Save(client);
 
             //OnPostCreateOrEdit(id, client);
-
-            int id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value);
+            var c = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_7Step)currentStep;
+            int id = c.IdColaborador;
             try
             {
                 if (ModelState.IsValid)
@@ -395,7 +472,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     //var updateUsuarioCommand = _mapper.Map<UpdateUsuarioCommand>(usr);
                     //var resultUsuario = await _mediator.Send(updateUsuarioCommand);
 
-                    return RedirectToAction("EnviarMail", "Formulario", new { Area = "Registro", idDocumento = 0, idColaborador = id});
+                    return RedirectToAction("EnviarMail", "Objetivo", new { Area = "Valoracion", idColaborador = id, reportaA= Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value), proceso=1, idAnioFiscal = 1002 });
                     //return RedirectToPage("Index", new { id = client.Id });
 
                 }

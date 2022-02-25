@@ -6,6 +6,7 @@
 
 <input type="hidden" asp-for="Id" name="Resultados.Id"  class="form-control">
            <input type="hidden" asp-for="IdObjetivo" name="IdObjetivo"  class="form-control">
+          @* <input type="hidden" asp-for="Estado" name="Estado"  class="form-control">*@
            <input type="hidden" asp-for="NumeroObjetivo" name="NumeroObjetivo"  class="form-control">
            <input type="hidden" asp-for="AnioFiscal" name="AnioFiscal"  class="form-control">
            <input type="hidden" asp-for="PonderacionObjetivo" name="PonderacionObjetivo"  class="form-control">
@@ -15,6 +16,7 @@
             <input type="hidden" asp-for="ObjetivoAnioFiscales.AnioFiscal" name="ObjetivoAnioFiscales.AnioFiscal"  class="form-control">
             <input type="hidden" asp-for="ObjetivoAnioFiscales.Id" name="ObjetivoAnioFiscales.Id"  class="form-control">
             <input type="hidden" asp-for="IdColaborador" name="IdColaborador" value="@Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value)" class="form-control">
+            <input type="hidden" asp-for="ReportaId" name="ReportaId" value="@Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value)" class="form-control">
      @if (Model.NumeroObjetivo==5 || Model.NumeroObjetivo==6|| Model.NumeroObjetivo==7)
     {
          <input asp-for="Meta" type="hidden" name="Meta" value="0" class="form-control"  />
@@ -301,7 +303,20 @@
                               </div>
                 </div>
                }
-    }    
+    }   
+    @if (Model.Estado != 0)
+    {
+        <div class="form-group row">
+            <div class="col-md-12">
+                        <label class="col-md-12 col-form-label texto-pregunta">
+                        Observación del Lider</label>
+                         <textarea asp-for="ObservacionLider" name="ObservacionLider" class="form-control"></textarea>
+                        <span asp-validation-for="ObservacionLider" class="text-danger"></span>
+                    </div>
+                     
+                 
+            </div>
+     }
  <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
        

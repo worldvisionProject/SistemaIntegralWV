@@ -53,7 +53,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     {
                         case "1":
                             d.Add(new Objetivo_1Step
-                            {
+                            { 
+                                IdColaborador=i.IdColaborador,
                                 IdObjetivo = i.IdObjetivo,
                                 NumeroObjetivo = i.Numero,
                                 Objetivo = i.NombreObjetivo,
@@ -68,6 +69,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         case "2":
                             d.Add(new Objetivo_2Step
                             {
+                                IdColaborador = i.IdColaborador,
                                 IdObjetivo = i.IdObjetivo,
                                 NumeroObjetivo = i.Numero,
                                 Objetivo = i.NombreObjetivo,
@@ -82,6 +84,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         case "3":
                             d.Add(new Objetivo_3Step
                             {
+                                IdColaborador = i.IdColaborador,
                                 IdObjetivo = i.IdObjetivo,
                                 NumeroObjetivo = i.Numero,
                                 Objetivo = i.NombreObjetivo,
@@ -96,6 +99,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         case "4":
                             d.Add(new Objetivo_4Step
                             {
+                                IdColaborador = i.IdColaborador,
                                 IdObjetivo = i.IdObjetivo,
                                 NumeroObjetivo = i.Numero,
                                 Objetivo = i.NombreObjetivo,
@@ -110,6 +114,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         case "5":
                             d.Add(new Objetivo_5Step
                             {
+                                IdColaborador = i.IdColaborador,
                                 IdObjetivo = i.IdObjetivo,
                                 NumeroObjetivo = i.Numero,
                                 Objetivo = i.NombreObjetivo,
@@ -124,6 +129,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         case "6":
                             d.Add(new Objetivo_6Step
                             {
+                                IdColaborador = i.IdColaborador,
                                 IdObjetivo = i.IdObjetivo,
                                 NumeroObjetivo = i.Numero,
                                 Objetivo = i.NombreObjetivo,
@@ -138,6 +144,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         case "7":
                             d.Add(new Objetivo_7Step
                             {
+                                IdColaborador = i.IdColaborador,
                                 IdObjetivo = i.IdObjetivo,
                                 NumeroObjetivo = i.Numero,
                                 Objetivo = i.NombreObjetivo,

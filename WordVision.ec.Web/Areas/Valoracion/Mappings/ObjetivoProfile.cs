@@ -23,6 +23,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Mappings
             CreateMap<WordVision.ec.Application.DTOs.Valoracion.ObjetivoAnioFiscalResponse, WordVision.ec.Web.Areas.Valoracion.Models.ObjetivoAnioFiscalResponse>().ReverseMap();
             CreateMap<WordVision.ec.Application.DTOs.Valoracion.PlanificacionResultadoResponse, WordVision.ec.Web.Areas.Valoracion.Models.PlanificacionResultadoResponse>().ReverseMap();
             CreateMap<WordVision.ec.Application.DTOs.Valoracion.ResultadoResponse, WordVision.ec.Application.Features.Valoracion.Resultados.Queries.GetAllCached.GetAllResultadosCachedResponse>().ReverseMap();
+            CreateMap<WordVision.ec.Application.DTOs.Valoracion.PlanificacionResultadoResponse, PlanificacionResultadoViewModel>().ReverseMap();
 
             CreateMap<GetPlanificacionResultadoByIdResponse, PlanificacionResultadoViewModel>().ReverseMap();
             CreateMap<PlanificacionResultadoViewModel, PlanificacionResultado>().ReverseMap();

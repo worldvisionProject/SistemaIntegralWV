@@ -31,7 +31,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
 {
     [Area("Valoracion")]
     [Authorize]
-    public class ObjetivoController :  BaseController<ObjetivoController>
+    public class LiderController :  BaseController<LiderController>
     {
         public IActionResult Index(int id = 0)
         {
@@ -40,14 +40,14 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
         }
 
 
-        public async Task<IActionResult> LoadAll(int idAnioFiscal,int idColaborador)
+        public async Task<IActionResult> LoadAll(int idLider)
         {
             try
             {
-                var response = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = idAnioFiscal, IdColaborador = idColaborador });
+                var response = await _mediator.Send(new GetPlanificacionResultadoByIdLiderQuery() { IdLider = idLider });
                 if (response.Succeeded)
                 {
-                    var viewModel = _mapper.Map<List<ObjetivoResponseViewModel>>(response.Data);
+                    var viewModel = _mapper.Map<List<PlanificacionResultadoViewModel>>(response.Data);
                     return PartialView("_ViewAll", viewModel);
                 }
             }
