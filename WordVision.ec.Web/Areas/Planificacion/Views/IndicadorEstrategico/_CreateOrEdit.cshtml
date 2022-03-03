@@ -88,6 +88,11 @@
                         <input asp-for="Meta" type="text" name="Meta" class="form-control" />
                         <span asp-validation-for="Meta" class="text-danger"></span>
                     </div>
+                     <div class="col-md-2">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Logro acumulada ciclo</label>
+                        <input asp-for="LogroAcumulado" type="text" name="LogroAcumulado" class="form-control" />
+                        <span asp-validation-for="LogroAcumulado" class="text-danger"></span>
+                    </div>
                 </div>
                 <div class=" row" >
                          <div class="col-md-12">
@@ -104,17 +109,22 @@
                 </div>
 
                 <div class="form-group row">
+                      <div class="col-md-2">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
+                        <input asp-for="LineaBaseAF" type="text" name="LineaBaseAF" class="form-control" />
+                        <span asp-validation-for="LineaBaseAF" class="text-danger"></span>
+                    </div>
                     <div class="col-md-2">
                         <label class="col-md-12 col-form-label texto-pregunta">Gestión</label>
                         @Html.DropDownListFor(x => x.gestionList, (IEnumerable<SelectListItem>)ViewBag.EstadoList, new { @class = "form-control" })
                         <span asp-validation-for="gestionList" class="text-danger"></span>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Anual</label>
                         <input asp-for="MetaAF" type="text" name="MetaAF" class="form-control" />
                         <span asp-validation-for="MetaAF" class="text-danger"></span>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label class="col-md-12 col-form-label texto-pregunta text-left">Logro</label>
                         <input asp-for="EntregableAF" type="text" name="EntregableAF" class="form-control" />
                         <span asp-validation-for="EntregableAF" class="text-danger"></span>
@@ -136,6 +146,7 @@
                 <thead>
                     <tr>
                         @*<th>Id</th>*@
+                        <th>Línea Base</th>
                         <th>Gestión</th>
                         <th>Metas Anuales</th>
                         <th>Logro</th>
@@ -154,7 +165,9 @@
                         {
                             suma = suma + Convert.ToDecimal(@metaanual.Meta);
                             <tr id="@metaanual.Id" class="rowdata">
-
+                                <td class="lineaBase">
+                                    @metaanual.LineaBase.ToString().Replace(",", ".")
+                                </td>
                                 <td class="af">
                                     @{
                                         var selectedCity = Model.gestionList;
@@ -174,7 +187,7 @@
                                 {
 
                                     <td class="text-right">
-                                        <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFila(@metaanual.Id,@metaanual.Anio,@metaanual.Meta.ToString().Replace(",", "."),'@metaanual.Entregable')">
+                                        <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFila(@metaanual.Id,@metaanual.Anio,@metaanual.Meta.ToString().Replace(",", "."),'@metaanual.Entregable',@metaanual.LineaBase.ToString().Replace(",", "."))">
                                             <i class="fas fa-pencil-alt"></i>
                                         </button>
                                         <button type="button" onclick="EliminaFila(@metaanual.Id)" class="btn btn-danger btn-xp">
@@ -216,6 +229,7 @@
    // document.getElementById("Meta").value = document.getElementById("suma").value == null ? 0 : document.getElementById("suma").value;
     $(function () {
         sumar();
+        SumarLogro()
         $('#create-form *').prop('disabled', (document.getElementById("band").value == "true"));
         $(".datepicker").datepicker({
             format: "dd-mm-yyyy",
@@ -283,6 +297,24 @@
 
         document.getElementById("Meta").value = String(sum).replace('.', ',');
     }
+     function SumarLogro() {
+
+        const tableRows = document.querySelectorAll('#metasTable tr.rowdata');
+
+        var sum = 0;
+        // Recorremos las filas que tengan el class="row"
+        // así obviamos la cabecera
+        for (let i = 0; i < tableRows.length; i++) {
+            const row = tableRows[i];
+            const status = row.querySelector('.lineaBase');
+
+            sum = sum + parseFloat(status.innerText);
+            // Para modificar un estado:
+            // status.innerText = 'offline';
+        }
+
+        document.getElementById("LineaBase").value = String(sum).replace('.', ',');
+    }
 
 
     function duplicados(af_in) {
@@ -320,12 +352,17 @@
             let Anio = document.getElementById("gestionList").value;
             let Entregable = document.getElementById("EntregableAF").value;
             let Meta = document.getElementById("MetaAF").value.replace(',', '.');
+            let LineaBase = document.getElementById("LineaBaseAF").value.replace(',', '.');
             var selection = document.getElementById("gestionList");
             let AnioDesc = selection.options[selection.selectedIndex].innerHTML;
 
             if (duplicados(AnioDesc)) { return;}
            // let IdEstrategia = document.getElementById("Id").value;
            // sum = parseFloat(sum) + parseFloat(Meta);
+           if (LineaBase.length == 0) {
+                alert("Ingrese la Linea Base.");
+                return;
+            }
             if (Anio.length == 0) {
                 alert("Ingrese la Gestion.");
                 return;
@@ -346,6 +383,7 @@
             TR.setAttribute('id', num);
             TR.className = "rowdata";
            // let TDId = document.createElement("td");
+            let TDLineaBase = document.createElement("td");
             let TDAnio = document.createElement("td");
             let TDMeta = document.createElement("td");
             let TDEntregable = document.createElement("td");
@@ -355,28 +393,34 @@
             TDAnio.className = "af";
             //let TDTotal = document.createElement("td");
            // TR.appendChild(TDId);
+           TR.appendChild(TDLineaBase);
             TR.appendChild(TDAnio);
             TR.appendChild(TDMeta);
             TR.appendChild(TDEntregable);
             TR.appendChild(TDEliminar);
             //TR.appendChild(TDTotal);
            // TDId.innerHTML = num;
+            TDLineaBase.innerHTML = LineaBase;
             TDAnio.innerHTML = AnioDesc;
             TDMeta.innerHTML = Meta;
             TDEntregable.innerHTML = Entregable;
-            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFila(" + num + "," + Anio+","+Meta.replace(",", ".")+","+Entregable+")'> <i class='fas fa-pencil-alt'></i>  </button> <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFila(" + num + "," + Anio+","+Meta.replace(",", ".")+","+Entregable+","+LineaBase.replace(",", ".")+")'> <i class='fas fa-pencil-alt'></i>  </button> <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
             //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
             Tabla.appendChild(TR);
 
             //agregamos hiddens
             let DivConceptos = document.getElementById("divMetas");
             let HiddenIndex = document.createElement("input");
+            let HiddenLineaBase = document.createElement("input");
             let HiddenAnio = document.createElement("input");
             let HiddenMeta = document.createElement("input");
             let HiddenEntregable = document.createElement("input");
             HiddenIndex.name = "indicador.Index";
             HiddenIndex.value = num;
             HiddenIndex.type = "hidden";
+            HiddenLineaBase.name = "indicador[" + num + "].LineaBase";
+            HiddenLineaBase.value = LineaBase.replace('.', ',');;
+            HiddenLineaBase.type = "hidden";
             HiddenAnio.name = "indicador[" + num + "].Anio";
             HiddenAnio.value = Anio;
             HiddenAnio.type = "hidden";
@@ -387,6 +431,7 @@
             HiddenEntregable.value = Entregable;
             HiddenEntregable.type = "hidden";
             DivConceptos.appendChild(HiddenIndex);
+             DivConceptos.appendChild(HiddenLineaBase);
             DivConceptos.appendChild(HiddenAnio);
             DivConceptos.appendChild(HiddenMeta);
             DivConceptos.appendChild(HiddenEntregable);
@@ -394,12 +439,12 @@
             document.getElementById("gestionList").value = "";
             document.getElementById("EntregableAF").value = "";
             document.getElementById("MetaAF").value = "";
-
+             document.getElementById("LineaBaseAF").value = "";
             //document.getElementById("Meta").value = sum;
 
             num++;
 
-            sumar();
+            sumar();SumarLogro();
             // table
             //.column(1)
             //.data()
@@ -464,13 +509,14 @@
         sumar();
     }
 
-        function ActualizaFila(id, gestion, meta, entregable) {
+        function ActualizaFila(id, gestion, meta, entregable,lineaBase) {
             $("#gestionList").val(gestion);
             $("#gestionList").select2().trigger('change');
 
             document.getElementById("idact").value = id;
             document.getElementById("EntregableAF").value = entregable;
             document.getElementById("MetaAF").value = meta;
+            document.getElementById("LineaBaseAF").value = lineaBase;
 
         }
     </script>

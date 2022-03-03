@@ -322,7 +322,7 @@
             $('#viewAll').load('/Planificacion/ObjetivoEstrategico/LoadObjetivo?idEstrategia=@Model.Id&idCategoria=2&AnioGestion=@Model.AnioGestion&esCoordinadorEstrategico=@Model.EsCoordinadorEstrategico');
             $('#viewAllNacional').load('/Planificacion/ObjetivoEstrategico/LoadObjetivo?idEstrategia=@Model.Id&idCategoria=1&AnioGestion=@Model.AnioGestion&esCoordinadorEstrategico=@Model.EsCoordinadorEstrategico');
             $('#viewAllGestion').load('/Planificacion/Gestion/LoadGestiones?idEstrategico=@Model.Id');
-            $('#viewAllIndicador').load('/Planificacion/IndicadorCicloEstrategico/LoadIndicadores?idEstrategia=@Model.Id');
+            $('#viewAllIndicador').load('/Planificacion/IndicadorCicloEstrategico/LoadIndicadores?idEstrategia=@Model.Id&ciclo=@Model.Nombre');
         }
 
 

@@ -51,5 +51,37 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
         {
             await _repository.UpdateAsync(entidad);
         }
+
+        public async Task UpdateIndicadorAsync(int idEstrategia, int anioFiscal)
+        {
+            var e = _repository.Entities.Where(x => x.AnioFiscal == anioFiscal && x.IdEstrategia== idEstrategia).FirstOrDefault();
+            if (e!=null)
+            {
+                e.LineBase2 = e.Logro;
+                await _repository.UpdateAsync(e);
+            }
+            else
+            {
+                e = _repository.Entities.Where(x => x.AnioFiscal2 == anioFiscal && x.IdEstrategia == idEstrategia).FirstOrDefault();
+                if (e != null)
+                {
+                    e.LineBase3 = e.Logro2;
+                    await _repository.UpdateAsync(e);
+                }
+                else
+                {
+                    e = _repository.Entities.Where(x => x.AnioFiscal3 == anioFiscal && x.IdEstrategia == idEstrategia).FirstOrDefault();
+                    if (e != null)
+                    {
+                        e.LineBase4 = e.Logro3;
+                        await _repository.UpdateAsync(e);
+                    }
+                   
+                }
+
+            }
+           
+
+        }
     }
 }

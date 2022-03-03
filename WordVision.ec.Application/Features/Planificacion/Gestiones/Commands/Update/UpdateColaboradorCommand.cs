@@ -24,11 +24,13 @@ namespace WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Up
         {
             private readonly IUnitOfWork _unitOfWork;
             private readonly IGestionRepository _GestionRepository;
+            private readonly IIndicadorCicloEstrategicoRepository _indicadorCicloEstrategicoRepository;
 
-            public UpdateProductCommandHandler(IGestionRepository GestionRepository, IUnitOfWork unitOfWork)
+            public UpdateProductCommandHandler(IIndicadorCicloEstrategicoRepository indicadorCicloEstrategicoRepository,IGestionRepository GestionRepository, IUnitOfWork unitOfWork)
             {
                 _GestionRepository = GestionRepository;
                 _unitOfWork = unitOfWork;
+                _indicadorCicloEstrategicoRepository = indicadorCicloEstrategicoRepository;
             }
 
             public async Task<Result<int>> Handle(UpdateGestionCommand command, CancellationToken cancellationToken)
@@ -48,7 +50,8 @@ namespace WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Up
                     Gestion.Logro = command.Logro; 
                     Gestion.FechaDesde = command.FechaDesde;
                     Gestion.FechaHasta = command.FechaHasta;
-
+                    if (Gestion.Estado.Contains("2"))
+                     await _indicadorCicloEstrategicoRepository.UpdateIndicadorAsync(command.IdEstrategia, command.Id);
                     await _GestionRepository.UpdateAsync(Gestion);
                     await _unitOfWork.Commit(cancellationToken);
                     return Result<int>.Success(Gestion.Id);

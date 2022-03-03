@@ -4,9 +4,11 @@
 
 <table id="indicadorTable" class="table table-striped" width="100%" cellspacing="0">
     <thead>
-       @* <tr>
-            <th colspan=@Model.AnioFiscalList.Count() style="vertical-align: middle;text-align: center;">Ciclo</th>
-        </tr>*@
+        <tr>@{
+                var c1 =(@Model.AnioFiscalList.Count()*2)+5;
+            }
+            <th colspan="@c1" style="vertical-align: middle;text-align: center;">@Model.Ciclo</th>
+        </tr>
         <tr>@{
                 var c = 0;
             }

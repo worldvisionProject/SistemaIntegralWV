@@ -22,7 +22,16 @@
                 {
                    <div class="col-md-3">
                     <div class="form-check form-check-inline">
-                      <input class="form-control form-check-input" type="radio" name="inlineRadioOptions" id="@i.Value" value="@i.Value">
+                        @if (Model.TipoMeta==Convert.ToInt32( i.Value))
+                            {
+                                <input class="form-control form-check-input" type="radio" name="tipoMeta" id="@i.Value" value="@i.Value" checked>
+                            }
+
+                            else
+                            {
+                                <input class="form-control form-check-input" type="radio" name="tipoMeta" id="@i.Value" value="@i.Value">
+                            }
+                            
                       <label class="form-check-label" for="@i.Value">@i.Text</label>
                     </div>
                 </div> 
@@ -203,18 +212,172 @@
 
         
         <script type="text/javascript" language=javascript>
-    $.validator.unobtrusive.parse(document);
+    
+            $.validator.unobtrusive.parse(document);
+             $('input[name="Meta"]').on('change', function() {
+                   $('#MetaAcumulada').val( $(this).val());
+             });
 
-     $.get("/Planificacion/IndicadorProductoObjetivo/GetTiposIndicador", { idTipoIndicador: $("#TipoIndicador").val() }, function (data) {
-                    // VACIAMOS EL DropDownList
-                    $("#CodigoIndicador").empty();
-                    // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
-                    $("#CodigoIndicador").append("<option value> -- Seleccionar --</option>")
-                    // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
-                    $.each(data, function (index, row) {
-                        $("#CodigoIndicador").append("<option value='" + row.id + "'>" + row.codigoIndicador + "</option>")
-                    });
-                });
+             $('input[name="Meta2"]').on('change', function() {
+              var m1= $("#Meta").val();
+             
+              var tipo=  $('input[name=tipoMeta]:checked').val();
+              alert(tipo);
+              alert(m1);
+              alert($(this).val());
+              //if (tipo==1)
+              //{
+              //    if($(this).val() < m1) {
+              //      alert('Debe ser mayor');
+              //  }
+              //}
+              switch (tipo)
+              {
+                case "1": 
+                if(parseFloat($(this).val()) < parseFloat(m1)) {
+                    alert('Meta debe ser mayor.');  $(this).val('');$(this).focus();
+                    }
+                break;
+                case "2":
+                if(parseFloat($(this).val()) > parseFloat(m1)) {
+                    alert('Meta debe ser menor.');  $(this).val('');$(this).focus();
+                    }
+                break;
+                case "3":
+                if(parseFloat($(this).val()) != parseFloat(m1)) {
+                    alert('Meta debe ser igual.'); $(this).val('');$(this).focus();
+                    }
+                break;
+                case "4":
+                //if($(this).val() > m1) {
+                //    alert('Debe ser mayor');
+                //    }
+                break;
+
+                default:
+                 alert('Seleccione el tipo de Meta.'); $(this).focus();
+                break;
+              }
+                //if($(this).val().length == 0) {
+                //    alert('Input field is empty');
+                //}
+
+                $('#MetaAcumulada').val( $(this).val());
+            });
+
+
+             $('input[name="Meta3"]').on('change', function() {
+              var m1= $("#Meta2").val();
+             /*  alert(m1)*/;
+              var tipo=  $('input[name=tipoMeta]:checked').val();
+               
+              //if (tipo==1)
+              //{
+              //    if($(this).val() < m1) {
+              //      alert('Debe ser mayor');
+              //  }
+              //}
+              switch (tipo)
+              {
+                case "1": 
+                if(parseFloat($(this).val()) < parseFloat(m1)) {
+                    alert('Meta debe ser mayor.'); $(this).val('');$(this).focus();
+                    }
+                break;
+                case "2":
+                if(parseFloat($(this).val()) > parseFloat(m1)) {
+                    alert('Meta debe ser menor.'); $(this).val('');$(this).focus();
+                    }
+                break;
+                case "3":
+                if(parseFloat($(this).val()) != parseFloat(m1)) {
+                    alert('Meta debe ser igual.'); $(this).val('');$(this).focus();
+                    }
+                break;
+                case "4":
+                //if($(this).val() > m1) {
+                //    alert('Debe ser mayor');
+                //    }
+                break;
+                
+                default:
+                 alert('Seleccione el tipo de Meta.');$(this).focus();
+                break;
+              }
+                //if($(this).val().length == 0) {
+                //    alert('Input field is empty');
+                //}
+
+                 $('#MetaAcumulada').val( $(this).val());
+            });
+
+
+             $('input[name="Meta4"]').on('change', function() {
+              var m1= $("#Meta3").val();
+             /*  alert(m1)*/;
+              var tipo=  $('input[name=tipoMeta]:checked').val();
+               
+              //if (tipo==1)
+              //{
+              //    if($(this).val() < m1) {
+              //      alert('Debe ser mayor');
+              //  }
+              //}
+              switch (tipo)
+              {
+                case "1": 
+                if(parseFloat((this).val()) < parseFloat(m1) ){
+                    alert('Meta debe ser mayor.');
+                    $(this).val('');
+                    }
+                break;
+                case "2":
+                if(parseFloat($(this).val()) > parseFloat(m1)) {
+                    alert('Meta debe ser menor.'); $(this).val('');$(this).focus();
+                    }
+                break;
+                case "3":
+                if(parseFloat($(this).val()) != parseFloat(m1)) {
+                    alert('Meta debe ser igual.'); $(this).val('');$(this).focus();
+                    }
+                break;
+                case "4":
+                //if($(this).val() > m1) {
+                //    alert('Debe ser mayor');
+                //    }
+                break;
+                
+                default:
+                 alert('Seleccione el tipo de Meta.'); $(this).focus();
+                break;
+              }
+                //if($(this).val().length == 0) {
+                //    alert('Input field is empty');
+                //}
+
+                 $('#MetaAcumulada').val( $(this).val());
+            });
+
+
+            //$('input[name="tipoMeta"]').on('change', function() {
+            //  var radioValue = $('input[name="tipoMeta"]:checked').val();        
+            
+            //  if (radioValue==1)
+            //  {
+            //     alert(radioValue); 
+            //  }
+            //});
+
+     //$.get("/Planificacion/IndicadorProductoObjetivo/GetTiposIndicador", { idTipoIndicador: $("#TipoIndicador").val() }, function (data) {
+     //               // VACIAMOS EL DropDownList
+     //               $("#CodigoIndicador").empty();
+     //               // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+     //               $("#CodigoIndicador").append("<option value> -- Seleccionar --</option>")
+     //               // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+     //               $.each(data, function (index, row) {
+     //                   $("#CodigoIndicador").append("<option value='" + row.id + "'>" + row.codigoIndicador + "</option>")
+     //               });
+     //           });
 
 
     $(function () {

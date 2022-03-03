@@ -61,6 +61,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
     public class IndicadorCicloEstrategicoViewModelMaster
     {
         public SelectList AnioFiscalList { get; set; }
+        public string Ciclo { get; set; }
         public List<IndicadorCicloEstrategicoViewModel> IndicadorCicloEstrategicoViewModel { get; set; }
     }
 }

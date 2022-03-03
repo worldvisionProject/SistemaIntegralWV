@@ -75,6 +75,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
                             indicadorAF.Anio = indicador.Anio;
                             indicadorAF.Meta = indicador.Meta;
                             indicadorAF.Entregable = indicador.Entregable;
+                            indicadorAF.LineaBase = indicador.LineaBase;
                             await _IndicadorAFRepository.UpdateAsync(indicadorAF);
                         }
 

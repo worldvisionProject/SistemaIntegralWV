@@ -21,13 +21,17 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
 
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string Meta { get; set; }
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+        public string LogroAcumulado { get; set; }
+        
         public int IdFactorCritico { get; set; }
         public int IdEstrategia { get; set; }
         public string DescEstrategia { get; set; }
         public int IdGestion { get; set; }
         public string DescGestion { get; set; }
         public SelectList gestionList { get; set; }
-
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+        public string LineaBaseAF { get; set; }
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string MetaAF { get; set; }
         public string EntregableAF { get; set; }
