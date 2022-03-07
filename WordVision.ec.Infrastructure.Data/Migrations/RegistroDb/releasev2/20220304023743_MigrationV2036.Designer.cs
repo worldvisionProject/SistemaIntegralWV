@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
-namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
+namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220304023743_MigrationV2036")]
+    partial class MigrationV2036
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -878,7 +880,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.HasIndex("IdIndicadorCicloEstrategico");
 
-                    b.ToTable("IndicadorVinculadoCEs", "planifica");
+                    b.ToTable("IndicadorVinculadoCE");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorVinculadoE", b =>
@@ -919,7 +921,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.HasIndex("IdIndicadorEstrategico");
 
-                    b.ToTable("IndicadorVinculadoEs", "planifica");
+                    b.ToTable("IndicadorVinculadoE");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorVinculadoPO", b =>
@@ -960,7 +962,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.HasIndex("IdIndicadorProductoObjetivo");
 
-                    b.ToTable("IndicadorVinculadoPOs", "planifica");
+                    b.ToTable("IndicadorVinculadoPO");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorVinculadoPOA", b =>
@@ -1001,7 +1003,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.HasIndex("IdIndicadorPOA");
 
-                    b.ToTable("IndicadorVinculadoPOAs", "planifica");
+                    b.ToTable("IndicadorVinculadoPOA");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.MetaEstrategica", b =>

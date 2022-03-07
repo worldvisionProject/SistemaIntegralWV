@@ -1,4 +1,7 @@
-﻿namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetAllCached
+﻿using System.Collections.Generic;
+using WordVision.ec.Domain.Entities.Planificacion;
+
+namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetAllCached
 {
     public class GetAllIndicadorEstrategicoesCachedResponse
     {
@@ -13,5 +16,7 @@
         public int Codigo { get; set; }
         public int Tipo { get; set; }
         public int Actor { get; set; }
+        public int TipoMeta { get; set; }
+        public ICollection<IndicadorVinculadoE> IndicadorVinculadoEs { get; set; }
     }
 }

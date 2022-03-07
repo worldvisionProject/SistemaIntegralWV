@@ -98,9 +98,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 40 });
                 var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 39 });
                 var cat4 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 43 });
+                var cat5 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 44 });
                 entidadViewModel.CodigoIndicadorList = new SelectList(cat1.Data, "Secuencia", "Nombre");
                 entidadViewModel.TipoIndicadorList = new SelectList(cat3.Data, "Secuencia", "Nombre");
                 entidadViewModel.ActorParticipanteList = new SelectList(cat4.Data, "Secuencia", "Nombre");
+                entidadViewModel.TipoMetaList = new SelectList(cat5.Data, "Secuencia", "Nombre");
                 var colaborador = await _mediator.Send(new GetColaboradorByNivelQuery() { Nivel1 = 2, Nivel2 = 1 });
                 if (colaborador.Succeeded)
                 {
@@ -128,9 +130,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 40 });
                     var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 39 });
                     var cat4 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 43 });
+                    var cat5 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 44 });
                     entidadViewModel.CodigoIndicadorList = new SelectList(cat1.Data, "Secuencia", "Nombre");
                     entidadViewModel.TipoIndicadorList = new SelectList(cat3.Data, "Secuencia", "Nombre");
                     entidadViewModel.ActorParticipanteList = new SelectList(cat4.Data, "Secuencia", "Nombre");
+                    entidadViewModel.TipoMetaList = new SelectList(cat5.Data, "Secuencia", "Nombre");
                     var colaborador = await _mediator.Send(new GetColaboradorByNivelQuery() { Nivel1 = 2, Nivel2 = 1 });
                     if (colaborador.Succeeded)
                     {

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
-namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
+namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220303173519_MigrationV2035")]
+    partial class MigrationV2035
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -838,170 +840,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.HasIndex("IdProductoObjetivo");
 
                     b.ToTable("IndicadorProductoObjetivos", "planifica");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorVinculadoCE", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ActorParticipante")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CodigoIndicador")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdIndicadorCicloEstrategico")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("TipoIndicador")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UnidadMedida")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdIndicadorCicloEstrategico");
-
-                    b.ToTable("IndicadorVinculadoCEs", "planifica");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorVinculadoE", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ActorParticipante")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CodigoIndicador")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdIndicadorEstrategico")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("TipoIndicador")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UnidadMedida")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdIndicadorEstrategico");
-
-                    b.ToTable("IndicadorVinculadoEs", "planifica");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorVinculadoPO", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ActorParticipante")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CodigoIndicador")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdIndicadorProductoObjetivo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("TipoIndicador")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UnidadMedida")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdIndicadorProductoObjetivo");
-
-                    b.ToTable("IndicadorVinculadoPOs", "planifica");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorVinculadoPOA", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ActorParticipante")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CodigoIndicador")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdIndicadorPOA")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("TipoIndicador")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UnidadMedida")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdIndicadorPOA");
-
-                    b.ToTable("IndicadorVinculadoPOAs", "planifica");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.MetaEstrategica", b =>
@@ -3356,50 +3194,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Navigation("ProductoObjetivos");
                 });
 
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorVinculadoCE", b =>
-                {
-                    b.HasOne("WordVision.ec.Domain.Entities.Planificacion.IndicadorCicloEstrategico", "IndicadorCicloEstrategicos")
-                        .WithMany("IndicadorVinculadoCEs")
-                        .HasForeignKey("IdIndicadorCicloEstrategico")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("IndicadorCicloEstrategicos");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorVinculadoE", b =>
-                {
-                    b.HasOne("WordVision.ec.Domain.Entities.Planificacion.IndicadorEstrategico", "IndicadorEstrategicos")
-                        .WithMany("IndicadorVinculadoEs")
-                        .HasForeignKey("IdIndicadorEstrategico")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("IndicadorEstrategicos");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorVinculadoPO", b =>
-                {
-                    b.HasOne("WordVision.ec.Domain.Entities.Planificacion.IndicadorProductoObjetivo", "IndicadorProductoObjetivos")
-                        .WithMany("IndicadorVinculadoPOs")
-                        .HasForeignKey("IdIndicadorProductoObjetivo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("IndicadorProductoObjetivos");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorVinculadoPOA", b =>
-                {
-                    b.HasOne("WordVision.ec.Domain.Entities.Planificacion.IndicadorPOA", "IndicadorPOAs")
-                        .WithMany("IndicadorVinculadoPOAs")
-                        .HasForeignKey("IdIndicadorPOA")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("IndicadorPOAs");
-                });
-
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.MetaEstrategica", b =>
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Planificacion.IndicadorEstrategico", "IndicadorEstrategicos")
@@ -3703,16 +3497,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Navigation("IndicadorEstrategicos");
                 });
 
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorCicloEstrategico", b =>
-                {
-                    b.Navigation("IndicadorVinculadoCEs");
-                });
-
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorEstrategico", b =>
                 {
                     b.Navigation("IndicadorAFs");
-
-                    b.Navigation("IndicadorVinculadoEs");
 
                     b.Navigation("MetaEstrategicas");
 
@@ -3723,14 +3510,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                 {
                     b.Navigation("Actividades");
 
-                    b.Navigation("IndicadorVinculadoPOAs");
-
                     b.Navigation("MetaTacticas");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.IndicadorProductoObjetivo", b =>
-                {
-                    b.Navigation("IndicadorVinculadoPOs");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.ObjetivoEstrategico", b =>

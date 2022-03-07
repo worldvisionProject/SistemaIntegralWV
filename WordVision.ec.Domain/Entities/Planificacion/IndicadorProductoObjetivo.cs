@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using WordVision.ec.Domain.Contracts;
 
 namespace WordVision.ec.Domain.Entities.Planificacion
@@ -19,5 +21,8 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public int ActorParticipante { get; set; }
         public int IdProductoObjetivo { get; set; }
         public ProductoObjetivo ProductoObjetivos { get; set; }
+
+        [ForeignKey("IdIndicadorProductoObjetivo")]
+        public ICollection<IndicadorVinculadoPO> IndicadorVinculadoPOs { get; set; }
     }
 }

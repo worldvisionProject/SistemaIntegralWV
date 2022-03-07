@@ -38,6 +38,10 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public int TipoMeta { get; set; }
         public EstrategiaNacional EstrategiaNacionales { get; set; }
 
+
+        [ForeignKey("IdIndicadorCicloEstrategico")]
+        public ICollection<IndicadorVinculadoCE> IndicadorVinculadoCEs { get; set; }
+
         //[ForeignKey("IdIndicadorCicloEstrategico")]
         //public ICollection<MetaCicloEstrategico> MetaCicloEstrategicos { get; set; }
     }

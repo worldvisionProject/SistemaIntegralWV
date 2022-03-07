@@ -28,7 +28,7 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public string Codigo { get; set; }
         public int Tipo { get; set; }
         public int Actor { get; set; }
-       
+        public int TipoMeta { get; set; }
         public int IdProducto { get; set; }
         public Producto Productos { get; set; }
 
@@ -38,6 +38,9 @@ namespace WordVision.ec.Domain.Entities.Planificacion
 
         [ForeignKey("IdIndicadorPOA")]
         public ICollection<MetaTactica> MetaTacticas { get; set; }
+
+        [ForeignKey("IdIndicadorPOA")]
+        public ICollection<IndicadorVinculadoPOA> IndicadorVinculadoPOAs { get; set; }
     }
 }
 

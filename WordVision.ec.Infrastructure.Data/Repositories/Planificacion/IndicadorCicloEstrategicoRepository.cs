@@ -28,7 +28,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 
         public async Task<IndicadorCicloEstrategico> GetByIdAsync(int id)
         {
-            return await _repository.Entities.Where(p => p.Id == id).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(p => p.Id == id).Include(c=>c.IndicadorVinculadoCEs).FirstOrDefaultAsync();
         }
 
         public async Task<List<IndicadorCicloEstrategico>> GetListAsync()

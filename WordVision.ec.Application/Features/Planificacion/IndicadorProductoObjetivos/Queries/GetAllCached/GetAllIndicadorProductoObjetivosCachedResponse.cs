@@ -1,4 +1,5 @@
-﻿using WordVision.ec.Domain.Entities.Planificacion;
+﻿using System.Collections.Generic;
+using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Application.Features.Planificacion.IndicadorProductoObjetivos.Queries.GetAllCached
 {
@@ -16,5 +17,6 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorProductoObje
         public int UnidadMedida { get; set; }
         public int ActorParticipante { get; set; }
         public ProductoObjetivo ProductoObjetivos { get; set; }
+        public ICollection<IndicadorVinculadoPO> IndicadorVinculadoPOs { get; set; }
     }
 }

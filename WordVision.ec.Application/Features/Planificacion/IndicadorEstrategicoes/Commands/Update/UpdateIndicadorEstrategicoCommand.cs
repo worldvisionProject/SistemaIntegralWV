@@ -23,6 +23,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
         public int Codigo { get; set; }
         public int Tipo { get; set; }
         public int Actor { get; set; }
+        public int TipoMeta { get; set; }
         public List<IndicadorAF> IndicadorAFs { get; set; }
         public class UpdateProductCommandHandler : IRequestHandler<UpdateIndicadorEstrategicoCommand, Result<int>>
         {
@@ -57,7 +58,8 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
                     IndicadorEstrategico.Meta = command.Meta;
                     IndicadorEstrategico.Codigo = command.Codigo;
                     IndicadorEstrategico.Tipo = command.Tipo;
-                    IndicadorEstrategico.Actor = command.Actor;
+                    IndicadorEstrategico.Actor = command.Actor; 
+                    IndicadorEstrategico.TipoMeta = command.TipoMeta;
 
                     await _IndicadorEstrategicoRepository.UpdateAsync(IndicadorEstrategico);
 
@@ -76,6 +78,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
                             indicadorAF.Meta = indicador.Meta;
                             indicadorAF.Entregable = indicador.Entregable;
                             indicadorAF.LineaBase = indicador.LineaBase;
+                         
                             await _IndicadorAFRepository.UpdateAsync(indicadorAF);
                         }
 

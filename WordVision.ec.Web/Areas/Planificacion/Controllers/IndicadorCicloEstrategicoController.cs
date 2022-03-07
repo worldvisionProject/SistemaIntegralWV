@@ -12,6 +12,7 @@ using WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategico
 using WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategicos.Commands.Delete;
 using WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategicos.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategicos.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.TiposIndicadores.Queries.GetAll;
 using WordVision.ec.Application.Features.Planificacion.TiposIndicadores.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
@@ -110,7 +111,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         var gestionViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
                         entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Anio");
                     }
-                    var entidadModel = await _mediator.Send(new GetTiposIndicadorById() { IdTipoIndicador = entidadViewModel.TipoIndicador });
+                    var entidadModel = await _mediator.Send(new GetAllTiposIndicadoresQuery() );// { IdTipoIndicador = entidadViewModel.TipoIndicador });
          
                     entidadViewModel.CodigoIndicadorList = new SelectList(entidadModel.Data, "Id", "CodigoIndicador");
                     entidadViewModel.TipoIndicadorList = new SelectList(cat2.Data, "Secuencia", "Nombre");

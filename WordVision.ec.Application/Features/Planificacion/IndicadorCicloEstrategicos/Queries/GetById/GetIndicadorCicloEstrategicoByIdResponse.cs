@@ -1,4 +1,7 @@
-﻿namespace WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategicos.Queries.GetById
+﻿using System.Collections.Generic;
+using WordVision.ec.Domain.Entities.Planificacion;
+
+namespace WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategicos.Queries.GetById
 {
     public class GetIndicadorCicloEstrategicoByIdResponse
     {
@@ -31,5 +34,7 @@
         public decimal? LineBase4 { get; set; }
         public decimal? MetaAcumulada { get; set; }
         public int TipoMeta { get; set; }
+
+        public ICollection<IndicadorVinculadoCE> IndicadorVinculadoCEs { get; set; }
     }
 }

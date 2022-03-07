@@ -123,6 +123,15 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
 .ToTable("IndicadorCicloEstrategico", "planifica");
             builder.Entity<TiposIndicador>()
 .ToTable("TiposIndicadores", "planifica");
+
+            builder.Entity<IndicadorVinculadoCE>()
+.ToTable("IndicadorVinculadoCEs", "planifica");
+            builder.Entity<IndicadorVinculadoE>()
+.ToTable("IndicadorVinculadoEs", "planifica");
+            builder.Entity<IndicadorVinculadoPO>()
+.ToTable("IndicadorVinculadoPOs", "planifica");
+            builder.Entity<IndicadorVinculadoPOA>()
+.ToTable("IndicadorVinculadoPOAs", "planifica");
             //            builder.Entity<MetaCicloEstrategico>()
             //.ToTable("MetaCicloEstrategico", "planifica");
             builder

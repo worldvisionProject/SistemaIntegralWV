@@ -51,6 +51,28 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                @foreach(var i in Model.TipoMetaList)
+                {
+                   <div class="col-md-3">
+                    <div class="form-check form-check-inline">
+                        @if (Model.TipoMeta==Convert.ToInt32( i.Value))
+                            {
+                                <input class="form-control form-check-input" type="radio" name="tipoMeta" id="@i.Value" value="@i.Value" checked>
+                            }
+
+                            else
+                            {
+                                <input class="form-control form-check-input" type="radio" name="tipoMeta" id="@i.Value" value="@i.Value">
+                            }
+                            
+                      <label class="form-check-label" for="@i.Value">@i.Text</label>
+                    </div>
+                </div> 
+                }
+                
+               
+            </div>
+                <div class="form-group row">
                      <div class="col-md-3"  style="text-align: right;">
                         <label class="col-md-12 col-form-label texto-pregunta text-left">Tipo Indicador</label>
                          @Html.DropDownListFor(x => x.Tipo, (IEnumerable<SelectListItem>)Model.TipoIndicadorList, new { @class = "form-control" })
@@ -76,29 +98,32 @@
                  
                     <span asp-validation-for="Actor" class="text-danger"></span>
        
-                </div>
-                    <div class="col-md-2">
-                        <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
-
-                        <input asp-for="LineaBase" type="text" name="LineaBase" class="form-control" />
-                        <span asp-validation-for="LineaBase" class="text-danger"></span>
                     </div>
-                    <div class="col-md-2">
-                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta acumulada ciclo</label>
-                        <input asp-for="Meta" type="text" name="Meta" class="form-control" />
-                        <span asp-validation-for="Meta" class="text-danger"></span>
-                    </div>
-                     <div class="col-md-2">
-                        <label class="col-md-12 col-form-label texto-pregunta text-left">Logro acumulada ciclo</label>
-                        <input asp-for="LogroAcumulado" type="text" name="LogroAcumulado" class="form-control" />
-                        <span asp-validation-for="LogroAcumulado" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class=" row" >
+                 </div>
+                 <div class=" row" >
                          <div class="col-md-12">
                               <input type="text" value="" height="20" id="descResultado" name="descResultado" style="border:0px" class="col-md-12 col-form-label texto-pregunta" readonly  />
                          </div>
                     </div>
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
+
+                            <input asp-for="LineaBase" type="text" name="LineaBase" class="form-control" />
+                            <span asp-validation-for="LineaBase" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="col-md-12 col-form-label texto-pregunta text-left">Meta acumulada ciclo</label>
+                            <input asp-for="Meta" type="text" name="Meta" class="form-control" />
+                            <span asp-validation-for="Meta" class="text-danger"></span>
+                        </div>
+                         <div class="col-md-2">
+                            <label class="col-md-12 col-form-label texto-pregunta text-left">Logro acumulada ciclo</label>
+                            <input asp-for="LogroAcumulado" type="text" name="LogroAcumulado" class="form-control" />
+                            <span asp-validation-for="LogroAcumulado" class="text-danger"></span>
+                        </div>
+                    </div>
+               
                 <div class="form-group row">
                     <div class="col-md-12">
                         <hr />
