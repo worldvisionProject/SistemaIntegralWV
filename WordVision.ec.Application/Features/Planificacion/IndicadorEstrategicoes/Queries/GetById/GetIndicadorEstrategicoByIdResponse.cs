@@ -17,6 +17,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
         public int Tipo { get; set; }
         public int Actor { get; set; }
         public int TipoMeta { get; set; }
+        public int? Seleccionado { get; set; }
         public FactorCriticoExito FactorCriticoExitos { get; set; }
         public virtual ICollection<Producto> Productos { get; set; }
         public virtual ICollection<IndicadorAF> IndicadorAFs { get; set; }

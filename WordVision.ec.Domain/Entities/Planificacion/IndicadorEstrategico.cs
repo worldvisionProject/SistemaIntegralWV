@@ -30,6 +30,7 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public int Tipo { get; set; }
         public int Actor { get; set; }
         public int TipoMeta { get; set; }
+        public int? Seleccionado { get; set; }
         public int IdFactorCritico { get; set; }
         public FactorCriticoExito FactorCriticoExitos { get; set; }
 

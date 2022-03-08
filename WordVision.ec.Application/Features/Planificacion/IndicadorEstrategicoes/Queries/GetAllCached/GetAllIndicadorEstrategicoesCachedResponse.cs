@@ -17,6 +17,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
         public int Tipo { get; set; }
         public int Actor { get; set; }
         public int TipoMeta { get; set; }
+        public int? Seleccionado { get; set; }
         public ICollection<IndicadorVinculadoE> IndicadorVinculadoEs { get; set; }
     }
 }

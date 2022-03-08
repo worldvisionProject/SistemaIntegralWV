@@ -14,6 +14,8 @@ using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Co
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.TiposIndicadores.Queries.GetAll;
+using WordVision.ec.Application.Features.Planificacion.TiposIndicadores.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
@@ -96,11 +98,14 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 entidadViewModel.DescCategoria = descCategoria;
                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                 entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
-                var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 40 });
+                //var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 40 });
                 var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 39 });
                 var cat4 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 43 });
                 var cat5 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 44 });
-                entidadViewModel.CodigoIndicadorList = new SelectList(cat1.Data, "Secuencia", "Nombre");
+
+                var entidadModel = await _mediator.Send(new GetTiposIndicadorById() { IdTipoIndicador = 1 });
+
+                entidadViewModel.CodigoIndicadorList = new SelectList(entidadModel.Data, "Id", "CodigoIndicador");
                 entidadViewModel.TipoIndicadorList = new SelectList(cat3.Data, "Secuencia", "Nombre");
                 entidadViewModel.ActorParticipanteList = new SelectList(cat4.Data, "Secuencia", "Nombre");
                 entidadViewModel.TipoMetaList = new SelectList(cat5.Data, "Secuencia", "Nombre");
@@ -128,11 +133,13 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     entidadViewModel.DescCategoria = descCategoria;
                     var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                     entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
-                    var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 40 });
+                  //  var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 40 });
                     var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 39 });
                     var cat4 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 43 });
                     var cat5 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 44 });
-                    entidadViewModel.CodigoIndicadorList = new SelectList(cat1.Data, "Secuencia", "Nombre");
+                    var entidadModel = await _mediator.Send(new GetAllTiposIndicadoresQuery());// { IdTipoIndicador = entidadViewModel.TipoIndicador });
+
+                    entidadViewModel.CodigoIndicadorList = new SelectList(entidadModel.Data, "Id", "CodigoIndicador");
                     entidadViewModel.TipoIndicadorList = new SelectList(cat3.Data, "Secuencia", "Nombre");
                     entidadViewModel.ActorParticipanteList = new SelectList(cat4.Data, "Secuencia", "Nombre");
                     entidadViewModel.TipoMetaList = new SelectList(cat5.Data, "Secuencia", "Nombre");

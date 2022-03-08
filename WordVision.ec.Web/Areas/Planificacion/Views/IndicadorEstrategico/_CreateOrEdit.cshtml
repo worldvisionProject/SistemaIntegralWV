@@ -374,6 +374,24 @@
                 </tbody>
             </table>
 
+            <div class="form-group row">
+                     <div class="col-md-12" >
+                       <div class="form-check form-check-inline">
+                        @if (Model.Seleccionado==null)
+                        {
+                          <input class="form-control form-check-input" type="checkbox" name="seleccionado" id="chkSeleccionar" value="1">  
+                        }
+                        else
+                        {
+                           <input class="form-control form-check-input" type="checkbox" name="seleccionado" id="chkSeleccionar" value="1" checked> 
+                        }
+                        
+                         <label class="form-check-label" for="chkSeleccionar">Seleccionar para tabla resúmen</label>
+                    </div>
+                    </div>
+                   
+                 </div>
+
             <br />
             <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
                 @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Create)).Result.Succeeded)
@@ -494,7 +512,7 @@
             });
 
             //INICIA VINCULACION
-            var num = 0;
+            var numI = 0;
 function AgregaIndicador() {
             let idact = document.getElementById("idact").value;
           
@@ -560,7 +578,7 @@ function AgregaIndicador() {
             //agregamos tabla
             let Tabla = document.getElementById("indicadorVinculadoTable");
             let TR = document.createElement("tr");
-            TR.setAttribute('id', num);
+            TR.setAttribute('id', numI);
             TR.className = "rowdata";
            // let TDId = document.createElement("td");
             let TDTipoIndicador = document.createElement("td");
@@ -584,7 +602,7 @@ function AgregaIndicador() {
             TDCodigoIndicador.innerHTML = CodigoIndicadorDesc;
             TDUnidadMedida.innerHTML = UnidadMedidaDesc;
             TDActorParticipante.innerHTML = ActorParticipanteDesc;
-            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFila(" + num + "," + TipoIndicador+","+CodigoIndicador+","+UnidadMedida+","+ActorParticipante+")'> <i class='fas fa-pencil-alt'></i>  </button> <button type='button' onclick='EliminaFilaConfirmacion("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFila(" + numI + "," + TipoIndicador+","+CodigoIndicador+","+UnidadMedida+","+ActorParticipante+")'> <i class='fas fa-pencil-alt'></i>  </button> <button type='button' onclick='EliminaFilaConfirmacion("+numI+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
             
 
             //agregamos hiddens
@@ -595,18 +613,18 @@ function AgregaIndicador() {
             let HiddenUnidadMedida = document.createElement("input");
             let HiddenActorParticipante = document.createElement("input");
             HiddenIndex.name = "indicador.Index";
-            HiddenIndex.value = num;
+            HiddenIndex.value = numI;
             HiddenIndex.type = "hidden";
-            HiddenTipoIndicador.name = "IndicadorVinculadoCEs[" + num + "].TipoIndicador";
+            HiddenTipoIndicador.name = "IndicadorVinculadoEs[" + numI + "].TipoIndicador";
             HiddenTipoIndicador.value = TipoIndicador;
             HiddenTipoIndicador.type = "hidden";
-            HiddenCodigoIndicador.name = "IndicadorVinculadoCEs[" + num + "].CodigoIndicador";
+            HiddenCodigoIndicador.name = "IndicadorVinculadoEs[" + numI + "].CodigoIndicador";
             HiddenCodigoIndicador.value = CodigoIndicador;
             HiddenCodigoIndicador.type = "hidden";
-            HiddenUnidadMedida.name = "IndicadorVinculadoCEs[" + num + "].UnidadMedida";
+            HiddenUnidadMedida.name = "IndicadorVinculadoEs[" + numI + "].UnidadMedida";
             HiddenUnidadMedida.value = UnidadMedida;
             HiddenUnidadMedida.type = "hidden";
-            HiddenActorParticipante.name = "IndicadorVinculadoCEs[" + num + "].ActorParticipante";
+            HiddenActorParticipante.name = "IndicadorVinculadoEs[" + numI + "].ActorParticipante";
             HiddenActorParticipante.value = ActorParticipante;
             HiddenActorParticipante.type = "hidden";
             TR.appendChild(HiddenIndex);
@@ -621,7 +639,7 @@ function AgregaIndicador() {
             document.getElementById("ActorParticipanteVinculo").value = "";
             document.getElementById("descResultadoVinculo").value = "";
            $("#divdescIndicador").hide(10);
-            num++;
+            numI++;
 
         }
 

@@ -58,6 +58,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public int Codigo { get; set; }
         public int Tipo { get; set; }
         public int Actor { get; set; }
+        public int? Seleccionado { get; set; }
         public FactorCriticoExitoViewModel FactorCriticoExitos { get; set; }
         public virtual List<IndicadorAFViewModel> IndicadorAFs { get; set; }
         public virtual List<MetaViewModel> MetaEstrategicas { get; set; }

@@ -25,6 +25,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
         public int Codigo { get; set; }
         public int Tipo { get; set; }
         public int Actor { get; set; }
+        public int? Seleccionado { get; set; }
         public List<IndicadorAF> IndicadorAFs { get; set; }
         public ICollection<IndicadorVinculadoE> IndicadorVinculadoEs { get; set; }
     }
