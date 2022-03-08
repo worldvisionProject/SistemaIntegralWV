@@ -238,6 +238,7 @@
 
                 
                         <input  type="hidden" id="idact" name="idact" />
+                        <input  type="hidden" id="idactI" name="idactI" />
                     </tbody>
                 </table>
 
@@ -514,7 +515,7 @@
             //INICIA VINCULACION
             var numI = 0;
 function AgregaIndicador() {
-            let idact = document.getElementById("idact").value;
+            let idact = document.getElementById("idactI").value;
           
             if (idact.length != 0) {
                 EliminaFilaIndicadorE(idact);
@@ -612,7 +613,7 @@ function AgregaIndicador() {
             let HiddenCodigoIndicador = document.createElement("input");
             let HiddenUnidadMedida = document.createElement("input");
             let HiddenActorParticipante = document.createElement("input");
-            HiddenIndex.name = "indicador.Index";
+            HiddenIndex.name = "IndicadorVinculadoEs.Index";
             HiddenIndex.value = numI;
             HiddenIndex.type = "hidden";
             HiddenTipoIndicador.name = "IndicadorVinculadoEs[" + numI + "].TipoIndicador";
@@ -721,7 +722,7 @@ function AgregaIndicador() {
 
 
      function ActualizaFilaIndicadorE(id, tipoIndicador,codigoIndicador,unidadMedida,actorParticipante) {
-         document.getElementById("idact").value = id;
+         document.getElementById("idactI").value = id;
        
             $("#TipoIndicadorVinculo").val(tipoIndicador);
             $("#TipoIndicadorVinculo").select2().trigger('change');
