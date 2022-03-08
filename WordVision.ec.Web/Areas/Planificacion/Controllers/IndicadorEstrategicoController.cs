@@ -86,6 +86,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (id == 0)
             {
                 var entidadViewModel = new IndicadorEstrategicoViewModel();
+                entidadViewModel.IndicadorVinculadoEs = new List<IndicadorVinculadoEViewModel>();
                 entidadViewModel.IdFactorCritico = IdFactorCritico;
                 entidadViewModel.IdEstrategia = IdEstrategia;
                 entidadViewModel.gestionList = gestionList;

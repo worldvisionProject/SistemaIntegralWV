@@ -117,7 +117,22 @@
                     if (res.isValid) {
 
                         if (res.solocerrar ?? false) {
-                            $('#form-modal').modal('hide');
+                            /*$('#form-modal').modal('hide');*/
+                            var hijo = res.hijo ?? 0;
+                            switch (hijo) {
+                                case 1:
+                                    $('#form-modal-hijo').modal('hide');
+                                    break;
+                                case 2:
+                                    $('#form-modal-hijo-1').modal('hide');
+                                    break;
+                                case 3:
+                                    $('#form-modal-hijo-2').modal('hide');
+                                    break;
+                                default:
+                                    $('#form-modal').modal('hide');
+                                    break;
+                            }
                             return;
                         }
                            

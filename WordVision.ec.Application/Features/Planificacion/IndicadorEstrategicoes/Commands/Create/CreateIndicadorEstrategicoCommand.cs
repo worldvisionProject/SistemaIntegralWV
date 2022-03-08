@@ -26,6 +26,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
         public int Tipo { get; set; }
         public int Actor { get; set; }
         public List<IndicadorAF> IndicadorAFs { get; set; }
+        public ICollection<IndicadorVinculadoE> IndicadorVinculadoEs { get; set; }
     }
 
     public class CreateIndicadorEstrategicoCommandHandler : IRequestHandler<CreateIndicadorEstrategicoCommand, Result<int>>

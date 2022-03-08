@@ -60,7 +60,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public int TipoMeta { get; set; }
         public SelectList TipoMetaList { get; set; }
         public ICollection<MetaCicloEstrategicoViewModel> MetaCicloEstrategicos { get; set; }
-        public ICollection<IndicadorVinculadoCEViewModel> IndicadorVinculadoCEs { get; set; }
+        public List<IndicadorVinculadoCEViewModel> IndicadorVinculadoCEs { get; set; }
     }
 
     public class IndicadorCicloEstrategicoViewModelMaster

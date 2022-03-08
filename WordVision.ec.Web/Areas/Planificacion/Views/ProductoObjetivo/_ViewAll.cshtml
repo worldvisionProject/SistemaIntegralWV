@@ -18,7 +18,7 @@
 
                 @foreach (var gestion in Model.ProductoObjetivos.ToList())
                 {
-            <tr >
+            <tr id="PO_@gestion.Id">
 
                 <td>
 
@@ -51,7 +51,7 @@
                     <button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGetHijo('1','/Planificacion/ProductoObjetivo/OnGetCreateOrEdit?id=@gestion.Id&idEstrategia=@Model.IdEstrategia','Productos de Objetivo')">
                         <i class="fas fa-pen"></i>
                     </button>
-                    <button type="button" onclick="EliminaFila(@gestion.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
+                    <button type="button" onclick="EliminaFilaPO(@gestion.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
 
                 </td>
 
@@ -106,4 +106,33 @@
 
         $(".dynmic-hidden-col").hide();
     });
+
+     function EliminaFilaPO(id) {
+      if (confirm('¿Estás segura de eliminar este registro?')) {
+      
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "ProductoObjetivo", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+                 $("#PO_" + id).remove();
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+
+        
+
+
+      }
+    }
 </script>

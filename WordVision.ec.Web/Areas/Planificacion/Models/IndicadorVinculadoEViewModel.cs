@@ -9,7 +9,7 @@ using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Models
 {
-    public class IndicadorVinculadoCEViewModel 
+    public class IndicadorVinculadoEViewModel 
     {
         public int Id { get; set; }
         public int TipoIndicador { get; set; }
@@ -20,7 +20,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public SelectList CodigoIndicadorList { get; set; }
         public SelectList UnidadMedidaList { get; set; }
         public SelectList ActorParticipanteList { get; set; }
-        public int IdIndicadorCicloEstrategico { get; set; }
-        public IndicadorCicloEstrategicoViewModel IndicadorCicloEstrategicos { get; set; }
+        public int IdIndicadorEstrategico { get; set; }
+        public IndicadorEstrategicoViewModel IndicadorEstrategicos { get; set; }
     }
 }

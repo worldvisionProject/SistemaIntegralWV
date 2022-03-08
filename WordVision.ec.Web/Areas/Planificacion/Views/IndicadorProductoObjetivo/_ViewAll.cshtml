@@ -17,7 +17,7 @@
        
             @foreach (var indicador in Model.IndicadorProductoObjetivoViewModel.ToList())
             {
-                <tr id="Gest_@indicador.Id">
+                <tr id="IndicaPO_@indicador.Id">
 
                     <td>
 
@@ -49,7 +49,7 @@
                          <button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGetHijo('2','/Planificacion/IndicadorProductoObjetivo/OnGetCreateOrEdit?id=@indicador.Id&idProductoObjetivo=@indicador.IdProductoObjetivo&idEstrategia=@Model.IdEstrategia','Indicador de Productos de Objetivo')">
                         <i class="fas fa-pen"></i>
                     </button>
-                        <button type="button" onclick="EliminaFila(@indicador.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
+                        <button type="button" onclick="EliminaFilaIndicadorPO(@indicador.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
 
                     </td>
 
@@ -104,4 +104,33 @@
 
         $(".dynmic-hidden-col").hide();
     });
+
+    function EliminaFilaIndicadorPO(id) {
+      if (confirm('¿Estás segura de eliminar este registro?')) {
+      
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "IndicadorProductoObjetivo", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+                 $("#IndicaPO_" + id).remove();
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+
+        
+
+
+      }
+    }
 </script>

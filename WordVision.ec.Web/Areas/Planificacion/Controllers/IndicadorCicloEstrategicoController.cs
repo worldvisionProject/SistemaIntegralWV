@@ -72,7 +72,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             //{
             //    var viewModel = _mapper.Map<List<GestionViewModel>>(responseGestion.Data);
             //}
-            var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 40 });
+            //var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 40 });
             var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 39 });
             var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
             var cat4 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 43 });
@@ -81,6 +81,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (id == 0)
             {
                 var entidadViewModel = new IndicadorCicloEstrategicoViewModel();
+                entidadViewModel.IndicadorVinculadoCEs = new List<IndicadorVinculadoCEViewModel>();
                 entidadViewModel.IdEstrategia = idEstrategia;
                 var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = idEstrategia });
                 if (responseE.Succeeded)

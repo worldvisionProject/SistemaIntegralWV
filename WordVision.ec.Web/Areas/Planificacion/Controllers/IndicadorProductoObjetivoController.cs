@@ -13,9 +13,11 @@ using WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategico
 using WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategicos.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategicos.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.IndicadorProductoObjetivos.Commands.Create;
+using WordVision.ec.Application.Features.Planificacion.IndicadorProductoObjetivos.Commands.Delete;
 using WordVision.ec.Application.Features.Planificacion.IndicadorProductoObjetivos.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.IndicadorProductoObjetivos.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.IndicadorProductoObjetivos.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.TiposIndicadores.Queries.GetAll;
 using WordVision.ec.Application.Features.Planificacion.TiposIndicadores.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
@@ -97,10 +99,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             //{
             //    var viewModel = _mapper.Map<List<GestionViewModel>>(responseGestion.Data);
             //}
-            var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 40 });
+            //var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 40 });
             var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 39 });
             var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
             var cat4 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 43 });
+
+           
             if (id == 0)
             {
                 var entidadViewModel = new IndicadorProductoObjetivoViewModel();
@@ -111,12 +115,14 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 //    var gestionViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
                 //    entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Anio");
                 //}
-                entidadViewModel.CodigoIndicadorList = new SelectList(cat1.Data, "Secuencia", "Nombre");
+                var entidadModel = await _mediator.Send(new GetTiposIndicadorById() { IdTipoIndicador = 4 });
+                entidadViewModel.CodigoIndicadorList = new SelectList(entidadModel.Data, "Id", "CodigoIndicador");
                 entidadViewModel.TipoIndicadorList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                 entidadViewModel.UnidadMedidaList = new SelectList(cat3.Data, "Secuencia", "Nombre");
                 entidadViewModel.ActorParticipanteList = new SelectList(cat4.Data, "Secuencia", "Nombre");
                 entidadViewModel.IdProductoObjetivo = idProductoObjetivo;
                 entidadViewModel.IdEstrategia = idEstrategia;
+                entidadViewModel.TipoIndicador=4;
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             else
@@ -133,7 +139,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     //    var gestionViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
                     //    entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Anio");
                     //}
-                    entidadViewModel.CodigoIndicadorList = new SelectList(cat1.Data, "Secuencia", "Nombre");
+                    var entidadModel = await _mediator.Send(new GetAllTiposIndicadoresQuery());
+                    entidadViewModel.CodigoIndicadorList = new SelectList(entidadModel.Data, "Id", "CodigoIndicador");
                     entidadViewModel.TipoIndicadorList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                     entidadViewModel.UnidadMedidaList = new SelectList(cat3.Data, "Secuencia", "Nombre");
                     entidadViewModel.ActorParticipanteList = new SelectList(cat4.Data, "Secuencia", "Nombre");
@@ -159,6 +166,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         {
                             id = result.Data;
                             _notify.Success($"Indicador con ID {result.Data} Creado.");
+                            return new JsonResult(new { isValid = true, hijo = 2, solocerrar = true });
                         }
                         else _notify.Error(result.Message);
                     }
@@ -202,7 +210,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
         public async Task<JsonResult> OnPostDelete(int id = 0)
         {
-            var deleteCommand = await _mediator.Send(new DeleteIndicadorCicloEstrategicoCommand { Id = id });
+            var deleteCommand = await _mediator.Send(new DeleteIndicadorProductoObjetivoCommand { Id = id });
             if (deleteCommand.Succeeded)
             {
                 _notify.Information($"Indicador con Id {id} Eliminado.");

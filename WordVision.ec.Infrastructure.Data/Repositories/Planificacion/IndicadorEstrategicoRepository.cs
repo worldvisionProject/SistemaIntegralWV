@@ -28,7 +28,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 
         public async Task<IndicadorEstrategico> GetByIdAsync(int IndicadorEstrategicoId, int idColaborador = 0, string idCreadoPor = "")
         {
-            return await _repository.Entities.Where(p => p.Id == IndicadorEstrategicoId).Include(p => p.FactorCriticoExitos).ThenInclude(r => r.ObjetivoEstrategicos).Include(p => p.IndicadorAFs).Include(x => x.MetaEstrategicas)
+            return await _repository.Entities.Where(p => p.Id == IndicadorEstrategicoId).Include(c => c.IndicadorVinculadoEs).Include(p => p.FactorCriticoExitos).ThenInclude(r => r.ObjetivoEstrategicos).Include(p => p.IndicadorAFs).Include(x => x.MetaEstrategicas)
                 .Include(y => y.Productos.Where(p => p.IdCargoResponsable == idColaborador || (idColaborador == 0) || (p.CreatedBy == idCreadoPor || idCreadoPor == "")))
                 .FirstOrDefaultAsync();
         }

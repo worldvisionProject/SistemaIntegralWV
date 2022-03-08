@@ -76,7 +76,15 @@
              <div class="form-group row" >
                 <div class="col-md-12">
                     <div class="form-check form-check-inline">
-                         <input class="form-control form-check-input" type="checkbox" name="chkVinculacion" id="chkVinculacion" value="1">
+                        @if (Model.IndicadorVinculadoCEs.Count==0)
+                        {
+                          <input class="form-control form-check-input" type="checkbox" name="chkVinculacion" id="chkVinculacion" value="1">  
+                        }
+                        else
+                        {
+                           <input class="form-control form-check-input" type="checkbox" name="chkVinculacion" id="chkVinculacion" value="1" checked> 
+                        }
+                        
                          <label class="form-check-label" for="chkVinculacion">Vinculación con otro Indicador</label>
                     </div>
                 </div>         
@@ -513,11 +521,18 @@
      //           });
 
 
-    $(function () {
+    $(function () { 
+       
         $("#divVincularIndicador").hide();
         $("#descResultado").empty();
         $("#descIndicador").hide();
         $("#divdescIndicador").hide();
+
+         if (@Model.IndicadorVinculadoCEs.Count()>0)
+        {
+            $("#divVincularIndicador").show(1000);
+        }
+
         $(".datepicker").datepicker({
             format: "dd-mm-yyyy",
             autoclose: true,
@@ -594,9 +609,9 @@
             var num = 0;
 function AgregaIndicador() {
             let idact = document.getElementById("idact").value;
-
+          
             if (idact.length != 0) {
-                EliminaFila(idact);
+                EliminaFilaCicloIndicador(idact);
             }
 
             let TipoIndicador = document.getElementById("TipoIndicadorVinculo").value;
@@ -682,10 +697,10 @@ function AgregaIndicador() {
             TDUnidadMedida.innerHTML = UnidadMedidaDesc;
             TDActorParticipante.innerHTML = ActorParticipanteDesc;
             TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFila(" + num + "," + TipoIndicador+","+CodigoIndicador+","+UnidadMedida+","+ActorParticipante+")'> <i class='fas fa-pencil-alt'></i>  </button> <button type='button' onclick='EliminaFilaConfirmacion("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
-            Tabla.appendChild(TR);
+            
 
             //agregamos hiddens
-            let DivConceptos = document.getElementById("divIndicador");
+            //let DivConceptos = document.getElementById("divIndicador");
             let HiddenIndex = document.createElement("input");
             let HiddenTipoIndicador = document.createElement("input");
             let HiddenCodigoIndicador = document.createElement("input");
@@ -706,12 +721,12 @@ function AgregaIndicador() {
             HiddenActorParticipante.name = "IndicadorVinculadoCEs[" + num + "].ActorParticipante";
             HiddenActorParticipante.value = ActorParticipante;
             HiddenActorParticipante.type = "hidden";
-            DivConceptos.appendChild(HiddenIndex);
-            DivConceptos.appendChild(HiddenTipoIndicador);
-            DivConceptos.appendChild(HiddenCodigoIndicador);
-            DivConceptos.appendChild(HiddenUnidadMedida);
-            DivConceptos.appendChild(HiddenActorParticipante);
-
+            TR.appendChild(HiddenIndex);
+            TR.appendChild(HiddenTipoIndicador);
+            TR.appendChild(HiddenCodigoIndicador);
+            TR.appendChild(HiddenUnidadMedida);
+            TR.appendChild(HiddenActorParticipante);
+            Tabla.appendChild(TR);
             document.getElementById("TipoIndicadorVinculo").value = "";
             document.getElementById("CodigoIndicadorVinculo").value = "";
             document.getElementById("UnidadMedidaVinculo").value = "";
@@ -722,9 +737,9 @@ function AgregaIndicador() {
 
         }
 
- function EliminaFila(id) {
+ function EliminaFilaCicloIndicador(id) {
         
-        $("#" + id).remove();
+       $("#" + id).remove();
 
         var GestionViewModel = {
             id: id
@@ -738,7 +753,7 @@ function AgregaIndicador() {
             cache: false,
             success: function (data) {
             /*  alert('Validooo');*/
-
+             
             },
             error: function(xhr) {
                // alert('No Valid Data');
@@ -752,7 +767,7 @@ function AgregaIndicador() {
        
         if (confirm('¿Estás segura de eliminar este registro?')) {
         
-            $("#" + id).remove();
+          
 
             var GestionViewModel = {
                 id: id
@@ -766,13 +781,13 @@ function AgregaIndicador() {
                 cache: false,
                 success: function (data) {
                 /*  alert('Validooo');*/
-
+                 
                 },
                 error: function(xhr) {
                    // alert('No Valid Data');
-                }
+                } 
          });
-        
+        $("#" + id).remove();
        }
     }
 
@@ -800,6 +815,8 @@ function AgregaIndicador() {
 
 
      function ActualizaFila(id, tipoIndicador,codigoIndicador,unidadMedida,actorParticipante) {
+         document.getElementById("idact").value = id;
+       
             $("#TipoIndicadorVinculo").val(tipoIndicador);
             $("#TipoIndicadorVinculo").select2().trigger('change');
             $("#CodigoIndicadorVinculo").val(codigoIndicador);
@@ -808,6 +825,6 @@ function AgregaIndicador() {
             $("#UnidadMedidaVinculo").select2().trigger('change');
             $("#ActorParticipanteVinculo").val(actorParticipante);
             $("#ActorParticipanteVinculo").select2().trigger('change');
-            document.getElementById("idact").value = id;
+            
         }
         </script>

@@ -102,6 +102,7 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<IIndicadorCicloEstrategicoRepository, IndicadorCicloEstrategicoRepository>();
             services.AddTransient<ITiposIndicadorRepository, TiposIndicadorRepository>();
             services.AddTransient<IIndicadorVinculadoCERepository, IndicadorVinculadoCERepository>();
+            services.AddTransient<IIndicadorVinculadoERepository, IndicadorVinculadoERepository>();
 
             services.AddTransient<ISolicitudRepository, SolicitudRepository>();
             services.AddTransient<IMensajeriaRepository, MensajeriaRepository>();

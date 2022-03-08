@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Models
 {
@@ -41,6 +42,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public SelectList TipoIndicadorList { get; set; }
         public SelectList CodigoIndicadorList { get; set; }
         public SelectList ActorParticipanteList { get; set; }
+
+        public int? TipoIndicadorVinculo { get; set; }
+        public int? CodigoIndicadorVinculo { get; set; }
+        public int? UnidadMedidaVinculo { get; set; }
+        public int? ActorParticipanteVinculo { get; set; }
+
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string ValorMeta { get; set; }
         public string EntregableMeta { get; set; }
@@ -54,7 +61,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public FactorCriticoExitoViewModel FactorCriticoExitos { get; set; }
         public virtual List<IndicadorAFViewModel> IndicadorAFs { get; set; }
         public virtual List<MetaViewModel> MetaEstrategicas { get; set; }
-
+        public virtual List<IndicadorVinculadoEViewModel> IndicadorVinculadoEs { get; set; }
         public virtual List<ProductoViewModel> Productos { get; set; }
     }
 }

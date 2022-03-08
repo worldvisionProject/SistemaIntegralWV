@@ -85,7 +85,7 @@
         
         <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
-    $(function () {
+    $(function () { $("#descResultado").empty();
         $(".datepicker").datepicker({
             format: "dd-mm-yyyy",
             autoclose: true,
@@ -105,7 +105,8 @@
     $("#TipoIndicador").change(function () {
                 $.get("/Planificacion/IndicadorProductoObjetivo/GetTiposIndicador", { idTipoIndicador: $("#TipoIndicador").val() }, function (data) {
                     // VACIAMOS EL DropDownList
-                    $("#CodigoIndicador").empty();
+                    $("#CodigoIndicador").empty(); 
+                            $("#descResultado").empty();
                     // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
                    // $("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
                     // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
@@ -115,6 +116,7 @@
                 });
             });
             $("#CodigoIndicador").change(function () {
+                 $("#descResultado").empty();
                 $.get("/Planificacion/IndicadorProductoObjetivo/GetDescTiposIndicador", { idCodigoIndicador: $("#CodigoIndicador").val() }, function (data) {
                    $("#descResultado").val(data.descripcion);
                 });
