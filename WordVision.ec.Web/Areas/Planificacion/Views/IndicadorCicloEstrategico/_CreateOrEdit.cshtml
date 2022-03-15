@@ -356,22 +356,23 @@
     
             $.validator.unobtrusive.parse(document);
              $('input[name="Meta"]').on('change', function() {
-                   $('#MetaAcumulada').val( $(this).val());
-             });
+              //var m1= $("#Meta").val();
+              var m1= $("#Meta2").val();
+              var m3= $("#Meta3").val();
+              var m4= $("#Meta4").val();
+               if (m1 == null || m1 == undefined){
+                  m1=0;
+                } 
+              if (m3 == null || m3 == undefined){
+                  m3=0;
+                } 
+                if (m4 == null || m4 == undefined){
+                  m4=0;
+                } 
 
-             $('input[name="Meta2"]').on('change', function() {
-              var m1= $("#Meta").val();
-            
-              var tipo=  $('input[name=tipoMeta]:checked').val();
-              //alert(tipo);
-              //alert(m1);
-              //alert($(this).val());
-              //if (tipo==1)
-              //{
-              //    if($(this).val() < m1) {
-              //      alert('Debe ser mayor');
-              //  }
-              //}
+
+                var tipo=  $('input[name=tipoMeta]:checked').val();
+             
               switch (tipo)
               {
                 case "1": 
@@ -391,7 +392,51 @@
                 break;
                 case "4":
               
-                $('#MetaAcumulada').val(parseFloat(m1)+parseFloat($(this).val()));
+                $('#MetaAcumulada').val(parseFloat(m1)+parseFloat($(this).val())+parseFloat(m3)+parseFloat(m4));
+                return;
+                break;
+
+                default:
+                 alert('Seleccione el tipo de Meta.'); $(this).focus();
+                break;
+              }
+                   $('#MetaAcumulada').val( $(this).val());
+             });
+
+             $('input[name="Meta2"]').on('change', function() {
+              var m1= $("#Meta").val();
+              var m3= $("#Meta3").val();
+               var m4= $("#Meta4").val();
+              if (m3 == null || m3 == undefined){
+                  m3=0;
+                } 
+                if (m4 == null || m4 == undefined){
+                  m4=0;
+                } 
+             
+           
+              var tipo=  $('input[name=tipoMeta]:checked').val();
+             
+              switch (tipo)
+              {
+                case "1": 
+                if(parseFloat($(this).val()) < parseFloat(m1)) {
+                    alert('Meta debe ser mayor.');  $(this).val('');$(this).focus();
+                    }
+                break;
+                case "2":
+                if(parseFloat($(this).val()) > parseFloat(m1)) {
+                    alert('Meta debe ser menor.');  $(this).val('');$(this).focus();
+                    }
+                break;
+                case "3":
+                if(parseFloat($(this).val()) != parseFloat(m1)) {
+                    alert('Meta debe ser igual.'); $(this).val('');$(this).focus();
+                    }
+                break;
+                case "4":
+              
+                $('#MetaAcumulada').val(parseFloat(m1)+parseFloat($(this).val())+parseFloat(m3)+parseFloat(m4));
                 return;
                 break;
 
@@ -409,7 +454,21 @@
 
              $('input[name="Meta3"]').on('change', function() {
               var m1= $("#Meta2").val();
-             /*  alert(m1)*/;
+              var m2= $("#Meta").val();
+              var m4= $("#Meta4").val();
+                if (m1 == null || m1 == undefined){
+                  m1=0;
+                } 
+               if (m2 == null || m2 == undefined){
+                  m2=0;
+                } 
+           
+                if (m4 == null || m4 == undefined){
+                  m4=0;
+                } 
+
+                   
+
               var tipo=  $('input[name=tipoMeta]:checked').val();
                
               //if (tipo==1)
@@ -436,7 +495,7 @@
                     }
                 break;
                 case "4":
-               $('#MetaAcumulada').val(parseFloat(m1)+parseFloat($(this).val()));
+              $('#MetaAcumulada').val(parseFloat($(this).val())+parseFloat(m1)+parseFloat(m2)+parseFloat(m4));
                return;
                 break;
                 
@@ -454,7 +513,20 @@
 
              $('input[name="Meta4"]').on('change', function() {
               var m1= $("#Meta3").val();
-             /*  alert(m1)*/;
+              var m2= $("#Meta2").val();
+              var m3= $("#Meta").val();
+             
+                if (m1 == null || m1 == undefined){
+                  m1=0;
+                } 
+               if (m2 == null || m2 == undefined){
+                  m2=0;
+                } 
+           
+                if (m3 == null || m3 == undefined){
+                  m3=0;
+                } 
+
               var tipo=  $('input[name=tipoMeta]:checked').val();
                
               //if (tipo==1)
@@ -482,7 +554,7 @@
                     }
                 break;
                 case "4":
-                $('#MetaAcumulada').val(parseFloat(m1)+parseFloat($(this).val()));
+                $('#MetaAcumulada').val(parseFloat($(this).val())+parseFloat(m1)+parseFloat(m2)+parseFloat(m3));
                 return;
                 break;
                 
