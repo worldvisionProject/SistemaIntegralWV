@@ -361,11 +361,11 @@
 
              $('input[name="Meta2"]').on('change', function() {
               var m1= $("#Meta").val();
-             
+            
               var tipo=  $('input[name=tipoMeta]:checked').val();
-              alert(tipo);
-              alert(m1);
-              alert($(this).val());
+              //alert(tipo);
+              //alert(m1);
+              //alert($(this).val());
               //if (tipo==1)
               //{
               //    if($(this).val() < m1) {
@@ -390,9 +390,9 @@
                     }
                 break;
                 case "4":
-                //if($(this).val() > m1) {
-                //    alert('Debe ser mayor');
-                //    }
+              
+                $('#MetaAcumulada').val(parseFloat(m1)+parseFloat($(this).val()));
+                return;
                 break;
 
                 default:
@@ -436,9 +436,8 @@
                     }
                 break;
                 case "4":
-                //if($(this).val() > m1) {
-                //    alert('Debe ser mayor');
-                //    }
+               $('#MetaAcumulada').val(parseFloat(m1)+parseFloat($(this).val()));
+               return;
                 break;
                 
                 default:
@@ -483,9 +482,8 @@
                     }
                 break;
                 case "4":
-                //if($(this).val() > m1) {
-                //    alert('Debe ser mayor');
-                //    }
+                $('#MetaAcumulada').val(parseFloat(m1)+parseFloat($(this).val()));
+                return;
                 break;
                 
                 default:
@@ -627,7 +625,7 @@ function AgregaIndicador() {
             }
 
             if (CodigoIndicador == CodigoIndicadorNo) {
-                alert("El tipo de indicador vinculdo no debe ser el mismo tipo del indicador a ingresar.");
+                alert("El tipo de  indicador a vincular  es el mismo ya ingresado.");
                 document.getElementById("CodigoIndicadorVinculo").focus();
                 return;
             }

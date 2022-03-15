@@ -62,8 +62,9 @@
 </div>
 <script>
      function EliminaFila(id) {
-
-        $("#" + id).remove();
+           if (confirm('¿Estás segura de eliminar este registro?')) {
+       
+      
 
         var GestionViewModel = {
             id: id
@@ -77,12 +78,13 @@
             cache: false,
             success: function (data) {
             /*  alert('Validooo');*/
-
+              $("#" + id).remove();
             },
             error: function(xhr) {
                // alert('No Valid Data');
             }
         });
+        }
     }
 
     $(document).ready(function () {

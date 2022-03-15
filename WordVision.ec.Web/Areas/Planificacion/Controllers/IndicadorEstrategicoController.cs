@@ -77,7 +77,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             {
 
                 var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(responseE.Data);
-                gestionList = new SelectList(entidadViewModel.Gestiones, "Id", "Anio");
+                gestionList = new SelectList(entidadViewModel.Gestiones.OrderBy(b => b.FechaDesde), "Id", "Anio");
                 descEstrategia = entidadViewModel.Nombre;
                 descObjetivoEstrategico = entidadViewModel.ObjetivoEstrategicos.Where(o => o.Id == IdObjetivoEstrategico).FirstOrDefault().Descripcion;
                 descFactor = entidadViewModel.ObjetivoEstrategicos.Where(o => o.Id == IdObjetivoEstrategico).FirstOrDefault().FactorCriticoExitos.Where(f => f.Id == IdFactorCritico).FirstOrDefault().FactorCritico;

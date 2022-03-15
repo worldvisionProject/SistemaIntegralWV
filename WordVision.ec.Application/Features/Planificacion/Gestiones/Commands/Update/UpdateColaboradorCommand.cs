@@ -50,7 +50,7 @@ namespace WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Up
                     Gestion.Logro = command.Logro; 
                     Gestion.FechaDesde = command.FechaDesde;
                     Gestion.FechaHasta = command.FechaHasta;
-                    if (Gestion.Estado.Contains("2"))
+                    if (command.Estado.Contains("2"))
                      await _indicadorCicloEstrategicoRepository.UpdateIndicadorAsync(command.IdEstrategia, command.Id);
                     await _GestionRepository.UpdateAsync(Gestion);
                     await _unitOfWork.Commit(cancellationToken);

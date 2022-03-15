@@ -283,7 +283,7 @@
                     </div>
                     <div class="col-md-2">
                         <label class="col-md-12 col-form-label texto-pregunta">Gestión</label>
-                        @Html.DropDownListFor(x => x.gestionList, (IEnumerable<SelectListItem>)ViewBag.EstadoList, new { @class = "form-control" })
+                        @Html.DropDownListFor(x => x.gestionList,(IEnumerable<SelectListItem>)Model.gestionList, new { @class = "form-control" })
                         <span asp-validation-for="gestionList" class="text-danger"></span>
                     </div>
                     <div class="col-md-2">
@@ -346,7 +346,7 @@
                                 <td class="meta">
                                     @metaanual.Meta.ToString().Replace(",", ".")
                                 </td>
-                                <td>
+                                <td class="logro">
                                     @metaanual.Entregable
                                 </td>
 
@@ -450,13 +450,13 @@
 
     });
 
-            $("#gestionList").select2({
-        placeholder: "Select a Category",
-        theme: "bootstrap4",
-        escapeMarkup: function (m) {
-            return m;
-        }
-    });
+    //        $("#gestionList").select2({
+    //    placeholder: "Select a Category",
+    //    theme: "bootstrap4",
+    //    escapeMarkup: function (m) {
+    //        return m;
+    //    }
+    //});
 
      $("#Tipo").change(function () {
                 $.get("/Planificacion/IndicadorProductoObjetivo/GetTiposIndicador", { idTipoIndicador: $("#Tipo").val() }, function (data) {
@@ -534,7 +534,7 @@ function AgregaIndicador() {
             }
 
             if (CodigoIndicador == CodigoIndicadorNo) {
-                alert("El tipo de indicador vinculdo no debe ser el mismo tipo del indicador a ingresar.");
+                 alert("El tipo de  indicador a vincular  es el mismo ya ingresado.");
                 document.getElementById("CodigoIndicadorVinculo").focus();
                 return;
             }
@@ -762,14 +762,14 @@ function AgregaIndicador() {
         // así obviamos la cabecera
         for (let i = 0; i < tableRows.length; i++) {
             const row = tableRows[i];
-            const status = row.querySelector('.lineaBase');
+            const status = row.querySelector('.logro');
 
             sum = sum + parseFloat(status.innerText);
             // Para modificar un estado:
             // status.innerText = 'offline';
         }
 
-        document.getElementById("LineaBase").value = String(sum).replace('.', ',');
+        document.getElementById("LogroAcumulado").value = String(sum).replace('.', ',');
     }
 
 
@@ -794,7 +794,65 @@ function AgregaIndicador() {
         return false;
 
     }
+    function ValidaTipoMeta(anioactual,metaactual) {
 
+        const tableRows = document.querySelectorAll('#metasTable tr.rowdata');
+
+         var sum = 0;
+        // Recorremos las filas que tengan el class="row"
+        // así obviamos la cabecera
+        for (let i = 0; i < tableRows.length; i++) {
+            const row = tableRows[i];
+            const status = row.querySelector('.meta');
+            const anio = row.querySelector('.af');
+
+             sum = sum + parseFloat(status.innerText);
+             var m1=parseFloat(status.innerText);
+              var tipo=  $('input[name=tipoMeta]:checked').val();
+              //alert(tipo);
+              //alert(m1);
+              //alert(anio.innerText);
+              //alert(metaactual);
+             if (anioactual != anio.innerText) {
+                 //alert("entro");
+              switch (tipo)
+              {
+                case "1": 
+                if(parseFloat(metaactual) < parseFloat(m1)) {
+                    alert('Meta debe ser mayor.'); return true;
+                    }
+                break;
+                case "2":
+                if(parseFloat(metaactual) > parseFloat(m1)) {
+                    alert('Meta debe ser menor.'); return true;
+                    }
+                break;
+                case "3":
+                if(parseFloat(metaactual) != parseFloat(m1)) {
+                    alert('Meta debe ser igual.');return true;
+                    }
+                break;
+                case "4":
+              
+                //$('#Meta').val(parseFloat(m1)+parseFloat(metaactual));
+                sumar();
+                return false;
+                break;
+
+                default:
+                 alert('Seleccione el tipo de Meta.');return true;
+                break;
+              }
+
+           }
+
+           
+           
+        }
+        $('#Meta').val(parseFloat(metaactual));
+        return false;
+
+    }
 
             var num = 0;
            // let sum = document.getElementById("suma").value;
@@ -802,7 +860,7 @@ function AgregaIndicador() {
             let idact = document.getElementById("idact").value;
 
             if (idact.length != 0) {
-                EliminaFila(idact);
+                EliminaFilaActualizar(idact);
             }
 
             let Anio = document.getElementById("gestionList").value;
@@ -813,11 +871,14 @@ function AgregaIndicador() {
             let AnioDesc = selection.options[selection.selectedIndex].innerHTML;
 
             if (duplicados(AnioDesc)) { return;}
+            if (ValidaTipoMeta(AnioDesc,Meta)) { return;}
+         
            // let IdEstrategia = document.getElementById("Id").value;
            // sum = parseFloat(sum) + parseFloat(Meta);
            if (LineaBase.length == 0) {
-                alert("Ingrese la Linea Base.");
-                return;
+                //alert("Ingrese la Linea Base.");
+                //return;
+                LineaBase="0";
             }
             if (Anio.length == 0) {
                 alert("Ingrese la Gestion.");
@@ -828,8 +889,9 @@ function AgregaIndicador() {
                 return;
             }
             if (Entregable.length == 0) {
-                alert("Ingrese el Entregable.");
-                return;
+                //alert("Ingrese el Entregable.");
+                //return;
+                Entregable="0";
             }
 
 
@@ -847,6 +909,7 @@ function AgregaIndicador() {
             TDEliminar.className = "text-right";
             TDMeta.className = "meta";
             TDAnio.className = "af";
+            TDEntregable.className = "logro";
             //let TDTotal = document.createElement("td");
            // TR.appendChild(TDId);
            TR.appendChild(TDLineaBase);
@@ -900,7 +963,8 @@ function AgregaIndicador() {
 
             num++;
 
-            sumar();SumarLogro();
+            //sumar();
+            SumarLogro();
             // table
             //.column(1)
             //.data()
@@ -962,6 +1026,30 @@ function AgregaIndicador() {
             }
          });
          }
+        sumar();
+    }
+      function EliminaFilaActualizar(id) {
+        
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "IndicadorAF", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+         });
+       
         sumar();
     }
 

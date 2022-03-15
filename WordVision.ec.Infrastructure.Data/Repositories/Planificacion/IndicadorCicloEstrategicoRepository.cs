@@ -54,28 +54,37 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 
         public async Task UpdateIndicadorAsync(int idEstrategia, int anioFiscal)
         {
-            var e = _repository.Entities.Where(x => x.AnioFiscal == anioFiscal && x.IdEstrategia== idEstrategia).FirstOrDefault();
-            if (e!=null)
+            var e = _repository.Entities.Where(x => x.AnioFiscal == anioFiscal && x.IdEstrategia== idEstrategia).ToList();
+            if (e.Count != 0)
             {
-                e.LineBase2 = e.Logro;
-                await _repository.UpdateAsync(e);
+                foreach (var a in e)
+                {
+                    a.LineBase2 = a.Logro;
+                    await _repository.UpdateAsync(a);
+                }
+                
             }
             else
             {
-                e = _repository.Entities.Where(x => x.AnioFiscal2 == anioFiscal && x.IdEstrategia == idEstrategia).FirstOrDefault();
-                if (e != null)
+                e = _repository.Entities.Where(x => x.AnioFiscal2 == anioFiscal && x.IdEstrategia == idEstrategia).ToList();
+                if (e.Count != 0)
                 {
-                    e.LineBase3 = e.Logro2;
-                    await _repository.UpdateAsync(e);
+                    foreach (var a in e)
+                    {
+                        a.LineBase3 = a.Logro2;
+                        await _repository.UpdateAsync(a);
+                    }
                 }
                 else
                 {
-                    e = _repository.Entities.Where(x => x.AnioFiscal3 == anioFiscal && x.IdEstrategia == idEstrategia).FirstOrDefault();
-                    if (e != null)
-                    {
-                        e.LineBase4 = e.Logro3;
-                        await _repository.UpdateAsync(e);
-                    }
+                    e = _repository.Entities.Where(x => x.AnioFiscal3 == anioFiscal && x.IdEstrategia == idEstrategia).ToList();
+                    
+                        foreach (var a in e)
+                        {
+                            a.LineBase4 = a.Logro3;
+                            await _repository.UpdateAsync(a);
+                        }
+                   
                    
                 }
 

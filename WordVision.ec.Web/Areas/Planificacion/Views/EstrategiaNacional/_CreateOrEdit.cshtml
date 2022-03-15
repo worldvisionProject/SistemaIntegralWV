@@ -459,8 +459,8 @@
     }
 
     function EliminaFila(id) {
-
-        $("#Gest_" + id).remove();
+       if (confirm('¿Estás segura de eliminar este registro?')) {
+       
 
         var GestionViewModel = {
             id: id
@@ -474,12 +474,14 @@
             cache: false,
             success: function (data) {
             /*  alert('Validooo');*/
-
+            $("#Gest_" + id).remove();
             },
             error: function(xhr) {
                // alert('No Valid Data');
             }
         });
+         
+        }
     }
 
 </script>
