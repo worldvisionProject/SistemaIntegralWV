@@ -88,23 +88,27 @@
                              @Html.DropDownListFor(x => x.IdResultado, (IEnumerable<SelectListItem>)Model.IdResultadoList, new { @class = "form-control" })
                               <span asp-validation-for="IdResultado" class="text-danger"></span>
                          </div>
-
-                        <div class="col-md-6">
-                            <div class="form-check form-check-inline">
-                                @*@if (Model.IndicadorVinculadoEs.Count==0)
-                                {*@
-                                  <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1">  
-                               @* }
-                                else
-                                {
-                                   <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1" checked> 
-                                }
-                            *@
-                                 <label class="form-check-label" for="chkVinculacion">Resultado opcional</label>
-                                  @Html.DropDownListFor(x => x.IdResultado, (IEnumerable<SelectListItem>)Model.IdResultadoOpcionalList, new { @class = "form-control" })
+                         @if (Model.NumeroObjetivo==2)
+                            {
+                            <div class="col-md-6">
+                                        <div class="form-check form-check-inline">
+                                            @*@if (Model.IndicadorVinculadoEs.Count==0)
+                                            {*@
+                                              <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1">  
+                                           @* }
+                                            else
+                                            {
+                                               <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1" checked> 
+                                            }
+                                        *@
+                                             <label class="form-check-label" for="chkVinculacion">Resultado opcional</label>
+                                              @Html.DropDownListFor(x => x.IdResultado, (IEnumerable<SelectListItem>)Model.IdResultadoOpcionalList, new { @class = "form-control" })
                               
-                            </div>
-                        </div>         
+                                        </div>
+                                    </div>       
+
+                            }
+                          
 
                     </div>
                      <div class=" row" >
