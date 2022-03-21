@@ -88,6 +88,24 @@
                              @Html.DropDownListFor(x => x.IdResultado, (IEnumerable<SelectListItem>)Model.IdResultadoList, new { @class = "form-control" })
                               <span asp-validation-for="IdResultado" class="text-danger"></span>
                          </div>
+
+                        <div class="col-md-6">
+                            <div class="form-check form-check-inline">
+                                @*@if (Model.IndicadorVinculadoEs.Count==0)
+                                {*@
+                                  <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1">  
+                               @* }
+                                else
+                                {
+                                   <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1" checked> 
+                                }
+                            *@
+                                 <label class="form-check-label" for="chkVinculacion">Resultado opcional</label>
+                                  @Html.DropDownListFor(x => x.IdResultado, (IEnumerable<SelectListItem>)Model.IdResultadoOpcionalList, new { @class = "form-control" })
+                              
+                            </div>
+                        </div>         
+
                     </div>
                      <div class=" row" >
                          <div class="col-md-12">
@@ -116,7 +134,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="col-md-12 col-form-label texto-pregunta">Indicador</label>
-                            @Html.DropDownListFor(x => x.IdResultado, new List<SelectListItem>(),
+                            @Html.DropDownListFor(x => x.IdResultado, (IEnumerable<SelectListItem>)Model.IdentificadorList,
                             " -- Seleccionar Indicador --", new { @class = "form-control" })
 
                             <span asp-validation-for="IdResultado" class="text-danger"></span>
@@ -403,6 +421,12 @@
 
             var num = 0;
             function AgregaConcepto() {
+
+            if (!CuentaHitos()) {
+                alert("Puede ingresar máximo 3 hitos.");
+                return;
+            }
+
             let idact = document.getElementById("idact").value;
 
             if (idact.length != 0) {
@@ -411,7 +435,7 @@
             let hito = document.getElementById("Hito").value;
             let indicador = document.getElementById("IndicadorHito").value;
             let tipo = document.getElementById("TipoListHito").value;
-            alert(tipo.length);
+            //alert(tipo.length);
              if (tipo.length == 0) {
                 alert("Ingrese el Tipo de Indicador.");
                 return;
@@ -541,6 +565,18 @@
 
 
      }
+
+
+     function CuentaHitos() {
+
+       const tableRows = document.querySelectorAll('#hitosTable tr.rowdata');
+      
+       if (tableRows.length<3)
+       {
+           return true;
+       }
+       return false;
+    }
 
     function deleteRow(id) {
         $("#" + id).remove();

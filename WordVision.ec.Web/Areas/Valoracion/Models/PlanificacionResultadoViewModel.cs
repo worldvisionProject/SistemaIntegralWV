@@ -33,8 +33,10 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public int IdResultado { get; set; }
         public SelectList TipoList { get; set; }
         public SelectList IdResultadoList { get; set; }
+        public SelectList IdResultadoOpcionalList { get; set; }
         public SelectList IdResponsabillidadList { get; set; }
         public SelectList IdCompetenciaList { get; set; }
+        public SelectList IdentificadorList { get; set; }
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string Meta { get; set; }
 

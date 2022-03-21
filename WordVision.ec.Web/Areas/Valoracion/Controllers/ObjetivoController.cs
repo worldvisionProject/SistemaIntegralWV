@@ -95,7 +95,13 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     else
                     {
                         var entidadModelResultado = await _mediator.Send(new GetAllResultadosCachedQuery() { IdObjetivo = idObjetivo, IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
-                        entidadViewModel.IdResultadoList = new SelectList(entidadModelResultado.Data, "Id", "Nombre");
+                        entidadViewModel.IdResultadoList = new SelectList(entidadModelResultado.Data.Where(c=>c.EsObligatorio==1), "Id", "Nombre");
+
+                    }
+                    if (objNumero == 2)
+                    {
+                        var entidadModelResultado = await _mediator.Send(new GetAllResultadosCachedQuery() { IdObjetivo = idObjetivo, IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
+                        entidadViewModel.IdResultadoOpcionalList = new SelectList(entidadModelResultado.Data.Where(c => c.EsObligatorio == 0), "Id", "Nombre");
 
                     }
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
@@ -126,6 +132,10 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         entidadMapper.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
                         var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() { IdEstructura = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "IdEstructura")?.Value), IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
                         entidadMapper.IdResponsabillidadList = new SelectList(entidadModelResponsabillidad.Data, "IdResponsabilidad", "NombreResponsabilidad");
+                        var entidadModelIndicador = await _mediator.Send(new GetResponsabilidadByIdPadreQuery() { IdPadre = entidadMapper.IdPadre });
+                        entidadMapper.IdentificadorList = new SelectList(entidadModelIndicador.Data, "Id", "Indicador");
+
+                       
                     }
                     else if (objNumero == 4)
                     {
@@ -137,7 +147,14 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     else
                     {
                         var entidadModelResultado = await _mediator.Send(new GetAllResultadosCachedQuery() { IdObjetivo = idObjetivo, IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
-                        entidadMapper.IdResultadoList = new SelectList(entidadModelResultado.Data, "Id", "Nombre");
+                        entidadMapper.IdResultadoList = new SelectList(entidadModelResultado.Data.Where(c => c.EsObligatorio == 1), "Id", "Nombre");
+
+                    }
+
+                    if (objNumero == 2)
+                    {
+                        var entidadModelResultado = await _mediator.Send(new GetAllResultadosCachedQuery() { IdObjetivo = idObjetivo, IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
+                        entidadMapper.IdResultadoOpcionalList = new SelectList(entidadModelResultado.Data.Where(c => c.EsObligatorio == 0), "Id", "Nombre");
 
                     }
 
@@ -190,17 +207,38 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     int hitoBd = 0;
                     if (entidadMapper!=null)
                      hitoBd = entidadMapper.PlanificacionHitos.Count();
-                    if (entidad.PlanificacionHitos!=null)
+                    if (entidad.PlanificacionHitos != null)
                     {
-                        var cuenta = entidad.PlanificacionHitos.Count()+ hitoBd;
-                        if (cuenta>3)
+                        var cuenta = entidad.PlanificacionHitos.Count() + hitoBd;
+                        if (cuenta > 3)
                         {
                             _notify.Error("Debe ingresar máximo 3 Hitos por cada responsabilidad.");
 
                             return new JsonResult(new { isValid = false });
                         }
+                        else if (cuenta < 3)
+                        {
+                            _notify.Error("Debe ingresar mínimo 3 Hitos por cada responsabilidad.");
+
+                            return new JsonResult(new { isValid = false });
+                        }
                     }
-                
+                    else
+                    {
+                        if (hitoBd > 3)
+                        {
+                            _notify.Error("Debe ingresar máximo 3 Hitos por cada responsabilidad.");
+
+                            return new JsonResult(new { isValid = false });
+                        }
+                        else if (hitoBd < 3)
+                        {
+                            _notify.Error("Debe ingresar mínimo 3 Hitos por cada responsabilidad.");
+
+                            return new JsonResult(new { isValid = false });
+                        }
+                    }
+
                 }
                 if (ModelState.IsValid)
                 {
@@ -261,7 +299,21 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     }
                     else
                     {
-                       
+                        var lista = planifica.Data.ToList();
+                        foreach(var item in lista)
+                        {
+                            if (item.Id!=id)
+                            {
+                                if (item.IdResultado==entidad.IdResultado)
+                                {
+                                    _notify.Error("Ya existe un Resultado/Responsabilidad/Competencias ingresado en este Objetivo.");
+
+                                    return new JsonResult(new { isValid = false });
+                                }
+                            }
+                            
+                        }
+                        
                         var updateEntidadCommand = _mapper.Map<UpdatePlanificacionResultadoCommand>(entidad);
                         var result = await _mediator.Send(updateEntidadCommand);
                         if (result.Succeeded) _notify.Information($"PlanificacionResultado con ID {result.Data} Actualizado.");
