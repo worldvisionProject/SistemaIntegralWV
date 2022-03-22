@@ -355,6 +355,19 @@
      $(document).ready(function () {
            $("#divOpcional").hide();
            $("#divdescResultado").hide();
+
+           if (@Model.chkOpcional==0)
+           {
+                    $("#divOpcional").show(1000);
+                    $("#IdResultado").attr("disabled", "disabled"); 
+                    $("#IdResultado").addClass('not-allow');
+                }
+                else
+                {
+                    $("#divOpcional").hide(1000);
+                    $("#IdResultado").removeAttr("disabled");  
+                    $("#IdResultado").removeClass('not-allow');
+                }
            
            $("#chkOpcional").change(function () {
                 var tipo=  $('input[name=chkOpcional]:checked').val();

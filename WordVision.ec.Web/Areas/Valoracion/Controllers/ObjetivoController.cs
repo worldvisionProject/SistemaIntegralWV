@@ -79,6 +79,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     entidadViewModel.AnioFiscal = anioFiscal;
                     entidadViewModel.PonderacionObjetivo = ponderacionObjetivo;
                     entidadViewModel.NumeroObjetivo = objNumero;
+                    entidadViewModel.chkOpcional = 1;//por efecto obligatorio
                     if (objNumero==3)
                     {
                         
@@ -154,9 +155,9 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     if (objNumero == 2)
                     {
                         var entidadModelResultado = await _mediator.Send(new GetAllResultadosCachedQuery() { IdObjetivo = idObjetivo, IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
-                        entidadMapper.chkOpcional = entidadModelResultado.Data.Where(c => c.Id == entidadMapper.Id).FirstOrDefault().EsObligatorio;
+                        entidadMapper.chkOpcional = entidadModelResultado.Data.Where(c => c.Id == entidadMapper.IdResultado).FirstOrDefault().EsObligatorio;
                         entidadMapper.IdResultadoOpcionalList = new SelectList(entidadModelResultado.Data.Where(c => c.EsObligatorio == 0), "Id", "Nombre");
-
+                        entidadMapper.IdResultadoOpcional = entidadMapper.IdResultado;
                     }
 
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadMapper) });
@@ -285,7 +286,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     if (total > ponderaObjetivo)
                     {
                         
-                        _notify.Error("La suma de la ponderación de resultado no pude ser mayor a la Ponderacion de Objetivo " + ponderaObjetivo.ToString()+", restan "+restan.ToString()+" para llegar al máximo permitido.");
+                        _notify.Error("La suma de la ponderación de objetivo no pude ser mayor a la Ponderacion de Resultado " + ponderaObjetivo.ToString()+", restan "+restan.ToString()+" para llegar al máximo permitido.");
                        
                         return new JsonResult(new { isValid = false });
                     }
