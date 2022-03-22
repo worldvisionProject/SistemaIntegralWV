@@ -355,6 +355,19 @@
         <script type="text/javascript" language=javascript>
     
             $.validator.unobtrusive.parse(document);
+
+             $('input[name="tipoMeta"]').on('change', function() {
+              //var radioValue = $('input[name="tipoMeta"]:checked').val();        
+            
+              //if (radioValue==1)
+              //{
+               $("#Meta3").val('');
+               $("#Meta2").val('');
+               $("#Meta").val('');
+               $("#Meta4").val('');
+              //}
+            });
+
              $('input[name="Meta"]').on('change', function() {
               //var m1= $("#Meta").val();
               var m1= $("#Meta2").val();
@@ -570,14 +583,7 @@
             });
 
 
-            //$('input[name="tipoMeta"]').on('change', function() {
-            //  var radioValue = $('input[name="tipoMeta"]:checked').val();        
-            
-            //  if (radioValue==1)
-            //  {
-            //     alert(radioValue); 
-            //  }
-            //});
+           
 
      //$.get("/Planificacion/IndicadorProductoObjetivo/GetTiposIndicador", { idTipoIndicador: $("#TipoIndicador").val() }, function (data) {
      //               // VACIAMOS EL DropDownList

@@ -154,6 +154,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     if (objNumero == 2)
                     {
                         var entidadModelResultado = await _mediator.Send(new GetAllResultadosCachedQuery() { IdObjetivo = idObjetivo, IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
+                        entidadMapper.chkOpcional = entidadModelResultado.Data.Where(c => c.Id == entidadMapper.Id).FirstOrDefault().EsObligatorio;
                         entidadMapper.IdResultadoOpcionalList = new SelectList(entidadModelResultado.Data.Where(c => c.EsObligatorio == 0), "Id", "Nombre");
 
                     }
@@ -200,7 +201,16 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
         {
             try
             {
-               if (entidad.NumeroObjetivo==3)
+                if (entidad.NumeroObjetivo == 2)
+                {
+                    if (entidad.chkOpcional == 1)
+                    {
+                        entidad.IdResultado = entidad.IdResultadoOpcional;
+                    }
+                }
+                    
+                
+                if (entidad.NumeroObjetivo==3)
                 {
                     var entidadModel = await _mediator.Send(new GetPlanificacionResultadoByIdQuery() { Id = id });
                     var entidadMapper = _mapper.Map<PlanificacionResultadoViewModel>(entidadModel.Data);

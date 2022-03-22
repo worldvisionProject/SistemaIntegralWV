@@ -31,6 +31,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public int IdPadre { get; set; }
         public int IdPadreCompetencia { get; set; }
         public int IdResultado { get; set; }
+        public int IdResultadoOpcional { get; set; }
         public SelectList TipoList { get; set; }
         public SelectList IdResultadoList { get; set; }
         public SelectList IdResultadoOpcionalList { get; set; }
@@ -68,6 +69,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         //public ResultadoViewModel Resultados { get; set; }
         public string DescEstado { get; set; }
          public string NombreColaborador { get; set; }
+        public int chkOpcional { get; set; }
         public ICollection<PlanificacionHitoViewModel> PlanificacionHitos { get; set; }
     }
 }

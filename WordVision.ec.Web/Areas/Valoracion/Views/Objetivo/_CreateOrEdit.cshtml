@@ -90,20 +90,21 @@
                          </div>
                          @if (Model.NumeroObjetivo==2)
                             {
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="padding:25px">
                                         <div class="form-check form-check-inline">
-                                            @*@if (Model.IndicadorVinculadoEs.Count==0)
-                                            {*@
+                                            @if (Model.chkOpcional==1)
+                                            {
                                               <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1">  
-                                           @* }
+                                            }
                                             else
                                             {
                                                <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1" checked> 
                                             }
-                                        *@
-                                             <label class="form-check-label" for="chkVinculacion">Resultado opcional</label>
-                                              @Html.DropDownListFor(x => x.IdResultado, (IEnumerable<SelectListItem>)Model.IdResultadoOpcionalList, new { @class = "form-control" })
-                              
+                                        
+                                             <label class="form-check-label" for="chkOpcional">Opcional</label>&nbsp;&nbsp;
+                                              <div id="divOpcional">
+                                                @Html.DropDownListFor(x => x.IdResultadoOpcional, (IEnumerable<SelectListItem>)Model.IdResultadoOpcionalList, new { @class = "form-control" })
+                                             </div>
                                         </div>
                                     </div>       
 
@@ -111,7 +112,7 @@
                           
 
                     </div>
-                     <div class=" row" >
+                     <div class="form-group row" id="divdescResultado" >
                          <div class="col-md-12">
                               <input type="text" value="" height="20" id="descResultado" name="descResultado" style="border:0px" class="col-md-12 col-form-label texto-pregunta" readonly  />
                          </div>
@@ -192,7 +193,7 @@
                         <span asp-validation-for="FechaFin" class="text-danger"></span>
                     </div>
                      <div class="col-md-2">
-                        <label class="col-md-12 col-form-label texto-pregunta">Ponderación resultado</label>
+                        <label class="col-md-12 col-form-label texto-pregunta">Pond. Obj. específico</label>
                         <input asp-for="Ponderacion" type="text" name="Ponderacion" class="form-control"  />
                         <span asp-validation-for="Ponderacion" class="text-danger"></span>
                     </div>
@@ -352,6 +353,26 @@
 <script type="text/javascript" language=javascript>
     
      $(document).ready(function () {
+           $("#divOpcional").hide();
+           $("#divdescResultado").hide();
+           
+           $("#chkOpcional").change(function () {
+                var tipo=  $('input[name=chkOpcional]:checked').val();
+           
+                if (tipo==1)
+                {
+                    $("#divOpcional").show(1000);
+                    $("#IdResultado").attr("disabled", "disabled"); 
+                    $("#IdResultado").addClass('not-allow');
+                }
+                else
+                {
+                    $("#divOpcional").hide(1000);
+                    $("#IdResultado").removeAttr("disabled");  
+                    $("#IdResultado").removeClass('not-allow');
+                }
+                    
+            });
 
          var numero=$("#NumeroObjetivo").val();
          
@@ -410,8 +431,11 @@
 
 
             $("#IdResultado").change(function () {
+                $("#descResultado").empty();
+                 $("#divdescResultado").hide(10);
                 $.get("/Valoracion/Objetivo/GetResultado", { idResultado: $("#IdResultado").val() }, function (data) {
                    $("#descResultado").val(data.indicador);
+                   $("#divdescResultado").show(10);
                 });
             });
 
