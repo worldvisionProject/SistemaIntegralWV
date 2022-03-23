@@ -133,7 +133,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         suma = suma + (decimal)l.Ponderacion;
                     }
 
-                    if (contar == min)
+                    if (contar >= min && contar <= max)
                     {
                         if (suma == porcentaje)
                         { 
@@ -168,7 +168,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     {
                         suma = suma + (decimal)l.Ponderacion;
                     }
-                    if (contar1 == min1)
+                    if (contar1 >= min1 && contar1 <= max1)
                     {
                         if (suma == porcentaje)
                         {
@@ -200,7 +200,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     {
                         suma = suma + (decimal)l.Ponderacion;
                     }
-                    if (contar2 == min2)
+                    if (contar2 >= min2 && contar2 <= max2)
                     {
                         if (suma == porcentaje)
                         {
@@ -232,7 +232,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     {
                         suma = suma + (decimal)l.Ponderacion;
                     }
-                    if (contar3 == min3)
+                    if (contar3 >= min3 && contar3 <= max3)
                     {
                         if (suma == porcentaje)
                         {
@@ -306,7 +306,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         suma = suma + (decimal)l.Ponderacion;
                     }
 
-                    if (contar == min)
+                    if (contar >= min && contar <= max)
                     {
                         if (suma == porcentaje)
                         { 
@@ -336,9 +336,27 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     var max1 = ponderacion1.Data.Maximo;
                     var planifica1 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoColaboradorQuery() { IdObjetivo = c1.IdObjetivo, IdColaborador = c1.IdColaborador });
                     var contar1 = planifica1.Data.Count();
-                    if (contar1 == min1)
+
+                    var porcentaje1 = ponderacion1.Data.Ponderacion;
+                    var suma1 = decimal.Zero;
+                    foreach (var l in planifica1.Data)
                     {
-                        if (ModelState.IsValid) MoveToNextStep(currentStep);
+                        suma1 = suma1 + (decimal)l.Ponderacion;
+                    }
+
+
+                    if (contar1 >= min1 && contar1<= max1)
+                    {
+                        if (suma1 == porcentaje1)
+                        {
+                            if (ModelState.IsValid) MoveToNextStep(currentStep);
+                        }
+                        else
+                        {
+                            JumpToStepAsync(currentStep, 0);
+                            _notify.Error("Los items debe  sumar un total del " + porcentaje1.ToString() + " %, en la ponderación.");
+                            return Page();
+                        }
 
                     }
                     else
@@ -355,15 +373,33 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     var max2 = ponderacion2.Data.Maximo;
                     var planifica2 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoColaboradorQuery() { IdObjetivo = c2.IdObjetivo, IdColaborador = c2.IdColaborador });
                     var contar2 = planifica2.Data.Count();
-                    if (contar2 == min2)
+                    
+                    var porcentaje2 = ponderacion2.Data.Ponderacion;
+                    var suma2 = decimal.Zero;
+                    foreach (var l in planifica2.Data)
                     {
-                        if (ModelState.IsValid) MoveToNextStep(currentStep);
+                        suma2 = suma2 + (decimal)l.Ponderacion;
+                    }
+
+                   
+                    if (contar2 >= min2 && contar2 <= max2)
+                    {
+                        if (suma2 == porcentaje2)
+                        {
+                            if (ModelState.IsValid) MoveToNextStep(currentStep);
+                        }
+                        else
+                        {
+                            JumpToStepAsync(currentStep, 0);
+                            _notify.Error("Los items debe  sumar un total del " + porcentaje2.ToString() + " %, en la ponderación.");
+                            return Page();
+                        }
 
                     }
                     else
                     {
                         JumpToStepAsync(currentStep, 2);
-                        _notify.Error("Debe ingresar minimo " + min2.ToString() + " Resultados.");
+                        _notify.Error("Debe ingresar minimo " + min2.ToString() + " y maximo "+ max2.ToString() + " Resultados.");
                         return Page();
                     }
                     break;
@@ -374,9 +410,26 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     var max3 = ponderacion3.Data.Maximo;
                     var planifica3 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoColaboradorQuery() { IdObjetivo = c3.IdObjetivo, IdColaborador = c3.IdColaborador });
                     var contar3 = planifica3.Data.Count();
-                    if (contar3 == min3)
+
+                    var porcentaje3 = ponderacion3.Data.Ponderacion;
+                    var suma3= decimal.Zero;
+                    foreach (var l in planifica3.Data)
                     {
-                        if (ModelState.IsValid) MoveToNextStep(currentStep);
+                        suma3 = suma3 + (decimal)l.Ponderacion;
+                    }
+
+                    if (contar3 >= min3 && contar3 <= max3)
+                    {
+                        if (suma3 == porcentaje3)
+                        {
+                            if (ModelState.IsValid) MoveToNextStep(currentStep);
+                        }
+                        else
+                        {
+                            JumpToStepAsync(currentStep, 0);
+                            _notify.Error("Los items debe  sumar un total del " + porcentaje3.ToString() + " %, en la ponderación.");
+                            return Page();
+                        }
 
                     }
                     else
