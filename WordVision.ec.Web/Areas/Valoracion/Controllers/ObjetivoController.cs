@@ -82,11 +82,22 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     entidadViewModel.chkOpcional = 1;//por efecto obligatorio
                     if (objNumero==3)
                     {
-                        
+                       
                         var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                         entidadViewModel.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
-                        var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() {IdEstructura= Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "IdEstructura")?.Value), IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
+                        var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() { IdEstructura = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "IdEstructura")?.Value), IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
                         entidadViewModel.IdResponsabillidadList = new SelectList(entidadModelResponsabillidad.Data, "IdResponsabilidad", "NombreResponsabilidad");
+                        var entidadModelIndicador = await _mediator.Send(new GetResponsabilidadByIdPadreQuery() { IdPadre = entidadViewModel.IdPadre });
+                        entidadViewModel.IdentificadorList = new SelectList(entidadModelIndicador.Data, "Id", "Indicador");
+
+
+                        //var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
+                        //entidadViewModel.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
+                        //var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() {IdEstructura= Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "IdEstructura")?.Value), IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
+                        //entidadViewModel.IdResponsabillidadList = new SelectList(entidadModelResponsabillidad.Data, "IdResponsabilidad", "NombreResponsabilidad");
+                        //var entidadModelIndicador = await _mediator.Send(new GetResponsabilidadByIdPadreQuery() { IdPadre = entidadMapper.IdPadre });
+                        //entidadViewModel.IdentificadorList = new SelectList(entidadModelIndicador.Data, "Id", "Indicador");
+
                     }
                     else if (objNumero == 4)
                     {
