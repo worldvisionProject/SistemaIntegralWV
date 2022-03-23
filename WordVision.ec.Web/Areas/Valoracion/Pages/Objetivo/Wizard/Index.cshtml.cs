@@ -353,7 +353,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         }
                         else
                         {
-                            JumpToStepAsync(currentStep, 0);
+                            JumpToStepAsync(currentStep, 1);
                             _notify.Error("Los items debe  sumar un total del " + porcentaje1.ToString() + " %, en la ponderación.");
                             return Page();
                         }
@@ -390,7 +390,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         }
                         else
                         {
-                            JumpToStepAsync(currentStep, 0);
+                            JumpToStepAsync(currentStep, 2);
                             _notify.Error("Los items debe  sumar un total del " + porcentaje2.ToString() + " %, en la ponderación.");
                             return Page();
                         }
@@ -426,7 +426,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         }
                         else
                         {
-                            JumpToStepAsync(currentStep, 0);
+                            JumpToStepAsync(currentStep, 3);
                             _notify.Error("Los items debe  sumar un total del " + porcentaje3.ToString() + " %, en la ponderación.");
                             return Page();
                         }

@@ -355,8 +355,9 @@
      $(document).ready(function () {
            $("#divOpcional").hide();
            $("#divdescResultado").hide();
-
-           if (@Model.chkOpcional==0)
+ if (@Model.NumeroObjetivo==2 )
+ {
+     if (@Model.chkOpcional==0)
            {
                     $("#divOpcional").show(1000);
                     $("#IdResultado").attr("disabled", "disabled"); 
@@ -368,6 +369,8 @@
                     $("#IdResultado").removeAttr("disabled");  
                     $("#IdResultado").removeClass('not-allow');
                 }
+ }
+           
            
            $("#chkOpcional").change(function () {
                 var tipo=  $('input[name=chkOpcional]:checked').val();
