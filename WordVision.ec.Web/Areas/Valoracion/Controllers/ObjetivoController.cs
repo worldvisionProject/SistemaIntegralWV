@@ -138,8 +138,12 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
 
                     if (objNumero == 3)
                     {
-                        var entidadResponsabillidad = await _mediator.Send(new GetResponsabilidadByIdQuery() { Id = entidadMapper.IdResultado });
-                        entidadMapper.IdPadre = entidadResponsabillidad.Data.Padre;
+                        if (idResultado!=0)
+                        {
+                            var entidadResponsabillidad = await _mediator.Send(new GetResponsabilidadByIdQuery() { Id = entidadMapper.IdResultado });
+                            entidadMapper.IdPadre = entidadResponsabillidad.Data.Padre;
+                        }
+                        
                         var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                         entidadMapper.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
                         var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() { IdEstructura = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "IdEstructura")?.Value), IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
@@ -147,7 +151,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         var entidadModelIndicador = await _mediator.Send(new GetResponsabilidadByIdPadreQuery() { IdPadre = entidadMapper.IdPadre });
                         entidadMapper.IdentificadorList = new SelectList(entidadModelIndicador.Data, "Id", "Indicador");
 
-                       
+                        entidadMapper.chkOpcional = entidadMapper.IdResultado==0?0:1;
+
                     }
                     else if (objNumero == 4)
                     {
@@ -220,10 +225,12 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         entidad.IdResultado = entidad.IdResultadoOpcional;
                     }
                 }
-                    
-                
-                if (entidad.NumeroObjetivo==3)
+                else if (entidad.NumeroObjetivo==3)
                 {
+                    if (entidad.chkOpcional == 1)
+                    {
+                        entidad.IdResultado = 0;
+                    }
                     var entidadModel = await _mediator.Send(new GetPlanificacionResultadoByIdQuery() { Id = id });
                     var entidadMapper = _mapper.Map<PlanificacionResultadoViewModel>(entidadModel.Data);
                     int hitoBd = 0;

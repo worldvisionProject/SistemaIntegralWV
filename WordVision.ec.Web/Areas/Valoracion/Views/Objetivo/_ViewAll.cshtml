@@ -141,9 +141,30 @@
         @foreach (var planificacion in anio.PlanificacionResultados)
         {
         <tr>
-            <td  style="vertical-align: middle;">
-                @planificacion.Nombre
-            </td>
+             @if (objetivo.Numero.Contains("3"))
+             {
+                 if (planificacion.IdResultado==0)
+                 {
+                     <td  style="vertical-align: middle;">
+                         @planificacion.DatoManual1
+                     </td>
+                 } else
+                 {
+                     <td  style="vertical-align: middle;">
+                         @planificacion.Nombre
+                     </td>
+
+                 }
+                
+             }
+             else
+             {
+                 <td  style="vertical-align: middle;">
+                     @planificacion.Nombre
+                 </td>
+
+             }
+                        
 
              
                           

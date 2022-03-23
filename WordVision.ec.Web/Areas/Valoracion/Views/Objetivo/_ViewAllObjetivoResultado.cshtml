@@ -52,36 +52,119 @@
         @foreach (var planificacion in Model.PlanificacionResultados)
         {
         <tr  id="@planificacion.IdPlanificacion">
-            <td  style="vertical-align: middle;">
-               <font style="font-weight: bold;"> @planificacion.Nombre</font> @planificacion.Descripcion 
-            </td>
-         
-                            <td>
-                               @planificacion.Indicador
-                            </td> 
 
-                @if (!Model.NumeroObjetivo.Contains("4"))
+            @if (Model.NumeroObjetivo.Contains("3"))
+             {
+                 if (planificacion.IdResultado==0)
+                 {
+                     <td  style="vertical-align: middle;">
+                         @planificacion.DatoManual1
+                     </td>
+                 } else
+                 {
+                     <td  style="vertical-align: middle;">
+                       <font style="font-weight: bold;"> @planificacion.Nombre</font> @planificacion.Descripcion 
+                    </td>
+
+                 }
+                
+             }
+             else
+             {
+                 <td  style="vertical-align: middle;">
+                   <font style="font-weight: bold;"> @planificacion.Nombre</font> @planificacion.Descripcion 
+                </td>
+
+             }
+
+           
+          @if (Model.NumeroObjetivo.Contains("3"))
+             {
+                 if (planificacion.IdResultado==0)
+                 {
+                     <td>
+                       @planificacion.DatoManual2
+                    </td>
+                 }
+                    else
+                 {
+                    <td>
+                      @planificacion.Indicador
+                   </td> 
+                 }
+             }
+             else
+             {
+                <td>
+                  @planificacion.Indicador
+               </td> 
+             }    
+
+
+             @if (!Model.NumeroObjetivo.Contains("4"))
                 {
-                    <td>
+                    @if (Model.NumeroObjetivo.Contains("3"))
+                    {
+                        @if (planificacion.IdResultado==0)
+                            {
+                                <td>
+                            
+                                    @switch (planificacion.DatoManual3)
+                                    {
+                                        case 13:
+                                            <span class="badge badge-primary">$</span>
+                                            break;
+                                        case 28:
+                                            <span class="badge badge-warning">%</span>
+                                            break;
+                                        case 29:
+                                            <span class="badge badge-warning">#</span>
+                                            break;
+                                    }
+                                </td>
+                            }else{ 
+                                        <td>
 
-                        @switch (planificacion.Tipo)
-                        {
-                            case 13:
-                                <span class="badge badge-primary">$</span>
-                                break;
-                            case 28:
-                                <span class="badge badge-warning">%</span>
-                                break;
-                            case 29:
-                                <span class="badge badge-warning">#</span>
-                                break;
-                        }
-                    </td>
+                                            @switch (planificacion.Tipo)
+                                            {
+                                                case 13:
+                                                    <span class="badge badge-primary">$</span>
+                                                    break;
+                                                case 28:
+                                                    <span class="badge badge-warning">%</span>
+                                                    break;
+                                                case 29:
+                                                    <span class="badge badge-warning">#</span>
+                                                    break;
+                                            }
+                                        </td>
 
-                    <td>
+                       
+                                    }
 
-                        @planificacion.Meta
-                    </td>
+                    }else{ 
+                        <td>
+
+                            @switch (planificacion.Tipo)
+                            {
+                                case 13:
+                                    <span class="badge badge-primary">$</span>
+                                    break;
+                                case 28:
+                                    <span class="badge badge-warning">%</span>
+                                    break;
+                                case 29:
+                                    <span class="badge badge-warning">#</span>
+                                    break;
+                            }
+                        </td>
+
+                       
+                    }
+
+                     <td>
+                            @planificacion.Meta
+                     </td>
                 }
 
                    <td>

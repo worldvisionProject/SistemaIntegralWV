@@ -145,7 +145,44 @@
                             <span asp-validation-for="IdResultado" class="text-danger"></span>
                         </div> 
                     </div>
-        
+                     <div class="form-group row">
+                                       <div class="col-md-2" >
+                                        <div class="form-check form-check-inline">
+                                            @if (Model.chkOpcional==1)
+                                            {
+                                              <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1">  
+                                            }
+                                            else
+                                            {
+                                               <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1" checked> 
+                                            }
+                                        
+                                             <label class="form-check-label" for="chkOpcional">Opcional</label>&nbsp;&nbsp;
+                                        </div>
+                                      </div>
+                                      <div  class="col-md-10" id="divOpcional">
+                                           <div class="form-group row">
+                                               <div class="col-md-5" >
+                                                    <label class="col-md-12 col-form-label texto-pregunta text-left">Responsabilidad</label>
+                                                    <textarea type="text" asp-for="DatoManual1" name="DatoManual1" class="form-control"></textarea>
+                                      
+                                               </div>
+                                               <div class="col-md-5" >
+                                                   <label class="col-md-12 col-form-label texto-pregunta text-left">Indicador</label>
+                                                    <textarea type="text" asp-for="DatoManual2" name="DatoManual2" class="form-control"></textarea>
+                                     
+                                               </div>
+                                               <div class="col-md-2">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">Tipo($,%,#)</label>
+                                                    @Html.DropDownListFor(x => x.DatoManual3, (IEnumerable<SelectListItem>)Model.TipoListHito, new { @class = "form-control" })
+                      
+                                                    <span asp-validation-for="DatoManual3" class="text-danger"></span>
+                                                </div>
+                                           </div>
+                                           </div>
+                                        
+                                      
+                        </div>
                 }
                 else if (Model.NumeroObjetivo==4 )
                 {
@@ -355,19 +392,24 @@
      $(document).ready(function () {
            $("#divOpcional").hide();
            $("#divdescResultado").hide();
- if (@Model.NumeroObjetivo==2 )
+ if (@Model.NumeroObjetivo==2 || @Model.NumeroObjetivo==3 )
  {
      if (@Model.chkOpcional==0)
            {
                     $("#divOpcional").show(1000);
                     $("#IdResultado").attr("disabled", "disabled"); 
                     $("#IdResultado").addClass('not-allow');
+                    $("#IdPadre").attr("disabled", "disabled"); 
+                    $("#IdPadre").addClass('not-allow');
+                    
                 }
                 else
                 {
                     $("#divOpcional").hide(1000);
                     $("#IdResultado").removeAttr("disabled");  
                     $("#IdResultado").removeClass('not-allow');
+                     $("#IdPadre").removeAttr("disabled");  
+                    $("#IdPadre").removeClass('not-allow');
                 }
  }
            
@@ -380,12 +422,16 @@
                     $("#divOpcional").show(1000);
                     $("#IdResultado").attr("disabled", "disabled"); 
                     $("#IdResultado").addClass('not-allow');
+                    $("#IdPadre").attr("disabled", "disabled"); 
+                    $("#IdPadre").addClass('not-allow');
                 }
                 else
                 {
                     $("#divOpcional").hide(1000);
                     $("#IdResultado").removeAttr("disabled");  
                     $("#IdResultado").removeClass('not-allow');
+                    $("#IdPadre").removeAttr("disabled");  
+                    $("#IdPadre").removeClass('not-allow');
                 }
                     
             });
