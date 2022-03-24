@@ -69,10 +69,11 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                 .ToList();
         }
 
-        public async Task<IActionResult> OnGetAsync(int id)
+        public async Task<IActionResult> OnGetAsync(int id, int perfil = 0)/*0 colaborador 1:p jefatura*/
         {
             try
             {
+                TempData["Perfil"]=perfil;
                 if (id != null)
                 {
 
@@ -479,6 +480,32 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
             return Page();
         }
 
+        public async Task<IActionResult> OnPostDevolver(StepViewModel currentStep)
+        {
+            var c = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_7Step)currentStep;
+            int id = c.IdColaborador;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                    return RedirectToAction("EnviarMail", "Objetivo", new { Area = "Valoracion", idColaborador = id, reportaA = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value), proceso = 3, idAnioFiscal = 1002 });
+
+                }
+                else
+                {
+                    return RedirectToPage("Index", new { id = 1 });
+                }
+            }
+            catch (Exception ex)
+            {
+                _notify.Error($"Error en devolver los datos.");
+                _logger.LogError(ex, $"Error en devolver los datos Formulario.");
+                //var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", formulario);
+                return new JsonResult(new { isValid = false });
+            }
+        }
+        
         public async Task<IActionResult> OnPostFinish(StepViewModel currentStep)
         {
             //if (Request.Form.Files.Count == 0)
@@ -504,6 +531,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
             //_service.Save(client);
 
             //OnPostCreateOrEdit(id, client);
+            int perfil =(int) TempData["Perfil"];
             var c = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_7Step)currentStep;
             int id = c.IdColaborador;
             try
@@ -525,7 +553,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     //var updateUsuarioCommand = _mapper.Map<UpdateUsuarioCommand>(usr);
                     //var resultUsuario = await _mediator.Send(updateUsuarioCommand);
 
-                    return RedirectToAction("EnviarMail", "Objetivo", new { Area = "Valoracion", idColaborador = id, reportaA= Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value), proceso=1, idAnioFiscal = 1002 });
+                    return RedirectToAction("EnviarMail", "Objetivo", new { Area = "Valoracion", idColaborador = id, reportaA= Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value), proceso=perfil==0?1:2, idAnioFiscal = 1002 });
                     //return RedirectToPage("Index", new { id = client.Id });
 
                 }
@@ -536,8 +564,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
             }
             catch (Exception ex)
             {
-                _notify.Error($"Error en insertar los datos.");
-                _logger.LogError(ex,$"Error en insertar los datos Formulario.");
+                _notify.Error($"Error en Finalizar los datos.");
+                _logger.LogError(ex,$"Error en Finalizar los datos Formulario.");
                 //var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", formulario);
                 return new JsonResult(new { isValid = false });
             }

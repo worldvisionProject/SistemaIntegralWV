@@ -120,6 +120,8 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<IResponsabilidadRepository, ResponsabilidadRepository>();
             services.AddTransient<IPlanificacionHitoRepository, PlanificacionHitoRepository>();
             services.AddTransient<ICompetenciaRepository, CompetenciaRepository>();
+            services.AddTransient<IAvanceObjetivoRepository, AvanceObjetivoRepository>();
+            services.AddTransient<ISeguimientoObjetivoRepository, SeguimientoObjetivoRepository>();
             #endregion Repositories
         }
     }

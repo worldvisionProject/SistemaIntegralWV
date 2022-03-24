@@ -38,6 +38,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public SelectList IdResponsabillidadList { get; set; }
         public SelectList IdCompetenciaList { get; set; }
         public SelectList IdentificadorList { get; set; }
+        public SelectList ComportamientoList { get; set; }
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string Meta { get; set; }
 
@@ -70,6 +71,22 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public string DescEstado { get; set; }
          public string NombreColaborador { get; set; }
         public int chkOpcional { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? FechaCumplimientoAvance { get; set; }
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+        public string PorcentajeAvance { get; set; }
+        public string ComentarioAvance { get; set; }
+        public string ComentarioLiderAvance { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? FechaCumplimiento { get; set; }
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+        public decimal? PorcentajeCumplimiento { get; set; }
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+        public decimal? PonderacionResultado { get; set; }
+
         public ICollection<PlanificacionHitoViewModel> PlanificacionHitos { get; set; }
+        public ICollection<AvanceObjetivoViewModel> AvanceObjetivos { get; set; }
     }
 }

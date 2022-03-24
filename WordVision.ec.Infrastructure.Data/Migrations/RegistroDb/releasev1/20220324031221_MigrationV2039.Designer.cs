@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
-namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
+namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev1
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220324031221_MigrationV2039")]
+    partial class MigrationV2039
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2903,8 +2905,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal?>("Porcentaje")
-                        .IsRequired()
+                    b.Property<decimal>("Porcentaje")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -3275,9 +3276,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AnioFiscal")
-                        .HasColumnType("int");
-
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -3287,7 +3285,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<int>("Estado")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdColaborador")
+                    b.Property<int>("IdPlanificacion")
                         .HasColumnType("int");
 
                     b.Property<string>("LastModifiedBy")
@@ -3300,6 +3298,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdPlanificacion");
 
                     b.ToTable("SeguimientoObjetivos", "valoracion");
                 });
@@ -3761,6 +3761,17 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Navigation("ObjetivoAnioFiscales");
                 });
 
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Valoracion.SeguimientoObjetivo", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Valoracion.PlanificacionResultado", "PlanificacionResultados")
+                        .WithMany("SeguimientoObjetivos")
+                        .HasForeignKey("IdPlanificacion")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PlanificacionResultados");
+                });
+
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.Catalogo", b =>
                 {
                     b.Navigation("DetalleCatalogos");
@@ -3923,6 +3934,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Navigation("AvanceObjetivos");
 
                     b.Navigation("PlanificacionHitos");
+
+                    b.Navigation("SeguimientoObjetivos");
                 });
 #pragma warning restore 612, 618
         }

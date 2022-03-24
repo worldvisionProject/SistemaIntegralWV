@@ -49,7 +49,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
         {
             return await _repository.Entities.Where(x => x.Id == planificacionResultadoId)
                 .Include(p=>p.PlanificacionHitos)
-                //.Include(y =>y.Resultados)
+                .Include(y =>y.AvanceObjetivos)
                 .Include(x => x.ObjetivoAnioFiscales)
                 .ThenInclude(m => m.Objetivos)
                 .FirstOrDefaultAsync();
@@ -93,8 +93,8 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
 
         public async Task<List<PlanificacionResultadoResponse>> GetListxLiderAsync(int idLider)
         {
-            var result = _repository.Entities.Where(x => x.ReportaId == idLider)
-                .GroupBy(x=> new { x.IdColaborador ,x.Estado })
+            var result = _repository.Entities.Where(x => x.ReportaId == idLider && (x.Estado==2 || x.Estado == 3 || x.Estado == 4))
+                .GroupBy(x=> new { x.IdColaborador ,x.Estado,x.ObjetivoAnioFiscales.AnioFiscal })
                  .Select(a => new PlanificacionResultadoResponse
                  {
                     IdColaborador= a.Key.IdColaborador,

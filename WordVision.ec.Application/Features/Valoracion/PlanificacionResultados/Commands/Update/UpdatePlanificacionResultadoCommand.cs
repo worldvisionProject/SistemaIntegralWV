@@ -35,25 +35,28 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
         public int DatoManual3 { get; set; }
         public int TipoObjetivo { get; set; }
         public int IdObjetivoAnioFiscal { get; set; }
+        public ObjetivoAnioFiscal ObjetivoAnioFiscales { get; set; }
         public int Estado { get; set; }
         public string ObservacionLider { get; set; }
         //public Resultado Resultados { get; set; }
+        public DateTime? FechaCumplimiento { get; set; }
+        public decimal? PorcentajeCumplimiento { get; set; }
+        public decimal? PonderacionResultado { get; set; }
+        public ICollection<AvanceObjetivo> AvanceObjetivos { get; set; }
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
         public class UpdatePlanificacionResultadoCommandHandler : IRequestHandler<UpdatePlanificacionResultadoCommand, Result<int>>
         {
             private readonly IUnitOfWork _unitOfWork;
             private readonly IPlanificacionResultadoRepository _entidadRepository;
-            private readonly IPlanificacionHitoRepository _entidadHitoRepository;
-            private readonly IResponsabilidadRepository _responsabilidadRepository;
-            private readonly ICompetenciaRepository _competenciaRepository;
+            private readonly ISeguimientoObjetivoRepository _entidadSeguimientoRepository;
+            
             private readonly IMapper _mapper;
 
-            public UpdatePlanificacionResultadoCommandHandler(IPlanificacionHitoRepository entidadHitoRepository, ICompetenciaRepository competenciaRepository,  IResponsabilidadRepository responsabilidadRepository, IPlanificacionResultadoRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
+            public UpdatePlanificacionResultadoCommandHandler(ISeguimientoObjetivoRepository entidadSeguimientoRepository, IPlanificacionResultadoRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
             {
                 _entidadRepository = entidadRepository;
-                _entidadHitoRepository = entidadHitoRepository;
-                _responsabilidadRepository = responsabilidadRepository;
-                _competenciaRepository = competenciaRepository;
+                _entidadSeguimientoRepository = entidadSeguimientoRepository;
+              
                 _unitOfWork = unitOfWork;
                 _mapper = mapper;
             }
@@ -121,7 +124,8 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                 //    obj.Resultados.ObjetivoAnioFiscales = null;
                 //    obj.Resultados = null;
                 //}
-
+                int idAnioFiscal = command.ObjetivoAnioFiscales.AnioFiscal;
+                command.ObjetivoAnioFiscales = null;
 
                 obj.ReportaId = command.ReportaId;
                 obj.IdResultado = command.IdResultado;
@@ -143,6 +147,20 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                     obj.PlanificacionHitos.Add(hito);
                 }
 
+                foreach (var h in command.AvanceObjetivos)
+                {
+                    var avance = _mapper.Map<AvanceObjetivo>(h);
+                     obj.AvanceObjetivos.Add(avance);
+                }
+
+                await _entidadSeguimientoRepository.UpdatexTodoAsync(command.IdColaborador, idAnioFiscal);
+
+                var seguimiento = new SeguimientoObjetivo();
+                seguimiento.Estado=command.Estado;
+                seguimiento.Ultimo = 1;
+                seguimiento.IdColaborador = command.IdColaborador;
+                seguimiento.AnioFiscal = idAnioFiscal;
+                await _entidadSeguimientoRepository.InsertAsync(seguimiento);
 
                 await _entidadRepository.UpdateAsync(obj);
 

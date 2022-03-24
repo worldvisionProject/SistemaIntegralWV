@@ -32,12 +32,20 @@ namespace WordVision.ec.Domain.Entities.Valoracion
         //public Resultado Resultados { get; set; }
         [Required]
         public int TipoObjetivo { get; set; }
-        public int IdObjetivoAnioFiscal { get; set; }
+       
         public int Estado { get; set; }
         public string ObservacionLider { get; set; }
+        public DateTime? FechaCumplimiento { get; set; }
+        public decimal? PorcentajeCumplimiento { get; set; }
+        public decimal? PonderacionResultado { get; set; }
+        public int IdObjetivoAnioFiscal { get; set; }
         public ObjetivoAnioFiscal ObjetivoAnioFiscales { get; set; }
         
         [ForeignKey("IdPlanificacion")]
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
+
+        
+        [ForeignKey("IdPlanificacion")]
+        public ICollection<AvanceObjetivo> AvanceObjetivos { get; set; }
     }
 }

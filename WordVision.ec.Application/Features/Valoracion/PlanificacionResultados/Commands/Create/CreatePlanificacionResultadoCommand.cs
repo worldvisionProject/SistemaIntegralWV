@@ -37,25 +37,30 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
         public int Estado { get; set; }
         public ObjetivoAnioFiscal ObjetivoAnioFiscales { get; set; }
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
+        public ICollection<AvanceObjetivo> AvanceObjetivos { get; set; }
     }
     public class CreatePlanificacionResultadoCommandHandler : IRequestHandler<CreatePlanificacionResultadoCommand, Result<int>>
     {
         private readonly IPlanificacionResultadoRepository _entidadRepository;
         private readonly IPlanificacionHitoRepository _entidadHitoRepository;
-        private readonly IResponsabilidadRepository _responsabilidadRepository;
-        private readonly ICompetenciaRepository _competenciaRepository;
-        private readonly IResultadoRepository _resultadoRepository;
+        private readonly IAvanceObjetivoRepository _entidadAvanceRepository;
+        private readonly ISeguimientoObjetivoRepository _entidadSeguimientoRepository;
+        //private readonly IResponsabilidadRepository _responsabilidadRepository;
+        //private readonly ICompetenciaRepository _competenciaRepository;
+        //private readonly IResultadoRepository _resultadoRepository;
         private readonly IMapper _mapper;
 
         private IUnitOfWork _unitOfWork { get; set; }
 
-        public CreatePlanificacionResultadoCommandHandler(ICompetenciaRepository competenciaRepository,IResultadoRepository resultadoRepository,IResponsabilidadRepository responsabilidadRepository,IPlanificacionHitoRepository entidadHitoRepository,IPlanificacionResultadoRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public CreatePlanificacionResultadoCommandHandler(ISeguimientoObjetivoRepository entidadSeguimientoRepository,IAvanceObjetivoRepository entidadAvanceRepository,IPlanificacionHitoRepository entidadHitoRepository,IPlanificacionResultadoRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _entidadRepository = entidadRepository;
             _entidadHitoRepository = entidadHitoRepository;
-            _responsabilidadRepository = responsabilidadRepository;
-            _competenciaRepository = competenciaRepository;
-            _resultadoRepository = resultadoRepository;
+            _entidadAvanceRepository = entidadAvanceRepository;
+            _entidadSeguimientoRepository = entidadSeguimientoRepository;
+            //_responsabilidadRepository = responsabilidadRepository;
+            //_competenciaRepository = competenciaRepository;
+            //_resultadoRepository = resultadoRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -104,6 +109,7 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
             //}
             //else if (request.Resultados.TipoObjetivo == 1 || request.Resultados.TipoObjetivo == 2)
             //{
+            int idAnioFiscal = request.ObjetivoAnioFiscales.AnioFiscal;
                request.ObjetivoAnioFiscales = null;
                 //request.Resultados = null;
             //}
@@ -116,7 +122,20 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
                 await _entidadHitoRepository.InsertAsync(hito);
             }
 
-            
+            foreach (var h in request.AvanceObjetivos)
+            {
+                var avance = _mapper.Map<AvanceObjetivo>(h);
+                await _entidadAvanceRepository.InsertAsync(avance);
+            }
+
+            await _entidadSeguimientoRepository.UpdatexTodoAsync(request.IdColaborador, idAnioFiscal);
+
+            var seguimiento = new SeguimientoObjetivo();
+            seguimiento.Estado = request.Estado;
+            seguimiento.Ultimo = 1;
+            seguimiento.IdColaborador = request.IdColaborador;
+            seguimiento.AnioFiscal = idAnioFiscal;
+            await _entidadSeguimientoRepository.InsertAsync(seguimiento);
 
             await _unitOfWork.Commit(cancellationToken);
             return Result<int>.Success(planificacion.Id);

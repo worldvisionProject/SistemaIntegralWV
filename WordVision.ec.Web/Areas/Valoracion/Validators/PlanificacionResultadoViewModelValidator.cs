@@ -19,7 +19,16 @@ namespace WordVision.ec.Web.Areas.Valoracion.Validators
             RuleFor(p => p.Ponderacion)
               .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
               .NotNull();
-
+            //RuleFor(p => p.FechaCumplimiento)
+            //  .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            //  .NotNull();
+            //RuleFor(p => p.PorcentajeAvance)
+            //  .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            //  .NotNull();
+            //RuleFor(p => p.ComentarioAvance)
+            //  .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            //  .NotNull();
+          
         }
     }
 }

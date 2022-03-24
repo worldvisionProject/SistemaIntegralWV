@@ -47,7 +47,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                 return await _repository.Entities.Where(c =>  c.IdNivel == 1)
                  .Select(x => new CompetenciaResponse
                  {
-                     Id = x.Id,
+                     //Id = x.Padre,
                      IdCompetencia = x.IdCompetencia,
                      NombreCompetencia = x.NombreCompetencia,
                      Descripcion = x.Descripcion,
@@ -58,7 +58,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                 return await _repository.Entities.Where(c => c.IdNivel == 0)
                   .Select(x => new CompetenciaResponse
                   {
-                      Id = x.Id,
+                      //Id = x.Padre,
                       IdCompetencia = x.IdCompetencia,
                       NombreCompetencia = x.NombreCompetencia,
                       Descripcion = x.Descripcion,

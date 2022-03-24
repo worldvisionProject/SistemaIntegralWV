@@ -196,7 +196,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="col-md-12 col-form-label texto-pregunta">Comportamientos</label>
-                            @Html.DropDownListFor(x => x.IdResultado, new List<SelectListItem>(),
+                            @Html.DropDownListFor(x => x.IdResultado, (IEnumerable<SelectListItem>)Model.ComportamientoList,
                             " -- Seleccionar Comportamiento --", new { @class = "form-control" })
 
                             <span asp-validation-for="IdResultado" class="text-danger"></span>
@@ -346,7 +346,7 @@
                                                             <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFila(@hito.Id,@hito.Nombre,@hito.Indicador,@hito.Tipo,@hito.Meta.ToString().Replace(",", "."),'@hito.FechaInicio','@hito.FechaFin')">
                                                                 <i class="fas fa-pencil-alt"></i>
                                                             </button>
-                                                            <button type="button" onclick="EliminaFila(@hito.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+                                                            <button type="button" onclick="EliminaFilaConfirmacion(@hito.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
 
                                                         </td>
 
@@ -364,7 +364,7 @@
                 </div>
                }
     }   
-    @if (Model.Estado != 0)
+    @if (Model.Estado == 3)
     {
         <div class="form-group row">
             <div class="col-md-12">
@@ -377,7 +377,166 @@
                  
             </div>
      }
- <br />
+
+     @if (Model.Estado ==4)
+    {
+         @if (Model.NumeroObjetivo==1 || Model.NumeroObjetivo==2 || Model.NumeroObjetivo==3 || Model.NumeroObjetivo==4 )
+        {
+            
+        
+        <br/>
+                   <div class="card card-info">
+                    <div class="card-header card-header-int">
+                        Agregar Avance
+                    </div>
+                        <div class="card-body">
+                            <div class="container-fluid">
+                           
+                              
+                                 <div class="form-group row">
+                                     <div class="col-md-2">
+                                        <label class="col-md-12 col-form-label texto-pregunta">Fecha Cumplimiento</label>
+                                         <input type="text" asp-for="FechaCumplimientoAvance" name="FechaCumplimientoAvance" class="datepicker form-control"  />
+                                        <span asp-validation-for="FechaCumplimientoAvance" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="col-md-12 col-form-label texto-pregunta">Porcentaje</label>
+                                        <input asp-for="PorcentajeAvance" type="text" name="PorcentajeAvance" class="form-control"  />
+                                        <span asp-validation-for="PorcentajeAvance" class="text-danger"></span>
+                                    </div>
+                                     <div class="col-md-4">
+                                        <label class="col-md-12 col-form-label texto-pregunta">Comentario Colaborador</label>
+                                         <textarea asp-for="ComentarioAvance" name="ComentarioAvance" class="form-control"></textarea>
+                                        <span asp-validation-for="ComentarioAvance" class="text-danger"></span>
+                                    </div>
+                                     <div class="col-md-4">
+                                        <label class="col-md-12 col-form-label texto-pregunta">Comentario Lider</label>
+                                        <textarea asp-for="ComentarioLiderAvance" name="ComentarioLiderAvance" class="form-control"></textarea>
+                                        <span asp-validation-for="ComentarioLiderAvance" class="text-danger"></span>
+                                    </div>
+               
+                                 </div>
+                                <div class="form-group row">
+                                        <div class="col-md-4" style="padding-top: 25px;">
+                                            <button type="button" class="btn bg-success" onclick="AgregaAvance(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+                                        </div>
+                                </div>
+
+        
+                                <div id="divAvance">
+                                    <table id="avanceTable" class="table table-striped  rwd-table" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                               
+                                                <th>Fecha Cumplimiento</th>
+                                                <th>Porcentaje</th>
+                                                <th>Comentario Colaborador</th>
+                                                <th>Comentario Lider</th>
+                                                <th class="text-right">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.AvanceObjetivos != null)
+                                            {
+
+                                                @*@foreach (var planifica in Model.ObjetivoAnioFiscales.PlanificacionResultados)
+                                                {*@
+                                                    @foreach (var avance in Model.AvanceObjetivos)
+                                                    {
+                                    
+                                                    <tr id="@avance.Id" class="rowdata">
+                                        
+                                                        <td >
+
+                                                            @avance.FechaCumplimiento.Value.ToShortDateString()
+
+                                                        </td>
+                                        
+                                                        <td >
+                                                            @avance.Porcentaje
+                                                        </td>
+                                                        <td>
+                                                            @avance.Comentario
+                                                        </td>
+                                                        <td >
+                                                           @avance.ComentarioLider
+                                                        </td>
+                                                    
+                                        
+                                                        <td class="text-right">
+                                                            <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFilaAvance(@avance.Id,@avance.FechaCumplimiento,@avance.Porcentaje.ToString().Replace(",", "."),'@avance.Comentario','@avance.ComentarioLider')">
+                                                                <i class="fas fa-pencil-alt"></i>
+                                                            </button>
+                                                            <button type="button" onclick="EliminaFilaAvanceConfirmacion(@avance.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+
+                                                        </td>
+
+                                                    </tr>
+                                                    }
+                                                }
+
+                                            <input type="hidden" id="idactAvance" name="idactAvance" />
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                               </div>
+                              </div>
+                </div>
+
+                <br />
+                  <div class="card card-info">
+                    <div class="card-header card-header-int">
+                        Final del Período
+                    </div>
+                        <div class="card-body">
+                            <div class="container-fluid">
+                                <div class="form-group row">
+                                    <div class="col-md-2">
+                                       <label class="col-md-12 col-form-label texto-pregunta">Fecha Cumplimiento</label>
+                                        <input type="text" asp-for="FechaCumplimiento" name="FechaCumplimiento" class="datepicker form-control"  />
+                                       <span asp-validation-for="FechaCumplimiento" class="text-danger"></span>
+                                   </div>
+                                   <div class="col-md-2">
+                                       <label class="col-md-12 col-form-label texto-pregunta">% Cumplimiento</label>
+                                       <input asp-for="PorcentajeCumplimiento" type="text" name="PorcentajeCumplimiento" class="form-control"  />
+                                       <span asp-validation-for="PorcentajeCumplimiento" class="text-danger"></span>
+                                   </div>
+                                    <div class="col-md-4">
+                                       <label class="col-md-12 col-form-label texto-pregunta">Ponderación Resultado</label>
+                                       <input asp-for="PonderacionResultado" type="text" name="PonderacionResultado" class="form-control"  />
+                                       <span asp-validation-for="PonderacionResultado" class="text-danger"></span>
+                                   </div>
+               
+                               </div>
+                               </div>
+                               </div>
+            </div>
+        }
+        else
+        {
+            
+            <div class="card card-info">
+                    <div class="card-header card-header-int">
+                        Final del Período
+                    </div>
+                        <div class="card-body">
+                            <div class="container-fluid">
+                                <div class="form-group row">
+                                   
+                                    <div class="col-md-4">
+                                       <label class="col-md-12 col-form-label texto-pregunta">Comentario</label>
+                                        <textarea asp-for="ComentarioLiderAvance" name="ComentarioLiderAvance" class="form-control"></textarea>
+                                       <span asp-validation-for="ComentarioLiderAvance" class="text-danger"></span>
+                                   </div>
+               
+                               </div>
+                               </div>
+                               </div>
+            </div>
+        }
+    }
+    <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
        
         <button type="submit" class="btn btn-success">Guardar</button>
@@ -510,7 +669,7 @@
             todayBtn: true});
 
             var num = 0;
-            function AgregaConcepto() {
+  function AgregaConcepto() {
 
             if (!CuentaHitos()) {
                 alert("Puede ingresar máximo 3 hitos.");
@@ -592,7 +751,7 @@
             TDValorMeta.innerHTML = meta;
             TDFechaInicio.innerHTML = fechaInicio;
             TDFechaFin.innerHTML = fechaFin;
-            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFila(" + num + ',"' + hito.toString()+ '","' + indicador.toString() + '",' + tipo.toString()+ ',' + meta.replace(',', '.')+',"'+fechaInicio.toString()+'","'+fechaFin.toString()+'")'+"'> <i class='fas fa-pencil-alt'></i> </button> <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFila(" + num + ',"' + hito.toString()+ '","' + indicador.toString() + '",' + tipo.toString()+ ',' + meta.replace(',', '.')+',"'+fechaInicio.toString()+'","'+fechaFin.toString()+'")'+"'> <i class='fas fa-pencil-alt'></i> </button> <button type='button' onclick='EliminaFilaConfirmacion("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
             //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
             Tabla.appendChild(TR);
 
@@ -696,8 +855,35 @@
         });
     }
 
+    function EliminaFilaConfirmacion(id) {
+        if (confirm('¿Estás segura de eliminar este registro?')) {
+       
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDeleteHito", "Objetivo", new { area = "Valoracion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+            $("#" + id).remove();
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+        
+        
+       }
+    }
+
         function ActualizaFila(id,nombre,indicador,tipo,meta,fechaInicio,fechaFin) {
-            alert(id);
+            
             $("#TipoListHito").val(tipo);
             $("#TipoListHito").select2().trigger('change');
 
@@ -709,4 +895,177 @@
             document.getElementById("FechaFinHito").value = fechaFin;
 
         }
+
+
+        function AgregaAvance() {
+
+           
+            let idact = document.getElementById("idactAvance").value;
+
+            if (idact.length != 0) {
+                EliminaFilaAvance(idact);
+            }
+            let fechaCumplimiento = document.getElementById("FechaCumplimientoAvance").value;
+            let porcentaje = document.getElementById("PorcentajeAvance").value;
+            let comentario = document.getElementById("ComentarioAvance").value;
+            let comentarioLider = document.getElementById("ComentarioLiderAvance").value;
+            //alert(tipo.length);
+             if (fechaCumplimiento.length == 0) {
+                alert("Ingrese la Fecja de Cumplimiento.");
+                document.getElementById("FechaCumplimientoAvance").focus();
+                return;
+            }
+            if (porcentaje.length == 0) {
+                alert("Ingrese el Porcentaje de Avance.");
+                document.getElementById("PorcentajeAvance").focus();
+                return;
+            }
+            if (comentario.length == 0) {
+                alert("Ingrese un Comentario.");
+                document.getElementById("ComentarioAvance").focus();
+                return;
+            }
+            
+            //agregamos tabla
+            let Tabla = document.getElementById("avanceTable");
+            let TR = document.createElement("tr");
+            TR.setAttribute('id', num);
+            TR.className = "rowdata";
+            let TDFechaCuplimiento = document.createElement("td");
+            let TDPorcentaje = document.createElement("td");
+            let TDComentario = document.createElement("td");
+            let TDComentarioLider = document.createElement("td");
+           
+            
+            let TDEliminar = document.createElement("td");
+            TDEliminar.className = "text-right";
+                      
+            TR.appendChild(TDFechaCuplimiento);
+            TR.appendChild(TDPorcentaje);
+            TR.appendChild(TDComentario);
+            TR.appendChild(TDComentarioLider);
+                     
+            TR.appendChild(TDEliminar);
+         
+            TDFechaCuplimiento.innerHTML = fechaCumplimiento;
+            TDPorcentaje.innerHTML = porcentaje;
+            TDComentario.innerHTML = comentario;
+            TDComentarioLider.innerHTML = comentarioLider;
+          
+            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFilaAvance(" + num + ',"' + fechaCumplimiento.toString()+ '",' + porcentaje.toString()+ ',"'+comentario.toString()+'","'+comentarioLider.toString()+'")'+"'> <i class='fas fa-pencil-alt'></i> </button> <button type='button' onclick='EliminaFilaAvanceConfirmacion("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
+            Tabla.appendChild(TR);
+
+            //if (sumar()) {
+            //    deleteRow(num);
+            //    return;
+            //}
+
+            //agregamos hiddens
+            let DivConceptos = document.getElementById("divAvance");
+            let HiddenIndex = document.createElement("input");
+            let HiddenFechaCumplimiento = document.createElement("input");
+            let HiddenPorcentaje = document.createElement("input");
+            let HiddenComentario = document.createElement("input");
+            let HiddenComentarioLider = document.createElement("input");
+          
+            HiddenIndex.name = "AvanceObjetivos.Index";
+            HiddenIndex.value = num;
+            HiddenIndex.type = "hidden";
+            HiddenFechaCumplimiento.name = "AvanceObjetivos[" + num + "].FechaCumplimiento";
+            HiddenFechaCumplimiento.value = fechaCumplimiento;
+            HiddenFechaCumplimiento.type = "hidden";
+            HiddenPorcentaje.name = "AvanceObjetivos[" + num + "].Porcentaje";
+            HiddenPorcentaje.value = porcentaje.replace('.', ',');
+            HiddenPorcentaje.type = "hidden";
+            HiddenComentario.name = "AvanceObjetivos[" + num + "].Comentario";
+            HiddenComentario.value = comentario;
+            HiddenComentario.type = "hidden";
+            HiddenComentarioLider.name = "AvanceObjetivos[" + num + "].ComentarioLider";
+            HiddenComentarioLider.value = comentarioLider;
+            HiddenComentarioLider.type = "hidden";
+
+           
+            DivConceptos.appendChild(HiddenIndex);
+            DivConceptos.appendChild(HiddenFechaCumplimiento);
+            DivConceptos.appendChild(HiddenPorcentaje);
+            DivConceptos.appendChild(HiddenComentario);
+            DivConceptos.appendChild(HiddenComentarioLider);
+          
+
+            document.getElementById("FechaCumplimientoAvance").value = "";
+            document.getElementById("PorcentajeAvance").value = "";
+            document.getElementById("ComentarioAvance").value = "";
+            document.getElementById("ComentarioLiderAvance").value = "";
+
+
+
+            num++;
+
+
+
+     }
+
+     function EliminaFilaAvance(id) {
+
+        $("#" + id).remove();
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDeleteAvance", "Objetivo", new { area = "Valoracion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+    }
+
+    function EliminaFilaAvanceConfirmacion(id) {
+        if (confirm('¿Estás segura de eliminar este registro?')) {
+       
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDeleteAvance", "Objetivo", new { area = "Valoracion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+            $("#" + id).remove();
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+        
+        
+       }
+    }
+
+        function ActualizaFilaAvance(id,fechaCumplimiento,porcentaje,comentario,comentarioLider) {
+            
+            
+            document.getElementById("idactAvance").value = id;
+           document.getElementById("FechaCumplimientoAvance").value = fechaCumplimiento;
+            document.getElementById("PorcentajeAvance").value = porcentaje;
+            document.getElementById("ComentarioAvance").value = comentario;
+            document.getElementById("ComentarioLiderAvance").value = comentarioLider;
+      
+        }
+
 </script>

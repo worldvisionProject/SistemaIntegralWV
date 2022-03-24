@@ -18,6 +18,7 @@ using WordVision.ec.Application.Features.Valoracion.Competencias.Queries.GetAll;
 using WordVision.ec.Application.Features.Valoracion.Competencias.Queries.GetById;
 using WordVision.ec.Application.Features.Valoracion.Objetivos.Queries.GetById;
 using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Commands.Create;
+using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Commands.Delete;
 using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Queries.GetById;
 using WordVision.ec.Application.Features.Valoracion.Responsabilidades.Queries.GetAll;
@@ -103,6 +104,9 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     {
                         var entidadModelResponsabillidad = await _mediator.Send(new GetAllCompetenciasQuery() { Nivel = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value) });
                         entidadViewModel.IdCompetenciaList = new SelectList(entidadModelResponsabillidad.Data, "IdCompetencia", "NombreCompetencia");
+                        var entidadModelComportamiento = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = entidadViewModel.IdPadreCompetencia });
+                        entidadViewModel.ComportamientoList = new SelectList(entidadModelComportamiento.Data, "Id", "Comportamiento");
+
                     }
                     else
                     {
@@ -160,6 +164,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         entidadMapper.IdPadreCompetencia = entidadResponsabillidad.Data.Padre;
                         var entidadModelResponsabillidad = await _mediator.Send(new GetAllCompetenciasQuery() { Nivel = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value) });
                         entidadMapper.IdCompetenciaList = new SelectList(entidadModelResponsabillidad.Data, "IdCompetencia", "NombreCompetencia");
+                        var entidadModelComportamiento = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = entidadMapper.IdPadreCompetencia });
+                        entidadMapper.ComportamientoList = new SelectList(entidadModelComportamiento.Data, "Id", "Comportamiento");
                     }
                     else
                     {
@@ -453,6 +459,33 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
             return new JsonResult(new { isValid = false });
         }
 
+        public async Task<JsonResult> OnPostDeleteAvance(int id = 0)
+        {
+            try
+            {
+                var deleteCommand = await _mediator.Send(new DeleteAvanceObjetivoCommand { Id = id });
+                if (deleteCommand.Succeeded)
+                {
+                    _notify.Information($"Avance con Id {id} Eliminado.");
+                    return new JsonResult(new { isValid = true });
+                }
+                else
+                {
+                    _notify.Error(deleteCommand.Message);
+                    return null;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "OnPostDelete");
+                _notify.Error("Error al Eliminar Planificacion.");
+            }
+
+
+            return new JsonResult(new { isValid = false });
+        }
         public async Task<IActionResult> LoadObjetivoResultado(int id = 0,int idObjetivo=0,int idObjetivoAnioFiscal=0,int anioFiscal=0,string objNumero="", List<PlanificacionResultadoResponse> entidad =null,decimal ponderacion=decimal.Zero)
         {
             var viewModel = new Objetivo_1Step();
@@ -485,6 +518,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
             string nombresReporta = "";
             string mailReporta = "";
             string anioFiscal = "";
+            string copia = "";
+            int estado = 0;
             try
             {
                 var responseAF = await _mediator.Send(new GetGestionByIdQuery() { Id = idAnioFiscal });
@@ -514,10 +549,15 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 {
                     case 1:
                         plantilla = "RevisionLider.html";
-                     
+                        estado = 2;
                         break;
                     case 2:
                         plantilla = "AprovacionLider.html";
+                        estado = 4;
+                        break;
+                    case 3:
+                        plantilla = "DevolverLider.html";
+                        estado = 3;
                         break;
                 }
 
@@ -556,7 +596,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         apellidosReporta + " " + nombresReporta,
                         apellidos + " " + nombres
                         );
-                        
+                        mail = mailReporta;
+                        copia = _configuration["CopiaRevisionLider"];
                         break;
                     case 2:
                         subject = _configuration["AsuntoAprobacionLider"] + apellidos + " " + nombres;
@@ -565,21 +606,32 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         anioFiscal,
                         apellidos + " " + nombres
                         );
-                        mail = mailReporta;
+                        copia = _configuration["CopiaAprobacionLider"];
+                        //mail = mailReporta;
+                        break;
+                    case 3:
+                        subject = _configuration["AsuntoDevolucionLider"] + apellidos + " " + nombres;
+                        plantilla = "DevolverLider.html";
+                        messageBody = string.Format(builder.HtmlBody,
+                        anioFiscal,
+                        apellidos + " " + nombres
+                        );
+                        copia = _configuration["CopiaRevisionLider"];
+                        //mail = mailReporta;
                         break;
                 }
 
                      
                 PlanificacionResultadoViewModel entidad = new PlanificacionResultadoViewModel();
-                entidad.Estado = 2;
+                entidad.Estado = estado;
                 entidad.IdColaborador = idColaborador;
                 var updateEntidadCommand = _mapper.Map<UpdatePlanificacionResultadoCommand>(entidad);
                 var result = await _mediator.Send(updateEntidadCommand);
 
 
-                //await _emailSender
-                //    .SendEmailAsync(mail, subject, messageBody)
-                //    .ConfigureAwait(false);
+                await _emailSender
+                    .SendEmailAsync(mail, subject, messageBody,copia)
+                    .ConfigureAwait(false);
                 _notify.Success($"Mail Enviado.");
 
 
