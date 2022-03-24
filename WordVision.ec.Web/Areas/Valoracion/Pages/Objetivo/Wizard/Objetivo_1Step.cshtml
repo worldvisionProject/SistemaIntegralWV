@@ -8,7 +8,7 @@
            <input type="hidden" asp-for="Objetivo" name="Objetivo"  class="form-control">
            <input type="hidden" asp-for="IdObjetivoAnioFiscal" name="IdObjetivoAnioFiscal"  class="form-control">
            <input type="hidden" asp-for="DescObjetivo" name="DescObjetivo"  class="form-control">
-           <input type="hidden" asp-for="Estado" name="Estado"  class="form-control">
+           <input type="hidden" asp-for="EstadoProceso" name="EstadoProceso"  class="form-control">
       
 
 <div class="container-fluid">
@@ -31,7 +31,7 @@
 
    <div class="row">
        <div class="col-md-4">
-            @if (Model.Estado==1 || Model.Estado==2 || Model.Estado==3)
+            @if (Model.EstadoProceso==1 || Model.EstadoProceso==2 || Model.EstadoProceso==3)
             {
                 <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=0&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=1&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivos 1')">
                         <i class="fa fa-plus-square"></i>

@@ -44,6 +44,8 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
         public decimal? PonderacionResultado { get; set; }
         public ICollection<AvanceObjetivo> AvanceObjetivos { get; set; }
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
+
+        public int Proceso { get; set; }
         public class UpdatePlanificacionResultadoCommandHandler : IRequestHandler<UpdatePlanificacionResultadoCommand, Result<int>>
         {
             private readonly IUnitOfWork _unitOfWork;
@@ -153,14 +155,18 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                      obj.AvanceObjetivos.Add(avance);
                 }
 
-                await _entidadSeguimientoRepository.UpdatexTodoAsync(command.IdColaborador, idAnioFiscal);
+                if (command.Proceso==1)// para saber si es el final del proceso o se deveolvio
+                {
+                    await _entidadSeguimientoRepository.UpdatexTodoAsync(command.IdColaborador, idAnioFiscal);
 
-                var seguimiento = new SeguimientoObjetivo();
-                seguimiento.Estado=command.Estado;
-                seguimiento.Ultimo = 1;
-                seguimiento.IdColaborador = command.IdColaborador;
-                seguimiento.AnioFiscal = idAnioFiscal;
-                await _entidadSeguimientoRepository.InsertAsync(seguimiento);
+                    var seguimiento = new SeguimientoObjetivo();
+                    seguimiento.Estado = command.Estado;
+                    seguimiento.Ultimo = 1;
+                    seguimiento.IdColaborador = command.IdColaborador;
+                    seguimiento.AnioFiscal = idAnioFiscal;
+                    await _entidadSeguimientoRepository.InsertAsync(seguimiento);
+                }
+               
 
                 await _entidadRepository.UpdateAsync(obj);
 

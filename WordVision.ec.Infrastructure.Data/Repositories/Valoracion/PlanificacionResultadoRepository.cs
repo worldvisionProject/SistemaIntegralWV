@@ -23,9 +23,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
         private readonly IRepositoryAsync<Competencia> _repositoryCompetencia;
         private readonly IRepositoryAsync<Colaborador> _repositoryColaborador;
         private readonly IRepositoryAsync<DetalleCatalogo> _repositoryDetalleCatalogo;
+        private readonly IRepositoryAsync<SeguimientoObjetivo> _repositorySeguimientoObjetivo;
 
         private readonly IDistributedCache _distributedCache;
-        public PlanificacionResultadoRepository(IRepositoryAsync<DetalleCatalogo> repositoryDetalleCatalogo,IRepositoryAsync<Colaborador> repositoryColaborador,IRepositoryAsync<Competencia> repositoryCompetencia,IRepositoryAsync<Responsabilidad> repositoryResponsabilidad,IRepositoryAsync<Resultado> repositoryResultado,IRepositoryAsync<PlanificacionResultado> repository, IRepositoryAsync<Objetivo> repositoryObjetivo, IDistributedCache distributedCache)
+        public PlanificacionResultadoRepository(IRepositoryAsync<SeguimientoObjetivo> repositorySeguimientoObjetivo,IRepositoryAsync<DetalleCatalogo> repositoryDetalleCatalogo,IRepositoryAsync<Colaborador> repositoryColaborador,IRepositoryAsync<Competencia> repositoryCompetencia,IRepositoryAsync<Responsabilidad> repositoryResponsabilidad,IRepositoryAsync<Resultado> repositoryResultado,IRepositoryAsync<PlanificacionResultado> repository, IRepositoryAsync<Objetivo> repositoryObjetivo, IDistributedCache distributedCache)
         {
             _repository = repository;
             _distributedCache = distributedCache;
@@ -35,6 +36,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
             _repositoryCompetencia = repositoryCompetencia;
             _repositoryColaborador = repositoryColaborador;
             _repositoryDetalleCatalogo = repositoryDetalleCatalogo;
+            _repositorySeguimientoObjetivo = repositorySeguimientoObjetivo;
 
         }
         public IQueryable<PlanificacionResultado> planificacionResultados => _repository.Entities;
@@ -116,6 +118,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
 
         public async Task<List<ObjetivoResponse>> GetListxObjetivoxColaboradorAsync(int idAnioFiscal, int idColaborador)
         {
+            var repestado = _repositorySeguimientoObjetivo.Entities.Where(v => v.AnioFiscal == idAnioFiscal && v.IdColaborador == idColaborador && v.Ultimo == 1).FirstOrDefault();
+            int estado = 1;
+            if (repestado != null)
+                estado = repestado.Estado;
             var newsDtoList = _repositoryObjetivo.Entities.Include(x => x.ObjetivoAnioFiscales)
                 //.ThenInclude(o => o.Resultados)
                 .ThenInclude(o => o.PlanificacionResultados)
@@ -127,6 +133,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                 Numero = x.Numero,
                 Descripcion = x.Descripcion,
                 Estado = x.Estado,
+                EstadoProceso= estado,
                 AnioFiscales = x.ObjetivoAnioFiscales.Select(q => new ObjetivoAnioFiscalResponse
                 {
                     Id = q.Id,

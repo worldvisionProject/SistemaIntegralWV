@@ -88,5 +88,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
 
         public ICollection<PlanificacionHitoViewModel> PlanificacionHitos { get; set; }
         public ICollection<AvanceObjetivoViewModel> AvanceObjetivos { get; set; }
+
+        public int Proceso { get; set; }
     }
 }

@@ -624,6 +624,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                      
                 PlanificacionResultadoViewModel entidad = new PlanificacionResultadoViewModel();
                 entidad.Estado = estado;
+                entidad.Proceso = 1;// si ya esta en el borton finalizar o devolver
                 entidad.IdColaborador = idColaborador;
                 var updateEntidadCommand = _mapper.Map<UpdatePlanificacionResultadoCommand>(entidad);
                 var result = await _mediator.Send(updateEntidadCommand);

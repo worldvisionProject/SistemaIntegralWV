@@ -15,6 +15,7 @@ namespace WordVision.ec.Application.DTOs.Valoracion
         public string Numero { get; set; }
         public string Descripcion { get; set; }
         public int Estado { get; set; }
+        public int? EstadoProceso { get; set; }
         public List<ObjetivoAnioFiscalResponse> AnioFiscales { get; set; }
         public decimal PonderacionObjetivo { get; set; }
 

@@ -18,7 +18,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
         public int IdObjetivoAnioFiscal { get; set; }
         public int AnioFiscal { get; set; }
         public decimal? PonderacionObjetivo { get; set; }
-        public int Estado { get; set; }
+        public int EstadoProceso { get; set; }
         public List<PlanificacionResultadoResponse> PlanificacionResultados { get; set; }
         public Objetivo_1Step()
         {
