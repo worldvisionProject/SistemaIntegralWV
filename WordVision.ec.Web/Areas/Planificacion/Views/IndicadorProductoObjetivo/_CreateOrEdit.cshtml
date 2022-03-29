@@ -3,7 +3,7 @@
 @model IndicadorProductoObjetivoViewModel
 
 
-<form id="create-form" method="post" asp-controller="IndicadorProductoObjetivo" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+<form id="create-formIPO" method="post" asp-controller="IndicadorProductoObjetivo" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
     @Html.HiddenFor(x => x.IdEstrategia, new { name = "IdEstrategia", @Value = Model.IdEstrategia })
     <div class="row">
         <div class="col-md-12">
@@ -76,8 +76,12 @@
 
     <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-        <button type="submit" class="btn btn-success">Guardar</button>
-        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.Create)).Result.Succeeded)
+        {   <input type="hidden" value="false" name="band" id="band" />
+            <button type="submit" class="btn btn-success">Guardar</button>
+        }
+        else { <input type="hidden" value="true" name="band" id="band" />}
+        <button type="submit" class="btn btn-default close-button" name="cancelar" id="cancelar" data-dismiss="modal">Cancelar</button>
     </div>
 </form>
 
@@ -85,7 +89,11 @@
         
         <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
-    $(function () { $("#descResultado").empty();
+    $(function () { 
+        $('#create-formIPO *').prop('disabled', (document.getElementById("band").value == "true"));
+       
+        $("#cancelar").removeAttr("disabled");  
+        $("#descResultado").empty();
         $(".datepicker").datepicker({
             format: "dd-mm-yyyy",
             autoclose: true,

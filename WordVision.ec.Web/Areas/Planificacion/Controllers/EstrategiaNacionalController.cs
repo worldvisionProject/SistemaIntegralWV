@@ -14,6 +14,7 @@ using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Comm
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
 
@@ -62,7 +63,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 if (response.Succeeded)
                 {
                     List<SelectListItem> estrategia = new List<SelectListItem>();
-                    var viewModel = _mapper.Map<List<EstrategiaNacionalViewModel>>(response.Data);
+                    var viewModel = _mapper.Map<List<EstrategiaNacionalViewModel>>(response.Data.Where(x=>x.Estado=="1"));
                     for (int i = 0; i < viewModel.Count; i++)
                     {
                         estrategia.Add(new SelectListItem
@@ -247,8 +248,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             var response = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = ciclo });
             if (response.Succeeded)
             {
+               
 
                 var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(response.Data);
+                var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = entidadViewModel.Id });
+                entidadViewModel.AnioFiscalList = new SelectList(responseE.Data, "Id", "Anio");
                 ViewBag.Ciclo = entidadViewModel.Nombre;
                 ViewBag.GestionList = new SelectList(entidadViewModel.Gestiones, "Id", "Anio");
                 return View("_PlanImplementacion", entidadViewModel);
@@ -322,7 +326,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (id == 0)
             {
                 var entidadViewModel = new EstrategiaNacionalViewModel();
-                return View("_CreateOrEdit", entidadViewModel);
+                return View("_CreateOrEditNacional", entidadViewModel);
                 // return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             else
@@ -343,7 +347,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     else
                         entidadViewModel.EsCoordinadorEstrategico = "N";
 
-                    return View("_CreateOrEdit", entidadViewModel);
+                    return View("_CreateOrEditNacional", entidadViewModel);
                     //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;

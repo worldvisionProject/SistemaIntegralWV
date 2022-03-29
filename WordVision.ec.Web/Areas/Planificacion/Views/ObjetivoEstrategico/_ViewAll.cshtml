@@ -164,9 +164,12 @@
             <button type="button" class="btn btn-success  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ProductoObjetivo/Index?idObjetivo=@objetivo.Id','Productos de Objetivo')">
                 <i class="fas fa-eye"></i>
             </button>
+            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ProductoObjetivo.Create)).Result.Succeeded)
+            {
             <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ProductoObjetivo/OnGetCreateOrEdit?id=0&idObjetivo=@objetivo.Id&idEstrategia=@Model.Id','Productos de Objetivo')">
                 <i class="fas fa-plus-square"></i>
             </button>
+            }
         </td>
        
             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Delete)).Result.Succeeded)

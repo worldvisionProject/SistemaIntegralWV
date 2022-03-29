@@ -40,6 +40,11 @@ namespace WordVision.ec.Web.Areas.Admin.Controllers
             allPermissions.GetPermissions(typeof(Permissions.Users), roleId);
             allPermissions.GetPermissions(typeof(Permissions.Donante), roleId);
             allPermissions.GetPermissions(typeof(Permissions.Catalogo), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.ObjetivoBloque), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.ProductoObjetivo), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.IndicadorProductoObjetivo), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.IndicadorClicoEstrategico), roleId);
+            
 
             var role = await _roleManager.FindByIdAsync(roleId);
             model.RoleId = roleId;

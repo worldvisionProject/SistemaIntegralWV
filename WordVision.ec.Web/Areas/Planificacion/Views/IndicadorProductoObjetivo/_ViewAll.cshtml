@@ -10,7 +10,11 @@
            @* <th>Año Fiscal</th>*@
             <th>Meta</th>
             <th>Logro</th>
+             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.Delete)).Result.Succeeded
+                || (AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.View)).Result.Succeeded)
+                    {
             <th class="acciones-th">Acciones</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -44,15 +48,22 @@
 
                         @indicador.Logro
                     </td>
-                  
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.Delete)).Result.Succeeded
+                || (AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.View)).Result.Succeeded)
+                    {
                     <td class="acciones-td">
+                        @if ( (AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.View)).Result.Succeeded)
+                        {
                          <button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGetHijo('2','/Planificacion/IndicadorProductoObjetivo/OnGetCreateOrEdit?id=@indicador.Id&idProductoObjetivo=@indicador.IdProductoObjetivo&idEstrategia=@Model.IdEstrategia','Indicador de Productos de Objetivo')">
-                        <i class="fas fa-pen"></i>
-                    </button>
+                            <i class="fas fa-pen"></i>
+                        </button>
+                        }
+                        @if ( (AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.Delete)).Result.Succeeded)
+                        {
                         <button type="button" onclick="EliminaFilaIndicadorPO(@indicador.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
-
+}
                     </td>
-
+                    }
                 </tr>
             }
 

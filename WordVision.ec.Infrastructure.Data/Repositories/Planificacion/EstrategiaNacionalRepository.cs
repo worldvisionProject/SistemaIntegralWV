@@ -29,15 +29,17 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
         public async Task<EstrategiaNacional> GetByIdAsync(int estrategiaNacionalId)
         {
             return await _repository.Entities.Where(p => p.Id == estrategiaNacionalId)
-                .Include(x => x.ObjetivoEstrategicos).ThenInclude(c => c.FactorCriticoExitos)
-                .Include(y => y.Gestiones).Include(y => y.IndicadorCicloEstrategicos).FirstOrDefaultAsync();
+                .Include(x => x.ObjetivoEstrategicos).ThenInclude(c => c.FactorCriticoExitos).ThenInclude(d=>d.IndicadorEstrategicos)
+                .ThenInclude(a=>a.IndicadorAFs)
+                .Include(y => y.Gestiones.OrderBy(c => c.FechaDesde)).Include(y => y.IndicadorCicloEstrategicos).FirstOrDefaultAsync();
         }
         public async Task<EstrategiaNacional> GetByIdAsync(int estrategiaNacionalId, int idColaborador)
         {
             return await _repository.Entities.Where(p => p.Id == estrategiaNacionalId)
                 .Include(x => x.ObjetivoEstrategicos).ThenInclude(c => c.FactorCriticoExitos)
                 .ThenInclude(i => i.IndicadorEstrategicos.Where(c => c.Responsable == idColaborador))
-                .Include(y => y.Gestiones).Include(y => y.IndicadorCicloEstrategicos).FirstOrDefaultAsync();
+                .ThenInclude(a => a.IndicadorAFs)
+                .Include(y => y.Gestiones.OrderBy(c => c.FechaDesde)).Include(y => y.IndicadorCicloEstrategicos).FirstOrDefaultAsync();
         }
         public async Task<EstrategiaNacional> GetByIdxTacticoAsync(int estrategiaNacionalId, int idColaborador, int idReportaA)
         {
@@ -78,6 +80,11 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
         public async Task UpdateAsync(EstrategiaNacional estrategiaNacional)
         {
             await _repository.UpdateAsync(estrategiaNacional);
+        }
+
+        public async Task<List<EstrategiaNacional>> GetListCiclosActivosAsync()
+        {
+             return await _repository.Entities.Include(x => x.ObjetivoEstrategicos).ToListAsync();
         }
     }
 }

@@ -61,9 +61,13 @@
 
 
         var table = $("#gestionTable").DataTable({
-            aoColumnDefs: [
-                { "aTargets": [0], "bSortable": true },
-                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            //aoColumnDefs: [
+            //    { "aTargets": [0], "bSortable": true },
+            //    { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            //],
+             "aaSorting": [[1, "asc"]],
+            "order": [
+                [1, "asc"]
             ],
             "language": {
                 "url": "/lib/datatables/language/Spanish.json"

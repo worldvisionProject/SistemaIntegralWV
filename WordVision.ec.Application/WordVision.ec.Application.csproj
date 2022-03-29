@@ -45,6 +45,7 @@
     <Compile Remove="Features\Identity\Usuarios\Queries\GetAllCached\GetAllUsuariosCachedQuery.cs" />
     <Compile Remove="Features\Identity\Usuarios\Queries\GetAllCached\GetAllUsuariosCachedResponse.cs" />
     <Compile Remove="Features\Identity\Usuarios\Queries\GetById\GetUsuarioByIdQuery.cs" />
+    <Compile Remove="Features\Planificacion\EstrategiaNacionales\Queries\GetById\GetAllEstrategiaNacionalesCachedQuery.cs" />
     <Compile Remove="Features\Valoracion\Objetivos\Queries\GetById\GetAllObjetivosQuery.cs" />
     <Compile Remove="Interfaces\CacheRepositories\Identity\IIdentityCacheRepository.cs" />
     <Compile Remove="Interfaces\CacheRepositories\Valoracion\IObjetivoCacheRepository.cs" />

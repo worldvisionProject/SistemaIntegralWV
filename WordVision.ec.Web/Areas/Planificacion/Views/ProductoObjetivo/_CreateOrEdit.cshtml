@@ -33,8 +33,14 @@
     </div>
 
     <br />
+     
+
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-        <button type="submit" class="btn btn-success">Guardar</button>
+       @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ProductoObjetivo.Create)).Result.Succeeded)
+        {   <input type="hidden" value="false" name="band" id="band" />
+            <button type="submit" class="btn btn-success">Guardar</button>
+        }
+        else { <input type="hidden" value="true" name="band" id="band" />}
         <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
     </div>
 </form>
@@ -44,6 +50,7 @@
         <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
     $(function () {
+        $('#create-form *').prop('disabled', (document.getElementById("band").value == "true"));
         $(".datepicker").datepicker({
             format: "dd-mm-yyyy",
             autoclose: true,

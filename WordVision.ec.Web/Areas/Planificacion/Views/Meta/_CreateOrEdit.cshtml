@@ -18,7 +18,7 @@
     </div>
    
     @{
-        var @metagestion = @Model.IndicadorAFs.Where(x => x.Anio == Convert.ToString(@Model.IdGestion)).FirstOrDefault().Meta;
+        var @metagestion = @Model.IndicadorAFs.Where(x => x.Anio == Convert.ToString(@Model.IdGestion)).FirstOrDefault()?.Meta;
     }
     <div class="col-3" style="text-align: right;">
         <h6 class="h5 mb-2 text-gray-800-b">Línea Base: </h6>@Model.LineaBase

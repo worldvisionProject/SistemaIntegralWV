@@ -30,7 +30,11 @@
             }
              <th rowspan=2 style="vertical-align: middle;text-align: center;" width="5%">Meta Acumulada</th>
              <th rowspan=2 style="vertical-align: middle;text-align: center;" width="5%">Logro Acumulado</th>
-            <th rowspan=2 class="acciones-th" style="vertical-align: middle;text-align: center;">Acciones</th>
+              @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorClicoEstrategico.Delete)).Result.Succeeded
+                || (AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorClicoEstrategico.Edit)).Result.Succeeded)
+                    {
+                    <th rowspan=2 class="acciones-th" style="vertical-align: middle;text-align: center;">Acciones</th>
+                }
         </tr>
         <tr>@{
                  c = 0;
@@ -170,18 +174,22 @@
                     @total
                     
                     </td>
-                <td class="acciones-td">
-                          <button type="button" class="btn btn-warning  btn-xp" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorCicloEstrategico/OnGetCreateOrEdit?id=@indicador.Id&idEstrategia=@indicador.IdEstrategia','Gestión')">
-                <i class="fas fa-pen"></i>
-            </button>
-                          @*  <form id="form_delete_@indicador.Id" asp-controller="IndicadorCicloEstrategico" method="post" asp-action="OnPostDelete" asp-route-id="@indicador.Id" asp-route-idEstrategia="@indicador.IdEstrategia" onsubmit="return jQueryModalDelete(this)" class="d-inline">
-                                <a href="javascript:$('#form_delete_@indicador.Id').submit();" class="dropdown-item"><i class="fas fa-trash-alt"></i> @localizer["Delete"]</a>
-                            </form>*@
-
-                        <button type="button" onclick="EliminaFilaIndicador(@indicador.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
-
+                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorClicoEstrategico.Delete)).Result.Succeeded
+                || (AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorClicoEstrategico.Edit)).Result.Succeeded)
+                    {
+                    <td class="acciones-td">
+                           @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorClicoEstrategico.Edit)).Result.Succeeded)
+                          {
+                                <button type="button" class="btn btn-warning  btn-xp" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorCicloEstrategico/OnGetCreateOrEdit?id=@indicador.Id&idEstrategia=@indicador.IdEstrategia','Gestión')">
+                                    <i class="fas fa-pen"></i>
+                                </button>
+                           }
+                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorClicoEstrategico.Delete)).Result.Succeeded)
+                              {
+                                    <button type="button" onclick="EliminaFilaIndicador(@indicador.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
+                              }  
                     </td>
-
+                    }
                 </tr>
                 
             }
