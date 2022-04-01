@@ -20,6 +20,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
         public decimal? PonderacionObjetivo { get; set; }
         public List<PlanificacionResultadoResponse> PlanificacionResultados { get; set; }
         public int EstadoProceso { get; set; }
+        public string DescEstadoProceso { get; set; }
         public Objetivo_2Step()
         {
             Position = 1;

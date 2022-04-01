@@ -15,10 +15,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Planificacion.EstrategiaNacionales.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Valoracion.Objetivos.Queries.GetById;
 using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Queries.GetById;
 using WordVision.ec.Application.Interfaces.Shared;
+using WordVision.ec.Web.Areas.Planificacion.Models;
 using WordVision.ec.Web.Areas.Registro.Models;
 using WordVision.ec.Web.Areas.Valoracion.Models;
 using WordVision.ec.Web.Extensions;
@@ -34,7 +36,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
         [BindRequired]
         [BindProperty(SupportsGet = true)]
         public int CurrentStepIndex { get; set; }
-
+        public string DescEstado { get; set; }
+        public int Perfil { get; set; }
         public IList<StepViewModel> Steps { get; set; }
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -74,13 +77,37 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
             try
             {
                 TempData["Perfil"]=perfil;
+                Perfil = perfil;
                 if (id != null)
                 {
-
-                    var response = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = 1002, IdColaborador = id });
+                    int anioActual = 0;
+                    string descAnioActual=string.Empty ;
+                    var responseAnio = await _mediator.Send(new GetAllEstrategiaNacionalesCachedQuery());
+                    if (responseAnio.Succeeded)
+                    {
+                        var viewModel = _mapper.Map<List<EstrategiaNacionalViewModel>>(responseAnio.Data);
+                        int contar = viewModel.Where(x => x.Estado == "1").SelectMany(f => f.Gestiones).Where(d => d.Estado == "1").Count();
+                        if (contar>1)
+                        {
+                            _notify.Error("Existe mas de un Año Fiscal Activo, no puede continuar. Consulte al Administrador.");
+                            return Page();
+                        }
+                        var responseAF = viewModel.Where(x => x.Estado == "1").SelectMany(f => f.Gestiones).Where(d => d.Estado == "1").FirstOrDefault();//.Id.Select(s=>s.Id).FirstOrDefault();
+                        anioActual=_mapper.Map<GestionViewModel>(responseAF).Id;
+                        descAnioActual = _mapper.Map<GestionViewModel>(responseAF).Anio;
+                        TempData["AnioActual"] = anioActual;
+                    }
+                    var response = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = (int) TempData["AnioActual"], IdColaborador = id });
                     if (response.Succeeded)
                     {
                         var viewModel = _mapper.Map<List<ObjetivoResponseViewModel>>(response.Data);
+                        if (viewModel.SelectMany(c=>c.AnioFiscales).Count()==0)
+                        {
+                            _notify.Error("No existe objetivos para este Año Fiscal "+ descAnioActual + ", no puede continuar. Consulte al Administrador.");
+                            return Page();
+                        }
+                        DescEstado= viewModel.Select(p=>p.DescEstadoProceso).FirstOrDefault();
+                        
                         LoadWizardData(viewModel, id);
                     }
 
@@ -122,14 +149,15 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
             {
                 case 0:
                     var c = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_1Step)currentStep;
+                    DescEstado = c.DescEstadoProceso;
                     var ponderacion = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c.IdObjetivo });
                     var min = ponderacion.Data.Minimo;
                     var max = ponderacion.Data.Maximo;
                     porcentaje = ponderacion.Data.Ponderacion;
-                    var planifica = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoColaboradorQuery() { IdObjetivo = c.IdObjetivo,IdColaborador= c.IdColaborador });
+                    var planifica = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoColaboradorQuery() { IdObjetivo = c.IdObjetivo, IdColaborador = c.IdColaborador });
                     var contar = planifica.Data.Count();
-               
-                    foreach(var l in planifica.Data)
+
+                    foreach (var l in planifica.Data)
                     {
                         suma = suma + (decimal)l.Ponderacion;
                     }
@@ -137,8 +165,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     if (contar >= min && contar <= max)
                     {
                         if (suma == porcentaje)
-                        { 
-                            JumpToStepAsync(currentStep, idStep); 
+                        {
+                            JumpToStepAsync(currentStep, idStep);
                         }
                         else
                         {
@@ -146,7 +174,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                             _notify.Error("Los items debe  sumar un total del " + porcentaje.ToString() + " %, en la ponderación.");
                             return Page();
                         }
-                      
+
                     }
                     else
                     {
@@ -154,11 +182,12 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         _notify.Error("Debe ingresar minimo " + min.ToString() + " Resultados.");
                         return Page();
                     }
-                    
+
                     break;
 
                 case 1:
                     var c1 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_2Step)currentStep;
+                    DescEstado = c1.DescEstadoProceso;
                     var ponderacion1 = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c1.IdObjetivo });
                     var min1 = ponderacion1.Data.Minimo;
                     var max1 = ponderacion1.Data.Maximo;
@@ -191,11 +220,12 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     break;
                 case 2:
                     var c2 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_3Step)currentStep;
+                    DescEstado = c2.DescEstadoProceso;
                     var ponderacion2 = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c2.IdObjetivo });
                     var min2 = ponderacion2.Data.Minimo;
                     var max2 = ponderacion2.Data.Maximo;
                     var planifica2 = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoColaboradorQuery() { IdObjetivo = c2.IdObjetivo, IdColaborador = c2.IdColaborador });
-                    var contar2 = planifica2.Data.Count(); 
+                    var contar2 = planifica2.Data.Count();
                     porcentaje = ponderacion2.Data.Ponderacion;
                     foreach (var l in planifica2.Data)
                     {
@@ -223,6 +253,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     break;
                 case 3:
                     var c3 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_4Step)currentStep;
+                    DescEstado = c3.DescEstadoProceso;
                     var ponderacion3 = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c3.IdObjetivo });
                     var min3 = ponderacion3.Data.Minimo;
                     var max3 = ponderacion3.Data.Maximo;
@@ -241,7 +272,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         }
                         else
                         {
-                            JumpToStepAsync(currentStep,3);
+                            JumpToStepAsync(currentStep, 3);
                             _notify.Error("Los items debe  sumar un total del " + porcentaje.ToString() + " %, en la ponderación.");
                             return Page();
                         }
@@ -254,8 +285,25 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         return Page();
                     }
                     break;
-
+                case 4:
+                    var c4 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_5Step)currentStep;
+                    DescEstado = c4.DescEstadoProceso;
+                    JumpToStepAsync(currentStep, idStep);
+                    break;
+                case 5:
+                    var c5 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_6Step)currentStep;
+                    DescEstado = c5.DescEstadoProceso;
+                    JumpToStepAsync(currentStep, idStep);
+                    break;
+                case 6:
+                    var c6 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_7Step)currentStep;
+                    DescEstado = c6.DescEstadoProceso;
+                    int perfil = (int)TempData["Perfil"];
+                    Perfil = perfil;
+                    JumpToStepAsync(currentStep, idStep);
+                    break;
                 default:
+                  
                     JumpToStepAsync(currentStep, idStep);
                     break;
             }
@@ -294,6 +342,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
             {
                 case 0:
                     var c = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_1Step)currentStep;
+                    DescEstado = c.DescEstadoProceso;
                     var ponderacion = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c.IdObjetivo });
                     var min = ponderacion.Data.Minimo;
                     var max = ponderacion.Data.Maximo;
@@ -332,6 +381,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
 
                 case 1:
                     var c1 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_2Step)currentStep;
+                    DescEstado = c1.DescEstadoProceso;
                     var ponderacion1 = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c1.IdObjetivo });
                     var min1 = ponderacion1.Data.Minimo;
                     var max1 = ponderacion1.Data.Maximo;
@@ -369,6 +419,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     break;
                 case 2:
                     var c2 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_3Step)currentStep;
+                    DescEstado = c2.DescEstadoProceso;
                     var ponderacion2 = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c2.IdObjetivo });
                     var min2 = ponderacion2.Data.Minimo;
                     var max2 = ponderacion2.Data.Maximo;
@@ -406,6 +457,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     break;
                 case 3:
                     var c3 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_4Step)currentStep;
+                    DescEstado = c3.DescEstadoProceso;
                     var ponderacion3 = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = c3.IdObjetivo });
                     var min3 = ponderacion3.Data.Minimo;
                     var max3 = ponderacion3.Data.Maximo;
@@ -440,8 +492,25 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         return Page();
                     }
                     break;
-
+                case 4:
+                    var c4 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_5Step)currentStep;
+                    DescEstado = c4.DescEstadoProceso;
+                    if (ModelState.IsValid) MoveToNextStep(currentStep);
+                    break;
+                case 5:
+                    var c5 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_6Step)currentStep;
+                    DescEstado = c5.DescEstadoProceso;
+                    if (ModelState.IsValid) MoveToNextStep(currentStep);
+                    break;
+                case 6:
+                    var c6 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_7Step)currentStep;
+                    DescEstado = c6.DescEstadoProceso;
+                    int perfil = (int)TempData["Perfil"];
+                    Perfil = perfil;
+                    if (ModelState.IsValid) MoveToNextStep(currentStep);
+                    break;
                 default:
+                  
                     if (ModelState.IsValid) MoveToNextStep(currentStep);
                     break;
             }
@@ -489,7 +558,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                 if (ModelState.IsValid)
                 {
 
-                    return RedirectToAction("EnviarMail", "Objetivo", new { Area = "Valoracion", idColaborador = id, reportaA = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value), proceso = 3, idAnioFiscal = 1002 });
+                    return RedirectToAction("EnviarMail", "Objetivo", new { Area = "Valoracion", idColaborador = id, reportaA = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value), proceso = 3, idAnioFiscal = c.AnioFiscal });
 
                 }
                 else
@@ -531,7 +600,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
             //_service.Save(client);
 
             //OnPostCreateOrEdit(id, client);
-            int perfil =(int) TempData["Perfil"];
+            int perfil = TempData["Perfil"]==null?0: (int)TempData["Perfil"];
+            Perfil=perfil;
             var c = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_7Step)currentStep;
             int id = c.IdColaborador;
             try
@@ -553,7 +623,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     //var updateUsuarioCommand = _mapper.Map<UpdateUsuarioCommand>(usr);
                     //var resultUsuario = await _mediator.Send(updateUsuarioCommand);
 
-                    return RedirectToAction("EnviarMail", "Objetivo", new { Area = "Valoracion", idColaborador = id, reportaA= Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value), proceso=perfil==0?1:2, idAnioFiscal = 1002 });
+                    return RedirectToAction("EnviarMail", "Objetivo", new { Area = "Valoracion", idColaborador = id, reportaA= Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value), proceso=perfil==0?1:2, idAnioFiscal = c.AnioFiscal });
                     //return RedirectToPage("Index", new { id = client.Id });
 
                 }

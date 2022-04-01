@@ -134,6 +134,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                 Descripcion = x.Descripcion,
                 Estado = x.Estado,
                 EstadoProceso= estado,
+                DescEstadoProceso= _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 45 && c.Secuencia == estado.ToString()).FirstOrDefault().Nombre,
                 AnioFiscales = x.ObjetivoAnioFiscales.Select(q => new ObjetivoAnioFiscalResponse
                 {
                     Id = q.Id,

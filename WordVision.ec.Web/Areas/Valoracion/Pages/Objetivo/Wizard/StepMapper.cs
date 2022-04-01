@@ -62,7 +62,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                                 IdObjetivoAnioFiscal=j.Id,
                                 AnioFiscal=j.AnioFiscal,
                                 EstadoProceso = i.EstadoProceso,
-                                PonderacionObjetivo=j.Ponderacion,
+                                DescEstadoProceso = i.DescEstadoProceso,
+                                PonderacionObjetivo =j.Ponderacion,
                                 PlanificacionResultados = j.PlanificacionResultados
 
                             });
@@ -79,7 +80,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                                 AnioFiscal = j.AnioFiscal,
                                 PonderacionObjetivo = j.Ponderacion,
                                 PlanificacionResultados = j.PlanificacionResultados,
-                                EstadoProceso = i.EstadoProceso
+                                EstadoProceso = i.EstadoProceso,
+                                DescEstadoProceso = i.DescEstadoProceso
                             });
                             break;
                         case "3":
@@ -94,7 +96,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                                 AnioFiscal = j.AnioFiscal,
                                 PonderacionObjetivo = j.Ponderacion,
                                 PlanificacionResultados = j.PlanificacionResultados,
-                                EstadoProceso = i.EstadoProceso
+                                EstadoProceso = i.EstadoProceso,
+                                DescEstadoProceso = i.DescEstadoProceso
 
                             });
                             break;
@@ -110,7 +113,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                                 AnioFiscal = j.AnioFiscal,
                                 PonderacionObjetivo = j.Ponderacion,
                                 PlanificacionResultados = j.PlanificacionResultados,
-                                EstadoProceso = i.EstadoProceso
+                                EstadoProceso = i.EstadoProceso,
+                                DescEstadoProceso = i.DescEstadoProceso
 
                             });
                             break;
@@ -126,7 +130,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                                 AnioFiscal = j.AnioFiscal,
                                 PonderacionObjetivo = j.Ponderacion,
                                 PlanificacionResultados = j.PlanificacionResultados,
-                                EstadoProceso = i.EstadoProceso
+                                EstadoProceso = i.EstadoProceso,
+                                DescEstadoProceso = i.DescEstadoProceso
 
                             });
                             break;
@@ -142,7 +147,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                                 AnioFiscal = j.AnioFiscal,
                                 PonderacionObjetivo = j.Ponderacion,
                                 PlanificacionResultados = j.PlanificacionResultados,
-                                EstadoProceso = i.EstadoProceso
+                                EstadoProceso = i.EstadoProceso,
+                                DescEstadoProceso = i.DescEstadoProceso
 
                             });
                             break;
@@ -158,7 +164,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                                 AnioFiscal = j.AnioFiscal,
                                 PonderacionObjetivo = j.Ponderacion,
                                 PlanificacionResultados = j.PlanificacionResultados,
-                                EstadoProceso = i.EstadoProceso
+                                EstadoProceso = i.EstadoProceso,
+                                DescEstadoProceso = i.DescEstadoProceso
 
                             });
                             break;

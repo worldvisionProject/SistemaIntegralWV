@@ -13,6 +13,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public string Descripcion { get; set; }
         public int Estado { get; set; }
         public int EstadoProceso { get; set; }
+        public string DescEstadoProceso { get; set; }
         public List<ObjetivoAnioFiscalResponse> AnioFiscales { get; set; }
         public decimal PonderacionObjetivo { get; set; }
 

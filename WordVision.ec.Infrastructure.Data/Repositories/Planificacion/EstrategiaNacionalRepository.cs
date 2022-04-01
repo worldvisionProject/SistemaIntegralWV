@@ -67,7 +67,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
         }
         public async Task<List<EstrategiaNacional>> GetListAsync()
         {
-            return await _repository.Entities.Include(x => x.ObjetivoEstrategicos).ToListAsync();
+            return await _repository.Entities.Include(x => x.ObjetivoEstrategicos).Include(s=>s.Gestiones).ToListAsync();
 
         }
 

@@ -626,6 +626,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 entidad.Estado = estado;
                 entidad.Proceso = 1;// si ya esta en el borton finalizar o devolver
                 entidad.IdColaborador = idColaborador;
+                entidad.AnioFiscal = idAnioFiscal;
                 var updateEntidadCommand = _mapper.Map<UpdatePlanificacionResultadoCommand>(entidad);
                 var result = await _mediator.Send(updateEntidadCommand);
 
@@ -644,7 +645,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
 
             //   return new JsonResult(new { isValid = true });
             // return RedirectToPage("/Wizard/Index", new { area = "Registro" });
-            return RedirectToPage("/Objetivo/Wizard/Index", new { area = "Valoracion" });
+            return RedirectToPage("/Objetivo/Wizard/Index", new { area = "Valoracion",id= idColaborador, perfil=proceso==2?0:1 });
         }
 
 

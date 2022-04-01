@@ -44,7 +44,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
         public decimal? PonderacionResultado { get; set; }
         public ICollection<AvanceObjetivo> AvanceObjetivos { get; set; }
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
-
+        public int AnioFiscal { get; set; }
         public int Proceso { get; set; }
         public class UpdatePlanificacionResultadoCommandHandler : IRequestHandler<UpdatePlanificacionResultadoCommand, Result<int>>
         {
@@ -65,12 +65,25 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
 
             public async Task<Result<int>> Handle(UpdatePlanificacionResultadoCommand command, CancellationToken cancellationToken)
             {
+                
+
                 if (command.Estado==2 || command.Estado == 3 || command.Estado == 4)
                 {
                     await _entidadRepository.UpdatexColaboradorAsync(command.IdColaborador, command.Estado);
 
+                    await _entidadSeguimientoRepository.UpdatexTodoAsync(command.IdColaborador, command.AnioFiscal);
+
+                    var seguimiento = new SeguimientoObjetivo();
+                    seguimiento.Estado = command.Estado;
+                    seguimiento.Ultimo = 1;
+                    seguimiento.IdColaborador = command.IdColaborador;
+                    seguimiento.AnioFiscal = command.AnioFiscal;
+                    await _entidadSeguimientoRepository.InsertAsync(seguimiento);
+
                     await _unitOfWork.Commit(cancellationToken);
-                    return Result<int>.Success(1);
+                 
+                    
+                    //return Result<int>.Success(1);
 
                 }
 
@@ -155,7 +168,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                      obj.AvanceObjetivos.Add(avance);
                 }
 
-                if (command.Proceso==1)// para saber si es el final del proceso o se deveolvio
+                if (command.Proceso == 1)// para saber si es el final del proceso o se deveolvio
                 {
                     await _entidadSeguimientoRepository.UpdatexTodoAsync(command.IdColaborador, idAnioFiscal);
 
@@ -166,7 +179,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                     seguimiento.AnioFiscal = idAnioFiscal;
                     await _entidadSeguimientoRepository.InsertAsync(seguimiento);
                 }
-               
+
 
                 await _entidadRepository.UpdateAsync(obj);
 

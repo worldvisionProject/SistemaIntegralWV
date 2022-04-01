@@ -81,21 +81,8 @@ var viewName = currentStep.ToString().Substring(currentStep.ToString().LastIndex
                 <br />
                 <div class="card card-info">
                     <div class="card-header card-header-int">
-                       @* <div class="row">
-                            <div class="col-md-12">
-                                <label class="col-md-12 col-form-label texto-pregunta" style="color:#666666">Para mantener Nuestra Promesa</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label class="col-md-12 col-form-label texto-pregunta" style="color:#EC7D31">Establecer 3-5 objetivos de Desempeño para este año - CLARIDAD</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label class="col-md-12 col-form-label texto-pregunta">Incluya tanto el QUÉ <font style="color:#2ED4E0">(Resultado)</font> como el CÓMO <font style="color:#2ED4E0">(mentalidades y comportamientos)</font> se lograrán los objetivos. Utiliza los hitos para considerar cómo vas a hacer un seguimiento del progreso a lo largo del año, al menos trimestralmente*.</label>
-                            </div>
-                        </div>*@
+                      
+                      <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Estado de la Valoración:</font> @Model.DescEstado </label>
                     </div>
                     <div class="card-body">
 
@@ -113,7 +100,11 @@ var viewName = currentStep.ToString().Substring(currentStep.ToString().LastIndex
                         else
                         {
             <input type="submit" value="Finalizar" name="finish" asp-page-handler="Finish" class="btn btn-primary" />
-                        <input type="submit" value="Devolver" name="devolver" asp-page-handler="Devolver" class="btn btn-primary" />}
+                @if((int)TempData["Perfil"]!=0)
+                            {
+                               <input type="submit" value="Devolver" name="devolver" asp-page-handler="Devolver" class="btn btn-primary" /> 
+                            }
+                        }
                     </div>
                 </div>
             </form>
