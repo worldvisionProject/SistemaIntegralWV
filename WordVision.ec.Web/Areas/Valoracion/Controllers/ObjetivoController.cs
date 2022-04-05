@@ -537,13 +537,18 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     mail = response.Data.Email;
                 }
 
-                var responseReporta = await _mediator.Send(new GetColaboradorByIdQuery() { Id = reportaA });
-                if (responseReporta.Succeeded)
+                if (reportaA != 0)
                 {
-                    apellidosReporta = responseReporta.Data.Apellidos + " " + responseReporta.Data.ApellidoMaterno;
-                    nombresReporta = responseReporta.Data.PrimerNombre + " " + responseReporta.Data.SegundoNombre;
-                    mailReporta = responseReporta.Data.Email;
+                    var responseReporta = await _mediator.Send(new GetColaboradorByIdQuery() { Id = reportaA });
+                    if (responseReporta.Succeeded)
+                    {
+                        apellidosReporta = responseReporta.Data.Apellidos + " " + responseReporta.Data.ApellidoMaterno;
+                        nombresReporta = responseReporta.Data.PrimerNombre + " " + responseReporta.Data.SegundoNombre;
+                        mailReporta = responseReporta.Data.Email;
+                    }
                 }
+
+
 
                 string plantilla = "";
 
