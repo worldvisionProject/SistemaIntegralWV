@@ -27,9 +27,11 @@ using WordVision.ec.Application.Features.Valoracion.Resultados.Queries.GetAllCac
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Valoracion.Models;
 using WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard;
+using WordVision.ec.Web.Services;
 
 namespace WordVision.ec.Web.Areas.Valoracion.Controllers
 {
+   
     [Area("Valoracion")]
     [Authorize]
     public class ObjetivoController :  BaseController<ObjetivoController>

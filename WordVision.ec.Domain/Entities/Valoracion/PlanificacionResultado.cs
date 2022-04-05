@@ -47,5 +47,8 @@ namespace WordVision.ec.Domain.Entities.Valoracion
         
         [ForeignKey("IdPlanificacion")]
         public ICollection<AvanceObjetivo> AvanceObjetivos { get; set; }
+
+        [ForeignKey("IdPlanificacion")]
+        public ICollection<PlanificacionComportamiento> PlanificacionComportamientos { get; set; }
     }
 }

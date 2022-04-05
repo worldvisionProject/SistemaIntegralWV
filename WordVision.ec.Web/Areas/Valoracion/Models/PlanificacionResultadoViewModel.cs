@@ -86,8 +86,17 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public decimal? PonderacionResultado { get; set; }
 
+
+        public string Comportamiento { get; set; }
+        
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? FechaInicioComporta { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? FechaFinComporta { get; set; }
+
         public ICollection<PlanificacionHitoViewModel> PlanificacionHitos { get; set; }
         public ICollection<AvanceObjetivoViewModel> AvanceObjetivos { get; set; }
+        public ICollection<PlanificacionComportamientoViewModel> PlanificacionComportamientos { get; set; }
 
         public int Proceso { get; set; }
     }

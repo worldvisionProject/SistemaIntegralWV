@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -747,7 +748,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                 // await _signInManager.SignInWithClaimsAsync(user, new AuthenticationProperties() { IsPersistent = false }, claims);
 
                 var result = await _userManager.RemoveClaimsAsync(user, claims);
-
+                HttpContext.Session.SetString("UserId", idColabora.ToString());
                 // Sign In.
                 await _userManager.AddClaimsAsync(user, claims);
             }

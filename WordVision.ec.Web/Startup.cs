@@ -1,10 +1,12 @@
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
@@ -14,11 +16,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
+using System;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using WordVision.Application.Extensions;
 using WordVision.ec.Infrastructure.Data.Extensions;
+using WordVision.ec.Infrastructure.Data.Identity.Models;
 using WordVision.ec.Infrastructure.Shared.Pdf;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Registro.Pages.Formulario.Wizard;
@@ -61,10 +65,11 @@ namespace WordVision.ec.Web
             }
                ) ;
 
-            //services.AddControllersWithViews()
-            //        .AddNewtonsoftJson(options =>
-            //        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            //    );
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(typeof(RequestAuthenticationFilterAttribute));
+            }
+                );
 
 
             services.AddControllers().AddNewtonsoftJson(options =>
@@ -124,7 +129,12 @@ namespace WordVision.ec.Web
                 options.ModelBinderProviders.Insert(0, new StepModelBinderProvider());
                 options.ModelBinderProviders.Insert(1, new WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.StepModelBinderProvider());
             }).AddSessionStateTempDataProvider();
-            services.AddSession();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(2);
+            }
+
+                );
 
 
             services.Configure<IISServerOptions>(iis =>
@@ -163,6 +173,8 @@ namespace WordVision.ec.Web
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
+
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

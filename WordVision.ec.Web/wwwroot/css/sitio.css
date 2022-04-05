@@ -879,3 +879,44 @@ div.upload input[type="file"] {
 .upload + .uploadButton {
     height: 38px;
 }
+
+.my-class {
+    background: #304CD8;
+    background: -webkit-linear-gradient(left, #304CD8 0%, #9F3762 100%);
+    background: -ms-linear-gradient(left, #304CD8 0%, #9F3762 100%);
+    background: linear-gradient(to right, #304CD8 0%, #9F3762 100%);
+    color: #fff;
+    font-size: 25px;
+    padding: 35px;
+    text-align: center;
+}
+
+.notifyjs-foo-base {
+    opacity: 0.85;
+    width: 800px;
+    background: #F5F5F5;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+    .notifyjs-foo-base .title {
+        width: 600px;
+        float: left;
+        margin: 10px 0 0 10px;
+        text-align: center;
+    }
+
+    .notifyjs-foo-base .buttons {
+        width: 70px;
+        float: right;
+        font-size: 9px;
+        padding: 5px;
+        margin: 2px;
+    }
+
+    .notifyjs-foo-base button {
+        font-size: 9px;
+        padding: 5px;
+        margin: 2px;
+        width: 60px;
+    }
