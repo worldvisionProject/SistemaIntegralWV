@@ -126,7 +126,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 descObjetivo = entidadViewModel.FactorCriticoExitos.ObjetivoEstrategicos.Descripcion;
                 descFactor = entidadViewModel.FactorCriticoExitos.FactorCritico;
                 descIndicador = entidadViewModel.IndicadorResultado;
-                descMeta = entidadViewModel.IndicadorAFs.Where(x => x.Anio == idGestion.ToString()).FirstOrDefault().Meta;
+                descMeta = entidadViewModel.IndicadorAFs.Where(x => x.Anio == idGestion.ToString()).FirstOrDefault()?.Meta;
                 idResponsable = (int)entidadViewModel.Responsable;
                 descLineaBase = entidadViewModel.LineaBase;
                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
