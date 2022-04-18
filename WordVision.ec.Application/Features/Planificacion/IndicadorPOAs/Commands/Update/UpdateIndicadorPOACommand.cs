@@ -70,6 +70,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Command
                         }
                         else
                         {
+                            metaTactica.LineaBase = m.LineaBase;
                             metaTactica.NumMeses = m.NumMeses;
                             metaTactica.TipoMedida = m.TipoMedida;
                             metaTactica.Valor = m.Valor;

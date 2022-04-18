@@ -28,7 +28,9 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 
         public async Task<IndicadorPOA> GetByIdAsync(int indicadorPOAId)
         {
-            return await _repository.Entities.Where(p => p.Id == indicadorPOAId).Include(x => x.MetaTacticas)
+            return await _repository.Entities.Where(p => p.Id == indicadorPOAId)
+                .Include(i=>i.IndicadorVinculadoPOAs)
+                .Include(x => x.MetaTacticas)
                 .Include(y => y.Actividades)
                 .ThenInclude(r => r.Recursos)
                 .FirstOrDefaultAsync();

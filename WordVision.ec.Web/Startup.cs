@@ -131,7 +131,7 @@ namespace WordVision.ec.Web
             }).AddSessionStateTempDataProvider();
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(2);
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
             }
 
                 );

@@ -18,7 +18,7 @@
 
     <partial name="_Styles" />
 </head>
-<body  class="hold-transition sidebar-mini"> @*onload="pageLoad()"*@
+<body onload="pageLoad()"  class="hold-transition sidebar-mini">
     <div id="loader-wrapper">
         <div id="loader"></div>
         <div class="loader-section"></div>
@@ -159,8 +159,8 @@
         if (iddleTimeout != null)
             clearTimeout(iddleTimeout);
         //leer tiempos desde web.config
-        var millisecTimeOutWarning = 1 * 60 * 1000 ;
-        var millisecTimeOut = 2 * 60 * 1000 ; 
+        var millisecTimeOutWarning = 1 * 1800 * 1000 ;
+        var millisecTimeOut = 2 * 1800 * 1000 ; 
  
         //establece tiempo para mostrar advertencia si el usuario ha estado inactivo
         iddleTimeoutWarning = setTimeout("DisplayIddleWarning()", millisecTimeOutWarning);

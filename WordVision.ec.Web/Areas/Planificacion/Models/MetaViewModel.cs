@@ -19,6 +19,7 @@
         public int TipoMedida { get; set; }
         public decimal Valor { get; set; }
         public string Entregable { get; set; }
+        public int? LineaBase { get; set; }
         public int IdIndicadorEstrategico { get; set; }
     }
 }

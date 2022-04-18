@@ -281,7 +281,7 @@
                 </div>
 
                 <div class="form-group row">
-                      <div class="col-md-2">
+                    <div class="col-md-2">
                         <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
                         <input asp-for="LineaBaseAF" type="text" name="LineaBaseAF" class="form-control" />
                         <span asp-validation-for="LineaBaseAF" class="text-danger"></span>
@@ -437,32 +437,11 @@
             format: "dd-mm-yyyy",
             autoclose: true,
             todayBtn: true });
-        //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
-        //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });
-
-        //
-        //table
-        //    .column(1)
-        //    .data()
-        //    .each(function (value, index) {
-        //        alert('Data in index: ' + index + ' is: ' + value);
-
-        //       // console.log('Data in index: ' + index + ' is: ' + value);
-        //    });
-
-        //console.log(rows);
-
+     
 
     });
 
-    //        $("#gestionList").select2({
-    //    placeholder: "Select a Category",
-    //    theme: "bootstrap4",
-    //    escapeMarkup: function (m) {
-    //        return m;
-    //    }
-    //});
-
+   
      $("#Tipo").change(function () {
                 $.get("/Planificacion/IndicadorProductoObjetivo/GetTiposIndicador", { idTipoIndicador: $("#Tipo").val() }, function (data) {
                     // VACIAMOS EL DropDownList
@@ -517,9 +496,9 @@
                     $("#divVincularIndicador").hide(1000);
             });
 
-            //INICIA VINCULACION
-            var numI = 0;
-function AgregaIndicador() {
+        //INICIA VINCULACION
+        var numI = 0;
+        function AgregaIndicador() {
             let idact = document.getElementById("idactI").value;
           
             if (idact.length != 0) {
