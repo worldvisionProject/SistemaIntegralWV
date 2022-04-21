@@ -279,8 +279,16 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 }
                 else if(entidad.NumeroObjetivo == 4)
                 {
-
-                    entidad.IdResultado = entidad.PlanificacionComportamientos.FirstOrDefault().IdCompetencia;
+                    if (id==0)
+                    {
+                        entidad.IdResultado = entidad.PlanificacionComportamientos.FirstOrDefault().IdCompetencia;
+                    }
+                    else
+                    {
+                        
+                        var ponderacion = await _mediator.Send(new GetPlanificacionResultadoByIdQuery() { Id = id });
+                        entidad.IdResultado = ponderacion.Data.IdResultado;
+                    }
                     
                 }
                 if (ModelState.IsValid)
@@ -288,40 +296,45 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     decimal ponderaObjetivo = 0;
                     var ponderacion = await _mediator.Send(new GetObjetivoByIdAnioQuery() { Id = entidad.ObjetivoAnioFiscales.IdObjetivo });
                     ponderaObjetivo = ponderacion.Data.Ponderacion;
-                    var planifica = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoColaboradorQuery() { IdObjetivo = entidad.ObjetivoAnioFiscales.IdObjetivo,IdColaborador=entidad.IdColaborador });
+                    var planifica = await _mediator.Send(new GetPlanificacionResultadoByIdObjetivoColaboradorQuery() { IdObjetivo = entidad.ObjetivoAnioFiscales.IdObjetivo, IdColaborador = entidad.IdColaborador });
                     var contar = planifica.Data.Count();
-                    var d= planifica.Data.Where(b=>b.Id!=id).ToList();
-                    var existe= planifica.Data.Where(b => b.IdResultado ==entidad.IdResultado).Count();
+                    var d = planifica.Data.Where(b => b.Id != id).ToList();
+                    var existe = planifica.Data.Where(b => b.IdResultado == entidad.IdResultado).Count();
                     decimal suma = 0;
                     decimal sumaBasePoderacion = 0;
 
-
-                    //if (!(contar>=ponderacion.Data.Minimo && contar <= ponderacion.Data.Maximo))
-                    if (!(contar<=ponderacion.Data.Maximo))
-                    {
-                        _notify.Error("El Objetivo "+ entidad.NumeroObjetivo.ToString() + " debe tener mínimo "+ ponderacion.Data.Minimo.ToString() + " y máximo "+ponderacion.Data.Maximo.ToString()+" Items.");
-
-                        return new JsonResult(new { isValid = false });
-                    }
-                    //foreach (var s in planifica.Data)
-                    //{
-                    //    sumaBasePoderacion = sumaBasePoderacion + Convert.ToDecimal(s.Ponderacion);
-                    //    //  ponderaObjetivo = i.Resultados.ObjetivoAnioFiscales.Ponderacion;
-                    //}
-                    foreach (var i in d)
-                    {
-                        suma = suma + Convert.ToDecimal( i.Ponderacion);
-                       //  ponderaObjetivo = i.Resultados.ObjetivoAnioFiscales.Ponderacion;
-                    }
-                    var total = suma + Convert.ToDecimal(entidad.Ponderacion);
-                    var restan = ponderaObjetivo-suma;
-                    if (total > ponderaObjetivo)
+                    if (entidad.Estado==1|| entidad.Estado == 0)
                     {
                         
-                        _notify.Error("La suma de la ponderación de objetivo no pude ser mayor a la Ponderacion de Resultado " + ponderaObjetivo.ToString()+", restan "+restan.ToString()+" para llegar al máximo permitido.");
-                       
-                        return new JsonResult(new { isValid = false });
+
+                        //if (!(contar>=ponderacion.Data.Minimo && contar <= ponderacion.Data.Maximo))
+                        if (!(contar <= ponderacion.Data.Maximo))
+                        {
+                            _notify.Error("El Objetivo " + entidad.NumeroObjetivo.ToString() + " debe tener mínimo " + ponderacion.Data.Minimo.ToString() + " y máximo " + ponderacion.Data.Maximo.ToString() + " Items.");
+
+                            return new JsonResult(new { isValid = false });
+                        }
+                        //foreach (var s in planifica.Data)
+                        //{
+                        //    sumaBasePoderacion = sumaBasePoderacion + Convert.ToDecimal(s.Ponderacion);
+                        //    //  ponderaObjetivo = i.Resultados.ObjetivoAnioFiscales.Ponderacion;
+                        //}
+                        foreach (var i in d)
+                        {
+                            suma = suma + Convert.ToDecimal(i.Ponderacion);
+                            //  ponderaObjetivo = i.Resultados.ObjetivoAnioFiscales.Ponderacion;
+                        }
+                        var total = suma + Convert.ToDecimal(entidad.Ponderacion);
+                        var restan = ponderaObjetivo - suma;
+                        if (total > ponderaObjetivo)
+                        {
+
+                            _notify.Error("La suma de la ponderación de objetivo no pude ser mayor a la Ponderacion de Resultado " + ponderaObjetivo.ToString() + ", restan " + restan.ToString() + " para llegar al máximo permitido.");
+
+                            return new JsonResult(new { isValid = false });
+                        }
                     }
+                    
                     if (id == 0)
                     {
                         if (existe >= 1)
@@ -342,21 +355,24 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     }
                     else
                     {
-                        var lista = planifica.Data.ToList();
-                        foreach(var item in lista)
+                        if (entidad.Estado == 1 || entidad.Estado == 0)
                         {
-                            if (item.Id!=id)
+                            var lista = planifica.Data.ToList();
+                            foreach(var item in lista)
                             {
-                                if (item.IdResultado==entidad.IdResultado)
+                                if (item.Id!=id)
                                 {
-                                    _notify.Error("Ya existe un Resultado/Responsabilidad/Competencias ingresado en este Objetivo.");
+                                    if (item.IdResultado==entidad.IdResultado)
+                                    {
+                                        _notify.Error("Ya existe un Resultado/Responsabilidad/Competencias ingresado en este Objetivo.");
 
-                                    return new JsonResult(new { isValid = false });
+                                        return new JsonResult(new { isValid = false });
+                                    }
                                 }
-                            }
                             
+                            }
                         }
-                        
+
                         var updateEntidadCommand = _mapper.Map<UpdatePlanificacionResultadoCommand>(entidad);
                         var result = await _mediator.Send(updateEntidadCommand);
                         if (result.Succeeded) _notify.Information($"PlanificacionResultado con ID {result.Data} Actualizado.");
