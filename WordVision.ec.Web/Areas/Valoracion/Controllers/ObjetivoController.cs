@@ -277,6 +277,12 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     }
 
                 }
+                else if(entidad.NumeroObjetivo == 4)
+                {
+
+                    entidad.IdResultado = entidad.PlanificacionComportamientos.FirstOrDefault().IdCompetencia;
+                    
+                }
                 if (ModelState.IsValid)
                 {
                     decimal ponderaObjetivo = 0;
@@ -488,24 +494,62 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
 
             return new JsonResult(new { isValid = false });
         }
+
+        
+        public async Task<JsonResult> OnPostDeleteComportamiento(int id = 0)
+        {
+            try
+            {
+                var deleteCommand = await _mediator.Send(new DeletePlanificacionComportamientoCommand { Id = id });
+                if (deleteCommand.Succeeded)
+                {
+                    _notify.Information($"Comportamiento con Id {id} Eliminado.");
+                    return new JsonResult(new { isValid = true });
+                }
+                else
+                {
+                    _notify.Error(deleteCommand.Message);
+                    return null;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "OnPostDelete");
+                _notify.Error("Error al Eliminar Comportamiento.");
+            }
+
+
+            return new JsonResult(new { isValid = false });
+        }
         public async Task<IActionResult> LoadObjetivoResultado(int id = 0,int idObjetivo=0,int idObjetivoAnioFiscal=0,int anioFiscal=0,string objNumero="", List<PlanificacionResultadoResponse> entidad =null,decimal ponderacion=decimal.Zero)
         {
-            var viewModel = new Objetivo_1Step();
-            viewModel.IdObjetivo = idObjetivo;
-            viewModel.AnioFiscal = anioFiscal;
-            viewModel.IdObjetivoAnioFiscal = idObjetivoAnioFiscal;
-            viewModel.NumeroObjetivo = objNumero;
-            viewModel.PonderacionObjetivo = ponderacion;
-            var response = await _mediator.Send(new GetPlanificacionResultadoByIdColabotadorQuery() { IdObjetivoAnioFiscal = idObjetivoAnioFiscal, IdColaborador = id });
-            if (response.Succeeded)
+            try
             {
-                entidad = _mapper.Map<List<PlanificacionResultadoResponse>>(response.Data);
+                var viewModel = new Objetivo_1Step();
+                viewModel.IdObjetivo = idObjetivo;
+                viewModel.AnioFiscal = anioFiscal;
+                viewModel.IdObjetivoAnioFiscal = idObjetivoAnioFiscal;
+                viewModel.NumeroObjetivo = objNumero;
+                viewModel.PonderacionObjetivo = ponderacion;
+                var response = await _mediator.Send(new GetPlanificacionResultadoByIdColabotadorQuery() { IdObjetivoAnioFiscal = idObjetivoAnioFiscal, IdColaborador = id });
+                if (response.Succeeded)
+                {
+                    entidad = _mapper.Map<List<PlanificacionResultadoResponse>>(response.Data);
+                }
+                viewModel.PlanificacionResultados = entidad;
+                string pagina = objNumero == "4" ? "_ViewAllObjetivoCompetencia" : objNumero == "5" || objNumero == "6" || objNumero == "7" ? "_ViewAllObjetivoPregunta" : "_ViewAllObjetivoResultado";
+                //entidad.NumContacto = formularioViewModel.FormularioTerceros.Where(x => x.Tipo == "C").Count();
+                return PartialView(pagina, viewModel);
             }
-            viewModel.PlanificacionResultados= entidad;
-            string pagina=objNumero=="4"?"_ViewAllObjetivoCompetencia":objNumero=="5" || objNumero == "6" || objNumero == "7" ? "_ViewAllObjetivoPregunta" :"_ViewAllObjetivoResultado";
-            //entidad.NumContacto = formularioViewModel.FormularioTerceros.Where(x => x.Tipo == "C").Count();
-            return PartialView(pagina, viewModel);
-               
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "OnPostDelete");
+                _notify.Error("Error al Eliminar Comportamiento.");
+            }
+
+            return null;  
 
         }
 

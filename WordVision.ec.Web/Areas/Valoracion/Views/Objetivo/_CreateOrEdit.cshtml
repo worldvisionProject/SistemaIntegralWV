@@ -194,7 +194,11 @@
                                 " -- Seleccionar Competencia --", new { @class = "form-control" })
                        
                         </div>
-                       
+                       <div class="col-md-2">
+                            <label class="col-md-12 col-form-label texto-pregunta">Pond. Obj. específico</label>
+                            <input asp-for="Ponderacion" type="text" name="Ponderacion" class="form-control"  />
+                            <span asp-validation-for="Ponderacion" class="text-danger"></span>
+                        </div>
                     </div>
         
                 }
@@ -206,28 +210,32 @@
                                 <label class="col-md-12 col-form-label texto-pregunta">Meta</label>
                                 <input asp-for="Meta" type="text" name="Meta" class="form-control"  />
                                 <span asp-validation-for="Meta" class="text-danger"></span>
-                </div>
-            }
-            else
-            {
-                 <input asp-for="Meta" type="hidden" name="Meta" value="0" class="form-control"  />
-            }
+                          </div>
+                    }
+                    else
+                    {
+                         <input asp-for="Meta" type="hidden" name="Meta" value="0" class="form-control"  />
+                    }
 
-                     <div class="col-md-4">
-                        <label class="col-md-12 col-form-label texto-pregunta">Fecha Inicio</label>
-                         <input type="text" asp-for="FechaInicio" name="FechaInicio" class="datepicker form-control"  />
-                        <span asp-validation-for="FechaInicio" class="text-danger"></span>
-                    </div>
-                     <div class="col-md-4">
-                        <label class="col-md-12 col-form-label texto-pregunta">Fecha Fin</label>
-                         <input type="text" asp-for="FechaFin" name="FechaFin" class="datepicker form-control"  />
-                        <span asp-validation-for="FechaFin" class="text-danger"></span>
-                    </div>
-                     <div class="col-md-2">
-                        <label class="col-md-12 col-form-label texto-pregunta">Pond. Obj. específico</label>
-                        <input asp-for="Ponderacion" type="text" name="Ponderacion" class="form-control"  />
-                        <span asp-validation-for="Ponderacion" class="text-danger"></span>
-                    </div>
+                    @if (Model.NumeroObjetivo!=4 )
+                    {
+                         <div class="col-md-4">
+                            <label class="col-md-12 col-form-label texto-pregunta">Fecha Inicio</label>
+                             <input type="text" asp-for="FechaInicio" name="FechaInicio" class="datepicker form-control"  />
+                            <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                        </div>
+                         <div class="col-md-4">
+                            <label class="col-md-12 col-form-label texto-pregunta">Fecha Fin</label>
+                             <input type="text" asp-for="FechaFin" name="FechaFin" class="datepicker form-control"  />
+                            <span asp-validation-for="FechaFin" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="col-md-12 col-form-label texto-pregunta">Pond. Obj. específico</label>
+                            <input asp-for="Ponderacion" type="text" name="Ponderacion" class="form-control"  />
+                            <span asp-validation-for="Ponderacion" class="text-danger"></span>
+                        </div>
+                    }
+                     
                 </div>
            
                @if (Model.NumeroObjetivo==3 )
@@ -373,10 +381,10 @@
                                <div class="form-group row">
                                     <div class="col-md-6">
                                         <label class="col-md-12 col-form-label texto-pregunta">Comportamientos</label>
-                                        @Html.DropDownListFor(x => x.IdResultado, (IEnumerable<SelectListItem>)Model.ComportamientoList,
+                                        @Html.DropDownListFor(x => x.IdComportamiento, (IEnumerable<SelectListItem>)Model.ComportamientoList,
                                         " -- Seleccionar Comportamiento --", new { @class = "form-control" })
 
-                                        <span asp-validation-for="IdResultado" class="text-danger"></span>
+                                        <span asp-validation-for="IdComportamiento" class="text-danger"></span>
                                     </div> 
                                    <div class="col-md-3">
                                         <label class="col-md-12 col-form-label texto-pregunta">Fecha Inicio</label>
@@ -396,7 +404,7 @@
                                         </div>
                                 </div>
 
-                    <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 15px !important;font-weight: bold;color:red">* Debe ingresar máximo 3 Hitos.</label>
+                    <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 15px !important;font-weight: bold;color:red">* Debe ingresar máximo 3 Comportamientos.</label>
                     </div>  
                                 <div id="divComportamiento">
                                     <table id="comportamientoTable" class="table table-striped  rwd-table" width="100%" cellspacing="0">
@@ -421,9 +429,13 @@
                                     
                                                     <tr id="@comportamiento.Id" class="rowdata">
                                         
-                                                        <td >
-
-                                                            @comportamiento.IdCompetencia
+                                                        <td class="idComporta">
+                                                             @{
+                                                                    var selectedCodigo = Model.ComportamientoList;
+                                                                    string txtCodigo = selectedCodigo.Where(x => x.Value == @comportamiento.IdCompetencia.ToString())?.FirstOrDefault()?.Text;
+                                                                }
+                                                                @txtCodigo
+                                                            
 
                                                         </td>
                                                         <td>
@@ -445,7 +457,7 @@
                                                     }
                                                 }
 
-                                            <input type="hidden" id="idact" name="idact" />
+                                            <input type="hidden" id="idactComportamiento" name="idactComportamiento" />
                                         </tbody>
                                     </table>
 
@@ -719,12 +731,12 @@
             $("#IdPadreCompetencia").change(function () {
                 $.get("/Valoracion/Objetivo/GetComportamientosList", { idCompetencia: $("#IdPadreCompetencia").val() }, function (data) {
                     // VACIAMOS EL DropDownList
-                    $("#IdResultado").empty();
+                    $("#IdComportamiento").empty();
                     // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
                    // $("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
                     // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
                     $.each(data, function (index, row) {
-                        $("#IdResultado").append("<option value='" + row.id + "'>" + row.comportamiento + "</option>")
+                        $("#IdComportamiento").append("<option value='" + row.id + "'>" + row.comportamiento + "</option>")
                     });
                 });
             });
@@ -1003,7 +1015,7 @@
             let comentarioLider = document.getElementById("ComentarioLiderAvance").value;
             //alert(tipo.length);
              if (fechaCumplimiento.length == 0) {
-                alert("Ingrese la Fecja de Cumplimiento.");
+                alert("Ingrese la Fecha de Cumplimiento.");
                 document.getElementById("FechaCumplimientoAvance").focus();
                 return;
             }
@@ -1160,4 +1172,201 @@
       
         }
 
+
+        //INICIO COMPORTAMIENTO
+function AgregaComportamiento() {
+         
+           if (!CuentaComportamientos()) {
+                alert("Puede ingresar máximo 3 Comportamientos .");
+                return;
+            }
+           
+            let idact = document.getElementById("idactComportamiento").value;
+
+            if (idact.length != 0) {
+                EliminaFilaComportamiento(idact);
+            }
+            let idComportamiento = document.getElementById("IdComportamiento").value;
+            var selectionCoporta = document.getElementById("IdComportamiento");
+            let ComportamientoDesc = selectionCoporta.options[selectionCoporta.selectedIndex].innerHTML;
+            let fechaInicioComporta = document.getElementById("FechaInicioComporta").value;
+            let fechaFinComporta = document.getElementById("FechaFinComporta").value;
+
+           
+            if (ComportamientoDesc.length == 0) {
+                alert("Ingrese el comportamiento.");
+                document.getElementById("FechaInicioComporta").focus();
+                return;
+            }
+             if (fechaInicioComporta.length == 0) {
+                alert("Ingrese la Fecha de Inicio de comportamiento.");
+                document.getElementById("FechaInicioComporta").focus();
+                return;
+            }
+            if (fechaFinComporta.length == 0) {
+                alert("Ingrese la Fecha Fin de comportamiento.");
+                document.getElementById("FechaFinComporta").focus();
+                return;
+            }
+           
+            if (duplicados(ComportamientoDesc,"idComporta","CodigoComportamiento")) { return;}
+
+            //agregamos tabla
+            let Tabla = document.getElementById("comportamientoTable");
+            let TR = document.createElement("tr");
+            TR.setAttribute('id', num);
+            TR.className = "rowdata";
+            let TDIdComportamiento = document.createElement("td");
+            let TDFechaInicioComporta = document.createElement("td");
+            let TDFechaFinComporta = document.createElement("td");
+            
+            let TDEliminar = document.createElement("td");
+            TDEliminar.className = "text-right";
+                      
+            TR.appendChild(TDIdComportamiento);
+            TR.appendChild(TDFechaInicioComporta);
+            TR.appendChild(TDFechaFinComporta);
+                     
+            TR.appendChild(TDEliminar);
+         
+            TDIdComportamiento.innerHTML = ComportamientoDesc;
+             TDIdComportamiento.className = "idComporta";
+            TDFechaInicioComporta.innerHTML = fechaInicioComporta;
+            TDFechaFinComporta.innerHTML = fechaFinComporta;
+           
+            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFilaComportamiento(" + num + ',' + idComportamiento.toString()+ ',"' + fechaInicioComporta.toString()+ '","'+fechaFinComporta.toString()+'")'+"'> <i class='fas fa-pencil-alt'></i> </button> <button type='button' onclick='EliminaFilaComportaConfirmacion("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
+            Tabla.appendChild(TR);
+
+            //agregamos hiddens
+            let DivConceptos = document.getElementById("divComportamiento");
+            let HiddenIndex = document.createElement("input");
+            let HiddenIdComportamiento = document.createElement("input");
+            let HiddenFechaInicioComporta = document.createElement("input");
+            let HiddenFinComporta = document.createElement("input");
+           
+            HiddenIndex.name = "PlanificacionComportamientos.Index";
+            HiddenIndex.value = num;
+            HiddenIndex.type = "hidden";
+            HiddenIdComportamiento.name = "PlanificacionComportamientos[" + num + "].IdCompetencia";
+            HiddenIdComportamiento.value = idComportamiento;
+            HiddenIdComportamiento.type = "hidden";
+            HiddenFechaInicioComporta.name = "PlanificacionComportamientos[" + num + "].FechaInicio";
+            HiddenFechaInicioComporta.value = fechaInicioComporta;
+            HiddenFechaInicioComporta.type = "hidden";
+            HiddenFinComporta.name = "PlanificacionComportamientos[" + num + "].FechaFin";
+            HiddenFinComporta.value = fechaFinComporta;
+            HiddenFinComporta.type = "hidden";
+           
+            DivConceptos.appendChild(HiddenIndex);
+            DivConceptos.appendChild(HiddenIdComportamiento);
+            DivConceptos.appendChild(HiddenFechaInicioComporta);
+            DivConceptos.appendChild(HiddenFinComporta);
+          
+            document.getElementById("IdComportamiento").value = "";
+            document.getElementById("FechaInicioComporta").value = "";
+            document.getElementById("FechaFinComporta").value = "";
+         
+
+
+            num++;
+
+
+
+     }
+
+      function CuentaComportamientos() {
+
+       const tableRows = document.querySelectorAll('#comportamientoTable tr.rowdata');
+      
+       if (tableRows.length<3)
+       {
+           return true;
+       }
+       return false;
+    }
+
+     function duplicados(dato,comparar,tipo) {
+
+        const tableRows = document.querySelectorAll('#comportamientoTable tr.rowdata');
+
+
+        // Recorremos las filas que tengan el class="row"
+        // así obviamos la cabecera
+        for (let i = 0; i < tableRows.length; i++) {
+            const row = tableRows[i];
+            const status = row.querySelector('.'+comparar);
+
+            if (dato == status.innerText) {
+                alert("El dato " + dato+" ya existe en " +tipo);
+                return true;
+            }
+            // Para modificar un estado:
+            // status.innerText = 'offline';
+        }
+        return false;
+
+    }
+
+     function EliminaFilaComportamiento(id) {
+
+        $("#" + id).remove();
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDeleteComportamiento", "Objetivo", new { area = "Valoracion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+    }
+
+    function EliminaFilaComportamientoConfirmacion(id) {
+        if (confirm('¿Estás segura de eliminar este registro?')) {
+       
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDeleteComportamiento", "Objetivo", new { area = "Valoracion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+            $("#" + id).remove();
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+        
+        
+       }
+    }
+
+        function ActualizaFilaComportamiento(id,idComportamiento,fechaInicio,fechaFin) {
+            
+            document.getElementById("idactComportamiento").value = id;
+            document.getElementById("IdComportamiento").value = idComportamiento;
+            document.getElementById("FechaInicioComporta").value = fechaInicio;
+            document.getElementById("FechaFinComporta").value = fechaFin;
+       
+        }
+
+        //FIN COMPORTAMIENTO
 </script>

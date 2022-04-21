@@ -56,5 +56,7 @@ namespace WordVision.ec.Application.DTOs.Valoracion
         public string DescEstado { get; set; }
         public string ObservacionLider { get; set; }
         public string NombreColaborador { get; set; }
-    }
+
+        public List<ComportamientoResponse> Comportamientos { get; set; }
+}
 }

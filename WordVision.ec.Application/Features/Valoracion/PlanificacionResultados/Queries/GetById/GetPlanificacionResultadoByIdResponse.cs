@@ -34,5 +34,6 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
         public Resultado Resultados { get; set; }
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
         public ICollection<AvanceObjetivo> AvanceObjetivoS { get; set; }
+        public ICollection<PlanificacionComportamiento> PlanificacionComportamientos { get; set; }
     }
 }

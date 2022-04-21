@@ -44,6 +44,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
         public decimal? PonderacionResultado { get; set; }
         public ICollection<AvanceObjetivo> AvanceObjetivos { get; set; }
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
+        public ICollection<PlanificacionComportamiento> PlanificacionComportamientos { get; set; }
         public int AnioFiscal { get; set; }
         public int Proceso { get; set; }
         public class UpdatePlanificacionResultadoCommandHandler : IRequestHandler<UpdatePlanificacionResultadoCommand, Result<int>>
@@ -166,6 +167,12 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                 {
                     var avance = _mapper.Map<AvanceObjetivo>(h);
                      obj.AvanceObjetivos.Add(avance);
+                }
+
+                foreach (var h in command.PlanificacionComportamientos)
+                {
+                    var comportamiento = _mapper.Map<PlanificacionComportamiento>(h);
+                    obj.PlanificacionComportamientos.Add(comportamiento);
                 }
 
                 if (command.Proceso == 1)// para saber si es el final del proceso o se deveolvio

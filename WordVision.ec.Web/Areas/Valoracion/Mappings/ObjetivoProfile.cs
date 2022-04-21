@@ -34,6 +34,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Mappings
             CreateMap<GetObjetivoPonderacionResponse, ObjetivoAnioFiscalViewModel>().ReverseMap();
             CreateMap<PlanificacionHito, PlanificacionHitoViewModel>().ReverseMap();
             CreateMap<AvanceObjetivo, AvanceObjetivoViewModel>().ReverseMap();
+            CreateMap<PlanificacionComportamiento, PlanificacionComportamientoViewModel>().ReverseMap();
         }
     }
 }

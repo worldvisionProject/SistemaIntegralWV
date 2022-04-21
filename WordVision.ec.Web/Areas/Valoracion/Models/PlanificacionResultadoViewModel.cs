@@ -30,6 +30,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public int ReportaId { get; set; }
         public int IdPadre { get; set; }
         public int IdPadreCompetencia { get; set; }
+        public int? IdComportamiento { get; set; }
         public int IdResultado { get; set; }
         public int IdResultadoOpcional { get; set; }
         public SelectList TipoList { get; set; }

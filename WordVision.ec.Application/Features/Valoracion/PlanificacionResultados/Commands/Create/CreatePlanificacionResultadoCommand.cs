@@ -38,6 +38,7 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
         public ObjetivoAnioFiscal ObjetivoAnioFiscales { get; set; }
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
         public ICollection<AvanceObjetivo> AvanceObjetivos { get; set; }
+        public ICollection<PlanificacionComportamiento> PlanificacionComportamientos { get; set; }
     }
     public class CreatePlanificacionResultadoCommandHandler : IRequestHandler<CreatePlanificacionResultadoCommand, Result<int>>
     {
@@ -45,6 +46,7 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
         private readonly IPlanificacionHitoRepository _entidadHitoRepository;
         private readonly IAvanceObjetivoRepository _entidadAvanceRepository;
         private readonly ISeguimientoObjetivoRepository _entidadSeguimientoRepository;
+        private readonly IPlanificacionComportamientoRepository _entidadComportamientoRepository;
         //private readonly IResponsabilidadRepository _responsabilidadRepository;
         //private readonly ICompetenciaRepository _competenciaRepository;
         //private readonly IResultadoRepository _resultadoRepository;
@@ -52,15 +54,15 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
 
         private IUnitOfWork _unitOfWork { get; set; }
 
-        public CreatePlanificacionResultadoCommandHandler(ISeguimientoObjetivoRepository entidadSeguimientoRepository,IAvanceObjetivoRepository entidadAvanceRepository,IPlanificacionHitoRepository entidadHitoRepository,IPlanificacionResultadoRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public CreatePlanificacionResultadoCommandHandler(IPlanificacionComportamientoRepository entidadComportamientoRepository,ISeguimientoObjetivoRepository entidadSeguimientoRepository,IAvanceObjetivoRepository entidadAvanceRepository,IPlanificacionHitoRepository entidadHitoRepository,IPlanificacionResultadoRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _entidadRepository = entidadRepository;
             _entidadHitoRepository = entidadHitoRepository;
             _entidadAvanceRepository = entidadAvanceRepository;
             _entidadSeguimientoRepository = entidadSeguimientoRepository;
-            //_responsabilidadRepository = responsabilidadRepository;
-            //_competenciaRepository = competenciaRepository;
-            //_resultadoRepository = resultadoRepository;
+            _entidadComportamientoRepository = entidadComportamientoRepository;
+             //_competenciaRepository = competenciaRepository;
+             //_resultadoRepository = resultadoRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -127,7 +129,11 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
                 var avance = _mapper.Map<AvanceObjetivo>(h);
                 await _entidadAvanceRepository.InsertAsync(avance);
             }
-
+            foreach (var h in request.PlanificacionComportamientos)
+            {
+                var comportamiento = _mapper.Map<PlanificacionComportamiento>(h);
+                await _entidadComportamientoRepository.InsertAsync(comportamiento);
+            }
             await _entidadSeguimientoRepository.UpdatexTodoAsync(request.IdColaborador, idAnioFiscal);
 
             var seguimiento = new SeguimientoObjetivo();

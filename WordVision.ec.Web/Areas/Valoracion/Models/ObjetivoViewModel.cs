@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using WordVision.ec.Application.DTOs.Valoracion;
 using WordVision.ec.Domain.Entities.Valoracion;
 
 namespace WordVision.ec.Web.Areas.Valoracion.Models
@@ -45,6 +46,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public int IdObjetivoAnioFiscal { get; set; }
         public string DatoManual2 { get; set; }
         public int DatoManual3 { get; set; }
+        public List<ComportamientoResponse> Comportamientos { get; set; }
     }
 
     //public class ObjetivoViewModel

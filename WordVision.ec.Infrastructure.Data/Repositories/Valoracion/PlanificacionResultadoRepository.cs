@@ -24,9 +24,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
         private readonly IRepositoryAsync<Colaborador> _repositoryColaborador;
         private readonly IRepositoryAsync<DetalleCatalogo> _repositoryDetalleCatalogo;
         private readonly IRepositoryAsync<SeguimientoObjetivo> _repositorySeguimientoObjetivo;
+        private readonly IRepositoryAsync<PlanificacionComportamiento> _repositoryPlaniComportamiento;
 
         private readonly IDistributedCache _distributedCache;
-        public PlanificacionResultadoRepository(IRepositoryAsync<SeguimientoObjetivo> repositorySeguimientoObjetivo,IRepositoryAsync<DetalleCatalogo> repositoryDetalleCatalogo,IRepositoryAsync<Colaborador> repositoryColaborador,IRepositoryAsync<Competencia> repositoryCompetencia,IRepositoryAsync<Responsabilidad> repositoryResponsabilidad,IRepositoryAsync<Resultado> repositoryResultado,IRepositoryAsync<PlanificacionResultado> repository, IRepositoryAsync<Objetivo> repositoryObjetivo, IDistributedCache distributedCache)
+        public PlanificacionResultadoRepository(IRepositoryAsync<PlanificacionComportamiento> repositoryPlaniComportamiento,IRepositoryAsync<SeguimientoObjetivo> repositorySeguimientoObjetivo,IRepositoryAsync<DetalleCatalogo> repositoryDetalleCatalogo,IRepositoryAsync<Colaborador> repositoryColaborador,IRepositoryAsync<Competencia> repositoryCompetencia,IRepositoryAsync<Responsabilidad> repositoryResponsabilidad,IRepositoryAsync<Resultado> repositoryResultado,IRepositoryAsync<PlanificacionResultado> repository, IRepositoryAsync<Objetivo> repositoryObjetivo, IDistributedCache distributedCache)
         {
             _repository = repository;
             _distributedCache = distributedCache;
@@ -37,6 +38,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
             _repositoryColaborador = repositoryColaborador;
             _repositoryDetalleCatalogo = repositoryDetalleCatalogo;
             _repositorySeguimientoObjetivo = repositorySeguimientoObjetivo;
+            _repositoryPlaniComportamiento = repositoryPlaniComportamiento;
 
         }
         public IQueryable<PlanificacionResultado> planificacionResultados => _repository.Entities;
@@ -54,6 +56,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                 .Include(y =>y.AvanceObjetivos)
                 .Include(x => x.ObjetivoAnioFiscales)
                 .ThenInclude(m => m.Objetivos)
+                .Include(y => y.PlanificacionComportamientos)
                 .FirstOrDefaultAsync();
         }
 
@@ -68,11 +71,11 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
 
         public async Task<List<PlanificacionResultadoResponse>> GetListxColaboradorAsync(int idObjetivoAnioFiscal, int idColaborador)
         {
-            var result=_repository.Entities.Where(x => x.IdObjetivoAnioFiscal == idObjetivoAnioFiscal && x.IdColaborador == idColaborador)
+            var result = _repository.Entities.Where(x => x.IdObjetivoAnioFiscal == idObjetivoAnioFiscal && x.IdColaborador == idColaborador)
                 .Select(a => new PlanificacionResultadoResponse
                 {
                     IdResultado = a.IdResultado,
-                    Nombre = a.TipoObjetivo==1?_repositoryResultado.Entities.Where(b => b.Id == a.IdResultado && b.IdObjetivoAnioFiscal == a.IdObjetivoAnioFiscal).Select(g => g.Nombre).FirstOrDefault(): a.TipoObjetivo==2? _repositoryResponsabilidad.Entities.Where(b => b.Id == a.IdResultado && b.IdObjetivoAnioFiscal == a.IdObjetivoAnioFiscal).Select(g => g.Nombre).FirstOrDefault(): a.TipoObjetivo == 3 ? _repositoryCompetencia.Entities.Where(b => b.Id == a.IdResultado ).Select(g => g.NombreCompetencia).FirstOrDefault():"",
+                    Nombre = a.TipoObjetivo == 1 ? _repositoryResultado.Entities.Where(b => b.Id == a.IdResultado && b.IdObjetivoAnioFiscal == a.IdObjetivoAnioFiscal).Select(g => g.Nombre).FirstOrDefault() : a.TipoObjetivo == 2 ? _repositoryResponsabilidad.Entities.Where(b => b.Id == a.IdResultado && b.IdObjetivoAnioFiscal == a.IdObjetivoAnioFiscal).Select(g => g.Nombre).FirstOrDefault() : a.TipoObjetivo == 3 ? _repositoryCompetencia.Entities.Where(b => b.Id == a.IdResultado).Select(g => g.NombreCompetencia).FirstOrDefault() : "",
                     Descripcion = a.TipoObjetivo == 1 ? _repositoryResultado.Entities.Where(b => b.Id == a.IdResultado && b.IdObjetivoAnioFiscal == a.IdObjetivoAnioFiscal).Select(g => g.Descripcion).FirstOrDefault() : a.TipoObjetivo == 2 ? _repositoryResponsabilidad.Entities.Where(b => b.Id == a.IdResultado && b.IdObjetivoAnioFiscal == a.IdObjetivoAnioFiscal).Select(g => g.Descripcion).FirstOrDefault() : a.TipoObjetivo == 3 ? _repositoryCompetencia.Entities.Where(b => b.Id == a.IdResultado).Select(g => g.Descripcion).FirstOrDefault() : "",
                     Indicador = a.TipoObjetivo == 1 ? _repositoryResultado.Entities.Where(b => b.Id == a.IdResultado && b.IdObjetivoAnioFiscal == a.IdObjetivoAnioFiscal).Select(g => g.Indicador).FirstOrDefault() : a.TipoObjetivo == 2 ? _repositoryResponsabilidad.Entities.Where(b => b.Id == a.IdResultado && b.IdObjetivoAnioFiscal == a.IdObjetivoAnioFiscal).Select(g => g.Indicador).FirstOrDefault() : a.TipoObjetivo == 3 ? _repositoryCompetencia.Entities.Where(b => b.Id == a.IdResultado).Select(g => g.Comportamiento).FirstOrDefault() : "",
                     Tipo = a.TipoObjetivo == 1 ? _repositoryResultado.Entities.Where(b => b.Id == a.IdResultado && b.IdObjetivoAnioFiscal == a.IdObjetivoAnioFiscal).Select(g => g.Tipo).FirstOrDefault() : a.TipoObjetivo == 2 ? _repositoryResponsabilidad.Entities.Where(b => b.Id == a.IdResultado && b.IdObjetivoAnioFiscal == a.IdObjetivoAnioFiscal).Select(g => g.Tipo).FirstOrDefault() : 0,
@@ -83,10 +86,19 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                     FechaInicio = a.FechaInicio,// a.PlanificacionResultados.Where(u => u.IdResultado == a.Id).Select(q => q.FechaInicio).FirstOrDefault(),
                     FechaFin = a.FechaFin,// a.PlanificacionResultados.Where(u => u.IdResultado == a.Id).Select(q => q.FechaFin).FirstOrDefault(),
                     Ponderacion = a.Ponderacion,// a.PlanificacionResultados.Where(u => u.IdResultado == a.Id).Select(q => q.Ponderacion).FirstOrDefault()
-                    DatoManual1=a.DatoManual1,
+                    DatoManual1 = a.DatoManual1,
                     DatoManual2 = a.DatoManual2,
                     DatoManual3 = a.DatoManual3,
-                })
+                    Comportamientos = _repositoryPlaniComportamiento.Entities.Where(u => u.IdPlanificacion == a.Id).Select(c => new ComportamientoResponse
+                    {
+                        IdCompetencia = c.IdCompetencia,
+                        DescCompetencia = _repositoryCompetencia.Entities.Where(b => b.Id == c.IdCompetencia).Select(g => g.Comportamiento).FirstOrDefault(),
+                        IdPlanificacion =c.IdPlanificacion,
+                        FechaInicio=c.FechaInicio,
+                        FechaFin=c.FechaFin
+                    }).ToList()
+
+                    })
                 .ToListAsync();
 
             return await result;

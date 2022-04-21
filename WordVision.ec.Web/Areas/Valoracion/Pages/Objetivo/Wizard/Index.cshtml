@@ -100,7 +100,7 @@ var viewName = currentStep.ToString().Substring(currentStep.ToString().LastIndex
                         else
                         {
             <input type="submit" value="Finalizar" name="finish" asp-page-handler="Finish" class="btn btn-primary" />
-                @if((int)TempData["Perfil"]!=0)
+                @if(Model.Perfil!=0)
                             {
                                <input type="submit" value="Devolver" name="devolver" asp-page-handler="Devolver" class="btn btn-primary" /> 
                             }

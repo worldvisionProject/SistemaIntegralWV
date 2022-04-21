@@ -76,7 +76,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
         {
             try
             {
-                TempData["Perfil"]=perfil;
+                
                 Perfil = perfil;
                 if (id != null)
                 {
@@ -108,7 +108,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                         }
                         DescEstado= viewModel.Select(p=>p.DescEstadoProceso).FirstOrDefault();
                         
-                        LoadWizardData(viewModel, id);
+                        LoadWizardData(viewModel, id,perfil);
                     }
 
                     if (id == 4)
@@ -128,10 +128,10 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     //    return NotFound();
                     //}
                 }
-                else
-                {
-                    SetEmptyTempData();
-                }
+                //else
+                //{
+                //    SetEmptyTempData();
+                //}
             }
             catch (Exception ex)
             {
@@ -298,7 +298,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                 case 6:
                     var c6 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_7Step)currentStep;
                     DescEstado = c6.DescEstadoProceso;
-                    int perfil = (int)TempData["Perfil"];
+                    int perfil = (int)TempData["IdPerfil"];
                     Perfil = perfil;
                     JumpToStepAsync(currentStep, idStep);
                     break;
@@ -505,7 +505,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                 case 6:
                     var c6 = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_7Step)currentStep;
                     DescEstado = c6.DescEstadoProceso;
-                    int perfil = (int)TempData["Perfil"];
+                    int perfil = (int)TempData["IdPerfil"];
                     Perfil = perfil;
                     if (ModelState.IsValid) MoveToNextStep(currentStep);
                     break;
@@ -600,7 +600,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
             //_service.Save(client);
 
             //OnPostCreateOrEdit(id, client);
-            int perfil = TempData["Perfil"]==null?0: (int)TempData["Perfil"];
+            int perfil = TempData["IdPerfil"] ==null?0: (int)TempData["IdPerfil"];
             Perfil=perfil;
             var c = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_7Step)currentStep;
             int id = c.IdColaborador;
@@ -646,9 +646,10 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
 
         }
 
-        private void LoadWizardData(List<ObjetivoResponseViewModel> client, int IdColaborador)
+        private void LoadWizardData(List<ObjetivoResponseViewModel> client, int IdColaborador,int perfil=0)
         {
             TempData["ClientId"] = IdColaborador;
+            TempData["IdPerfil"] = perfil;
 
             Steps = StepMapper.ToSteps(client).OrderBy(x => x.Position).ToList();
 

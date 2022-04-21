@@ -24,8 +24,9 @@
         </tr>
     </thead>
     <tbody>
-
-        @foreach (var planificacion in Model.PlanificacionResultados)
+         @foreach (var planificacion in Model.PlanificacionResultados)
+        {
+        @foreach (var comportamiento in planificacion.Comportamientos)
         {
         <tr  id="@planificacion.IdPlanificacion">
             <td  style="vertical-align: middle;">
@@ -33,28 +34,25 @@
             </td>
          
                             <td>
-                               @planificacion.Indicador
+                               @comportamiento.DescCompetencia
                             </td> 
 
                
 
                    <td>
-                       @if (planificacion.FechaInicio!=null)
-                        {
-                            @planificacion.FechaInicio.Value.ToShortDateString();
-                        }
+                      
+                            @comportamiento.FechaInicio.ToShortDateString()
+                      
                
                    </td>
                 
                 <td>
-                    @if (planificacion.FechaFin!=null)
-                    {
-                       @planificacion.FechaFin.Value.ToShortDateString();
-                    }
-                
+                    
+                       @comportamiento.FechaFin.ToShortDateString()
+                  
                 </td>
                
-                            <td>
+                            <td style="vertical-align: middle;">
                                 @planificacion.Ponderacion
                             </td>
                             <td style="vertical-align: middle;">
@@ -77,6 +75,7 @@
 
         </tr>
         }
+        }
     </tbody>
 </table>
 <script>
@@ -92,7 +91,8 @@ aoColumnDefs: [
             "language": {
                 "url": "/lib/datatables/language/Spanish.json"
             },
-            'rowsGroup': [5],
+            'rowsGroup': [0,4,5],
+           
             "info": false,"length":false
         });
         
