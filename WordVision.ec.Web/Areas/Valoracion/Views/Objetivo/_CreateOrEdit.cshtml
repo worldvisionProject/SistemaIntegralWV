@@ -199,6 +199,8 @@
                             <input asp-for="Ponderacion" type="text" name="Ponderacion" class="form-control"  />
                             <span asp-validation-for="Ponderacion" class="text-danger"></span>
                         </div>
+                        <input type="hidden" asp-for="FechaInicio" name="FechaInicio" value=@DateTime.Now />
+                        <input type="hidden" asp-for="FechaFin" name="FechaFin"   value=@DateTime.Now />
                     </div>
         
                 }
