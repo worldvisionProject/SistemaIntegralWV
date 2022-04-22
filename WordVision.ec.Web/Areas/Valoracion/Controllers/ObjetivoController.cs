@@ -303,10 +303,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     decimal suma = 0;
                     decimal sumaBasePoderacion = 0;
 
-                    if (entidad.Estado==1|| entidad.Estado == 0)
-                    {
-                        
-
+                   
                         //if (!(contar>=ponderacion.Data.Minimo && contar <= ponderacion.Data.Maximo))
                         if (!(contar <= ponderacion.Data.Maximo))
                         {
@@ -333,7 +330,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
 
                             return new JsonResult(new { isValid = false });
                         }
-                    }
+                    
                     
                     if (id == 0)
                     {
@@ -355,8 +352,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     }
                     else
                     {
-                        if (entidad.Estado == 1 || entidad.Estado == 0)
-                        {
+                       
                             var lista = planifica.Data.ToList();
                             foreach(var item in lista)
                             {
@@ -371,7 +367,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                                 }
                             
                             }
-                        }
+                       
 
                         var updateEntidadCommand = _mapper.Map<UpdatePlanificacionResultadoCommand>(entidad);
                         var result = await _mediator.Send(updateEntidadCommand);

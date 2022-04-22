@@ -15,7 +15,7 @@
       @*<div  style="background-color:#EC7D31; height: 78px;color:beige; padding: 5px 5px 5px 5px;">*@
                 <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Descripción de objetivo</font> @Model.NumeroObjetivo: @Model.Objetivo </label>
                 <label class="col-md-12 col-form-label texto-pregunta">@Model.DescObjetivo</label>
-                  
+                <label class="col-md-12 col-form-label texto-pregunta">Valor máximo para Ponderación de Resultado: <font style="font-weight: bold;">@Model.PonderacionObjetivo</font></label>    
                
        @* </div> *@
     </div>
@@ -32,7 +32,7 @@
      <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=0&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=2&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivos 3')">
                         <i class="fa fa-plus-square"></i>
                             Agregar Responsabilidad</button> 
-      </div> <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 15px !important;font-weight: bold;color:red">* Debe ingresar 2 Resposabilidades obligatoriamente. Puede ingresar una manualmente.</label>
+      </div> <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 16px !important;font-weight: bold;color:red">* Debe ingresar 2 Resposabilidades obligatoriamente. Puede ingresar una manualmente.</label>
      </div>  
  </div>  
     <div id="viewAll" class="card-body card-body-card table-responsive">

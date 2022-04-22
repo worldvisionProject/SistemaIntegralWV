@@ -46,6 +46,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public int IdObjetivoAnioFiscal { get; set; }
         public string DatoManual2 { get; set; }
         public int DatoManual3 { get; set; }
+        public int Estado { get; set; }
+        public string ObservacionLider { get; set; }
         public List<ComportamientoResponse> Comportamientos { get; set; }
     }
 

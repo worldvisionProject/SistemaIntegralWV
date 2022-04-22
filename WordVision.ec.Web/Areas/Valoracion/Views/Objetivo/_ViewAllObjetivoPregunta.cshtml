@@ -35,7 +35,7 @@
 
         @foreach (var planificacion in Model.PlanificacionResultados)
         {
-        <tr  id="@planificacion.IdPlanificacion">
+       <tr  id="@planificacion.IdPlanificacion" style="@(planificacion.Estado==3 && planificacion.ObservacionLider!=null?"background-color:red":"")" >
            
                             <td>
                                @planificacion.DatoManual1
@@ -104,7 +104,7 @@ aoColumnDefs: [
 
 
      function EliminaFila(id,idColaborador,idObjetivo, anioFiscal, idObjetivoAnioFiscal , numeroObjetivo , ponderacionObjetivo) {
-
+        if (confirm('¿Estás segura de eliminar este registro?')) {
         $("#" + id).remove();
         var IdiomaViewModel = {
             id: id,
@@ -130,5 +130,6 @@ aoColumnDefs: [
                // alert('No Valid Data');
             }
         });
+      }
     }
 </script>

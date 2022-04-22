@@ -89,6 +89,8 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                     DatoManual1 = a.DatoManual1,
                     DatoManual2 = a.DatoManual2,
                     DatoManual3 = a.DatoManual3,
+                    Estado=a.Estado,
+                    ObservacionLider=a.ObservacionLider,
                     Comportamientos = _repositoryPlaniComportamiento.Entities.Where(u => u.IdPlanificacion == a.Id).Select(c => new ComportamientoResponse
                     {
                         IdCompetencia = c.IdCompetencia,

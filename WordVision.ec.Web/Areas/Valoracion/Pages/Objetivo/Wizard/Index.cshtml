@@ -50,30 +50,30 @@ var viewName = currentStep.ToString().Substring(currentStep.ToString().LastIndex
                     <li role="presentation" class="stepactive1 @(currentStep.Position==0 ? " active" : " disabled")">
 
                         @*<a onclick="document.forms[0].submit();return false;" asp-page-handler="Step1" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">*@
-                        <button type="submit" value="1" name="Step1" asp-page-handler="StepLink" asp-route-idStep="0" class="btnwizard btn-redondo stepactive1 @(currentStep.Position==0 ? " btn-active" : " btn-disabled")" data-title="Objetivo Uno">1</button>
+                        <button type="submit" value="1" name="Step1" asp-page-handler="StepLink" asp-route-idStep="0" class="btnwizard btn-redondo stepactive1 @(currentStep.Position==0 ? " btn-active" : " btn-disabled")" data-title="Objetivo Uno POA">1</button>
                         @*<span class="round-tab">
                                 1
                             </span>*@ @*</a>*@
                         </li>
                         <li role="presentation" class="stepactive2 @(currentStep.Position==1 ? " active" : " disabled")">
-                            <button type="submit" value="2" name="Step2" asp-page-handler="StepLink" asp-route-idStep="1" class="btnwizard btn-redondo stepactive2 @(currentStep.Position==1 ? " btn-active" : " btn-disabled")" data-title="Objetivo Dos">2</button>
+                            <button type="submit" value="2" name="Step2" asp-page-handler="StepLink" asp-route-idStep="1" class="btnwizard btn-redondo stepactive2 @(currentStep.Position==1 ? " btn-active" : " btn-disabled")" data-title="Objetivo Dos Compromisos con la Organización">2</button>
                         </li>
                        <li role="presentation" class="stepactive3 @(currentStep.Position==2 ? " active":" disabled")">
-                            <button type="submit" value="3" name="Step3" asp-page-handler="StepLink" asp-route-idStep="2" class="btnwizard btn-redondo stepactive3 @(currentStep.Position==2 ? " btn-active" : " btn-disabled")" data-title="Objetivo Tres">3</button>
+                            <button type="submit" value="3" name="Step3" asp-page-handler="StepLink" asp-route-idStep="2" class="btnwizard btn-redondo stepactive3 @(currentStep.Position==2 ? " btn-active" : " btn-disabled")" data-title="Objetivo Tres Responsabilidades Posición">3</button>
                         </li>
                          <li role="presentation" class="stepactive4 @(currentStep.Position==3 ? " active":" disabled")">
-                            <button type="submit" value="4" name="Step4" asp-page-handler="StepLink" asp-route-idStep="3" class="btnwizard btn-redondo stepactive4 @(currentStep.Position==3 ? " btn-active" : " btn-disabled")" data-title="Objetivo Cuatro">4</button>
+                            <button type="submit" value="4" name="Step4" asp-page-handler="StepLink" asp-route-idStep="3" class="btnwizard btn-redondo stepactive4 @(currentStep.Position==3 ? " btn-active" : " btn-disabled")" data-title="Objetivo Cuatro Competencias Requeridas para el cumplimiento de los objetivos">4</button>
                         </li>
                        <li role="presentation" class="stepactive5 @(currentStep.Position==4 ? " active":" disabled")">
-                            <button type="submit" value="5" name="Step5" asp-page-handler="StepLink" asp-route-idStep="4" class="btnwizard btn-redondo stepactive5 @(currentStep.Position==4 ? " btn-active" : " btn-disabled")" data-title="Objetivo Cinco">5</button>
+                            <button type="submit" value="5" name="Step5" asp-page-handler="StepLink" asp-route-idStep="4" class="btnwizard btn-redondo stepactive5 @(currentStep.Position==4 ? " btn-active" : " btn-disabled")" data-title="Objetivo Cinco CONFIANZA">5</button>
                         </li>
                          <li role="presentation" class="stepactive6 @(currentStep.Position==5 ? " active":" disabled")">
-                            <button type="submit" value="6" name="Step6" asp-page-handler="StepLink" asp-route-idStep="5" class="btnwizard btn-redondo stepactive6 @(currentStep.Position==5 ? " btn-active" : " btn-disabled")" data-title="Objetivo Seis">6</button>
+                            <button type="submit" value="6" name="Step6" asp-page-handler="StepLink" asp-route-idStep="5" class="btnwizard btn-redondo stepactive6 @(currentStep.Position==5 ? " btn-active" : " btn-disabled")" data-title="Objetivo Seis Conversación sobre carrera">6</button>
                         </li>
                         <li role="presentation" class="stepactive7 @(currentStep.Position==6 ? " active":" disabled")">
 
 
-                            <button type="submit" data-title="Objetivo Siete" name="Step7" asp-page-handler="StepLink" asp-route-idStep="6" class="btnwizard btn-redondo stepactive7 @(currentStep.Position==6 ? " btn-active" : " btn-disabled")">7</button>
+                            <button type="submit" data-title="Objetivo Siete Balance de vida" name="Step7" asp-page-handler="StepLink" asp-route-idStep="6" class="btnwizard btn-redondo stepactive7 @(currentStep.Position==6 ? " btn-active" : " btn-disabled")">7</button>
                           
                         </li>
                     </ul>
@@ -100,7 +100,7 @@ var viewName = currentStep.ToString().Substring(currentStep.ToString().LastIndex
                         else
                         {
             <input type="submit" value="Finalizar" name="finish" asp-page-handler="Finish" class="btn btn-primary" />
-                @if(Model.Perfil!=0)
+                            @if(Model.Perfil!=0)
                             {
                                <input type="submit" value="Devolver" name="devolver" asp-page-handler="Devolver" class="btn btn-primary" /> 
                             }

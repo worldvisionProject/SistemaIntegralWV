@@ -15,7 +15,7 @@
            <input type="hidden" asp-for="ObjetivoAnioFiscales.IdObjetivo" name="ObjetivoAnioFiscales.IdObjetivo"  class="form-control">
             <input type="hidden" asp-for="ObjetivoAnioFiscales.AnioFiscal" name="ObjetivoAnioFiscales.AnioFiscal"  class="form-control">
             <input type="hidden" asp-for="ObjetivoAnioFiscales.Id" name="ObjetivoAnioFiscales.Id"  class="form-control">
-            <input type="hidden" asp-for="IdColaborador" name="IdColaborador" value="@Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value)" class="form-control">
+            <input type="hidden" asp-for="IdColaborador" name="IdColaborador" value="@Model.IdColaborador" class="form-control">
             <input type="hidden" asp-for="ReportaId" name="ReportaId" value="@Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value)" class="form-control">
      @if (Model.NumeroObjetivo==5 || Model.NumeroObjetivo==6|| Model.NumeroObjetivo==7)
     {
@@ -347,7 +347,7 @@
                                                         </td>
                                         
                                                         <td class="text-right">
-                                                            <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFila(@hito.Id,@hito.Nombre,@hito.Indicador,@hito.Tipo,@hito.Meta.ToString().Replace(",", "."),'@hito.FechaInicio','@hito.FechaFin')">
+                                                            <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFila(@hito.Id,'@hito.Nombre','@hito.Indicador',@hito.Tipo,@hito.Meta.ToString().Replace(",", "."),'@hito.FechaInicio','@hito.FechaFin')">
                                                                 <i class="fas fa-pencil-alt"></i>
                                                             </button>
                                                             <button type="button" onclick="EliminaFilaConfirmacion(@hito.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
@@ -448,10 +448,10 @@
                                                         </td>
                                         
                                                         <td class="text-right">
-                                                            <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFilaComportamiento(@comportamiento.Id,'@comportamiento.FechaInicio','@comportamiento.FechaFin')">
+                                                            <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFilaComportamiento(@comportamiento.Id,@comportamiento.IdCompetencia,'@comportamiento.FechaInicio','@comportamiento.FechaFin')">
                                                                 <i class="fas fa-pencil-alt"></i>
                                                             </button>
-                                                            <button type="button" onclick="EliminaFilaConfirmacion(@comportamiento.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+                                                            <button type="button" onclick="EliminaFilaComportamientoConfirmacion(@comportamiento.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
 
                                                         </td>
 
@@ -472,7 +472,8 @@
     }   
     @if (Model.Estado == 2 || Model.Estado == 3)
     {
-        <div class="form-group row">
+       
+            <div class="form-group row">
             <div class="col-md-12">
                         <label class="col-md-12 col-form-label texto-pregunta">
                         Observación del Lider</label>
@@ -482,6 +483,8 @@
                      
                  
             </div>
+      
+        
      }
 
      @if (Model.Estado ==4)

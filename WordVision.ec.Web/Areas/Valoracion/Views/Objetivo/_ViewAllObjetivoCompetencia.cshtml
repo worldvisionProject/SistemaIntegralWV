@@ -28,7 +28,7 @@
         {
         @foreach (var comportamiento in planificacion.Comportamientos)
         {
-        <tr  id="@planificacion.IdPlanificacion">
+        <tr  id="@planificacion.IdPlanificacion" style="@(planificacion.Estado==3 && planificacion.ObservacionLider!=null?"background-color:red":"")" >
             <td  style="vertical-align: middle;">
               <font style="font-weight: bold;"> @planificacion.Nombre</font> @planificacion.Descripcion 
             </td>
@@ -91,7 +91,7 @@ aoColumnDefs: [
             "language": {
                 "url": "/lib/datatables/language/Spanish.json"
             },
-            'rowsGroup': [0,4,5],
+            'rowsGroup': [0,4,5,6],
            
             "info": false,"length":false
         });
@@ -111,7 +111,7 @@ aoColumnDefs: [
 
 
      function EliminaFila(id,idColaborador,idObjetivo, anioFiscal, idObjetivoAnioFiscal , numeroObjetivo , ponderacionObjetivo) {
-
+          if (confirm('¿Estás segura de eliminar este registro?')) {
         $("#" + id).remove();
         var IdiomaViewModel = {
             id: id,
@@ -137,5 +137,6 @@ aoColumnDefs: [
                // alert('No Valid Data');
             }
         });
+      }
     }
 </script>
