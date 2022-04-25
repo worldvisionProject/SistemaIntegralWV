@@ -17,7 +17,8 @@
             <input type="hidden" asp-for="ObjetivoAnioFiscales.Id" name="ObjetivoAnioFiscales.Id"  class="form-control">
             <input type="hidden" asp-for="IdColaborador" name="IdColaborador" value="@Model.IdColaborador" class="form-control">
             <input type="hidden" asp-for="ReportaId" name="ReportaId" value="@Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value)" class="form-control">
-     @if (Model.NumeroObjetivo==5 || Model.NumeroObjetivo==6|| Model.NumeroObjetivo==7)
+            <input type="hidden" asp-for="Ponderacion" name="Ponderacion"  class="form-control">
+    @if (Model.NumeroObjetivo==5 || Model.NumeroObjetivo==6|| Model.NumeroObjetivo==7)
     {
          <input asp-for="Meta" type="hidden" name="Meta" value="0" class="form-control"  />
           <input asp-for="Ponderacion" type="hidden" name="Ponderacion" value="0" class="form-control"  />
@@ -487,7 +488,7 @@
         
      }
 
-     @if (Model.Estado ==4)
+     @if (Model.Estado ==4 || Model.Estado ==5)
     {
          @if (Model.NumeroObjetivo==1 || Model.NumeroObjetivo==2 || Model.NumeroObjetivo==3 || Model.NumeroObjetivo==4 )
         {
@@ -501,36 +502,41 @@
                         <div class="card-body">
                             <div class="container-fluid">
                            
-                              
-                                 <div class="form-group row">
-                                     <div class="col-md-2">
-                                        <label class="col-md-12 col-form-label texto-pregunta">Fecha Cumplimiento</label>
-                                         <input type="text" asp-for="FechaCumplimientoAvance" name="FechaCumplimientoAvance" class="datepicker form-control"  />
-                                        <span asp-validation-for="FechaCumplimientoAvance" class="text-danger"></span>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label class="col-md-12 col-form-label texto-pregunta">Porcentaje</label>
-                                        <input asp-for="PorcentajeAvance" type="text" name="PorcentajeAvance" class="form-control"  />
-                                        <span asp-validation-for="PorcentajeAvance" class="text-danger"></span>
-                                    </div>
-                                     <div class="col-md-4">
-                                        <label class="col-md-12 col-form-label texto-pregunta">Comentario Colaborador</label>
-                                         <textarea asp-for="ComentarioAvance" name="ComentarioAvance" class="form-control"></textarea>
-                                        <span asp-validation-for="ComentarioAvance" class="text-danger"></span>
-                                    </div>
-                                     <div class="col-md-4">
-                                        <label class="col-md-12 col-form-label texto-pregunta">Comentario Lider</label>
-                                        <textarea asp-for="ComentarioLiderAvance" name="ComentarioLiderAvance" class="form-control"></textarea>
-                                        <span asp-validation-for="ComentarioLiderAvance" class="text-danger"></span>
-                                    </div>
+                                @if(Model.Perfil==0 && Model.Estado ==4)
+                                { 
+                                    <div id="divDatosAvance">
+                                         <div class="form-group row">
+                                             <div class="col-md-3">
+                                                <label class="col-md-12 col-form-label texto-pregunta">Fecha Cumplimiento</label>
+                                                 <input type="text" asp-for="FechaCumplimientoAvance" name="FechaCumplimientoAvance" class="datepicker form-control"  />
+                                                <span asp-validation-for="FechaCumplimientoAvance" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="col-md-12 col-form-label texto-pregunta">Porcentaje</label>
+                                                <input asp-for="PorcentajeAvance" type="text" name="PorcentajeAvance" class="form-control"  />
+                                                <span asp-validation-for="PorcentajeAvance" class="text-danger"></span>
+                                            </div>
+                                             <div class="col-md-4">
+                                                <label class="col-md-12 col-form-label texto-pregunta">Comentario Colaborador</label>
+                                                 <textarea asp-for="ComentarioAvance" name="ComentarioAvance" class="form-control"></textarea>
+                                                <span asp-validation-for="ComentarioAvance" class="text-danger"></span>
+                                            </div>
+                                             <div class="col-md-3">
+                                                <label class="col-md-12 col-form-label texto-pregunta">Comentario Lider</label>
+                                                <textarea asp-for="ComentarioLiderAvance" name="ComentarioLiderAvance" class="form-control"></textarea>
+                                                <span asp-validation-for="ComentarioLiderAvance" class="text-danger"></span>
+                                            </div>
                
-                                 </div>
-                                <div class="form-group row">
-                                        <div class="col-md-4" style="padding-top: 25px;">
-                                            <button type="button" class="btn bg-success" onclick="AgregaAvance(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+                                         </div>
+                                        <div class="form-group row">
+                                                <div class="col-md-4" style="padding-top: 25px;">
+                                                    <button type="button" class="btn bg-success" onclick="AgregaAvance(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+                                                </div>
                                         </div>
-                                </div>
-
+                                      </div>
+                            
+                                }
+                       
         
                                 <div id="divAvance">
                                     <table id="avanceTable" class="table table-striped  rwd-table" width="100%" cellspacing="0">
@@ -541,7 +547,11 @@
                                                 <th>Porcentaje</th>
                                                 <th>Comentario Colaborador</th>
                                                 <th>Comentario Lider</th>
-                                                <th class="text-right">Acciones</th>
+                                                 @if(Model.Perfil==0 && Model.Estado ==4)
+                                                    {
+                                                        <th class="text-right">Acciones</th>
+                                                    }
+                                        
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -571,14 +581,17 @@
                                                            @avance.ComentarioLider
                                                         </td>
                                                     
-                                        
-                                                        <td class="text-right">
-                                                            <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFilaAvance(@avance.Id,@avance.FechaCumplimiento,@avance.Porcentaje.ToString().Replace(",", "."),'@avance.Comentario','@avance.ComentarioLider')">
+                                               @if(Model.Perfil==0 && Model.Estado ==4)
+                                                {
+                                                     <td class="text-right">
+                                                            <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFilaAvance(@avance.Id,'@avance.FechaCumplimiento',@avance.Porcentaje.ToString().Replace(",", "."),'@avance.Comentario','@avance.ComentarioLider')">
                                                                 <i class="fas fa-pencil-alt"></i>
                                                             </button>
                                                             <button type="button" onclick="EliminaFilaAvanceConfirmacion(@avance.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
 
                                                         </td>
+                                                }
+                                               
 
                                                     </tr>
                                                     }
@@ -601,7 +614,7 @@
                         <div class="card-body">
                             <div class="container-fluid">
                                 <div class="form-group row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                        <label class="col-md-12 col-form-label texto-pregunta">Fecha Cumplimiento</label>
                                         <input type="text" asp-for="FechaCumplimiento" name="FechaCumplimiento" class="datepicker form-control"  />
                                        <span asp-validation-for="FechaCumplimiento" class="text-danger"></span>
@@ -611,9 +624,9 @@
                                        <input asp-for="PorcentajeCumplimiento" type="text" name="PorcentajeCumplimiento" class="form-control"  />
                                        <span asp-validation-for="PorcentajeCumplimiento" class="text-danger"></span>
                                    </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                        <label class="col-md-12 col-form-label texto-pregunta">Ponderación Resultado</label>
-                                       <input asp-for="PonderacionResultado" type="text" name="PonderacionResultado" class="form-control"  />
+                                       <input asp-for="PonderacionResultado" readonly type="text" name="PonderacionResultado" class="form-control"  />
                                        <span asp-validation-for="PonderacionResultado" class="text-danger"></span>
                                    </div>
                
@@ -769,6 +782,14 @@
                 });
             });
 
+             $("#PorcentajeCumplimiento").change(function () {
+                var p = $("#Ponderacion").val() === "" ? 0 : $("#Ponderacion").val();
+                var c = $("#PorcentajeCumplimiento").val() === "" ? 0 : $("#PorcentajeCumplimiento").val();
+                var total = parseFloat(p.replace(',', '.')) * parseFloat(c.replace(',', '.')/100);
+               $("#PonderacionResultado").val(String(total).replace('.', ','))
+           // document.getElementById("PonderacionResultado").value = ;
+
+        });
         });
 
       $.validator.unobtrusive.parse(document);
@@ -1239,7 +1260,7 @@ function AgregaComportamiento() {
             TDFechaInicioComporta.innerHTML = fechaInicioComporta;
             TDFechaFinComporta.innerHTML = fechaFinComporta;
            
-            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFilaComportamiento(" + num + ',' + idComportamiento.toString()+ ',"' + fechaInicioComporta.toString()+ '","'+fechaFinComporta.toString()+'")'+"'> <i class='fas fa-pencil-alt'></i> </button> <button type='button' onclick='EliminaFilaComportaConfirmacion("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFilaComportamiento(" + num + ',' + idComportamiento.toString()+ ',"' + fechaInicioComporta.toString()+ '","'+fechaFinComporta.toString()+'")'+"'> <i class='fas fa-pencil-alt'></i> </button> <button type='button' onclick='EliminaFilaComportamientoConfirmacion("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
             //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
             Tabla.appendChild(TR);
 

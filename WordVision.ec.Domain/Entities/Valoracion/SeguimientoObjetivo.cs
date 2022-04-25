@@ -17,5 +17,12 @@ namespace WordVision.ec.Domain.Entities.Valoracion
         public int AnioFiscal { get; set; }
 
         public int IdColaborador { get; set; }
+        public string ComentarioColaborador { get; set; }
+        public string ComentarioLider1 { get; set; }
+        public string ComentarioLider2 { get; set; }
+        public string ComentarioLiderMatricial { get; set; }
+        public decimal? ValorValoracionFinal { get; set; }
+        public string ValoracionFinal { get; set; }
+        public string ValoracionLider1 { get; set; }
     }
 }

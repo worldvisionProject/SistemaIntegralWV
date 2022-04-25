@@ -64,8 +64,15 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                                 EstadoProceso = i.EstadoProceso,
                                 DescEstadoProceso = i.DescEstadoProceso,
                                 PonderacionObjetivo =j.Ponderacion,
-                                PlanificacionResultados = j.PlanificacionResultados
-
+                                PlanificacionResultados = j.PlanificacionResultados,
+                                Perfil= i.Perfil,
+                                ComentarioColaborador = i.ComentarioColaborador,
+                                ComentarioLider1 = i.ComentarioLider1,
+                                ComentarioLider2 = i.ComentarioLider2,
+                                ComentarioLiderMatricial = i.ComentarioLiderMatricial,
+                                ValorValoracionFinal = i.ValorValoracionFinal,
+                                ValoracionFinal = i.ValoracionFinal,
+                                ValoracionLider1 = i.ValoracionLider1
                             });
                             break;
                         case "2":
@@ -81,7 +88,15 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                                 PonderacionObjetivo = j.Ponderacion,
                                 PlanificacionResultados = j.PlanificacionResultados,
                                 EstadoProceso = i.EstadoProceso,
-                                DescEstadoProceso = i.DescEstadoProceso
+                                DescEstadoProceso = i.DescEstadoProceso,
+                                Perfil = i.Perfil,
+                                ComentarioColaborador = i.ComentarioColaborador,
+                                ComentarioLider1 = i.ComentarioLider1,
+                                ComentarioLider2 = i.ComentarioLider2,
+                                ComentarioLiderMatricial = i.ComentarioLiderMatricial,
+                                ValorValoracionFinal = i.ValorValoracionFinal,
+                                ValoracionFinal = i.ValoracionFinal,
+                                ValoracionLider1 = i.ValoracionLider1
                             });
                             break;
                         case "3":
@@ -97,7 +112,15 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                                 PonderacionObjetivo = j.Ponderacion,
                                 PlanificacionResultados = j.PlanificacionResultados,
                                 EstadoProceso = i.EstadoProceso,
-                                DescEstadoProceso = i.DescEstadoProceso
+                                DescEstadoProceso = i.DescEstadoProceso,
+                                Perfil = i.Perfil,
+                                ComentarioColaborador = i.ComentarioColaborador,
+                                ComentarioLider1 = i.ComentarioLider1,
+                                ComentarioLider2 = i.ComentarioLider2,
+                                ComentarioLiderMatricial = i.ComentarioLiderMatricial,
+                                ValorValoracionFinal = i.ValorValoracionFinal,
+                                ValoracionFinal = i.ValoracionFinal,
+                                ValoracionLider1 = i.ValoracionLider1
 
                             });
                             break;
@@ -114,7 +137,15 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                                 PonderacionObjetivo = j.Ponderacion,
                                 PlanificacionResultados = j.PlanificacionResultados,
                                 EstadoProceso = i.EstadoProceso,
-                                DescEstadoProceso = i.DescEstadoProceso
+                                DescEstadoProceso = i.DescEstadoProceso,
+                                Perfil = i.Perfil,
+                                ComentarioColaborador = i.ComentarioColaborador,
+                                ComentarioLider1 = i.ComentarioLider1,
+                                ComentarioLider2 = i.ComentarioLider2,
+                                ComentarioLiderMatricial = i.ComentarioLiderMatricial,
+                                ValorValoracionFinal = i.ValorValoracionFinal,
+                                ValoracionFinal = i.ValoracionFinal,
+                                ValoracionLider1 = i.ValoracionLider1
 
                             });
                             break;
@@ -131,7 +162,15 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                                 PonderacionObjetivo = j.Ponderacion,
                                 PlanificacionResultados = j.PlanificacionResultados,
                                 EstadoProceso = i.EstadoProceso,
-                                DescEstadoProceso = i.DescEstadoProceso
+                                DescEstadoProceso = i.DescEstadoProceso,
+                                Perfil = i.Perfil,
+                                ComentarioColaborador = i.ComentarioColaborador,
+                                ComentarioLider1 = i.ComentarioLider1,
+                                ComentarioLider2 = i.ComentarioLider2,
+                                ComentarioLiderMatricial = i.ComentarioLiderMatricial,
+                                ValorValoracionFinal = i.ValorValoracionFinal,
+                                ValoracionFinal = i.ValoracionFinal,
+                                ValoracionLider1 = i.ValoracionLider1
 
                             });
                             break;
@@ -148,7 +187,15 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                                 PonderacionObjetivo = j.Ponderacion,
                                 PlanificacionResultados = j.PlanificacionResultados,
                                 EstadoProceso = i.EstadoProceso,
-                                DescEstadoProceso = i.DescEstadoProceso
+                                DescEstadoProceso = i.DescEstadoProceso,
+                                Perfil = i.Perfil,
+                                ComentarioColaborador = i.ComentarioColaborador,
+                                ComentarioLider1 = i.ComentarioLider1,
+                                ComentarioLider2 = i.ComentarioLider2,
+                                ComentarioLiderMatricial = i.ComentarioLiderMatricial,
+                                ValorValoracionFinal = i.ValorValoracionFinal,
+                                ValoracionFinal = i.ValoracionFinal,
+                                ValoracionLider1 = i.ValoracionLider1
 
                             });
                             break;
@@ -165,8 +212,15 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                                 PonderacionObjetivo = j.Ponderacion,
                                 PlanificacionResultados = j.PlanificacionResultados,
                                 EstadoProceso = i.EstadoProceso,
-                                DescEstadoProceso = i.DescEstadoProceso
-
+                                DescEstadoProceso = i.DescEstadoProceso,
+                                Perfil = i.Perfil,
+                                ComentarioColaborador=i.ComentarioColaborador,
+                                ComentarioLider1 = i.ComentarioLider1,
+                                ComentarioLider2 = i.ComentarioLider2,
+                                ComentarioLiderMatricial = i.ComentarioLiderMatricial,
+                                ValorValoracionFinal = i.ValorValoracionFinal,
+                                ValoracionFinal = i.ValoracionFinal,
+                                ValoracionLider1 = i.ValoracionLider1
                             });
                             break;
                     }

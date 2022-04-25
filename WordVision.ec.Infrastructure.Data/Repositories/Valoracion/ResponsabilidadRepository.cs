@@ -44,7 +44,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
         {
             return await _repository.Entities.Where(g => g.IdEstructura== idEstructura && g.IdObjetivoAnioFiscal== idObjetivoAnioFiscal)
                 .Select(x => new ResponsabilidadResponse
-                {   Id=x.Id,
+                {   /*Id=x.Id,*/
                     IdResponsabilidad = x.IdResponsabilidad,
                     NombreResponsabilidad = x.Nombre,
                     Descripcion = x.Descripcion,

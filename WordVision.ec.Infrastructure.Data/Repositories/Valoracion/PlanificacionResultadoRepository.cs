@@ -109,7 +109,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
 
         public async Task<List<PlanificacionResultadoResponse>> GetListxLiderAsync(int idLider)
         {
-            var result = _repository.Entities.Where(x => x.ReportaId == idLider && (x.Estado==2 || x.Estado == 3 || x.Estado == 4))
+            var result = _repository.Entities.Where(x => x.ReportaId == idLider && (x.Estado!= 1))
                 .GroupBy(x=> new { x.IdColaborador ,x.Estado,x.ObjetivoAnioFiscales.AnioFiscal })
                  .Select(a => new PlanificacionResultadoResponse
                  {
@@ -130,7 +130,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                .ToListAsync();
         }
 
-        public async Task<List<ObjetivoResponse>> GetListxObjetivoxColaboradorAsync(int idAnioFiscal, int idColaborador)
+        public async Task<List<ObjetivoResponse>> GetListxObjetivoxColaboradorAsync(int idAnioFiscal, int idColaborador,int perfil)
         {
             var repestado = _repositorySeguimientoObjetivo.Entities.Where(v => v.AnioFiscal == idAnioFiscal && v.IdColaborador == idColaborador && v.Ultimo == 1).FirstOrDefault();
             int estado = 1;
@@ -149,6 +149,15 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                 Estado = x.Estado,
                 EstadoProceso= estado,
                 DescEstadoProceso= _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 45 && c.Secuencia == estado.ToString()).FirstOrDefault().Nombre,
+                Perfil= perfil,
+                ComentarioColaborador= _repositorySeguimientoObjetivo.Entities.Where(s=>s.AnioFiscal== idAnioFiscal && s.IdColaborador== idColaborador).FirstOrDefault().ComentarioColaborador,
+                ComentarioLider1 = _repositorySeguimientoObjetivo.Entities.Where(s => s.AnioFiscal == idAnioFiscal && s.IdColaborador == idColaborador).FirstOrDefault().ComentarioLider1,
+                ComentarioLider2 = _repositorySeguimientoObjetivo.Entities.Where(s => s.AnioFiscal == idAnioFiscal && s.IdColaborador == idColaborador).FirstOrDefault().ComentarioLider2,
+                ComentarioLiderMatricial = _repositorySeguimientoObjetivo.Entities.Where(s => s.AnioFiscal == idAnioFiscal && s.IdColaborador == idColaborador).FirstOrDefault().ComentarioLiderMatricial,
+                ValorValoracionFinal = _repositorySeguimientoObjetivo.Entities.Where(s => s.AnioFiscal == idAnioFiscal && s.IdColaborador == idColaborador).FirstOrDefault().ValorValoracionFinal,
+                ValoracionFinal = _repositorySeguimientoObjetivo.Entities.Where(s => s.AnioFiscal == idAnioFiscal && s.IdColaborador == idColaborador).FirstOrDefault().ValoracionFinal,
+                ValoracionLider1 = _repositorySeguimientoObjetivo.Entities.Where(s => s.AnioFiscal == idAnioFiscal && s.IdColaborador == idColaborador).FirstOrDefault().ValoracionLider1,
+
                 AnioFiscales = x.ObjetivoAnioFiscales.Select(q => new ObjetivoAnioFiscalResponse
                 {
                     Id = q.Id,

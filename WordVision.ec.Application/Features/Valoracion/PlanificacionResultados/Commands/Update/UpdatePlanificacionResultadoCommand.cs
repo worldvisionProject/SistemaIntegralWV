@@ -47,6 +47,13 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
         public ICollection<PlanificacionComportamiento> PlanificacionComportamientos { get; set; }
         public int AnioFiscal { get; set; }
         public int Proceso { get; set; }
+        public string ComentarioColaborador { get; set; }
+        public string ComentarioLider1 { get; set; }
+        public string ComentarioLider2 { get; set; }
+        public string ComentarioLiderMatricial { get; set; }
+        public decimal? ValorValoracionFinal { get; set; }
+        public string ValoracionFinal { get; set; }
+        public string ValoracionLider1 { get; set; }
         public class UpdatePlanificacionResultadoCommandHandler : IRequestHandler<UpdatePlanificacionResultadoCommand, Result<int>>
         {
             private readonly IUnitOfWork _unitOfWork;
@@ -68,7 +75,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
             {
                 
 
-                if (command.Estado==2 || command.Estado == 3 || command.Estado == 4)
+                if (command.Estado!=1)
                 {
                     await _entidadRepository.UpdatexColaboradorAsync(command.IdColaborador, command.Estado);
 
@@ -79,12 +86,22 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                     seguimiento.Ultimo = 1;
                     seguimiento.IdColaborador = command.IdColaborador;
                     seguimiento.AnioFiscal = command.AnioFiscal;
+                    if (command.Estado==5)
+                    {
+                        seguimiento.ComentarioColaborador = command.ComentarioColaborador;
+                        seguimiento.ComentarioLider1 = command.ComentarioLider1;
+                        seguimiento.ComentarioLider2 = command.ComentarioLider2;
+                        seguimiento.ComentarioLiderMatricial = command.ComentarioLiderMatricial;
+                        seguimiento.ValoracionFinal = command.ValoracionFinal;
+                        seguimiento.ValoracionLider1 = command.ValoracionLider1;
+                        seguimiento.ValorValoracionFinal = command.ValorValoracionFinal;
+
+                    }
+                    
                     await _entidadSeguimientoRepository.InsertAsync(seguimiento);
 
                     await _unitOfWork.Commit(cancellationToken);
                  
-                    
-                    //return Result<int>.Success(1);
 
                 }
 
@@ -156,6 +173,9 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                 obj.IdObjetivoAnioFiscal = command.IdObjetivoAnioFiscal;
                 //obj.Estado=command.Estado;
                 obj.ObservacionLider = command.ObservacionLider;
+                obj.FechaCumplimiento = command.FechaCumplimiento;
+                obj.PorcentajeCumplimiento=command.PorcentajeCumplimiento;
+                obj.PonderacionResultado=command.PonderacionResultado;
                 foreach (var h in command.PlanificacionHitos)
                 {
                     var hito = _mapper.Map<PlanificacionHito>(h);

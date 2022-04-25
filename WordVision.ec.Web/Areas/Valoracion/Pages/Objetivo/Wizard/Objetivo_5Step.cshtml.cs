@@ -21,7 +21,14 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
         public List<PlanificacionResultadoResponse> PlanificacionResultados { get; set; }
         public int EstadoProceso { get; set; }
         public string DescEstadoProceso { get; set; }
-
+        public int Perfil { get; set; }
+        public string ComentarioColaborador { get; set; }
+        public string ComentarioLider1 { get; set; }
+        public string ComentarioLider2 { get; set; }
+        public string ComentarioLiderMatricial { get; set; }
+        public decimal? ValorValoracionFinal { get; set; }
+        public string ValoracionFinal { get; set; }
+        public string ValoracionLider1 { get; set; }
         public Objetivo_5Step()
         {
             Position = 4;

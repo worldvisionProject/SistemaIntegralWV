@@ -99,8 +99,8 @@ var viewName = currentStep.ToString().Substring(currentStep.ToString().LastIndex
                             @*<input type="submit" value="Guardar & Cerrar" name="save" asp-page-handler="Finish" class="btn btn-primary float-right" />*@ }
                         else
                         {
-            <input type="submit" value="Finalizar" name="finish" asp-page-handler="Finish" class="btn btn-primary" />
-                            @if(Model.Perfil!=0)
+            <input type="submit" value="@(Model.Estado==4?"Enviar para Revisión":Model.Estado==5?"Aprobar Valoración":"Finalizar")" name="finish" asp-page-handler="Finish" class="btn btn-primary" />
+                            @if(Model.Perfil==1 && Model.Estado!=5)
                             {
                                <input type="submit" value="Devolver" name="devolver" asp-page-handler="Devolver" class="btn btn-primary" /> 
                             }

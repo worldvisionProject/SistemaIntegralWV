@@ -47,7 +47,7 @@
             loadData();
     });
         function loadData() {
-            $('#viewAll').load('/valoracion/objetivo/LoadObjetivoResultado?id=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&entidad=@Model.PlanificacionResultados&ponderacion=@Model.PonderacionObjetivo.ToString().Replace(",",".")');
+            $('#viewAll').load('/valoracion/objetivo/LoadObjetivoResultado?id=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&entidad=@Model.PlanificacionResultados&ponderacion=@Model.PonderacionObjetivo.ToString().Replace(",",".")&perfil=@Model.Perfil');
         }
 
    

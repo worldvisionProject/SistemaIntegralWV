@@ -62,7 +62,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
             
             return null;     
         }
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idColaborador = 0,int idObjetivo=0,int idObjetivoAnioFiscal=0, int idResultado = 0,int anioFiscal=0,int objNumero=0,int tipoObjetivo=0,decimal ponderacionObjetivo=decimal.Zero)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int idColaborador = 0,int idObjetivo=0,int idObjetivoAnioFiscal=0, int idResultado = 0,int anioFiscal=0,int objNumero=0,int tipoObjetivo=0,decimal ponderacionObjetivo=decimal.Zero,int perfil=0)
         {
             try
             {
@@ -83,6 +83,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     entidadViewModel.PonderacionObjetivo = ponderacionObjetivo;
                     entidadViewModel.NumeroObjetivo = objNumero;
                     entidadViewModel.chkOpcional = 1;//por efecto obligatorio
+                    entidadViewModel.Perfil = perfil;
                     if (objNumero==3)
                     {
                        
@@ -141,7 +142,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     entidadMapper.AnioFiscal = anioFiscal;
                     entidadMapper.PonderacionObjetivo = ponderacionObjetivo;
                     entidadMapper.IdResultado = idResultado;
-
+                    entidadMapper.Perfil = perfil;
                     if (objNumero == 3)
                     {
                         if (idResultado!=0)
@@ -535,7 +536,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
 
             return new JsonResult(new { isValid = false });
         }
-        public async Task<IActionResult> LoadObjetivoResultado(int id = 0,int idObjetivo=0,int idObjetivoAnioFiscal=0,int anioFiscal=0,string objNumero="", List<PlanificacionResultadoResponse> entidad =null,decimal ponderacion=decimal.Zero)
+        public async Task<IActionResult> LoadObjetivoResultado(int id = 0,int idObjetivo=0,int idObjetivoAnioFiscal=0,int anioFiscal=0,string objNumero="", List<PlanificacionResultadoResponse> entidad =null,decimal ponderacion=decimal.Zero,int perfil=0)
         {
             try
             {
@@ -545,6 +546,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 viewModel.IdObjetivoAnioFiscal = idObjetivoAnioFiscal;
                 viewModel.NumeroObjetivo = objNumero;
                 viewModel.PonderacionObjetivo = ponderacion;
+                viewModel.Perfil=perfil;
                 var response = await _mediator.Send(new GetPlanificacionResultadoByIdColabotadorQuery() { IdObjetivoAnioFiscal = idObjetivoAnioFiscal, IdColaborador = id });
                 if (response.Succeeded)
                 {
@@ -566,7 +568,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
         }
 
 
-        public async Task<ActionResult> EnviarMail( int idColaborador,int reportaA,int proceso,int idAnioFiscal)
+        public async Task<ActionResult> EnviarMail( int idColaborador,int reportaA,int proceso,int idAnioFiscal,int estadoProceso=0)
         {
          
             string apellidos = "";
@@ -611,12 +613,29 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 switch (proceso)
                 {
                     case 1:
-                        plantilla = "RevisionLider.html";
-                        estado = 2;
+                        if (estadoProceso==4)
+                        {
+                            plantilla = "";
+                            estado = 5;
+                        }
+                        else
+                        {
+                            plantilla = "RevisionLider.html";
+                            estado = 2;
+                        }
+                       
                         break;
                     case 2:
-                        plantilla = "AprovacionLider.html";
-                        estado = 4;
+                        if (estadoProceso == 5)
+                        {
+                            plantilla = "";
+                            estado = 6;
+                        }
+                        else
+                        {
+                            plantilla = "AprovacionLider.html";
+                            estado = 4;
+                        }
                         break;
                     case 3:
                         plantilla = "DevolverLider.html";
@@ -624,7 +643,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         break;
                 }
 
-
+                if (plantilla!="")
+                { 
                 //Get TemplateFile located at wwwroot/Templates/EmailTemplate/Register_EmailTemplate.html  
                 var pathToFile = _env.WebRootPath
                         + Path.DirectorySeparatorChar.ToString()
@@ -684,7 +704,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         break;
                 }
 
-                     
+               
+
                 PlanificacionResultadoViewModel entidad = new PlanificacionResultadoViewModel();
                 entidad.Estado = estado;
                 entidad.Proceso = 1;// si ya esta en el borton finalizar o devolver
@@ -697,8 +718,40 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 await _emailSender
                     .SendEmailAsync(mail, subject, messageBody,copia)
                     .ConfigureAwait(false);
-                _notify.Success($"Mail Enviado.");
-
+                //_notify.Success($"Mail Enviado.");
+                }
+                else
+                {
+                    PlanificacionResultadoViewModel entidad = new PlanificacionResultadoViewModel();
+                    entidad.Estado = estado;
+                    entidad.Proceso = 1;// si ya esta en el borton finalizar o devolver
+                    entidad.IdColaborador = idColaborador;
+                    entidad.AnioFiscal = idAnioFiscal;
+                    var updateEntidadCommand = _mapper.Map<UpdatePlanificacionResultadoCommand>(entidad);
+                    var result = await _mediator.Send(updateEntidadCommand);
+                    //_notify.Success($"Enviado a .");
+                }
+                switch (estado)
+                {
+                    case 1:
+                        _notify.Success($"Valoración en proceso.");
+                        break;
+                    case 2:
+                        _notify.Success($"Valoración enviado a Lider.");
+                        break;
+                    case 3:
+                        _notify.Success($"Valoración devuelta.");
+                        break;
+                    case 4:
+                        _notify.Success($"Valoración ingresada aprobado por el Lider.");
+                        break;
+                    case 5:
+                        _notify.Success($"Valoración en revisión.");
+                        break;
+                    case 6:
+                        _notify.Success($"Valoración finalizada.");
+                        break;
+                }
 
             }
             catch (Exception ex)
