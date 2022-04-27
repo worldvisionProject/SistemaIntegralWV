@@ -38,6 +38,7 @@ namespace WordVision.ec.Application.DTOs.Valoracion
         public int IdObjetivo { get; set; }
         public int Minimo { get; set; }
         public int Maximo { get; set; }
+        public decimal? ValorValoracionFinal { get; set; }
         public List<PlanificacionResultadoResponse> PlanificacionResultados { get; set; }
     }
     public class PlanificacionResultadoResponse
@@ -64,7 +65,9 @@ namespace WordVision.ec.Application.DTOs.Valoracion
         public string DescEstado { get; set; }
         public string ObservacionLider { get; set; }
         public string NombreColaborador { get; set; }
-
+        public DateTime? FechaCumplimiento { get; set; }
+        public decimal? PorcentajeCumplimiento { get; set; }
+        public decimal? PonderacionResultado { get; set; }
         public List<ComportamientoResponse> Comportamientos { get; set; }
 }
 }

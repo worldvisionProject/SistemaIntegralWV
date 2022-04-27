@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update;
 using WordVision.ec.Application.Features.Valoracion.Escalas.GetById;
+using WordVision.ec.Application.Features.Valoracion.Escalas.Queries.GetAll;
 using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Commands.Create;
 using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Queries.GetById;
 using WordVision.ec.Domain.Entities.Valoracion;
@@ -20,7 +21,7 @@ namespace WordVision.ec.Application.Mappings.Valoracion
             CreateMap<UpdatePlanificacionResultadoCommand, PlanificacionResultado>().ReverseMap();
             CreateMap<GetPlanificacionResultadoByIdResponse, PlanificacionResultado>().ReverseMap();
             CreateMap<GetEscalaByIdResponse, Escala>().ReverseMap();
-
+            CreateMap<GetAllEscalaResponse, Escala>().ReverseMap();
         }
     }
 }

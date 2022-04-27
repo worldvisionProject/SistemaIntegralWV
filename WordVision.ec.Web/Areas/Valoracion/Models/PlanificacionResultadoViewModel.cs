@@ -100,5 +100,14 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public ICollection<PlanificacionComportamientoViewModel> PlanificacionComportamientos { get; set; }
         public int Perfil { get; set; }
         public int Proceso { get; set; }
+
+
+        public string ComentarioColaborador { get; set; }
+        public string ComentarioLider1 { get; set; }
+        public string ComentarioLider2 { get; set; }
+        public string ComentarioLiderMatricial { get; set; }
+        public decimal? ValorValoracionFinal { get; set; }
+        public string ValoracionFinal { get; set; }
+        public string ValoracionLider1 { get; set; }
     }
 }

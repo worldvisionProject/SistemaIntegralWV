@@ -25,6 +25,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public string ValoracionLider1 { get; set; }
         public List<ObjetivoAnioFiscalResponse> AnioFiscales { get; set; }
         public decimal PonderacionObjetivo { get; set; }
+        public List<Escala> Escalas { get; set; }
 
 
     }
@@ -56,7 +57,11 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public int DatoManual3 { get; set; }
         public int Estado { get; set; }
         public string ObservacionLider { get; set; }
+        public DateTime? FechaCumplimiento { get; set; }
+        public decimal? PorcentajeCumplimiento { get; set; }
+        public decimal? PonderacionResultado { get; set; }
         public List<ComportamientoResponse> Comportamientos { get; set; }
+      
     }
 
     //public class ObjetivoViewModel

@@ -197,11 +197,14 @@
             <td class="acciones-td">
            
                 <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Editar" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=@planificacion.IdPlanificacion&idColaborador=@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=@planificacion.IdResultado&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=@{var s=Model.NumeroObjetivo.Contains("3")?2:1;}&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")&perfil=@Model.Perfil','Objetivos @Model.NumeroObjetivo')">
-                    <i class="fas fa-edit"></i>
+                    <i class="@(planificacion.Estado==5?"fas fa-bullseye":"fas fa-edit")"></i>
                 </button>
+                 @if(planificacion.Estado!=5)
+                 {
                  <button type="button" onclick="EliminaFila(@planificacion.IdPlanificacion,@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value,@Model.IdObjetivo,@Model.AnioFiscal,@Model.IdObjetivoAnioFiscal,@Model.NumeroObjetivo,@Model.PonderacionObjetivo.ToString().Replace(",","."))" class="btn btn-danger btn-xp">
                             <i class="fas fa-trash-alt"></i>
                         </button>
+                         }
                 @*<button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/OnGetCreateOrEdit?id=0&idProducto=@producto.Id&idGestion=@Model.IdGestion&idIndicadorEstrategia=@Model.Id','Indicador de Producto')">
                 <i class="fas fa-plus-square"></i>
             </button>*@

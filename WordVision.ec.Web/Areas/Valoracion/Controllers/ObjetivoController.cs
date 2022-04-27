@@ -29,6 +29,7 @@ using WordVision.ec.Web.Areas.Valoracion.Models;
 using WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard;
 using WordVision.ec.Web.Services;
 
+
 namespace WordVision.ec.Web.Areas.Valoracion.Controllers
 {
    
@@ -551,8 +552,11 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 if (response.Succeeded)
                 {
                     entidad = _mapper.Map<List<PlanificacionResultadoResponse>>(response.Data);
+                    
                 }
                 viewModel.PlanificacionResultados = entidad;
+
+                
                 string pagina = objNumero == "4" ? "_ViewAllObjetivoCompetencia" : objNumero == "5" || objNumero == "6" || objNumero == "7" ? "_ViewAllObjetivoPregunta" : "_ViewAllObjetivoResultado";
                 //entidad.NumContacto = formularioViewModel.FormularioTerceros.Where(x => x.Tipo == "C").Count();
                 return PartialView(pagina, viewModel);
@@ -568,7 +572,13 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
         }
 
 
-        public async Task<ActionResult> EnviarMail( int idColaborador,int reportaA,int proceso,int idAnioFiscal,int estadoProceso=0)
+        public async Task<ActionResult> EnviarMail( int idColaborador,int reportaA,int proceso,int idAnioFiscal, string ComentarioColaborador 
+        ,string ComentarioLider1 
+        ,string ComentarioLider2 
+        ,string ComentarioLiderMatricial
+        ,decimal? ValorValoracionFinal 
+        ,string ValoracionFinal
+        ,string ValoracionLider1 , int estadoProceso=0)
         {
          
             string apellidos = "";
@@ -613,7 +623,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 switch (proceso)
                 {
                     case 1:
-                        if (estadoProceso==4)
+                        if (estadoProceso==4 || estadoProceso == 5)
                         {
                             plantilla = "";
                             estado = 5;
@@ -711,7 +721,19 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 entidad.Proceso = 1;// si ya esta en el borton finalizar o devolver
                 entidad.IdColaborador = idColaborador;
                 entidad.AnioFiscal = idAnioFiscal;
-                var updateEntidadCommand = _mapper.Map<UpdatePlanificacionResultadoCommand>(entidad);
+                    if (estado==5)
+                    {
+                        entidad.ComentarioColaborador = ComentarioColaborador;
+                        entidad.ComentarioLider1 = ComentarioLider1;
+                        entidad.ComentarioLider2 = ComentarioLider2;
+                        entidad.ComentarioLiderMatricial = ComentarioLiderMatricial;
+                        entidad.ValorValoracionFinal = ValorValoracionFinal;
+                        entidad.ValoracionFinal = ValoracionFinal;
+                        entidad.ValoracionLider1 = ValoracionLider1;
+
+                    }
+
+                    var updateEntidadCommand = _mapper.Map<UpdatePlanificacionResultadoCommand>(entidad);
                 var result = await _mediator.Send(updateEntidadCommand);
 
 

@@ -40,15 +40,21 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
             }
         }
 
-        public static IEnumerable<StepViewModel> ToSteps(List<ObjetivoResponseViewModel> contact)
+        public static IEnumerable<StepViewModel> ToSteps(List<ObjetivoResponseViewModel> contact,List<EscalaViewModel> escala)
         {
             var d = new List<StepViewModel>();
-
+decimal? valor = 0;
             foreach (var i in contact)
             {
-
+                
                 foreach (var j in i.AnioFiscales)
-                {
+                { 
+                   
+                    foreach (var p in j.PlanificacionResultados)
+                    {
+                        valor = valor + p.PonderacionResultado;
+                    }
+                    
                     switch (i.Numero)
                     {
                         case "1":
@@ -200,6 +206,16 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                             });
                             break;
                         case "7":
+                            string calificacion=string.Empty;
+                            foreach(var e in escala)
+                            {
+                                if (valor>= e.EscalaInicio && valor <= e.EscalaFin)
+                                {
+                                    calificacion = e.Calificacion;
+                                    break;
+                                }
+                            }
+
                             d.Add(new Objetivo_7Step
                             {
                                 IdColaborador = i.IdColaborador,
@@ -218,8 +234,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                                 ComentarioLider1 = i.ComentarioLider1,
                                 ComentarioLider2 = i.ComentarioLider2,
                                 ComentarioLiderMatricial = i.ComentarioLiderMatricial,
-                                ValorValoracionFinal = i.ValorValoracionFinal,
-                                ValoracionFinal = i.ValoracionFinal,
+                                ValorValoracionFinal = valor,
+                                ValoracionFinal = calificacion,
                                 ValoracionLider1 = i.ValoracionLider1
                             });
                             break;

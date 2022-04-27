@@ -25,9 +25,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
         private readonly IRepositoryAsync<DetalleCatalogo> _repositoryDetalleCatalogo;
         private readonly IRepositoryAsync<SeguimientoObjetivo> _repositorySeguimientoObjetivo;
         private readonly IRepositoryAsync<PlanificacionComportamiento> _repositoryPlaniComportamiento;
+        private readonly IRepositoryAsync<Escala> _repositoryEscala;
 
         private readonly IDistributedCache _distributedCache;
-        public PlanificacionResultadoRepository(IRepositoryAsync<PlanificacionComportamiento> repositoryPlaniComportamiento,IRepositoryAsync<SeguimientoObjetivo> repositorySeguimientoObjetivo,IRepositoryAsync<DetalleCatalogo> repositoryDetalleCatalogo,IRepositoryAsync<Colaborador> repositoryColaborador,IRepositoryAsync<Competencia> repositoryCompetencia,IRepositoryAsync<Responsabilidad> repositoryResponsabilidad,IRepositoryAsync<Resultado> repositoryResultado,IRepositoryAsync<PlanificacionResultado> repository, IRepositoryAsync<Objetivo> repositoryObjetivo, IDistributedCache distributedCache)
+        public PlanificacionResultadoRepository(IRepositoryAsync<Escala> repositoryEscala,IRepositoryAsync<PlanificacionComportamiento> repositoryPlaniComportamiento,IRepositoryAsync<SeguimientoObjetivo> repositorySeguimientoObjetivo,IRepositoryAsync<DetalleCatalogo> repositoryDetalleCatalogo,IRepositoryAsync<Colaborador> repositoryColaborador,IRepositoryAsync<Competencia> repositoryCompetencia,IRepositoryAsync<Responsabilidad> repositoryResponsabilidad,IRepositoryAsync<Resultado> repositoryResultado,IRepositoryAsync<PlanificacionResultado> repository, IRepositoryAsync<Objetivo> repositoryObjetivo, IDistributedCache distributedCache)
         {
             _repository = repository;
             _distributedCache = distributedCache;
@@ -39,6 +40,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
             _repositoryDetalleCatalogo = repositoryDetalleCatalogo;
             _repositorySeguimientoObjetivo = repositorySeguimientoObjetivo;
             _repositoryPlaniComportamiento = repositoryPlaniComportamiento;
+            _repositoryEscala = repositoryEscala;
 
         }
         public IQueryable<PlanificacionResultado> planificacionResultados => _repository.Entities;
@@ -150,13 +152,13 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                 EstadoProceso= estado,
                 DescEstadoProceso= _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 45 && c.Secuencia == estado.ToString()).FirstOrDefault().Nombre,
                 Perfil= perfil,
-                ComentarioColaborador= _repositorySeguimientoObjetivo.Entities.Where(s=>s.AnioFiscal== idAnioFiscal && s.IdColaborador== idColaborador).FirstOrDefault().ComentarioColaborador,
-                ComentarioLider1 = _repositorySeguimientoObjetivo.Entities.Where(s => s.AnioFiscal == idAnioFiscal && s.IdColaborador == idColaborador).FirstOrDefault().ComentarioLider1,
-                ComentarioLider2 = _repositorySeguimientoObjetivo.Entities.Where(s => s.AnioFiscal == idAnioFiscal && s.IdColaborador == idColaborador).FirstOrDefault().ComentarioLider2,
-                ComentarioLiderMatricial = _repositorySeguimientoObjetivo.Entities.Where(s => s.AnioFiscal == idAnioFiscal && s.IdColaborador == idColaborador).FirstOrDefault().ComentarioLiderMatricial,
-                ValorValoracionFinal = _repositorySeguimientoObjetivo.Entities.Where(s => s.AnioFiscal == idAnioFiscal && s.IdColaborador == idColaborador).FirstOrDefault().ValorValoracionFinal,
-                ValoracionFinal = _repositorySeguimientoObjetivo.Entities.Where(s => s.AnioFiscal == idAnioFiscal && s.IdColaborador == idColaborador).FirstOrDefault().ValoracionFinal,
-                ValoracionLider1 = _repositorySeguimientoObjetivo.Entities.Where(s => s.AnioFiscal == idAnioFiscal && s.IdColaborador == idColaborador).FirstOrDefault().ValoracionLider1,
+                ComentarioColaborador= _repositorySeguimientoObjetivo.Entities.Where(s=>s.AnioFiscal== idAnioFiscal && s.IdColaborador== idColaborador && s.Ultimo==1).FirstOrDefault().ComentarioColaborador,
+                ComentarioLider1 = _repositorySeguimientoObjetivo.Entities.Where(s => s.AnioFiscal == idAnioFiscal && s.IdColaborador == idColaborador && s.Ultimo == 1).FirstOrDefault().ComentarioLider1,
+                ComentarioLider2 = _repositorySeguimientoObjetivo.Entities.Where(s => s.AnioFiscal == idAnioFiscal && s.IdColaborador == idColaborador && s.Ultimo == 1).FirstOrDefault().ComentarioLider2,
+                ComentarioLiderMatricial = _repositorySeguimientoObjetivo.Entities.Where(s => s.AnioFiscal == idAnioFiscal && s.IdColaborador == idColaborador && s.Ultimo == 1).FirstOrDefault().ComentarioLiderMatricial,
+                //ValorValoracionFinal = x.ObjetivoAnioFiscales.Select(l=> l.PlanificacionResultados.Count()).FirstOrDefault(),
+                //ValoracionFinal = _repositoryEscala.Entities.Where(e => e.EscalaInicio>= x.ObjetivoAnioFiscales.Select(b => b.PlanificacionResultados.Where(n => n.IdColaborador == idColaborador).Sum(s => s.PonderacionResultado).GetValueOrDefault() ).FirstOrDefault()).FirstOrDefault().Calificacion,
+                ValoracionLider1 = _repositorySeguimientoObjetivo.Entities.Where(s => s.AnioFiscal == idAnioFiscal && s.IdColaborador == idColaborador && s.Ultimo == 1).FirstOrDefault().ValoracionLider1,
 
                 AnioFiscales = x.ObjetivoAnioFiscales.Select(q => new ObjetivoAnioFiscalResponse
                 {
@@ -178,8 +180,13 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                         Ponderacion =a.Ponderacion,// a.PlanificacionResultados.Where(u => u.IdResultado == a.Id).Select(q => q.Ponderacion).FirstOrDefault()
                         DatoManual1=a.DatoManual1,
                         DatoManual2= a.DatoManual2,
-                        DatoManual3 = a.DatoManual3
-                    }).Where(n=>n.IdColaborador==idColaborador).ToList()
+                        DatoManual3 = a.DatoManual3,
+                        FechaCumplimiento=a.FechaCumplimiento,
+                        PonderacionResultado=a.PonderacionResultado,
+                        PorcentajeCumplimiento=a.PorcentajeCumplimiento
+
+                    }).Where(n=>n.IdColaborador==idColaborador).ToList(),
+                    ValorValoracionFinal=q.PlanificacionResultados.Count()
                 }).Where(o => o.AnioFiscal== idAnioFiscal).ToList(),
                 
                 //PlanificacionResultado= x.

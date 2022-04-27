@@ -24,7 +24,7 @@
             </td>
            
             <td>
-                <button type="button" onclick="jQueryModalGet('/registro/colaborador/OnGetCreateOrEdit?id=@colaborador.Id','Editar Colaborador')" class="btn btn-warning btn-xp"><i class="fas fa-pencil-alt"></i></button>
+                <button type="button" onclick="jQueryModalGet('/registro/colaborador/OnGetCreateOrEdit?id=@colaborador.Id','Editar Colaborador')" class="btn btn-warning btn-xp"> <i class="@(colaborador.Estado==5?"fas fa-bullseye":"fas fa-edit")"></i></button>
 
             </td>
           
