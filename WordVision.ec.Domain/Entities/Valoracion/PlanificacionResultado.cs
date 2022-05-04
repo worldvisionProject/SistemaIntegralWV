@@ -38,6 +38,7 @@ namespace WordVision.ec.Domain.Entities.Valoracion
         public DateTime? FechaCumplimiento { get; set; }
         public decimal? PorcentajeCumplimiento { get; set; }
         public decimal? PonderacionResultado { get; set; }
+        public string ComentarioCumplimiento { get; set; }
         public int IdObjetivoAnioFiscal { get; set; }
         public ObjetivoAnioFiscal ObjetivoAnioFiscales { get; set; }
         

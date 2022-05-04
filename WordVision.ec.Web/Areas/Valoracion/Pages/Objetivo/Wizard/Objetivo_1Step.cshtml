@@ -10,7 +10,7 @@
            <input type="hidden" asp-for="DescObjetivo" name="DescObjetivo"  class="form-control">
            <input type="hidden" asp-for="EstadoProceso" name="EstadoProceso"  class="form-control">
           <input type="hidden" asp-for="DescEstadoProceso" name="DescEstadoProceso"  class="form-control">
-          
+          <input type="hidden" asp-for="ComentarioColaborador" name="ComentarioColaborador"  class="form-control">
 <div class="container-fluid">
 
     <div class="texto-seccionpregunta">
@@ -55,7 +55,7 @@
             loadData();
     });
         function loadData() {
-            $('#viewAll').load('/valoracion/objetivo/LoadObjetivoResultado?id=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&entidad=@Model.PlanificacionResultados&ponderacion=@Model.PonderacionObjetivo.ToString().Replace(",",".")&perfil=@Model.Perfil');
+            $('#viewAll').load('/valoracion/objetivo/LoadObjetivoResultado?id=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&entidad=@Model.PlanificacionResultados&ponderacion=@Model.PonderacionObjetivo.ToString().Replace(",",".")&perfil=@Model.Perfil&comentario=@Model.ComentarioColaborador');
         }
 
    

@@ -29,9 +29,12 @@
 
    <div class="row">
        <div class="col-md-4">
-     <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=0&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=2&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivos 3')">
+           @if (Model.EstadoProceso==1 || Model.EstadoProceso==2 || Model.EstadoProceso==3)
+            {
+                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=0&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=2&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivos 3')">
                         <i class="fa fa-plus-square"></i>
                             Agregar Responsabilidad</button> 
+           }
       </div> <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 16px !important;font-weight: bold;color:red">* Debe ingresar 2 Resposabilidades obligatoriamente. Puede ingresar una manualmente.</label>
      </div>  
  </div>  

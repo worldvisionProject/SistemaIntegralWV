@@ -16,6 +16,7 @@ using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update;
 using WordVision.ec.Application.Features.Valoracion.Competencias.Queries.GetAll;
 using WordVision.ec.Application.Features.Valoracion.Competencias.Queries.GetById;
+using WordVision.ec.Application.Features.Valoracion.Escalas.Queries.GetAll;
 using WordVision.ec.Application.Features.Valoracion.Objetivos.Queries.GetById;
 using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Commands.Create;
 using WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.Commands.Delete;
@@ -67,6 +68,21 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
         {
             try
             {
+                var idEstructura = 0;
+                var idNivel = 0;
+                   
+                var responseGerencia = await _mediator.Send(new GetColaboradorByIdQuery() { Id = idColaborador });
+                if (responseGerencia.Succeeded)
+                {
+                    if (responseGerencia.Data==null)
+                    {
+                        _notify.Error("El Id de Colaborador: "+ idColaborador+" no existe.");
+                        return new JsonResult(new { isValid = false }); 
+                    }
+                    idEstructura = responseGerencia.Data.Estructuras.Id;
+                    idNivel = responseGerencia.Data.Estructuras.Nivel;
+                }
+
                 if (id == 0)
                 {
                     var entidadViewModel = new PlanificacionResultadoViewModel();
@@ -85,12 +101,13 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     entidadViewModel.NumeroObjetivo = objNumero;
                     entidadViewModel.chkOpcional = 1;//por efecto obligatorio
                     entidadViewModel.Perfil = perfil;
+
                     if (objNumero==3)
                     {
                        
                         var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                         entidadViewModel.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
-                        var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() { IdEstructura = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "IdEstructura")?.Value), IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
+                        var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() { IdEstructura = idEstructura, IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
                         entidadViewModel.IdResponsabillidadList = new SelectList(entidadModelResponsabillidad.Data, "IdResponsabilidad", "NombreResponsabilidad");
                         var entidadModelIndicador = await _mediator.Send(new GetResponsabilidadByIdPadreQuery() { IdPadre = entidadViewModel.IdPadre });
                         entidadViewModel.IdentificadorList = new SelectList(entidadModelIndicador.Data, "Id", "Indicador");
@@ -106,7 +123,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     }
                     else if (objNumero == 4)
                     {
-                        var entidadModelResponsabillidad = await _mediator.Send(new GetAllCompetenciasQuery() { Nivel = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value) });
+                        var entidadModelResponsabillidad = await _mediator.Send(new GetAllCompetenciasQuery() { Nivel = idNivel });
                         entidadViewModel.IdCompetenciaList = new SelectList(entidadModelResponsabillidad.Data, "IdCompetencia", "NombreCompetencia");
                         var entidadModelComportamiento = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = entidadViewModel.IdPadreCompetencia });
                         entidadViewModel.ComportamientoList = new SelectList(entidadModelComportamiento.Data, "Id", "Comportamiento");
@@ -154,7 +171,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         
                         var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                         entidadMapper.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
-                        var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() { IdEstructura = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "IdEstructura")?.Value), IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
+                        var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() { IdEstructura = idEstructura, IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
                         entidadMapper.IdResponsabillidadList = new SelectList(entidadModelResponsabillidad.Data, "IdResponsabilidad", "NombreResponsabilidad");
                         var entidadModelIndicador = await _mediator.Send(new GetResponsabilidadByIdPadreQuery() { IdPadre = entidadMapper.IdPadre });
                         entidadMapper.IdentificadorList = new SelectList(entidadModelIndicador.Data, "Id", "Indicador");
@@ -166,24 +183,26 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     {
                         var entidadResponsabillidad = await _mediator.Send(new GetCompetenciaByIdQuery() { Id = entidadMapper.IdResultado });
                         entidadMapper.IdPadreCompetencia = entidadResponsabillidad.Data.Padre;
-                        var entidadModelResponsabillidad = await _mediator.Send(new GetAllCompetenciasQuery() { Nivel = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value) });
+                        var entidadModelResponsabillidad = await _mediator.Send(new GetAllCompetenciasQuery() { Nivel = idNivel });
                         entidadMapper.IdCompetenciaList = new SelectList(entidadModelResponsabillidad.Data, "IdCompetencia", "NombreCompetencia");
                         var entidadModelComportamiento = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = entidadMapper.IdPadreCompetencia });
                         entidadMapper.ComportamientoList = new SelectList(entidadModelComportamiento.Data, "Id", "Comportamiento");
+                        entidadMapper.chkOpcional = 1;//por efecto obligatorio
                     }
                     else
                     {
                         var entidadModelResultado = await _mediator.Send(new GetAllResultadosCachedQuery() { IdObjetivo = idObjetivo, IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
                         entidadMapper.IdResultadoList = new SelectList(entidadModelResultado.Data.Where(c => c.EsObligatorio == 1), "Id", "Nombre");
-
+                        entidadMapper.chkOpcional = 1;
                     }
 
                     if (objNumero == 2)
                     {
                         var entidadModelResultado = await _mediator.Send(new GetAllResultadosCachedQuery() { IdObjetivo = idObjetivo, IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
-                        entidadMapper.chkOpcional = entidadModelResultado.Data.Where(c => c.Id == entidadMapper.IdResultado).FirstOrDefault().EsObligatorio;
+                        entidadMapper.chkOpcional = entidadModelResultado.Data.Where(c => c.Id == entidadMapper.IdResultado).FirstOrDefault()?.EsObligatorio;
                         entidadMapper.IdResultadoOpcionalList = new SelectList(entidadModelResultado.Data.Where(c => c.EsObligatorio == 0), "Id", "Nombre");
                         entidadMapper.IdResultadoOpcional = entidadMapper.IdResultado;
+                        entidadMapper.chkOpcional = 1;
                     }
 
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadMapper) });
@@ -382,7 +401,10 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     viewModel.IdObjetivoAnioFiscal = entidad.IdObjetivoAnioFiscal;
                     viewModel.NumeroObjetivo = entidad.NumeroObjetivo.ToString();
                     viewModel.PonderacionObjetivo = entidad.PonderacionObjetivo;
-                    var response = await _mediator.Send(new GetPlanificacionResultadoByIdColabotadorQuery() { IdObjetivoAnioFiscal = entidad.IdObjetivoAnioFiscal, IdColaborador = entidad.IdColaborador });
+                    viewModel.Perfil = entidad.Perfil;
+                    viewModel.IdColaborador = entidad.IdColaborador;
+
+                     var response = await _mediator.Send(new GetPlanificacionResultadoByIdColabotadorQuery() { IdObjetivoAnioFiscal = entidad.IdObjetivoAnioFiscal, IdColaborador = entidad.IdColaborador });
                     if (response.Succeeded)
                     {
                         var entidadP = _mapper.Map<List<PlanificacionResultadoResponse>>(response.Data);
@@ -537,7 +559,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
 
             return new JsonResult(new { isValid = false });
         }
-        public async Task<IActionResult> LoadObjetivoResultado(int id = 0,int idObjetivo=0,int idObjetivoAnioFiscal=0,int anioFiscal=0,string objNumero="", List<PlanificacionResultadoResponse> entidad =null,decimal ponderacion=decimal.Zero,int perfil=0)
+        public async Task<IActionResult> LoadObjetivoResultado(int id = 0,int idObjetivo=0,int idObjetivoAnioFiscal=0,int anioFiscal=0,string objNumero="", List<PlanificacionResultadoResponse> entidad =null,decimal ponderacion=decimal.Zero,int perfil=0,string comentario ="")
         {
             try
             {
@@ -547,7 +569,11 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 viewModel.IdObjetivoAnioFiscal = idObjetivoAnioFiscal;
                 viewModel.NumeroObjetivo = objNumero;
                 viewModel.PonderacionObjetivo = ponderacion;
-                viewModel.Perfil=perfil;
+                viewModel.Perfil = perfil;
+                viewModel.IdColaborador = id;
+           
+
+                
                 var response = await _mediator.Send(new GetPlanificacionResultadoByIdColabotadorQuery() { IdObjetivoAnioFiscal = idObjetivoAnioFiscal, IdColaborador = id });
                 if (response.Succeeded)
                 {
@@ -571,7 +597,33 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
 
         }
 
+        public async Task<JsonResult> OnPostAbrirValoracion(int idColaborador,int anioFiscal, int estado)
+        {
+            try
+            {
+                var deleteCommand = await _mediator.Send(new UpdateAbrirEdicionCommand { IdColaborador = idColaborador, AnioFiscal=anioFiscal,Estado=estado });
+                if (deleteCommand.Succeeded)
+                {
+                    _notify.Information($"Valoración con Id Anio Fiscal {anioFiscal} abierto.");
+                    return new JsonResult(new { isValid = true });
+                }
+                else
+                {
+                    _notify.Error(deleteCommand.Message);
+                    return null;
+                }
 
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "OnPostAbrirValoracion");
+                _notify.Error($"Error al Abrir Valoración del Anio Fiscal {anioFiscal}.");
+            }
+
+
+            return new JsonResult(new { isValid = false });
+        }
         public async Task<ActionResult> EnviarMail( int idColaborador,int reportaA,int proceso,int idAnioFiscal, string ComentarioColaborador 
         ,string ComentarioLider1 
         ,string ComentarioLider2 
@@ -590,6 +642,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
             string anioFiscal = "";
             string copia = "";
             int estado = 0;
+            int codReportaA = 0;
             try
             {
                 var responseAF = await _mediator.Send(new GetGestionByIdQuery() { Id = idAnioFiscal });
@@ -599,22 +652,46 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 }
                    var response = await _mediator.Send(new GetColaboradorByIdQuery() { Id = idColaborador });
                 if (response.Succeeded)
-                {
-                    apellidos = response.Data.Apellidos + " " + response.Data.ApellidoMaterno;
-                    nombres = response.Data.PrimerNombre + " " + response.Data.SegundoNombre;
-                    mail = response.Data.Email;
+                { 
+                    if (response.Data!=null)
+                    {
+                        apellidos = response.Data.Apellidos + " " + response.Data.ApellidoMaterno;
+                        nombres = response.Data.PrimerNombre + " " + response.Data.SegundoNombre;
+                        mail = response.Data.Email;
+                        codReportaA = response.Data.Estructuras.ReportaID;
+                        apellidosReporta = response.Data.ApellidosReporta + " " + response.Data.ApellidoMaternoReporta;
+                        nombresReporta = response.Data.PrimerNombreReporta + " " + response.Data.SegundoNombreReporta;
+                        mailReporta = response.Data.EmailReporta;
+
+                        //var responseReporta = await _mediator.Send(new GetColaboradorByIdQuery() { Id = codReportaA });
+                        //    if (responseReporta.Succeeded)
+                        //    {
+                        //        if (responseReporta.Data != null)
+                        //        {
+                        //            apellidosReporta = responseReporta.Data.Apellidos + " " + responseReporta.Data.ApellidoMaterno;
+                        //            nombresReporta = responseReporta.Data.PrimerNombre + " " + responseReporta.Data.SegundoNombre;
+                        //            mailReporta = responseReporta.Data.Email;
+                        //        }
+                        //    else
+                        //    {
+                        //        _notify.Error($"Error en devolver los datos del jefe inmediato. Proceso enviar mail.");
+                        //        _logger.LogError($"Error en devolver los datos del jefe inmediat. Proceso enviar mail.");
+                        //        return RedirectToPage("/Objetivo/Wizard/Index", new { area = "Valoracion", id = idColaborador, perfil = proceso == 1 ? 0 : 1 });
+                        //    }
+                        //}
+
+
+                    }
+                    else
+                    {
+                        _notify.Error($"Error en devolver los datos del colaborador. Proceso enviar mail.");
+                        _logger.LogError($"Error en devolver los datos del colaborador. Proceso enviar mail.");
+                        return RedirectToPage("/Objetivo/Wizard/Index", new { area = "Valoracion", id = idColaborador, perfil = proceso == 1 ? 0 : 1 });
+                    }
+                   
+
                 }
 
-                if (reportaA != 0)
-                {
-                    var responseReporta = await _mediator.Send(new GetColaboradorByIdQuery() { Id = reportaA });
-                    if (responseReporta.Succeeded)
-                    {
-                        apellidosReporta = responseReporta.Data.Apellidos + " " + responseReporta.Data.ApellidoMaterno;
-                        nombresReporta = responseReporta.Data.PrimerNombre + " " + responseReporta.Data.SegundoNombre;
-                        mailReporta = responseReporta.Data.Email;
-                    }
-                }
 
 
 
@@ -714,9 +791,11 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         break;
                 }
 
-               
+                    await _emailSender
+                       .SendEmailAsync(mail, subject, messageBody, copia)
+                       .ConfigureAwait(false);
 
-                PlanificacionResultadoViewModel entidad = new PlanificacionResultadoViewModel();
+                    PlanificacionResultadoViewModel entidad = new PlanificacionResultadoViewModel();
                 entidad.Estado = estado;
                 entidad.Proceso = 1;// si ya esta en el borton finalizar o devolver
                 entidad.IdColaborador = idColaborador;
@@ -737,9 +816,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 var result = await _mediator.Send(updateEntidadCommand);
 
 
-                await _emailSender
-                    .SendEmailAsync(mail, subject, messageBody,copia)
-                    .ConfigureAwait(false);
+              
                 //_notify.Success($"Mail Enviado.");
                 }
                 else
@@ -749,6 +826,18 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     entidad.Proceso = 1;// si ya esta en el borton finalizar o devolver
                     entidad.IdColaborador = idColaborador;
                     entidad.AnioFiscal = idAnioFiscal;
+                    if (estado == 5)
+                    {
+                        entidad.ComentarioColaborador = ComentarioColaborador;
+                        entidad.ComentarioLider1 = ComentarioLider1;
+                        entidad.ComentarioLider2 = ComentarioLider2;
+                        entidad.ComentarioLiderMatricial = ComentarioLiderMatricial;
+                        entidad.ValorValoracionFinal = ValorValoracionFinal;
+                        entidad.ValoracionFinal = ValoracionFinal;
+                        entidad.ValoracionLider1 = ValoracionLider1;
+
+                    }
+
                     var updateEntidadCommand = _mapper.Map<UpdatePlanificacionResultadoCommand>(entidad);
                     var result = await _mediator.Send(updateEntidadCommand);
                     //_notify.Success($"Enviado a .");
@@ -778,12 +867,13 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
             }
             catch (Exception ex)
             {
+                _notify.Error($"Error en enviar al proceso.");
                 _logger.LogError(ex, $"Error en enviar Mail.");
             }
 
             //   return new JsonResult(new { isValid = true });
             // return RedirectToPage("/Wizard/Index", new { area = "Registro" });
-            return RedirectToPage("/Objetivo/Wizard/Index", new { area = "Valoracion",id= idColaborador, perfil=proceso==2?0:1 });
+            return RedirectToPage("/Objetivo/Wizard/Index", new { area = "Valoracion",id= idColaborador, perfil=proceso==1?0:1 });
         }
 
 

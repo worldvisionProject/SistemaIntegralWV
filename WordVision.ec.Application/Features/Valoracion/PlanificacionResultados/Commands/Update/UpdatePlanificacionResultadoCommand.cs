@@ -42,6 +42,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
         public DateTime? FechaCumplimiento { get; set; }
         public decimal? PorcentajeCumplimiento { get; set; }
         public decimal? PonderacionResultado { get; set; }
+        public string ComentarioCumplimiento { get; set; }
         public ICollection<AvanceObjetivo> AvanceObjetivos { get; set; }
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
         public ICollection<PlanificacionComportamiento> PlanificacionComportamientos { get; set; }
@@ -77,7 +78,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
 
                 if (command.Estado!=1)
                 {
-                    await _entidadRepository.UpdatexColaboradorAsync(command.IdColaborador, command.Estado);
+                    await _entidadRepository.UpdatexColaboradorAsync(command.IdColaborador, command.Estado, command.AnioFiscal);
 
                     await _entidadSeguimientoRepository.UpdatexTodoAsync(command.IdColaborador, command.AnioFiscal);
 
@@ -176,6 +177,8 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                 obj.FechaCumplimiento = command.FechaCumplimiento;
                 obj.PorcentajeCumplimiento=command.PorcentajeCumplimiento;
                 obj.PonderacionResultado=command.PonderacionResultado;
+                obj.ComentarioCumplimiento=command.ComentarioCumplimiento;
+
                 foreach (var h in command.PlanificacionHitos)
                 {
                     var hito = _mapper.Map<PlanificacionHito>(h);

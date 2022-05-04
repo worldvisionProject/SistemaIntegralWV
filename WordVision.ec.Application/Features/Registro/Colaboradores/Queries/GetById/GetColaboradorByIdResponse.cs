@@ -26,6 +26,15 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetB
         public int Nivel { get; set; }
 
         public int CodReportaA { get; set; }
+
+        public string ApellidosReporta { get; set; }
+
+        public string ApellidoMaternoReporta { get; set; }
+
+        public string PrimerNombreReporta { get; set; }
+
+        public string SegundoNombreReporta { get; set; }
+        public string EmailReporta { get; set; }
         public Estructura Estructuras { get; set; }
         public int Estado { get; set; }
         //public virtual List<Formulario> Formularios { get; set; }

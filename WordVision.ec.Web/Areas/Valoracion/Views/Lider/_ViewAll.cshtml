@@ -6,8 +6,11 @@
 
             <th data-priority="1">Colaborador</th>
             <th>Estado</th>
+            <th>Fecha Cumplimiento</th>
+            <th>Porcentaje Cumplimiento</th>
+            <th>Ponderación Resultado</th>
             <th data-priority="2">Ver Valoración</th>
-           
+           <th data-priority="2">Abrir Valoración</th>
         </tr>
     </thead>
     <tbody>
@@ -22,11 +25,23 @@
             <td>
                 @colaborador.DescEstado
             </td>
-           
             <td>
-                <a type="button" asp-area="Valoracion" asp-page="/Objetivo/Wizard/Index" asp-route-id="@colaborador.IdColaborador" asp-route-perfil="1" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a>
+                @colaborador.FechaCumplimiento
             </td>
-          
+             <td>
+                @colaborador.PorcentajeCumplimiento
+            </td>
+             <td>
+                @colaborador.PonderacionResultado
+            </td>
+            <td>
+                <a type="button" asp-area="Valoracion" asp-page="/Objetivo/Wizard/Index" asp-route-id="@colaborador.IdColaborador" asp-route-perfil="1" asp-route-anioFiscal="@colaborador.AnioFiscal" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a>
+            </td>
+            <td>
+                <form id="form_delete_@colaborador.Id" asp-controller="Objetivo" method="post" asp-action="OnPostAbrirValoracion" asp-route-idColaborador="@colaborador.IdColaborador" asp-route-anioFiscal="@colaborador.AnioFiscal"  asp-route-estado="3"  onsubmit="return jQueryModalController(this)" class="d-inline">
+                                <a href="javascript:$('#form_delete_@colaborador.Id').submit();" class="dropdown-item"><i class="fa fa-folder-open-o"></i> @localizer["Abrir"]</a>
+                </form>
+            </td>
 
         </tr>
         }

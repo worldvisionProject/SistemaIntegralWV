@@ -48,13 +48,17 @@ decimal? valor = 0;
             {
                 
                 foreach (var j in i.AnioFiscales)
-                { 
-                   
-                    foreach (var p in j.PlanificacionResultados)
-                    {
-                        valor = valor + p.PonderacionResultado;
-                    }
-                    
+                {
+
+                    //foreach (var p in j.PlanificacionResultados)
+                    //{
+                    //    if (p.PonderacionResultado != null)
+                    //    {
+                    //        valor = valor + p.PonderacionResultado;
+                    //    }
+
+                    //}
+
                     switch (i.Numero)
                     {
                         case "1":
@@ -100,7 +104,7 @@ decimal? valor = 0;
                                 ComentarioLider1 = i.ComentarioLider1,
                                 ComentarioLider2 = i.ComentarioLider2,
                                 ComentarioLiderMatricial = i.ComentarioLiderMatricial,
-                                ValorValoracionFinal = i.ValorValoracionFinal,
+                                ValorValoracionFinal =i.ValorValoracionFinal,
                                 ValoracionFinal = i.ValoracionFinal,
                                 ValoracionLider1 = i.ValoracionLider1
                             });
@@ -124,7 +128,7 @@ decimal? valor = 0;
                                 ComentarioLider1 = i.ComentarioLider1,
                                 ComentarioLider2 = i.ComentarioLider2,
                                 ComentarioLiderMatricial = i.ComentarioLiderMatricial,
-                                ValorValoracionFinal = i.ValorValoracionFinal,
+                                ValorValoracionFinal =i.ValorValoracionFinal,
                                 ValoracionFinal = i.ValoracionFinal,
                                 ValoracionLider1 = i.ValoracionLider1
 
@@ -149,7 +153,7 @@ decimal? valor = 0;
                                 ComentarioLider1 = i.ComentarioLider1,
                                 ComentarioLider2 = i.ComentarioLider2,
                                 ComentarioLiderMatricial = i.ComentarioLiderMatricial,
-                                ValorValoracionFinal = i.ValorValoracionFinal,
+                                ValorValoracionFinal =i.ValorValoracionFinal,
                                 ValoracionFinal = i.ValoracionFinal,
                                 ValoracionLider1 = i.ValoracionLider1
 
@@ -174,7 +178,7 @@ decimal? valor = 0;
                                 ComentarioLider1 = i.ComentarioLider1,
                                 ComentarioLider2 = i.ComentarioLider2,
                                 ComentarioLiderMatricial = i.ComentarioLiderMatricial,
-                                ValorValoracionFinal = i.ValorValoracionFinal,
+                                ValorValoracionFinal =i.ValorValoracionFinal,
                                 ValoracionFinal = i.ValoracionFinal,
                                 ValoracionLider1 = i.ValoracionLider1
 
@@ -199,22 +203,22 @@ decimal? valor = 0;
                                 ComentarioLider1 = i.ComentarioLider1,
                                 ComentarioLider2 = i.ComentarioLider2,
                                 ComentarioLiderMatricial = i.ComentarioLiderMatricial,
-                                ValorValoracionFinal = i.ValorValoracionFinal,
+                                ValorValoracionFinal =i.ValorValoracionFinal,
                                 ValoracionFinal = i.ValoracionFinal,
                                 ValoracionLider1 = i.ValoracionLider1
 
-                            });
+                            }) ;
                             break;
                         case "7":
                             string calificacion=string.Empty;
-                            foreach(var e in escala)
-                            {
-                                if (valor>= e.EscalaInicio && valor <= e.EscalaFin)
-                                {
-                                    calificacion = e.Calificacion;
-                                    break;
-                                }
-                            }
+                            //foreach (var e in escala)
+                            //{
+                            //    if (valor >= e.EscalaInicio && valor <= e.EscalaFin)
+                            //    {
+                            //        calificacion = e.Calificacion;
+                            //        break;
+                            //    }
+                            //}
 
                             d.Add(new Objetivo_7Step
                             {
@@ -234,7 +238,7 @@ decimal? valor = 0;
                                 ComentarioLider1 = i.ComentarioLider1,
                                 ComentarioLider2 = i.ComentarioLider2,
                                 ComentarioLiderMatricial = i.ComentarioLiderMatricial,
-                                ValorValoracionFinal = valor,
+                                ValorValoracionFinal = "0",
                                 ValoracionFinal = calificacion,
                                 ValoracionLider1 = i.ValoracionLider1
                             });

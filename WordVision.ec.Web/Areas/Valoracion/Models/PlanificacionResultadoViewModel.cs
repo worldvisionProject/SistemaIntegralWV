@@ -71,7 +71,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         //public ResultadoViewModel Resultados { get; set; }
         public string DescEstado { get; set; }
          public string NombreColaborador { get; set; }
-        public int chkOpcional { get; set; }
+        public int? chkOpcional { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? FechaCumplimientoAvance { get; set; }
@@ -87,7 +87,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public decimal? PonderacionResultado { get; set; }
 
-
+        public string ComentarioCumplimiento { get; set; }
         public string Comportamiento { get; set; }
         
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]

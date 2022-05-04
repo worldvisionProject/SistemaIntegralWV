@@ -23,7 +23,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Valoracion
         Task<int> InsertAsync(PlanificacionResultado planificacionResultado);
 
         Task UpdateAsync(PlanificacionResultado planificacionResultado);
-        Task UpdatexColaboradorAsync(int idColaborador, int estado);
+        Task UpdatexColaboradorAsync(int idColaborador, int estado, int idAnioFiscal);
         Task DeleteAsync(PlanificacionResultado planificacionResultado);
     }
 }

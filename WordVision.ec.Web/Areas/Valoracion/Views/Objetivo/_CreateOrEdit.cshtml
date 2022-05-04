@@ -250,51 +250,55 @@
                     </div>
                         <div class="card-body">
                             <div class="container-fluid">
-                           
-                               <div class="form-group row">
-                                   <div class="col-md-6">
-                                    <label class="col-md-12 col-form-label texto-pregunta">Hito</label>
-                                    <input asp-for="Hito" type="text" name="Hito" class="form-control"  />
-                                    <span asp-validation-for="Hito" class="text-danger"></span>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="col-md-12 col-form-label texto-pregunta">Indicador</label>
-                                        <input asp-for="IndicadorHito" type="text" name="IndicadorHito" class="form-control"  />
-                                        <span asp-validation-for="IndicadorHito" class="text-danger"></span>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label class="col-md-12 col-form-label texto-pregunta">Tipo($,%,#)</label>
-                                        @Html.DropDownListFor(x => x.TipoListHito, (IEnumerable<SelectListItem>)Model.TipoListHito, new { @class = "form-control" })
-                      
-                                        <span asp-validation-for="TipoListHito" class="text-danger"></span>
-                                    </div>
-                               </div>
-                                 <div class="form-group row">
-                                    <div class="col-md-2">
-                                        <label class="col-md-12 col-form-label texto-pregunta">Meta</label>
-                                        <input asp-for="MetaHito" type="text" name="MetaHito" class="form-control"  />
-                                        <span asp-validation-for="MetaHito" class="text-danger"></span>
-                                    </div>
-                                     <div class="col-md-4">
-                                        <label class="col-md-12 col-form-label texto-pregunta">Fecha Inicio</label>
-                                         <input type="text" asp-for="FechaInicioHito" name="FechaInicioHito" class="datepicker form-control"  />
-                                        <span asp-validation-for="FechaInicioHito" class="text-danger"></span>
-                                    </div>
-                                     <div class="col-md-4">
-                                        <label class="col-md-12 col-form-label texto-pregunta">Fecha Fin</label>
-                                         <input type="text" asp-for="FechaFinHito" name="FechaFinHito" class="datepicker form-control"  />
-                                        <span asp-validation-for="FechaFinHito" class="text-danger"></span>
-                                    </div>
-               
-                                 </div>
-                                <div class="form-group row">
-                                        <div class="col-md-4" style="padding-top: 25px;">
-                                            <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+                                <input class="form-control form-check-input" type="checkbox" name="chkMostrar" id="chkMostrar" value="1">  
+                                <label class="form-check-label" for="chkMostrar">Mostrar/Ocultar datos</label>&nbsp;&nbsp;
+                                <br/> <br/> 
+                                <div id="divAddHitos">
+                                   <div class="form-group row">
+                                       <div class="col-md-6">
+                                        <label class="col-md-12 col-form-label texto-pregunta">Hito</label>
+                                        <input asp-for="Hito" type="text" name="Hito" class="form-control"  />
+                                        <span asp-validation-for="Hito" class="text-danger"></span>
                                         </div>
-                                </div>
+                                        <div class="col-md-4">
+                                            <label class="col-md-12 col-form-label texto-pregunta">Indicador</label>
+                                            <input asp-for="IndicadorHito" type="text" name="IndicadorHito" class="form-control"  />
+                                            <span asp-validation-for="IndicadorHito" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="col-md-12 col-form-label texto-pregunta">Tipo($,%,#)</label>
+                                            @Html.DropDownListFor(x => x.TipoListHito, (IEnumerable<SelectListItem>)Model.TipoListHito, new { @class = "form-control" })
+                      
+                                            <span asp-validation-for="TipoListHito" class="text-danger"></span>
+                                        </div>
+                                   </div>
+                                     <div class="form-group row">
+                                        <div class="col-md-2">
+                                            <label class="col-md-12 col-form-label texto-pregunta">Meta</label>
+                                            <input asp-for="MetaHito" type="text" name="MetaHito" class="form-control"  />
+                                            <span asp-validation-for="MetaHito" class="text-danger"></span>
+                                        </div>
+                                         <div class="col-md-4">
+                                            <label class="col-md-12 col-form-label texto-pregunta">Fecha Inicio</label>
+                                             <input type="text" asp-for="FechaInicioHito" name="FechaInicioHito" class="datepicker form-control"  />
+                                            <span asp-validation-for="FechaInicioHito" class="text-danger"></span>
+                                        </div>
+                                         <div class="col-md-4">
+                                            <label class="col-md-12 col-form-label texto-pregunta">Fecha Fin</label>
+                                             <input type="text" asp-for="FechaFinHito" name="FechaFinHito" class="datepicker form-control"  />
+                                            <span asp-validation-for="FechaFinHito" class="text-danger"></span>
+                                        </div>
+               
+                                     </div>
+                                    <div class="form-group row">
+                                            <div class="col-md-4" style="padding-top: 25px;">
+                                                <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+                                            </div>
+                                    </div>
 
-                    <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 15px !important;font-weight: bold;color:red">* Debe ingresar máximo 3 Hitos.</label>
-                    </div>  
+                                    <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 15px !important;font-weight: bold;color:red">* Debe ingresar máximo 3 Hitos.</label>
+                                    </div>  
+                                 </div>
                                 <div id="divHitos">
                                     <table id="hitosTable" class="table table-striped  rwd-table" width="100%" cellspacing="0">
                                         <thead>
@@ -381,34 +385,40 @@
                         <div class="card-body">
                             <div class="container-fluid">
                            
-                               <div class="form-group row">
-                                    <div class="col-md-6">
-                                        <label class="col-md-12 col-form-label texto-pregunta">Comportamientos</label>
-                                        @Html.DropDownListFor(x => x.IdComportamiento, (IEnumerable<SelectListItem>)Model.ComportamientoList,
-                                        " -- Seleccionar Comportamiento --", new { @class = "form-control" })
+                                 <input class="form-control form-check-input" type="checkbox" name="chkMostrarCompetencia" id="chkMostrarCompetencia" value="1">  
+                                <label class="form-check-label" for="chkMostrarCompetencia">Mostrar/Ocultar datos</label>&nbsp;&nbsp;
+                                <br/> <br/> 
+                                <div id="divAddCompetencia">
 
-                                        <span asp-validation-for="IdComportamiento" class="text-danger"></span>
-                                    </div> 
-                                   <div class="col-md-3">
-                                        <label class="col-md-12 col-form-label texto-pregunta">Fecha Inicio</label>
-                                         <input type="text" asp-for="FechaInicioComporta" name="FechaInicioComporta" class="datepicker form-control"  />
-                                        <span asp-validation-for="FechaInicioComporta" class="text-danger"></span>
-                                    </div>
-                                     <div class="col-md-3">
-                                        <label class="col-md-12 col-form-label texto-pregunta">Fecha Fin</label>
-                                         <input type="text" asp-for="FechaFinComporta" name="FechaFinComporta" class="datepicker form-control"  />
-                                        <span asp-validation-for="FechaFinComporta" class="text-danger"></span>
-                                    </div>
-                               </div>
-                                
-                                <div class="form-group row">
-                                        <div class="col-md-4" style="padding-top: 25px;">
-                                            <button type="button" class="btn bg-success" onclick="AgregaComportamiento(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+                                   <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <label class="col-md-12 col-form-label texto-pregunta">Comportamientos</label>
+                                            @Html.DropDownListFor(x => x.IdComportamiento, (IEnumerable<SelectListItem>)Model.ComportamientoList,
+                                            " -- Seleccionar Comportamiento --", new { @class = "form-control" })
+
+                                            <span asp-validation-for="IdComportamiento" class="text-danger"></span>
+                                        </div> 
+                                       <div class="col-md-3">
+                                            <label class="col-md-12 col-form-label texto-pregunta">Fecha Inicio</label>
+                                             <input type="text" asp-for="FechaInicioComporta" name="FechaInicioComporta" class="datepicker form-control"  />
+                                            <span asp-validation-for="FechaInicioComporta" class="text-danger"></span>
                                         </div>
-                                </div>
-
-                    <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 15px !important;font-weight: bold;color:red">* Debe ingresar máximo 3 Comportamientos.</label>
-                    </div>  
+                                         <div class="col-md-3">
+                                            <label class="col-md-12 col-form-label texto-pregunta">Fecha Fin</label>
+                                             <input type="text" asp-for="FechaFinComporta" name="FechaFinComporta" class="datepicker form-control"  />
+                                            <span asp-validation-for="FechaFinComporta" class="text-danger"></span>
+                                        </div>
+                                   </div>
+                                
+                                    <div class="form-group row">
+                                            <div class="col-md-4" style="padding-top: 25px;">
+                                                <button type="button" class="btn bg-success" onclick="AgregaComportamiento(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+                                            </div>
+                                    </div>
+                            
+                                    <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 15px !important;font-weight: bold;color:red">* Debe ingresar máximo 3 Comportamientos.</label>
+                                    </div>  
+                            </div>
                                 <div id="divComportamiento">
                                     <table id="comportamientoTable" class="table table-striped  rwd-table" width="100%" cellspacing="0">
                                         <thead>
@@ -501,9 +511,13 @@
                     </div>
                         <div class="card-body">
                             <div class="container-fluid">
-                           
+                          
                                 @if(Model.Perfil==0 && Model.Estado ==4)
                                 { 
+                                      <input class="form-control form-check-input" type="checkbox" name="chkMostrarAvance" id="chkMostrarAvance" value="1">  
+                                    <label class="form-check-label" for="chkMostrarAvance">Mostrar/Ocultar datos</label>
+                                    <br/> <br/> 
+                              
                                     <div id="divDatosAvance">
                                          <div class="form-group row">
                                              <div class="col-md-3">
@@ -516,12 +530,15 @@
                                                 <input asp-for="PorcentajeAvance" type="text" name="PorcentajeAvance" class="form-control"  />
                                                 <span asp-validation-for="PorcentajeAvance" class="text-danger"></span>
                                             </div>
-                                             <div class="col-md-4">
+                                        </div>
+
+                                        <div class="form-group row">
+                                             <div class="col-md-6">
                                                 <label class="col-md-12 col-form-label texto-pregunta">Comentario Colaborador</label>
                                                  <textarea asp-for="ComentarioAvance" name="ComentarioAvance" class="form-control"></textarea>
                                                 <span asp-validation-for="ComentarioAvance" class="text-danger"></span>
                                             </div>
-                                             <div class="col-md-3">
+                                             <div class="col-md-6">
                                                 <label class="col-md-12 col-form-label texto-pregunta">Comentario Lider</label>
                                                 <textarea asp-for="ComentarioLiderAvance" name="ComentarioLiderAvance" class="form-control"></textarea>
                                                 <span asp-validation-for="ComentarioLiderAvance" class="text-danger"></span>
@@ -530,7 +547,7 @@
                                          </div>
                                         <div class="form-group row">
                                                 <div class="col-md-4" style="padding-top: 25px;">
-                                                    <button type="button" class="btn bg-success" onclick="AgregaAvance(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
+                                                    <button type="button" class="btn bg-success" id="btnAgregarAvance" onclick="AgregaAvance(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
                                                 </div>
                                         </div>
                                       </div>
@@ -646,10 +663,10 @@
                             <div class="container-fluid">
                                 <div class="form-group row">
                                    
-                                    <div class="col-md-4">
+                                    <div class="col-md-12">
                                        <label class="col-md-12 col-form-label texto-pregunta">Comentario</label>
-                                        <textarea asp-for="ComentarioLiderAvance" name="ComentarioLiderAvance" class="form-control"></textarea>
-                                       <span asp-validation-for="ComentarioLiderAvance" class="text-danger"></span>
+                                        <textarea asp-for="ComentarioCumplimiento" name="ComentarioCumplimiento" class="form-control"></textarea>
+                                       <span asp-validation-for="ComentarioCumplimiento" class="text-danger"></span>
                                    </div>
                
                                </div>
@@ -661,18 +678,46 @@
     <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
        
-        <button type="submit" class="btn btn-success">Guardar</button>
+        <button type="submit" class="btn btn-success" id="btnGuardar">Guardar</button>
         <button type="submit" id="btnCancelar" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
     </div>
+    @if (Model.Estado ==6 || Model.Estado ==5 || Model.Estado ==4)
+    {
+        <input type="hidden" value="true" name="band" id="band" />
+    }
+    else
+    {
+         <input type="hidden" value="false" name="band" id="band" />
+    }
 
 </form>
 
 
 <script type="text/javascript" language=javascript>
-    
+   
      $(document).ready(function () {
+          // $('#create-form *').prop('disabled', (document.getElementById("band").value == "true"));
+          ////$('#create-form').disableAutoFill();
+          // $('#FechaCumplimientoAvance').removeAttr("disabled"); 
+          // $('#PorcentajeAvance').removeAttr("disabled"); 
+          // $('#ComentarioAvance').removeAttr("disabled"); 
+          // $('#ComentarioLiderAvance').removeAttr("disabled"); 
+          // $('#FechaCumplimiento').removeAttr("disabled"); 
+          // $('#PorcentajeCumplimiento').removeAttr("disabled"); 
+          // $('#chkMostrarAvance').removeAttr("disabled");
+          // $('#btnGuardar').removeAttr("disabled");
+          // $('#btnCancelar').removeAttr("disabled");
+          // $('#btnAgregarAvance').removeAttr("disabled");
+          //$("#chkOpcional").prop('disabled', (document.getElementById("band").value == "true"));
+          //$("#chkMostrar").prop('disabled', (document.getElementById("band").value == "true"));
+          //$("#chkMostrarCompetencia").prop('disabled', (document.getElementById("band").value == "true"));
+
            $("#divOpcional").hide();
            $("#divdescResultado").hide();
+           $("#divAddHitos").hide();
+            $("#divAddCompetencia").hide();
+             $("#divDatosAvance").hide();
+           
  if (@Model.NumeroObjetivo==2 || @Model.NumeroObjetivo==3 )
  {
      if (@Model.chkOpcional==0)
@@ -713,6 +758,73 @@
                     $("#IdResultado").removeClass('not-allow');
                     $("#IdPadre").removeAttr("disabled");  
                     $("#IdPadre").removeClass('not-allow');
+                }
+                    
+            });
+
+
+            $("#chkMostrar").change(function () {
+                var tipo=  $('input[name=chkMostrar]:checked').val();
+         
+                if (tipo==1)
+                {
+                    $("#divAddHitos").show(1000);
+                 
+                }
+                else
+                {
+                    $("#divAddHitos").hide(1000);
+                    document.getElementById("TipoListHito").value = "";
+                    document.getElementById("Hito").value = "";
+                    document.getElementById("IndicadorHito").value = "";
+                    document.getElementById("MetaHito").value = "";
+                    document.getElementById("FechaInicioHito").value = "";
+                    document.getElementById("FechaFinHito").value = "";
+
+
+                    document.getElementById("idact").value =  "";
+                }
+                    
+            });
+            
+            $("#chkMostrarCompetencia").change(function () {
+                var tipo=  $('input[name=chkMostrarCompetencia]:checked').val();
+           
+                if (tipo==1)
+                {
+                    $("#divAddCompetencia").show(1000);
+                 
+                }
+                else
+                {
+                    $("#divAddCompetencia").hide(1000);
+                    document.getElementById("IdComportamiento").value = "";
+                    document.getElementById("FechaInicioComporta").value = "";
+                    document.getElementById("FechaFinComporta").value = "";
+
+                    document.getElementById("idactComportamiento").value =  "";
+                }
+                    
+            });
+
+            $("#chkMostrarAvance").change(function () {
+                var tipo=  $('input[name=chkMostrarAvance]:checked').val();
+            
+                if (tipo==1)
+                {
+                    $("#divDatosAvance").show(1000);
+                 
+                }
+                else
+                {
+                    $("#divDatosAvance").hide(1000);
+                    document.getElementById("FechaCumplimientoAvance").value = "";
+                    document.getElementById("PorcentajeAvance").value = "";
+                    document.getElementById("ComentarioAvance").value = "";
+                    document.getElementById("ComentarioLiderAvance").value = "";
+
+                    document.getElementById("idactAvance").value =  "";
+                    $("#btnAgregarAvance").text("Agregar");
                 }
                     
             });
@@ -938,7 +1050,6 @@
             document.getElementById("FechaFinHito").value = "";
 
 
-
             num++;
 
 
@@ -1016,7 +1127,9 @@
             
             $("#TipoListHito").val(tipo);
             $("#TipoListHito").select2().trigger('change');
-
+            $("#divAddHitos").show(1000);
+          
+            $("#chkMostrar").attr('checked', true);
             document.getElementById("idact").value = id;
            document.getElementById("Hito").value = nombre;
             document.getElementById("IndicadorHito").value = indicador;
@@ -1128,7 +1241,7 @@
             document.getElementById("ComentarioAvance").value = "";
             document.getElementById("ComentarioLiderAvance").value = "";
 
-
+             $("#btnAgregarAvance").text("Agregar");
 
             num++;
 
@@ -1191,7 +1304,12 @@
             
             
             document.getElementById("idactAvance").value = id;
-           document.getElementById("FechaCumplimientoAvance").value = fechaCumplimiento;
+           
+              $("#divDatosAvance").show(1000);
+          
+            $("#chkMostrarAvance").attr('checked', true);
+            $("#btnAgregarAvance").text("Actualizar");
+            document.getElementById("FechaCumplimientoAvance").value = fechaCumplimiento;
             document.getElementById("PorcentajeAvance").value = porcentaje;
             document.getElementById("ComentarioAvance").value = comentario;
             document.getElementById("ComentarioLiderAvance").value = comentarioLider;
@@ -1386,7 +1504,9 @@ function AgregaComportamiento() {
     }
 
         function ActualizaFilaComportamiento(id,idComportamiento,fechaInicio,fechaFin) {
-            
+             $("#divAddCompetencia").show(1000);
+          
+            $("#chkMostrarCompetencia").attr('checked', true);
             document.getElementById("idactComportamiento").value = id;
             document.getElementById("IdComportamiento").value = idComportamiento;
             document.getElementById("FechaInicioComporta").value = fechaInicio;
