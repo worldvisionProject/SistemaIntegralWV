@@ -67,7 +67,7 @@
                 </button>
                 @if((planificacion.Estado==1 || planificacion.Estado==2|| planificacion.Estado==3))
                  {
-                     <button type="button" onclick="EliminaFila(@planificacion.IdPlanificacion,@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value,@Model.IdObjetivo,@Model.AnioFiscal,@Model.IdObjetivoAnioFiscal,@Model.NumeroObjetivo,@Model.PonderacionObjetivo.ToString().Replace(",","."))" class="btn btn-danger btn-xp">
+                     <button type="button" onclick="EliminaFilaCompetencia(@planificacion.IdPlanificacion,@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value,@Model.IdObjetivo,@Model.AnioFiscal,@Model.IdObjetivoAnioFiscal,@Model.NumeroObjetivo,@Model.PonderacionObjetivo.ToString().Replace(",","."))" class="btn btn-danger btn-xp">
                          <i class="fas fa-trash-alt"></i>
                      </button>
                  }
@@ -145,7 +145,7 @@ aoColumnDefs: [
     });
 
 
-     function EliminaFila(id,idColaborador,idObjetivo, anioFiscal, idObjetivoAnioFiscal , numeroObjetivo , ponderacionObjetivo) {
+     function EliminaFilaCompetencia(id,idColaborador,idObjetivo, anioFiscal, idObjetivoAnioFiscal , numeroObjetivo , ponderacionObjetivo) {
           if (confirm('¿Estás segura de eliminar este registro?')) {
         $("#" + id).remove();
         var IdiomaViewModel = {
