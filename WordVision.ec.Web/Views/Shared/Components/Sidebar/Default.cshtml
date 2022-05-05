@@ -526,7 +526,8 @@
                                 </p>
                             </a>
                         </li>
-
+                        @if (User.IsInRole("DirectorNacional") || User.IsInRole("Estrategico") || User.IsInRole("Tactico") )
+                        {
                          <li class="nav-item">
                             <a is-active-route asp-area="Valoracion" asp-controller="Lider" asp-action="Index" class="nav-link">
                                 <i class="nav-icon fas fa-user-edit"></i>
@@ -536,6 +537,7 @@
                                 </p>
                             </a>
                         </li>
+                        }
             </ul>
 </nav>
     </div>

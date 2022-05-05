@@ -324,7 +324,14 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     decimal suma = 0;
                     decimal sumaBasePoderacion = 0;
 
-                   
+                    if (entidad.NumeroObjetivo == 5 || entidad.NumeroObjetivo == 6 || entidad.NumeroObjetivo == 7)
+                    {
+                        if (contar==d.Count())
+                        {
+                            contar = contar + 1;
+                        }
+                    }
+
                         //if (!(contar>=ponderacion.Data.Minimo && contar <= ponderacion.Data.Maximo))
                         if (!(contar <= ponderacion.Data.Maximo))
                         {
@@ -355,11 +362,14 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     
                     if (id == 0)
                     {
-                        if (existe >= 1)
+                        if (entidad.NumeroObjetivo == 1 || entidad.NumeroObjetivo ==2 || entidad.NumeroObjetivo == 3 || entidad.NumeroObjetivo == 4)
                         {
-                            _notify.Error("Ya existe un Resultado/Responsabilidad/Competencias ingresado en este Objetivo.");
+                            if (existe >= 1)
+                            {
+                                _notify.Error("Ya existe un Resultado/Responsabilidad/Competencias ingresado en este Objetivo.");
 
-                            return new JsonResult(new { isValid = false });
+                                return new JsonResult(new { isValid = false });
+                            }
                         }
                         entidad.Estado = 1;/*en proceso*/
                        var createEntidadCommand = _mapper.Map<CreatePlanificacionResultadoCommand>(entidad);
@@ -373,7 +383,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     }
                     else
                     {
-                       
+                        if (entidad.NumeroObjetivo == 1 || entidad.NumeroObjetivo == 2 || entidad.NumeroObjetivo == 3 || entidad.NumeroObjetivo == 4)
+                        {
                             var lista = planifica.Data.ToList();
                             foreach(var item in lista)
                             {
@@ -388,7 +399,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                                 }
                             
                             }
-                       
+                        }
+
 
                         var updateEntidadCommand = _mapper.Map<UpdatePlanificacionResultadoCommand>(entidad);
                         var result = await _mediator.Send(updateEntidadCommand);
@@ -800,7 +812,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 entidad.Proceso = 1;// si ya esta en el borton finalizar o devolver
                 entidad.IdColaborador = idColaborador;
                 entidad.AnioFiscal = idAnioFiscal;
-                    if (estado==5)
+                    if (estado== 5 || estado == 6)
                     {
                         entidad.ComentarioColaborador = ComentarioColaborador;
                         entidad.ComentarioLider1 = ComentarioLider1;
@@ -826,7 +838,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     entidad.Proceso = 1;// si ya esta en el borton finalizar o devolver
                     entidad.IdColaborador = idColaborador;
                     entidad.AnioFiscal = idAnioFiscal;
-                    if (estado == 5)
+                    if (estado == 5 || estado == 6)
                     {
                         entidad.ComentarioColaborador = ComentarioColaborador;
                         entidad.ComentarioLider1 = ComentarioLider1;

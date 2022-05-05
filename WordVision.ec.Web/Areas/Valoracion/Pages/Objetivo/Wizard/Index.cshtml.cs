@@ -866,8 +866,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
 
             if (!ModelState.IsValid) return Page();
 
-            var client = ProcessSteps(currentStep);
-
+  
 
             //if (client.Idioma != "S")
             //{
@@ -881,19 +880,29 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
 
             //OnPostCreateOrEdit(id, client);
 
-  
+
 
             int perfil = HttpContext.Session.GetInt32("PerfilId") == null?0: (int)HttpContext.Session.GetInt32("PerfilId"); ;
             Perfil =perfil;
             var c = (WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_7Step)currentStep;
             int id = c.IdColaborador;
             bool validado=false;
-           
-
+            Estado = c.EstadoProceso;
+            DescEstado=c.DescEstadoProceso.ToString();
             try
             {
                 if (ModelState.IsValid)
                 {
+
+                    if (c.EstadoProceso == 6)
+                    {
+                       
+                            validado = false;
+                            JumpToStepAsync(currentStep, 6);
+                            _notify.Error("Valoracion Finalizada no se puede modificar.");
+                            return Page();
+                       
+                    }
 
                     var listaObjetivos = await _mediator.Send(new GetObjetivoByIdAnioFiscalQuery() { IdAnioFiscal = c.AnioFiscal });
                     foreach (var l in listaObjetivos.Data)
@@ -962,8 +971,30 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                                 }
                                
                             }
+
+                            
                         }
 
+                        
+
+                    }
+
+                    if (c.EstadoProceso == 5)
+                    {
+                        if (ModelState["ValoracionLider1"]?.AttemptedValue == null || ModelState["ValoracionLider1"]?.AttemptedValue.Length == 0)
+                        {
+                            validado = false;
+                            JumpToStepAsync(currentStep, 6);
+                            _notify.Error("Ingrese la valoracion Final del Lider 1.");
+                            return Page();
+                        }
+                        if (ModelState["ComentarioLider1"]?.AttemptedValue == null || ModelState["ComentarioLider1"]?.AttemptedValue.Length == 0)
+                        {
+                            validado = false;
+                            JumpToStepAsync(currentStep, 6);
+                            _notify.Error("Ingrese el comentario Final del Lider 1.");
+                            return Page();
+                        }
                     }
 
                     // ACTAULZIA EN TABLA ACTIVE
@@ -988,19 +1019,19 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                             reportaA = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "ReportaA")?.Value),
                             proceso = perfil == 0 ? 1 : 2,
                             idAnioFiscal = c.AnioFiscal,
-                            ComentarioColaborador = cf.ComentarioColaborador
+                            ComentarioColaborador = ModelState["ComentarioColaborador"]?.AttemptedValue.Split(',')[0]
                              ,
-                            ComentarioLider1 = cf.ComentarioLider1
+                            ComentarioLider1 = ModelState["ComentarioLider1"]?.AttemptedValue.Split(',')[0]
                             ,
-                            ComentarioLider2 = cf.ComentarioLider2
+                            ComentarioLider2 = ModelState["ComentarioLider2"]?.AttemptedValue
                             ,
-                            ComentarioLiderMatricial = cf.ComentarioLiderMatricial
+                            ComentarioLiderMatricial = ModelState["ComentarioLiderMatricial"]?.AttemptedValue
                             ,
-                            ValorValoracionFinal = cf.ValorValoracionFinal
+                            ValorValoracionFinal = cf.ValorValoracionFinal?.Replace(",",".")
                             ,
                             ValoracionFinal = cf.ValoracionFinal
                             ,
-                            ValoracionLider1 = cf.ValoracionLider1,
+                            ValoracionLider1 = ModelState["ValoracionLider1"]?.AttemptedValue,
                             estadoProceso = cf.EstadoProceso
                         });
                     }
@@ -1229,7 +1260,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                 contact.Id = (int)TempData["ClientId"];
             }
 
-            //StepMapper.EnrichClient(contact, Steps);
+          //  StepMapper.EnrichClient(contact, Steps);
             return contact;
         }
 

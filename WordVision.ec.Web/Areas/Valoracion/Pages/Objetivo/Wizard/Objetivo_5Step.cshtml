@@ -18,23 +18,26 @@
                
        @* </div> *@
     </div>
-
+    <div class="row">
     @{ var num = 0;
-        if (Model.PlanificacionResultados != null)
-        {
-            num = Model.PlanificacionResultados.Count();
-        }
+        //if (Model.PlanificacionResultados != null)
+        //{
+        //    num = Model.PlanificacionResultados.Count();
+        //}
     
 
-        @if (num==0)
-        { <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=0&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=3&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivos 5')">
+        //@if (num<=3)
+        <div class="col-md-4">
+         <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=0&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=3&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivos 5')">
                             <i class="fa fa-plus-square"></i>
                                 Agregar Respuesta
          </button> 
+         </div>
         
-        }
     }
-    
+     <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 16px !important;font-weight: bold;color:red">* Debe ingresar mínimo 1 máximo 3 objetivos.</label>
+ </div>  
+  </div>
     <div id="viewAll" class="card-body card-body-card table-responsive">
         
     </div>

@@ -87,7 +87,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                     seguimiento.Ultimo = 1;
                     seguimiento.IdColaborador = command.IdColaborador;
                     seguimiento.AnioFiscal = command.AnioFiscal;
-                    if (command.Estado==5)
+                    if (command.Estado==5 ||  command.Estado == 6)
                     {
                         seguimiento.ComentarioColaborador = command.ComentarioColaborador;
                         seguimiento.ComentarioLider1 = command.ComentarioLider1;

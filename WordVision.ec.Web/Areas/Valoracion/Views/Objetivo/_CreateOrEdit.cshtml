@@ -147,7 +147,7 @@
                         </div> 
                     </div>
                      <div class="form-group row">
-                                       <div class="col-md-2" >
+                                       <div class="col-md-4" >
                                         <div class="form-check form-check-inline">
                                             @if (Model.chkOpcional==1)
                                             {
@@ -158,27 +158,27 @@
                                                <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1" checked> 
                                             }
                                         
-                                             <label class="form-check-label" for="chkOpcional">Opcional</label>&nbsp;&nbsp;
+                                             <label class="form-check-label" for="chkOpcional">Mínimo 1 máximo 2 Opcionales</label>&nbsp;&nbsp;
                                         </div>
                                       </div>
-                                      <div  class="col-md-10" id="divOpcional">
+                                      <div  class="col-md-9" id="divOpcional">
                                            <div class="form-group row">
-                                               <div class="col-md-5" >
+                                               <div class="col-md-6" >
                                                     <label class="col-md-12 col-form-label texto-pregunta text-left">Responsabilidad</label>
                                                     <textarea type="text" asp-for="DatoManual1" name="DatoManual1" class="form-control"></textarea>
                                       
                                                </div>
-                                               <div class="col-md-5" >
+                                               <div class="col-md-6" >
                                                    <label class="col-md-12 col-form-label texto-pregunta text-left">Indicador</label>
                                                     <textarea type="text" asp-for="DatoManual2" name="DatoManual2" class="form-control"></textarea>
                                      
                                                </div>
-                                               <div class="col-md-2">
+                                               @*<div class="col-md-2">
                                                     <label class="col-md-12 col-form-label texto-pregunta">Tipo($,%,#)</label>
                                                     @Html.DropDownListFor(x => x.DatoManual3, (IEnumerable<SelectListItem>)Model.TipoListHito, new { @class = "form-control" })
                       
                                                     <span asp-validation-for="DatoManual3" class="text-danger"></span>
-                                                </div>
+                                                </div>*@
                                            </div>
                                            </div>
                                         
@@ -296,7 +296,7 @@
                                             </div>
                                     </div>
 
-                                    <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 15px !important;font-weight: bold;color:red">* Debe ingresar máximo 3 Hitos.</label>
+                                    <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 15px !important;font-weight: bold;color:red">* Debe ingresar mínimo 1 máximo 3 Hitos.</label>
                                     </div>  
                                  </div>
                                 <div id="divHitos">
@@ -384,7 +384,11 @@
                     </div>
                         <div class="card-body">
                             <div class="container-fluid">
-                           
+                            <div class="form-group row" id="divdescCompetencia" >
+                                 <div class="col-md-12">
+                                      <input type="text" value="" height="10" id="descCompetencia" name="descCompetencia" style="border:0px" class="col-md-12 col-form-label texto-pregunta" readonly  />
+                                 </div>
+                            </div>
                                  <input class="form-control form-check-input" type="checkbox" name="chkMostrarCompetencia" id="chkMostrarCompetencia" value="1">  
                                 <label class="form-check-label" for="chkMostrarCompetencia">Mostrar/Ocultar datos</label>&nbsp;&nbsp;
                                 <br/> <br/> 
@@ -862,6 +866,8 @@
                 $.get("/Valoracion/Objetivo/GetComportamientosList", { idCompetencia: $("#IdPadreCompetencia").val() }, function (data) {
                     // VACIAMOS EL DropDownList
                     $("#IdComportamiento").empty();
+                 
+                    $("#descCompetencia").val(data[0].nombreCompetencia);
                     // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
                    // $("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
                     // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
@@ -869,6 +875,7 @@
                         $("#IdComportamiento").append("<option value='" + row.id + "'>" + row.comportamiento + "</option>")
                     });
                 });
+                
             });
 
             $("#IdPadre").change(function () {
@@ -912,6 +919,32 @@
 
             var num = 0;
   function AgregaConcepto() {
+
+            var fechainicial = document.getElementById("FechaInicio").value;
+            var fechafinal = document.getElementById("FechaInicioHito").value;
+            var fecha = fechafinal.split("-");
+            var fechaR = fechainicial.split("-");
+            var f1 = new Date(fecha[2], fecha[1], fecha[0]);
+            var f2 = new Date(fechaR[2], fechaR[1], fechaR[0]);
+            if (f1<=f2)
+            {
+                alert("La fecha del Hito de Inicio debe ser mayor a la fecha de la responsabilidad.");
+                return;
+            }
+            
+            fechainicial = document.getElementById("FechaFin").value;
+             fechafinal = document.getElementById("FechaFinHito").value;
+             fecha = fechafinal.split("-");
+             fechaR = fechainicial.split("-");
+             f1 = new Date(fecha[2], fecha[1], fecha[0]);
+             f2 = new Date(fechaR[2], fechaR[1], fechaR[0]);
+            if (f1<=f2)
+            {
+                alert("La fecha del Hito Final debe ser mayor a la fecha de la responsabilidad.");
+                return;
+            }
+
+            
 
             if (!CuentaHitos()) {
                 alert("Puede ingresar máximo 3 hitos.");

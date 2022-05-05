@@ -102,11 +102,21 @@ var viewName = currentStep.ToString().Substring(currentStep.ToString().LastIndex
                         @if (Model.CurrentStepIndex < (Model.Steps.Count - 1))
                         {
             <input type="submit" value="Siguiente" name="next" asp-page-handler="Next" class="btn btn-primary" />
-                            @*<input type="submit" value="Guardar & Cerrar" name="save" asp-page-handler="Finish" class="btn btn-primary float-right" />*@ }
+                        @*<input type="submit" value="Guardar & Cerrar" name="save" asp-page-handler="Finish" class="btn btn-primary float-right" />*@
+                    }
+                    else
+                    {
+                        if (Model.Perfil==0 && (Model.Estado==5 || Model.Estado==6))
+                        {
+                            <input type="submit" value="@(Model.Estado==4?"Enviar para Revisión Final":(Model.Perfil==1 && Model.Estado==5)?"Aprobar Valoración Final":(Model.Perfil==0 && Model.Estado==1) || (Model.Perfil==0 && Model.Estado==3)?"Enviar a Lider":(Model.Perfil==1 && Model.Estado==2) || (Model.Perfil==1 && Model.Estado==3)?"Aprobar":Model.Perfil==0 && Model.Estado==2?"Enviada a Lider":"Finalizar")" name="finish" asp-page-handler="Finish" class="btn btn-primary" disabled/>
+
+                        }
                         else
                         {
-            <input type="submit" value="@(Model.Estado==4?"Enviar para Revisión Final":Model.Estado==5?"Aprobar Valoración Final":(Model.Perfil==0 && Model.Estado==1) || (Model.Perfil==0 && Model.Estado==3)?"Enviar a Lider":(Model.Perfil==1 && Model.Estado==2) || (Model.Perfil==1 && Model.Estado==3)?"Aprobar":Model.Perfil==0 && Model.Estado==2?"Enviada a Lider":"Finalizar")" name="finish" asp-page-handler="Finish" class="btn btn-primary" />
-                            @if(Model.Perfil==1 && Model.Estado!=5)
+                            <input type="submit" value="@(Model.Estado==4?"Enviar para Revisión Final":(Model.Perfil==1 && Model.Estado==5)?"Aprobar Valoración Final":(Model.Perfil==0 && Model.Estado==1) || (Model.Perfil==0 && Model.Estado==3)?"Enviar a Lider":(Model.Perfil==1 && Model.Estado==2) || (Model.Perfil==1 && Model.Estado==3)?"Aprobar":Model.Perfil==0 && Model.Estado==2?"Enviada a Lider":(Model.Perfil==1 && Model.Estado==6)?"Valoración Finalizada":"Finalizar")" name="finish" asp-page-handler="Finish" class="btn btn-primary" />
+                        }
+                        
+                            @if(Model.Perfil==1 && (Model.Estado!=5 && Model.Estado!=6))
                             {
                                <input type="submit" value="Devolver" name="devolver" asp-page-handler="Devolver" class="btn btn-primary" /> 
                             }

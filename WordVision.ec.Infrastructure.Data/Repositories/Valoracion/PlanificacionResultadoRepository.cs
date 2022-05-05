@@ -117,8 +117,17 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                 .GroupBy(x=> new { x.IdColaborador ,x.Estado,x.ObjetivoAnioFiscales.AnioFiscal })
                  .Select(a => new PlanificacionResultadoResponse
                  {
-                     AnioFiscal= a.Key.AnioFiscal,
+                     ValorValoracionFinal= _repositorySeguimientoObjetivo.Entities.Where(c=>c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal== a.Key.AnioFiscal && c.Ultimo==1 && (c.Estado==5 || c.Estado == 6)).FirstOrDefault().ValorValoracionFinal,
+                     ValoracionFinal = _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal && c.Ultimo == 1 && (c.Estado == 5 || c.Estado == 6)).FirstOrDefault().ValoracionFinal,
+                     ValoracionLider1 = _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal && c.Ultimo == 1 && (c.Estado == 5 || c.Estado == 6)).FirstOrDefault().ValoracionLider1,
+                     ComentarioColaborador = _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal && c.Ultimo == 1 && (c.Estado == 5 || c.Estado == 6)).FirstOrDefault().ComentarioColaborador,
+                     ComentarioLider1 = _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal && c.Ultimo == 1 &&  (c.Estado == 5 || c.Estado == 6)).FirstOrDefault().ComentarioLider1,
+                     ComentarioLider2 = _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal && c.Ultimo == 1 && (c.Estado == 5 || c.Estado == 6)).FirstOrDefault().ComentarioLider2,
+                     ComentarioLiderMatricial = _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal && c.Ultimo == 1 && (c.Estado == 5 || c.Estado == 6)).FirstOrDefault().ComentarioLiderMatricial,
+
+                     AnioFiscal = a.Key.AnioFiscal,
                     IdColaborador = a.Key.IdColaborador,
+                    Estado=a.Key.Estado,
                     DescEstado = _repositoryDetalleCatalogo.Entities.Where(c=>c.IdCatalogo==45 && c.Secuencia==a.Key.Estado.ToString()).FirstOrDefault().Nombre,
                     NombreColaborador = _repositoryColaborador.Entities.Where(x=>x.Id==a.Key.IdColaborador).FirstOrDefault().Apellidos+" "+_repositoryColaborador.Entities.Where(x => x.Id == a.Key.IdColaborador).FirstOrDefault().ApellidoMaterno + " " + _repositoryColaborador.Entities.Where(x => x.Id == a.Key.IdColaborador).FirstOrDefault().PrimerNombre + " " + _repositoryColaborador.Entities.Where(x => x.Id == a.Key.IdColaborador).FirstOrDefault().SegundoNombre
                  })
