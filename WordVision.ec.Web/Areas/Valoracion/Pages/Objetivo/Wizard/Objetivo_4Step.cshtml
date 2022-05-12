@@ -13,10 +13,11 @@
 
     <div class="texto-seccionpregunta">
       @*<div  style="background-color:#EC7D31; height: 78px;color:beige; padding: 5px 5px 5px 5px;">*@
-                <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Descripción de objetivo</font> @Model.NumeroObjetivo: @Model.Objetivo </label>
+                <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Descripción de objetivo</font> @Model.NumeroObjetivo: <u>@Model.Objetivo</u> </label>
                 <label class="col-md-12 col-form-label texto-pregunta">@Model.DescObjetivo</label>
-                <label class="col-md-12 col-form-label texto-pregunta">Valor máximo para Ponderación de Resultado: <font style="font-weight: bold;">@Model.PonderacionObjetivo</font></label>    
-               
+                <label class="col-md-12 col-form-label texto-pregunta"><u>Valor máximo para Ponderación de Resultado: <font style="font-weight: bold;">@Model.PonderacionObjetivo</font></u></label>    
+                <label class="col-md-12 col-form-label texto-pregunta" style="font-size: 16px !important;font-weight: bold;color:red">* Debe ingresar 2 Competencias obligatoriamente.</label>
+       
        @* </div> *@
     </div>
 
@@ -36,8 +37,7 @@
                                     Agregar Competencia
              </button> 
              }
-     </div> <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 16px !important;font-weight: bold;color:red">* Debe ingresar 2 Competencias obligatoriamente.</label>
-        </div>  
+     </div>   
  </div>  
     <div id="viewAll" class="card-body card-body-card table-responsive">
         

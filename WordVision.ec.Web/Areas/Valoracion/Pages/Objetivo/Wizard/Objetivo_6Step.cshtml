@@ -13,9 +13,10 @@
 
     <div class="texto-seccionpregunta">
       @*<div  style="background-color:#EC7D31; height: 78px;color:beige; padding: 5px 5px 5px 5px;">*@
-                <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Descripción de objetivo</font> @Model.NumeroObjetivo: @Model.Objetivo </label>
+                <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Descripción de objetivo</font> @Model.NumeroObjetivo:<u> @Model.Objetivo</u> </label>
                 <label class="col-md-12 col-form-label texto-pregunta">@Model.DescObjetivo</label>
-                
+                <label class="col-md-12 col-form-label texto-pregunta" style="font-size: 16px !important;font-weight: bold;color:red">* Debe ingresar mínimo 1 máximo 3 objetivos.</label>
+
        @* </div> *@
     </div>
     <div class="row">
@@ -35,8 +36,7 @@
          </div>
         
     }
-     <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 16px !important;font-weight: bold;color:red">* Debe ingresar mínimo 1 máximo 3 objetivos.</label>
- </div>  
+    
   </div>
     <div id="viewAll" class="card-body card-body-card table-responsive">
         

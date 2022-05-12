@@ -62,7 +62,7 @@
 
             <td class="acciones-td">
            
-                <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Editar" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=@planificacion.IdPlanificacion&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=@planificacion.IdResultado&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=3&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivos @Model.NumeroObjetivo')">
+                <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Editar" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=@planificacion.IdPlanificacion&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=@planificacion.IdResultado&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=3&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivo @Model.NumeroObjetivo : @Model.Objetivo')">
                    <i class="@((planificacion.Estado==4 || planificacion.Estado==5)?"fas fa-bullseye":"fas fa-edit")"></i>
                 </button>
                 @if((planificacion.Estado==1 || planificacion.Estado==2|| planificacion.Estado==3))

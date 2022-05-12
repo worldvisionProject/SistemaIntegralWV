@@ -7,34 +7,40 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 @{ @*ViewData["Title"] = "New";*@ var currentStep = Model.Steps[Model.CurrentStepIndex];
 var viewName = currentStep.ToString().Substring(currentStep.ToString().LastIndexOf('.') + 1); }
-
-<div class="row">
-    <div class="col-md-12">
-        <label class="col-md-12 col-form-label texto-pregunta" style="color:black;font-weight: bold;font-size:26px!important">@Model.Colaborador</label>
+<div class="container-fluid">
+  <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta" style="color:black;font-weight: bold;">@Model.Colaborador</label>
+        </div>
+    </div>
+    <br />
+<div class="row" style="border:2px;border-style:solid;padding:5px 5px 5px 5px;    border-color: #2ED4E0;">
+     <div class="col-md-12">
+  
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta" style="color:#666666"><font style="font-size:18px!important"><u>Para mantener Nuestra Promesa</u></font></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta" style="color:#EC7D31">Establecer 3-5 objetivos de Desempeño para este año - CLARIDAD</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta">Incluya tanto el QUÉ <font style="color:#2ED4E0">(Resultado)</font> como el CÓMO <font style="color:#2ED4E0">(mentalidades y comportamientos)</font> se lograrán los objetivos.
+                </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta"> <b>
+                Utiliza los hitos para considerar cómo vas a hacer un seguimiento del progreso a lo largo del año, al menos trimestralmente*.</b></label>
+        </div>
     </div>
 </div>
-<br/>
-<div class="row">
-    <div class="col-md-12">
-        <label class="col-md-12 col-form-label texto-pregunta" style="color:#666666">Para mantener Nuestra Promesa</label>
-    </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <label class="col-md-12 col-form-label texto-pregunta" style="color:#EC7D31">Establecer 3-5 objetivos de Desempeño para este año - CLARIDAD</label>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <label class="col-md-12 col-form-label texto-pregunta">Incluya tanto el QUÉ <font style="color:#2ED4E0">(Resultado)</font> como el CÓMO <font style="color:#2ED4E0">(mentalidades y comportamientos)</font> se lograrán los objetivos.
-            </label>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <label class="col-md-12 col-form-label texto-pregunta"> <b>
-            Utiliza los hitos para considerar cómo vas a hacer un seguimiento del progreso a lo largo del año, al menos trimestralmente*.</b></label>
-    </div>
 </div>
 <br />
 <section>

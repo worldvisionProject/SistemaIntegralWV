@@ -40,7 +40,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             for (int i = 0; i <= userRoles.Count - 1; i++)
             {
                 idRol = userRoles[i].ToUpper();
-                if (userRoles[i].ToUpper().Contains("SUPERADMIN"))
+                if (userRoles[i].ToUpper().Contains("SUPERADMIN") || userRoles[i].ToUpper().Contains("ADMIN"))
                 {
                     idRol = "";
                     i = userRoles.Count;

@@ -60,15 +60,16 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
             private readonly IUnitOfWork _unitOfWork;
             private readonly IPlanificacionResultadoRepository _entidadRepository;
             private readonly ISeguimientoObjetivoRepository _entidadSeguimientoRepository;
+            private readonly IPlanificacionHitoRepository _entidadHitoRepository;
             
             private readonly IMapper _mapper;
 
-            public UpdatePlanificacionResultadoCommandHandler(ISeguimientoObjetivoRepository entidadSeguimientoRepository, IPlanificacionResultadoRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
+            public UpdatePlanificacionResultadoCommandHandler(IPlanificacionHitoRepository entidadHitoRepository,ISeguimientoObjetivoRepository entidadSeguimientoRepository, IPlanificacionResultadoRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
             {
                 _entidadRepository = entidadRepository;
                 _entidadSeguimientoRepository = entidadSeguimientoRepository;
-              
-                _unitOfWork = unitOfWork;
+                _entidadHitoRepository = entidadHitoRepository;
+                  _unitOfWork = unitOfWork;
                 _mapper = mapper;
             }
 
@@ -179,12 +180,31 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                 obj.PonderacionResultado=command.PonderacionResultado;
                 obj.ComentarioCumplimiento=command.ComentarioCumplimiento;
 
+                await _entidadRepository.UpdateAsync(obj);
+
                 foreach (var h in command.PlanificacionHitos)
                 {
-                    var hito = _mapper.Map<PlanificacionHito>(h);
-                    //await _entidadHitoRepository.UpdateAsync(hito);
-                    obj.PlanificacionHitos.Add(hito);
+                   
+                    var f=await _entidadHitoRepository.GetByIdAsync(h.Id); 
+                    if (f==null)
+                    {
+                        var hito = _mapper.Map<PlanificacionHito>(h);
+                        hito.IdPlanificacion = obj.Id;
+                        await _entidadHitoRepository.InsertAsync(hito);
+                    }
+                    else
+                    {
+                        f.Nombre = h.Nombre;
+                        f.Indicador=h.Indicador;
+                        f.Meta = h.Meta;
+                        f.FechaInicio = h.FechaInicio;
+                        f.FechaFin = h.FechaFin;
+                        await _entidadHitoRepository.UpdateAsync(f);
+                    
+                    }
+                    
                 }
+               
 
                 foreach (var h in command.AvanceObjetivos)
                 {
@@ -211,7 +231,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                 }
 
 
-                await _entidadRepository.UpdateAsync(obj);
+                
 
 
                 

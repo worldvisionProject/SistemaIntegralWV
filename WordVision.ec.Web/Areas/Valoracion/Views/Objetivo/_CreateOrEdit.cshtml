@@ -1,5 +1,6 @@
 ﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @using WordVision.ec.Web.Areas.Valoracion.Models
+@using System.Web
 @model PlanificacionResultadoViewModel
 
 <form id="create-form" method="post" asp-controller="Objetivo" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" asp-route-idAnioFiscal="@Model." onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
@@ -113,7 +114,7 @@
                           
 
                     </div>
-                     <div class="form-group row" id="divdescResultado" >
+                    <div class="form-group row" id="divdescResultado" >
                          <div class="col-md-12">
                               <input type="text" value="" height="20" id="descResultado" name="descResultado" style="border:0px" class="col-md-12 col-form-label texto-pregunta" readonly  />
                          </div>
@@ -146,44 +147,7 @@
                             <span asp-validation-for="IdResultado" class="text-danger"></span>
                         </div> 
                     </div>
-                     <div class="form-group row">
-                                       <div class="col-md-4" >
-                                        <div class="form-check form-check-inline">
-                                            @if (Model.chkOpcional==1)
-                                            {
-                                              <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1">  
-                                            }
-                                            else
-                                            {
-                                               <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1" checked> 
-                                            }
-                                        
-                                             <label class="form-check-label" for="chkOpcional">Mínimo 1 máximo 2 Opcionales</label>&nbsp;&nbsp;
-                                        </div>
-                                      </div>
-                                      <div  class="col-md-9" id="divOpcional">
-                                           <div class="form-group row">
-                                               <div class="col-md-6" >
-                                                    <label class="col-md-12 col-form-label texto-pregunta text-left">Responsabilidad</label>
-                                                    <textarea type="text" asp-for="DatoManual1" name="DatoManual1" class="form-control"></textarea>
-                                      
-                                               </div>
-                                               <div class="col-md-6" >
-                                                   <label class="col-md-12 col-form-label texto-pregunta text-left">Indicador</label>
-                                                    <textarea type="text" asp-for="DatoManual2" name="DatoManual2" class="form-control"></textarea>
-                                     
-                                               </div>
-                                               @*<div class="col-md-2">
-                                                    <label class="col-md-12 col-form-label texto-pregunta">Tipo($,%,#)</label>
-                                                    @Html.DropDownListFor(x => x.DatoManual3, (IEnumerable<SelectListItem>)Model.TipoListHito, new { @class = "form-control" })
-                      
-                                                    <span asp-validation-for="DatoManual3" class="text-danger"></span>
-                                                </div>*@
-                                           </div>
-                                           </div>
-                                        
-                                      
-                        </div>
+                     
                 }
                 else if (Model.NumeroObjetivo==4 )
                 {
@@ -241,9 +205,49 @@
                      
                 </div>
            
+
+
                @if (Model.NumeroObjetivo==3 )
                {
-                   <br/>
+                   <div class="form-group row">
+                                       <div class="col-md-4" >
+                                        <div class="form-check form-check-inline">
+                                            @if (Model.chkOpcional==1)
+                                            {
+                                              <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1">  
+                                            }
+                                            else
+                                            {
+                                               <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1" checked> 
+                                            }
+                                        
+                                             <label class="form-check-label" for="chkOpcional">Responsabilidades adicionales(Opcional)</label>&nbsp;&nbsp;
+                                        </div>
+                                      </div>
+                                      <div  class="col-md-9" id="divOpcional">
+                                           <div class="form-group row">
+                                               <div class="col-md-6" >
+                                                    <label class="col-md-12 col-form-label texto-pregunta text-left">Responsabilidad</label>
+                                                    <textarea type="text" asp-for="DatoManual1" name="DatoManual1" class="form-control"></textarea>
+                                      
+                                               </div>
+                                               <div class="col-md-6" >
+                                                   <label class="col-md-12 col-form-label texto-pregunta text-left">Indicador</label>
+                                                    <textarea type="text" asp-for="DatoManual2" name="DatoManual2" class="form-control"></textarea>
+                                     
+                                               </div>
+                                               @*<div class="col-md-2">
+                                                    <label class="col-md-12 col-form-label texto-pregunta">Tipo($,%,#)</label>
+                                                    @Html.DropDownListFor(x => x.DatoManual3, (IEnumerable<SelectListItem>)Model.TipoListHito, new { @class = "form-control" })
+                      
+                                                    <span asp-validation-for="DatoManual3" class="text-danger"></span>
+                                                </div>*@
+                                           </div>
+                                           </div>
+                                        
+                                      
+                        </div>
+                  
                    <div class="card card-info">
                     <div class="card-header card-header-int">
                         Agregar Hitos
@@ -294,61 +298,102 @@
                                             <div class="col-md-4" style="padding-top: 25px;">
                                                 <button type="button" class="btn bg-success" onclick="AgregaConcepto(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
                                             </div>
+
+                                           
                                     </div>
 
                                     <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 15px !important;font-weight: bold;color:red">* Debe ingresar mínimo 1 máximo 3 Hitos.</label>
                                     </div>  
+                                 </div>
+                                 <div class="form-group row">
+                                       <div class="col-md-4" style="padding-top: 25px;">
+                                             <button type="button" class="btn btn-primary" id="btnAddHito" onclick="add(); return false;">
+                                                <i class="fas fa-plus-square"></i>
+                                                Nuevo Hito
+                                            </button>
+                                       </div>
                                  </div>
                                 <div id="divHitos">
                                     <table id="hitosTable" class="table table-striped  rwd-table" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
                                                 @*<th>Id</th>*@
-                                                <th>Hito</th>
-                                                <th>Indicador</th>
-                                                <th>Tipo</th>
-                                                <th>Meta</th>
-                                                <th>Fecha Inicio</th>
-                                                <th>Fecha Fin</th>
-                                                <th class="text-right">Acciones</th>
+                                                <th width="20%">Hito</th>
+                                                <th width="20%">Indicador</th>
+                                                <th width="10%">Tipo</th>
+                                                <th width="10%">Meta</th>
+                                                <th width="15%">Fecha Inicio</th>
+                                                <th width="15%">Fecha Fin</th>
+                                                <th width="20%" class="text-right">Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @if (Model.PlanificacionHitos != null)
                                             {
-
+                                               
                                                 @*@foreach (var planifica in Model.ObjetivoAnioFiscales.PlanificacionResultados)
                                                 {*@
+                                                    int c=0;
+                                                   
                                                     @foreach (var hito in Model.PlanificacionHitos)
                                                     {
                                     
-                                                    <tr id="@hito.Id" class="rowdata">
-                                        
+                                                        <tr id="@hito.Id" class="rowdata">
+                                                        <input asp-for="@hito.Id" type="hidden" name="PlanificacionHitos[@c].Id" class="form-control"  />
+                                                        <input asp-for="@hito.IdPlanificacion" type="hidden" name="PlanificacionHitos[@c].IdPlanificacion" class="form-control"  />
                                                         <td >
-
-                                                            @hito.Nombre
+                                                           <input asp-for="@hito.Nombre" type="text" name="PlanificacionHitos[@c].Nombre" class="form-control"  />
+                                                            <span asp-validation-for="@hito.Nombre" class="text-danger"></span>
+                                                           @* @hito.Nombre*@
 
                                                         </td>
                                         
                                                         <td >
-                                                            @hito.Indicador
+                                                              <input asp-for="@hito.Indicador" type="text" name="PlanificacionHitos[@c].Indicador" class="form-control"  />
+                                                            <span asp-validation-for="@hito.Indicador" class="text-danger"></span>
+                                                          
+                                                            @*@hito.Indicador*@
                                                         </td>
                                                         <td>
-                                                            @switch (hito.Tipo)
+                                                             @*@Html.DropDownListFor(hito=>hito.PlanificacionHitos.Where(v=>v.Id==@hito.Id).FirstOrDefault().Tipo,(IEnumerable<SelectListItem>)Model.TipoListHito , new { @class = "form-control" })*@
+                      
+                                                            <select id="Tipo" name="PlanificacionHitos[@c].Tipo" class="form-control">
+                                                            
+                                                                @foreach(SelectListItem  t in Model.TipoListHito)
+                                                                {
+                                                                    if (Convert.ToInt32(t.Value)==hito.Tipo)
+                                                                    {
+                                                                        <option value="@t.Value" selected  >@t.Text</option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@t.Value"  >@t.Text</option>
+                                                                    }
+
+                                                            
+                                                                }
+                                                            
+                                                            </select>
+                                                    @*<span asp-validation-for="TipoListHito" class="text-danger"></span>*@
+                                                           @* @switch (hito.Tipo)
                                                                 {
                                                                     case 13:<span class="badge badge-primary">$</span> break;
                                                                     case 28:<span class="badge badge-warning">%</span> break;
                                                                     case 29:<span class="badge badge-warning">#</span> break;
-                                                                }
+                                                                }*@
                                                         </td>
                                                         <td class="mes">
-                                                            @hito.Meta
+                                                            <input value="@hito.Meta" type="text" name="PlanificacionHitos[@c].Meta" class="form-control"  />
+                                                            <span asp-validation-for="@hito.Meta" class="text-danger"></span>
+                                                           @* @hito.Meta*@
                                                         </td>
                                                         <td>
-                                                            @hito.FechaInicio.ToShortDateString()
+                                                            <input type='datetime' name='PlanificacionHitos[@c].FechaInicio' class='datepicker form-control' value="@hito.FechaInicio.ToShortDateString()"  />
+                                                           @* @hito.FechaInicio.ToShortDateString()*@
                                                         </td>
                                                         <td>
-                                                            @hito.FechaFin.ToShortDateString()
+                                                            <input type='datetime' name='PlanificacionHitos[@c].FechaFin' class='datepicker form-control' value="@hito.FechaFin.ToShortDateString()"  />
+                                                           @* @hito.FechaFin.ToShortDateString()*@
                                                         </td>
                                         
                                                         <td class="text-right">
@@ -359,9 +404,12 @@
 
                                                         </td>
 
-                                                    </tr>
-                                                    }
-                                                }
+                                            </tr>
+                                            c = c + 1;
+                                        }
+
+                                                
+                                             }
 
                                             <input type="hidden" id="idact" name="idact" />
                                         </tbody>
@@ -694,12 +742,29 @@
          <input type="hidden" value="false" name="band" id="band" />
     }
 
+
+
 </form>
 
+    @*INICIO MODAL HITO*@
+@*<div class="modal fade" id="form-addHito" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">*@
 
+@*FIN MODAL HITO*@
+
+<script id="template" type="text/template">
+    @Html.DropDownList("PlanificacionHitos[{0}].Tipo", (IEnumerable<SelectListItem>)Model.TipoListHito, new { @class = "form-control" })
+        @Html.ValidationMessage("PlanificacionHitos[{0}].Tipo") 
+</script>
+<script id="tmpFechaFin" type="text/template">
+ <input type="text" name="FechaFinHito" class="datepicker form-control"  />
+
+</script>
 <script type="text/javascript" language=javascript>
    
      $(document).ready(function () {
+        
+           
+
           // $('#create-form *').prop('disabled', (document.getElementById("band").value == "true"));
           ////$('#create-form').disableAutoFill();
           // $('#FechaCumplimientoAvance').removeAttr("disabled"); 
@@ -721,34 +786,56 @@
            $("#divAddHitos").hide();
             $("#divAddCompetencia").hide();
              $("#divDatosAvance").hide();
+
+             $("#descResultado").empty();
+             if (@Model.NumeroObjetivo==1 || @Model.NumeroObjetivo==2)
+             {
+                $.get("/Valoracion/Objetivo/GetResultado", { idResultado: $("#IdResultado").val() }, function (data) {
+                   $("#descResultado").val(data.indicador);
+                   $("#divdescResultado").show(10);
+                });
+
+                $.get("/Valoracion/Objetivo/GetResultado", { idResultado: $("#IdResultadoOpcional").val() }, function (data) {
+                   $("#descResultado").val(data.indicador);
+                   $("#divdescResultado").show(10);
+                });
+             }
            
- if (@Model.NumeroObjetivo==2 || @Model.NumeroObjetivo==3 )
- {
-     if (@Model.chkOpcional==0)
-           {
-                    $("#divOpcional").show(1000);
-                    $("#IdResultado").attr("disabled", "disabled"); 
-                    $("#IdResultado").addClass('not-allow');
-                    $("#IdPadre").attr("disabled", "disabled"); 
-                    $("#IdPadre").addClass('not-allow');
+             if (@Model.NumeroObjetivo==2 || @Model.NumeroObjetivo==3 )
+             {
+                     if (@Model.chkOpcional==0)
+                           {
+                                $("#divOpcional").show(1000);
+                                $("#IdResultado").attr("disabled", "disabled"); 
+                                $("#IdResultado").addClass('not-allow');
+                                $("#IdPadre").attr("disabled", "disabled"); 
+                                $("#IdPadre").addClass('not-allow');
                     
-                }
-                else
-                {
-                    $("#divOpcional").hide(1000);
-                    $("#IdResultado").removeAttr("disabled");  
-                    $("#IdResultado").removeClass('not-allow');
-                     $("#IdPadre").removeAttr("disabled");  
-                    $("#IdPadre").removeClass('not-allow');
-                }
- }
+                            }
+                            else
+                            {
+                                $("#divOpcional").hide(1000);
+                                $("#IdResultado").removeAttr("disabled");  
+                                $("#IdResultado").removeClass('not-allow');
+                                 $("#IdPadre").removeAttr("disabled");  
+                                $("#IdPadre").removeClass('not-allow');
+                            }
+             }
            
            
            $("#chkOpcional").change(function () {
                 var tipo=  $('input[name=chkOpcional]:checked').val();
-           
+         
+                  
                 if (tipo==1)
-                {
+                { 
+                    //$.get("/Valoracion/Objetivo/GetResultado", { idResultado: $("#IdResultadoOpcional").val() }, function (data) {
+                    //   $("#descResultado").val(data.indicador);
+                  
+                    //   $("#divdescResultado").show(100);
+                    //});
+                    $("#divdescResultado").hide(1000);
+                    $("#IdResultado").val(""); 
                     $("#divOpcional").show(1000);
                     $("#IdResultado").attr("disabled", "disabled"); 
                     $("#IdResultado").addClass('not-allow');
@@ -756,8 +843,11 @@
                     $("#IdPadre").addClass('not-allow');
                 }
                 else
-                {
+                { 
+                    
+
                     $("#divOpcional").hide(1000);
+                  
                     $("#IdResultado").removeAttr("disabled");  
                     $("#IdResultado").removeClass('not-allow');
                     $("#IdPadre").removeAttr("disabled");  
@@ -841,15 +931,15 @@
                     // VACIAMOS EL DropDownList
                     $("#IdResultado").empty();
                     // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
-                   // $("#IdResultado").append("<option value> -- Seleccionar Indicador de " + $("#IdPadre option:selected").text() + " --</option>")
+                    //$("#IdResultado").append("<option value> -- Seleccionar Indicador de " + $("#IdPadre option:selected").text() + " --</option>")
                     // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
                     $.each(data, function (index, row) {
                         $("#IdResultado").append("<option value='" + row.id + "'>" + row.indicador + "</option>")
                     });
                  });
-        }
- if (  numero===4)
- {
+         }
+         if (  numero===4)
+         {
                  $.get("/Valoracion/Objetivo/GetComportamientosList", { idCompetencia: $("#IdPadreCompetencia").val() }, function (data) {
                     // VACIAMOS EL DropDownList
                     $("#IdResultado").empty();
@@ -869,7 +959,7 @@
                  
                     $("#descCompetencia").val(data[0].nombreCompetencia);
                     // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
-                   // $("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
+                    //$("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
                     // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
                     $.each(data, function (index, row) {
                         $("#IdComportamiento").append("<option value='" + row.id + "'>" + row.comportamiento + "</option>")
@@ -882,6 +972,7 @@
                 $.get("/Valoracion/Objetivo/GetIndicadorResponsabilidadList", { idResponsabilidad: $("#IdPadre").val() }, function (data) {
                     // VACIAMOS EL DropDownList
                     $("#IdResultado").empty();
+                  
                     // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
                     //$("#IdResultado").append("<option value> -- Seleccionar Indicador de " + $("#IdPadre option:selected").text() + " --</option>")
                     // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
@@ -895,8 +986,20 @@
             $("#IdResultado").change(function () {
                 $("#descResultado").empty();
                  $("#divdescResultado").hide(10);
+                
                 $.get("/Valoracion/Objetivo/GetResultado", { idResultado: $("#IdResultado").val() }, function (data) {
                    $("#descResultado").val(data.indicador);
+                   $("#divdescResultado").show(10);
+                });
+            });
+
+            $("#IdResultadoOpcional").change(function () {
+                $("#descResultado").empty();
+                 $("#divdescResultado").hide(10);
+                
+                $.get("/Valoracion/Objetivo/GetResultado", { idResultado: $("#IdResultadoOpcional").val() }, function (data) {
+                   $("#descResultado").val(data.indicador);
+                  
                    $("#divdescResultado").show(10);
                 });
             });
@@ -911,36 +1014,124 @@
         });
         });
 
+         $('#form-add').on('hidden.bs.modal', function (e) { 
+           $("body").addClass("modal-open") 
+        });
+
       $.validator.unobtrusive.parse(document);
    $(".datepicker").datepicker({
                                 format: "dd-mm-yyyy",
             autoclose: true,
             todayBtn: true});
 
-            var num = 0;
+            
+ $("#btnAgregarPopUpHito").click(function () {
+         
+          AgregaConcepto();
+           
+        });
+
+    $("#btnCerrarPopUpHito").click(function () {
+         alert(1);
+          $('#form-addHito').modal('hide');
+           
+        });
+
+        function add()
+        {
+           let Tabla = document.getElementById("hitosTable");
+            let TR = document.createElement("tr");
+            TR.setAttribute('id', num);
+            TR.className = "rowdata";
+           
+            let TDHito = document.createElement("td");
+            //TDHito.setAttribute('id', );
+
+            let TDIndicador = document.createElement("td");
+            //TDHito.setAttribute('id', "PlanificacionHitos[" + num + "].Indicador");
+
+            let TDTipo = document.createElement("td");
+            let TDValorMeta = document.createElement("td");
+            let TDFechaInicio = document.createElement("td");
+            let TDFechaFin = document.createElement("td");
+            
+            let TDEliminar = document.createElement("td");
+            TDEliminar.className = "text-right";
+            TDValorMeta.className = "meta";
+
+
+            //let inHito = document.getElementById("PlanificacionHitos[" + num + "].Nombre");
+            //let HiddenNombre = document.createElement("input");
+
+
+            //HiddenNombre.name = "PlanificacionHitos[" + num + "].Nombre";
+            //HiddenNombre.type = "text";
+           
+
+            //inHito.appendChild(HiddenNombre);
+         
+            TR.appendChild(TDHito);
+            TR.appendChild(TDIndicador);
+            TR.appendChild(TDTipo);
+            TR.appendChild(TDValorMeta);
+            TR.appendChild(TDFechaInicio);
+            TR.appendChild(TDFechaFin);
+           
+            TR.appendChild(TDEliminar);
+         
+            TDHito.innerHTML = "<input type='text' name='PlanificacionHitos[" + num + "].Nombre' class='form-control'  required/>";
+            TDIndicador.innerHTML = "<input type='text' name='PlanificacionHitos[" + num + "].Indicador' class='form-control'  required/>";
+            TDTipo.innerHTML = $('#template').html().replace("{0}", num);
+     
+            TDValorMeta.innerHTML = "<input type='text' name='PlanificacionHitos[" + num + "].Meta' class='form-control'  required/>";;
+            TDFechaInicio.innerHTML = "<input type='datetime' id='" + "datetimepicker" + num + "'  name='PlanificacionHitos[" + num + "].FechaInicio' class='datepicker form-control'  />";
+            TDFechaFin.innerHTML = "<input type='datetime' name='PlanificacionHitos[" + num + "].FechaFin' class='datepicker form-control'  />";
+            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFila(" + num + ',"' + $("#PlanificacionHitos["+num+"].Nombre").val()+ '","' + $("#PlanificacionHitos["+num+"].Nombre").val() + '",' + $("#PlanificacionHitos["+num+"].Nombre").val()+ ',' + $("#PlanificacionHitos["+num+"].Nombre").val()+',"'+$("#PlanificacionHitos["+num+"].Nombre").val()+'","'+$("#PlanificacionHitos["+num+"].Nombre").val()+'")'+"'> <i class='fas fa-pencil-alt'></i> </button> <button type='button' onclick='EliminaFilaConfirmacion("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            ////TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
+            //Tabla.appendChild(TR);
+             Tabla.tBodies[0].appendChild(TR)
+
+            num++;
+
+             $("#hitosTable tbody input[type=datetime]").datepicker({
+                                format: "dd-mm-yyyy",
+            autoclose: true,
+            todayBtn: true,
+            inline: true});
+
+
+        //     $("input[id*='datetimepicker']").datetimepicker({
+        //    format: 'Y-m-d H:i',
+        //    inline: true
+        //});
+
+        }
+var num = 0;
   function AgregaConcepto() {
 
             var fechainicial = document.getElementById("FechaInicio").value;
-            var fechafinal = document.getElementById("FechaInicioHito").value;
-            var fecha = fechafinal.split("-");
+            var fechafinal = document.getElementById("FechaFin").value;
+            var fechaHitoInicio = document.getElementById("FechaInicioHito").value;
+            var fechaFR = fechafinal.split("-");
+            var fechaH = fechaHitoInicio.split("-");
             var fechaR = fechainicial.split("-");
-            var f1 = new Date(fecha[2], fecha[1], fecha[0]);
-            var f2 = new Date(fechaR[2], fechaR[1], fechaR[0]);
-            if (f1<=f2)
+            var fH = new Date(fechaH[2], fechaH[1], fechaH[0]);
+            var fR = new Date(fechaR[2], fechaR[1], fechaR[0]);
+            var fFR = new Date(fechaFR[2], fechaFR[1], fechaFR[0]);
+          
+            if (!(fH.getTime()>=fR.getTime() && fH.getTime()<=fFR.getTime()))
             {
-                alert("La fecha del Hito de Inicio debe ser mayor a la fecha de la responsabilidad.");
+                alert("La fecha del Hito de Inicio debe estar entre la fecha inicio y fecha fin de la responsabilidad.");
                 return;
             }
             
-            fechainicial = document.getElementById("FechaFin").value;
-             fechafinal = document.getElementById("FechaFinHito").value;
-             fecha = fechafinal.split("-");
-             fechaR = fechainicial.split("-");
-             f1 = new Date(fecha[2], fecha[1], fecha[0]);
-             f2 = new Date(fechaR[2], fechaR[1], fechaR[0]);
-            if (f1<=f2)
+           
+             var fechaHitofinal = document.getElementById("FechaFinHito").value;
+             var fechaFH = fechaHitofinal.split("-");
+             var fFH = new Date(fechaFH[2], fechaFH[1], fechaFH[0]);
+             if (!(fFH.getTime()>=fR.getTime() && fFH.getTime()<=fFR.getTime()))
             {
-                alert("La fecha del Hito Final debe ser mayor a la fecha de la responsabilidad.");
+                alert("La fecha del Hito Final debe estar entre la fecha inicio y fecha fin de la responsabilidad.");
                 return;
             }
 

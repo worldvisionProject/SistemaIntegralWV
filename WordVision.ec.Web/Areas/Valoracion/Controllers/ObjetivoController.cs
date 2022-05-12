@@ -263,20 +263,34 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     var entidadModel = await _mediator.Send(new GetPlanificacionResultadoByIdQuery() { Id = id });
                     var entidadMapper = _mapper.Map<PlanificacionResultadoViewModel>(entidadModel.Data);
                     int hitoBd = 0;
+                    int existe = 0;
                     if (entidadMapper!=null)
                      hitoBd = entidadMapper.PlanificacionHitos.Count();
                     if (entidad.PlanificacionHitos != null)
                     {
-                        var cuenta = entidad.PlanificacionHitos.Count() + hitoBd;
+                        foreach(var h in entidadMapper.PlanificacionHitos)
+                        {
+                            foreach (var ha in entidad.PlanificacionHitos)
+                            {
+                                if (h.Id == ha.Id)
+                                {
+                                    existe = 0;
+                                    break;
+                                }
+                                else
+                                    existe++;
+                            }
+                        }
+                        var cuenta = existe + hitoBd;
                         if (cuenta > 3)
                         {
                             _notify.Error("Debe ingresar máximo 3 Hitos por cada responsabilidad.");
 
                             return new JsonResult(new { isValid = false });
                         }
-                        else if (cuenta < 3)
+                        else if (!(cuenta >= 1 && cuenta <= 3))
                         {
-                            _notify.Error("Debe ingresar mínimo 3 Hitos por cada responsabilidad.");
+                            _notify.Error("Debe ingresar mínimo 1 y máximo 3 Hitos por cada responsabilidad.");
 
                             return new JsonResult(new { isValid = false });
                         }
@@ -289,9 +303,9 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
 
                             return new JsonResult(new { isValid = false });
                         }
-                        else if (hitoBd < 3)
+                        else if (! (hitoBd>=1 && hitoBd <= 3))
                         {
-                            _notify.Error("Debe ingresar mínimo 3 Hitos por cada responsabilidad.");
+                            _notify.Error("Debe ingresar mínimo 1 y máximo 3 Hitos por cada responsabilidad.");
 
                             return new JsonResult(new { isValid = false });
                         }
@@ -583,9 +597,11 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 viewModel.PonderacionObjetivo = ponderacion;
                 viewModel.Perfil = perfil;
                 viewModel.IdColaborador = id;
-           
+              
 
-                
+                var responseObj = await _mediator.Send(new GetObjetivoByIdQuery() { Id  = idObjetivo });
+                viewModel.Objetivo = responseObj.Data.Nombre;
+
                 var response = await _mediator.Send(new GetPlanificacionResultadoByIdColabotadorQuery() { IdObjetivoAnioFiscal = idObjetivoAnioFiscal, IdColaborador = id });
                 if (response.Succeeded)
                 {
