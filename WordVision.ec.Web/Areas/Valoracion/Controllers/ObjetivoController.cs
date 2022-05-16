@@ -105,8 +105,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     if (objNumero==3)
                     {
                        
-                        var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
-                        entidadViewModel.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
+                        //var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
+                        //entidadViewModel.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
                         var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() { IdEstructura = idEstructura, IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
                         entidadViewModel.IdResponsabillidadList = new SelectList(entidadModelResponsabillidad.Data, "IdResponsabilidad", "NombreResponsabilidad");
                         var entidadModelIndicador = await _mediator.Send(new GetResponsabilidadByIdPadreQuery() { IdPadre = entidadViewModel.IdPadre });
@@ -141,6 +141,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         entidadViewModel.IdResultadoOpcionalList = new SelectList(entidadModelResultado.Data.Where(c => c.EsObligatorio == 0), "Id", "Nombre");
 
                     }
+                    var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
+                    entidadViewModel.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 else
@@ -169,8 +171,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                             entidadMapper.IdPadre = entidadResponsabillidad.Data.Padre;
                         }
                         
-                        var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
-                        entidadMapper.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
+                        //var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
+                        //entidadMapper.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
                         var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() { IdEstructura = idEstructura, IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
                         entidadMapper.IdResponsabillidadList = new SelectList(entidadModelResponsabillidad.Data, "IdResponsabilidad", "NombreResponsabilidad");
                         var entidadModelIndicador = await _mediator.Send(new GetResponsabilidadByIdPadreQuery() { IdPadre = entidadMapper.IdPadre });
@@ -204,6 +206,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         entidadMapper.IdResultadoOpcional = entidadMapper.IdResultado;
                         entidadMapper.chkOpcional = 1;
                     }
+                    var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
+                    entidadMapper.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
 
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadMapper) });
 
