@@ -405,7 +405,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         if (total > ponderaObjetivo)
                         {
 
-                            _notify.Error("La suma de la ponderación de objetivo no pude ser mayor a la Ponderacion de Resultado " + ponderaObjetivo.ToString() + ", restan " + restan.ToString() + " para llegar al máximo permitido.");
+                            _notify.Error("La suma de la ponderación de objetivo no pude ser mayor a la Ponderacion de Resultado que es igual a:" + ponderaObjetivo.ToString() + ", le faltan " + restan.ToString() + " para llegar al máximo permitido.");
 
                             return new JsonResult(new { isValid = false });
                         }

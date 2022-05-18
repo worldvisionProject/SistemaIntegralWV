@@ -13,13 +13,13 @@ var viewName = currentStep.ToString().Substring(currentStep.ToString().LastIndex
             <label class="col-md-12 col-form-label texto-pregunta" style="color:black;font-weight: bold;">@Model.Colaborador</label>
         </div>
     </div>
-    <br />
+    
 <div class="row" style="border:2px;border-style:solid;padding:5px 5px 5px 5px;    border-color: #2ED4E0;">
      <div class="col-md-12">
   
     <div class="row">
         <div class="col-md-12">
-            <label class="col-md-12 col-form-label texto-pregunta" style="color:#666666"><font style="font-size:18px!important"><u>Para mantener Nuestra Promesa</u></font></label>
+            <label class="col-md-12 col-form-label texto-pregunta" style="color:#666666"><font style="font-weight: bold;font-size:18px!important;color:#46bb95"><u>Para mantener Nuestra Promesa</u></font></label>
         </div>
     </div>
     <div class="row">
@@ -29,7 +29,7 @@ var viewName = currentStep.ToString().Substring(currentStep.ToString().LastIndex
     </div>
     <div class="row">
         <div class="col-md-12">
-            <label class="col-md-12 col-form-label texto-pregunta">Incluya tanto el QUÉ <font style="color:#2ED4E0">(Resultado)</font> como el CÓMO <font style="color:#2ED4E0">(mentalidades y comportamientos)</font> se lograrán los objetivos.
+            <label class="col-md-12 col-form-label texto-pregunta">Incluya tanto el QUÉ <font style="color:#00acca">(Resultado)</font> como el CÓMO <font style="color:#00acca">(mentalidades y comportamientos)</font> se lograrán los objetivos.
                 </label>
         </div>
     </div>
@@ -96,7 +96,7 @@ var viewName = currentStep.ToString().Substring(currentStep.ToString().LastIndex
                       
                       <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Estado de la Valoración:</font> <font style="font-weight: bold;color:black">@Model.DescEstado</font> </label>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="padding:15px 20px 20px 20px !important">
 
                         @Html.HiddenFor(m => m.CurrentStepIndex, Model.CurrentStepIndex)
 

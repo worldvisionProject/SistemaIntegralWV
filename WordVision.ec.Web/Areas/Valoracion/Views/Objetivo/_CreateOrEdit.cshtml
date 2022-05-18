@@ -257,8 +257,8 @@
                 <div class="card-header card-header-int">
                     Agregar Hitos
                 </div>
-                <div class="card-body">
-                    <div class="container-fluid">
+                <div class="card-body" style="padding: 1px 10px 10px 10px!Important;">
+                    <div class="container-fluid" style="padding: 1px 10px 10px 10px!Important;">
                         @*<input class="form-control form-check-input" type="checkbox" name="chkMostrar" id="chkMostrar" value="1">
                         <label class="form-check-label" for="chkMostrar">Mostrar/Ocultar datos</label>&nbsp;&nbsp;
                         <br /> <br />
@@ -348,14 +348,14 @@
                                                 <input asp-for="@hito.Id" type="hidden" name="PlanificacionHitos[@c].Id" class="form-control" />
                                                 <input asp-for="@hito.IdPlanificacion" type="hidden" name="PlanificacionHitos[@c].IdPlanificacion" class="form-control" />
                                                 <td>
-                                                    <input asp-for="@hito.Nombre" type="text" id="Nombre_@c" name="PlanificacionHitos[@c].Nombre" class="sinbordefondo not-allowed"  />
+                                                    <textarea asp-for="@hito.Nombre" type="text" id="Nombre_@c" name="PlanificacionHitos[@c].Nombre" class="sinbordefondo not-allowed"  ></textarea>
                                                     <span asp-validation-for="@hito.Nombre" class="text-danger"></span>
                                                     @* @hito.Nombre*@
 
                                                 </td>
 
                                                 <td>
-                                                    <input asp-for="@hito.Indicador" type="text" id="Indicador_@c" name="PlanificacionHitos[@c].Indicador" class="sinbordefondo not-allowed" />
+                                                    <textarea asp-for="@hito.Indicador" type="text" id="Indicador_@c" name="PlanificacionHitos[@c].Indicador" class="sinbordefondo not-allowed" ></textarea>
                                                     <span asp-validation-for="@hito.Indicador" class="text-danger"></span>
 
                                                     @*@hito.Indicador*@
@@ -1145,8 +1145,8 @@
 
                 TR.appendChild(TDEliminar);
 
-                TDHito.innerHTML = "<input type='text' name='PlanificacionHitos[" + num + "].Nombre' class='form-control'  required/>";
-                TDIndicador.innerHTML = "<input type='text' name='PlanificacionHitos[" + num + "].Indicador' class='form-control'  required/>";
+                TDHito.innerHTML = "<textarea type='text' name='PlanificacionHitos[" + num + "].Nombre' class='form-control'  required ></textarea>";
+                TDIndicador.innerHTML = "<textarea type='text' name='PlanificacionHitos[" + num + "].Indicador' class='form-control'  required ></textarea>";
                 TDTipo.innerHTML = $('#template').html().replace("{0}", num);
 
                 TDValorMeta.innerHTML = "<input type='text' name='PlanificacionHitos[" + num + "].Meta' class='form-control'  required/>";;
