@@ -414,9 +414,9 @@
                                             c = c + 1;
                                         }
 
-                                        <input type="hidden" id="numFilas" name="numFilas" value="@c" />
+                                        <input type="hidden" id="numFilas" name="numFilas" value="@c" /> 
                                     }
-                                     
+                                    
                                     <input type="hidden" id="idact" name="idact" />
                                 </tbody>
                             </table>
@@ -438,17 +438,17 @@
                 </div>
                 <div class="card-body">
                     <div class="container-fluid">
-                        <div class="form-group row" id="divdescCompetencia">
+                       @* <div class="form-group row" id="divdescCompetencia">
                             <div class="col-md-12">
                                 <input type="text" value="" height="10" id="descCompetencia" name="descCompetencia" style="border:0px" class="col-md-12 col-form-label texto-pregunta" readonly />
                             </div>
                         </div>
                         <input class="form-control form-check-input" type="checkbox" name="chkMostrarCompetencia" id="chkMostrarCompetencia" value="1">
-                        <label class="form-check-label" for="chkMostrarCompetencia">Mostrar/Ocultar datos</label>&nbsp;&nbsp;
-                        <br /> <br />
-                        <div id="divAddCompetencia">
+                        <label class="form-check-label" for="chkMostrarCompetencia">Mostrar/Ocultar datos</label>&nbsp;&nbsp;*@
+                       @* <br /> <br />
+                        <div id="divAddCompetencia">*@
 
-                            <div class="form-group row">
+                  @*          <div class="form-group row">
                                 <div class="col-md-6">
                                     <label class="col-md-12 col-form-label texto-pregunta">Comportamientos</label>
                                     @Html.DropDownListFor(x => x.IdComportamiento, (IEnumerable<SelectListItem>)Model.ComportamientoList,
@@ -472,53 +472,87 @@
                                 <div class="col-md-4" style="padding-top: 25px;">
                                     <button type="button" class="btn bg-success" onclick="AgregaComportamiento(); return false;"> <i class="fa fa-plus-square"></i> Agregar</button>
                                 </div>
-                            </div>
+                            </div>*@
 
+                           @* <div class="col-md-8" style="text-align: right;">
+                                <label class="col-md-12 col-form-label texto-pregunta" style="font-size: 15px !important;font-weight: bold;color:red">* Debe ingresar máximo 3 Comportamientos.</label>
+                            </div>
+                        </div>*@
+
+                        <div class="form-group row">
+                            <div class="col-md-4" style="padding-top: 25px;">
+                                <button type="button" class="btn btn-primary" id="btnAddComportamiento" onclick="addComportamiento(); return false;">
+                                    <i class="fas fa-plus-square"></i>
+                                    Nuevo Comportamiento
+                                </button>
+                            </div>
                             <div class="col-md-8" style="text-align: right;">
                                 <label class="col-md-12 col-form-label texto-pregunta" style="font-size: 15px !important;font-weight: bold;color:red">* Debe ingresar máximo 3 Comportamientos.</label>
                             </div>
                         </div>
+
                         <div id="divComportamiento">
                             <table id="comportamientoTable" class="table table-striped  rwd-table" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         @*<th>Id</th>*@
-                                        <th>Comportamiento</th>
+                                        <th width="70%">Comportamiento</th>
 
-                                        <th>Fecha Inicio</th>
-                                        <th>Fecha Fin</th>
-                                        <th class="text-right">Acciones</th>
+                                        <th  width="10%">Fecha Inicio</th>
+                                        <th  width="10%">Fecha Fin</th>
+                                        <th width="10%" class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @if (Model.PlanificacionComportamientos != null)
                                     {
-
+                                         int c = 0;
                                         @*@foreach (var planifica in Model.ObjetivoAnioFiscales.PlanificacionResultados)
                                             {*@
                                         @foreach (var comportamiento in Model.PlanificacionComportamientos)
                                         {
 
                                             <tr id="@comportamiento.Id" class="rowdata">
-
+                                                  <input asp-for="@comportamiento.Id" type="hidden" name="PlanificacionComportamientos[@c].Id" class="form-control" />
+                                                <input asp-for="@comportamiento.IdPlanificacion" type="hidden" name="PlanificacionComportamientos[@c].IdPlanificacion" class="form-control" />
                                                 <td class="idComporta">
-                                                    @{
+                                                 @*   @{
                                                         var selectedCodigo = Model.ComportamientoList;
                                                         string txtCodigo = selectedCodigo.Where(x => x.Value == @comportamiento.IdCompetencia.ToString())?.FirstOrDefault()?.Text;
                                                     }
-                                                    @txtCodigo
+                                                    @txtCodigo*@
+
+                                                     <select id="IdCompetencia_@c" name="PlanificacionComportamientos[@c].IdCompetencia"  style="width:100%" class="sinbordefondo not-allowed">
+
+                                                        @foreach (SelectListItem t in Model.ComportamientoList)
+                                                        {
+                                                            if (Convert.ToInt32(t.Value) == comportamiento.IdCompetencia)
+                                                            {
+                                                                <option value="@t.Value" selected>@t.Text</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@t.Value">@t.Text</option>
+                                                            }
 
 
+                                                        }
+
+                                                    </select>
                                                 </td>
                                                 <td>
-                                                    @comportamiento.FechaInicio.ToShortDateString()
+                                                    <input type='datetime' id="FechaInicio_@c" name='PlanificacionComportamientos[@c].FechaInicio' class='datepicker sinbordefondo not-allowed' style="width:85px" value="@comportamiento.FechaInicio.ToShortDateString()" />
+                                                  
+                                                   @* @comportamiento.FechaInicio.ToShortDateString()*@
                                                 </td>
                                                 <td>
-                                                    @comportamiento.FechaFin.ToShortDateString()
+                                                    <input type='datetime' id="FechaFin_@c" name='PlanificacionComportamientos[@c].FechaFin' class='datepicker sinbordefondo not-allowed' style="width:85px" value="@comportamiento.FechaFin.ToShortDateString()" />
+                                                  
+                                                  @*  @comportamiento.FechaFin.ToShortDateString()*@
                                                 </td>
 
                                                 <td class="text-right">
-                                                    <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFilaComportamiento(@comportamiento.Id,@comportamiento.IdCompetencia,'@comportamiento.FechaInicio','@comportamiento.FechaFin')">
+                                                    <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFilaComportamiento(@c,@comportamiento.Id,@comportamiento.IdCompetencia,'@comportamiento.FechaInicio','@comportamiento.FechaFin')">
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </button>
                                                     <button type="button" onclick="EliminaFilaComportamientoConfirmacion(@comportamiento.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
@@ -526,7 +560,9 @@
                                                 </td>
 
                                             </tr>
+                                            c = c + 1;
                                         }
+                                        <input type="hidden" id="numFilas" name="numFilas" value="@c" />
                                     }
 
                                     <input type="hidden" id="idactComportamiento" name="idactComportamiento" />
@@ -761,10 +797,18 @@
 
 <script id="template" type="text/template">
    
-        @Html.DropDownList("PlanificacionHitos[{0}].Tipo", (IEnumerable<SelectListItem>)Model.TipoListHito, new { @class = "form-control" })
+        @Html.DropDownList("PlanificacionHitos[{0}].Tipo", (IEnumerable<SelectListItem>)Model.TipoListHito," -- Seleccionar Comportamiento --",
+            new { @class = "form-control" })
         @Html.ValidationMessage("PlanificacionHitos[{0}].Tipo")
    
 </script>
+
+<script id="tmpComportamiento" type="text/template">
+@Html.DropDownList("PlanificacionComportamientos[{0}].IdCompetencia", (IEnumerable<SelectListItem>)Model.ComportamientoList,
+                            " -- Seleccionar Comportamiento --", new { @class = "form-control",@id="IdComportamiento_{0}" })
+                          
+</script>
+
 <script id="tmpFechaFin" type="text/template">
     <input type="text" name="FechaFinHito" class="datepicker form-control"  />
 
@@ -966,8 +1010,8 @@
                     $.get("/Valoracion/Objetivo/GetComportamientosList", { idCompetencia: $("#IdPadreCompetencia").val() }, function (data) {
                         // VACIAMOS EL DropDownList
                         $("#IdComportamiento").empty();
-
-                        $("#descCompetencia").val(data[0].nombreCompetencia);
+                       
+                       // $("#descCompetencia").val(data[0].nombreCompetencia);
                         // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
                         //$("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
                         // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
@@ -1047,8 +1091,20 @@
 
             });
 
+           
+            var num = $('#numFilas').val();
+           
+             if (num=== undefined)
+             {
+                 num=0;
+             }
             function add()
             {
+                 if (!CuentaHitos()) {
+                    alert("Puede ingresar máximo 3 hitos.");
+                    return;
+                }
+
                let Tabla = document.getElementById("hitosTable");
                 let TR = document.createElement("tr");
                 TR.setAttribute('id', num);
@@ -1096,7 +1152,7 @@
                 TDValorMeta.innerHTML = "<input type='text' name='PlanificacionHitos[" + num + "].Meta' class='form-control'  required/>";;
                 TDFechaInicio.innerHTML = "<input type='datetime' id='" + "datetimepicker" + num + "'  name='PlanificacionHitos[" + num + "].FechaInicio' class='datepicker form-control'  />";
                 TDFechaFin.innerHTML = "<input type='datetime' name='PlanificacionHitos[" + num + "].FechaFin' class='datepicker form-control'  />";
-                TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFilaHito("+num+',' + num + ',"' + $("#PlanificacionHitos["+num+"].Nombre").val()+ '","' + $("#PlanificacionHitos["+num+"].Nombre").val() + '",' + $("#PlanificacionHitos["+num+"].Nombre").val()+ ',' + $("#PlanificacionHitos["+num+"].Nombre").val()+',"'+$("#PlanificacionHitos["+num+"].Nombre").val()+'","'+$("#PlanificacionHitos["+num+"].Nombre").val()+'")'+"'> <i class='fas fa-pencil-alt'></i> </button> <button type='button' onclick='EliminaFilaConfirmacion("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+                TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFilaHito("+num+',' + num + ',"' + $("#PlanificacionHitos["+num+"].Nombre").val()+ '","' + $("#PlanificacionHitos["+num+"].Nombre").val() + '",' + $("#PlanificacionHitos["+num+"].Nombre").val()+ ',' + $("#PlanificacionHitos["+num+"].Nombre").val()+',"'+$("#PlanificacionHitos["+num+"].Nombre").val()+'","'+$("#PlanificacionHitos["+num+"].Nombre").val()+'")'+"'> <i class='fas fa-pencil-alt'></i> </button> <button type='button' onclick='EliminaFilaConfirmacionHito("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
                 ////TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
                 //Tabla.appendChild(TR);
                  Tabla.tBodies[0].appendChild(TR)
@@ -1116,7 +1172,71 @@
             //});
 
             }
-    var num = $('#numFilas').val();
+
+
+
+            function addComportamiento()
+            {
+               if (!CuentaComportamientos()) {
+                    alert("Puede ingresar máximo 3 Comportamientos .");
+                    return;
+                }
+                
+               
+
+
+                let Tabla = document.getElementById("comportamientoTable");
+                let TR = document.createElement("tr");
+                TR.setAttribute('id', num);
+                TR.className = "rowdata";
+                let TDIdComportamiento = document.createElement("td");
+                let TDFechaInicioComporta = document.createElement("td");
+                let TDFechaFinComporta = document.createElement("td");
+
+                let TDEliminar = document.createElement("td");
+                TDEliminar.className = "text-right";
+
+                TR.appendChild(TDIdComportamiento);
+                TR.appendChild(TDFechaInicioComporta);
+                TR.appendChild(TDFechaFinComporta);
+
+                TR.appendChild(TDEliminar);
+
+                TDIdComportamiento.innerHTML = $('#tmpComportamiento').html().replace("{0}", num).replace("{0}", num);
+                TDIdComportamiento.className = "idComporta";
+			  
+
+				TDFechaInicioComporta.innerHTML = "<input type='datetime' id='" + "datetimepicker" + num + "'  name='PlanificacionComportamientos[" + num + "].FechaInicio' class='datepicker form-control'  />";
+                TDFechaFinComporta.innerHTML = "<input type='datetime' name='PlanificacionComportamientos[" + num + "].FechaFin' class='datepicker form-control'  />";
+           
+                TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFilaComportamiento("+num+',' + num + ',' + $("#PlanificacionComportamientos["+num+"].IdComportamiento").val() + ',"' + $("#PlanificacionComportamientos["+num+"].IdComportamiento").val()+ '","'+$("#PlanificacionComportamientos["+num+"].IdComportamiento").val()+'")'+"'> <i class='fas fa-pencil-alt'></i> </button> <button type='button' onclick='EliminaFilaComportamientoConfirmacion("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+                //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
+                Tabla.tBodies[0].appendChild(TR);
+				
+
+                 $.get("/Valoracion/Objetivo/GetComportamientosList", { idCompetencia: $("#IdPadreCompetencia").val() }, function (data) {
+                         //$("#IdComportamiento_"+num).empty();
+                   //alert("#IdComportamiento_"+num);
+                           $.each(data, function (index, row) {
+                                alert($("#IdComportamiento_"+num).val());
+                            $("#IdComportamiento_"+num).append("<option value='" + row.id + "'>" + row.comportamiento + "</option>")
+                        });
+                    });
+
+                num++;
+
+                 $("#comportamientoTable tbody input[type=datetime]").datepicker({
+                                    format: "dd-mm-yyyy",
+                autoclose: true,
+                todayBtn: true,
+                inline: true});
+
+
+
+            }
+
+
+  
       function AgregaConcepto() {
 
                 var fechainicial = document.getElementById("FechaInicio").value;
@@ -1764,14 +1884,30 @@
            }
         }
 
-            function ActualizaFilaComportamiento(id,idComportamiento,fechaInicio,fechaFin) {
-                 $("#divAddCompetencia").show(1000);
+            function ActualizaFilaComportamiento(row,id,idComportamiento,fechaInicio,fechaFin) {
 
-                $("#chkMostrarCompetencia").attr('checked', true);
-                document.getElementById("idactComportamiento").value = id;
-                document.getElementById("IdComportamiento").value = idComportamiento;
-                document.getElementById("FechaInicioComporta").value = fechaInicio;
-                document.getElementById("FechaFinComporta").value = fechaFin;
+                 
+                   $("#IdCompetencia_"+row).removeAttr("disabled");
+                   $("#IdCompetencia_"+row).removeClass("sinbordefondo");
+                 $("#IdCompetencia_"+row).removeClass("not-allowed");
+                 $("#IdCompetencia_"+row).addClass("form-control");
+                   $("#FechaInicio_"+row).removeAttr("disabled");
+                   $("#FechaInicio_"+row).removeClass("sinbordefondo");
+                 $("#FechaInicio_"+row).removeClass("not-allowed");
+                 $("#FechaInicio_"+row).addClass("form-control");
+                    $("#FechaFin_"+row).removeAttr("disabled");
+                     $("#FechaFin_"+row).removeClass("sinbordefondo");
+                 $("#FechaFin_"+row).removeClass("not-allowed");
+                 $("#FechaFin_"+row).addClass("form-control");
+                 
+
+                // $("#divAddCompetencia").show(1000);
+
+                //$("#chkMostrarCompetencia").attr('checked', true);
+                //document.getElementById("idactComportamiento").value = id;
+                //document.getElementById("IdComportamiento").value = idComportamiento;
+                //document.getElementById("FechaInicioComporta").value = fechaInicio;
+                //document.getElementById("FechaFinComporta").value = fechaFin;
 
             }
 

@@ -61,14 +61,16 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
             private readonly IPlanificacionResultadoRepository _entidadRepository;
             private readonly ISeguimientoObjetivoRepository _entidadSeguimientoRepository;
             private readonly IPlanificacionHitoRepository _entidadHitoRepository;
-            
+            private readonly IPlanificacionComportamientoRepository _entidadComportamientoRepository;
+
             private readonly IMapper _mapper;
 
-            public UpdatePlanificacionResultadoCommandHandler(IPlanificacionHitoRepository entidadHitoRepository,ISeguimientoObjetivoRepository entidadSeguimientoRepository, IPlanificacionResultadoRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
+            public UpdatePlanificacionResultadoCommandHandler(IPlanificacionComportamientoRepository entidadComportamientoRepository,IPlanificacionHitoRepository entidadHitoRepository,ISeguimientoObjetivoRepository entidadSeguimientoRepository, IPlanificacionResultadoRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
             {
                 _entidadRepository = entidadRepository;
                 _entidadSeguimientoRepository = entidadSeguimientoRepository;
                 _entidadHitoRepository = entidadHitoRepository;
+                _entidadComportamientoRepository = entidadComportamientoRepository;
                   _unitOfWork = unitOfWork;
                 _mapper = mapper;
             }
@@ -214,8 +216,26 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
 
                 foreach (var h in command.PlanificacionComportamientos)
                 {
-                    var comportamiento = _mapper.Map<PlanificacionComportamiento>(h);
-                    obj.PlanificacionComportamientos.Add(comportamiento);
+                    //var comportamiento = _mapper.Map<PlanificacionComportamiento>(h);
+                    //obj.PlanificacionComportamientos.Add(comportamiento);
+
+                    var f = await _entidadComportamientoRepository.GetByIdAsync(h.Id);
+                    if (f == null)
+                    {
+                        var comportamiento = _mapper.Map<PlanificacionComportamiento>(h);
+                        comportamiento.IdPlanificacion = obj.Id;
+                        await _entidadComportamientoRepository.InsertAsync(comportamiento);
+                    }
+                    else
+                    {
+                        f.IdCompetencia = h.IdCompetencia;
+                        f.FechaFin = h.FechaFin;
+                        f.FechaInicio = h.FechaInicio;
+                      
+                        await _entidadComportamientoRepository.UpdateAsync(f);
+
+                    }
+
                 }
 
                 if (command.Proceso == 1)// para saber si es el final del proceso o se deveolvio

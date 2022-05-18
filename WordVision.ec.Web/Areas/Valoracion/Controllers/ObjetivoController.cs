@@ -125,8 +125,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     {
                         var entidadModelResponsabillidad = await _mediator.Send(new GetAllCompetenciasQuery() { Nivel = idNivel });
                         entidadViewModel.IdCompetenciaList = new SelectList(entidadModelResponsabillidad.Data, "IdCompetencia", "NombreCompetencia");
-                        var entidadModelComportamiento = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = entidadViewModel.IdPadreCompetencia });
-                        entidadViewModel.ComportamientoList = new SelectList(entidadModelComportamiento.Data, "Id", "Comportamiento");
+                        //var entidadModelComportamiento = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = entidadViewModel.IdPadreCompetencia });
+                        //entidadViewModel.ComportamientoList = new SelectList(entidadModelComportamiento.Data, "Id", "Comportamiento");
 
                     }
                     else
@@ -143,6 +143,9 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     }
                     var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                     entidadViewModel.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
+                    var entidadModelComportamiento = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = entidadViewModel.IdPadreCompetencia });
+                    entidadViewModel.ComportamientoList = new SelectList(entidadModelComportamiento.Data, "Id", "Comportamiento");
+
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 else
@@ -187,8 +190,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         entidadMapper.IdPadreCompetencia = entidadResponsabillidad.Data.Padre;
                         var entidadModelResponsabillidad = await _mediator.Send(new GetAllCompetenciasQuery() { Nivel = idNivel });
                         entidadMapper.IdCompetenciaList = new SelectList(entidadModelResponsabillidad.Data, "IdCompetencia", "NombreCompetencia");
-                        var entidadModelComportamiento = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = entidadMapper.IdPadreCompetencia });
-                        entidadMapper.ComportamientoList = new SelectList(entidadModelComportamiento.Data, "Id", "Comportamiento");
+                        //var entidadModelComportamiento = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = entidadMapper.IdPadreCompetencia });
+                        //entidadMapper.ComportamientoList = new SelectList(entidadModelComportamiento.Data, "Id", "Comportamiento");
                         entidadMapper.chkOpcional = 1;//por efecto obligatorio
                     }
                     else
@@ -208,6 +211,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     }
                     var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                     entidadMapper.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
+                    var entidadModelComportamiento = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = entidadMapper.IdPadreCompetencia });
+                    entidadMapper.ComportamientoList = new SelectList(entidadModelComportamiento.Data, "Id", "Comportamiento");
 
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadMapper) });
 
@@ -227,7 +232,6 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
             var entidadModel = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = idCompetencia });
             var lista = _mapper.Map<List<CompetenciaViewModel>>(entidadModel.Data);
             return  Json(lista);
-
         }
 
         public async Task<JsonResult> GetIndicadorResponsabilidadList(int idResponsabilidad)
@@ -251,6 +255,21 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
         {
             try
             {
+                if (entidad.PlanificacionComportamientos != null)
+                {
+                    foreach(var c in entidad.PlanificacionComportamientos)
+                    {
+                      int cuenta = entidad.PlanificacionComportamientos.Where(cp => cp.IdCompetencia == c.IdCompetencia).Count();
+                      if  (cuenta>1)
+                        {
+                            _notify.Information("Existen dos o mas Comportamiento iguales, solo debe existir uno.");
+
+                            return new JsonResult(new { isValid = false });
+                        }
+                    }
+                }
+
+               
                 if (entidad.NumeroObjetivo == 2)
                 {
                     if (entidad.chkOpcional == 1)
@@ -272,19 +291,28 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                      hitoBd = entidadMapper.PlanificacionHitos.Count();
                     if (entidad.PlanificacionHitos != null)
                     {
-                        foreach(var h in entidadMapper.PlanificacionHitos)
+                        if (entidadMapper!=null)
                         {
-                            foreach (var ha in entidad.PlanificacionHitos)
+                            foreach (var h in entidadMapper.PlanificacionHitos)
                             {
-                                if (h.Id == ha.Id)
+                                foreach (var ha in entidad.PlanificacionHitos)
                                 {
-                                    existe = 0;
-                                    break;
+                                    if (h.Id == ha.Id)
+                                    {
+                                        existe = 0;
+                                        break;
+                                    }
+                                    else
+                                        existe++;
                                 }
-                                else
-                                    existe++;
                             }
                         }
+                        else
+                        {
+                            existe = 0;
+                            hitoBd = entidad.PlanificacionHitos.Count();
+                        }
+                        
                         var cuenta = existe + hitoBd;
                         if (cuenta > 3)
                         {
@@ -320,6 +348,11 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 {
                     if (id==0)
                     {
+                        if (entidad.PlanificacionComportamientos.Count()==0)
+                        {
+                            entidad.IdResultado = 0;
+                        }
+                        else
                         entidad.IdResultado = entidad.PlanificacionComportamientos.FirstOrDefault().IdCompetencia;
                     }
                     else
@@ -434,7 +467,9 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     viewModel.Perfil = entidad.Perfil;
                     viewModel.IdColaborador = entidad.IdColaborador;
 
-                     var response = await _mediator.Send(new GetPlanificacionResultadoByIdColabotadorQuery() { IdObjetivoAnioFiscal = entidad.IdObjetivoAnioFiscal, IdColaborador = entidad.IdColaborador });
+                    var responseObj = await _mediator.Send(new GetObjetivoByIdQuery() { Id = entidad.IdObjetivo });
+                    viewModel.Objetivo = responseObj.Data.Nombre;
+                    var response = await _mediator.Send(new GetPlanificacionResultadoByIdColabotadorQuery() { IdObjetivoAnioFiscal = entidad.IdObjetivoAnioFiscal, IdColaborador = entidad.IdColaborador });
                     if (response.Succeeded)
                     {
                         var entidadP = _mapper.Map<List<PlanificacionResultadoResponse>>(response.Data);
