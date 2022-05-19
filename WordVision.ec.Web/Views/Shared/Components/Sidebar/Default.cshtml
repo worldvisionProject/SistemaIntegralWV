@@ -521,7 +521,7 @@
                     <a is-active-route asp-area="Valoracion" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
-                            @localizer["Valoración desempeño"]
+                            @localizer["Valoración Desempeño"]
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -530,7 +530,7 @@
                             <a is-active-route asp-area="Valoracion" asp-page="/Objetivo/Wizard/Index" asp-route-id="@Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value)" class="nav-link">
                                 <i class="nav-icon fas fa-user-edit"></i>
                                 <p>
-                                    @localizer["Ingreso de acuerdos"]
+                                    @localizer["Ingreso de Acuerdos"]
                                     @*<span class="right badge badge-danger">@localizer["New"]</span>*@
                                 </p>
                             </a>

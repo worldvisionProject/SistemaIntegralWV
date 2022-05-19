@@ -32,7 +32,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public int IdPadreCompetencia { get; set; }
         public int? IdComportamiento { get; set; }
         public int IdResultado { get; set; }
-        public int IdResultadoOpcional { get; set; }
+        public int? IdResultadoOpcional { get; set; }
         public SelectList TipoList { get; set; }
         public SelectList IdResultadoList { get; set; }
         public SelectList IdResultadoOpcionalList { get; set; }

@@ -274,7 +274,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 {
                     if (entidad.chkOpcional == 1)
                     {
-                        entidad.IdResultado = entidad.IdResultadoOpcional;
+                        entidad.IdResultado = (int)entidad.IdResultadoOpcional;
                     }
                 }
                 else if (entidad.NumeroObjetivo==3)
