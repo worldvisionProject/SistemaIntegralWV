@@ -13,7 +13,7 @@
                     {
                         <th style="background-color:#F9D6BF;color: black;" width="30%">Responsabilidad Puesto</th>
                         <th data-priority="1" style="background-color:#F9D6BF;color: black;" width="20%">Indicador Cumplimiento</th>
-                        <th data-priority="1" style="background-color:#F9D6BF;color: black;" width="5%">Tipo(#,%;$)</th>
+                    @*    <th data-priority="1" style="background-color:#F9D6BF;color: black;" width="5%">Tipo(#,%;$)</th>*@
                         <th data-priority="1" style="background-color:#2ED4E0;color: black;" width="5%">Meta</th>
                         <th data-priority="1" style="background-color:#2ED4E0;color: black;" width="10%">Fecha Inicio</th>
                         <th data-priority="1" style="background-color:#2ED4E0;color: black;" width="10%">Fecha Fin</th>
@@ -108,7 +108,7 @@
                 {
                     @if (Model.NumeroObjetivo.Contains("3"))
                     {
-                        @if (planificacion.IdResultado==0)
+                        @*@if (planificacion.IdResultado==0)
                             {
                                 <td>
                             
@@ -143,7 +143,7 @@
                                         </td>
 
                        
-                                    }
+                                    }*@
 
                     }else{ 
                         <td>
@@ -230,7 +230,40 @@
 <script>
 
     $(document).ready(function () {
-        var table = $("#TableObj1").DataTable({
+        if (@Model.NumeroObjetivo==3)
+        {
+var table = $("#TableObj1").DataTable({
+aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "bFilter": false ,
+               "bLengthChange" : false,"bPaginate": false,
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },
+            'rowsGroup': [6],
+            "info": false,"length":false,
+
+            "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+            var total = api
+                .column(5)//numero de columna a sumar
+                //.column(1, {page: 'current'})//para sumar solo la pagina actual
+                .data()
+                .reduce(function (a, b) {
+                    return parseInt(a) + parseInt(b);
+                }, 0 );
+
+            $(api.column(5).footer()).html(total);
+            
+        }
+
+        });
+        }
+        else
+        {
+            var table = $("#TableObj1").DataTable({
 aoColumnDefs: [
                 { "aTargets": [0], "bSortable": true },
                 { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
@@ -258,6 +291,8 @@ aoColumnDefs: [
         }
 
         });
+        }
+        
         
 
         $('#valoracionTable tbody').on('dblclick', 'tr', function () {

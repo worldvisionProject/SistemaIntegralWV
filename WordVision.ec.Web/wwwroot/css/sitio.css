@@ -925,10 +925,20 @@ div.upload input[type="file"] {
 .sinbordefondo {
     background-color: rgb(255 255 255 / 5%);
     border: 0;
-
+    width: 100%;
 }
 
 .not-allowed {
     cursor: not-allowed;
     pointer-events: none;
+}
+
+.form-control-grilla {
+    padding: 5px 5px 5px 5px !important;
+    vertical-align: middle !important;
+}
+
+.form-control-texto {
+    padding: 5px 5px 5px 5px !important;
+    
 }

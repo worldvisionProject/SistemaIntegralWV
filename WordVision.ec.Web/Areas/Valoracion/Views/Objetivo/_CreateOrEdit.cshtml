@@ -97,7 +97,7 @@
                 </div>
                 @if (Model.NumeroObjetivo == 2)
                 {
-                    <div class="col-md-6" style="padding:25px">
+                    <div class="col-md-1" style="padding:25px">
                         <div class="form-check form-check-inline">
                             @if (Model.chkOpcional == 1)
                             {
@@ -109,11 +109,15 @@
                             }
 
                             <label class="form-check-label" for="chkOpcional">Opcional</label>&nbsp;&nbsp;
-                            <div id="divOpcional">
-                                @Html.DropDownListFor(x => x.IdResultadoOpcional, (IEnumerable<SelectListItem>)Model.IdResultadoOpcionalList, new { @class = "form-control" })
                             </div>
                         </div>
-                    </div>
+                        <div class="col-md-5" style="padding:1px 1px 1px 50px">
+                            <div id="divOpcional">
+                                <label class="col-md-12 col-form-label texto-pregunta">Resultado</label>
+                                @Html.DropDownListFor(x => x.IdResultadoOpcional, (IEnumerable<SelectListItem>)Model.IdResultadoOpcionalList,"Seleccione", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    
 
                 }
 
@@ -136,7 +140,7 @@
                 <span asp-validation-for="IdResultado" class="text-danger"></span>
                 </div>
                 </div>*@
-            <div class="form-group row">
+            <div class="form-group row"   id="divObjetivo3">
                 <div class="col-md-6">
                     <label class="col-md-12 col-form-label texto-pregunta">Responsabilidad</label>
 
@@ -151,6 +155,47 @@
 
                     <span asp-validation-for="IdResultado" class="text-danger"></span>
                 </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <div class="form-check form-check-inline">
+                        @if (Model.chkOpcional == 1)
+                        {
+                            <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1">
+                        }
+                        else
+                        {
+                            <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1" checked>
+                        }
+
+                        <label class="form-check-label" for="chkOpcional">Responsabilidades adicionales(Opcional)</label>&nbsp;&nbsp;
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row"  id="divOpcional">
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label class="col-md-12 col-form-label texto-pregunta text-left">Responsabilidad</label>
+                            <textarea type="text" asp-for="DatoManual1" name="DatoManual1" class="form-control"></textarea>
+
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-md-12 col-form-label texto-pregunta text-left">Indicador</label>
+                            <textarea type="text" asp-for="DatoManual2" name="DatoManual2" class="form-control"></textarea>
+
+                        </div>
+                        @*<div class="col-md-2">
+                            <label class="col-md-12 col-form-label texto-pregunta">Tipo($,%,#)</label>
+                            @Html.DropDownListFor(x => x.DatoManual3, (IEnumerable<SelectListItem>)Model.TipoListHito, new { @class = "form-control" })
+
+                            <span asp-validation-for="DatoManual3" class="text-danger"></span>
+                            </div>*@
+                    </div>
+                </div>
+
+
             </div>
 
         }
@@ -214,44 +259,7 @@
 
         @if (Model.NumeroObjetivo == 3)
         {
-            <div class="form-group row">
-                <div class="col-md-4">
-                    <div class="form-check form-check-inline">
-                        @if (Model.chkOpcional == 1)
-                        {
-                            <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1">
-                        }
-                        else
-                        {
-                            <input class="form-control form-check-input" type="checkbox" name="chkOpcional" id="chkOpcional" value="1" checked>
-                        }
-
-                        <label class="form-check-label" for="chkOpcional">Responsabilidades adicionales(Opcional)</label>&nbsp;&nbsp;
-                    </div>
-                </div>
-                <div class="col-md-9" id="divOpcional">
-                    <div class="form-group row">
-                        <div class="col-md-6">
-                            <label class="col-md-12 col-form-label texto-pregunta text-left">Responsabilidad</label>
-                            <textarea type="text" asp-for="DatoManual1" name="DatoManual1" class="form-control"></textarea>
-
-                        </div>
-                        <div class="col-md-6">
-                            <label class="col-md-12 col-form-label texto-pregunta text-left">Indicador</label>
-                            <textarea type="text" asp-for="DatoManual2" name="DatoManual2" class="form-control"></textarea>
-
-                        </div>
-                        @*<div class="col-md-2">
-                            <label class="col-md-12 col-form-label texto-pregunta">Tipo($,%,#)</label>
-                            @Html.DropDownListFor(x => x.DatoManual3, (IEnumerable<SelectListItem>)Model.TipoListHito, new { @class = "form-control" })
-
-                            <span asp-validation-for="DatoManual3" class="text-danger"></span>
-                            </div>*@
-                    </div>
-                </div>
-
-
-            </div>
+            
 
             <div class="card card-info">
                 <div class="card-header card-header-int">
@@ -324,13 +332,13 @@
                                 <thead>
                                     <tr>
                                         @*<th>Id</th>*@
-                                        <th width="20%">Hito</th>
-                                        <th width="20%">Indicador</th>
-                                        <th width="10%">Tipo</th>
-                                        <th width="10%">Meta</th>
-                                        <th width="15%">Fecha Inicio</th>
-                                        <th width="15%">Fecha Fin</th>
-                                        <th width="20%" class="text-right">Acciones</th>
+                                        <th width="28%">Hito</th>
+                                        <th width="28%">Indicador</th>
+                                        <th width="7%">Tipo</th>
+                                        <th width="9%">Meta</th>
+                                        <th width="11%">Fecha Inicio</th>
+                                        <th width="11%">Fecha Fin</th>
+                                        <th width="28%" class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -347,23 +355,23 @@
                                             <tr id="@hito.Id" class="rowdata">
                                                 <input asp-for="@hito.Id" type="hidden" name="PlanificacionHitos[@c].Id" class="form-control" />
                                                 <input asp-for="@hito.IdPlanificacion" type="hidden" name="PlanificacionHitos[@c].IdPlanificacion" class="form-control" />
-                                                <td>
-                                                    <textarea asp-for="@hito.Nombre" type="text" id="Nombre_@c" name="PlanificacionHitos[@c].Nombre" class="sinbordefondo not-allowed"  ></textarea>
+                                                <td class="form-control-grilla">
+                                                    <textarea asp-for="@hito.Nombre" type="text" id="Nombre_@c" name="PlanificacionHitos[@c].Nombre" class="sinbordefondo not-allowed form-control-texto"  ></textarea>
                                                     <span asp-validation-for="@hito.Nombre" class="text-danger"></span>
                                                     @* @hito.Nombre*@
 
                                                 </td>
 
-                                                <td>
-                                                    <textarea asp-for="@hito.Indicador" type="text" id="Indicador_@c" name="PlanificacionHitos[@c].Indicador" class="sinbordefondo not-allowed" ></textarea>
+                                                <td  class="form-control-grilla">
+                                                    <textarea asp-for="@hito.Indicador" type="text" id="Indicador_@c" name="PlanificacionHitos[@c].Indicador" class="sinbordefondo not-allowed form-control-texto" ></textarea>
                                                     <span asp-validation-for="@hito.Indicador" class="text-danger"></span>
 
                                                     @*@hito.Indicador*@
                                                 </td>
-                                                <td>
+                                                <td  class="form-control-grilla">
                                                     @*@Html.DropDownListFor(hito=>hito.PlanificacionHitos.Where(v=>v.Id==@hito.Id).FirstOrDefault().Tipo,(IEnumerable<SelectListItem>)Model.TipoListHito , new { @class = "form-control" })*@
 
-                                                    <select id="Tipo_@c" name="PlanificacionHitos[@c].Tipo"  style="width:45px" class="sinbordefondo not-allowed">
+                                                    <select id="Tipo_@c" name="PlanificacionHitos[@c].Tipo"   class="sinbordefondo not-allowed form-control-texto">
 
                                                         @foreach (SelectListItem t in Model.TipoListHito)
                                                         {
@@ -388,21 +396,21 @@
                                                         case 29:<span class="badge badge-warning">#</span> break;
                                                         }*@
                                                 </td>
-                                                <td class="mes">
-                                                    <input value="@hito.Meta" type="text" id="Meta_@c" name="PlanificacionHitos[@c].Meta" style="width:65px" class="sinbordefondo not-allowed"/>
+                                                <td  class="form-control-grilla">
+                                                    <input value="@hito.Meta" type="text" id="Meta_@c" name="PlanificacionHitos[@c].Meta"  class="sinbordefondo not-allowed form-control-texto"  onkeypress='return filterFloat(event,this);'/>
                                                     <span asp-validation-for="@hito.Meta" class="text-danger"></span>
                                                     @* @hito.Meta*@
                                                 </td>
-                                                <td>
-                                                    <input type='datetime' id="FechaInicio_@c" name='PlanificacionHitos[@c].FechaInicio' class='datepicker sinbordefondo not-allowed' style="width:85px" value="@hito.FechaInicio.ToShortDateString()" />
+                                                <td  class="form-control-grilla">
+                                                    <input type='datetime' id="FechaInicio_@c" name='PlanificacionHitos[@c].FechaInicio' class='datepicker sinbordefondo not-allowed form-control-texto'  value="@hito.FechaInicio.ToShortDateString()" />
                                                     @* @hito.FechaInicio.ToShortDateString()*@
                                                 </td>
-                                                <td>
-                                                    <input type='datetime' id="FechaFin_@c" name='PlanificacionHitos[@c].FechaFin' class='datepicker sinbordefondo not-allowed' style="width:85px" value="@hito.FechaFin.ToShortDateString()" />
+                                                <td  class="form-control-grilla">
+                                                    <input type='datetime' id="FechaFin_@c" name='PlanificacionHitos[@c].FechaFin' class='datepicker sinbordefondo not-allowed form-control-texto'  value="@hito.FechaFin.ToShortDateString()" />
                                                     @* @hito.FechaFin.ToShortDateString()*@
                                                 </td>
 
-                                                <td class="text-right">
+                                                <td class="text-right form-control-grilla">
                                                     <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFilaHito(@c,@hito.Id,'@hito.Nombre','@hito.Indicador',@hito.Tipo,@hito.Meta.ToString().Replace(",", "."),'@hito.FechaInicio','@hito.FechaFin')">
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </button>
@@ -496,10 +504,10 @@
                                 <thead>
                                     <tr>
                                         @*<th>Id</th>*@
-                                        <th width="70%">Comportamiento</th>
+                                        <th width="68%">Comportamiento</th>
 
-                                        <th  width="10%">Fecha Inicio</th>
-                                        <th  width="10%">Fecha Fin</th>
+                                        <th  width="11%">Fecha Inicio</th>
+                                        <th  width="11%">Fecha Fin</th>
                                         <th width="10%" class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
@@ -515,14 +523,14 @@
                                             <tr id="@comportamiento.Id" class="rowdata">
                                                   <input asp-for="@comportamiento.Id" type="hidden" name="PlanificacionComportamientos[@c].Id" class="form-control" />
                                                 <input asp-for="@comportamiento.IdPlanificacion" type="hidden" name="PlanificacionComportamientos[@c].IdPlanificacion" class="form-control" />
-                                                <td class="idComporta">
+                                                <td class="idComporta form-control-grilla">
                                                  @*   @{
                                                         var selectedCodigo = Model.ComportamientoList;
                                                         string txtCodigo = selectedCodigo.Where(x => x.Value == @comportamiento.IdCompetencia.ToString())?.FirstOrDefault()?.Text;
                                                     }
                                                     @txtCodigo*@
 
-                                                     <select id="IdCompetencia_@c" name="PlanificacionComportamientos[@c].IdCompetencia"  style="width:100%" class="sinbordefondo not-allowed">
+                                                     <select id="IdCompetencia_@c" name="PlanificacionComportamientos[@c].IdCompetencia"   class="sinbordefondo not-allowed  form-control-texto">
 
                                                         @foreach (SelectListItem t in Model.ComportamientoList)
                                                         {
@@ -540,18 +548,18 @@
 
                                                     </select>
                                                 </td>
-                                                <td>
-                                                    <input type='datetime' id="FechaInicio_@c" name='PlanificacionComportamientos[@c].FechaInicio' class='datepicker sinbordefondo not-allowed' style="width:85px" value="@comportamiento.FechaInicio.ToShortDateString()" />
+                                                <td class="form-control-grilla">
+                                                    <input type='datetime' id="FechaInicio_@c" name='PlanificacionComportamientos[@c].FechaInicio' class='datepicker sinbordefondo not-allowed  form-control-texto'  value="@comportamiento.FechaInicio.ToShortDateString()" />
                                                   
                                                    @* @comportamiento.FechaInicio.ToShortDateString()*@
                                                 </td>
-                                                <td>
-                                                    <input type='datetime' id="FechaFin_@c" name='PlanificacionComportamientos[@c].FechaFin' class='datepicker sinbordefondo not-allowed' style="width:85px" value="@comportamiento.FechaFin.ToShortDateString()" />
+                                                <td class="form-control-grilla">
+                                                    <input type='datetime' id="FechaFin_@c" name='PlanificacionComportamientos[@c].FechaFin' class='datepicker sinbordefondo not-allowed  form-control-texto' value="@comportamiento.FechaFin.ToShortDateString()" />
                                                   
                                                   @*  @comportamiento.FechaFin.ToShortDateString()*@
                                                 </td>
 
-                                                <td class="text-right">
+                                                <td class="text-right form-control-grilla">
                                                     <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFilaComportamiento(@c,@comportamiento.Id,@comportamiento.IdCompetencia,'@comportamiento.FechaInicio','@comportamiento.FechaFin')">
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </button>
@@ -805,12 +813,12 @@
 
 <script id="tmpComportamiento" type="text/template">
 @Html.DropDownList("PlanificacionComportamientos[{0}].IdCompetencia", (IEnumerable<SelectListItem>)Model.ComportamientoList,
-                            " -- Seleccionar Comportamiento --", new { @class = "form-control",@id="IdComportamiento_{0}" })
+                            " -- Seleccionar Comportamiento --", new { @class = "form-control form-control-texto",@id="IdComportamiento_{0}" })
                           
 </script>
 
 <script id="tmpFechaFin" type="text/template">
-    <input type="text" name="FechaFinHito" class="datepicker form-control"  />
+    <input type="text" name="FechaFinHito" class="datepicker form-control form-control-texto"  />
 
 </script>
 <script type="text/javascript" language=javascript>
@@ -860,6 +868,7 @@
                          if (@Model.chkOpcional==0)
                                {
                                     $("#divOpcional").show(1000);
+                                    $("#divObjetivo3").hide();
                                     $("#IdResultado").attr("disabled", "disabled");
                                     $("#IdResultado").addClass('not-allow');
                                     $("#IdPadre").attr("disabled", "disabled");
@@ -869,6 +878,7 @@
                                 else
                                 {
                                     $("#divOpcional").hide(1000);
+                                    $("#divObjetivo3").show();
                                     $("#IdResultado").removeAttr("disabled");
                                     $("#IdResultado").removeClass('not-allow');
                                      $("#IdPadre").removeAttr("disabled");
@@ -880,7 +890,11 @@
                $("#chkOpcional").change(function () {
                     var tipo=  $('input[name=chkOpcional]:checked').val();
 
-
+                     $("#divdescResultado").hide(1000);
+                     $("#divdescResultado").val("");
+                     $("#IdResultadoOpcional").val("");
+                     $("#IdResultado").val("");
+                      $("#IdPadre").val("");
                     if (tipo==1)
                     {
                         //$.get("/Valoracion/Objetivo/GetResultado", { idResultado: $("#IdResultadoOpcional").val() }, function (data) {
@@ -888,20 +902,22 @@
 
                         //   $("#divdescResultado").show(100);
                         //});
-                        $("#divdescResultado").hide(1000);
-                        $("#IdResultado").val("");
+                        
+                       
                         $("#divOpcional").show(1000);
+                        $("#divObjetivo3").hide(1000);
                         $("#IdResultado").attr("disabled", "disabled");
                         $("#IdResultado").addClass('not-allow');
                         $("#IdPadre").attr("disabled", "disabled");
                         $("#IdPadre").addClass('not-allow');
+                           
                     }
                     else
                     {
 
 
                         $("#divOpcional").hide(1000);
-
+                        $("#divObjetivo3").show(1000);
                         $("#IdResultado").removeAttr("disabled");
                         $("#IdResultado").removeClass('not-allow');
                         $("#IdPadre").removeAttr("disabled");
@@ -1098,6 +1114,28 @@
              {
                  num=0;
              }
+
+            
+function filterFloat(evt,input){
+    // Backspace = 8, Enter = 13, ‘0′ = 48, ‘9′ = 57, ‘,’ = 44, ‘-’ = 43
+    var key = window.Event ? evt.which : evt.keyCode;   
+    var chark = String.fromCharCode(key);
+    var tempValue = input.value+chark;
+    var isNumber = (key >= 48 && key <= 57);
+    var isSpecial = (key == 8 || key == 13 || key == 0 ||  key == 44);
+    if(isNumber || isSpecial){
+        return filter(tempValue);
+    }        
+    
+    return false;    
+    
+}
+function filter(__val__){
+    var preg = /^([0-9]+\,?[0-9]{0,2})$/; 
+    return (preg.test(__val__) === true);
+}
+
+
             function add()
             {
                  if (!CuentaHitos()) {
@@ -1111,19 +1149,25 @@
                 TR.className = "rowdata";
 
                 let TDHito = document.createElement("td");
+                TDHito.className = "form-control-grilla";
                 //TDHito.setAttribute('id', );
 
                 let TDIndicador = document.createElement("td");
+                TDIndicador.className = "form-control-grilla";
                 //TDHito.setAttribute('id', "PlanificacionHitos[" + num + "].Indicador");
 
                 let TDTipo = document.createElement("td");
+                TDTipo.className = "form-control-grilla";
                 let TDValorMeta = document.createElement("td");
+                TDValorMeta.className = "form-control-grilla";
                 let TDFechaInicio = document.createElement("td");
+                TDFechaInicio.className = "form-control-grilla";
                 let TDFechaFin = document.createElement("td");
+                TDFechaFin.className = "form-control-grilla";
 
                 let TDEliminar = document.createElement("td");
-                TDEliminar.className = "text-right";
-                TDValorMeta.className = "meta";
+                TDEliminar.className = "text-right form-control-grilla";
+                //TDValorMeta.className = "meta";
 
 
                 //let inHito = document.getElementById("PlanificacionHitos[" + num + "].Nombre");
@@ -1145,13 +1189,13 @@
 
                 TR.appendChild(TDEliminar);
 
-                TDHito.innerHTML = "<textarea type='text' name='PlanificacionHitos[" + num + "].Nombre' class='form-control'  required ></textarea>";
-                TDIndicador.innerHTML = "<textarea type='text' name='PlanificacionHitos[" + num + "].Indicador' class='form-control'  required ></textarea>";
+                TDHito.innerHTML = "<textarea type='text' name='PlanificacionHitos[" + num + "].Nombre' class='form-control  form-control-texto'  required ></textarea>";
+                TDIndicador.innerHTML = "<textarea type='text' name='PlanificacionHitos[" + num + "].Indicador' class='form-control  form-control-texto'  required ></textarea>";
                 TDTipo.innerHTML = $('#template').html().replace("{0}", num);
 
-                TDValorMeta.innerHTML = "<input type='text' name='PlanificacionHitos[" + num + "].Meta' class='form-control'  required/>";;
-                TDFechaInicio.innerHTML = "<input type='datetime' id='" + "datetimepicker" + num + "'  name='PlanificacionHitos[" + num + "].FechaInicio' class='datepicker form-control'  />";
-                TDFechaFin.innerHTML = "<input type='datetime' name='PlanificacionHitos[" + num + "].FechaFin' class='datepicker form-control'  />";
+                TDValorMeta.innerHTML = "<input type='text' name='PlanificacionHitos[" + num + "].Meta' class='form-control  form-control-texto' onkeypress='return filterFloat(event,this);' required/>";
+                TDFechaInicio.innerHTML = "<input type='datetime' id='" + "datetimepicker" + num + "'  name='PlanificacionHitos[" + num + "].FechaInicio' class='datepicker form-control   form-control-texto'  />";
+                TDFechaFin.innerHTML = "<input type='datetime' name='PlanificacionHitos[" + num + "].FechaFin' class='datepicker form-control  form-control-texto'  />";
                 TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFilaHito("+num+',' + num + ',"' + $("#PlanificacionHitos["+num+"].Nombre").val()+ '","' + $("#PlanificacionHitos["+num+"].Nombre").val() + '",' + $("#PlanificacionHitos["+num+"].Nombre").val()+ ',' + $("#PlanificacionHitos["+num+"].Nombre").val()+',"'+$("#PlanificacionHitos["+num+"].Nombre").val()+'","'+$("#PlanificacionHitos["+num+"].Nombre").val()+'")'+"'> <i class='fas fa-pencil-alt'></i> </button> <button type='button' onclick='EliminaFilaConfirmacionHito("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
                 ////TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
                 //Tabla.appendChild(TR);
@@ -1182,7 +1226,12 @@
                     return;
                 }
                 
-               
+                if($("#IdPadreCompetencia").val().length === 0)
+                {
+                     alert("Seleccione una competencia.");
+                     return;
+                }
+              
 
 
                 let Tabla = document.getElementById("comportamientoTable");
@@ -1190,11 +1239,14 @@
                 TR.setAttribute('id', num);
                 TR.className = "rowdata";
                 let TDIdComportamiento = document.createElement("td");
+                TDIdComportamiento.className = "form-control-grilla";
                 let TDFechaInicioComporta = document.createElement("td");
+                TDFechaInicioComporta.className = "form-control-grilla";
                 let TDFechaFinComporta = document.createElement("td");
+                TDFechaFinComporta.className = "form-control-grilla";
 
                 let TDEliminar = document.createElement("td");
-                TDEliminar.className = "text-right";
+                TDEliminar.className = "text-right form-control-grilla";
 
                 TR.appendChild(TDIdComportamiento);
                 TR.appendChild(TDFechaInicioComporta);
@@ -1203,11 +1255,11 @@
                 TR.appendChild(TDEliminar);
 
                 TDIdComportamiento.innerHTML = $('#tmpComportamiento').html().replace("{0}", num).replace("{0}", num);
-                TDIdComportamiento.className = "idComporta";
+                TDIdComportamiento.className = "idComporta form-control-grilla";
 			  
 
-				TDFechaInicioComporta.innerHTML = "<input type='datetime' id='" + "datetimepicker" + num + "'  name='PlanificacionComportamientos[" + num + "].FechaInicio' class='datepicker form-control'  />";
-                TDFechaFinComporta.innerHTML = "<input type='datetime' name='PlanificacionComportamientos[" + num + "].FechaFin' class='datepicker form-control'  />";
+				TDFechaInicioComporta.innerHTML = "<input type='datetime' id='" + "datetimepicker" + num + "'  name='PlanificacionComportamientos[" + num + "].FechaInicio' class='datepicker form-control form-control-texto'  />";
+                TDFechaFinComporta.innerHTML = "<input type='datetime' name='PlanificacionComportamientos[" + num + "].FechaFin' class='datepicker form-control form-control-texto'  />";
            
                 TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFilaComportamiento("+num+',' + num + ',' + $("#PlanificacionComportamientos["+num+"].IdComportamiento").val() + ',"' + $("#PlanificacionComportamientos["+num+"].IdComportamiento").val()+ '","'+$("#PlanificacionComportamientos["+num+"].IdComportamiento").val()+'")'+"'> <i class='fas fa-pencil-alt'></i> </button> <button type='button' onclick='EliminaFilaComportamientoConfirmacion("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
                 //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
@@ -1218,8 +1270,9 @@
                          //$("#IdComportamiento_"+num).empty();
                    //alert("#IdComportamiento_"+num);
                            $.each(data, function (index, row) {
-                                alert($("#IdComportamiento_"+num).val());
-                            $("#IdComportamiento_"+num).append("<option value='" + row.id + "'>" + row.comportamiento + "</option>")
+                               var d="IdComportamiento_"+(num-1);
+                            
+                            $('#'+d).append("<option value='" + row.id + "'>" + row.comportamiento + "</option>")
                         });
                     });
 
