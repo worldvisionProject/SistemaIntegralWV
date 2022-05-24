@@ -403,9 +403,10 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         var total = suma + Convert.ToDecimal(entidad.Ponderacion);
                         var restan = ponderaObjetivo - suma;
                         if (total > ponderaObjetivo)
-                        {
-
-                            _notify.Error("La suma de la ponderación de objetivo no pude ser mayor a la Ponderacion de Resultado que es igual a:" + ponderaObjetivo.ToString() + ", le faltan " + restan.ToString() + " para llegar al máximo permitido.");
+                        {    
+                            _notify.Error("Los items debe  sumar un total del " + ponderaObjetivo.ToString() + " %, en la ponderación. Actualmente suman: "+ suma.ToString());
+     
+                           // _notify.Error("La suma de la ponderación de objetivo no pude ser mayor a la Ponderacion de Resultado que es igual a:" + ponderaObjetivo.ToString() + ", le faltan " + restan.ToString() + " para llegar al máximo permitido.");
 
                             return new JsonResult(new { isValid = false });
                         }

@@ -194,7 +194,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     var contar = planifica.Data.Count();
 
                    
-                    var response = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = c.AnioFiscal, IdColaborador = c.IdColaborador, Perfil = c.Perfil });
+                    var response = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = c.AnioFiscal, IdColaborador = c.IdColaborador, Perfil = perfil });
                     if (response.Succeeded)
                     {
 
@@ -265,7 +265,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     porcentaje = ponderacion1.Data.Ponderacion;
 
                   
-                    var response1 = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = c1.AnioFiscal, IdColaborador = c1.IdColaborador, Perfil = c1.Perfil });
+                    var response1 = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = c1.AnioFiscal, IdColaborador = c1.IdColaborador, Perfil = perfil });
                     if (response1.Succeeded)
                     {
 
@@ -332,7 +332,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     var contar2 = planifica2.Data.Count();
                     porcentaje = ponderacion2.Data.Ponderacion;
 
-                    var response2 = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = c2.AnioFiscal, IdColaborador = c2.IdColaborador, Perfil = c2.Perfil });
+                    var response2 = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = c2.AnioFiscal, IdColaborador = c2.IdColaborador, Perfil = perfil });
                     if (response2.Succeeded)
                     {
 
@@ -399,7 +399,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     porcentaje = ponderacion3.Data.Ponderacion;
 
 
-                    var response3 = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = c3.AnioFiscal, IdColaborador = c3.IdColaborador, Perfil = c3.Perfil });
+                    var response3 = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = c3.AnioFiscal, IdColaborador = c3.IdColaborador, Perfil = perfil });
                     if (response3.Succeeded)
                     {
 
@@ -460,7 +460,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     DescEstado = c4.DescEstadoProceso;
                     Estado = c4.EstadoProceso;
 
-                    var response4 = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = c4.AnioFiscal, IdColaborador = c4.IdColaborador, Perfil = c4.Perfil });
+                    var response4 = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = c4.AnioFiscal, IdColaborador = c4.IdColaborador, Perfil =perfil });
                     if (response4.Succeeded)
                     {
 
@@ -499,7 +499,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     DescEstado = c5.DescEstadoProceso;
                     Estado = c5.EstadoProceso;
 
-                    var response5 = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = c5.AnioFiscal, IdColaborador = c5.IdColaborador, Perfil = c5.Perfil });
+                    var response5 = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = c5.AnioFiscal, IdColaborador = c5.IdColaborador, Perfil = perfil });
                     if (response5.Succeeded)
                     {
 
@@ -537,7 +537,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard
                     DescEstado = c6.DescEstadoProceso;
                     Estado = c6.EstadoProceso;
 
-                    var response6 = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = c6.AnioFiscal, IdColaborador = c6.IdColaborador, Perfil = c6.Perfil });
+                    var response6 = await _mediator.Send(new GetAllPlanificacionResultadosCachedQuery() { IdAnioFiscal = c6.AnioFiscal, IdColaborador = c6.IdColaborador, Perfil = perfil });
                     if (response6.Succeeded)
                     {
 

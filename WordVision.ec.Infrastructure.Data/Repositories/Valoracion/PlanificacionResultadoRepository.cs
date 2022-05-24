@@ -117,7 +117,8 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                 .GroupBy(x=> new { x.IdColaborador ,x.Estado,x.ObjetivoAnioFiscales.AnioFiscal })
                  .Select(a => new PlanificacionResultadoResponse
                  {
-                     ValorValoracionFinal= _repositorySeguimientoObjetivo.Entities.Where(c=>c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal== a.Key.AnioFiscal && c.Ultimo==1 && (c.Estado==5 || c.Estado == 6)).FirstOrDefault().ValorValoracionFinal,
+                     FechaIngreso= _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal &&  c.Estado == 1).FirstOrDefault().CreatedOn,
+                     ValorValoracionFinal = _repositorySeguimientoObjetivo.Entities.Where(c=>c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal== a.Key.AnioFiscal && c.Ultimo==1 && (c.Estado==5 || c.Estado == 6)).FirstOrDefault().ValorValoracionFinal,
                      ValoracionFinal = _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal && c.Ultimo == 1 && (c.Estado == 5 || c.Estado == 6)).FirstOrDefault().ValoracionFinal,
                      ValoracionLider1 = _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal && c.Ultimo == 1 && (c.Estado == 5 || c.Estado == 6)).FirstOrDefault().ValoracionLider1,
                      ComentarioColaborador = _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal && c.Ultimo == 1 && (c.Estado == 5 || c.Estado == 6)).FirstOrDefault().ComentarioColaborador,

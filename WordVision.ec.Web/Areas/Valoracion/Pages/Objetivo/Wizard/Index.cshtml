@@ -7,7 +7,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 @{ @*ViewData["Title"] = "New";*@ var currentStep = Model.Steps[Model.CurrentStepIndex];
 var viewName = currentStep.ToString().Substring(currentStep.ToString().LastIndexOf('.') + 1); }
-<div class="container-fluid">
+<div class="container-fluid" style="padding: 0px 25px !important;">
   <div class="row">
         <div class="col-md-12">
             <label class="col-md-12 col-form-label texto-pregunta" style="color:black;font-weight: bold;">@Model.Colaborador</label>
@@ -94,7 +94,7 @@ var viewName = currentStep.ToString().Substring(currentStep.ToString().LastIndex
                 <div class="card card-info">
                     <div class="card-header card-header-int">
                       
-                      <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Estado de la Valoración:</font> <font style="font-weight: bold;color:black">@Model.DescEstado</font> </label>
+                      <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Estado de la Valoración: </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font style="font-weight: bold;color:black">@Model.DescEstado</font> </label>
                     </div>
                     <div class="card-body" style="padding:15px 20px 20px 20px !important">
 

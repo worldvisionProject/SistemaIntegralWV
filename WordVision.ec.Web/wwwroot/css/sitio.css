@@ -942,3 +942,14 @@ div.upload input[type="file"] {
     padding: 5px 5px 5px 5px !important;
     
 }
+
+.inputdisabled {
+    background-color: rgb(255 255 255 / 5%);
+    border: 0;
+    width: 100%;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.containerobjetivo {
+    padding: 0px 20px 20px 20px !important ;
+}

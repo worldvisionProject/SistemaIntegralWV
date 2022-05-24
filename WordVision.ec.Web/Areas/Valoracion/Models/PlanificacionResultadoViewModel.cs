@@ -109,5 +109,6 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public decimal? ValorValoracionFinal { get; set; }
         public string ValoracionFinal { get; set; }
         public string ValoracionLider1 { get; set; }
+        public DateTime? FechaIngreso { get; set; }
     }
 }

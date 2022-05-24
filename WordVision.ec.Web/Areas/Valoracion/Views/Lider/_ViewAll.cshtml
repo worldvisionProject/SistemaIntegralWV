@@ -5,6 +5,7 @@
         <tr>
 
             <th data-priority="1">Colaborador</th>
+            <th  data-priority="1">Fecha Ingreso</th>
             <th  data-priority="1">Estado</th>
             @if(Model.FirstOrDefault().Estado==5  || Model.FirstOrDefault().Estado==6)
             {
@@ -29,6 +30,9 @@
 
             <td>
                 @colaborador.NombreColaborador
+            </td>
+             <td>
+                @colaborador.FechaIngreso.Value.ToShortDateString()
             </td>
             <td>
                 @colaborador.DescEstado
