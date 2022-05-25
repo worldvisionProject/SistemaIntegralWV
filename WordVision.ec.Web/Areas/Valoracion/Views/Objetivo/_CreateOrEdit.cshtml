@@ -682,7 +682,7 @@
                             <table id="avanceTable" class="table table-striped  rwd-table" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-
+                                        <th>Fecha Registro</th>
                                         <th>Fecha Cumplimiento</th>
                                         <th>% de Cumplimiento</th>
                                         <th>Comentario Colaborador</th>
@@ -704,14 +704,18 @@
                                         {
 
                                             <tr id="@avance.Id" class="rowdata">
+                                                <td>
 
+                                                    @avance.CreatedOn.ToShortDateString()
+
+                                                </td>
                                                 <td>
 
                                                     @avance.FechaCumplimiento.Value.ToShortDateString()
 
                                                 </td>
 
-                                                <td>
+                                                <td class="porcentaje">
                                                     @avance.Porcentaje
                                                 </td>
                                                 <td>
@@ -754,6 +758,23 @@
                 <div class="card-body" style="padding: 0px !important;">
                     <div class="container-fluid">
                         <div class="form-group row">
+                            @if(Model.PorcentajeCumplimiento==null)
+                            {
+                                <div class="col-md-3">
+                                    <label class="col-md-12 col-form-label texto-pregunta">Fecha Registro</label>
+                                    <input type="text" name="LastModifiedOn" class="datepicker form-control" value=@DateTime.Now.ToShortDateString() />
+                                   
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-3">
+                                    <label class="col-md-12 col-form-label texto-pregunta">Fecha Registro</label>
+                                    <input type="text" asp-for="LastModifiedOn" name="LastModifiedOn" class="datepicker form-control" />
+                                    <span asp-validation-for="LastModifiedOn" class="text-danger"></span>
+                                </div>
+                            }
+
                             <div class="col-md-3">
                                 <label class="col-md-12 col-form-label texto-pregunta">Fecha Cumplimiento</label>
                                 <input type="text" asp-for="FechaCumplimiento" name="FechaCumplimiento" class="datepicker form-control" />
@@ -766,7 +787,7 @@
                             </div>
                             <div class="col-md-3">
                                 <label class="col-md-12 col-form-label texto-pregunta">Ponderación Resultado</label>
-                                <input asp-for="PonderacionResultado" readonly type="text" name="PonderacionResultado" class="form-control" />
+                                <input asp-for="PonderacionResultado"  type="text" name="PonderacionResultado" class="form-control inputdisabled" />
                                 <span asp-validation-for="PonderacionResultado" class="text-danger"></span>
                             </div>
 
@@ -1057,19 +1078,81 @@
                }
 
                 $("#IdPadreCompetencia").change(function () {
-                    $.get("/Valoracion/Objetivo/GetComportamientosList", { idCompetencia: $("#IdPadreCompetencia").val() }, function (data) {
-                        // VACIAMOS EL DropDownList
-                        $("#IdComportamiento").empty();
-                       
-                       // $("#descCompetencia").val(data[0].nombreCompetencia);
-                        // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
-                        //$("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
-                        // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
-                        $.each(data, function (index, row) {
-                            $("#IdComportamiento").append("<option value='" + row.id + "'>" + row.comportamiento + "</option>")
-                        });
-                    });
+                    if (@Model.Id==0)
+                    {
+                         $.get("/Valoracion/Objetivo/GetComportamientosList", { idCompetencia: $("#IdPadreCompetencia").val() }, function (data) {
+                                // VACIAMOS EL DropDownList
+                                $("#IdComportamiento").empty();
+                              
+                               // $("#descCompetencia").val(data[0].nombreCompetencia);
+                                // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                                //$("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
+                                // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                                $.each(data, function (index, row) {
+                                    $("#IdComportamiento").append("<option value='" + row.id + "'>" + row.comportamiento + "</option>")
+                                });
+                            });
+                    }
+                    else
+                    {
+                        if (confirm('¿Estás segura que va a cambiar la competencia? Se eliminaran los comportamientos atados a esta.')) {
 
+                            
+                             var GestionViewModel = {
+                                    id: @Model.Id,
+                                    idColaborador:@Model.IdColaborador, 
+                                    idObjetivo :@Model.IdObjetivo, 
+                                    anioFiscal :@Model.AnioFiscal, 
+                                    idObjetivoAnioFiscal :@Model.IdObjetivoAnioFiscal, 
+                                    numeroObjetivo :@Model.NumeroObjetivo, 
+                                    ponderacionObjetivo :@Model.PonderacionObjetivo.ToString().Replace(",",".")
+                                };
+
+                                 $.ajax({
+                                    type: "post",
+                                    url:'@Url.Action("OnPostDelete", "Objetivo", new { area = "Valoracion" })',
+                                     data: GestionViewModel,
+                                    datatype: "json",
+                                    cache: false,
+                                    success: function (data) {
+                               
+                                    },
+                                    error: function(xhr) {
+                                    }
+                                });
+
+
+                                    const tableRows = document.querySelectorAll('#comportamientoTable tr.rowdata');
+                                    // Recorremos las filas que tengan el class="row"
+                                    // así obviamos la cabecera
+                                    for (let i = 0; i < tableRows.length; i++) {
+                                        const row = tableRows[i];
+                                        row.remove();
+                                    }
+
+                                    $('#numFilas').val("0");
+                                    num=0;
+
+
+                            $.get("/Valoracion/Objetivo/GetComportamientosList", { idCompetencia: $("#IdPadreCompetencia").val() }, function (data) {
+                                // VACIAMOS EL DropDownList
+                                $("#IdComportamiento").empty();
+                       
+                               // $("#descCompetencia").val(data[0].nombreCompetencia);
+                                // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                                //$("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
+                                // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                                $.each(data, function (index, row) {
+                                    $("#IdComportamiento").append("<option value='" + row.id + "'>" + row.comportamiento + "</option>")
+                                });
+                            });
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                     
                 });
 
                 $("#IdPadre").change(function () {
@@ -1112,6 +1195,15 @@
                     var p = $("#Ponderacion").val() === "" ? 0 : $("#Ponderacion").val();
                     var c = $("#PorcentajeCumplimiento").val() === "" ? 0 : $("#PorcentajeCumplimiento").val();
                     var total = parseFloat(p.replace(',', '.')) * parseFloat(c.replace(',', '.')/100);
+                    if (c>=100)
+                    {
+                       $("#PonderacionResultado").removeClass("inputdisabled");
+                        $("#PonderacionResultado").addClass("semaforoverde");
+                    }
+                    else
+                    {
+                          $("#PonderacionResultado").removeClass("semaforoverde");
+                    }
                    $("#PonderacionResultado").val(String(total).replace('.', ','))
                // document.getElementById("PonderacionResultado").value = ;
 
@@ -1642,22 +1734,23 @@ function filter(__val__){
                 let TR = document.createElement("tr");
                 TR.setAttribute('id', num);
                 TR.className = "rowdata";
+                let TDFechaRegistro = document.createElement("td");
                 let TDFechaCuplimiento = document.createElement("td");
                 let TDPorcentaje = document.createElement("td");
                 let TDComentario = document.createElement("td");
                 let TDComentarioLider = document.createElement("td");
-
+                TDPorcentaje.className = "porcentaje";
 
                 let TDEliminar = document.createElement("td");
                 TDEliminar.className = "text-right";
-
+                TR.appendChild(TDFechaRegistro);
                 TR.appendChild(TDFechaCuplimiento);
                 TR.appendChild(TDPorcentaje);
                 TR.appendChild(TDComentario);
                 TR.appendChild(TDComentarioLider);
 
                 TR.appendChild(TDEliminar);
-
+                TDFechaRegistro.innerHTML = formatDate(new Date());
                 TDFechaCuplimiento.innerHTML = fechaCumplimiento;
                 TDPorcentaje.innerHTML = porcentaje;
                 TDComentario.innerHTML = comentario;
@@ -1667,10 +1760,8 @@ function filter(__val__){
                 //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
                 Tabla.appendChild(TR);
 
-                //if (sumar()) {
-                //    deleteRow(num);
-                //    return;
-                //}
+                sumar();
+                
 
                 //agregamos hiddens
                 let DivConceptos = document.getElementById("divAvance");
@@ -1717,6 +1808,58 @@ function filter(__val__){
 
          }
 
+
+         function padTo2Digits(num) {
+          return num.toString().padStart(2, '0');
+        }
+
+        function formatDate(date) {
+          return [
+            padTo2Digits(date.getDate()),
+            padTo2Digits(date.getMonth() + 1),
+            date.getFullYear(),
+          ].join('-');
+        }
+
+
+
+       function sumar() {
+
+        const tableRows = document.querySelectorAll('#avanceTable tr.rowdata');
+
+        var sum = 0;
+        // Recorremos las filas que tengan el class="row"
+        // así obviamos la cabecera
+        for (let i = 0; i < tableRows.length; i++) {
+            const row = tableRows[i];
+            const status = row.querySelector('.porcentaje');
+
+            sum = sum + parseFloat(status.innerText);
+          
+            // Para modificar un estado:
+            // status.innerText = 'offline';
+        }
+
+        document.getElementById("PorcentajeCumplimiento").value = String(sum).replace('.', ',');
+
+        var p = $("#Ponderacion").val() === "" ? 0 : $("#Ponderacion").val();
+        var c = $("#PorcentajeCumplimiento").val() === "" ? 0 : $("#PorcentajeCumplimiento").val();
+ 
+        var total = parseFloat(p.replace(',', '.')) * parseFloat(c.replace(',', '.')/100);
+      
+        if (c>=100)
+        {
+            $("#PonderacionResultado").removeClass("inputdisabled");
+               $("#PonderacionResultado").addClass("semaforoverde");
+        }
+        else
+        {
+              $("#PonderacionResultado").removeClass("semaforoverde");
+        }
+        $("#PonderacionResultado").val(String(total).replace('.', ','))
+
+    }
+
          function EliminaFilaAvance(id) {
 
             $("#" + id).remove();
@@ -1739,12 +1882,14 @@ function filter(__val__){
                    // alert('No Valid Data');
                 }
             });
+
+            sumar();
         }
 
         function EliminaFilaAvanceConfirmacion(id) {
             if (confirm('¿Estás segura de eliminar este registro?')) {
-
-
+ $("#" + id).remove();
+                 sumar();
             var GestionViewModel = {
                 id: id
             };
@@ -1757,15 +1902,16 @@ function filter(__val__){
                 cache: false,
                 success: function (data) {
                 /*  alert('Validooo');*/
-                $("#" + id).remove();
+               
                 },
                 error: function(xhr) {
                    // alert('No Valid Data');
                 }
             });
 
-
+           
            }
+           
         }
 
             function ActualizaFilaAvance(id,fechaCumplimiento,porcentaje,comentario,comentarioLider) {

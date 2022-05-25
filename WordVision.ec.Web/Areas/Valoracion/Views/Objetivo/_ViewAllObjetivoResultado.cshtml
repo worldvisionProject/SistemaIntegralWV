@@ -209,7 +209,7 @@
 
                 <td class="acciones-td">
 
-                    <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Editar" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=@planificacion.IdPlanificacion&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=@planificacion.IdResultado&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=@{
+                    <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="@((planificacion.Estado==4 || planificacion.Estado==5)?"Seguimiento":"Editar")" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=@planificacion.IdPlanificacion&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=@planificacion.IdResultado&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=@{
                     var s=Model.NumeroObjetivo.Contains("3")?2:1;
 }&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")&perfil=@Model.Perfil','Objetivo @Model.NumeroObjetivo : @Model.Objetivo')">
                         <i class="@((planificacion.Estado==4 || planificacion.Estado==5)?"fas fa-bullseye":"fas fa-edit")"></i>

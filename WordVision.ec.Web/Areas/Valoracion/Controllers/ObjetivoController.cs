@@ -359,7 +359,13 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     {
                         
                         var ponderacion = await _mediator.Send(new GetPlanificacionResultadoByIdQuery() { Id = id });
-                        entidad.IdResultado = ponderacion.Data.IdResultado;
+                        if (ponderacion.Data==null)
+                        {
+                            entidad.IdResultado = entidad.PlanificacionComportamientos.FirstOrDefault().IdCompetencia;
+                            id=0;
+                        }
+                        else
+                            entidad.IdResultado = ponderacion.Data.IdResultado;
                     }
                     
                 }

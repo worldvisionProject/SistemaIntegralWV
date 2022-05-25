@@ -7,6 +7,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
 {
     public class PlanificacionResultadoViewModel
     {
+        public DateTime CreatedOn { get; set; }
+        public DateTime? LastModifiedOn { get; set; }
         public int IdObjetivo { get; set; }
         //public string NombreObjetivo { get; set; }
         //public string Numero { get; set; }

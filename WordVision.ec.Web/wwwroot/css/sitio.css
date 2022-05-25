@@ -953,3 +953,7 @@ div.upload input[type="file"] {
 .containerobjetivo {
     padding: 0px 20px 20px 20px !important ;
 }
+
+.semaforoverde {
+    background-color: #46bb95!important;
+}
