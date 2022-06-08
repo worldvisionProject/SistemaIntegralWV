@@ -90,6 +90,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public decimal? PonderacionResultado { get; set; }
 
         public string ComentarioCumplimiento { get; set; }
+        public byte[] Evidencia { get; set; }
         public string Comportamiento { get; set; }
         
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]

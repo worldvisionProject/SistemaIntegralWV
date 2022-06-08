@@ -653,6 +653,23 @@
                                         <input asp-for="PorcentajeAvance" type="text" name="PorcentajeAvance" class="form-control" />
                                         <span asp-validation-for="PorcentajeAvance" class="text-danger"></span>
                                     </div>
+                                    
+                                    <div class="col-md-7">
+                                       
+                                       <label for="input-file-logo" class="col-lg-4 col-md-4 col-sm-12  required">
+                                           Evidencia
+                                           @*@if (!string.IsNullOrEmpty(ViewBag.RutaLogo) && !string.IsNullOrEmpty(ViewBag.NombreLogo))
+                                           {
+                                               <a href="@ViewBag.RutaLogo" download="@ViewBag.NombreLogo" data-tippy-content="Descargar logo actual"><i class="fas fa-download"></i></a>
+                                           }*@
+                                       </label>
+                                       <div class="col-lg-6 col-md-6 col-sm-12">
+                                           <input id="input-file-logo" name="input-file-logo" type="file" class="form-control form-control-sm file" data-msg-placeholder="SELECCIONAR IMAGEN..." data-show-preview="false" accept=".png, .jpg, ,jpeg, .gif">
+                                          @* <small class="text-primary" style="color: #004993; font-size: 0.75rem;"><b><i class="fas fa-info-circle"></i></b><i>La imagen debe medir 400 x 400.</i></small>*@
+                                       </div>
+                                      
+                                   </div>
+
                                 </div>
 
                                 <div class="form-group row">
@@ -760,7 +777,7 @@
                         <div class="form-group row">
                             @if(Model.PorcentajeCumplimiento==null)
                             {
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label class="col-md-12 col-form-label texto-pregunta">Fecha Registro</label>
                                     <input type="text" name="LastModifiedOn" class="datepicker form-control" value=@DateTime.Now.ToShortDateString() />
                                    
@@ -768,14 +785,14 @@
                             }
                             else
                             {
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label class="col-md-12 col-form-label texto-pregunta">Fecha Registro</label>
                                     <input type="text" asp-for="LastModifiedOn" name="LastModifiedOn" class="datepicker form-control" />
                                     <span asp-validation-for="LastModifiedOn" class="text-danger"></span>
                                 </div>
                             }
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label class="col-md-12 col-form-label texto-pregunta">Fecha Cumplimiento</label>
                                 <input type="text" asp-for="FechaCumplimiento" name="FechaCumplimiento" class="datepicker form-control" />
                                 <span asp-validation-for="FechaCumplimiento" class="text-danger"></span>
@@ -785,6 +802,21 @@
                                 <input asp-for="PorcentajeCumplimiento" type="text" name="PorcentajeCumplimiento" class="form-control" />
                                 <span asp-validation-for="PorcentajeCumplimiento" class="text-danger"></span>
                             </div>
+                             <div class="col-md-3">
+                                       
+                                       <label for="input-file-logo" class="col-lg-4 col-md-4 col-sm-12  required">
+                                           Evidencia
+                                           @*@if (!string.IsNullOrEmpty(ViewBag.RutaLogo) && !string.IsNullOrEmpty(ViewBag.NombreLogo))
+                                           {
+                                               <a href="@ViewBag.RutaLogo" download="@ViewBag.NombreLogo" data-tippy-content="Descargar logo actual"><i class="fas fa-download"></i></a>
+                                           }*@
+                                       </label>
+                                       <div class="col-lg-6 col-md-6 col-sm-12">
+                                           <input id="input-file-logo" name="input-file-logo" type="file" class="form-control form-control-sm file" data-msg-placeholder="SELECCIONAR IMAGEN..." data-show-preview="false" accept=".png, .jpg, ,jpeg, .gif">
+                                          @* <small class="text-primary" style="color: #004993; font-size: 0.75rem;"><b><i class="fas fa-info-circle"></i></b><i>La imagen debe medir 400 x 400.</i></small>*@
+                                       </div>
+                                      
+                                   </div>
                             <div class="col-md-3">
                                 <label class="col-md-12 col-form-label texto-pregunta">Ponderación Resultado</label>
                                 <input asp-for="PonderacionResultado"  type="text" name="PonderacionResultado" class="form-control inputdisabled" />
@@ -1760,8 +1792,13 @@ function filter(__val__){
                 //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
                 Tabla.appendChild(TR);
 
-                sumar();
+                //sumar();
                 
+                 if (sumar()) {
+                    deleteRow(num);
+                    return;
+                }
+
 
                 //agregamos hiddens
                 let DivConceptos = document.getElementById("divAvance");
@@ -1840,14 +1877,22 @@ function filter(__val__){
             // status.innerText = 'offline';
         }
 
+       
         document.getElementById("PorcentajeCumplimiento").value = String(sum).replace('.', ',');
-
         var p = $("#Ponderacion").val() === "" ? 0 : $("#Ponderacion").val();
         var c = $("#PorcentajeCumplimiento").val() === "" ? 0 : $("#PorcentajeCumplimiento").val();
  
         var total = parseFloat(p.replace(',', '.')) * parseFloat(c.replace(',', '.')/100);
       
-        if (c>=100)
+         if (c>100)
+        {
+            document.getElementById("PorcentajeCumplimiento").value = "";
+           alert("El porcentaje no puede superar el 100%");
+           return true;
+        }
+
+         
+        if (c==100)
         {
             $("#PonderacionResultado").removeClass("inputdisabled");
                $("#PonderacionResultado").addClass("semaforoverde");
@@ -1857,7 +1902,7 @@ function filter(__val__){
               $("#PonderacionResultado").removeClass("semaforoverde");
         }
         $("#PonderacionResultado").val(String(total).replace('.', ','))
-
+        return false;
     }
 
          function EliminaFilaAvance(id) {

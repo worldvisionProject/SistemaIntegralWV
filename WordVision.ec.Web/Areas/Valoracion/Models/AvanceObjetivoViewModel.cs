@@ -12,6 +12,6 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public string ComentarioLider { get; set; }
         public int IdPlanificacion { get; set; }
         public DateTime CreatedOn { get; set; }
-
+        public byte[] Evidencia { get; set; }
     }
 }

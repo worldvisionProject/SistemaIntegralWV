@@ -43,6 +43,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
         public decimal? PorcentajeCumplimiento { get; set; }
         public decimal? PonderacionResultado { get; set; }
         public string ComentarioCumplimiento { get; set; }
+        public byte[] Evidencia { get; set; }
         public ICollection<AvanceObjetivo> AvanceObjetivos { get; set; }
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
         public ICollection<PlanificacionComportamiento> PlanificacionComportamientos { get; set; }
@@ -181,6 +182,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                 obj.PorcentajeCumplimiento=command.PorcentajeCumplimiento;
                 obj.PonderacionResultado=command.PonderacionResultado;
                 obj.ComentarioCumplimiento=command.ComentarioCumplimiento;
+                obj.Evidencia = command.Evidencia;
 
                 await _entidadRepository.UpdateAsync(obj);
 
