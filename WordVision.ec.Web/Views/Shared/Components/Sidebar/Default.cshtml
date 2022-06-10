@@ -330,26 +330,35 @@
 
                 @if (User.IsInRole("DonanteEdicion") || User.IsInRole("DonantesVisualizacion")|| User.IsInRole("DonantesAdministrador"))
                 {
-                    <li class="nav-header">@localizer["Marketing"]</li>
-                    <li is-active-route asp-area="Soporte" class="nav-item has-treeview">
-                        <a is-active-route asp-area="Soporte" class="nav-link">
-                            <i class="nav-icon fas fa-user"></i>
-                            <p>
-                                @localizer["Gestión"]
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
+                     <li class="nav-header"></li>
+                   <li is-active-route asp-area="Soporte" class="nav-item has-treeview">
+                    <a is-active-route asp-area="Soporte" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                       
+                          <font style="font-size:.9rem">  @localizer["Gestión de Donantes"]</font>
+                        <i class="right fas fa-angle-left"></i>
+                        
+                    </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a is-active-route asp-area="Soporte" asp-controller="Donante" asp-action="Index" class="nav-link">
                                     <i class="nav-icon fas fa-th"></i>
                                     <p>
-                                        @localizer["Donantes"]
+                                        @localizer["Ingreso de Donantes"]
                                         @*<span class="right badge badge-danger">@localizer["New"]</span>*@
                                     </p>
                                 </a>
                             </li>
 
+                        </ul>
+
+                         <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="Catalogo" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Reportes"]</p>
+                                </a>
+                            </li>
                         </ul>
 
                         <ul class="nav nav-treeview">
@@ -520,10 +529,10 @@
                 <li is-active-route asp-area="Valoracion" class="nav-item has-treeview">
                     <a is-active-route asp-area="Valoracion" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
-                        <p>
+                       
                           <font style="font-size:.9rem">  @localizer["Valoración Desempeño"]</font>
                             <i class="right fas fa-angle-left"></i>
-                        </p>
+                       
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
