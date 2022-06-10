@@ -25,9 +25,73 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
     public class DonanteController : BaseController<DonanteController>
     {
         // ejecuta una accion
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();// dirije a la carpeta Views
+            var entidadViewModel = new DonanteViewModel();
+            var responseCola = await _mediator.Send(new GetColaboradorByIdQuery() { Id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
+            if (responseCola.Succeeded)
+            {
+                entidadViewModel.Colaborador = responseCola.Data.Apellidos + " " + responseCola.Data.ApellidoMaterno + " " + responseCola.Data.PrimerNombre + " " + responseCola.Data.SegundoNombre;
+                entidadViewModel.Colaborador = entidadViewModel.Colaborador + "-" + responseCola.Data.Estructuras?.Designacion;
+            }
+
+            var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 21, Ninguno = true });
+            var formaPago = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 22, Ninguno = true });
+            var canal = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 23, Ninguno = true });
+            var responsable = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 24, Ninguno = true });
+            var tipo = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 25, Ninguno = true });
+            var categoria = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 26, Ninguno = true });
+            var campana = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 27, Ninguno = true });
+            var estadoDonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 28, Ninguno = true });
+            var genero = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 30, Ninguno = true });
+            var tipoId = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 31, Ninguno = true });
+            var region = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 32, Ninguno = true });
+            var provincia = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 33, Ninguno = true });
+            var ciudad = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 34, Ninguno = true });
+            var frecuencia = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 35, Ninguno = true });
+            var tipoCuenta = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 36, Ninguno = true });
+            var tipoTarjeta = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 37, Ninguno = true });
+            var banco = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+
+
+
+                
+                entidadViewModel.FormaPagoList = formaPago;
+                entidadViewModel.CanalList = canal;
+                entidadViewModel.ResponsableList = responsable;
+                entidadViewModel.TipoList = tipo;
+                entidadViewModel.CategoriaList = categoria;
+                entidadViewModel.CampanaList = campana;
+                entidadViewModel.EstadoDonanteList = estadoDonante;
+                entidadViewModel.GeneroList = genero;
+                entidadViewModel.TipoIdList = tipoId;
+                entidadViewModel.RegionList = region;
+                entidadViewModel.ProvinciaList = provincia;
+                entidadViewModel.CiudadList = ciudad;
+                entidadViewModel.FrecuenciaList = frecuencia;
+                entidadViewModel.TipoCuentaList = tipoCuenta;
+                entidadViewModel.TipoTarjetaList = tipoTarjeta;
+                entidadViewModel.BancoList = banco;
+                entidadViewModel.FechaConversion = DateTime.Now;
+
+               // return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+
+                return View(entidadViewModel);// dirije a la carpeta Views
         }
 
         public async Task<IActionResult> LoadAll()
@@ -56,6 +120,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
         }
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0)
         {
+
 
             var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 21, Ninguno = true });
             var formaPago = new SelectList(catalogo.Data, "Secuencia", "Nombre");
