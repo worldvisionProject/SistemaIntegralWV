@@ -114,6 +114,8 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         [Display(Name = "Comentario Resolución")]
         public string ComentarioResolucion { get; set; }
 
+        public string Colaborador { get; set; }
+
         public int? EsAdmin { get; set; }
         public SelectList FormaPagoList { get; set; }
         public SelectList CanalList { get; set; }

@@ -39,7 +39,7 @@ namespace WordVision.ec.Infrastructure.Data.CacheRepositories.Maestro
             {
                 string cacheKey = CatalogoCacheKeys.ListKey;
                 var CatalogoList = await _distributedCache.GetAsync<List<Catalogo>>(cacheKey);
-                if (CatalogoList == null)
+                if (CatalogoList == null || CatalogoList.Count==0)
                 {
                     CatalogoList = await _CatalogoRepository.GetListAsync(idRol);
                     await _distributedCache.SetAsync(cacheKey, CatalogoList);

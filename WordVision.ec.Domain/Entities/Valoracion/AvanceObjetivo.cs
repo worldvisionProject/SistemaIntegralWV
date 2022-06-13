@@ -17,6 +17,7 @@ namespace WordVision.ec.Domain.Entities.Valoracion
         public string Comentario { get; set; }
         public string ComentarioLider { get; set; }
         public int IdPlanificacion { get; set; }
+        public byte[] Evidencia { get; set; }
         public PlanificacionResultado PlanificacionResultados { get; set; }
     }
 }

@@ -105,8 +105,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     if (objNumero==3)
                     {
                        
-                        var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
-                        entidadViewModel.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
+                        //var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
+                        //entidadViewModel.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
                         var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() { IdEstructura = idEstructura, IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
                         entidadViewModel.IdResponsabillidadList = new SelectList(entidadModelResponsabillidad.Data, "IdResponsabilidad", "NombreResponsabilidad");
                         var entidadModelIndicador = await _mediator.Send(new GetResponsabilidadByIdPadreQuery() { IdPadre = entidadViewModel.IdPadre });
@@ -125,8 +125,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     {
                         var entidadModelResponsabillidad = await _mediator.Send(new GetAllCompetenciasQuery() { Nivel = idNivel });
                         entidadViewModel.IdCompetenciaList = new SelectList(entidadModelResponsabillidad.Data, "IdCompetencia", "NombreCompetencia");
-                        var entidadModelComportamiento = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = entidadViewModel.IdPadreCompetencia });
-                        entidadViewModel.ComportamientoList = new SelectList(entidadModelComportamiento.Data, "Id", "Comportamiento");
+                        //var entidadModelComportamiento = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = entidadViewModel.IdPadreCompetencia });
+                        //entidadViewModel.ComportamientoList = new SelectList(entidadModelComportamiento.Data, "Id", "Comportamiento");
 
                     }
                     else
@@ -141,6 +141,11 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         entidadViewModel.IdResultadoOpcionalList = new SelectList(entidadModelResultado.Data.Where(c => c.EsObligatorio == 0), "Id", "Nombre");
 
                     }
+                    var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
+                    entidadViewModel.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
+                    var entidadModelComportamiento = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = entidadViewModel.IdPadreCompetencia });
+                    entidadViewModel.ComportamientoList = new SelectList(entidadModelComportamiento.Data, "Id", "Comportamiento");
+
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 else
@@ -169,8 +174,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                             entidadMapper.IdPadre = entidadResponsabillidad.Data.Padre;
                         }
                         
-                        var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
-                        entidadMapper.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
+                        //var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
+                        //entidadMapper.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
                         var entidadModelResponsabillidad = await _mediator.Send(new GetAllResponsabilidadQuery() { IdEstructura = idEstructura, IdObjetivoAnioFiscal = idObjetivoAnioFiscal });
                         entidadMapper.IdResponsabillidadList = new SelectList(entidadModelResponsabillidad.Data, "IdResponsabilidad", "NombreResponsabilidad");
                         var entidadModelIndicador = await _mediator.Send(new GetResponsabilidadByIdPadreQuery() { IdPadre = entidadMapper.IdPadre });
@@ -185,8 +190,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         entidadMapper.IdPadreCompetencia = entidadResponsabillidad.Data.Padre;
                         var entidadModelResponsabillidad = await _mediator.Send(new GetAllCompetenciasQuery() { Nivel = idNivel });
                         entidadMapper.IdCompetenciaList = new SelectList(entidadModelResponsabillidad.Data, "IdCompetencia", "NombreCompetencia");
-                        var entidadModelComportamiento = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = entidadMapper.IdPadreCompetencia });
-                        entidadMapper.ComportamientoList = new SelectList(entidadModelComportamiento.Data, "Id", "Comportamiento");
+                        //var entidadModelComportamiento = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = entidadMapper.IdPadreCompetencia });
+                        //entidadMapper.ComportamientoList = new SelectList(entidadModelComportamiento.Data, "Id", "Comportamiento");
                         entidadMapper.chkOpcional = 1;//por efecto obligatorio
                     }
                     else
@@ -204,6 +209,10 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         entidadMapper.IdResultadoOpcional = entidadMapper.IdResultado;
                         entidadMapper.chkOpcional = 1;
                     }
+                    var cat11 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
+                    entidadMapper.TipoListHito = new SelectList(cat11.Data, "Secuencia", "Nombre");
+                    var entidadModelComportamiento = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = entidadMapper.IdPadreCompetencia });
+                    entidadMapper.ComportamientoList = new SelectList(entidadModelComportamiento.Data, "Id", "Comportamiento");
 
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadMapper) });
 
@@ -223,7 +232,6 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
             var entidadModel = await _mediator.Send(new GetCompetenciaByIdPadreQuery() { IdPadre = idCompetencia });
             var lista = _mapper.Map<List<CompetenciaViewModel>>(entidadModel.Data);
             return  Json(lista);
-
         }
 
         public async Task<JsonResult> GetIndicadorResponsabilidadList(int idResponsabilidad)
@@ -247,11 +255,26 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
         {
             try
             {
+                if (entidad.PlanificacionComportamientos != null)
+                {
+                    foreach(var c in entidad.PlanificacionComportamientos)
+                    {
+                      int cuenta = entidad.PlanificacionComportamientos.Where(cp => cp.IdCompetencia == c.IdCompetencia).Count();
+                      if  (cuenta>1)
+                        {
+                            _notify.Information("Existen dos o mas Comportamiento iguales, solo debe existir uno.");
+
+                            return new JsonResult(new { isValid = false });
+                        }
+                    }
+                }
+
+               
                 if (entidad.NumeroObjetivo == 2)
                 {
                     if (entidad.chkOpcional == 1)
                     {
-                        entidad.IdResultado = entidad.IdResultadoOpcional;
+                        entidad.IdResultado = (int)entidad.IdResultadoOpcional;
                     }
                 }
                 else if (entidad.NumeroObjetivo==3)
@@ -263,20 +286,43 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     var entidadModel = await _mediator.Send(new GetPlanificacionResultadoByIdQuery() { Id = id });
                     var entidadMapper = _mapper.Map<PlanificacionResultadoViewModel>(entidadModel.Data);
                     int hitoBd = 0;
+                    int existe = 0;
                     if (entidadMapper!=null)
                      hitoBd = entidadMapper.PlanificacionHitos.Count();
                     if (entidad.PlanificacionHitos != null)
                     {
-                        var cuenta = entidad.PlanificacionHitos.Count() + hitoBd;
+                        if (entidadMapper!=null)
+                        {
+                            foreach (var h in entidadMapper.PlanificacionHitos)
+                            {
+                                foreach (var ha in entidad.PlanificacionHitos)
+                                {
+                                    if (h.Id == ha.Id)
+                                    {
+                                        existe = 0;
+                                        break;
+                                    }
+                                    else
+                                        existe++;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            existe = 0;
+                            hitoBd = entidad.PlanificacionHitos.Count();
+                        }
+                        
+                        var cuenta = existe + hitoBd;
                         if (cuenta > 3)
                         {
                             _notify.Error("Debe ingresar máximo 3 Hitos por cada responsabilidad.");
 
                             return new JsonResult(new { isValid = false });
                         }
-                        else if (cuenta < 3)
+                        else if (!(cuenta >= 1 && cuenta <= 3))
                         {
-                            _notify.Error("Debe ingresar mínimo 3 Hitos por cada responsabilidad.");
+                            _notify.Error("Debe ingresar mínimo 1 y máximo 3 Hitos por cada responsabilidad.");
 
                             return new JsonResult(new { isValid = false });
                         }
@@ -289,9 +335,9 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
 
                             return new JsonResult(new { isValid = false });
                         }
-                        else if (hitoBd < 3)
+                        else if (! (hitoBd>=1 && hitoBd <= 3))
                         {
-                            _notify.Error("Debe ingresar mínimo 3 Hitos por cada responsabilidad.");
+                            _notify.Error("Debe ingresar mínimo 1 y máximo 3 Hitos por cada responsabilidad.");
 
                             return new JsonResult(new { isValid = false });
                         }
@@ -302,13 +348,24 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 {
                     if (id==0)
                     {
+                        if (entidad.PlanificacionComportamientos.Count()==0)
+                        {
+                            entidad.IdResultado = 0;
+                        }
+                        else
                         entidad.IdResultado = entidad.PlanificacionComportamientos.FirstOrDefault().IdCompetencia;
                     }
                     else
                     {
                         
                         var ponderacion = await _mediator.Send(new GetPlanificacionResultadoByIdQuery() { Id = id });
-                        entidad.IdResultado = ponderacion.Data.IdResultado;
+                        if (ponderacion.Data==null)
+                        {
+                            entidad.IdResultado = entidad.PlanificacionComportamientos.FirstOrDefault().IdCompetencia;
+                            id=0;
+                        }
+                        else
+                            entidad.IdResultado = ponderacion.Data.IdResultado;
                     }
                     
                 }
@@ -324,7 +381,14 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     decimal suma = 0;
                     decimal sumaBasePoderacion = 0;
 
-                   
+                    if (entidad.NumeroObjetivo == 5 || entidad.NumeroObjetivo == 6 || entidad.NumeroObjetivo == 7)
+                    {
+                        if (contar==d.Count())
+                        {
+                            contar = contar + 1;
+                        }
+                    }
+
                         //if (!(contar>=ponderacion.Data.Minimo && contar <= ponderacion.Data.Maximo))
                         if (!(contar <= ponderacion.Data.Maximo))
                         {
@@ -345,9 +409,10 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                         var total = suma + Convert.ToDecimal(entidad.Ponderacion);
                         var restan = ponderaObjetivo - suma;
                         if (total > ponderaObjetivo)
-                        {
-
-                            _notify.Error("La suma de la ponderación de objetivo no pude ser mayor a la Ponderacion de Resultado " + ponderaObjetivo.ToString() + ", restan " + restan.ToString() + " para llegar al máximo permitido.");
+                        {    
+                            _notify.Error("Los items debe  sumar un total del " + ponderaObjetivo.ToString() + " %, en la ponderación. Actualmente suman: "+ suma.ToString());
+     
+                           // _notify.Error("La suma de la ponderación de objetivo no pude ser mayor a la Ponderacion de Resultado que es igual a:" + ponderaObjetivo.ToString() + ", le faltan " + restan.ToString() + " para llegar al máximo permitido.");
 
                             return new JsonResult(new { isValid = false });
                         }
@@ -355,11 +420,14 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     
                     if (id == 0)
                     {
-                        if (existe >= 1)
+                        if (entidad.NumeroObjetivo == 1 || entidad.NumeroObjetivo ==2 || entidad.NumeroObjetivo == 3 || entidad.NumeroObjetivo == 4)
                         {
-                            _notify.Error("Ya existe un Resultado/Responsabilidad/Competencias ingresado en este Objetivo.");
+                            if (existe >= 1)
+                            {
+                                _notify.Error("Ya existe un Resultado/Responsabilidad/Competencias ingresado en este Objetivo.");
 
-                            return new JsonResult(new { isValid = false });
+                                return new JsonResult(new { isValid = false });
+                            }
                         }
                         entidad.Estado = 1;/*en proceso*/
                        var createEntidadCommand = _mapper.Map<CreatePlanificacionResultadoCommand>(entidad);
@@ -373,7 +441,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     }
                     else
                     {
-                       
+                        if (entidad.NumeroObjetivo == 1 || entidad.NumeroObjetivo == 2 || entidad.NumeroObjetivo == 3 || entidad.NumeroObjetivo == 4)
+                        {
                             var lista = planifica.Data.ToList();
                             foreach(var item in lista)
                             {
@@ -388,7 +457,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                                 }
                             
                             }
-                       
+                        }
+
 
                         var updateEntidadCommand = _mapper.Map<UpdatePlanificacionResultadoCommand>(entidad);
                         var result = await _mediator.Send(updateEntidadCommand);
@@ -404,7 +474,9 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     viewModel.Perfil = entidad.Perfil;
                     viewModel.IdColaborador = entidad.IdColaborador;
 
-                     var response = await _mediator.Send(new GetPlanificacionResultadoByIdColabotadorQuery() { IdObjetivoAnioFiscal = entidad.IdObjetivoAnioFiscal, IdColaborador = entidad.IdColaborador });
+                    var responseObj = await _mediator.Send(new GetObjetivoByIdQuery() { Id = entidad.IdObjetivo });
+                    viewModel.Objetivo = responseObj.Data.Nombre;
+                    var response = await _mediator.Send(new GetPlanificacionResultadoByIdColabotadorQuery() { IdObjetivoAnioFiscal = entidad.IdObjetivoAnioFiscal, IdColaborador = entidad.IdColaborador });
                     if (response.Succeeded)
                     {
                         var entidadP = _mapper.Map<List<PlanificacionResultadoResponse>>(response.Data);
@@ -571,9 +643,11 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 viewModel.PonderacionObjetivo = ponderacion;
                 viewModel.Perfil = perfil;
                 viewModel.IdColaborador = id;
-           
+              
 
-                
+                var responseObj = await _mediator.Send(new GetObjetivoByIdQuery() { Id  = idObjetivo });
+                viewModel.Objetivo = responseObj.Data.Nombre;
+
                 var response = await _mediator.Send(new GetPlanificacionResultadoByIdColabotadorQuery() { IdObjetivoAnioFiscal = idObjetivoAnioFiscal, IdColaborador = id });
                 if (response.Succeeded)
                 {
@@ -800,7 +874,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                 entidad.Proceso = 1;// si ya esta en el borton finalizar o devolver
                 entidad.IdColaborador = idColaborador;
                 entidad.AnioFiscal = idAnioFiscal;
-                    if (estado==5)
+                    if (estado== 5 || estado == 6)
                     {
                         entidad.ComentarioColaborador = ComentarioColaborador;
                         entidad.ComentarioLider1 = ComentarioLider1;
@@ -826,7 +900,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Controllers
                     entidad.Proceso = 1;// si ya esta en el borton finalizar o devolver
                     entidad.IdColaborador = idColaborador;
                     entidad.AnioFiscal = idAnioFiscal;
-                    if (estado == 5)
+                    if (estado == 5 || estado == 6)
                     {
                         entidad.ComentarioColaborador = ComentarioColaborador;
                         entidad.ComentarioLider1 = ComentarioLider1;
