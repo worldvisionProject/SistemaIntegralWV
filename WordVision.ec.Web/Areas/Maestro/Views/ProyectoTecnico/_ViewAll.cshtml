@@ -1,0 +1,63 @@
+﻿@model IEnumerable<WordVision.ec.Web.Areas.Maestro.Models.ProyectoTecnicoViewModel>
+
+
+<table id="proyectoTecnicoTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                Código
+            </th>
+            <th>
+                Proyecto
+            </th>
+            <th>
+                Ubicación
+            </th>
+            <th>
+                Financiamiento
+            </th>
+            <th>
+                Tipo Proyecto
+            </th>
+            <th>
+                Estado
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreProyecto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ubicacion.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Financiamiento.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoProyecto.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado.Nombre)
+            </td>
+            <td>
+                 <div class="btn-group">
+                    <a onclick="jQueryModalGet('/Maestro/ProyectoTecnico/OnGetCreateOrEdit?id=@item.Id','Editar Proyecto Técnico')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#proyectoTecnicoTable").DataTable();
+    });
+</script>

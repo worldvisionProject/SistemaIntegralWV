@@ -920,3 +920,11 @@ div.upload input[type="file"] {
         margin: 2px;
         width: 60px;
     }
+
+.card-button-padding {
+    padding: 20px!important;
+}
+
+.group-button-modal {
+    margin-bottom: 0px !important
+}

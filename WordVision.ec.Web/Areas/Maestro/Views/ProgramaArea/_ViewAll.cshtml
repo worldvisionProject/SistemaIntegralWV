@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WordVision.ec.Web.Areas.Maestro.Models.ProgramaAreaViewModel>
+
+
+<table id="programaAreaTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                Código
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th>
+                Proyecto Técnico
+            </th>
+            <th>
+                Estado
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProyectoTecnico.NombreProyecto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado.Nombre)
+            </td>
+            <td>
+                <div class="btn-group">
+                    <a onclick="jQueryModalGet('/Maestro/ProgramaArea/OnGetCreateOrEdit?id=@item.Id','Editar Programa Área')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#programaAreaTable").DataTable();
+    });
+</script>

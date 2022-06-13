@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using WordVision.ec.Application.Features.Maestro.Catalogos;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Commands.Create;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Commands.Update;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetAllCached;
@@ -17,6 +18,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Mappings
             CreateMap<CreateCatalogoCommand, CatalogoViewModel>().ReverseMap();
             CreateMap<UpdateCatalogoCommand, CatalogoViewModel>().ReverseMap();
             CreateMap<DetalleCatalogoViewModel, DetalleCatalogo>().ReverseMap();
+            CreateMap<DetalleCatalogoViewModel, DetalleCatalogoResponse>().ReverseMap();
 
 
         }

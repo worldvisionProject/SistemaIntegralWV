@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Contexts;
 using WordVision.ec.Application.Interfaces.Shared;
 using WordVision.ec.Domain.Contracts;
+using WordVision.ec.Domain.Entities.Indicadores;
 using WordVision.ec.Domain.Entities.Maestro;
 using WordVision.ec.Domain.Entities.Planificacion;
 using WordVision.ec.Domain.Entities.Presupuesto;
@@ -63,6 +64,16 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            /*PARA QUE NO SE ELIMINEN EN CASCADA UN OBJETO*/
+            //var cascadeFKs = builder.Model
+            //    .G­etEntityTypes()
+            //    .SelectMany(t => t.GetForeignKeys())
+            //    .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Casca­de);
+            //foreach (var fk in cascadeFKs)
+            //{
+            //    fk.DeleteBehavior = DeleteBehavior.Restrict;
+            //}
+
             builder.Entity<DatosLDR>()
             .ToTable("DatosLDRs", "pres");
             builder.Entity<DatosT5>()
@@ -84,6 +95,32 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
         .ToTable("Estructuras", "adm");
             builder.Entity<Empresa>()
         .ToTable("Empresas", "adm");
+
+            builder.Entity<RCNinoPatrocinado>()
+            .ToTable("RCNinoPatrocinados", "adm");
+            builder.Entity<ProyectoTecnico>()
+            .ToTable("ProyectoTecnicos", "adm");
+            builder.Entity<ProgramaArea>()
+            .ToTable("ProgramaAreas", "adm");
+            builder.Entity<EtapaModeloProyecto>()
+            .ToTable("EtapaModeloProyectos", "adm");
+            builder.Entity<ModeloProyecto>()
+            .ToTable("ModeloProyectos", "adm");
+            builder.Entity<LogFrame>()
+            .ToTable("LogFrames", "adm");
+            builder.Entity<ActorParticipante>()
+            .ToTable("ActorParticipantes", "adm");
+            builder.Entity<IndicadorPR>()
+            .ToTable("IndicadoresPR", "adm");
+            builder.Entity<OtroIndicador>()
+            .ToTable("OtrosIndicadores", "adm");
+            builder.Entity<PresupuestoProyecto>()
+            .ToTable("PresupuestoProyectos", "adm");
+
+            builder.Entity<FaseProgramaArea>()
+            .ToTable("FaseProgramaAreas", "indicador");
+            builder.Entity<VinculacionIndicador>()
+            .ToTable("VinculacionIndicadores", "indicador");
 
             builder.Entity<EstrategiaNacional>()
           .ToTable("EstrategiaNacionales", "planifica");
@@ -226,7 +263,5 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
         public DbSet<DatosLDR> DatosLDRs { get; set; }
         public DbSet<DatosT5> DatosT5s { get; set; }
         public DbSet<Presupuesto> Presupuestos { get; set; }
-
-
     }
 }
