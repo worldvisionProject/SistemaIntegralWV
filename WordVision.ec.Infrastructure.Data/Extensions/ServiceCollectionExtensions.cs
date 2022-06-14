@@ -90,6 +90,11 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddScoped<IPresupuestoProyectoRepository, PresupuestoProyectoRepository>();
             services.AddScoped<IVinculacionIndicadorRepository, VinculacionIndicadorRepository>();
             services.AddScoped<IFaseProgramaAreaRepository, FaseProgramaAreaRepository>();
+            services.AddScoped<IProyectoITTDIPRepository, ProyectoITTDIPRepository>();
+            services.AddScoped<IProyectoITTRepository, ProyectoITTRepository>();
+            services.AddScoped<IDipInsumoRepository, DipInsumoRepository>();
+            services.AddScoped<IEstadoPorAnioFiscalRepository, EstadoPorAnioFiscalRepository>();
+            
 
             services.AddTransient<IObjetivoEstrategicoCacheRepository, ObjetivoEstrategicoCacheRepository>();
             services.AddTransient<IEstrategiaNacionalCacheRepository, EstrategiaNacionalCacheRepository>();
