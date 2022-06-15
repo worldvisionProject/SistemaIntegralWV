@@ -957,3 +957,11 @@ div.upload input[type="file"] {
 .semaforoverde {
     background-color: #46bb95!important;
 }
+
+.card-button-padding {
+    padding: 20px!important;
+}
+
+.group-button-modal {
+    margin-bottom: 0px !important
+}
