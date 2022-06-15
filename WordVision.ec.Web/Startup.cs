@@ -12,11 +12,13 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
 using System;
+using System.IO;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -143,6 +145,10 @@ namespace WordVision.ec.Web
                 iis.AutomaticAuthentication = false;
                 iis.MaxRequestBodySize = long.MaxValue;
             });
+
+            services.AddSingleton<IFileProvider>(
+           new PhysicalFileProvider(
+               Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 
         }
 
