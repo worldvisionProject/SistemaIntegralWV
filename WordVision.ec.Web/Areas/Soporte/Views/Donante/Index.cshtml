@@ -60,22 +60,28 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaConversion"></label>
                             <input asp-for="FechaConversion" type="text" name="FechaConversion" class=" form-control" readonly />
                             <span asp-validation-for="FechaConversion" class="text-danger"></span>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="Canal"></label>
                             @Html.DropDownListFor(x => x.Canal, (IEnumerable<SelectListItem>)Model.CanalList, new { @class = "form-control" })
                             <span asp-validation-for="Canal" class="text-danger"></span>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="Responsable"></label>
                             @Html.DropDownListFor(x => x.Responsable, (IEnumerable<SelectListItem>)Model.ResponsableList, new { @class = "form-control" })
                             <span asp-validation-for="Responsable" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Tipo"></label>
+                            @Html.DropDownListFor(x => x.Tipo, (IEnumerable<SelectListItem>)Model.TipoList, new { @class = "form-control" })
+                            <span asp-validation-for="Tipo" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -84,11 +90,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group row">
-                        <div class="col-md-4">
-                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Tipo"></label>
-                            @Html.DropDownListFor(x => x.Tipo, (IEnumerable<SelectListItem>)Model.TipoList, new { @class = "form-control" })
-                            <span asp-validation-for="Tipo" class="text-danger"></span>
-                        </div>
+                        
 
                         <div class="col-md-4">
                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="Categoria"></label>
@@ -100,23 +102,18 @@
                             @Html.DropDownListFor(x => x.Campana, (IEnumerable<SelectListItem>)Model.CampanaList, new { @class = "form-control" })
                             <span asp-validation-for="Campana" class="text-danger"></span>
                         </div>
-
-
-                    </div>
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group row">
+                   
                         <div class="col-md-4">
                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="EstadoDonante"></label>
                             @Html.DropDownListFor(x => x.EstadoDonante, (IEnumerable<SelectListItem>)Model.EstadoDonanteList, new { @class = "form-control" })
                             <span asp-validation-for="EstadoDonante" class="text-danger"></span>
                         </div>
+                  
                     </div>
+
                 </div>
             </div>
+         
             <hr />
             <div class="row">
                 <div class="col-md-12">
@@ -216,13 +213,20 @@
                             <input asp-for="Direccion" type="text" name="Direccion" class="form-control" />
                             <span asp-validation-for="Direccion" class="text-danger"></span>
                         </div>
-
                         <div class="col-md-3">
-                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="TelefonoConvencional"></label>
-                            <input asp-for="TelefonoConvencional" type="text" name="TelefonoConvencional" class="form-control" />
-                            <span asp-validation-for="TelefonoConvencional" class="text-danger"></span>
+                            <div class="form-group row">
+                                <div class="col-md-7">
+                                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="CodigoArea"></label>
+                                    @Html.DropDownListFor(x => x.CodigoArea, (IEnumerable<SelectListItem>)Model.CodigoAreaList, new { @class = "form-control" })
+                                    <span asp-validation-for="CodigoArea" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-5">
+                                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="TelefonoConvencional"></label>
+                                    <input asp-for="TelefonoConvencional" maxlength=7 type="text" name="TelefonoConvencional" class="form-control" />
+                                    <span asp-validation-for="TelefonoConvencional" class="text-danger"></span>
+                                </div>
+                            </div>
                         </div>
-
                         <div class="col-md-3">
                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="TelefonoCelular"></label>
                             <input asp-for="TelefonoCelular" type="text" name="TelefonoCelular" class="form-control" />
