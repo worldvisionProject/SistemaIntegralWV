@@ -21,6 +21,11 @@
                 <span asp-validation-for="Asunciones" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="MedioVerificacion" class="control-label"></label>
+                <input asp-for="MedioVerificacion" class="form-control" />
+                <span asp-validation-for="MedioVerificacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Poblacion" class="control-label">Población</label>
                 <input asp-for="Poblacion" class="form-control" />
                 <span asp-validation-for="Poblacion" class="text-danger"></span>
@@ -30,6 +35,9 @@
                 <input asp-for="CWB" class="form-control" />
                 <span asp-validation-for="CWB" class="text-danger"></span>
             </div>  
+            
+        </div>
+        <div class="col-md-6"> 
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IncluyeAdvovacy" /> Incluye Advovacy
@@ -40,15 +48,13 @@
                     <input class="form-check-input" asp-for="InclucionRC" /> Inclucion RC
                 </label>
             </div>
-        </div>
-        <div class="col-md-6"> 
             <div class="form-group">
-                <label asp-for="IdActorParticipante" class="control-label">ActorParticipante</label>
+                <label asp-for="IdActorParticipante" class="control-label">Actor Participante</label>
                 @Html.DropDownList("IdActorParticipante", (IEnumerable<SelectListItem>)Model.ActorParticipanteList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
                 <span asp-validation-for="IdActorParticipante" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdTarget" class="control-label">Frecuencia</label>
+                <label asp-for="IdTarget" class="control-label">Target</label>
                 @Html.DropDownList("IdTarget", (IEnumerable<SelectListItem>)Model.TargetList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
                 <span asp-validation-for="IdTarget" class="text-danger"></span>
             </div>
@@ -58,15 +64,11 @@
                 <span asp-validation-for="IdFrecuencia" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdTipoMedida" class="control-label">TipoMedida</label>
+                <label asp-for="IdTipoMedida" class="control-label">Tipo Medida</label>
                 @Html.DropDownList("IdTipoMedida", (IEnumerable<SelectListItem>)Model.TipoMedidaList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
                 <span asp-validation-for="IdTipoMedida" class="text-danger"></span>
-            </div>            
-            <div class="form-group">
-                <label asp-for="IdRubro" class="control-label">Frecuencia</label>
-                @Html.DropDownList("IdRubro", (IEnumerable<SelectListItem>)Model.RubroList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
-                <span asp-validation-for="IdRubro" class="text-danger"></span>
-            </div>
+            </div>   
+            
             @if (Model.Id != 0)
             {
                 <div class="form-group">

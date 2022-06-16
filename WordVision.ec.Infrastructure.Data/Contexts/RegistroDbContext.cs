@@ -116,6 +116,8 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             .ToTable("OtrosIndicadores", "adm");
             builder.Entity<PresupuestoProyecto>()
             .ToTable("PresupuestoProyectos", "adm");
+            builder.Entity<LogFrameIndicadorPR>()
+            .ToTable("LogFrameIndicadoresPR", "adm");
 
             builder.Entity<FaseProgramaArea>()
             .ToTable("FaseProgramaAreas", "indicador");

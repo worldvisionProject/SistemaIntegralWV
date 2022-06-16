@@ -21,6 +21,9 @@ namespace WordVision.ec.Domain.Entities.Maestro
         [StringLength(2)]
         public string Activity { get; set; }
 
+        [StringLength(2)]
+        public string Cobertura { get; set; }
+
         [Required]
         [StringLength(250)]
         public string SumaryObjetives { get; set; }
@@ -29,9 +32,31 @@ namespace WordVision.ec.Domain.Entities.Maestro
         [ForeignKey("IdNivel")]
         public DetalleCatalogo Nivel { get; set; }
 
+        //public int? IdIndicadorPR { get; set; }
+        //[ForeignKey("IdIndicadorPR")]
+        //public IndicadorPR IndicadorPR { get; set; }
+
+        public int? IdProyectoTecnico { get; set; }
+        [ForeignKey("IdProyectoTecnico")]
+        public ProyectoTecnico ProyectoTecnico { get; set; }
+
+        public int? IdTipoActividad { get; set; }
+        [ForeignKey("IdTipoActividad")]
+        public DetalleCatalogo TipoActividad { get; set; }
+
+        public int? IdSectorProgramatico { get; set; }
+        [ForeignKey("IdSectorProgramatico")]
+        public DetalleCatalogo SectorProgramatico { get; set; }
+
+        public int? IdRubro { get; set; }
+        [ForeignKey("IdRubro")]
+        public DetalleCatalogo Rubro { get; set; }
+
         public int IdEstado { get; set; }
         [ForeignKey("IdEstado")]
         public DetalleCatalogo Estado { get; set; }
+
+        public virtual List<LogFrameIndicadorPR> LogFrameIndicadores { get; set; }
 
     }
 }

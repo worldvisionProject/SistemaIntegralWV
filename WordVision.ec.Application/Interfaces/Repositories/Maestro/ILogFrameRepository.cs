@@ -9,9 +9,10 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Maestro
 {
     public interface ILogFrameRepository
     {
-        Task<LogFrame> GetByIdAsync(int id);
+        Task<LogFrame> GetByIdAsync(int id, bool include = false);
         Task<List<LogFrame>> GetListAsync(LogFrame logFrame);
         Task<int> InsertAsync(LogFrame logFrame);
         Task UpdateAsync(LogFrame logFrame);
+        Task DeleteLogFrameIndicadorPRAsync(List<LogFrameIndicadorPR> list);
     }
 }

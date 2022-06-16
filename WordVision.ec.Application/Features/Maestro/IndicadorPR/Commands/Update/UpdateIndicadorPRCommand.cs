@@ -52,8 +52,7 @@ namespace WordVision.ec.Application.Features.Maestro.IndicadorPR.Commands.Update
                 entity.IdFrecuencia = update.IdFrecuencia;
                 entity.IdTipoMedida = update.IdTipoMedida;
                 entity.IdActorParticipante = update.IdActorParticipante;
-                entity.IdTarget = update.IdTarget;
-                entity.IdRubro = update.IdRubro;
+                entity.IdTarget = update.IdTarget;               
                 entity.IdEstado = update.IdEstado;
 
                 await _repository.UpdateAsync(entity);

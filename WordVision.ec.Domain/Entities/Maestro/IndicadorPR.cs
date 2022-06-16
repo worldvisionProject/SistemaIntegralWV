@@ -50,11 +50,7 @@ namespace WordVision.ec.Domain.Entities.Maestro
 
         public int IdActorParticipante { get; set; }
         [ForeignKey("IdActorParticipante")]
-        public ActorParticipante ActorParticipante { get; set; }
-
-        public int IdRubro { get; set; }
-        [ForeignKey("IdRubro")]
-        public DetalleCatalogo Rubro { get; set; }
+        public ActorParticipante ActorParticipante { get; set; }        
 
         public int IdEstado { get; set; }
         [ForeignKey("IdEstado")]

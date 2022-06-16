@@ -28,7 +28,7 @@ namespace WordVision.ec.Application.Features.Maestro.LogFrame.Queries.GetById
 
         public async Task<Result<LogFrameResponse>> Handle(GetLogFrameByIdQuery query, CancellationToken cancellationToken)
         {
-            var result = await _repository.GetByIdAsync(query.Id);
+            var result = await _repository.GetByIdAsync(query.Id, query.Include);
             var response = _mapper.Map<LogFrameResponse>(result);
 
             return Result<LogFrameResponse>.Success(response);

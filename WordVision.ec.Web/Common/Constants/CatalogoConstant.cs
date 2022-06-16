@@ -67,6 +67,12 @@ namespace WordVision.ec.Web.Common.Constants
         public static string FieldProceso = "IdProceso";
         public static int IdCatalogoProceso = 59;
 
+        public static string FieldSectorProgrematico = "IdSectorProgramatico";
+        public static int IdCatalogoSectorProgrematico = 61;
+
+        public static string FieldTipoActividad = "IdTipoActividad";
+        public static int IdCatalogoTipoActividad = 62;
+
         public static int EstadoActivo = 1;
         public static int EstadoInactivo = 0;
         public static int IdDetalleCatalogoEstadoActivo = 1;

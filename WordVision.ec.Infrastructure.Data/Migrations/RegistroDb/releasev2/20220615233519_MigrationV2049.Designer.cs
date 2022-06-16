@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
-namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
+namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220615233519_MigrationV2049")]
+    partial class MigrationV2049
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -537,6 +539,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<int>("IdEstado")
                         .HasColumnType("int");
 
+                    b.Property<int?>("IdIndicadorPR")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdNivel")
                         .HasColumnType("int");
 
@@ -576,6 +581,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.HasIndex("IdEstado");
 
+                    b.HasIndex("IdIndicadorPR");
+
                     b.HasIndex("IdNivel");
 
                     b.HasIndex("IdProyectoTecnico");
@@ -587,40 +594,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.HasIndex("IdTipoActividad");
 
                     b.ToTable("LogFrames", "adm");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.LogFrameIndicadorPR", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdIndicadorPR")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdLogFrame")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdIndicadorPR");
-
-                    b.HasIndex("IdLogFrame");
-
-                    b.ToTable("LogFrameIndicadoresPR", "adm");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.ModeloProyecto", b =>
@@ -4331,6 +4304,10 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.IndicadorPR", "IndicadorPR")
+                        .WithMany()
+                        .HasForeignKey("IdIndicadorPR");
+
                     b.HasOne("WordVision.ec.Domain.Entities.Maestro.DetalleCatalogo", "Nivel")
                         .WithMany()
                         .HasForeignKey("IdNivel")
@@ -4355,6 +4332,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.Navigation("Estado");
 
+                    b.Navigation("IndicadorPR");
+
                     b.Navigation("Nivel");
 
                     b.Navigation("ProyectoTecnico");
@@ -4364,25 +4343,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Navigation("SectorProgramatico");
 
                     b.Navigation("TipoActividad");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.LogFrameIndicadorPR", b =>
-                {
-                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.IndicadorPR", "IndicadorPR")
-                        .WithMany()
-                        .HasForeignKey("IdIndicadorPR")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.LogFrame", "LogFrame")
-                        .WithMany("LogFrameIndicadores")
-                        .HasForeignKey("IdLogFrame")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("IndicadorPR");
-
-                    b.Navigation("LogFrame");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.ModeloProyecto", b =>
@@ -5011,11 +4971,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.Estructura", b =>
                 {
                     b.Navigation("Colaboradores");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.LogFrame", b =>
-                {
-                    b.Navigation("LogFrameIndicadores");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.Pais", b =>

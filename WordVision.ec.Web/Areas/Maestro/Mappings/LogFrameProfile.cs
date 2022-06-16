@@ -11,6 +11,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Mappings
         public LogFrameProfile()
         {            
             CreateMap<LogFrameResponse, LogFrameViewModel>().ReverseMap();
+            CreateMap<LogFrameIndicadorPRResponse, LogFrameIndicadorPRViewModel>().ReverseMap();
             CreateMap<CreateLogFrameCommand, LogFrameViewModel>().ReverseMap();
             CreateMap<UpdateLogFrameCommand, LogFrameViewModel>().ReverseMap();
         }

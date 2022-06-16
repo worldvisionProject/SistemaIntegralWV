@@ -21,6 +21,11 @@
                 <span asp-validation-for="Asunciones" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="IdTipoIndicador" class="control-label">Tipo Indicador</label>
+                @Html.DropDownList("IdTipoIndicador", (IEnumerable<SelectListItem>)Model.TipoIndicadorList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
+                <span asp-validation-for="IdTipoIndicador" class="text-danger"></span>
+            </div> 
+            <div class="form-group">
                 <label asp-for="IdFrecuencia" class="control-label">Frecuencia</label>
                 @Html.DropDownList("IdFrecuencia", (IEnumerable<SelectListItem>)Model.FrecuenciaList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
                 <span asp-validation-for="IdFrecuencia" class="text-danger"></span>

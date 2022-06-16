@@ -44,7 +44,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
             {
                 list = list.Include(p => p.Frecuencia).Include(p => p.ActorParticipante)
                        .Include(p => p.TipoMedida).Include(i => i.Target)
-                       .Include(r => r.Rubro).Include(e => e.Estado);
+                       .Include(e => e.Estado);
             }
 
             return list;

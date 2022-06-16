@@ -13,14 +13,22 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
     public class LogFrameRepository : ILogFrameRepository
     {
         private readonly IRepositoryAsync<LogFrame> _repository;
-        public LogFrameRepository(IRepositoryAsync<LogFrame> repository)
+        private readonly IRepositoryAsync<LogFrameIndicadorPR> _repositoryLogIndicador;
+        public LogFrameRepository(IRepositoryAsync<LogFrame> repository,
+            IRepositoryAsync<LogFrameIndicadorPR> repositoryLogIndicador)
         {
             _repository = repository;
+            _repositoryLogIndicador = repositoryLogIndicador;
         }
 
-        public async Task<LogFrame> GetByIdAsync(int id)
+        public async Task<LogFrame> GetByIdAsync(int id, bool include = false)
         {
-            return await _repository.Entities.Where(p => p.Id == id).FirstOrDefaultAsync();
+            IQueryable<LogFrame> list = _repository.Entities.Where(p => p.Id == id);
+            if (include)
+            {
+                list = list.Include(p => p.LogFrameIndicadores);
+            }
+            return await list.FirstOrDefaultAsync();
         }
 
         public async Task<List<LogFrame>> GetListAsync(LogFrame logFrame)
@@ -29,7 +37,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
 
             if (logFrame.Include)
             {
-                list = list.Include(p => p.Nivel).Include(e => e.Estado);
+                list = list.Include(p => p.Nivel).Include(r => r.Rubro)
+                    .Include(r => r.TipoActividad).Include(r => r.ProyectoTecnico)
+                    .Include(r => r.SectorProgramatico).Include(r => r.LogFrameIndicadores)
+                    .ThenInclude(i=> i.IndicadorPR).Include(e => e.Estado);
             }
 
             return await list.ToListAsync();
@@ -44,6 +55,12 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
         public async Task UpdateAsync(LogFrame logFrame)
         {
             await _repository.UpdateAsync(logFrame);
+        }
+
+        public async Task DeleteLogFrameIndicadorPRAsync(List<LogFrameIndicadorPR> list)
+        {
+            foreach(var item in list)
+            await _repositoryLogIndicador.DeleteAsync(item);
         }
     }
 }

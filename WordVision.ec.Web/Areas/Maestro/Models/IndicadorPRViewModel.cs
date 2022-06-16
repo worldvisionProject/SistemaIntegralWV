@@ -34,18 +34,16 @@ namespace WordVision.ec.Web.Areas.Maestro.Models
         public int IdActorParticipante { get; set; }
         public ActorParticipanteViewModel ActorParticipante { get; set; }
 
-        public int IdRubro { get; set; }
-        public DetalleCatalogoViewModel Rubro { get; set; }
-
         public int IdEstado { get; set; }
         public DetalleCatalogoViewModel Estado { get; set; }
+
+        public bool Selected { get; set; }
 
 
         public SelectList FrecuenciaList { get; set; }
         public SelectList TipoMedidaList { get; set; }
         public SelectList TargetList { get; set; }
         public SelectList ActorParticipanteList { get; set; }
-        public SelectList RubroList { get; set; }
         public SelectList EstadoList { get; set; }
 
     }

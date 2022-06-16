@@ -1,12 +1,9 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
-using WordVision.ec.Web.Abstractions;
-using WordVision.ec.Web.Areas.Maestro.Controllers;
 using WordVision.ec.Web.Areas.Maestro.Models;
 using WordVision.ec.Web.Common.Models;
 
@@ -39,9 +36,15 @@ namespace WordVision.ec.Web.Common
                     IdFrecuencia = item.Id,
                     IdArea = item.Id,
                     IdTipoMedida = item.Id,
+                    IdTipoIndicador = item.Id,
+                    IdRubro = item.Id,
+                    IdTarget = item.Id,
+                    IdSectorProgramatico = item.Id,
+                    IdTipoActividad = item.Id,
+
                 });
 
-            return new SelectList(genericCatalogs, valueField, "Nombre"); ;
+            return new SelectList(genericCatalogs, valueField, "Nombre");
         }
 
         public SelectList SetGenericCatalog(List<ProgramaAreaViewModel> items, string valueField)
@@ -54,7 +57,7 @@ namespace WordVision.ec.Web.Common
                     IdProgramaArea = item.Id,
                 });
 
-            return new SelectList(genericCatalogs, valueField, "Nombre"); ;
+            return new SelectList(genericCatalogs, valueField, "Nombre");
         }
 
         public SelectList SetGenericCatalog(List<ProyectoTecnicoViewModel> items, string valueField)
@@ -67,7 +70,7 @@ namespace WordVision.ec.Web.Common
                     IdProyectoTecnico = item.Id,
                 });
 
-            return new SelectList(genericCatalogs, valueField, "Nombre"); ;
+            return new SelectList(genericCatalogs, valueField, "Nombre");
         }
 
         public SelectList SetGenericCatalog(List<EtapaModeloProyectoViewModel> items, string valueField)
@@ -80,7 +83,7 @@ namespace WordVision.ec.Web.Common
                     IdEtapaModeloProyecto = item.Id
                 });
 
-            return new SelectList(genericCatalogs, valueField, "Nombre"); ;
+            return new SelectList(genericCatalogs, valueField, "Nombre");
         }
 
         public SelectList SetGenericCatalog(List<ActorParticipanteViewModel> items, string valueField)
@@ -93,7 +96,7 @@ namespace WordVision.ec.Web.Common
                     IdActorParticipante = item.Id
                 });
 
-            return new SelectList(genericCatalogs, valueField, "Nombre"); ;
+            return new SelectList(genericCatalogs, valueField, "Nombre");
         }
 
         public SelectList SetGenericCatalog(List<OtroIndicadorViewModel> items, string valueField)
@@ -106,7 +109,7 @@ namespace WordVision.ec.Web.Common
                     IdOtroIndicador = item.Id
                 });
 
-            return new SelectList(genericCatalogs, valueField, "Nombre"); ;
+            return new SelectList(genericCatalogs, valueField, "Nombre");
         }
 
         public SelectList SetGenericCatalog(List<IndicadorPRViewModel> items, string valueField)
@@ -119,7 +122,7 @@ namespace WordVision.ec.Web.Common
                     IdIndicadorPR = item.Id
                 });
 
-            return new SelectList(genericCatalogs, valueField, "Nombre"); ;
+            return new SelectList(genericCatalogs, valueField, "Nombre");
         }
 
         public SelectList SetGenericCatalog(List<LogFrameViewModel> items, string valueField)
@@ -132,7 +135,7 @@ namespace WordVision.ec.Web.Common
                     IdLogFrame = item.Id
                 });
 
-            return new SelectList(genericCatalogs, valueField, "Nombre"); ;
+            return new SelectList(genericCatalogs, valueField, "Nombre");
         }
 
         public void SetProperties(INotyfService notify, ILogger<object> logger)

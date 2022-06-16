@@ -124,14 +124,12 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             var frecuencia = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoFrecuencia });
             var tipo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoTipoMedida });
             var target = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoTarget });
-            var rubro = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoRubro });
             var actor = await _mediator.Send(new GetAllActorParticipanteQuery());
 
             List<GetListByIdDetalleResponse> estados = estado.Data;
             List<GetListByIdDetalleResponse> frecuencias = frecuencia.Data;
             List<GetListByIdDetalleResponse> tipos = tipo.Data;
             List<GetListByIdDetalleResponse> targets = target.Data;
-            List<GetListByIdDetalleResponse> rubros = rubro.Data;
             List<ActorParticipanteViewModel> actores = _mapper.Map<List<ActorParticipanteViewModel>>(actor.Data);
 
 
@@ -141,7 +139,6 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                 frecuencias = frecuencias.Where(e => e.Estado == CatalogoConstant.EstadoActivo).ToList();
                 tipos = tipos.Where(e => e.Estado == CatalogoConstant.EstadoActivo).ToList();
                 targets = targets.Where(e => e.Estado == CatalogoConstant.EstadoActivo).ToList();
-                rubros = rubros.Where(e => e.Estado == CatalogoConstant.EstadoActivo).ToList();
                 actores = actores.Where(e => e.IdEstado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
             }
 
@@ -149,7 +146,6 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             entidadViewModel.FrecuenciaList = _commonMethods.SetGenericCatalog(frecuencias, CatalogoConstant.FieldFrecuencia);
             entidadViewModel.TipoMedidaList = _commonMethods.SetGenericCatalog(tipos, CatalogoConstant.FieldTipoMedida);
             entidadViewModel.TargetList = _commonMethods.SetGenericCatalog(targets, CatalogoConstant.FieldTipoMedida);
-            entidadViewModel.RubroList = _commonMethods.SetGenericCatalog(rubros, CatalogoConstant.FieldRubro);
             entidadViewModel.ActorParticipanteList = _commonMethods.SetGenericCatalog(actores, CatalogoConstant.FieldActorParticipante);
         }
     }

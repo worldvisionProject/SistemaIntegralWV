@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
-namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
+namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220616200409_MigrationV2050")]
+    partial class MigrationV2050
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -602,23 +604,18 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdIndicadorPR")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdLogFrame")
-                        .HasColumnType("int");
-
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("LogFrameId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("IdIndicadorPR");
-
-                    b.HasIndex("IdLogFrame");
+                    b.HasIndex("LogFrameId");
 
                     b.ToTable("LogFrameIndicadoresPR", "adm");
                 });
@@ -4368,21 +4365,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.LogFrameIndicadorPR", b =>
                 {
-                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.IndicadorPR", "IndicadorPR")
-                        .WithMany()
-                        .HasForeignKey("IdIndicadorPR")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.LogFrame", "LogFrame")
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.LogFrame", null)
                         .WithMany("LogFrameIndicadores")
-                        .HasForeignKey("IdLogFrame")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("IndicadorPR");
-
-                    b.Navigation("LogFrame");
+                        .HasForeignKey("LogFrameId");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.ModeloProyecto", b =>

@@ -36,9 +36,6 @@ namespace WordVision.ec.Application.Features.Maestro.IndicadorPR
         public int IdActorParticipante { get; set; }
         public ActorParticipanteResponse ActorParticipante { get; set; }
 
-        public int IdRubro { get; set; }
-        public DetalleCatalogoResponse Rubro { get; set; }
-
         public int IdEstado { get; set; }
         public DetalleCatalogoResponse Estado { get; set; }
     }
