@@ -67,11 +67,12 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
             var tipoTarjeta = new SelectList(catalogo.Data, "Secuencia", "Nombre");
             catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 37, Ninguno = true });
             var banco = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 46, Ninguno = true });
+            var codigoArea = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
 
 
-                
-                entidadViewModel.FormaPagoList = formaPago;
+            entidadViewModel.FormaPagoList = formaPago;
                 entidadViewModel.CanalList = canal;
                 entidadViewModel.ResponsableList = responsable;
                 entidadViewModel.TipoList = tipo;
@@ -87,6 +88,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Controllers
                 entidadViewModel.TipoCuentaList = tipoCuenta;
                 entidadViewModel.TipoTarjetaList = tipoTarjeta;
                 entidadViewModel.BancoList = banco;
+                entidadViewModel.CodigoAreaList=codigoArea;
                 entidadViewModel.FechaConversion = DateTime.Now;
 
                // return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });

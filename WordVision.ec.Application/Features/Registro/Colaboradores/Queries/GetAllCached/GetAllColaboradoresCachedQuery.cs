@@ -37,13 +37,14 @@ namespace WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetA
         {
             var ColaboradorList = await _ColaboradorCache.GetCachedListAsync();
             var mappedColaboradores = _mapper.Map<List<GetAllColaboradoresCachedResponse>>(ColaboradorList);
-            foreach (var col in mappedColaboradores)
-            {
-                var formulario = await _formularioCache.GetByIdAsync(col.Id);
-                col.ActDatos = formulario == null ? "No" : "Si";
-                col.ActDocumentos = await _respuestaCache.GetCountByIdColaboradorAsync(col.Id, 3) == 0 ? "No" : "Si";
-                col.ActPoliticas = await _respuestaCache.GetCountByIdColaboradorAsync(col.Id, 4) == 0 ? "No" : "Si";
-            }
+            //REVISAR
+            //foreach (var col in mappedColaboradores)
+            //{
+            //    var formulario = await _formularioCache.GetByIdAsync(col.Id);
+            //    col.ActDatos = formulario == null ? "No" : "Si";
+            //    col.ActDocumentos = await _respuestaCache.GetCountByIdColaboradorAsync(col.Id, 3) == 0 ? "No" : "Si";
+            //    col.ActPoliticas = await _respuestaCache.GetCountByIdColaboradorAsync(col.Id, 4) == 0 ? "No" : "Si";
+            //}
             return Result<List<GetAllColaboradoresCachedResponse>>.Success(mappedColaboradores);
         }
     }
