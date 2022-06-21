@@ -14,6 +14,7 @@ using WordVision.ec.Application.Interfaces.Repositories.Presupuesto;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Application.Interfaces.Repositories.Soporte;
 using WordVision.ec.Application.Interfaces.Repositories.Valoracion;
+using WordVision.ec.Application.Interfaces.Repositories.Encuesta;
 using WordVision.ec.Infrastructure.Data.CacheRepositories;
 
 using WordVision.ec.Infrastructure.Data.CacheRepositories.Maestro;
@@ -28,6 +29,9 @@ using WordVision.ec.Infrastructure.Data.Repositories.Presupuesto;
 using WordVision.ec.Infrastructure.Data.Repositories.Registro;
 using WordVision.ec.Infrastructure.Data.Repositories.Soporte;
 using WordVision.ec.Infrastructure.Data.Repositories.Valoracion;
+
+using WordVision.ec.Infrastructure.Data.Repositories.Encuesta;
+
 
 namespace WordVision.ec.Infrastructure.Data.Extensions
 {
@@ -124,6 +128,25 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<ISeguimientoObjetivoRepository, SeguimientoObjetivoRepository>();
             services.AddTransient<IPlanificacionComportamientoRepository, PlanificacionComportamientoRepository>();
             services.AddTransient<IEscalaRepository, EscalaRepository>();
+
+            services.AddTransient<IEncuestaKoboRepository, EncuestaKoboRepository>();
+            services.AddTransient<IPreguntaKoboRepository, PreguntaKoboRepository>();
+            services.AddTransient<IEncuestadoKoboRepository, EncuestadoKoboRepository>();
+            services.AddTransient<IEncuestadoPreguntaKoboRepository, EncuestadoPreguntaKoboRepository>();
+
+            services.AddTransient<IERegionRepository, ERegionRepository>();
+            services.AddTransient<IEProvinciaRepository, EProvinciaRepository>();
+            services.AddTransient<IECantonRepository, ECantonRepository>();
+            services.AddTransient<IEParroquiaRepository, EParroquiaRepository>();
+
+            services.AddTransient<IEEvaluacionRepository, EEvaluacionRepository>();
+            services.AddTransient<IEProgramaRepository, EProgramaRepository>();
+            services.AddTransient<IEObjetivoRepository, EObjetivoRepository>();
+            services.AddTransient<IEIndicadorRepository, EIndicadorRepository>();
+            services.AddTransient<IEMetaRepository, EMetaRepository>();
+            services.AddTransient<IEIndicadorUsuarioRepository, EIndicadorUsuarioRepository>();
+            services.AddTransient<IETabuladoRepository, ETabuladoRepository>();
+            services.AddTransient<IEReporteTabuladoRepository, EReporteTabuladoRepository>();
 
             #endregion Repositories
         }

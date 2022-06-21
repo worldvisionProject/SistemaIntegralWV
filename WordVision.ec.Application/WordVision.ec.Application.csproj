@@ -77,6 +77,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Encuesta\RespuestaKobos\" />
+    <Folder Include="Features\Encuesta\PreguntaKobos\" />
     <Folder Include="Features\Identity\Usuarios\Commands\Update\" />
     <Folder Include="Features\Identity\Usuarios\Queries\GetAllCached\" />
     <Folder Include="Features\Maestro\Estructuras\Commands\Delete\" />

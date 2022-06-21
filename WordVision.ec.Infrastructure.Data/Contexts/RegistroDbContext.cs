@@ -13,6 +13,7 @@ using WordVision.ec.Domain.Entities.Presupuesto;
 using WordVision.ec.Domain.Entities.Registro;
 using WordVision.ec.Domain.Entities.Soporte;
 using WordVision.ec.Domain.Entities.Valoracion;
+using WordVision.ec.Domain.Entities.Encuesta;
 
 namespace WordVision.ec.Infrastructure.Data.Contexts
 {
@@ -63,6 +64,8 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            //Fluent API
+
             builder.Entity<DatosLDR>()
             .ToTable("DatosLDRs", "pres");
             builder.Entity<DatosT5>()
@@ -183,6 +186,11 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
           .ToTable("PlanificacionComportamientos", "valoracion");
             builder.Entity<Escala>()
          .ToTable("Escalas", "valoracion");
+
+
+            builder.Entity<ETabulado>().HasNoKey();
+
+
             //builder.Entity<Colaborador>().HasMany(m => m.Formularios)
             //     .WithOne(c => c.Colaboradores)
             //     .HasForeignKey(k => k.IdColaborador);
@@ -227,6 +235,29 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
         public DbSet<DatosT5> DatosT5s { get; set; }
         public DbSet<Presupuesto> Presupuestos { get; set; }
 
+        public DbSet<EncuestaKobo> EncuestaKobos { get; set; }
+        public DbSet<PreguntaKobo> PreguntaKobos { get; set; }
+        public DbSet<EncuestadoKobo> EncuestadoKobos { get; set; }
+        public DbSet<EncuestadoPreguntaKobo> EncuestadoPreguntaKobos { get; set; }
+
+        public DbSet<ERegion> ERegiones { get; set; }
+        public DbSet<EProvincia> EProvincias { get; set; }
+        public DbSet<ECanton> ECantones { get; set; }
+        public DbSet<EParroquia> EParroquias { get; set; }
+        public DbSet<EPrograma> EProgramas { get; set; }
+        public DbSet<EComunidad> EComunidades { get; set; }
+
+        public DbSet<EEvaluacion> EEvaluaciones { get; set; }
+        public DbSet<EIndicador> EIndicadores { get; set; }
+        public DbSet<EProgramaIndicador> EProgramaIndicadores { get; set; }
+
+        public DbSet<EReporteTabulado> EReporteTabulados { get; set; }
+
+        public DbSet<EObjetivo> EObjetivos { get; set; }
+
+        public DbSet<EMeta> EMetas { get; set; }
+
+        public DbSet<EIndicadorUsuario> EIndicadorUsuarios { get; set; }
 
     }
 }
