@@ -29,7 +29,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Indicadores
 
             if (entity.Include)
             {
-                list = list.Include(e => e.EstadoAnioFiscal);
+                list = list.Include(e => e.EstadoAnioFiscal).Include(p=> p.Proceso);
             }
 
             return await list.ToListAsync();

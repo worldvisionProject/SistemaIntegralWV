@@ -125,6 +125,8 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             .ToTable("VinculacionIndicadores", "indicador");
             builder.Entity<DetalleVinculacionIndicador>()
             .ToTable("DetalleVinculacionIndicador", "indicador");
+            builder.Entity<EstadoPorAnioFiscal>()
+            .ToTable("EstadoPorAnioFiscales", "indicador");
 
             builder.Entity<EstrategiaNacional>()
           .ToTable("EstrategiaNacionales", "planifica");
