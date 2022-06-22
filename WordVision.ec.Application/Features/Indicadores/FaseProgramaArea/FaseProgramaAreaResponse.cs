@@ -9,7 +9,6 @@ namespace WordVision.ec.Application.Features.Indicadores.FaseProgramaArea
     public class FaseProgramaAreaResponse : GenericResponse
     {
         public int Id { get; set; }
-
         public DateTime FechaInicio { get; set; }
 
         public DateTime FechaFin { get; set; }

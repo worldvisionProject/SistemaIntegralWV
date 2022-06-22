@@ -78,14 +78,14 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> OnPostCreateOrEdit(LogFrameViewModel LogFrameViewModel)
+        public async Task<JsonResult> OnPostCreateOrEdit(LogFrameViewModel logFrameViewModel)
         {
             _commonMethods.SetProperties(_notify, _logger);
             if (ModelState.IsValid)
             {
-                if (LogFrameViewModel.Id == 0)
+                if (logFrameViewModel.Id == 0)
                 {                    
-                    var createEntidadCommand = _mapper.Map<CreateLogFrameCommand>(LogFrameViewModel);
+                    var createEntidadCommand = _mapper.Map<CreateLogFrameCommand>(logFrameViewModel);
                     createEntidadCommand.IdEstado = CatalogoConstant.IdDetalleCatalogoEstadoActivo;
                     var result = await _mediator.Send(createEntidadCommand);
                     if (result.Succeeded)
@@ -94,7 +94,14 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                 }
                 else
                 {
-                    var updateEntidadCommand = _mapper.Map<UpdateLogFrameCommand>(LogFrameViewModel);
+                    if(logFrameViewModel.IdNivel != CatalogoConstant.IdCatalogoNivelActivity)
+                    {
+                        logFrameViewModel.IdTipoActividad = null;
+                        logFrameViewModel.IdSectorProgramatico = null;
+                        logFrameViewModel.IdRubro = null;
+                    }
+
+                    var updateEntidadCommand = _mapper.Map<UpdateLogFrameCommand>(logFrameViewModel);
                     var result = await _mediator.Send(updateEntidadCommand);
                     if (result.Succeeded) _notify.Information($"LogFrame con ID {result.Data} Actualizado.");
                     else _notify.Error(result.Message);
@@ -127,7 +134,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             var sector = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoSectorProgrematico });
             var tipoActividad = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoTipoActividad });
             var proyecto = await _mediator.Send(new GetAllProyectoTecnicoQuery());
-            var indicador = await _mediator.Send(new GetAllIndicadorPRQuery());
+            //var indicador = await _mediator.Send(new GetAllIndicadorPRQuery());
 
             List<GetListByIdDetalleResponse> estados = estado.Data;
             List<GetListByIdDetalleResponse> niveles = nivel.Data;
@@ -135,7 +142,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             List<GetListByIdDetalleResponse> sectores = sector.Data;
             List<GetListByIdDetalleResponse> tipoActividades = tipoActividad.Data;
             List<ProyectoTecnicoViewModel> proyectos = _mapper.Map<List<ProyectoTecnicoViewModel>>(proyecto.Data);
-            List<IndicadorPRViewModel> indicadores = _mapper.Map<List<IndicadorPRViewModel>>(indicador.Data);
+            //List<IndicadorPRViewModel> indicadores = _mapper.Map<List<IndicadorPRViewModel>>(indicador.Data);
 
             if (isNew)
             {
@@ -145,7 +152,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                 sectores = sectores.Where(e => e.Estado == CatalogoConstant.EstadoActivo).ToList();
                 tipoActividades = tipoActividades.Where(e => e.Estado == CatalogoConstant.EstadoActivo).ToList();
                 proyectos = proyectos.Where(e => e.IdEstado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
-                indicadores = indicadores.Where(e => e.IdEstado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
+                //indicadores = indicadores.Where(e => e.IdEstado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
             }
 
             entidadViewModel.EstadoList = _commonMethods.SetGenericCatalog(estados, CatalogoConstant.FieldEstado);
@@ -155,23 +162,23 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             entidadViewModel.SectorProgramaticoList = _commonMethods.SetGenericCatalog(sectores, CatalogoConstant.FieldSectorProgrematico);
             entidadViewModel.ProyectoTecnicoList = _commonMethods.SetGenericCatalog(proyectos, CatalogoConstant.FieldProyectoTecnico);
             //entidadViewModel.IndicadorPRList = _commonMethods.SetGenericCatalog(indicadores, CatalogoConstant.FieldIndicadorPR);
-            List<LogFrameIndicadorPRViewModel> list= new List<LogFrameIndicadorPRViewModel>();
-            foreach(var item in indicadores)
-            {
-                bool selected = false;
-                if (entidadViewModel.LogFrameIndicadores != null)
-                    if (entidadViewModel.LogFrameIndicadores.Where(l => l.IdIndicadorPR == item.Id).Count() > 0)
-                        selected = true;
-                list.Add(new LogFrameIndicadorPRViewModel
-                {
-                    IdIndicadorPR = item.Id,
-                    IdLogFrame = entidadViewModel.Id,
-                    Selected = selected,
-                    CodigoIndicador = item.Codigo,
-                    DescripcionIndicador = item.Descripcion
-                });
-            }
-            entidadViewModel.LogFrameIndicadores = list;
+            //List<LogFrameIndicadorPRViewModel> list= new List<LogFrameIndicadorPRViewModel>();
+            //foreach(var item in indicadores)
+            //{
+            //    bool selected = false;
+            //    if (entidadViewModel.LogFrameIndicadores != null)
+            //        if (entidadViewModel.LogFrameIndicadores.Where(l => l.IdIndicadorPR == item.Id).Count() > 0)
+            //            selected = true;
+            //    list.Add(new LogFrameIndicadorPRViewModel
+            //    {
+            //        IdIndicadorPR = item.Id,
+            //        IdLogFrame = entidadViewModel.Id,
+            //        Selected = selected,
+            //        CodigoIndicador = item.Codigo,
+            //        DescripcionIndicador = item.Descripcion
+            //    });
+            //}
+            //entidadViewModel.LogFrameIndicadores = list;
         }
     }
 }

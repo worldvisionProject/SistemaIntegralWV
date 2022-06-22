@@ -38,7 +38,7 @@
                 @Html.DropDownList("IdNivel", (IEnumerable<SelectListItem>)Model.NivelList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
                 <span asp-validation-for="IdNivel" class="text-danger"></span>
             </div>
-            <div class="overflow-auto" style="max-height:500px" id="containerIndicadores">
+           @* <div class="overflow-auto" style="max-height:500px" id="containerIndicadores">
                 <ul class="list-group" role="group" aria-labelledby="SeletDistributionListLabel">
                     <p><label class="control-label">Indicadores</label></p>
                     @for (var i = 0; i < Model.LogFrameIndicadores.Count; i++)
@@ -57,7 +57,7 @@
                         </li>
                     }
                 </ul>
-            </div>
+            </div>*@
             <br />
             @*<div class="form-group">
                 <label asp-for="IdIndicadorPR" class="control-label">Indicador</label>
@@ -65,6 +65,11 @@
                 <span asp-validation-for="IdIndicadorPR" class="text-danger"></span>
             </div>*@
             <div id="containerActividad">
+                <div class="form-group">
+                <label asp-for="Cobertura" class="control-label">Cobertura</label>
+                <input asp-for="Cobertura" class="form-control" />
+                <span asp-validation-for="Cobertura" class="text-danger"></span>
+            </div>
                 <div class="form-group">
                     <label asp-for="IdTipoActividad" class="control-label">TipoActividad</label>
                     @Html.DropDownList("IdTipoActividad", (IEnumerable<SelectListItem>)Model.TipoActividadList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
@@ -120,11 +125,11 @@
      function MostrarContainers(nivel) 
         {
             $('#containerActividad').hide();
-            $('#containerIndicadores').hide();
-            if(nivel == '4334' || nivel == '4335')
-            {
-                $('#containerIndicadores').show();
-            }
+            //$('#containerIndicadores').hide();
+            //if(nivel == '4334' || nivel == '4335')
+            //{
+            //    $('#containerIndicadores').show();
+            //}
 
             if(nivel == '4336')
             {
@@ -133,7 +138,6 @@
         }
 
 </script>
-@*@section Scripts {
+@section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-*@

@@ -10,7 +10,6 @@ namespace WordVision.ec.Application.Features.Indicadores.VinculacionIndicador
     public class VinculacionIndicadorResponse : GenericResponse
     {
         public int Id { get; set; }
-
         public string Riesgos { get; set; }
 
         public string PlanNacionalDesarrollo { get; set; }

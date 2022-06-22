@@ -21,7 +21,7 @@ namespace WordVision.ec.Domain.Entities.Maestro
         [StringLength(2)]
         public string Activity { get; set; }
 
-        [StringLength(2)]
+        [StringLength(50)]
         public string Cobertura { get; set; }
 
         [Required]
@@ -56,7 +56,7 @@ namespace WordVision.ec.Domain.Entities.Maestro
         [ForeignKey("IdEstado")]
         public DetalleCatalogo Estado { get; set; }
 
-        public virtual List<LogFrameIndicadorPR> LogFrameIndicadores { get; set; }
+        //public virtual List<LogFrameIndicadorPR> LogFrameIndicadores { get; set; }
 
     }
 }

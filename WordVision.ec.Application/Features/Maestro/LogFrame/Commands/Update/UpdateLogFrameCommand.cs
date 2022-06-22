@@ -42,13 +42,14 @@ namespace WordVision.ec.Application.Features.Maestro.LogFrame.Commands.Update
             }
             else
             {
-                await _repository.DeleteLogFrameIndicadorPRAsync(entity.LogFrameIndicadores);
-                var logIndcadores = update.LogFrameIndicadores.Where(l => l.Selected).ToList();
-                entity.LogFrameIndicadores= _mapper.Map<List<LogFrameIndicadorPR>>(logIndcadores);
+                //await _repository.DeleteLogFrameIndicadorPRAsync(entity.LogFrameIndicadores);
+                //var logIndcadores = update.LogFrameIndicadores.Where(l => l.Selected).ToList();
+                //entity.LogFrameIndicadores= _mapper.Map<List<LogFrameIndicadorPR>>(logIndcadores);
                 entity.OutPut = update.OutPut;
                 entity.OutCome = update.OutCome;
                 entity.Activity = update.Activity;
                 entity.SumaryObjetives = update.SumaryObjetives;
+                entity.Cobertura = update.Cobertura;
                 entity.IdEstado = update.IdEstado;
                 entity.IdNivel = update.IdNivel;
                 entity.IdRubro = update.IdRubro;

@@ -12,7 +12,6 @@ namespace WordVision.ec.Application.Features.Maestro.PresupuestoProyecto
     public class PresupuestoProyectoResponse : GenericResponse
     {
         public int Id { get; set; }
-
         public decimal Total { get; set; }
 
         public decimal CostoSoporte { get; set; }

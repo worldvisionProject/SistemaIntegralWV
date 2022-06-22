@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WordVision.ec.Web.Areas.Maestro.Models.LogFrameIndicadorPRViewModel>
+
+<table id="logFrameIndicadorTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                LogFrame
+            </th>
+            <th>
+                Sumary/Objetives
+            </th>
+            <th>
+                Indicador
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdEstado)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.LogFrame.OutCome @item.LogFrame.OutPut @item.LogFrame.Activity
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LogFrame.SumaryObjetives)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IndicadorPR.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado.Nombre)
+            </td>
+            <td>
+                <div class="btn-group">
+                    <a onclick="jQueryModalGet('/Maestro/LogFrameIndicadorPR/OnGetCreateOrEdit?id=@item.Id','Editar Marco Lógico')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#logFrameIndicadorTable").DataTable();
+    });
+
+
+
+</script>

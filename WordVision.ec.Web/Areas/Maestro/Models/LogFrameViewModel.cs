@@ -14,6 +14,8 @@ namespace WordVision.ec.Web.Areas.Maestro.Models
 
         public string SumaryObjetives { get; set; }
 
+        public string Cobertura { get; set; }
+
         public int IdNivel { get; set; }
         public DetalleCatalogoViewModel Nivel { get; set; }
 
@@ -29,7 +31,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Models
         public int? IdSectorProgramatico { get; set; }
         public DetalleCatalogoViewModel SectorProgramatico { get; set; }
 
-        public int IdRubro { get; set; }
+        public int? IdRubro { get; set; }
         public DetalleCatalogoViewModel Rubro { get; set; }
 
         public int IdEstado { get; set; }

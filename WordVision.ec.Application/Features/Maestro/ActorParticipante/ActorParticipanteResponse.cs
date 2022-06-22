@@ -6,7 +6,6 @@ namespace WordVision.ec.Application.Features.Maestro.ActorParticipante
     public class ActorParticipanteResponse : GenericResponse
     {
         public int Id { get; set; }
-
         public string Codigo { get; set; }
 
         public string ActoresParticipantes { get; set; }

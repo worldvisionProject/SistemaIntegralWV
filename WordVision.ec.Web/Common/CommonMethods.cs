@@ -22,7 +22,7 @@ namespace WordVision.ec.Web.Common
                 {
                     IdCatalogo = item.IdCatalogo,
                     Secuencia = item.Secuencia,
-                    Nombre = item.Nombre,
+                    Nombre = $"{item.Secuencia} {item.Nombre}" ,
                     Estado = item.Estado,
 
                     IdEstado = item.Id,
@@ -118,7 +118,7 @@ namespace WordVision.ec.Web.Common
             foreach (IndicadorPRViewModel item in items)
                 genericCatalogs.Add(new GenericCatalog
                 {
-                    Nombre = item.Descripcion,
+                    Nombre = $"{item.Codigo} - {item.Descripcion}",
                     IdIndicadorPR = item.Id
                 });
 
