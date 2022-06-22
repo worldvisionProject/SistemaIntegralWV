@@ -43,6 +43,8 @@ namespace WordVision.ec.Application.Features.Maestro.OtroIndicador.Commands.Upda
 
                 entity.Codigo = update.Codigo;
                 entity.Descripcion = update.Descripcion;
+                entity.IdTipoIndicador = update.IdTipoIndicador;
+                entity.Asunciones = update.Asunciones;
                 entity.IdFrecuencia = update.IdFrecuencia;
                 entity.IdTipoMedida = update.IdTipoMedida;
                 entity.IdActorParticipante = update.IdActorParticipante;

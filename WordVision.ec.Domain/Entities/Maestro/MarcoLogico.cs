@@ -12,10 +12,10 @@ namespace WordVision.ec.Domain.Entities.Maestro
     public class MarcoLogico : AuditableEntity
     {
         [Required]
-        [StringLength(250)]
+        [StringLength(500)]
         public string Descripcion { get; set; }
         [Required]
-        [StringLength(70)]
+        [StringLength(100)]
         public string Responsable { get; set; }
         [StringLength(2)]
         public string Estado { get; set; }

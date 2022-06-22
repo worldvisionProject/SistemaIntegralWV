@@ -25,7 +25,7 @@ namespace WordVision.ec.Domain.Entities.Maestro
         public string Cobertura { get; set; }
 
         [Required]
-        [StringLength(250)]
+        [StringLength(500)]
         public string SumaryObjetives { get; set; }
 
         public int IdNivel { get; set; }

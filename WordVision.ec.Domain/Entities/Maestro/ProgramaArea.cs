@@ -15,7 +15,7 @@ namespace WordVision.ec.Domain.Entities.Maestro
         [StringLength(10)]
         public string Codigo { get; set; }
         [Required]
-        [StringLength(250)]
+        [StringLength(500)]
         public string Descripcion { get; set; }
 
         public int IdProyectoTecnico { get; set; }

@@ -22,7 +22,7 @@ namespace WordVision.ec.Web.Common
                 {
                     IdCatalogo = item.IdCatalogo,
                     Secuencia = item.Secuencia,
-                    Nombre = $"{item.Secuencia} {item.Nombre}" ,
+                    Nombre = $"{item.Secuencia} - {item.Nombre}" ,
                     Estado = item.Estado,
 
                     IdEstado = item.Id,

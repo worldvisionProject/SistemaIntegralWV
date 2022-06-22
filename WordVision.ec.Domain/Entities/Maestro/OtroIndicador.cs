@@ -16,10 +16,10 @@ namespace WordVision.ec.Domain.Entities.Maestro
         public string Codigo { get; set; }
 
         [Required]
-        [StringLength(250)]
+        [StringLength(500)]
         public string Descripcion { get; set; }
 
-        [StringLength(250)]
+        [StringLength(500)]
         public string Asunciones { get; set; }
 
         public int IdFrecuencia { get; set; }

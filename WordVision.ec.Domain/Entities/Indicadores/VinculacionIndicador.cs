@@ -11,9 +11,7 @@ namespace WordVision.ec.Domain.Entities.Indicadores
         public string Riesgos { get; set; }
 
         [StringLength(250)]
-        public string PlanNacionalDesarrollo { get; set; }
-
-        
+        public string PlanNacionalDesarrollo { get; set; }      
 
         public int IdIndicadorPR { get; set; }
         [ForeignKey("IdIndicadorPR")]
