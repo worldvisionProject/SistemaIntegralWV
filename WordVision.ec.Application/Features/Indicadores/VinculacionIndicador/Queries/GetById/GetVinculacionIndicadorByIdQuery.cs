@@ -24,7 +24,7 @@ namespace WordVision.ec.Application.Features.Indicadores.VinculacionIndicador.Qu
 
         public async Task<Result<VinculacionIndicadorResponse>> Handle(GetVinculacionIndicadorByIdQuery query, CancellationToken cancellationToken)
         {
-            var result = await _repository.GetByIdAsync(query.Id);
+            var result = await _repository.GetByIdAsync(query.Id, query.Include);
             var response = _mapper.Map<VinculacionIndicadorResponse>(result);
 
             return Result<VinculacionIndicadorResponse>.Success(response);

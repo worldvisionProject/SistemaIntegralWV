@@ -11,27 +11,36 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Indicadores
     public class VinculacionIndicadorRepository : IVinculacionIndicadorRepository
     {
         private readonly IRepositoryAsync<VinculacionIndicador> _repository;
-        public VinculacionIndicadorRepository(IRepositoryAsync<VinculacionIndicador> repository)
+        private readonly IRepositoryAsync<DetalleVinculacionIndicador> _detalleRepository;
+        public VinculacionIndicadorRepository(IRepositoryAsync<VinculacionIndicador> repository,
+               IRepositoryAsync<DetalleVinculacionIndicador> detalleRepository)
         {
             _repository = repository;
+            _detalleRepository = detalleRepository;
         }
 
-        public async Task<VinculacionIndicador> GetByIdAsync(int id)
+        public async Task<VinculacionIndicador> GetByIdAsync(int id, bool include = false)
         {
-            return await _repository.Entities.Where(p => p.Id == id).FirstOrDefaultAsync();
+            IQueryable<VinculacionIndicador> list = _repository.Entities.Where(p => p.Id == id);
+            if (include)
+            {
+                list = list.Include(d => d.DetalleVinculacionIndicadores).
+                    ThenInclude(t => t.OtroIndicador.TipoIndicador).
+                    Include(i => i.IndicadorPR);
+            }
+
+            return await list.FirstOrDefaultAsync();
         }
 
         public async Task<List<VinculacionIndicador>> GetListAsync(VinculacionIndicador entity)
         {
             IQueryable<VinculacionIndicador> list = _repository.Entities;
 
-            //if (!string.IsNullOrEmpty(VinculacionIndicador.Codigo))
-            //    list = list.Where(c => c.Codigo == VinculacionIndicador.Codigo);
-
             if (entity.Include)
             {
-                list = list.Include(p => p.IndicadorPR).Include(p => p.OtroIndicador)
-                       .Include(e => e.Estado);
+                list = list.Include(d => d.DetalleVinculacionIndicadores).
+                    ThenInclude(t => t.OtroIndicador.TipoIndicador).
+                    Include(i => i.IndicadorPR).Include(e=> e.Estado);
             }
 
             return await list.ToListAsync();
@@ -46,6 +55,12 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Indicadores
         public async Task UpdateAsync(VinculacionIndicador entity)
         {
             await _repository.UpdateAsync(entity);
+        }
+
+        public async Task DeleteDetalleVinculacionIndicadorAsync(List<DetalleVinculacionIndicador> list)
+        {
+            foreach (var item in list)
+                await _detalleRepository.DeleteAsync(item);
         }
     }
 }

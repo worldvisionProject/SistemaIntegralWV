@@ -41,7 +41,7 @@ namespace WordVision.ec.Web.Common
                     IdTarget = item.Id,
                     IdSectorProgramatico = item.Id,
                     IdTipoActividad = item.Id,
-
+                    IdFaseProyecto = item.Id
                 });
 
             return new SelectList(genericCatalogs, valueField, "Nombre");

@@ -23,6 +23,7 @@
         public int IdRubro { get; set; }
         public int IdTipoActividad { get; set; }
         public int IdSectorProgramatico { get; set; }
+        public int IdFaseProyecto { get; set; }
 
         public int IdProgramaArea { get; set; }
         public int IdProyectoTecnico { get; set; }

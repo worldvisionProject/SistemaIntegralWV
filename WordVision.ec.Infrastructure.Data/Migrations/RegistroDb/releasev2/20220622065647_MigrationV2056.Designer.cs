@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
-namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
+namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220622065647_MigrationV2056")]
+    partial class MigrationV2056
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,6 +70,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("IdIndicadorPR")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdOtroIndicador")
                         .HasColumnType("int");
 
@@ -81,6 +86,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdIndicadorPR");
 
                     b.HasIndex("IdOtroIndicador");
 
@@ -188,9 +195,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<int>("IdEstado")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdIndicadorPR")
-                        .HasColumnType("int");
-
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -208,8 +212,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.HasKey("Id");
 
                     b.HasIndex("IdEstado");
-
-                    b.HasIndex("IdIndicadorPR");
 
                     b.ToTable("VinculacionIndicadores", "indicador");
                 });
@@ -4194,6 +4196,12 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Indicadores.DetalleVinculacionIndicador", b =>
                 {
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.IndicadorPR", "IndicadorPR")
+                        .WithMany()
+                        .HasForeignKey("IdIndicadorPR")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WordVision.ec.Domain.Entities.Maestro.OtroIndicador", "OtroIndicador")
                         .WithMany()
                         .HasForeignKey("IdOtroIndicador")
@@ -4201,10 +4209,12 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .IsRequired();
 
                     b.HasOne("WordVision.ec.Domain.Entities.Indicadores.VinculacionIndicador", "VinculacionIndicador")
-                        .WithMany("DetalleVinculacionIndicadores")
+                        .WithMany()
                         .HasForeignKey("IdVinculacionIndicador")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("IndicadorPR");
 
                     b.Navigation("OtroIndicador");
 
@@ -4254,15 +4264,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.IndicadorPR", "IndicadorPR")
-                        .WithMany()
-                        .HasForeignKey("IdIndicadorPR")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Estado");
-
-                    b.Navigation("IndicadorPR");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.ActorParticipante", b =>
@@ -5052,11 +5054,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .IsRequired();
 
                     b.Navigation("ObjetivoAnioFiscales");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Indicadores.VinculacionIndicador", b =>
-                {
-                    b.Navigation("DetalleVinculacionIndicadores");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.Catalogo", b =>
