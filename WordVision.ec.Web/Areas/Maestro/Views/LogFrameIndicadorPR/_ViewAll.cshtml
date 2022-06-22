@@ -28,7 +28,8 @@
                 @Html.DisplayFor(modelItem => item.LogFrame.SumaryObjetives)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IndicadorPR.Descripcion)
+                <p>@Html.DisplayFor(modelItem => item.IndicadorPR.Codigo) - @Html.DisplayFor(modelItem => item.IndicadorPR.Descripcion)</p>
+                
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Estado.Nombre)
