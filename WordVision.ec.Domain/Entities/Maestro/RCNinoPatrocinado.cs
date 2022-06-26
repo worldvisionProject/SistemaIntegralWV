@@ -24,7 +24,7 @@ namespace WordVision.ec.Domain.Entities.Maestro
         public string Nombre { get; set; }
 
         [Required]
-        [StringLength(250)]
+        [StringLength(500)]
         public string Comunidad { get; set; }
         public int Edad { get; set; }
         public bool Patrocinado { get; set; }

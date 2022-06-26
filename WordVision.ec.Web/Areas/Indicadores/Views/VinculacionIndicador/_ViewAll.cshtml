@@ -13,13 +13,10 @@
                 Plan Nacional Desarrollo
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CWB)
-            </th>
-            <th>
                 IndicadorPR
             </th>
             <th>
-                Otro Indicador
+                Otros Indicadores
             </th>
             <th>
                 Estado
@@ -40,13 +37,20 @@
                 @Html.DisplayFor(modelItem => item.PlanNacionalDesarrollo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CWB)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.IndicadorPR.Descripcion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OtroIndicador.Descripcion)
+                    @{
+                        foreach(var ind in item.DetalleVinculacionIndicadores)
+                        {
+                            <label class="control-label">
+                                @ind.OtroIndicador.Codigo - @ind.OtroIndicador.Descripcion 
+                            </label>
+                            <hr />
+                        }
+
+                }
+                @*@Html.DisplayFor(modelItem => item.OtroIndicador.Descripcion)*@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Estado.Nombre)

@@ -7,7 +7,6 @@ namespace WordVision.ec.Application.Features.Maestro.ProgramaArea
     public class ProgramaAreaResponse : GenericResponse
     {
         public int Id { get; set; }
-
         public string Codigo { get; set; }
 
         public string Descripcion { get; set; }

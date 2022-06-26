@@ -47,7 +47,12 @@ namespace WordVision.ec.Web.Areas.Indicadores.Controllers
         {
             try
             {
-                var entidadViewModel = new EstadoPorAnioFiscalViewModel();
+                var entidadViewModel = new EstadoPorAnioFiscalViewModel 
+                {
+                    FechaInicio = DateTime.Now,
+                    FechaFin = DateTime.Now,
+                    
+                };
                 if (id == 0)
                 {
                     await SetDropDownList(entidadViewModel);
@@ -123,7 +128,7 @@ namespace WordVision.ec.Web.Areas.Indicadores.Controllers
             var proceso = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoProceso });
 
             List<GetListByIdDetalleResponse> estados = estadoFiscal.Data;
-            List<GetListByIdDetalleResponse> procesos = estadoFiscal.Data;
+            List<GetListByIdDetalleResponse> procesos = proceso.Data;
 
             if (isNew)
             {

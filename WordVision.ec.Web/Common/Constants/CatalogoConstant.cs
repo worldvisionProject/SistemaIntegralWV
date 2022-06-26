@@ -39,6 +39,9 @@ namespace WordVision.ec.Web.Common.Constants
 
         public static string FieldNivel = "IdNivel";
         public static int IdCatalogoNivel = 51;
+        public static int IdCatalogoNivelOutcome = 4334;
+        public static int IdCatalogoNivelOutput = 4335;
+        public static int IdCatalogoNivelActivity = 4336;
 
         public static string FieldFrecuencia = "IdFrecuencia";
         public static int IdCatalogoFrecuencia = 41;

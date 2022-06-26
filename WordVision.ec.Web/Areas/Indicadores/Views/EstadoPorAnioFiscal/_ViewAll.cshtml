@@ -31,7 +31,7 @@
                 @Html.DisplayFor(modelItem => item.AnioFiscal)
             </td>
             <td>
-                @item.FechaInicio.Day @item.FechaInicio.Year -  @item.FechaFin.Day @item.FechaFin.Year
+                @item.FechaInicio.Date.ToString("y")  -  @item.FechaFin.ToString("y")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Proceso.Nombre)

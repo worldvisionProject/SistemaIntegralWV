@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Application.Features.Maestro.LogFrame;
 
 namespace WordVision.ec.Application.Features.Indicadores.ProyectoITT
 {
-    public class DetalleProyectoITTResponse
+    public class DetalleProyectoITTResponse : GenericResponse
     {
+        public int Id { get; set; }
         public string LineBase { get; set; }
 
         public decimal MetaAF1 { get; set; }

@@ -13,9 +13,12 @@ namespace WordVision.ec.Web.Areas.Maestro.Models
         public int IdIndicadorPR { get; set; }
         public IndicadorPRViewModel IndicadorPR { get; set; }
 
-        public bool Selected { get; set; }
-        public string CodigoIndicador { get; set; }
-        public string DescripcionIndicador { get; set; }
+        public int IdEstado { get; set; }
+        public DetalleCatalogoViewModel Estado { get; set; }
+
+        public SelectList LogFrameList { get; set; }
+        public SelectList IndicadorPRList { get; set; }
+        public SelectList EstadoList { get; set; }
 
     }
 }

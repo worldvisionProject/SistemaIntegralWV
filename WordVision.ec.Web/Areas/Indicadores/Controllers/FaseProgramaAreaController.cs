@@ -49,7 +49,14 @@ namespace WordVision.ec.Web.Areas.Indicadores.Controllers
         {
             try
             {
-                var entidadViewModel = new FaseProgramaAreaViewModel();
+                var entidadViewModel = new FaseProgramaAreaViewModel
+                {
+                    //FechaInicio = DateTime.Now,
+                    //FechaFin = DateTime.Now,
+                    //FechaDisenio = DateTime.Now,
+                    //FechaRedisenio = DateTime.Now,
+                    //FechaTransicion = DateTime.Now,
+                };
                 if (id == 0)
                 {
                     await SetDropDownList(entidadViewModel);

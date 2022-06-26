@@ -24,10 +24,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
         public async Task<LogFrame> GetByIdAsync(int id, bool include = false)
         {
             IQueryable<LogFrame> list = _repository.Entities.Where(p => p.Id == id);
-            if (include)
-            {
-                list = list.Include(p => p.LogFrameIndicadores);
-            }
+            //if (include)
+            //{
+            //    list = list.Include(p => p.LogFrameIndicadores);
+            //}
             return await list.FirstOrDefaultAsync();
         }
 
@@ -39,8 +39,9 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
             {
                 list = list.Include(p => p.Nivel).Include(r => r.Rubro)
                     .Include(r => r.TipoActividad).Include(r => r.ProyectoTecnico)
-                    .Include(r => r.SectorProgramatico).Include(r => r.LogFrameIndicadores)
-                    .ThenInclude(i=> i.IndicadorPR).Include(e => e.Estado);
+                    .Include(r => r.SectorProgramatico)//.Include(r => r.LogFrameIndicadores)
+                    //.ThenInclude(i=> i.IndicadorPR)
+                    .Include(e => e.Estado);
             }
 
             return await list.ToListAsync();

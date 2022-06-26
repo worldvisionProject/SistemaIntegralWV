@@ -14,9 +14,12 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.SumaryObjetives)
-            </th>
+            </th>           
             <th>
                 Nivel
+            </th>
+            <th>
+                Cobertura
             </th>
             <th>
                 Tipo Actividad
@@ -27,9 +30,9 @@
             <th>
                 Rubro/T2
             </th>
-            <th>
+            @*<th>
                 Indicador
-            </th>
+            </th>*@
             <th>
                 Estado
             </th>
@@ -51,9 +54,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SumaryObjetives)
-            </td>
+            </td>            
             <td>
                 @Html.DisplayFor(modelItem => item.Nivel.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cobertura)
             </td>
             <td>
                     @{
@@ -76,7 +82,7 @@
                     @rubro
                 
             </td>
-            <td>
+            @*<td>
                     @{
                         foreach (var ind in item.LogFrameIndicadores)
                         {
@@ -86,7 +92,7 @@
                         }
                     }
                 
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Estado.Nombre)
             </td>

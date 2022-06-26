@@ -13,8 +13,8 @@ namespace WordVision.ec.Application.Features.Indicadores.DipInsumo
 {
     public class DipInsumoResponse : GenericResponse
     {
-        public string Dip { get; set; }
         public int Id { get; set; }
+        public string Dip { get; set; }
 
         public string AnualMensual { get; set; }
 

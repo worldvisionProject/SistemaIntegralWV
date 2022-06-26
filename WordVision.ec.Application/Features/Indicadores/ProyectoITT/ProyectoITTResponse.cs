@@ -13,7 +13,6 @@ namespace WordVision.ec.Application.Features.Indicadores.ProyectoITT
     public class ProyectoITTResponse : GenericResponse
     {
         public int Id { get; set; }
-
         public int IdProyectoTecnico { get; set; }
         public ProyectoTecnicoResponse ProyectoTecnico { get; set; }
 

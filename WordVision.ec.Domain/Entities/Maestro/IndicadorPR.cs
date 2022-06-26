@@ -15,15 +15,15 @@ namespace WordVision.ec.Domain.Entities.Maestro
         [StringLength(10)]
         public string Codigo { get; set; }
         [Required]
-        [StringLength(250)]
+        [StringLength(500)]
         public string Descripcion { get; set; }
 
         [Required]
-        [StringLength(250)]
+        [StringLength(500)]
         public string Asunciones { get; set; }
 
         [Required]
-        [StringLength(250)]
+        [StringLength(500)]
         public string MedioVerificacion { get; set; }
 
         [Required]

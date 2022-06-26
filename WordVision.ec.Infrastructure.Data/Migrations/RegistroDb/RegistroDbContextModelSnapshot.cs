@@ -55,7 +55,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.ToTable("AuditLogs");
                 });
 
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.ECanton", b =>
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Indicadores.FaseProgramaArea", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -130,6 +130,12 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("IdEstado")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdIndicadorPR")
+                        .HasColumnType("int");
+
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -148,7 +154,11 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("EEvaluaciones", "survey");
+                    b.HasIndex("IdEstado");
+
+                    b.HasIndex("IdIndicadorPR");
+
+                    b.ToTable("VinculacionIndicadores", "indicador");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EIndicador", b =>
@@ -396,8 +406,10 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("EIndicadorId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("Asunciones")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("EProgramaId")
                         .HasColumnType("nvarchar(450)");
@@ -422,8 +434,10 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
@@ -463,7 +477,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.Property<string>("reg_nombre")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id");
 
@@ -476,6 +491,14 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Activity")
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
+
+                    b.Property<string>("Cobertura")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -530,7 +553,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.Property<string>("rta_proyecto")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<decimal>("rta_resultado")
                         .HasColumnType("decimal(18,2)");
@@ -567,10 +591,10 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<string>("CodigoPA")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CodigoProvincia")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("IdEstado")
+                        .HasColumnType("int");
 
-                    b.Property<int>("CodigoRegion")
+                    b.Property<int>("IdIndicadorPR")
                         .HasColumnType("int");
 
                     b.Property<int>("EntrevistadosTotal")
@@ -585,8 +609,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<string>("PA")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("Porcentaje")
-                        .HasColumnType("decimal(18,2)");
+                    b.HasIndex("IdEstado");
+
+                    b.HasIndex("IdIndicadorPR");
 
                     b.Property<decimal>("Result")
                         .HasColumnType("decimal(18,2)");
@@ -622,7 +647,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.Property<string>("enk_Id_string")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("enk_Title")
                         .IsRequired()
@@ -675,8 +701,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<DateTime>("eko_end")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("eko_fecha")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Asunciones")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("eko_formhub")
                         .IsRequired()
@@ -692,7 +719,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.Property<string>("eko_nombre_nino")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("eko_pa")
                         .IsRequired()
@@ -873,8 +901,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id");
 
@@ -981,11 +1009,10 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Nivel")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ReportaID")
-                        .HasColumnType("int");
+                    b.Property<string>("NombreProyecto")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id");
 
@@ -1011,8 +1038,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id");
 
@@ -4179,7 +4206,110 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.ToTable("SeguimientoObjetivos", "valoracion");
                 });
 
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.ECanton", b =>
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Indicadores.DetalleVinculacionIndicador", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.OtroIndicador", "OtroIndicador")
+                        .WithMany()
+                        .HasForeignKey("IdOtroIndicador")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WordVision.ec.Domain.Entities.Indicadores.VinculacionIndicador", "VinculacionIndicador")
+                        .WithMany("DetalleVinculacionIndicadores")
+                        .HasForeignKey("IdVinculacionIndicador")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OtroIndicador");
+
+                    b.Navigation("VinculacionIndicador");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Indicadores.EstadoPorAnioFiscal", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.DetalleCatalogo", "EstadoAnioFiscal")
+                        .WithMany()
+                        .HasForeignKey("IdEstadoAnioFiscal")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.DetalleCatalogo", "Proceso")
+                        .WithMany()
+                        .HasForeignKey("IdProceso")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EstadoAnioFiscal");
+
+                    b.Navigation("Proceso");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Indicadores.FaseProgramaArea", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.DetalleCatalogo", "Estado")
+                        .WithMany()
+                        .HasForeignKey("IdEstado")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.DetalleCatalogo", "FaseProyecto")
+                        .WithMany()
+                        .HasForeignKey("IdFaseProyecto")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.ProgramaArea", "ProgramaArea")
+                        .WithMany()
+                        .HasForeignKey("IdProgramaArea")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.ProyectoTecnico", "ProyectoTecnico")
+                        .WithMany()
+                        .HasForeignKey("IdProyectoTecnico")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Estado");
+
+                    b.Navigation("FaseProyecto");
+
+                    b.Navigation("ProgramaArea");
+
+                    b.Navigation("ProyectoTecnico");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Indicadores.VinculacionIndicador", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.DetalleCatalogo", "Estado")
+                        .WithMany()
+                        .HasForeignKey("IdEstado")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.IndicadorPR", "IndicadorPR")
+                        .WithMany()
+                        .HasForeignKey("IdIndicadorPR")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Estado");
+
+                    b.Navigation("IndicadorPR");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.ActorParticipante", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.DetalleCatalogo", "Estado")
+                        .WithMany()
+                        .HasForeignKey("IdEstado")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Estado");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.Ciudad", b =>
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Encuesta.EProvincia", "EProvincia")
                         .WithMany("ECantones")
@@ -4259,15 +4389,27 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EProgramaIndicador", b =>
                 {
-                    b.HasOne("WordVision.ec.Domain.Entities.Encuesta.EIndicador", "EIndicador")
-                        .WithMany("EProgramaIndicadores")
-                        .HasForeignKey("EIndicadorId");
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.DetalleCatalogo", "Estado")
+                        .WithMany()
+                        .HasForeignKey("IdEstado")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("WordVision.ec.Domain.Entities.Encuesta.EPrograma", "EPrograma")
-                        .WithMany("EProgramaIndicadores")
-                        .HasForeignKey("EProgramaId");
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.IndicadorPR", "IndicadorPR")
+                        .WithMany()
+                        .HasForeignKey("IdIndicadorPR")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("EIndicador");
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.LogFrame", "LogFrame")
+                        .WithMany()
+                        .HasForeignKey("IdLogFrame")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Estado");
+
+                    b.Navigation("IndicadorPR");
 
                     b.Navigation("EPrograma");
                 });
@@ -4833,79 +4975,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb
                     b.Navigation("ObjetivoAnioFiscales");
                 });
 
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.ECanton", b =>
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Indicadores.VinculacionIndicador", b =>
                 {
-                    b.Navigation("EParroquias");
-
-                    b.Navigation("EReporteTabulados");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EEvaluacion", b =>
-                {
-                    b.Navigation("EMetas");
-
-                    b.Navigation("EReporteTabulados");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EIndicador", b =>
-                {
-                    b.Navigation("EMetas");
-
-                    b.Navigation("EProgramaIndicadores");
-
-                    b.Navigation("EReporteTabulados");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EObjetivo", b =>
-                {
-                    b.Navigation("EIndicadores");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EParroquia", b =>
-                {
-                    b.Navigation("EComunidades");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EPrograma", b =>
-                {
-                    b.Navigation("EMetas");
-
-                    b.Navigation("EParroquias");
-
-                    b.Navigation("EProgramaIndicadores");
-
-                    b.Navigation("EReporteTabulados");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EProvincia", b =>
-                {
-                    b.Navigation("ECantones");
-
-                    b.Navigation("EReporteTabulados");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.ERegion", b =>
-                {
-                    b.Navigation("EProvincias");
-
-                    b.Navigation("EReporteTabulados");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EncuestaKobo", b =>
-                {
-                    b.Navigation("EncuestadoKobos");
-
-                    b.Navigation("PreguntaKobos");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EncuestadoKobo", b =>
-                {
-                    b.Navigation("EncuestadoPreguntaKobos");
-                });
-
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.PreguntaKobo", b =>
-                {
-                    b.Navigation("EncuestadoPreguntaKobos");
+                    b.Navigation("DetalleVinculacionIndicadores");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.Catalogo", b =>

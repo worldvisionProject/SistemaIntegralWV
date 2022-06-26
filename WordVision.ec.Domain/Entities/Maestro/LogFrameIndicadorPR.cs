@@ -19,6 +19,10 @@ namespace WordVision.ec.Domain.Entities.Maestro
         [ForeignKey("IdIndicadorPR")]
         public IndicadorPR IndicadorPR { get; set; }
 
+        public int IdEstado { get; set; }
+        [ForeignKey("IdEstado")]
+        public DetalleCatalogo Estado { get; set; }
+
         //public virtual ICollection<IndicadorPR> IndicadoresPR { get; set; }
 
     }

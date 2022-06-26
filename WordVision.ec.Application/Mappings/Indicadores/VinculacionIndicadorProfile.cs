@@ -15,6 +15,7 @@ namespace WordVision.ec.Application.Mappings.Indicadores
             CreateMap<VinculacionIndicadorResponse, VinculacionIndicador>().ReverseMap();
             CreateMap<UpdateVinculacionIndicadorCommand, VinculacionIndicador>().ReverseMap();
             CreateMap<GetAllVinculacionIndicadorQuery, VinculacionIndicador>().ReverseMap();
+            CreateMap<DetalleVinculacionIndicadorResponse, DetalleVinculacionIndicador>().ReverseMap();
         }
        
     }

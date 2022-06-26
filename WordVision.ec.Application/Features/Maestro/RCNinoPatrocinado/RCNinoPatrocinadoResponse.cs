@@ -12,7 +12,6 @@ namespace WordVision.ec.Application.Features.Maestro.RCNinoPatrocinado
     public class RCNinoPatrocinadoResponse : GenericResponse
     {
         public int Id { get; set; }
-
         public string Codigo { get; set; }
 
         public string Cedula { get; set; }

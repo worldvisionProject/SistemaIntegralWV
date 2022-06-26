@@ -260,23 +260,16 @@
                                     <p>@localizer["RC Niño Patrocinado"]</p>
                                 </a>
                             </li>
-                            
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Maestro" asp-controller="Logframe" class="nav-link">
-                                    <i class="far fa-file-archive nav-icon"></i>
-                                    <p>@localizer["Log Frame"]</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
+                            @*<li class="nav-item">
                                 <a is-active-route asp-area="Maestro" asp-controller="PresupuestoProyecto" class="nav-link">
                                     <i class="far fa-file-archive nav-icon"></i>
                                     <p>@localizer["Presupuesto"]</p>
                                 </a>
-                            </li>
+                            </li>*@
                             <li class="nav-item">
                                 <a is-active-route asp-area="Maestro" asp-controller="IndicadorPR" class="nav-link">
                                     <i class="far fa-file-archive nav-icon"></i>
-                                    <p>@localizer["Indicacdores"]</p>
+                                    <p>@localizer["Indicadores"]</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -285,6 +278,19 @@
                                     <p>@localizer["Otros Indicacdor"]</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="Logframe" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Log Frame"]</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="LogFrameIndicadorPR" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Marco Lógico"]</p>
+                                </a>
+                            </li>
+                            
                             
                         </ul>
 
@@ -308,17 +314,19 @@
                                 </a>
                             </li>  
                             <li class="nav-item">
+                                <a is-active-route asp-area="Indicadores" asp-controller="EstadoPorAnioFiscal" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Estado Por Año Fiscal"]</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a is-active-route asp-area="Indicadores" asp-controller="FaseprogramaArea" class="nav-link">
                                     <i class="far fa-file-archive nav-icon"></i>
                                     <p>@localizer["Fase Programa Área"]</p>
                                 </a>
                             </li>
-                            @*<li class="nav-item">
-                                <a is-active-route asp-area="Maestro" asp-controller="EtapaModeloProyecto" class="nav-link">
-                                    <i class="far fa-file-archive nav-icon"></i>
-                                    <p>@localizer["Etapas Modelo Proyecto"]</p>
-                                </a>
-                            </li>
+                            
+                            @*
                             <li class="nav-item">
                                 <a is-active-route asp-area="Maestro" asp-controller="ModeloProyecto" class="nav-link">
                                     <i class="far fa-file-archive nav-icon"></i>
