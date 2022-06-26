@@ -10,6 +10,8 @@ namespace WordVision.ec.Application.Mappings.Encuesta
         {
             CreateMap<GetAllEIndicadoresResponse, EIndicador>().ReverseMap();
             CreateMap<GetEIndicadoresByIdResponse, EIndicador>().ReverseMap();
+            CreateMap<CreateEIndicadorCommand, EIndicador>().ReverseMap();
+            CreateMap<UpdateEIndicadorCommand, EIndicador>().ReverseMap();
         }
 
 

@@ -158,6 +158,7 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<IEProvinciaRepository, EProvinciaRepository>();
             services.AddTransient<IECantonRepository, ECantonRepository>();
             services.AddTransient<IEParroquiaRepository, EParroquiaRepository>();
+            services.AddTransient<IEComunidadRepository, EComunidadRepository>();
 
             services.AddTransient<IEEvaluacionRepository, EEvaluacionRepository>();
             services.AddTransient<IEProgramaRepository, EProgramaRepository>();

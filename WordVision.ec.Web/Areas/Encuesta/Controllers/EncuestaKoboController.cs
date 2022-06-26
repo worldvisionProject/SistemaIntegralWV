@@ -29,7 +29,7 @@ namespace WordVision.ec.Web.Areas.Encuesta.Controllers
             //Traemos las evaluaciones de la base de datos y lo ponemos en el SelectList para el combo
             //https://www.c-sharpcorner.com/article/different-ways-bind-the-value-to-razor-dropdownlist-in-aspnet-mvc5/
             var respuestaEEvaluaciones = await _mediator.Send(new GetAllEEvaluacionesQuery());
-            if (respuestaEEvaluaciones.Succeeded && respuestaEEvaluaciones.Data != null && respuestaEEvaluaciones.Data.Count > 0)
+            if (respuestaEEvaluaciones.Succeeded && respuestaEEvaluaciones.Data != null)
             {
                 var fromDatabaseEF = new SelectList(respuestaEEvaluaciones.Data.ToList(), "Id", "NombreCompleto");
                 ViewData["EEvaluacionesList"] = fromDatabaseEF;

@@ -10,6 +10,8 @@ namespace WordVision.ec.Application.Mappings.Encuesta
         {
             CreateMap<GetAllEEvaluacionesResponse, EEvaluacion>().ReverseMap();
             CreateMap<GetEEvaluacionesByIdResponse, EEvaluacion>().ReverseMap();
+            CreateMap<CreateEEvaluacionCommand, EEvaluacion>().ReverseMap();
+            CreateMap<UpdateEEvaluacionCommand, EEvaluacion>().ReverseMap();
         }
 
     }

@@ -28,11 +28,11 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Encuesta
         public IQueryable<ECanton> ECantones => _repository.Entities;
         public async Task<List<ECanton>> GetListAsync()
         {
-            return await _repository.Entities.ToListAsync();
+            return await _repository.Entities.Include(c => c.EParroquias).ToListAsync();
         }
         public async Task<ECanton> GetByIdAsync(string idECanton)
         {
-            return await _repository.Entities.Where(x => x.Id == idECanton).Include(c => c.EProvincia).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(x => x.Id == idECanton).Include(c => c.EParroquias).FirstOrDefaultAsync();
         }
 
         public async Task<string> InsertAsync(ECanton eCanton)

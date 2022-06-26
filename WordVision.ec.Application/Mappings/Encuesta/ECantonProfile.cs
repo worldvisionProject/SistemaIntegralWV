@@ -10,6 +10,8 @@ namespace WordVision.ec.Application.Mappings.Encuesta
         {
             CreateMap<GetAllECantonesResponse, ECanton>().ReverseMap();
             CreateMap<GetECantonesByIdResponse, ECanton>().ReverseMap();
+            CreateMap<CreateECantonCommand, ECanton>().ReverseMap();
+            CreateMap<UpdateECantonCommand, ECanton>().ReverseMap();
         }
 
 

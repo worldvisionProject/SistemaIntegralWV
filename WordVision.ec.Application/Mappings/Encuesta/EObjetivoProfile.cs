@@ -11,6 +11,8 @@ namespace WordVision.ec.Application.Mappings.Encuesta
         {
             CreateMap<GetAllEObjetivosResponse, EObjetivo>().ReverseMap();
             CreateMap<GetEObjetivosByIdResponse, EObjetivo>().ReverseMap();
+            CreateMap<CreateEObjetivoCommand, EObjetivo>().ReverseMap();
+            CreateMap<UpdateEObjetivoCommand, EObjetivo>().ReverseMap();
         }
 
 
