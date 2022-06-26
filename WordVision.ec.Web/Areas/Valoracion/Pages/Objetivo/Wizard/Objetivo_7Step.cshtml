@@ -1,136 +1,152 @@
 ﻿@model WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_7Step
-<input type="hidden" asp-for="IdColaborador" name="IdColaborador"  class="form-control">
-<input type="hidden" asp-for="IdObjetivo" name="IdObjetivo"  class="form-control">
-           <input type="hidden" asp-for="NumeroObjetivo" name="NumeroObjetivo"  class="form-control">
-           <input type="hidden" asp-for="AnioFiscal" name="AnioFiscal"  class="form-control">
-           <input type="hidden" asp-for="PonderacionObjetivo" name="PonderacionObjetivo"  class="form-control">
-           <input type="hidden" asp-for="Objetivo" name="Objetivo"  class="form-control">
-           <input type="hidden" asp-for="IdObjetivoAnioFiscal" name="IdObjetivoAnioFiscal"  class="form-control">
-           <input type="hidden" asp-for="DescObjetivo" name="DescObjetivo"  class="form-control">
-           <input type="hidden" asp-for="EstadoProceso" name="EstadoProceso"  class="form-control">
-           <input type="hidden" asp-for="DescEstadoProceso" name="DescEstadoProceso"  class="form-control">
-<div class="container-fluid">
+<input type="hidden" asp-for="IdColaborador" name="IdColaborador" class="form-control">
+<input type="hidden" asp-for="IdObjetivo" name="IdObjetivo" class="form-control">
+<input type="hidden" asp-for="NumeroObjetivo" name="NumeroObjetivo" class="form-control">
+<input type="hidden" asp-for="AnioFiscal" name="AnioFiscal" class="form-control">
+<input type="hidden" asp-for="PonderacionObjetivo" name="PonderacionObjetivo" class="form-control">
+<input type="hidden" asp-for="Objetivo" name="Objetivo" class="form-control">
+<input type="hidden" asp-for="IdObjetivoAnioFiscal" name="IdObjetivoAnioFiscal" class="form-control">
+<input type="hidden" asp-for="DescObjetivo" name="DescObjetivo" class="form-control">
+<input type="hidden" asp-for="EstadoProceso" name="EstadoProceso" class="form-control">
+<input type="hidden" asp-for="DescEstadoProceso" name="DescEstadoProceso" class="form-control">
+<input type="hidden" asp-for="ComentarioColaborador" name="ComentarioColaborador" class="form-control">
+<div class="container-fluid containerobjetivo" >
 
     <div class="texto-seccionpregunta">
-      @*<div  style="background-color:#EC7D31; height: 78px;color:beige; padding: 5px 5px 5px 5px;">*@
-                <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Descripción de objetivo</font> @Model.NumeroObjetivo: @Model.Objetivo </label>
-                <label class="col-md-12 col-form-label texto-pregunta">@Model.DescObjetivo</label>
-                 
-       @* </div> *@
+        @*<div  style="background-color:#EC7D31; height: 78px;color:beige; padding: 5px 5px 5px 5px;">*@
+        <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Descripción de objetivo @Model.NumeroObjetivo: </font> <u><font style="font-weight: bold;color:#EC7D31">@Model.Objetivo</font></u> </label>
+        <label class="col-md-12 col-form-label texto-pregunta">@Model.DescObjetivo</label>
+
+        <label class="col-md-12 col-form-label texto-pregunta" style="font-size: 16px !important;font-weight: bold;color:red">* Debe ingresar mínimo 1 máximo 3 objetivos.</label>
+
+        @* </div> *@
     </div>
+    <div class="row">
+        @{
+            var num = 0;
+            //if (Model.PlanificacionResultados != null)
+            //{
+            //    num = Model.PlanificacionResultados.Count();
+            //}
 
-    @{ var num = 0;
-        if (Model.PlanificacionResultados != null)
-        {
-            num = Model.PlanificacionResultados.Count();
-        }
-    
 
-        @if (num==0)
-        { <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=0&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=3&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivos 7')">
-                            <i class="fa fa-plus-square"></i>
-                                Agregar Respuesta
-         </button> 
-        
+            //@if (num==3)
+
+
+            <div class="col-md-4">
+                @if (Model.EstadoProceso == 1 || Model.EstadoProceso == 2 || Model.EstadoProceso == 3)
+                {
+                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=0&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=3&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivos @Model.NumeroObjetivo : @Model.Objetivo <br> * Debe ingresar mínimo 1 máximo 3 objetivos.')">
+                        <i class="fa fa-plus-square"></i>
+                        Agregar Respuesta
+                    </button>
+                }
+            </div>
         }
-    }
-    
+
+    </div>
     <div id="viewAll" class="card-body card-body-card table-responsive">
-        
     </div>
-  @if (Model.EstadoProceso==5)
-  {
-     <br/>
-                   <div class="card card-info">
-                    <div class="card-header card-header-int">
-                        Valoración Final
-                    </div>
-                        <div class="card-body">
-                            <div class="container-fluid">
+    @if (Model.EstadoProceso == 4 || Model.EstadoProceso == 5 || Model.EstadoProceso == 6)
+    {
+        <br />
+        <div class="card card-info">
+            <div class="card-header card-header-int">
+                Valoración Final
+            </div>
+            <div class="card-body">
+                <div class="container-fluid">
 
-                                    <div class="form-group row">
-                                           <div class="col-md-3">
-                                            <label class="col-md-12 col-form-label texto-pregunta">Comentario Final Colaborador</label>
-                                            @if (Model.Perfil==1)
-                                            {
-                                                <textarea asp-for="ComentarioColaborador" name="ComentarioColaborador" class="form-control" readonly></textarea>
-                                              
-                                            }
-                                            else
-                                            {
-                                              <textarea asp-for="ComentarioColaborador" name="ComentarioColaborador" class="form-control" ></textarea> 
-                                            }
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label class="col-md-12 col-form-label texto-pregunta">Comentario Final Colaborador</label>
+                            @if (Model.Perfil == 1)
+                            {
+                                <textarea asp-for="ComentarioColaborador" name="ComentarioColaborador" class="form-control" readonly></textarea>
 
-                                            <span asp-validation-for="ComentarioColaborador" class="text-danger"></span>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label class="col-md-12 col-form-label texto-pregunta">Comentario Final Líder1</label>
-                                                @if (Model.Perfil==1)
-                                                {
-                                                    <textarea asp-for="ComentarioLider1" name="ComentarioLider1" class="form-control" ></textarea> 
-                                                   }  else
-                                                {
-                                                   <textarea asp-for="ComentarioLider1" name="ComentarioLider1" class="form-control" readonly></textarea>
-                                                }
-                                                <span asp-validation-for="ComentarioLider1" class="text-danger"></span>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label class="col-md-12 col-form-label texto-pregunta">Comentario Final Líder2</label>
-                                                @if (Model.Perfil==1)
-                                                {
-                                                 <textarea asp-for="ComentarioLider2" name="ComentarioLider2" class="form-control" ></textarea>  }  else
-                                                {
-                                                    <textarea asp-for="ComentarioLider2" name="ComentarioLider2" class="form-control" readonly></textarea>
-                                                }
-                                                <span asp-validation-for="ComentarioLider2" class="text-danger"></span>
-                                            </div> 
-                                            <div class="col-md-3">
-                                                <label class="col-md-12 col-form-label texto-pregunta">Comentario Final Líder Matricial</label>
-                                                @if (Model.Perfil==1)
-                                                {<textarea asp-for="ComentarioLiderMatricial" name="ComentarioLiderMatricial" class="form-control" ></textarea>
-                                                  }  else
-                                                {<textarea asp-for="ComentarioLiderMatricial" name="ComentarioLiderMatricial" class="form-control" readonly></textarea>
-                                                }
-                                                <span asp-validation-for="ComentarioLiderMatricial" class="text-danger"></span>
-                                            </div>
-                                     </div>
-                                     <div class="form-group row">
-                                         <div class="col-md-3" >
-                                            <label class="col-md-12 col-form-label texto-pregunta">Total Cumplimiento Anual</label>
-                                            <input asp-for="ValorValoracionFinal" style="background-color: #9a2a2a!important;color:black;border:1px solid #ced4da" type="text" name="ValorValoracionFinal" class="form-control" readonly  />
-                                           
-                                            </div>
-                                           <div class="col-md-3">
-                                            <label class="col-md-12 col-form-label texto-pregunta">Valoración Final</label>
-                                            <input asp-for="ValoracionFinal" type="text" name="ValoracionFinal" class="form-control" readonly  />
-                                            <span asp-validation-for="ValoracionFinal" class="text-danger"></span>
-                                            </div>
-                                            <div class="col-md-3">
-                                               @* <input asp-for="ValorValoracionFinal" type="text" name="ValorValoracionFinal" class="form-control"  />*@
-                                                <label class="col-md-12 col-form-label texto-pregunta">Valoración Final Líder1</label>
-                                                @if (Model.Perfil==1)
-                                                {
-                                                <input asp-for="ValoracionLider1" type="text" name="ValoracionLider1" class="form-control"  />
-                                                 }  else
-                                                {<input asp-for="ValoracionLider1" type="text" name="ValoracionLider1" class="form-control" readonly />
-                                                }
-                                                <span asp-validation-for="ValoracionLider1" class="text-danger"></span>
-                                            </div>
-                                           
-                                     </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <textarea asp-for="ComentarioColaborador" name="ComentarioColaborador" class="form-control"></textarea>
+                            }
+
+                            <span asp-validation-for="ComentarioColaborador" class="text-danger"></span>
                         </div>
-                   </div>
-                   
-                   }
+                        <div class="col-md-3">
+                            <label class="col-md-12 col-form-label texto-pregunta">Comentario Final Líder1</label>
+                            @if (Model.Perfil == 1)
+                            {
+                                <textarea asp-for="ComentarioLider1" name="ComentarioLider1" class="form-control"></textarea>
+                            }
+                            else
+                            {
+                                <textarea asp-for="ComentarioLider1" name="ComentarioLider1" class="form-control" readonly></textarea>
+                            }
+                            <span asp-validation-for="ComentarioLider1" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-md-12 col-form-label texto-pregunta">Comentario Final Líder2</label>
+                            @if (Model.Perfil == 1)
+                            {
+                                <textarea asp-for="ComentarioLider2" name="ComentarioLider2" class="form-control"></textarea>
+                            }
+                            else
+                            {
+                                <textarea asp-for="ComentarioLider2" name="ComentarioLider2" class="form-control" readonly></textarea>
+                            }
+                            <span asp-validation-for="ComentarioLider2" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-md-12 col-form-label texto-pregunta">Comentario Final Líder Matricial</label>
+                            @if (Model.Perfil == 1)
+                            {
+                                <textarea asp-for="ComentarioLiderMatricial" name="ComentarioLiderMatricial" class="form-control"></textarea>
+                            }
+                            else
+                            {
+                                <textarea asp-for="ComentarioLiderMatricial" name="ComentarioLiderMatricial" class="form-control" readonly></textarea>
+                            }
+                            <span asp-validation-for="ComentarioLiderMatricial" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label class="col-md-12 col-form-label texto-pregunta">Total Cumplimiento Anual</label>
+                            <input asp-for="ValorValoracionFinal" style="background-color: #9a2a2a!important;color:black;border:1px solid #ced4da" type="text" name="ValorValoracionFinal" class="form-control" readonly />
+                            <span asp-validation-for="ValorValoracionFinal" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-md-12 col-form-label texto-pregunta">Valoración Final</label>
+                            <input asp-for="ValoracionFinal" type="text" name="ValoracionFinal" class="form-control" readonly />
+                            <span asp-validation-for="ValoracionFinal" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3">
+                            @* <input asp-for="ValorValoracionFinal" type="text" name="ValorValoracionFinal" class="form-control"  />*@
+                            <label class="col-md-12 col-form-label texto-pregunta">Valoración Final Líder1</label>
+                            @if (Model.Perfil == 1)
+                            {
+                                <input asp-for="ValoracionLider1" type="text" name="ValoracionLider1" class="form-control" />
+                            }
+                            else
+                            {
+                                <input asp-for="ValoracionLider1" type="text" name="ValoracionLider1" class="form-control" readonly />
+                            }
+                            <span asp-validation-for="ValoracionLider1" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>
 <script>
- $(document).ready(function () {
-            loadData();
-    });
-        function loadData() {
-            $('#viewAll').load('/valoracion/objetivo/LoadObjetivoResultado?id=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&entidad=@Model.PlanificacionResultados&ponderacion=@Model.PonderacionObjetivo.ToString().Replace(",",".")&perfil=@Model.Perfil');
-        }
+    $(document).ready(function () {
+               loadData();
+       });
+           function loadData() {
+               $('#viewAll').load('/valoracion/objetivo/LoadObjetivoResultado?id=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&entidad=@Model.PlanificacionResultados&ponderacion=@Model.PonderacionObjetivo.ToString().Replace(",",".")&perfil=@Model.Perfil');
+           }
 
-   
+
 </script>

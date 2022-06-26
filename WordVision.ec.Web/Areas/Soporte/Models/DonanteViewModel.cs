@@ -59,9 +59,13 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         public int Ciudad { get; set; }
         [Display(Name = "Dirección")]
         public string Direccion { get; set; }
-        [Display(Name = "Teléfono Convencional")]
+
+        [Display(Name = "Area")]
+        public string CodigoArea { get; set; }
+
+        [Display(Name = "Teléfono")]
         public string TelefonoConvencional { get; set; }
-        [Display(Name = "Teléfono Celular")]
+        [Display(Name = "Celular")]
         public string TelefonoCelular { get; set; }
         public bool WhatsApp { get; set; }
         [EmailAddress]
@@ -114,6 +118,8 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         [Display(Name = "Comentario Resolución")]
         public string ComentarioResolucion { get; set; }
 
+        public string Colaborador { get; set; }
+
         public int? EsAdmin { get; set; }
         public SelectList FormaPagoList { get; set; }
         public SelectList CanalList { get; set; }
@@ -131,6 +137,7 @@ namespace WordVision.ec.Web.Areas.Soporte.Models
         public SelectList TipoCuentaList { get; set; }
         public SelectList TipoTarjetaList { get; set; }
         public SelectList BancoList { get; set; }
+        public SelectList CodigoAreaList { get; set; }
 
     }
 }

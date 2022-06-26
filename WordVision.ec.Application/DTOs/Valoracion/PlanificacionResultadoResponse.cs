@@ -68,6 +68,17 @@ namespace WordVision.ec.Application.DTOs.Valoracion
         public DateTime? FechaCumplimiento { get; set; }
         public decimal? PorcentajeCumplimiento { get; set; }
         public decimal? PonderacionResultado { get; set; }
+        public string ComentarioCumplimiento { get; set; }
+
+        public string ComentarioColaborador { get; set; }
+        public string ComentarioLider1 { get; set; }
+        public string ComentarioLider2 { get; set; }
+        public string ComentarioLiderMatricial { get; set; }
+        public decimal? ValorValoracionFinal { get; set; }
+        public string ValoracionFinal { get; set; }
+        public string ValoracionLider1 { get; set; }
+        public DateTime? FechaIngreso { get; set; }
+        public int AnioFiscal { get; set; }
         public List<ComportamientoResponse> Comportamientos { get; set; }
 }
 }

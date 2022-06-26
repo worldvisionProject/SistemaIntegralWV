@@ -1,53 +1,60 @@
 ﻿@model WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_6Step
-<input type="hidden" asp-for="IdColaborador" name="IdColaborador"  class="form-control">
-<input type="hidden" asp-for="IdObjetivo" name="IdObjetivo"  class="form-control">
-           <input type="hidden" asp-for="NumeroObjetivo" name="NumeroObjetivo"  class="form-control">
-           <input type="hidden" asp-for="AnioFiscal" name="AnioFiscal"  class="form-control">
-           <input type="hidden" asp-for="PonderacionObjetivo" name="PonderacionObjetivo"  class="form-control">
-           <input type="hidden" asp-for="Objetivo" name="Objetivo"  class="form-control">
-           <input type="hidden" asp-for="IdObjetivoAnioFiscal" name="IdObjetivoAnioFiscal"  class="form-control">
-           <input type="hidden" asp-for="DescObjetivo" name="DescObjetivo"  class="form-control">
-           <input type="hidden" asp-for="EstadoProceso" name="EstadoProceso"  class="form-control">
-           <input type="hidden" asp-for="DescEstadoProceso" name="DescEstadoProceso"  class="form-control">
-<div class="container-fluid">
+<input type="hidden" asp-for="IdColaborador" name="IdColaborador" class="form-control">
+<input type="hidden" asp-for="IdObjetivo" name="IdObjetivo" class="form-control">
+<input type="hidden" asp-for="NumeroObjetivo" name="NumeroObjetivo" class="form-control">
+<input type="hidden" asp-for="AnioFiscal" name="AnioFiscal" class="form-control">
+<input type="hidden" asp-for="PonderacionObjetivo" name="PonderacionObjetivo" class="form-control">
+<input type="hidden" asp-for="Objetivo" name="Objetivo" class="form-control">
+<input type="hidden" asp-for="IdObjetivoAnioFiscal" name="IdObjetivoAnioFiscal" class="form-control">
+<input type="hidden" asp-for="DescObjetivo" name="DescObjetivo" class="form-control">
+<input type="hidden" asp-for="EstadoProceso" name="EstadoProceso" class="form-control">
+<input type="hidden" asp-for="DescEstadoProceso" name="DescEstadoProceso" class="form-control">
+<div class="container-fluid containerobjetivo" >
 
     <div class="texto-seccionpregunta">
-      @*<div  style="background-color:#EC7D31; height: 78px;color:beige; padding: 5px 5px 5px 5px;">*@
-                <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Descripción de objetivo</font> @Model.NumeroObjetivo: @Model.Objetivo </label>
-                <label class="col-md-12 col-form-label texto-pregunta">@Model.DescObjetivo</label>
-                
-       @* </div> *@
+        @*<div  style="background-color:#EC7D31; height: 78px;color:beige; padding: 5px 5px 5px 5px;">*@
+        <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Descripción de objetivo @Model.NumeroObjetivo: </font> <u><font style="font-weight: bold;color:#EC7D31">@Model.Objetivo</font></u> </label>
+        <label class="col-md-12 col-form-label texto-pregunta">@Model.DescObjetivo</label>
+
+        <label class="col-md-12 col-form-label texto-pregunta" style="font-size: 16px !important;font-weight: bold;color:red">* Debe ingresar mínimo 1 máximo 3 objetivos.</label>
+
+        @* </div> *@
     </div>
+    <div class="row">
+        @{
+            var num = 0;
+            //if (Model.PlanificacionResultados != null)
+            //{
+            //    num = Model.PlanificacionResultados.Count();
+            //}
 
-    @{ var num = 0;
-        if (Model.PlanificacionResultados != null)
-        {
-            num = Model.PlanificacionResultados.Count();
-        }
-    
 
-        @if (num==0)
-        { <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=0&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=3&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivos 6')">
-                            <i class="fa fa-plus-square"></i>
-                                Agregar Respuesta
-         </button> 
-        
+            //@if (num==3)
+            <div class="col-md-4">
+                @if (Model.EstadoProceso == 1 || Model.EstadoProceso == 2 || Model.EstadoProceso == 3)
+                {
+                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=0&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=3&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivos @Model.NumeroObjetivo : @Model.Objetivo <br> * Debe ingresar mínimo 1 máximo 3 objetivos.')">
+                        <i class="fa fa-plus-square"></i>
+                        Agregar Respuesta
+                    </button>
+                }
+            </div>
+
         }
-    }
-    
+
+    </div>
     <div id="viewAll" class="card-body card-body-card table-responsive">
-        
     </div>
-  
+
 
 </div>
 <script>
- $(document).ready(function () {
-            loadData();
-    });
-        function loadData() {
-            $('#viewAll').load('/valoracion/objetivo/LoadObjetivoResultado?id=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&entidad=@Model.PlanificacionResultados&ponderacion=@Model.PonderacionObjetivo.ToString().Replace(",",".")&perfil=@Model.Perfil');
-        }
+    $(document).ready(function () {
+               loadData();
+       });
+           function loadData() {
+               $('#viewAll').load('/valoracion/objetivo/LoadObjetivoResultado?id=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&entidad=@Model.PlanificacionResultados&ponderacion=@Model.PonderacionObjetivo.ToString().Replace(",",".")&perfil=@Model.Perfil');
+           }
 
-   
+
 </script>

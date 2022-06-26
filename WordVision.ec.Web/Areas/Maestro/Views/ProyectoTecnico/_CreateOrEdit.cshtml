@@ -1,0 +1,56 @@
+﻿@model WordVision.ec.Web.Areas.Maestro.Models.ProyectoTecnicoViewModel
+
+
+<form asp-action="OnPostCreateOrEdit" method="post" asp-controller="ProyectoTecnico" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            <input hidden="hidden" asp-for="Id"/>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Codigo" class="control-label">Código</label>
+                <input asp-for="Codigo" class="form-control" />
+                <span asp-validation-for="Codigo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NombreProyecto" class="control-label">Proyecto</label>
+                <input asp-for="NombreProyecto" class="form-control" />
+                <span asp-validation-for="NombreProyecto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdUbicacion" class="control-label">Ubicación</label>
+                @Html.DropDownList("IdUbicacion", (IEnumerable<SelectListItem>)Model.UbicacionList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
+                <span asp-validation-for="IdUbicacion" class="text-danger"></span>
+            </div>
+        </div>
+            <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="IdFinanciamiento" class="control-label">Financiamiento</label>
+                @Html.DropDownList("IdFinanciamiento", (IEnumerable<SelectListItem>)Model.FinanciamientoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
+                <span asp-validation-for="IdFinanciamiento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdTipoProyecto" class="control-label">Tipo Proyecto</label>
+                @Html.DropDownList("IdTipoProyecto", (IEnumerable<SelectListItem>)Model.TipoProyectoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
+                <span asp-validation-for="IdTipoProyecto" class="text-danger"></span>
+            </div>
+            @if (Model.Id != 0)
+            {
+                <div class="form-group">
+                    <label asp-for="IdEstado" class="control-label">Estado</label>
+                    @Html.DropDownList("IdEstado", (IEnumerable<SelectListItem>)Model.EstadoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
+                    <span asp-validation-for="IdEstado" class="text-danger"></span>
+                </div>
+             }
+        </div>
+    </div>
+               
+    <br />
+    <div class="form-group justify-content-between group-button-modal">
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

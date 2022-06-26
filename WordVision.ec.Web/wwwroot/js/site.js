@@ -271,6 +271,31 @@
         //prevent default form submit event
         return false;
     }
+
+    jQueryModalController = form => {
+        if (confirm('¿Estás segura de ejecutar esta acción?')) {
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: form.action,
+                    data: new FormData(form),
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                })
+            } catch (ex) {
+                console.log(ex)
+            }
+        }
+
+        //prevent default form submit event
+        return false;
+    }
 });
 
 //function nextTab(elem) {

@@ -9,14 +9,15 @@
            <input type="hidden" asp-for="DescObjetivo" name="DescObjetivo"  class="form-control">
            <input type="hidden" asp-for="EstadoProceso" name="EstadoProceso"  class="form-control">
            <input type="hidden" asp-for="DescEstadoProceso" name="DescEstadoProceso"  class="form-control">
-<div class="container-fluid">
+<div class="container-fluid containerobjetivo">
 
     <div class="texto-seccionpregunta">
       @*<div  style="background-color:#EC7D31; height: 78px;color:beige; padding: 5px 5px 5px 5px;">*@
-                <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Descripción de objetivo</font> @Model.NumeroObjetivo: @Model.Objetivo </label>
+                  <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Descripción de objetivo @Model.NumeroObjetivo: </font> <u><font style="font-weight: bold;color:#EC7D31">@Model.Objetivo</font></u> </label>
                 <label class="col-md-12 col-form-label texto-pregunta">@Model.DescObjetivo</label>
-                <label class="col-md-12 col-form-label texto-pregunta">Valor máximo para Ponderación de Resultado: <font style="font-weight: bold;">@Model.PonderacionObjetivo</font></label>    
-               
+                <label class="col-md-12 col-form-label texto-pregunta">Valor máximo para Ponderación de Resultado: <u><font style="font-weight: bold;">@Model.PonderacionObjetivo</font></u></label>  
+             <label class="col-md-12 col-form-label texto-pregunta" style="font-size: 16px !important;font-weight: bold;color:red">* Debe ingresar 2 Competencias obligatoriamente.</label>
+       
        @* </div> *@
     </div>
 
@@ -29,12 +30,14 @@
 
    <div class="row">
        <div class="col-md-4">
-     <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=0&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=3&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivos 4')">
-                        <i class="fa fa-plus-square"></i>
-                            Agregar Competencia
-     </button> 
-     </div> <div class="col-md-8" style="text-align: right;"><label class="col-md-12 col-form-label texto-pregunta" style="font-size: 16px !important;font-weight: bold;color:red">* Debe ingresar 2 Competencias obligatoriamente.</label>
-        </div>  
+            @if (Model.EstadoProceso==1 || Model.EstadoProceso==2 || Model.EstadoProceso==3)
+            {
+             <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=0&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=0&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=3&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")','Objetivos @Model.NumeroObjetivo : @Model.Objetivo <br> * Debe ingresar 2 Competencias obligatoriamente.')">
+                                <i class="fa fa-plus-square"></i>
+                                    Agregar Competencia
+             </button> 
+             }
+     </div>   
  </div>  
     <div id="viewAll" class="card-body card-body-card table-responsive">
         

@@ -2277,7 +2277,7 @@
 
 
   <ItemGroup>
-    <Folder Include="Areas\Maestro\Validators\" />
+    <Folder Include="Areas\Indicadores\Data\" />
     <Folder Include="Areas\Presupuesto\Validators\" />
     <Folder Include="Areas\Registro\Views\Tercero\" />
     <Folder Include="Logs\" />

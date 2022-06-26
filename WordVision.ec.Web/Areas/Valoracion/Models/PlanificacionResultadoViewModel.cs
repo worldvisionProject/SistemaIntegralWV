@@ -7,6 +7,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
 {
     public class PlanificacionResultadoViewModel
     {
+        public DateTime CreatedOn { get; set; }
+        public DateTime? LastModifiedOn { get; set; }
         public int IdObjetivo { get; set; }
         //public string NombreObjetivo { get; set; }
         //public string Numero { get; set; }
@@ -32,7 +34,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public int IdPadreCompetencia { get; set; }
         public int? IdComportamiento { get; set; }
         public int IdResultado { get; set; }
-        public int IdResultadoOpcional { get; set; }
+        public int? IdResultadoOpcional { get; set; }
         public SelectList TipoList { get; set; }
         public SelectList IdResultadoList { get; set; }
         public SelectList IdResultadoOpcionalList { get; set; }
@@ -71,7 +73,7 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         //public ResultadoViewModel Resultados { get; set; }
         public string DescEstado { get; set; }
          public string NombreColaborador { get; set; }
-        public int chkOpcional { get; set; }
+        public int? chkOpcional { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? FechaCumplimientoAvance { get; set; }
@@ -87,7 +89,8 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public decimal? PonderacionResultado { get; set; }
 
-
+        public string ComentarioCumplimiento { get; set; }
+        public byte[] Evidencia { get; set; }
         public string Comportamiento { get; set; }
         
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
@@ -109,5 +112,6 @@ namespace WordVision.ec.Web.Areas.Valoracion.Models
         public decimal? ValorValoracionFinal { get; set; }
         public string ValoracionFinal { get; set; }
         public string ValoracionLider1 { get; set; }
+        public DateTime? FechaIngreso { get; set; }
     }
 }

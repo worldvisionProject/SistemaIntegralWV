@@ -31,6 +31,7 @@ namespace WordVision.ec.Application.Features.Valoracion.PlanificacionResultados.
         public DateTime? FechaCumplimiento { get; set; }
         public decimal? PorcentajeCumplimiento { get; set; }
         public decimal? PonderacionResultado { get; set; }
+        public string ComentarioCumplimiento { get; set; }
         public Resultado Resultados { get; set; }
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
         public ICollection<AvanceObjetivo> AvanceObjetivoS { get; set; }

@@ -37,6 +37,7 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Update
 
         public int Ciudad { get; set; }
         public string Direccion { get; set; }
+        public string CodigoArea { get; set; }
         public string TelefonoConvencional { get; set; }
         public string TelefonoCelular { get; set; }
         public bool WhatsApp { get; set; }
@@ -125,6 +126,8 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Update
                     Donante.Responsable = command.Responsable;
                     Donante.RUC = command.RUC;
                     Donante.TelefonoCelular = command.TelefonoCelular;
+                    Donante.CodigoArea=command.CodigoArea;
+
                     Donante.TelefonoConvencional = command.TelefonoConvencional;
                     Donante.Tipo = command.Tipo == 0 ? Donante.Tipo : command.Tipo;
                     Donante.TipoCuenta = command.TipoCuenta == 0 ? Donante.TipoCuenta : command.TipoCuenta;

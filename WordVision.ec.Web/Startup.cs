@@ -12,11 +12,13 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
 using System;
+using System.IO;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -112,13 +114,13 @@ namespace WordVision.ec.Web
             {
                 fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
                 fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                //fv.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddDistributedMemoryCache();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
             services.AddScoped<IViewRenderService, ViewRenderService>();
-
 
 
             services.AddMvc(options =>
@@ -144,21 +146,25 @@ namespace WordVision.ec.Web
                 iis.MaxRequestBodySize = long.MaxValue;
             });
 
+            services.AddSingleton<IFileProvider>(
+           new PhysicalFileProvider(
+               Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+            //{
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            //    app.UseHsts();
+            //}
 
 
 

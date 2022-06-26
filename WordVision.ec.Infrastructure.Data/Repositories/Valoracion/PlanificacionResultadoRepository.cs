@@ -18,6 +18,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
     {
         private readonly IRepositoryAsync<PlanificacionResultado> _repository;
         private readonly IRepositoryAsync<Objetivo> _repositoryObjetivo;
+        private readonly IRepositoryAsync<ObjetivoAnioFiscal> _repositoryObjetivoAnioFiscal;
         private readonly IRepositoryAsync<Resultado> _repositoryResultado;
         private readonly IRepositoryAsync<Responsabilidad> _repositoryResponsabilidad;
         private readonly IRepositoryAsync<Competencia> _repositoryCompetencia;
@@ -28,11 +29,12 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
         private readonly IRepositoryAsync<Escala> _repositoryEscala;
 
         private readonly IDistributedCache _distributedCache;
-        public PlanificacionResultadoRepository(IRepositoryAsync<Escala> repositoryEscala,IRepositoryAsync<PlanificacionComportamiento> repositoryPlaniComportamiento,IRepositoryAsync<SeguimientoObjetivo> repositorySeguimientoObjetivo,IRepositoryAsync<DetalleCatalogo> repositoryDetalleCatalogo,IRepositoryAsync<Colaborador> repositoryColaborador,IRepositoryAsync<Competencia> repositoryCompetencia,IRepositoryAsync<Responsabilidad> repositoryResponsabilidad,IRepositoryAsync<Resultado> repositoryResultado,IRepositoryAsync<PlanificacionResultado> repository, IRepositoryAsync<Objetivo> repositoryObjetivo, IDistributedCache distributedCache)
+        public PlanificacionResultadoRepository(IRepositoryAsync<ObjetivoAnioFiscal> repositoryObjetivoAnioFiscal,IRepositoryAsync<Escala> repositoryEscala,IRepositoryAsync<PlanificacionComportamiento> repositoryPlaniComportamiento,IRepositoryAsync<SeguimientoObjetivo> repositorySeguimientoObjetivo,IRepositoryAsync<DetalleCatalogo> repositoryDetalleCatalogo,IRepositoryAsync<Colaborador> repositoryColaborador,IRepositoryAsync<Competencia> repositoryCompetencia,IRepositoryAsync<Responsabilidad> repositoryResponsabilidad,IRepositoryAsync<Resultado> repositoryResultado,IRepositoryAsync<PlanificacionResultado> repository, IRepositoryAsync<Objetivo> repositoryObjetivo, IDistributedCache distributedCache)
         {
             _repository = repository;
             _distributedCache = distributedCache;
             _repositoryObjetivo = repositoryObjetivo;
+            _repositoryObjetivoAnioFiscal = repositoryObjetivoAnioFiscal;
             _repositoryResultado = repositoryResultado;
             _repositoryResponsabilidad = repositoryResponsabilidad;
             _repositoryCompetencia = repositoryCompetencia;
@@ -115,7 +117,18 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
                 .GroupBy(x=> new { x.IdColaborador ,x.Estado,x.ObjetivoAnioFiscales.AnioFiscal })
                  .Select(a => new PlanificacionResultadoResponse
                  {
-                    IdColaborador= a.Key.IdColaborador,
+                     FechaIngreso= _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal &&  c.Estado == 1).FirstOrDefault().CreatedOn,
+                     ValorValoracionFinal = _repositorySeguimientoObjetivo.Entities.Where(c=>c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal== a.Key.AnioFiscal && c.Ultimo==1 && (c.Estado==5 || c.Estado == 6)).FirstOrDefault().ValorValoracionFinal,
+                     ValoracionFinal = _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal && c.Ultimo == 1 && (c.Estado == 5 || c.Estado == 6)).FirstOrDefault().ValoracionFinal,
+                     ValoracionLider1 = _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal && c.Ultimo == 1 && (c.Estado == 5 || c.Estado == 6)).FirstOrDefault().ValoracionLider1,
+                     ComentarioColaborador = _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal && c.Ultimo == 1 && (c.Estado == 5 || c.Estado == 6)).FirstOrDefault().ComentarioColaborador,
+                     ComentarioLider1 = _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal && c.Ultimo == 1 &&  (c.Estado == 5 || c.Estado == 6)).FirstOrDefault().ComentarioLider1,
+                     ComentarioLider2 = _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal && c.Ultimo == 1 && (c.Estado == 5 || c.Estado == 6)).FirstOrDefault().ComentarioLider2,
+                     ComentarioLiderMatricial = _repositorySeguimientoObjetivo.Entities.Where(c => c.IdColaborador == a.Key.IdColaborador && c.AnioFiscal == a.Key.AnioFiscal && c.Ultimo == 1 && (c.Estado == 5 || c.Estado == 6)).FirstOrDefault().ComentarioLiderMatricial,
+
+                     AnioFiscal = a.Key.AnioFiscal,
+                    IdColaborador = a.Key.IdColaborador,
+                    Estado=a.Key.Estado,
                     DescEstado = _repositoryDetalleCatalogo.Entities.Where(c=>c.IdCatalogo==45 && c.Secuencia==a.Key.Estado.ToString()).FirstOrDefault().Nombre,
                     NombreColaborador = _repositoryColaborador.Entities.Where(x=>x.Id==a.Key.IdColaborador).FirstOrDefault().Apellidos+" "+_repositoryColaborador.Entities.Where(x => x.Id == a.Key.IdColaborador).FirstOrDefault().ApellidoMaterno + " " + _repositoryColaborador.Entities.Where(x => x.Id == a.Key.IdColaborador).FirstOrDefault().PrimerNombre + " " + _repositoryColaborador.Entities.Where(x => x.Id == a.Key.IdColaborador).FirstOrDefault().SegundoNombre
                  })
@@ -215,10 +228,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Valoracion
         {
             await _repository.UpdateAsync(planificacionResultado);
         }
-        public async Task UpdatexColaboradorAsync(int idColaborador,int estado)
+        public async Task UpdatexColaboradorAsync(int idColaborador,int estado, int idAnioFiscal)
         {
-           var e= _repository.Entities.Where(x => x.IdColaborador == idColaborador).ToList();
-            foreach (var e2 in e)
+           var e= _repositoryObjetivoAnioFiscal.Entities.Include(c=>c.PlanificacionResultados.Where(x => x.IdColaborador == idColaborador)).Where(e=>e.AnioFiscal== idAnioFiscal).ToList();
+            foreach (var e2 in e.SelectMany(v=>v.PlanificacionResultados))
             {
                 e2.Estado = estado;
                 await _repository.UpdateAsync(e2);

@@ -42,6 +42,8 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
         public DateTime? FechaCumplimiento { get; set; }
         public decimal? PorcentajeCumplimiento { get; set; }
         public decimal? PonderacionResultado { get; set; }
+        public string ComentarioCumplimiento { get; set; }
+        public byte[] Evidencia { get; set; }
         public ICollection<AvanceObjetivo> AvanceObjetivos { get; set; }
         public ICollection<PlanificacionHito> PlanificacionHitos { get; set; }
         public ICollection<PlanificacionComportamiento> PlanificacionComportamientos { get; set; }
@@ -59,15 +61,18 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
             private readonly IUnitOfWork _unitOfWork;
             private readonly IPlanificacionResultadoRepository _entidadRepository;
             private readonly ISeguimientoObjetivoRepository _entidadSeguimientoRepository;
-            
+            private readonly IPlanificacionHitoRepository _entidadHitoRepository;
+            private readonly IPlanificacionComportamientoRepository _entidadComportamientoRepository;
+
             private readonly IMapper _mapper;
 
-            public UpdatePlanificacionResultadoCommandHandler(ISeguimientoObjetivoRepository entidadSeguimientoRepository, IPlanificacionResultadoRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
+            public UpdatePlanificacionResultadoCommandHandler(IPlanificacionComportamientoRepository entidadComportamientoRepository,IPlanificacionHitoRepository entidadHitoRepository,ISeguimientoObjetivoRepository entidadSeguimientoRepository, IPlanificacionResultadoRepository entidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
             {
                 _entidadRepository = entidadRepository;
                 _entidadSeguimientoRepository = entidadSeguimientoRepository;
-              
-                _unitOfWork = unitOfWork;
+                _entidadHitoRepository = entidadHitoRepository;
+                _entidadComportamientoRepository = entidadComportamientoRepository;
+                  _unitOfWork = unitOfWork;
                 _mapper = mapper;
             }
 
@@ -77,7 +82,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
 
                 if (command.Estado!=1)
                 {
-                    await _entidadRepository.UpdatexColaboradorAsync(command.IdColaborador, command.Estado);
+                    await _entidadRepository.UpdatexColaboradorAsync(command.IdColaborador, command.Estado, command.AnioFiscal);
 
                     await _entidadSeguimientoRepository.UpdatexTodoAsync(command.IdColaborador, command.AnioFiscal);
 
@@ -86,7 +91,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                     seguimiento.Ultimo = 1;
                     seguimiento.IdColaborador = command.IdColaborador;
                     seguimiento.AnioFiscal = command.AnioFiscal;
-                    if (command.Estado==5)
+                    if (command.Estado==5 ||  command.Estado == 6)
                     {
                         seguimiento.ComentarioColaborador = command.ComentarioColaborador;
                         seguimiento.ComentarioLider1 = command.ComentarioLider1;
@@ -176,12 +181,34 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                 obj.FechaCumplimiento = command.FechaCumplimiento;
                 obj.PorcentajeCumplimiento=command.PorcentajeCumplimiento;
                 obj.PonderacionResultado=command.PonderacionResultado;
+                obj.ComentarioCumplimiento=command.ComentarioCumplimiento;
+                obj.Evidencia = command.Evidencia;
+
+                await _entidadRepository.UpdateAsync(obj);
+
                 foreach (var h in command.PlanificacionHitos)
                 {
-                    var hito = _mapper.Map<PlanificacionHito>(h);
-                    //await _entidadHitoRepository.UpdateAsync(hito);
-                    obj.PlanificacionHitos.Add(hito);
+                   
+                    var f=await _entidadHitoRepository.GetByIdAsync(h.Id); 
+                    if (f==null)
+                    {
+                        var hito = _mapper.Map<PlanificacionHito>(h);
+                        hito.IdPlanificacion = obj.Id;
+                        await _entidadHitoRepository.InsertAsync(hito);
+                    }
+                    else
+                    {
+                        f.Nombre = h.Nombre;
+                        f.Indicador=h.Indicador;
+                        f.Meta = h.Meta;
+                        f.FechaInicio = h.FechaInicio;
+                        f.FechaFin = h.FechaFin;
+                        await _entidadHitoRepository.UpdateAsync(f);
+                    
+                    }
+                    
                 }
+               
 
                 foreach (var h in command.AvanceObjetivos)
                 {
@@ -191,8 +218,26 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
 
                 foreach (var h in command.PlanificacionComportamientos)
                 {
-                    var comportamiento = _mapper.Map<PlanificacionComportamiento>(h);
-                    obj.PlanificacionComportamientos.Add(comportamiento);
+                    //var comportamiento = _mapper.Map<PlanificacionComportamiento>(h);
+                    //obj.PlanificacionComportamientos.Add(comportamiento);
+
+                    var f = await _entidadComportamientoRepository.GetByIdAsync(h.Id);
+                    if (f == null)
+                    {
+                        var comportamiento = _mapper.Map<PlanificacionComportamiento>(h);
+                        comportamiento.IdPlanificacion = obj.Id;
+                        await _entidadComportamientoRepository.InsertAsync(comportamiento);
+                    }
+                    else
+                    {
+                        f.IdCompetencia = h.IdCompetencia;
+                        f.FechaFin = h.FechaFin;
+                        f.FechaInicio = h.FechaInicio;
+                      
+                        await _entidadComportamientoRepository.UpdateAsync(f);
+
+                    }
+
                 }
 
                 if (command.Proceso == 1)// para saber si es el final del proceso o se deveolvio
@@ -208,7 +253,7 @@ namespace WordVision.ec.Application.Features.Soporte.Solicitudes.Commands.Update
                 }
 
 
-                await _entidadRepository.UpdateAsync(obj);
+                
 
 
                 

@@ -16,7 +16,7 @@ namespace WordVision.ec.Application.Mappings.Valoracion
         public ObjetivoProfile()
         {
             CreateMap<GetObjetivoPonderacionResponse, ObjetivoAnioFiscal>().ReverseMap();
-           
+            CreateMap<GetObjetivoByIdResponse, Objetivo>().ReverseMap();
         }
     }
 }

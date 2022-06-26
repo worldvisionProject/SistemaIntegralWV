@@ -920,3 +920,48 @@ div.upload input[type="file"] {
         margin: 2px;
         width: 60px;
     }
+
+
+.sinbordefondo {
+    background-color: rgb(255 255 255 / 5%);
+    border: 0;
+    width: 100%;
+}
+
+.not-allowed {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.form-control-grilla {
+    padding: 5px 5px 5px 5px !important;
+    vertical-align: middle !important;
+}
+
+.form-control-texto {
+    padding: 5px 5px 5px 5px !important;
+    
+}
+
+.inputdisabled {
+    background-color: rgb(255 255 255 / 5%);
+    border: 0;
+    width: 100%;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.containerobjetivo {
+    padding: 0px 20px 20px 20px !important ;
+}
+
+.semaforoverde {
+    background-color: #46bb95!important;
+}
+
+.card-button-padding {
+    padding: 20px!important;
+}
+
+.group-button-modal {
+    margin-bottom: 0px !important
+}
