@@ -28,7 +28,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Encuesta
         public IQueryable<EIndicador> EIndicadores => _repository.Entities;
         public async Task<List<EIndicador>> GetListAsync()
         {
-            return await _repository.Entities.Include(c => c.EProgramaIndicadores).Include(c => c.EMetas).ToListAsync();
+            return await _repository.Entities.Include(c => c.EMetas).ToListAsync();
         }
         public async Task<EIndicador> GetByIdAsync(string idEIndicador)
         {

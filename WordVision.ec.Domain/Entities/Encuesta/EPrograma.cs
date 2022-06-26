@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace WordVision.ec.Domain.Entities.Encuesta
 {
     [Table("EProgramas", Schema = "survey")]
-    public class EPrograma : AuditableEntity
+    public class EPrograma 
     {
         [Key]
         [Required]
@@ -19,9 +19,12 @@ namespace WordVision.ec.Domain.Entities.Encuesta
 
 
         public ICollection<EParroquia> EParroquias { get; set; }
-        public ICollection<EProgramaIndicador> EProgramaIndicadores { get; set; }
+        
         public ICollection<EReporteTabulado> EReporteTabulados { get; set; }
         public ICollection<EMeta> EMetas { get; set; }
+
+        public virtual ICollection<EProgramaIndicador> EProgramaIndicadores { get; set; }
+
 
     }
 }

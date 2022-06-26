@@ -8,7 +8,7 @@ using System.ComponentModel;
 namespace WordVision.ec.Domain.Entities.Encuesta
 {
     [Table("EIndicadores", Schema = "survey")]
-    public class EIndicador : AuditableEntity
+    public class EIndicador 
     {
         [Key]
         [Required]
@@ -51,11 +51,12 @@ namespace WordVision.ec.Domain.Entities.Encuesta
 
 
         public EObjetivo EObjetivo { get; set; }
-        public ICollection<EProgramaIndicador> EProgramaIndicadores { get; set; }
+        
         public ICollection<EReporteTabulado> EReporteTabulados { get; set; }
         public ICollection<EMeta> EMetas { get; set; }
+        public virtual ICollection<EProgramaIndicador> EProgramaIndicadores { get; set; }
 
-        
+
 
     }
 }

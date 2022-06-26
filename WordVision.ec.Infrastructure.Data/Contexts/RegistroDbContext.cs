@@ -231,7 +231,6 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
 
             builder.Entity<ETabulado>().HasNoKey();
 
-
             //builder.Entity<Colaborador>().HasMany(m => m.Formularios)
             //     .WithOne(c => c.Colaboradores)
             //     .HasForeignKey(k => k.IdColaborador);
@@ -291,13 +290,9 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
         public DbSet<EEvaluacion> EEvaluaciones { get; set; }
         public DbSet<EIndicador> EIndicadores { get; set; }
         public DbSet<EProgramaIndicador> EProgramaIndicadores { get; set; }
-
         public DbSet<EReporteTabulado> EReporteTabulados { get; set; }
-
         public DbSet<EObjetivo> EObjetivos { get; set; }
-
         public DbSet<EMeta> EMetas { get; set; }
-
         public DbSet<EIndicadorUsuario> EIndicadorUsuarios { get; set; }
 
     }

@@ -8,7 +8,8 @@ namespace WordVision.ec.Domain.Entities.Encuesta
     [Table("EProgramaIndicadores", Schema = "survey")]
     public class EProgramaIndicador
     {
-        public string Id { get; set; }
+        [Key]
+        public int Id { get; set; }
 
         public EPrograma EPrograma { get; set; }
 
