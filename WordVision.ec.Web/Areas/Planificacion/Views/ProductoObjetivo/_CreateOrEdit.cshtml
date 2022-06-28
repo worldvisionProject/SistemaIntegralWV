@@ -18,10 +18,29 @@
            
          </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+              
+                 <div class="col-md-4"  style="text-align: right;">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Año Fiscal</label>
+                     @Html.DropDownListFor(x => x.AnioFiscal, (IEnumerable<SelectListItem>)Model.AnioFiscalList, new { @class = "form-control" })
+                    <span asp-validation-for="AnioFiscal" class="text-danger"></span>
+                </div>
+             </div>
+           
+         </div>
+    </div>
 
     <br />
+     
+
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-        <button type="submit" class="btn btn-success">Guardar</button>
+       @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ProductoObjetivo.Create)).Result.Succeeded)
+        {   <input type="hidden" value="false" name="band" id="band" />
+            <button type="submit" class="btn btn-success">Guardar</button>
+        }
+        else { <input type="hidden" value="true" name="band" id="band" />}
         <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
     </div>
 </form>
@@ -31,6 +50,7 @@
         <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
     $(function () {
+        $('#create-form *').prop('disabled', (document.getElementById("band").value == "true"));
         $(".datepicker").datepicker({
             format: "dd-mm-yyyy",
             autoclose: true,

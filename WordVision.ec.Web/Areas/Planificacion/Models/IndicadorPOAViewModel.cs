@@ -32,11 +32,12 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string Meta { get; set; }
 
-
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+        public string LineaBaseMeta { get; set; }
         public SelectList NumMesesList { get; set; }
         public SelectList UnidadList { get; set; }
         public string DescUnidad { get; set; }
-
+      
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string ValorMeta { get; set; }
         public string EntregableMeta { get; set; }
@@ -68,5 +69,23 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public int IdIndicadorEstrategia { get; set; }
         public int IdGestion { get; set; }
         public int IdResponsablePOA { get; set; }
+
+        public int TipoMeta { get; set; }
+        public int Codigo { get; set; }
+        public int Tipo { get; set; }
+        public int Actor { get; set; }
+        public int? Seleccionado { get; set; }
+
+        public SelectList TipoIndicadorList { get; set; }
+        public SelectList CodigoIndicadorList { get; set; }
+        public SelectList ActorParticipanteList { get; set; }
+        public SelectList TipoMetaList { get; set; }
+        public int? TipoIndicadorVinculo { get; set; }
+        public int? CodigoIndicadorVinculo { get; set; }
+        public int? UnidadMedidaVinculo { get; set; }
+        public int? ActorParticipanteVinculo { get; set; }
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+        public string LogroAcumulado { get; set; }
+        public ICollection<IndicadorVinculadoPOAViewModel> IndicadorVinculadoPOAs { get; set; }
     }
 }

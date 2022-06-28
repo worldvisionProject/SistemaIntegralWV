@@ -28,7 +28,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 
         public async Task<IndicadorCicloEstrategico> GetByIdAsync(int id)
         {
-            return await _repository.Entities.Where(p => p.Id == id).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(p => p.Id == id).Include(c=>c.IndicadorVinculadoCEs).FirstOrDefaultAsync();
         }
 
         public async Task<List<IndicadorCicloEstrategico>> GetListAsync()
@@ -50,6 +50,47 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
         public async Task UpdateAsync(IndicadorCicloEstrategico entidad)
         {
             await _repository.UpdateAsync(entidad);
+        }
+
+        public async Task UpdateIndicadorAsync(int idEstrategia, int anioFiscal)
+        {
+            var e = _repository.Entities.Where(x => x.AnioFiscal == anioFiscal && x.IdEstrategia== idEstrategia).ToList();
+            if (e.Count != 0)
+            {
+                foreach (var a in e)
+                {
+                    a.LineBase2 = a.Logro;
+                    await _repository.UpdateAsync(a);
+                }
+                
+            }
+            else
+            {
+                e = _repository.Entities.Where(x => x.AnioFiscal2 == anioFiscal && x.IdEstrategia == idEstrategia).ToList();
+                if (e.Count != 0)
+                {
+                    foreach (var a in e)
+                    {
+                        a.LineBase3 = a.Logro2;
+                        await _repository.UpdateAsync(a);
+                    }
+                }
+                else
+                {
+                    e = _repository.Entities.Where(x => x.AnioFiscal3 == anioFiscal && x.IdEstrategia == idEstrategia).ToList();
+                    
+                        foreach (var a in e)
+                        {
+                            a.LineBase4 = a.Logro3;
+                            await _repository.UpdateAsync(a);
+                        }
+                   
+                   
+                }
+
+            }
+           
+
         }
     }
 }

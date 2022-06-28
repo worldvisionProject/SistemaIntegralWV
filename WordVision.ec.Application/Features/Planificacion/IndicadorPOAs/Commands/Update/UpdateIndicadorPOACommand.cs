@@ -19,6 +19,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Command
         public int? UnidadMedida { get; set; }
         public decimal? LineaBase { get; set; }
         public decimal? Meta { get; set; }
+        public int TipoMeta { get; set; }
         public int IdProducto { get; set; }
         public ICollection<MetaTactica> MetaTacticas { get; set; }
         public ICollection<Actividad> Actividades { get; set; }
@@ -69,6 +70,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorPOAs.Command
                         }
                         else
                         {
+                            metaTactica.LineaBase = m.LineaBase;
                             metaTactica.NumMeses = m.NumMeses;
                             metaTactica.TipoMedida = m.TipoMedida;
                             metaTactica.Valor = m.Valor;

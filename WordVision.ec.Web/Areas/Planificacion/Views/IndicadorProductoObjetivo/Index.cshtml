@@ -1,0 +1,35 @@
+﻿
+@using WordVision.ec.Web.Areas.Planificacion.Models
+@model ProductoObjetivoViewModel
+
+
+    <div class="card">
+
+       @*@* <div class="col-sm-12 header-button">
+
+            <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Producto/OnGetCreateOrEdit?id=0&idGestion=@Model.IdGestion&idIndicadorEstra=@Model.IdIndicadorEstrategico','Producto')">
+                <i class="fa fa-plus-square"></i>
+                Agregar
+            </button>
+
+        </div>*@
+        <div id="viewAllIndicadoresProducto" class="card-body table-responsive">
+        </div>
+    </div>
+
+
+
+        <script src="~/js/site.js"></script>
+        <script>
+            
+    $(document).ready(function () {
+         
+            loadData();
+           
+    });
+       
+        function loadData() {
+            $('#viewAllIndicadoresProducto').load('/planificacion/IndicadorProductoObjetivo/LoadIndicadores?idProductoObjetivo=@Model.Id&idEstrategia=@Model.IdObjetivoEstra');
+        }
+        </script>
+ 

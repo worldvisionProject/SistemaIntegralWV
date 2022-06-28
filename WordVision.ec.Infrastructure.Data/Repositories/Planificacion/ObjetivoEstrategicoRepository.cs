@@ -38,6 +38,15 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
             return await _repository.Entities.ToListAsync();
         }
 
+        public async Task<List<ObjetivoEstrategico>> GetNacionalAsync()
+        {
+            return await _repository.Entities.Where(p => p.Categoria == 1)
+                 .Include(p1 => p1.ProductoObjetivos)
+                 .Include(x => x.FactorCriticoExitos)
+                 .ThenInclude(i=>i.IndicadorEstrategicos.Where(f=>f.Seleccionado==1))
+                  .ToListAsync();
+        }
+
         public async Task<int> InsertAsync(ObjetivoEstrategico ObjetivoEstrategico)
         {
             await _repository.AddAsync(ObjetivoEstrategico);

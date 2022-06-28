@@ -1,0 +1,92 @@
+﻿@model IEnumerable<WordVision.ec.Web.Areas.Maestro.Models.PresupuestoProyectoViewModel>
+
+<table id="presupuestoProyectoTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                Total
+            </th>
+            <th>
+                Costo Soporte
+            </th>
+            <th>
+                Nómina
+            </th>
+            <th>
+                TI
+            </th>
+            <th>
+                Administración
+            </th>
+            <th>
+                Lineamientos On Admistrativos
+            </th>
+            <th>
+                Lineamientos On Operativos
+            </th>
+            <th>
+                Techo Presupuestario
+            </th>
+            <th>
+                Programa Área
+            </th>
+            <th>
+                Estado
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CostoSoporte)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nomina)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Administracion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LineamientosOnAdmistrativos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LineamientosOnOperativos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TechoPresupuestario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProgramaArea.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado.Nombre)
+            </td>
+            <td>
+                <div class="btn-group">
+                    <a onclick="jQueryModalGet('/Maestro/PresupuestoProyecto/OnGetCreateOrEdit?id=@item.Id','Editar Presupuesto')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#presupuestoProyectoTable").DataTable();
+    });
+</script>

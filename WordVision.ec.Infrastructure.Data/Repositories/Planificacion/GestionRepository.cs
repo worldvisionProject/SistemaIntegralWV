@@ -33,12 +33,12 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
 
         public async Task<List<Gestion>> GetListAsync()
         {
-            return await _repository.Entities.ToListAsync();
+            return await _repository.Entities.OrderBy(b => b.FechaDesde).ToListAsync();
         }
 
         public async Task<List<Gestion>> GetListByIdAsync(int idEstrategia)
         {
-            return await _repository.Entities.Where(p => p.IdEstrategia == idEstrategia).ToListAsync();
+            return await _repository.Entities.Where(p => p.IdEstrategia == idEstrategia).OrderBy(b => b.FechaDesde).ToListAsync();
         }
 
         public async Task<int> InsertAsync(Gestion Gestion)

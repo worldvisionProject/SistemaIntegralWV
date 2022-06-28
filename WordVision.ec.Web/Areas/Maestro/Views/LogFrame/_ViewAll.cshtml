@@ -1,0 +1,116 @@
+﻿@model IEnumerable<WordVision.ec.Web.Areas.Maestro.Models.LogFrameViewModel>
+
+<table id="logFrameTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OutCome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OutPut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Activity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SumaryObjetives)
+            </th>           
+            <th>
+                Nivel
+            </th>
+            <th>
+                Cobertura
+            </th>
+            <th>
+                Tipo Actividad
+            </th>
+            <th>
+                Sector Programatico
+            </th>
+            <th>
+                Rubro/T2
+            </th>
+            @*<th>
+                Indicador
+            </th>*@
+            <th>
+                Estado
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OutCome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OutPut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Activity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SumaryObjetives)
+            </td>            
+            <td>
+                @Html.DisplayFor(modelItem => item.Nivel.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cobertura)
+            </td>
+            <td>
+                    @{
+                        var actividad = item.TipoActividad != null ? @item.TipoActividad.Nombre : "";
+                    }
+                    @actividad
+                
+            </td>
+            <td>
+                    @{
+                        var sector = item.SectorProgramatico != null ? @item.SectorProgramatico.Nombre : "";
+                    }
+                    @sector
+                
+            </td>
+            <td>
+                    @{
+                        var rubro = item.Rubro != null ? @item.Rubro.Nombre : "";
+                    }
+                    @rubro
+                
+            </td>
+            @*<td>
+                    @{
+                        foreach (var ind in item.LogFrameIndicadores)
+                        {
+                            <label class="control-label">
+                                @ind.IndicadorPR.Codigo - @ind.IndicadorPR.Descripcion 
+                            </label>
+                        }
+                    }
+                
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado.Nombre)
+            </td>
+            <td>
+                <div class="btn-group">
+                    <a onclick="jQueryModalGet('/Maestro/LogFrame/OnGetCreateOrEdit?id=@item.Id','Editar LogFrame')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#logFrameTable").DataTable();
+    });
+
+
+
+</script>

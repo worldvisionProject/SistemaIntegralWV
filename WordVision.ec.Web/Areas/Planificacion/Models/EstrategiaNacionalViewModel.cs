@@ -17,6 +17,8 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string DescEstado { get; set; }
 
         public SelectList EstadoList { get; set; }
+        public SelectList AnioFiscalList { get; set; }
+        
         //public SelectList DimensionesList { get; set; }
         public virtual List<GestionViewModel> Gestiones { get; set; }
         public virtual List<ObjetivoEstrategicoViewModel> ObjetivoEstrategicos { get; set; }

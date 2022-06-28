@@ -1,6 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -19,6 +20,8 @@ namespace WordVision.ec.Application.Features.Planificacion.Gestiones.Commands.Cr
         public string Estado { get; set; }
         public decimal? Meta { get; set; }
         public decimal? Logro { get; set; }
+        public DateTime? FechaDesde { get; set; }
+        public DateTime? FechaHasta { get; set; }
         public int IdEstrategia { get; set; }
 
     }

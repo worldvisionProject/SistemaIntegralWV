@@ -58,7 +58,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             {
                 ViewBag.Indicador = responseI.Data.IndicadorResultado;
                 descFactorCritico = responseI.Data.FactorCriticoExitos.FactorCritico;
-                descMetaGestio = responseI.Data.IndicadorAFs.Where(m => m.Anio == AnioGestion.ToString()).FirstOrDefault().Meta.ToString();
+                descMetaGestio = responseI.Data.IndicadorAFs.Where(m => m.Anio == AnioGestion.ToString()).FirstOrDefault()?.Meta.ToString();
                 //id = response.Data.IdEstrategia;
             }
 
@@ -286,7 +286,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 {
                     ViewBag.Indicador = responseI.Data.IndicadorResultado;
                     descFactorCritico = responseI.Data.FactorCriticoExitos.FactorCritico;
-                    descMetaGestio = responseI.Data.IndicadorAFs.Where(m => m.Anio == AnioGestion.ToString()).FirstOrDefault().Meta.ToString();
+                    descMetaGestio = responseI.Data.IndicadorAFs.Where(m => m.Anio == AnioGestion.ToString()).FirstOrDefault()?.Meta.ToString();
                     //id = response.Data.IdEstrategia;
                 }
 

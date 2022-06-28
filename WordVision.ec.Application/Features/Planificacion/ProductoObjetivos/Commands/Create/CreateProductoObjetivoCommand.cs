@@ -14,6 +14,7 @@ namespace WordVision.ec.Application.Features.Planificacion.ProductoObjetivos.Com
     {
         public int Id { get; set; }
         public string Producto { get; set; }
+        public int AnioFiscal { get; set; }
         public int IdObjetivoEstra { get; set; }
 
     }

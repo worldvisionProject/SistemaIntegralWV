@@ -17,5 +17,6 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Planificacion
         Task UpdateAsync(IndicadorCicloEstrategico entidad);
 
         Task DeleteAsync(IndicadorCicloEstrategico entidad);
+        Task UpdateIndicadorAsync(int idEstrategia, int anioFiscal);
     }
 }

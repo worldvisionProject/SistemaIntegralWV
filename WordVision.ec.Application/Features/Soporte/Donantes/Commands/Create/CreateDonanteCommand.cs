@@ -35,6 +35,7 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Create
 
         public int Ciudad { get; set; }
         public string Direccion { get; set; }
+        public string CodigoArea { get; set; }
         public string TelefonoConvencional { get; set; }
         public string TelefonoCelular { get; set; }
         public bool WhatsApp { get; set; }

@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Contexts;
 using WordVision.ec.Application.Interfaces.Shared;
 using WordVision.ec.Domain.Contracts;
+using WordVision.ec.Domain.Entities.Indicadores;
 using WordVision.ec.Domain.Entities.Maestro;
 using WordVision.ec.Domain.Entities.Planificacion;
 using WordVision.ec.Domain.Entities.Presupuesto;
 using WordVision.ec.Domain.Entities.Registro;
 using WordVision.ec.Domain.Entities.Soporte;
+using WordVision.ec.Domain.Entities.Valoracion;
+using WordVision.ec.Domain.Entities.Encuesta;
 
 namespace WordVision.ec.Infrastructure.Data.Contexts
 {
@@ -62,6 +65,16 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            /*PARA QUE NO SE ELIMINEN EN CASCADA UN OBJETO*/
+            //var cascadeFKs = builder.Model
+            //    .G­etEntityTypes()
+            //    .SelectMany(t => t.GetForeignKeys())
+            //    .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Casca­de);
+            //foreach (var fk in cascadeFKs)
+            //{
+            //    fk.DeleteBehavior = DeleteBehavior.Restrict;
+            //}
+
             builder.Entity<DatosLDR>()
             .ToTable("DatosLDRs", "pres");
             builder.Entity<DatosT5>()
@@ -83,6 +96,38 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
         .ToTable("Estructuras", "adm");
             builder.Entity<Empresa>()
         .ToTable("Empresas", "adm");
+
+            builder.Entity<RCNinoPatrocinado>()
+            .ToTable("RCNinoPatrocinados", "adm");
+            builder.Entity<ProyectoTecnico>()
+            .ToTable("ProyectoTecnicos", "adm");
+            builder.Entity<ProgramaArea>()
+            .ToTable("ProgramaAreas", "adm");
+            builder.Entity<EtapaModeloProyecto>()
+            .ToTable("EtapaModeloProyectos", "adm");
+            builder.Entity<ModeloProyecto>()
+            .ToTable("ModeloProyectos", "adm");
+            builder.Entity<LogFrame>()
+            .ToTable("LogFrames", "adm");
+            builder.Entity<ActorParticipante>()
+            .ToTable("ActorParticipantes", "adm");
+            builder.Entity<IndicadorPR>()
+            .ToTable("IndicadoresPR", "adm");
+            builder.Entity<OtroIndicador>()
+            .ToTable("OtrosIndicadores", "adm");
+            builder.Entity<PresupuestoProyecto>()
+            .ToTable("PresupuestoProyectos", "adm");
+            builder.Entity<LogFrameIndicadorPR>()
+            .ToTable("LogFrameIndicadoresPR", "adm");
+
+            builder.Entity<FaseProgramaArea>()
+            .ToTable("FaseProgramaAreas", "indicador");
+            builder.Entity<VinculacionIndicador>()
+            .ToTable("VinculacionIndicadores", "indicador");
+            builder.Entity<DetalleVinculacionIndicador>()
+            .ToTable("DetalleVinculacionIndicador", "indicador");
+            builder.Entity<EstadoPorAnioFiscal>()
+            .ToTable("EstadoPorAnioFiscales", "indicador");
 
             builder.Entity<EstrategiaNacional>()
           .ToTable("EstrategiaNacionales", "planifica");
@@ -120,8 +165,19 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
  .ToTable("IndicadorProductoObjetivos", "planifica");
             builder.Entity<IndicadorCicloEstrategico>()
 .ToTable("IndicadorCicloEstrategico", "planifica");
-//            builder.Entity<MetaCicloEstrategico>()
-//.ToTable("MetaCicloEstrategico", "planifica");
+            builder.Entity<TiposIndicador>()
+.ToTable("TiposIndicadores", "planifica");
+
+            builder.Entity<IndicadorVinculadoCE>()
+.ToTable("IndicadorVinculadoCEs", "planifica");
+            builder.Entity<IndicadorVinculadoE>()
+.ToTable("IndicadorVinculadoEs", "planifica");
+            builder.Entity<IndicadorVinculadoPO>()
+.ToTable("IndicadorVinculadoPOs", "planifica");
+            builder.Entity<IndicadorVinculadoPOA>()
+.ToTable("IndicadorVinculadoPOAs", "planifica");
+            //            builder.Entity<MetaCicloEstrategico>()
+            //.ToTable("MetaCicloEstrategico", "planifica");
             builder
        .Entity<Tercero>()
        .HasMany(e => e.FormularioTerceros).WithOne(e => e.Terceros)
@@ -147,6 +203,33 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
                .ToTable("LogoSocios", "soporte");
             builder.Entity<Ponente>()
                .ToTable("Ponentes", "soporte");
+
+            builder.Entity<Objetivo>()
+              .ToTable("Objetivos", "valoracion");
+            builder.Entity<ObjetivoAnioFiscal>()
+             .ToTable("ObjetivoAnioFiscales", "valoracion");
+            builder.Entity<Resultado>()
+             .ToTable("Resultados", "valoracion");
+            builder.Entity<PlanificacionResultado>()
+             .ToTable("PlanificacionResultados", "valoracion");
+
+            builder.Entity<PlanificacionHito>()
+            .ToTable("PlanificacionHitos", "valoracion");
+            builder.Entity<Competencia>()
+           .ToTable("Competencias", "valoracion");
+            builder.Entity<Responsabilidad>()
+           .ToTable("Responsabilidades", "valoracion");
+            builder.Entity<AvanceObjetivo>()
+           .ToTable("AvanceObjetivos", "valoracion");
+            builder.Entity<SeguimientoObjetivo>()
+           .ToTable("SeguimientoObjetivos", "valoracion");
+            builder.Entity<PlanificacionComportamiento>()
+          .ToTable("PlanificacionComportamientos", "valoracion");
+            builder.Entity<Escala>()
+         .ToTable("Escalas", "valoracion");
+
+
+            builder.Entity<ETabulado>().HasNoKey();
 
             //builder.Entity<Colaborador>().HasMany(m => m.Formularios)
             //     .WithOne(c => c.Colaboradores)
@@ -192,6 +275,25 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
         public DbSet<DatosT5> DatosT5s { get; set; }
         public DbSet<Presupuesto> Presupuestos { get; set; }
 
+        public DbSet<EncuestaKobo> EncuestaKobos { get; set; }
+        public DbSet<PreguntaKobo> PreguntaKobos { get; set; }
+        public DbSet<EncuestadoKobo> EncuestadoKobos { get; set; }
+        public DbSet<EncuestadoPreguntaKobo> EncuestadoPreguntaKobos { get; set; }
+
+        public DbSet<ERegion> ERegiones { get; set; }
+        public DbSet<EProvincia> EProvincias { get; set; }
+        public DbSet<ECanton> ECantones { get; set; }
+        public DbSet<EParroquia> EParroquias { get; set; }
+        public DbSet<EPrograma> EProgramas { get; set; }
+        public DbSet<EComunidad> EComunidades { get; set; }
+
+        public DbSet<EEvaluacion> EEvaluaciones { get; set; }
+        public DbSet<EIndicador> EIndicadores { get; set; }
+        public DbSet<EProgramaIndicador> EProgramaIndicadores { get; set; }
+        public DbSet<EReporteTabulado> EReporteTabulados { get; set; }
+        public DbSet<EObjetivo> EObjetivos { get; set; }
+        public DbSet<EMeta> EMetas { get; set; }
+        public DbSet<EIndicadorUsuario> EIndicadorUsuarios { get; set; }
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Web.Areas.Planificacion.Models
 {
@@ -21,18 +22,31 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
 
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string Meta { get; set; }
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+        public string LogroAcumulado { get; set; }
+        public int TipoMeta { get; set; }
+        public SelectList TipoMetaList { get; set; }
         public int IdFactorCritico { get; set; }
         public int IdEstrategia { get; set; }
         public string DescEstrategia { get; set; }
         public int IdGestion { get; set; }
         public string DescGestion { get; set; }
         public SelectList gestionList { get; set; }
-
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+        public string LineaBaseAF { get; set; }
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string MetaAF { get; set; }
         public string EntregableAF { get; set; }
         public SelectList NumMesesList { get; set; }
         public SelectList UnidadList { get; set; }
+        public SelectList TipoIndicadorList { get; set; }
+        public SelectList CodigoIndicadorList { get; set; }
+        public SelectList ActorParticipanteList { get; set; }
+
+        public int? TipoIndicadorVinculo { get; set; }
+        public int? CodigoIndicadorVinculo { get; set; }
+        public int? UnidadMedidaVinculo { get; set; }
+        public int? ActorParticipanteVinculo { get; set; }
 
         [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
         public string ValorMeta { get; set; }
@@ -40,10 +54,15 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
         public string DescObjetivo { get; set; }
         public string DescFactor { get; set; }
         public string DescCategoria { get; set; }
+
+        public int Codigo { get; set; }
+        public int Tipo { get; set; }
+        public int Actor { get; set; }
+        public int? Seleccionado { get; set; }
         public FactorCriticoExitoViewModel FactorCriticoExitos { get; set; }
         public virtual List<IndicadorAFViewModel> IndicadorAFs { get; set; }
         public virtual List<MetaViewModel> MetaEstrategicas { get; set; }
-
+        public virtual List<IndicadorVinculadoEViewModel> IndicadorVinculadoEs { get; set; }
         public virtual List<ProductoViewModel> Productos { get; set; }
     }
 }

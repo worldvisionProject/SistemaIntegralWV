@@ -155,8 +155,9 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             }
             else
             {
+                _notify.Information($"Gestion con Id {id} no se puede Eliminar ya que se hace referencia en otro proceso.");
                 _notify.Error(deleteCommand.Message);
-                return null;
+                return new JsonResult(new { isValid = false });
             }
         }
 

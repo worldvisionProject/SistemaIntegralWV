@@ -30,7 +30,35 @@ namespace WordVision.ec.Application.Constants
             public const string Edit = "Permissions.EstrategiaNacional.Edit";
             public const string Delete = "Permissions.EstrategiaNacional.Delete";
         }
-
+        public static class IndicadorClicoEstrategico
+        {
+            public const string View = "Permissions.IndicadorClicoEstrategico.View";
+            public const string Create = "Permissions.IndicadorClicoEstrategico.Create";
+            public const string Edit = "Permissions.IndicadorClicoEstrategico.Edit";
+            public const string Delete = "Permissions.IndicadorClicoEstrategico.Delete";
+        }
+        public static class ObjetivoBloque
+        {
+            public const string View = "Permissions.ObjetivoBloque.View";
+            public const string Create = "Permissions.ObjetivoBloque.Create";
+            public const string Edit = "Permissions.ObjetivoBloque.Edit";
+            public const string Delete = "Permissions.ObjetivoBloque.Delete";
+        }
+        
+        public static class ProductoObjetivo
+        {
+            public const string View = "Permissions.ProductoObjetivo.View";
+            public const string Create = "Permissions.ProductoObjetivo.Create";
+            public const string Edit = "Permissions.ProductoObjetivo.Edit";
+            public const string Delete = "Permissions.ProductoObjetivo.Delete";
+        }
+        public static class IndicadorProductoObjetivo
+        {
+            public const string View = "Permissions.IndicadorProductoObjetivo.View";
+            public const string Create = "Permissions.IndicadorProductoObjetivo.Create";
+            public const string Edit = "Permissions.IndicadorProductoObjetivo.Edit";
+            public const string Delete = "Permissions.IndicadorProductoObjetivo.Delete";
+        }
         public static class ObjetivoEstrategico
         {
             public const string View = "Permissions.ObjetivoEstrategico.View";

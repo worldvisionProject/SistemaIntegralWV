@@ -25,11 +25,12 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public decimal? Meta { get; set; }
 
         public string EntregableAnual { get; set; }
-        [StringLength(15)]
-        public string Codigo { get; set; }
+       
+        public int Codigo { get; set; }
         public int Tipo { get; set; }
         public int Actor { get; set; }
-
+        public int TipoMeta { get; set; }
+        public int? Seleccionado { get; set; }
         public int IdFactorCritico { get; set; }
         public FactorCriticoExito FactorCriticoExitos { get; set; }
 
@@ -41,6 +42,9 @@ namespace WordVision.ec.Domain.Entities.Planificacion
 
         [ForeignKey("IdIndicadorEstrategico")]
         public ICollection<MetaEstrategica> MetaEstrategicas { get; set; }
+
+        [ForeignKey("IdIndicadorEstrategico")]
+        public ICollection<IndicadorVinculadoE> IndicadorVinculadoEs { get; set; }
 
     }
 }

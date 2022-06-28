@@ -1,4 +1,6 @@
-﻿namespace WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetAllCached
+﻿using System;
+
+namespace WordVision.ec.Application.Features.Planificacion.Gestiones.Queries.GetAllCached
 {
     public class GetAllGestionesCachedResponse
     {
@@ -9,6 +11,8 @@
         public string Estado { get; set; }
         public decimal? Meta { get; set; }
         public decimal? Logro { get; set; }
+        public DateTime? FechaDesde { get; set; }
+        public DateTime? FechaHasta { get; set; }
         public int IdEstrategia { get; set; }
 
     }

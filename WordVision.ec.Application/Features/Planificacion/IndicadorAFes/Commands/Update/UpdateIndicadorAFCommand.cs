@@ -13,6 +13,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorAFes.Command
         public decimal? Meta { get; set; }
         public string Entregable { get; set; }
         public string Anio { get; set; }
+        public decimal? LineaBase { get; set; }
         public int IdIndicadorEstrategico { get; set; }
         public class UpdateProductCommandHandler : IRequestHandler<UpdateIndicadorAFCommand, Result<int>>
         {
@@ -38,7 +39,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorAFes.Command
                     IndicadorAF.Meta = command.Meta;
                     IndicadorAF.Entregable = command.Entregable;
                     IndicadorAF.Anio = command.Anio;
-
+                    IndicadorAF.LineaBase = command.LineaBase;
                     await _IndicadorAFRepository.UpdateAsync(IndicadorAF);
                     await _unitOfWork.Commit(cancellationToken);
                     return Result<int>.Success(IndicadorAF.Id);

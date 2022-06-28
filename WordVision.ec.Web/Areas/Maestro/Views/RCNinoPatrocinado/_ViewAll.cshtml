@@ -1,0 +1,88 @@
+﻿@*@model IEnumerable<WordVision.ec.Web.Areas.Maestro.Models.RcNinoPatrocinadoViewModel>*@
+@using WordVision.ec.Web.Areas.Maestro.Models
+@model IEnumerable<RcNinoPatrocinadoViewModel>
+
+<table id="rCPatrocinadoTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                Código
+            </th>
+            <th>
+                Cédula
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comunidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Edad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Patrocinado)
+            </th>
+            <th>
+                Estado
+            </th>
+            <th>
+                Programa Área
+            </th>
+            <th>
+                Genero
+            </th>
+            <th>
+                GrupoEtario
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cedula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comunidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Edad)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.Patrocinado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProgramaArea.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genero.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GrupoEtario.Nombre)
+            </td>
+            <td>
+               <div class="btn-group">
+                    <a onclick="jQueryModalGet('/Maestro/RCNinoPatrocinado/OnGetCreateOrEdit?id=@item.Id','Editar RC Niño Patrocinado')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#rCPatrocinadoTable").DataTable();
+    });
+</script>

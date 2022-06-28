@@ -100,8 +100,12 @@ namespace WordVision.ec.Web.Extensions
             }
             else
             {
-                services.AddDbContext<RegistroDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("RegistroConnection")));
-                services.AddDbContext<IdentityContext>(options => options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")));
+                services.AddDbContext<RegistroDbContext>(options => {
+                    options.UseSqlServer(configuration.GetConnectionString("RegistroConnection"));  options.EnableSensitiveDataLogging(true);
+                });
+                services.AddDbContext<IdentityContext>(options => { options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")); 
+                    options.EnableSensitiveDataLogging(true);
+            });
                 //services.AddDbContext<ActiveContext>(options => options.UseSqlServer(configuration.GetConnectionString("ActiveConnection")));
             }
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>

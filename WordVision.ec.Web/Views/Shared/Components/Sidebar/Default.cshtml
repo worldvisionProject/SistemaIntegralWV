@@ -24,7 +24,7 @@
                 <!--</p>
         </a>
     </li>-->
-
+                   
                 @if (User.IsInRole("DirectorNacional") || User.IsInRole("CoordPlanificacion"))
                 {
                     <li class="nav-item">
@@ -71,15 +71,15 @@
         </li>-->
 
 
-                    <li class="nav-item">
+                   @* <li class="nav-item">
                         <a is-active-route asp-area="Planificacion" asp-controller="AcuerdoDesempenio" asp-action="Index" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 @localizer["Acuerdo de Desempeño"]
                                 @*<span class="right badge badge-danger">@localizer["New"]</span>*@
-                            </p>
+                            @*</p>
                         </a>
-                    </li>
+                    </li>*@
 
 
 
@@ -204,7 +204,7 @@
 
 
 
-                @if (User.IsInRole("SuperAdmin"))
+                @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
 
                 {
                     <li class="nav-header">@localizer["Maestro"]</li>
@@ -223,7 +223,160 @@
                                     <i class="far fa-file-archive nav-icon"></i>
                                     <p>@localizer["Administrar"]</p>
                                 </a>
+                            </li>  
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="ActorParticipante" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Actor Participante"]</p>
+                                </a>
                             </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="EtapaModeloProyecto" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Etapas Modelo Proyecto"]</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="ModeloProyecto" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Modelo Proyecto"]</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="ProyectoTecnico" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Proyecto Técnico"]</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="ProgramaArea" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Programa Área"]</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="RCNinoPatrocinado" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["RC Niño Patrocinado"]</p>
+                                </a>
+                            </li>
+                            @*<li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="PresupuestoProyecto" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Presupuesto"]</p>
+                                </a>
+                            </li>*@
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="IndicadorPR" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Indicadores"]</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="OtroIndicador" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Otros Indicacdor"]</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="Logframe" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Log Frame"]</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="LogFrameIndicadorPR" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Marco Lógico"]</p>
+                                </a>
+                            </li>
+                            
+                            
+                        </ul>
+
+                    </li>
+
+                    <li class="nav-header">@localizer["Indicadores"]</li>
+                    <li is-active-route asp-area="Maestro" class="nav-item has-treeview">
+                        <a is-active-route asp-area="Maestro" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                @localizer["Programas Técnicos"]
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Indicadores" asp-controller="VinculacionIndicador" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Vinculacion Indicadores"]</p>
+                                </a>
+                            </li>  
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Indicadores" asp-controller="EstadoPorAnioFiscal" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Estado Por Año Fiscal"]</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Indicadores" asp-controller="FaseprogramaArea" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Fase Programa Área"]</p>
+                                </a>
+                            </li>
+                            
+                            @*
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="ModeloProyecto" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Modelo Proyecto"]</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="ProyectoTecnico" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Proyecto Técnico"]</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="ProgramaArea" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Programa Área"]</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="RCNinoPatrocinado" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["RC Niño Patrocinado"]</p>
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="Logframe" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Log Frame"]</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="PresupuestoProyecto" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Presupuesto"]</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="IndicadorPR" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Indicacdores"]</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="OtroIndicador" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Otros Indicacdor"]</p>
+                                </a>
+                            </li>*@
+                            
                         </ul>
 
                     </li>
@@ -330,26 +483,35 @@
 
                 @if (User.IsInRole("DonanteEdicion") || User.IsInRole("DonantesVisualizacion")|| User.IsInRole("DonantesAdministrador"))
                 {
-                    <li class="nav-header">@localizer["Marketing"]</li>
-                    <li is-active-route asp-area="Soporte" class="nav-item has-treeview">
-                        <a is-active-route asp-area="Soporte" class="nav-link">
-                            <i class="nav-icon fas fa-user"></i>
-                            <p>
-                                @localizer["Gestión"]
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
+                     <li class="nav-header"></li>
+                   <li is-active-route asp-area="Soporte" class="nav-item has-treeview">
+                    <a is-active-route asp-area="Soporte" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                       
+                          <font style="font-size:.9rem">  @localizer["Gestión de Donantes"]</font>
+                        <i class="right fas fa-angle-left"></i>
+                        
+                    </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a is-active-route asp-area="Soporte" asp-controller="Donante" asp-action="Index" class="nav-link">
                                     <i class="nav-icon fas fa-th"></i>
                                     <p>
-                                        @localizer["Donantes"]
+                                        @localizer["Ingreso de Donantes"]
                                         @*<span class="right badge badge-danger">@localizer["New"]</span>*@
                                     </p>
                                 </a>
                             </li>
 
+                        </ul>
+
+                         <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="Catalogo" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Reportes"]</p>
+                                </a>
+                            </li>
                         </ul>
 
                         <ul class="nav nav-treeview">
@@ -364,6 +526,172 @@
                     </li>
 
                 }
+
+                @if (User.IsInRole("SuperAdmin") || User.IsInRole("AdminEncuestas") || User.IsInRole("UserEncuestas"))
+                {
+                    <li class="nav-header">@localizer["Encuestas"]</li>
+
+                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("AdminEncuestas"))
+                    {
+                        <li is-active-route asp-area="encuesta" class="nav-item has-treeview">
+                            <a is-active-route asp-area="encuesta" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    @localizer["Administración"]
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="encuesta" asp-controller="encuestaKobo" asp-action="Index" class="nav-link">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        <p>
+                                            @localizer["API"]
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="encuesta" asp-controller="evaluacion" asp-action="Index" class="nav-link">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        <p>
+                                            @localizer["Evaluaciones"]
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="encuesta" asp-controller="programa" asp-action="Index" class="nav-link">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        <p>
+                                            @localizer["Programas"]
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="encuesta" asp-controller="objetivo" asp-action="Index" class="nav-link">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        <p>
+                                            @localizer["Objetivos"]
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="encuesta" asp-controller="indicador" asp-action="Index" class="nav-link">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        <p>
+                                            @localizer["Indicadores"]
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="encuesta" asp-controller="indicadorusuario" asp-action="Index" class="nav-link">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        <p>
+                                            @localizer["Indicadores a Usuarios"]
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="encuesta" asp-controller="meta" asp-action="Index" class="nav-link">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        <p>
+                                            @localizer["Metas"]
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="encuesta" asp-controller="region" asp-action="Index" class="nav-link">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        <p>
+                                            @localizer["Regiones"]
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="encuesta" asp-controller="provincia" asp-action="Index" class="nav-link">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        <p>
+                                            @localizer["Provincias"]
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="encuesta" asp-controller="canton" asp-action="Index" class="nav-link">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        <p>
+                                            @localizer["Cantones"]
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="encuesta" asp-controller="parroquia" asp-action="Index" class="nav-link">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        <p>
+                                            @localizer["Parroquias"]
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="encuesta" asp-controller="comunidad" asp-action="Index" class="nav-link">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        <p>
+                                            @localizer["Comunidades"]
+                                        </p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    }
+
+
+                    <li is-active-route asp-area="encuesta" class="nav-item has-treeview">
+                        <a is-active-route asp-area="encuesta" class="nav-link">
+                            <i class="nav-icon fas fa-user"></i>
+                            <p>
+                                @localizer["Reportes"]
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a is-active-route asp-area="encuesta" asp-controller="ereportemisindicadores" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
+                                    <p>
+                                        @localizer["Mis Indicadores"]
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="encuesta" asp-controller="ereportetabulado" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
+                                    <p>
+                                        @localizer["Tabulados"]
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="encuesta" asp-controller="ereporteconsolidado" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
+                                    <p>
+                                        @localizer["Consolidado"]
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a is-active-route asp-area="encuesta" asp-controller="ereportedap" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
+                                    <p>
+                                        @localizer["DAP"]
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                }
+
+
+
 
                 <li class="nav-header">@localizer["Gente y Cultura"]</li>
                 <li is-active-route asp-area="Registro" class="nav-item has-treeview">
@@ -514,6 +842,41 @@
                     </li>
 
                 }
+
+            
+                 <li class="nav-header"></li>
+                <li is-active-route asp-area="Valoracion" class="nav-item has-treeview">
+                    <a is-active-route asp-area="Valoracion" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                       
+                          <font style="font-size:.9rem">  @localizer["Valoración Desempeño"]</font>
+                            <i class="right fas fa-angle-left"></i>
+                       
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a is-active-route asp-area="Valoracion" asp-page="/Objetivo/Wizard/Index" asp-route-id="@Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value)" class="nav-link">
+                                <i class="nav-icon fas fa-user-edit"></i>
+                                <p>
+                                    @localizer["Ingreso de Acuerdos"]
+                                    @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                </p>
+                            </a>
+                        </li>
+                        @if (User.IsInRole("DirectorNacional") || User.IsInRole("Estrategico") || User.IsInRole("Tactico") )
+                        {
+                         <li class="nav-item">
+                            <a is-active-route asp-area="Valoracion" asp-controller="Lider" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-user-edit"></i>
+                                <p>
+                                <font style="font-size:.9rem">    @localizer["Aprobación de Valoración"]</font>
+                                    @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                </p>
+                            </a>
+                        </li>
+                        }
+                           </ul>
+                    </li>
             </ul>
 </nav>
     </div>

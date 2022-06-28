@@ -1,35 +1,37 @@
 ﻿@using WordVision.ec.Web.Areas.Planificacion.Models
-@model IndicadorCicloEstrategicoViewModelMaster
+@model IndicadorProductoObjetivoViewModelMaster
 
 
-<table id="gestionTable" class="table table-striped" width="100%" cellspacing="0">
+<table id="indicadorPTable" class="table table-striped" width="100%" cellspacing="0">
     <thead>
         <tr>
-            <th>Id</th><th>Idobjetivo</th>
+            <th>Id</th>
             <th>Indicador</th>
-            <th>Año Fiscal</th>
+           @* <th>Año Fiscal</th>*@
             <th>Meta</th>
             <th>Logro</th>
+             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.Delete)).Result.Succeeded
+                || (AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.View)).Result.Succeeded)
+                    {
             <th class="acciones-th">Acciones</th>
+            }
         </tr>
     </thead>
     <tbody>
        
-            @foreach (var indicador in Model.IndicadorCicloEstrategicoViewModel.ToList())
+            @foreach (var indicador in Model.IndicadorProductoObjetivoViewModel.ToList())
             {
-                <tr id="Gest_@indicador.Id">
+                <tr id="IndicaPO_@indicador.Id">
 
                     <td>
 
                         @indicador.Id
-                    </td> <td>
+                    </td> 
+                    <td>
 
-                        @indicador.IdEstrategia
-                    </td><td>
-
-                        @indicador.IndicadorCiclo
+                        @indicador.Indicador
                     </td>
-                   <td>
+                  @* <td>
                        @{ 
 
                         var selectedCity = (IEnumerable<SelectListItem>)Model.AnioFiscalList;
@@ -37,7 +39,7 @@
 
                     }
                 @txt
-                   </td>
+                   </td>*@
                      <td>
 
                         @indicador.Meta
@@ -46,12 +48,22 @@
 
                         @indicador.Logro
                     </td>
-                  
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.Delete)).Result.Succeeded
+                || (AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.View)).Result.Succeeded)
+                    {
                     <td class="acciones-td">
-                        <button type="button" onclick="EliminaFila(@indicador.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
-
+                        @if ( (AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.View)).Result.Succeeded)
+                        {
+                         <button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGetHijo('2','/Planificacion/IndicadorProductoObjetivo/OnGetCreateOrEdit?id=@indicador.Id&idProductoObjetivo=@indicador.IdProductoObjetivo&idEstrategia=@Model.IdEstrategia','Indicador de Productos de Objetivo')">
+                            <i class="fas fa-pen"></i>
+                        </button>
+                        }
+                        @if ( (AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.Delete)).Result.Succeeded)
+                        {
+                        <button type="button" onclick="EliminaFilaIndicadorPO(@indicador.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
+}
                     </td>
-
+                    }
                 </tr>
             }
 
@@ -64,7 +76,7 @@
     $(document).ready(function () {
 
 
-        var table = $("#gestionTable").DataTable({
+        var table = $("#indicadorPTable").DataTable({
             aoColumnDefs: [
                 { "aTargets": [0], "bSortable": true },
                 { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
@@ -93,14 +105,43 @@
 
 
 
-        $('#gestionTable tbody').on('dblclick', 'tr', function () {
-            var data = table.row(this).data();
+        //$('#indicadorPTable tbody').on('dblclick', 'tr', function () {
+        //    var data = table.row(this).data();
 
 
-            jQueryModalGet('/Planificacion/IndicadorCicloEstrategico/OnGetCreateOrEdit?id=' + data[0] + '&idEstrategia=' + data[1], 'Gestión');
+        //    jQueryModalGet('/Planificacion/IndicadorCicloEstrategico/OnGetCreateOrEdit?id=' + data[0] + '&idEstrategia=' + data[1], 'Gestión');
 
-        });
+        //});
 
         $(".dynmic-hidden-col").hide();
     });
+
+    function EliminaFilaIndicadorPO(id) {
+      if (confirm('¿Estás segura de eliminar este registro?')) {
+      
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "IndicadorProductoObjetivo", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+                 $("#IndicaPO_" + id).remove();
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+
+        
+
+
+      }
+    }
 </script>

@@ -10,6 +10,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorProductoObje
 {
     public class GetAllIndicadorProductoObjetivosCachedQuery : IRequest<Result<List<GetAllIndicadorProductoObjetivosCachedResponse>>>
     {
+        public int Id { get; set; }
     }
 
     public class GetAllIndicadorProductoObjetivosCachedQueryHandler : IRequestHandler<GetAllIndicadorProductoObjetivosCachedQuery, Result<List<GetAllIndicadorProductoObjetivosCachedResponse>>>
@@ -26,7 +27,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorProductoObje
 
         public async Task<Result<List<GetAllIndicadorProductoObjetivosCachedResponse>>> Handle(GetAllIndicadorProductoObjetivosCachedQuery request, CancellationToken cancellationToken)
         {
-            var objList = await _entidadCache.GetListAsync();
+            var objList = await _entidadCache.GetByIdProductoObjetivoAsync(request.Id);
             var mappedObj = _mapper.Map<List<GetAllIndicadorProductoObjetivosCachedResponse>>(objList);
 
             return Result<List<GetAllIndicadorProductoObjetivosCachedResponse>>.Success(mappedObj);
