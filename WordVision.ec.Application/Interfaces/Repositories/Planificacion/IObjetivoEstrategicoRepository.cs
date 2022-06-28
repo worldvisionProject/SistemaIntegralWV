@@ -10,6 +10,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Planificacion
         IQueryable<ObjetivoEstrategico> ObjetivoEstrategicoes { get; }
 
         Task<List<ObjetivoEstrategico>> GetListAsync();
+        Task<List<ObjetivoEstrategico>> GetNacionalAsync();
 
         Task<ObjetivoEstrategico> GetByIdAsync(int objetivoEstrategicoId);
 

@@ -28,18 +28,18 @@
             </div>*@
     </div>
 
-    <div class="col-sm-12" style="padding:20px">
+    <div class="col-sm-12" style="padding:10px">
         <form id="create-form" method="post" asp-controller="EstrategiaNacional" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
 
-            <div class="container">
+            <div class="container" style="padding: 5px 5px 5px 5px">
                 <div class="row">
                     <div class="col-md-12 ">
                         <nav>
                             <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Gestion.View)).Result.Succeeded)
-                                {
+                               @* @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Gestion.View)).Result.Succeeded)
+                                {*@
                                     <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tabpanel" aria-controls="nav-home" aria-selected="true">Ciclo</a>
-                                }
+                               @* }*@
                                     <a class="nav-item nav-link @(Model.CategoriaObjetivo==2 ? " active" : "")" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tabpanel" aria-controls="nav-contact" aria-selected="true">Objetivo de Bloque</a>
                                     <a class="nav-item nav-link @(Model.CategoriaObjetivo==1 ? " active" : "")" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tabpanel" aria-controls="nav-profile" aria-selected="false">Objetivo Nacional</a>
                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Gestion.View)).Result.Succeeded)
@@ -75,7 +75,7 @@
 
                                             <div class="col-md-6">
                                                 <div class="form-group row">
-
+                                                    0
                                                     <div class="col-md-6">
                                                         <label class="col-md-12 col-form-label texto-pregunta">Estado</label>
 
@@ -117,7 +117,7 @@
 
                                         </div>
 
-                                        <div class="row">
+                                        @*<div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group row">
                                                     <div class="col-md-12">
@@ -135,7 +135,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>*@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group row">
@@ -161,6 +161,7 @@
                                         </div> 
                                         <div id="viewAllIndicador" class="card-body table-responsive" style="padding: 0;">
                                         </div>
+ 
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group row">
@@ -190,7 +191,7 @@
                                                         }
                                                     }
 
-                                                    <div class="col-md-6">
+                                                   @* <div class="col-md-6">
                                                         <label class="col-md-12 col-form-label texto-pregunta">Meta Acumulada</label>
                                                         <input id="af1" type="text" value="@valor" readonly class="form-control" />
                                                        
@@ -199,7 +200,7 @@
                                                        
                                                         <label class="col-md-12 col-form-label texto-pregunta">Logro Acumulada</label>
                                                         <input id="af11" type="text" value="@logro" readonly class="form-control" />
-                                                    </div>
+                                                    </div>*@
                                                 </div>
 
                                             </div>
@@ -322,11 +323,36 @@
             $('#viewAll').load('/Planificacion/ObjetivoEstrategico/LoadObjetivo?idEstrategia=@Model.Id&idCategoria=2&AnioGestion=@Model.AnioGestion&esCoordinadorEstrategico=@Model.EsCoordinadorEstrategico');
             $('#viewAllNacional').load('/Planificacion/ObjetivoEstrategico/LoadObjetivo?idEstrategia=@Model.Id&idCategoria=1&AnioGestion=@Model.AnioGestion&esCoordinadorEstrategico=@Model.EsCoordinadorEstrategico');
             $('#viewAllGestion').load('/Planificacion/Gestion/LoadGestiones?idEstrategico=@Model.Id');
-            $('#viewAllIndicador').load('/Planificacion/IndicadorCicloEstrategico/LoadIndicadores?idEstrategia=@Model.Id');
+            $('#viewAllIndicador').load('/Planificacion/IndicadorCicloEstrategico/LoadIndicadores?idEstrategia=@Model.Id&ciclo=@Model.Nombre');
         }
 
 
+ $(document).ready(function () {
+        var table = $("#nacionalesTable").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                "url": "../lib/datatables/language/Spanish.json"
+            },
 
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 }
+            ],
+            "info": false
+            //columnDefs: [
+            //    { responsivePriority: 1, targets: 0 },
+            //    { responsivePriority: 10001, targets: 4 },
+            //    { responsivePriority: 2, targets: -2 }
+            //]
+        });
+
+
+
+    });
 
     //$.validator.unobtrusive.parse(document);
     //$(function () {
@@ -459,8 +485,8 @@
     }
 
     function EliminaFila(id) {
-
-        $("#Gest_" + id).remove();
+       if (confirm('¿Estás segura de eliminar este registro?')) {
+       
 
         var GestionViewModel = {
             id: id
@@ -474,12 +500,14 @@
             cache: false,
             success: function (data) {
             /*  alert('Validooo');*/
-
+            $("#Gest_" + id).remove();
             },
             error: function(xhr) {
                // alert('No Valid Data');
             }
         });
+         
+        }
     }
 
 </script>

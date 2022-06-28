@@ -11,6 +11,8 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Planificacion
 
         Task<List<IndicadorEstrategico>> GetListAsync();
         Task<List<IndicadorEstrategico>> GetListxObjetivoAsync(int idObjetivoEstrategico, int idColaborador);
+
+        Task<List<IndicadorEstrategico>> GetAllListxObjetivoAsync(int idObjetivoEstrategico, int idColaborador, int idGestion, int nivel);
         Task<IndicadorEstrategico> GetByIdAsync(int indicadorEstrategicoId, int idColaborador, string idCreadoPor);
 
         Task<int> InsertAsync(IndicadorEstrategico indicadorEstrategico);

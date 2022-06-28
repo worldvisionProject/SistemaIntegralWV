@@ -14,6 +14,8 @@ using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Co
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.TiposIndicadores.Queries.GetAll;
+using WordVision.ec.Application.Features.Planificacion.TiposIndicadores.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
@@ -75,7 +77,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             {
 
                 var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(responseE.Data);
-                gestionList = new SelectList(entidadViewModel.Gestiones, "Id", "Anio");
+                gestionList = new SelectList(entidadViewModel.Gestiones.OrderBy(b => b.FechaDesde), "Id", "Anio");
                 descEstrategia = entidadViewModel.Nombre;
                 descObjetivoEstrategico = entidadViewModel.ObjetivoEstrategicos.Where(o => o.Id == IdObjetivoEstrategico).FirstOrDefault().Descripcion;
                 descFactor = entidadViewModel.ObjetivoEstrategicos.Where(o => o.Id == IdObjetivoEstrategico).FirstOrDefault().FactorCriticoExitos.Where(f => f.Id == IdFactorCritico).FirstOrDefault().FactorCritico;
@@ -86,6 +88,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             if (id == 0)
             {
                 var entidadViewModel = new IndicadorEstrategicoViewModel();
+                entidadViewModel.IndicadorVinculadoEs = new List<IndicadorVinculadoEViewModel>();
                 entidadViewModel.IdFactorCritico = IdFactorCritico;
                 entidadViewModel.IdEstrategia = IdEstrategia;
                 entidadViewModel.gestionList = gestionList;
@@ -95,6 +98,17 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 entidadViewModel.DescCategoria = descCategoria;
                 var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                 entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                //var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 40 });
+                var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 39 });
+                var cat4 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 43 });
+                var cat5 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 44 });
+
+                var entidadModel = await _mediator.Send(new GetTiposIndicadorById() { IdTipoIndicador = 1 });
+
+                entidadViewModel.CodigoIndicadorList = new SelectList(entidadModel.Data, "Id", "CodigoIndicador");
+                entidadViewModel.TipoIndicadorList = new SelectList(cat3.Data, "Secuencia", "Nombre");
+                entidadViewModel.ActorParticipanteList = new SelectList(cat4.Data, "Secuencia", "Nombre");
+                entidadViewModel.TipoMetaList = new SelectList(cat5.Data, "Secuencia", "Nombre");
                 var colaborador = await _mediator.Send(new GetColaboradorByNivelQuery() { Nivel1 = 2, Nivel2 = 1 });
                 if (colaborador.Succeeded)
                 {
@@ -119,6 +133,16 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     entidadViewModel.DescCategoria = descCategoria;
                     var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
                     entidadViewModel.UnidadList = new SelectList(cat2.Data, "Secuencia", "Nombre");
+                  //  var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 40 });
+                    var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 39 });
+                    var cat4 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 43 });
+                    var cat5 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 44 });
+                    var entidadModel = await _mediator.Send(new GetAllTiposIndicadoresQuery());// { IdTipoIndicador = entidadViewModel.TipoIndicador });
+
+                    entidadViewModel.CodigoIndicadorList = new SelectList(entidadModel.Data, "Id", "CodigoIndicador");
+                    entidadViewModel.TipoIndicadorList = new SelectList(cat3.Data, "Secuencia", "Nombre");
+                    entidadViewModel.ActorParticipanteList = new SelectList(cat4.Data, "Secuencia", "Nombre");
+                    entidadViewModel.TipoMetaList = new SelectList(cat5.Data, "Secuencia", "Nombre");
                     var colaborador = await _mediator.Send(new GetColaboradorByNivelQuery() { Nivel1 = 2, Nivel2 = 1 });
                     if (colaborador.Succeeded)
                     {

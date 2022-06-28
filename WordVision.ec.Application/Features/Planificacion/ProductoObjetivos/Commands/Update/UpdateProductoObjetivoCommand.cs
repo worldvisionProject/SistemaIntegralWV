@@ -13,6 +13,7 @@ namespace WordVision.ec.Application.Features.Planificacion.ProductoObjetivos.Com
     {
         public int Id { get; set; }
         public string Producto { get; set; }
+        public int AnioFiscal { get; set; }
         public int IdObjetivoEstra { get; set; }
         public class UpdateProductoObjetivoCommandHandler : IRequestHandler<UpdateProductoObjetivoCommand, Result<int>>
         {
@@ -39,6 +40,7 @@ namespace WordVision.ec.Application.Features.Planificacion.ProductoObjetivos.Com
 
                 obj.IdObjetivoEstra = command.IdObjetivoEstra;
                 obj.Producto = command.Producto;
+                obj.AnioFiscal = command.AnioFiscal;
 
                 await _entidadRepository.UpdateAsync(obj);
 

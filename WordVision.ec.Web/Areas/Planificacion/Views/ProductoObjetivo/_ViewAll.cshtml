@@ -6,9 +6,18 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Producto</th>
+                <th>Producto</th>  
+                <th>Año Fiscal</th>
+                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.Create)).Result.Succeeded
+                || (AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.View)).Result.Succeeded)
+                    {
                 <th class="acciones-th">Indicadores</th>
+                }
+                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ProductoObjetivo.Create)).Result.Succeeded
+                || (AuthorizationService.AuthorizeAsync(User, Permissions.ProductoObjetivo.Delete)).Result.Succeeded)
+                    {
                 <th class="acciones-th">Acciones</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -17,7 +26,7 @@
 
                 @foreach (var gestion in Model.ProductoObjetivos.ToList())
                 {
-            <tr >
+            <tr id="PO_@gestion.Id">
 
                 <td>
 
@@ -27,23 +36,47 @@
 
                     @gestion.Producto
                 </td>
+                  <td>
+                       @{ 
+
+                        var selectedCity = (IEnumerable<SelectListItem>)Model.AnioFiscalList;
+                        string txt = selectedCity.Where(x => x.Value == gestion.AnioFiscal.ToString()).FirstOrDefault()?.Text??string.Empty;
+
+                    }
+                @txt
+                   </td>
+                   @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.Create)).Result.Succeeded
+                || (AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.View)).Result.Succeeded)
+                    {
+                    <td class="acciones-td">
+                 
+                         <button type="button" class="btn btn-success  btn-xp" title="Ver" btn-xp" id="btnViewModel" onclick="jQueryModalGetHijo('1','/Planificacion/IndicadorProductoObjetivo/Index?idProductoObjetivo=@gestion.Id&idEstrategia=@Model.IdEstrategia','Indicador de Producto')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.Create)).Result.Succeeded)
+                        {
+                        <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGetHijo('1','/Planificacion/IndicadorProductoObjetivo/OnGetCreateOrEdit?id=0&idProductoObjetivo=@gestion.Id&idEstrategia=@Model.IdEstrategia','Indicador de Producto')">
+                            <i class="fas fa-plus-square"></i>
+                        </button>
+                        }
+                </td>
+                }
+                 @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ProductoObjetivo.Create)).Result.Succeeded
+                || (AuthorizationService.AuthorizeAsync(User, Permissions.ProductoObjetivo.Delete)).Result.Succeeded)
+                    {
                 <td class="acciones-td">
-                    <button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGetHijo('/Planificacion/ProductoObjetivo/LoadAll?idObjetivo=@Model.Id','Productos de Objetivo')">
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ProductoObjetivo.Create)).Result.Succeeded)
+                    {
+                    <button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGetHijo('1','/Planificacion/ProductoObjetivo/OnGetCreateOrEdit?id=@gestion.Id&idEstrategia=@Model.IdEstrategia','Productos de Objetivo')">
                         <i class="fas fa-pen"></i>
                     </button>
-                    <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGetHijo('/Planificacion/ProductoObjetivo/OnGetCreateOrEdit?id=0&idObjetivo=@Model.Id','Productos de Objetivo')">
-                        <i class="fas fa-plus-square"></i>
-                    </button>
+                    }
+                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ProductoObjetivo.Delete)).Result.Succeeded)
+                    {
+                    <button type="button" onclick="EliminaFilaPO(@gestion.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
+                    }
                 </td>
-
-                <td class="acciones-td">
-                    <button type="button" class="btn btn-warning  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGetHijo('1','/Planificacion/ProductoObjetivo/OnGetCreateOrEdit?id=@gestion.Id','Productos de Objetivo')">
-                        <i class="fas fa-pen"></i>
-                    </button>
-                    <button type="button" onclick="EliminaFila(@gestion.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </button>
-
-                </td>
-
+                 }
             </tr>
                 }}
 
@@ -95,4 +128,33 @@
 
         $(".dynmic-hidden-col").hide();
     });
+
+     function EliminaFilaPO(id) {
+      if (confirm('¿Estás segura de eliminar este registro?')) {
+      
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "ProductoObjetivo", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+                 $("#PO_" + id).remove();
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+
+        
+
+
+      }
+    }
 </script>

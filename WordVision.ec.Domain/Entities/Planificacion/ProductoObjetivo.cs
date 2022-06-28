@@ -10,6 +10,8 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         [Required]
         public string Producto { get; set; }
         public int IdObjetivoEstra { get; set; }
+        //[Required]
+        public int AnioFiscal { get; set; }
         public ObjetivoEstrategico ObjetivoEstrategicos { get; set; }
 
         [ForeignKey("IdProductoObjetivo")]

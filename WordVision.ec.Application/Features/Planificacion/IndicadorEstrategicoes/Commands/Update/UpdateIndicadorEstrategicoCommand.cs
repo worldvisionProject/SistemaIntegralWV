@@ -20,7 +20,13 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
         public decimal? LineaBase { get; set; }
         public decimal? Meta { get; set; }
         public int IdFactorCritico { get; set; }
+        public int Codigo { get; set; }
+        public int Tipo { get; set; }
+        public int Actor { get; set; }
+        public int TipoMeta { get; set; }
+        public int? Seleccionado { get; set; }
         public List<IndicadorAF> IndicadorAFs { get; set; }
+        public ICollection<IndicadorVinculadoE> IndicadorVinculadoEs { get; set; }
         public class UpdateProductCommandHandler : IRequestHandler<UpdateIndicadorEstrategicoCommand, Result<int>>
         {
             private readonly IUnitOfWork _unitOfWork;
@@ -52,7 +58,12 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
                     IndicadorEstrategico.UnidadMedida = command.UnidadMedida;
                     IndicadorEstrategico.LineaBase = command.LineaBase;
                     IndicadorEstrategico.Meta = command.Meta;
-
+                    IndicadorEstrategico.Codigo = command.Codigo;
+                    IndicadorEstrategico.Tipo = command.Tipo;
+                    IndicadorEstrategico.Actor = command.Actor; 
+                    IndicadorEstrategico.TipoMeta = command.TipoMeta;
+                    IndicadorEstrategico.Seleccionado = command.Seleccionado;
+                    IndicadorEstrategico.IndicadorVinculadoEs = command.IndicadorVinculadoEs;
                     await _IndicadorEstrategicoRepository.UpdateAsync(IndicadorEstrategico);
 
                     foreach (var indicador in command.IndicadorAFs)
@@ -69,6 +80,8 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
                             indicadorAF.Anio = indicador.Anio;
                             indicadorAF.Meta = indicador.Meta;
                             indicadorAF.Entregable = indicador.Entregable;
+                            indicadorAF.LineaBase = indicador.LineaBase;
+                         
                             await _IndicadorAFRepository.UpdateAsync(indicadorAF);
                         }
 

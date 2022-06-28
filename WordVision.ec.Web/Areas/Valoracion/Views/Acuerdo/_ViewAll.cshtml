@@ -1,0 +1,210 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WordVision.ec.Web.Areas.Soporte.Models
+@using WordVision.ec.Infrastructure.Data.Identity.Models;
+@model List<SolicitudViewModel>
+@inject UserManager<ApplicationUser> UserManager
+<table id="solicitudTable" class="table table-striped " width="100%" cellspacing="0">
+    <thead>
+        <tr>
+
+            <th>N° de Solicitud</th>
+            <th data-priority="1">Solicitado por</th>
+            <th data-priority="1">Area</th>
+            <th data-priority="1">Fecha Solicitud</th>
+            <th data-priority="1">Asignado A</th>
+            <th data-priority="1">Estado</th>
+            <th data-priority="1">Tipo Requerimiento</th>
+            <th data-priority="1">Evento/Producto</th>
+            <th data-priority="1">Fecha Evento/Producto</th>
+
+            <th data-priority="2" class="acciones-th">Acciones</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var solicitud in Model)
+        {
+        <tr>
+            <td>
+                @solicitud.Id
+            </td>
+            <td>
+                @solicitud.Colaboradores.PrimerNombre @solicitud.Colaboradores.Apellidos 
+            </td>
+            <td>
+                @switch (solicitud.Colaboradores.Area)
+                                {
+                                    case 1:<span >Proteccion Y Desarrollo</span> break;
+ case 2:<span >Patrocinio</span> break;
+ case 3:<span >Pa Colta</span> break;
+ case 4:<span >Pa Pillaro</span> break;
+ case 5:<span >Pa Tiquizambi Tixan</span> break;
+ case 6:<span >Comunicaciones</span> break;
+ case 7:<span >Hea Y Seguridad Corporativa</span> break;
+ case 8:<span >Administracion Y Finanzas</span> break;
+ case 9:<span >Finanzas</span> break;
+ case 10:<span >Planeacion Y Presupuesto</span> break;
+ case 11:<span >Tecnologias De La Informacion</span> break;
+ case 12:<span >Gente Y Cultura</span> break;
+ case 13:<span >Cadena De Abastecimiento</span> break;
+ case 14:<span >Diseno, Monitoreo Y Evaluacion</span> break;
+ case 15:<span >Pa Riobamba</span> break;
+ case 16:<span >La Violeta</span> break;
+ case 17:<span >Administracion</span> break;
+ case 18:<span >Pa Chillanes</span> break;
+ case 19:<span >Pa Guano</span> break;
+ case 20:<span >Pa Pungala</span> break;
+ case 21:<span >Pa Quito Sur</span> break;
+ case 22:<span >Contabilidad</span> break;
+ case 23:<span >Region Costa</span> break;
+ case 24:<span >Region Sierra</span> break;
+ case 25:<span >Direccion Nacional</span> break;
+ case 26:<span >Marketing, Fundraising Y Comunicación</span> break;
+ case 27:<span >Proyecto Youth Ready</span> break;
+ case 28:<span >Pa Portoviejo</span> break;
+ case 29:<span >Pa Rio Verde</span> break;
+ case 30:<span >Pa Santa Ana</span> break;
+ case 31:<span >Pa Baba</span> break;
+ case 32:<span >Pa Flavio Alfaro</span> break;
+ case 33:<span >Pa Guayaquil</span> break;
+ case 34:<span >Pa Vinces</span> break;
+ case 35:<span >Gam (Grant Adquisition Management)</span> break;
+ case 36:<span >Cristianos Por La Niñez</span> break;
+ case 37:<span >Marketing Y Fundraising</span> break;
+ case 38:<span >Relaciones Eclesiales</span> break;
+ case 39:<span >Participacion Comunitaria Y Patrocinio</span> break;
+ case 40:<span >Acnur</span> break;
+ case 41:<span >Auditoria</span> break;
+ case 42:<span >Calidad Del Ministerio</span> break;
+ case 43:<span >Proyecto Especial Alpacas</span> break;
+ case 44:<span >Proyecto Jovenes</span> break;
+
+                                  
+                                }
+            </td>
+            <td>
+
+                @solicitud.CreatedOn.ToShortDateString()
+            </td>
+            <td>
+
+                @solicitud.AsignadoA
+            </td>
+            <td>
+
+                @switch (solicitud.Estado)
+                {
+                    case 1:<span class="badge badge-primary">Nuevo</span> break;
+                    case 2:<span class="badge badge-warning">Asignada</span> break;
+                    case 3:<span class="badge badge-warning">En proceso</span> break;
+                    case 4:<span class="badge badge-info">Finalizado</span>break;
+                    case 5:<span class="badge badge-success">Cerrado</span>break;
+                }
+            </td>
+            <td>
+                    @{
+                        if (solicitud.Comunicaciones != null)
+                        {
+                             @switch (solicitud.Comunicaciones.TipoSolicitud)
+                                {
+                                    case 1:<span >Evento virtual</span> break;
+                                    case 2:<span >Evento presencial</span> break;
+                                    case 3:<span >Cobertura de evento</span> break;
+                                    case 4:<span >Producto comunicacional</span>break;
+                                  
+                                }
+                        }
+                     
+                       
+                      }
+                </td>
+            <td>
+            
+                    @{
+                        if (solicitud.Comunicaciones != null)
+                           @solicitud.Comunicaciones.NombreEvento
+                       
+                      }
+                
+            </td>
+            <td>
+            @{
+                        if (solicitud.Comunicaciones != null)
+                           @solicitud.Comunicaciones.FechaEvento.ToShortDateString()
+                       
+                      }
+                
+            </td>
+
+            <td class="acciones-td">
+            <form id="form_delete_@solicitud.Id" asp-controller="Comunicacion" method="post" asp-action="OnPostDelete" asp-route-id="@solicitud.Id" asp-route-idColaborador="@solicitud.IdColaborador" onsubmit="return jQueryModalDelete(this)" class="d-inline">
+                                <a href="javascript:$('#form_delete_@solicitud.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
+                            </form>
+                <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Editar" btn-xp" id="btnViewModel" onclick="jQueryModalGet('/Soporte/Comunicacion/OnGetCreateOrEdit?id=@solicitud.Id&op=@ViewBag.Op','Solicitud de Comunicación- @UserManager.GetUserAsync(User).Result.FirstName @UserManager.GetUserAsync(User).Result.LastName @User.Claims.FirstOrDefault(x => x.Type == "Area")?.Value')">
+                    <i class="fas fa-eye"></i>
+                </button>
+
+                @*<button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/OnGetCreateOrEdit?id=0&idProducto=@producto.Id&idGestion=@Model.IdGestion&idIndicadorEstrategia=@Model.Id','Indicador de Producto')">
+                <i class="fas fa-plus-square"></i>
+            </button>*@
+            </td>
+
+
+
+
+
+        </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+
+    $(document).ready(function () {
+        var table = $("#solicitudTable").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ],
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 }
+            ],
+            "info": false
+            //columnDefs: [
+            //    { responsivePriority: 1, targets: 0 },
+            //    { responsivePriority: 10001, targets: 4 },
+            //    { responsivePriority: 2, targets: -2 }
+            //]
+        });
+
+        //var column = table.column(0);
+        //// Toggle the visibility
+        //column.visible(false);
+
+
+
+        $('#solicitudTable tbody').on('dblclick', 'tr', function () {
+            var data = table.row(this).data();
+
+            jQueryModalGet('/Soporte/Comunicacion/OnGetCreateOrEdit?id=' + data[0], 'Solicitud');
+
+
+        });
+
+        /*  $(".dynmic-hidden-col").hide();*/
+
+    });
+</script>

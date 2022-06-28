@@ -49,11 +49,7 @@
                                                         <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                                                             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Ciclo</a>
                                                             <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="true">Objetivo de Bloque</a>
-                                                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Objetivo Nacional</a>
-                                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Gestion.View)).Result.Succeeded)
-                                                            {
-                                                                <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Gestión</a>
-                                                            }
+                                                            
                                                         </div>
                                                     </nav>
                                                     <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
@@ -119,90 +115,63 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    @*<div class="col-md-6">
-                    <div class="form-group row">
-                        <div class="col-md-12">
-                            <label class="col-md-12 col-form-label texto-pregunta">Meta de Bloque</label>
-                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
-                            {
-                                <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control"></textarea>
-                            }
-                            else
-                            { <textarea asp-for="MetaRegional" name="MetaRegional" class="form-control" readonly></textarea>}
-
-                                <span asp-validation-for="MetaRegional" class="text-danger"></span>
-                            </div>
-                    </div>
-
-
-                </div>*@
+                                                                  
 
                                                                 </div>
 
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group row">
-                                                                            <div class="col-md-12">
-                                                                                <label class="col-md-12 col-form-label texto-pregunta">Factor Crítico</label>
-                                                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
-                                                                                {
+                                                                
+                                                           <div id="viewAllIndicador" class="card-body table-responsive" style="padding: 0;">
+                                                            </div>     
+                                                                
+<div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group row">
+<table id="nacionalesTable" class="table table-striped " width="100%" cellspacing="0">
+    <thead>
+        <tr>
+        <th data-priority="1" width="15%">Año Fiscal</th>
+            <th data-priority="1" width="15%">Indicador</th>
+            <th data-priority="1">Línea Base</th>
+            <th>Meta</th>
+          <th>Logro</th>
+        </tr>
+    </thead>
+    <tbody>
+      
+        @foreach (var indicador in Model.ObjetivoEstrategicos.Where(f=>f.Categoria==1).SelectMany(f=>f.FactorCriticoExitos).SelectMany(i=>i.IndicadorEstrategicos).Where(f=>f.Seleccionado==1).SelectMany(n=>n.IndicadorAFs))
+        {
+        <tr>
+       <td>
+                        @{
 
-                                                                                    <textarea asp-for="FactorCritico" name="FactorCritico" class="form-control"></textarea>
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    <textarea asp-for="FactorCritico" name="FactorCritico" class="form-control" readonly></textarea>
-                                                                                }
-                                                                                <span asp-validation-for="FactorCritico" class="text-danger"></span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group row">
-                                                                            <div class="col-md-12">
-                                                                                <label class="col-md-12 col-form-label texto-pregunta">Indicador</label>
-                                                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
-                                                                                {
-                                                                                    <textarea asp-for="Indicador" name="Indicador" class="form-control"></textarea>
-                                                                                }
-                                                                                else
-                                                                                { <textarea asp-for="Indicador" name="Indicador" class="form-control" readonly></textarea>}
+                            var selectedCity = (IEnumerable<SelectListItem>)Model.AnioFiscalList;
+                            string txt = selectedCity.Where(x => x.Value == indicador.Anio.ToString()).FirstOrDefault()?.Text ?? string.Empty;
 
-                                                                                <span asp-validation-for="Indicador" class="text-danger"></span>
-                                                                            </div>
-                                                                        </div>
-
-
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group row">
-                                                                            @if (Model.Gestiones != null)
-                                                                            {
-
-                                                                                @foreach (var gestion in Model.Gestiones.ToList())
-                                                                                {
-                                                                                    <div class="col-md-2">
-                                                                                        <label class="col-md-12 col-form-label texto-pregunta">@gestion.Anio</label>
-                                                                                        <input id="@gestion.Descripcion" type="text" value="20" readonly class="form-control" />
-
-                                                                                    </div>
-                                                                                }
-                                                                            }
-                                                                            <div class="col-md-2">
-                                                                                <label class="col-md-12 col-form-label texto-pregunta">Meta Acumulada</label>
-                                                                                <input id="af1" type="text" value="80" readonly class="form-control" />
-                                                                                <span asp-validation-for="Indicador" class="text-danger"></span>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                </div>
-
+                        }
+                        @txt
+                    </td>
+            <td>
+                @indicador.IndicadorEstrategicos.IndicadorResultado
+            </td>
+           
+             <td>
+                @indicador.LineaBase
+            </td>
+            
+             <td>
+                @indicador.Meta
+            </td>
+            <td>
+                @indicador.Entregable
+            </td>
+           
+        </tr>
+        }
+    </tbody>
+</table>
+</div>
+</div>
+</div>
 
                                                             </div>
                                                         </div>
@@ -236,57 +205,8 @@
 
 
 
-                                                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                                            @*OBJETIVO NACIONAL*@
 
-                                                            <div class="container-fluid">
-                                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.ObjetivoEstrategico.Create)).Result.Succeeded)
-                                                                {
-                                                                    <div class="row">
-                                                                        <div class="col-md-12">
-                                                                            <div class="form-group row">
-                                                                                <div class="col-md-2">
-                                                                                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/ObjetivoEstrategico/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id&categoria=1','Crear Objetivos Resultados')">
-                                                                                        <i class="fa fa-plus-square"></i>
-                                                                                        Agregar
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                }
-                                                                @Html.HiddenFor(x => x.Id, new { name = "IdEstrategia", @Value = Model.Id })
-                                                                @*<div id="divObjetivo">*@
-
-                                                                <div id="viewAllNacional" class="card-body table-responsive" style="padding: 0;">
-                                                                </div>
-                                                                @*</div>*@
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-                                                            @*GESTION*@
-                                                            <div class="container-fluid">
-                                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Gestion.Create)).Result.Succeeded)
-                                                                {
-                                                                    <div class="row">
-                                                                        <div class="col-md-12">
-                                                                            <div class="form-group row">
-                                                                                <div class="col-md-2">
-                                                                                    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Gestion/OnGetCreateOrEdit?id=0&idEstrategia=@Model.Id','Crear Gestion')">
-                                                                                        <i class="fa fa-plus-square"></i>
-                                                                                        Agregar
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                }
-                                                                <div id="viewAllGestion" class="card-body table-responsive" style="padding: 0;">
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
+                                                       
                                                     </div>
 
                                                 </div>
@@ -317,8 +237,10 @@
     });
         function loadData() {
             $('#viewAll').load('/Planificacion/ObjetivoEstrategico/LoadObjetivo?idEstrategia=@Model.Id&idCategoria=2&AnioGestion=@Model.AnioGestion');
-            $('#viewAllNacional').load('/Planificacion/ObjetivoEstrategico/LoadObjetivo?idEstrategia=@Model.Id&idCategoria=1&AnioGestion=@Model.AnioGestion');
-            $('#viewAllGestion').load('/Planificacion/Gestion/LoadGestiones?idEstrategico=@Model.Id');
+            //$('#viewAllNacional').load('/Planificacion/ObjetivoEstrategico/LoadObjetivo?idEstrategia=@Model.Id&idCategoria=1&AnioGestion=@Model.AnioGestion');
+            //$('#viewAllGestion').load('/Planificacion/Gestion/LoadGestiones?idEstrategico=@Model.Id');
+            $('#viewAllIndicador').load('/Planificacion/IndicadorCicloEstrategico/LoadIndicadores?idEstrategia=@Model.Id&ciclo=@Model.Nombre');
+ 
     }
 
         </script>

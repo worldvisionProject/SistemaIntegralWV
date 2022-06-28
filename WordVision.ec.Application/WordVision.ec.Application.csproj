@@ -14,6 +14,7 @@
     <Compile Remove="Features\Planificacion\IndicadorPOAs\Queries\GetAllPaged\**" />
     <Compile Remove="Features\Planificacion\ObjetivoEstrategicoes\Queries\GetAllPaged\**" />
     <Compile Remove="Features\Registro\Pregunta\Queries\GetAllPaged\**" />
+    <Compile Remove="Features\Valoracion\Objetivos\Queries\GetAllCached\**" />
     <Compile Remove="ViewModels\**" />
     <EmbeddedResource Remove="Features\Planificacion\EstrategiaNacionales\Queries\GetAllPaged\**" />
     <EmbeddedResource Remove="Features\Planificacion\FactorCriticoExitoes\Queries\GetAllPaged\**" />
@@ -24,6 +25,7 @@
     <EmbeddedResource Remove="Features\Planificacion\IndicadorPOAs\Queries\GetAllPaged\**" />
     <EmbeddedResource Remove="Features\Planificacion\ObjetivoEstrategicoes\Queries\GetAllPaged\**" />
     <EmbeddedResource Remove="Features\Registro\Pregunta\Queries\GetAllPaged\**" />
+    <EmbeddedResource Remove="Features\Valoracion\Objetivos\Queries\GetAllCached\**" />
     <EmbeddedResource Remove="ViewModels\**" />
     <None Remove="Features\Planificacion\EstrategiaNacionales\Queries\GetAllPaged\**" />
     <None Remove="Features\Planificacion\FactorCriticoExitoes\Queries\GetAllPaged\**" />
@@ -34,6 +36,7 @@
     <None Remove="Features\Planificacion\IndicadorPOAs\Queries\GetAllPaged\**" />
     <None Remove="Features\Planificacion\ObjetivoEstrategicoes\Queries\GetAllPaged\**" />
     <None Remove="Features\Registro\Pregunta\Queries\GetAllPaged\**" />
+    <None Remove="Features\Valoracion\Objetivos\Queries\GetAllCached\**" />
     <None Remove="ViewModels\**" />
   </ItemGroup>
 
@@ -42,7 +45,10 @@
     <Compile Remove="Features\Identity\Usuarios\Queries\GetAllCached\GetAllUsuariosCachedQuery.cs" />
     <Compile Remove="Features\Identity\Usuarios\Queries\GetAllCached\GetAllUsuariosCachedResponse.cs" />
     <Compile Remove="Features\Identity\Usuarios\Queries\GetById\GetUsuarioByIdQuery.cs" />
+    <Compile Remove="Features\Planificacion\EstrategiaNacionales\Queries\GetById\GetAllEstrategiaNacionalesCachedQuery.cs" />
+    <Compile Remove="Features\Valoracion\Objetivos\Queries\GetById\GetAllObjetivosQuery.cs" />
     <Compile Remove="Interfaces\CacheRepositories\Identity\IIdentityCacheRepository.cs" />
+    <Compile Remove="Interfaces\CacheRepositories\Valoracion\IObjetivoCacheRepository.cs" />
     <Compile Remove="Interfaces\Contexts\IIdentityDbContext.cs" />
     <Compile Remove="Interfaces\Contexts\IPresupuestoDbContext.cs" />
     <Compile Remove="Interfaces\Repositories\Identity\IIdentityRepository.cs" />
@@ -71,6 +77,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Encuesta\RespuestaKobos\" />
+    <Folder Include="Features\Encuesta\PreguntaKobos\" />
     <Folder Include="Features\Identity\Usuarios\Commands\Update\" />
     <Folder Include="Features\Identity\Usuarios\Queries\GetAllCached\" />
     <Folder Include="Features\Maestro\Estructuras\Commands\Delete\" />
@@ -82,6 +90,8 @@
     <Folder Include="Features\Registro\Pregunta\Commands\Create\" />
     <Folder Include="Features\Registro\Pregunta\Commands\Update\" />
     <Folder Include="Features\Soporte\Ponentes\Commands\Create\" />
+    <Folder Include="Features\Valoracion\AvanceObjetivos\" />
+    <Folder Include="Features\Valoracion\SeguimientoObjetivos\" />
     <Folder Include="Interfaces\CacheRepositories\Identity\" />
     <Folder Include="Mappings\DashBoard\" />
     <Folder Include="Mappings\Identity\" />

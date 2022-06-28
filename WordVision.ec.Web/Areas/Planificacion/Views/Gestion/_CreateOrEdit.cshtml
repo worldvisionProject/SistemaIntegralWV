@@ -16,12 +16,21 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label class="col-md-12 col-form-label texto-pregunta">Año Fiscal</label>
-                    <input type="number" asp-for="Descripcion" name="Descripcion" class="form-control">
+                    <label class="col-md-12 col-form-label texto-pregunta">Descripción</label>
+                    <input type="text" asp-for="Descripcion" name="Descripcion" class="form-control">
                     <span asp-validation-for="Descripcion" class="text-danger"></span>
                 </div>
-
                 <div class="col-md-2">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Fecha Desde</label>
+                    <input asp-for="FechaDesde" type="text" name="FechaDesde" class="datepicker form-control" />
+                    <span asp-validation-for="FechaDesde" class="text-danger"></span>
+                </div>
+                <div class="col-md-2">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Fecha Hasta</label>
+                    <input asp-for="FechaHasta" type="text" name="FechaHasta" class="datepicker form-control" />
+                    <span asp-validation-for="FechaHasta" class="text-danger"></span>
+                </div>
+               @* <div class="col-md-2">
                     <label class="col-md-12 col-form-label texto-pregunta">Meta</label>
                     <input type="text" asp-for="Meta" name="Meta" class="form-control">
                     <span asp-validation-for="Meta" class="text-danger"></span>
@@ -30,10 +39,10 @@
                     <label class="col-md-12 col-form-label texto-pregunta">Logro</label>
                     <input type="text" asp-for="Logro" name="Logro" class="form-control">
                     <span asp-validation-for="Logro" class="text-danger"></span>
-                </div>
+                </div>*@
 
-            </div>
-            <div class="form-group row">
+           @* </div>
+            <div class="form-group row">*@
                 <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta">Estado</label>
                     @Html.DropDownListFor(x => x.Estado, Model.EstadoList, new { @class = "form-control" })

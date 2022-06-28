@@ -1,0 +1,355 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WordVision.ec.Web.Areas.Valoracion.Models
+@using WordVision.ec.Infrastructure.Data.Identity.Models;
+@model WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_1Step
+@inject UserManager<ApplicationUser> UserManager
+
+<table id="TableObj1" class="table table-bordered " width="100%" cellspacing="0">
+
+
+    <thead>
+        <tr>
+            @if (Model.NumeroObjetivo.Contains("3"))
+            {
+                <th style="background-color:#F9D6BF;color: black;" width="30%">Responsabilidad de la Posición</th>
+                <th data-priority="1" style="background-color:#F9D6BF;color: black;" width="5%">Tipo</th>
+                <th data-priority="1" style="background-color:#F9D6BF;color: black;" width="20%">Indicador Cumplimiento</th>
+
+                <th data-priority="1" style="background-color:#2ED4E0;color: black;" width="5%">Meta</th>
+                <th data-priority="1" style="background-color:#2ED4E0;color: black;" width="10%">Fecha Inicio</th>
+                <th data-priority="1" style="background-color:#2ED4E0;color: black;" width="10%">Fecha Fin</th>
+                <th data-priority="1" style="background-color:#2ED4E0;color: black;" width="10%">Ponderación Objetivo especifico</th>
+                <th data-priority="1" style="background-color:#F9D6BF;color: black;" width="10%">Ponderación Resultado</th>
+
+
+            }
+            else @if (Model.NumeroObjetivo.Contains("4"))
+            {
+                <th style="background-color:#F9D6BF;" width="30%">Competencia</th>
+                <th data-priority="1" style="background-color:#F9D6BF;color: black;" width="20%">Comportamiento</th>
+                <th data-priority="1" style="background-color:#2ED4E0;color: black;" width="10%">Fecha Inicio</th>
+                <th data-priority="1" style="background-color:#2ED4E0;color: black;" width="10%">Fecha Fin</th>
+                <th data-priority="1" style="background-color:#2ED4E0;color: black;" width="10%">Ponderación Objetivo especifico</th>
+                <th data-priority="1" style="background-color:#F9D6BF;color: black;" width="10%">Ponderación Resultado</th>
+
+
+            }
+            else
+            {
+                <th style="background-color:#F9D6BF;color: black;" width="30%">Resultado Esperado</th>
+                <th data-priority="1" style="background-color:#F9D6BF;color: black;" width="20%">Indicador Cumplimiento</th>
+                <th data-priority="1" style="background-color:#F9D6BF;color: black;" width="5%">Tipo(#,%;$)</th>
+                <th data-priority="1" style="background-color:#2ED4E0;color: black;" width="5%">Meta</th>
+                <th data-priority="1" style="background-color:#2ED4E0;color: black;" width="10%">Fecha Inicio</th>
+                <th data-priority="1" style="background-color:#2ED4E0;color: black;" width="10%">Fecha Fin</th>
+                <th data-priority="1" style="background-color:#2ED4E0;color: black;" width="10%">Ponderación Objetivo especifico</th>
+                <th data-priority="1" style="background-color:#F9D6BF;color: black;" width="10%">Ponderación Resultado</th>
+
+            }
+            <th data-priority="2" class="acciones-th">Acciones</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var planificacion in Model.PlanificacionResultados)
+        {
+
+            <tr id="@planificacion.IdPlanificacion" style="@(planificacion.Estado==3 && planificacion.ObservacionLider!=null?"background-color:#F4EEFB":"")">
+
+
+
+                @if (Model.NumeroObjetivo.Contains("3"))
+                {
+                    if (planificacion.IdResultado == 0)
+                    {
+                        <td style="vertical-align: middle;">
+                            @planificacion.DatoManual1
+                        </td>
+                        <td style="vertical-align: middle;">
+                            Adicional
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="vertical-align: middle;">
+                            <font style="font-weight: bold;"> @planificacion.Nombre</font> @planificacion.Descripcion
+                        </td>
+                        <td style="vertical-align: middle;">
+                            Posición
+                        </td>
+                    }
+
+                }
+                else
+                {
+                    <td style="vertical-align: middle;">
+                        <font style="font-weight: bold;"> @planificacion.Nombre</font> @planificacion.Descripcion
+                    </td>
+
+                }
+
+
+                @if (Model.NumeroObjetivo.Contains("3"))
+                {
+                    if (planificacion.IdResultado == 0)
+                    {
+                        <td>
+                            @planificacion.DatoManual2
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @planificacion.Indicador
+                        </td>
+                    }
+                }
+                else
+                {
+                    <td>
+                        @planificacion.Indicador
+                    </td>
+                }
+
+
+                @if (!Model.NumeroObjetivo.Contains("4"))
+                {
+                    @if (Model.NumeroObjetivo.Contains("3"))
+                    {
+                        @*@if (planificacion.IdResultado==0)
+                            {
+                            <td>
+
+                            @switch (planificacion.DatoManual3)
+                            {
+                            case 13:
+                            <span class="badge badge-primary">$</span>
+                            break;
+                            case 28:
+                            <span class="badge badge-warning">%</span>
+                            break;
+                            case 29:
+                            <span class="badge badge-warning">#</span>
+                            break;
+                            }
+                            </td>
+                            }else{
+                            <td>
+
+                            @switch (planificacion.Tipo)
+                            {
+                            case 13:
+                            <span class="badge badge-primary">$</span>
+                            break;
+                            case 28:
+                            <span class="badge badge-warning">%</span>
+                            break;
+                            case 29:
+                            <span class="badge badge-warning">#</span>
+                            break;
+                            }
+                            </td>
+
+
+                            }*@
+
+                    }
+                    else
+                    {
+                        <td>
+
+                            @switch (planificacion.Tipo)
+                            {
+                                case 13:
+                                    <span class="badge badge-primary">$</span>
+                                    break;
+                                case 28:
+                                    <span class="badge badge-warning">%</span>
+                                    break;
+                                case 29:
+                                    <span class="badge badge-warning">#</span>
+                                    break;
+                            }
+                        </td>
+
+
+                    }
+
+                    <td>
+                        @planificacion.Meta
+                    </td>
+                }
+
+                <td>
+                    @if (planificacion.FechaInicio != null)
+                    {
+                        @planificacion.FechaInicio.Value.ToShortDateString()
+                        ;
+                    }
+
+                </td>
+
+                <td>
+                    @if (planificacion.FechaFin != null)
+                    {
+                        @planificacion.FechaFin.Value.ToShortDateString()
+                        ;
+                    }
+
+                </td>
+
+                <td>
+                    @planificacion.Ponderacion
+                </td>
+                <td style="vertical-align: middle;">
+                    @Model.PonderacionObjetivo
+                </td>
+
+
+                <td class="acciones-td">
+
+                    <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="@((planificacion.Estado==4 || planificacion.Estado==5)?"Seguimiento":"Editar")" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=@planificacion.IdPlanificacion&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=@planificacion.IdResultado&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=@{
+                    var s=Model.NumeroObjetivo.Contains("3")?2:1;
+}&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")&perfil=@Model.Perfil','Objetivo @Model.NumeroObjetivo : @Model.Objetivo')">
+                        <i class="@((planificacion.Estado==4 || planificacion.Estado==5)?"fas fa-bullseye":"fas fa-edit")"></i>
+                    </button>
+                    @if ((planificacion.Estado == 1 || planificacion.Estado == 2 || planificacion.Estado == 3))
+                    {
+                        <button type="button" onclick="EliminaFilaResultado(@planificacion.IdPlanificacion,@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value,@Model.IdObjetivo,@Model.AnioFiscal,@Model.IdObjetivoAnioFiscal,@Model.NumeroObjetivo,@Model.PonderacionObjetivo.ToString().Replace(",","."))" class="btn btn-danger btn-xp">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    }
+                    @*<button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/OnGetCreateOrEdit?id=0&idProducto=@producto.Id&idGestion=@Model.IdGestion&idIndicadorEstrategia=@Model.Id','Indicador de Producto')">
+                        <i class="fas fa-plus-square"></i>
+                        </button>*@
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th>Total:</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>
+<script>
+
+        $(document).ready(function () {
+            if (@Model.NumeroObjetivo==3)
+            {
+                var table = $("#TableObj1").DataTable({
+                aoColumnDefs: [
+                                { "aTargets": [0], "bSortable": true },
+                                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+                            ],
+                            "bFilter": false ,
+                               "bLengthChange" : false,"bPaginate": false,
+                            "language": {
+                                "url": "/lib/datatables/language/Spanish.json"
+                            },
+                            'rowsGroup': [7],
+                            "info": false,"length":false,
+
+                            "footerCallback": function ( row, data, start, end, display ) {
+                            var api = this.api(), data;
+                            var total = api
+                                .column(6)//numero de columna a sumar
+                                //.column(1, {page: 'current'})//para sumar solo la pagina actual
+                                .data()
+                                .reduce(function (a, b) {
+                                    return parseInt(a) + parseInt(b);
+                                }, 0 );
+
+                            $(api.column(6).footer()).html(total);
+
+                        }
+
+                        });
+            }
+            else
+            {
+                var table = $("#TableObj1").DataTable({
+    aoColumnDefs: [
+                    { "aTargets": [0], "bSortable": true },
+                    { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+                ],
+                "bFilter": false ,
+                   "bLengthChange" : false,"bPaginate": false,
+                "language": {
+                    "url": "/lib/datatables/language/Spanish.json"
+                },
+                'rowsGroup': [7],
+                "info": false,"length":false,
+
+                "footerCallback": function ( row, data, start, end, display ) {
+                var api = this.api(), data;
+                var total = api
+                    .column(6)//numero de columna a sumar
+                    //.column(1, {page: 'current'})//para sumar solo la pagina actual
+                    .data()
+                    .reduce(function (a, b) {
+                        return parseInt(a) + parseInt(b);
+                    }, 0 );
+
+                $(api.column(6).footer()).html(total);
+
+            }
+
+            });
+            }
+
+
+
+            $('#valoracionTable tbody').on('dblclick', 'tr', function () {
+                var data = table.row(this).data();
+
+                jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=' + data[0], 'Solicitud');
+
+
+            });
+
+            /*  $(".dynmic-hidden-col").hide();*/
+
+        });
+
+
+         function EliminaFilaResultado(id,idColaborador,idObjetivo, anioFiscal, idObjetivoAnioFiscal , numeroObjetivo , ponderacionObjetivo) {
+          if (confirm('¿Estás segura de eliminar este registro?')) {
+            $("#" + id).remove();
+            var IdiomaViewModel = {
+                id: id,
+                idColaborador:idColaborador,
+                idObjetivo:idObjetivo,
+                anioFiscal:anioFiscal,
+                idObjetivoAnioFiscal:idObjetivoAnioFiscal ,
+                numeroObjetivo:numeroObjetivo ,
+                ponderacionObjetivo:ponderacionObjetivo
+
+            };
+             $.ajax({
+                type: "post",
+                url:'@Url.Action("OnPostDelete", "objetivo", new { area = "Valoracion" })',
+                data: IdiomaViewModel,
+                datatype: "json",
+                cache: false,
+                success: function (data) {
+                /*  alert('Validooo');*/
+
+                },
+                error: function(xhr) {
+                   // alert('No Valid Data');
+                }
+            });
+          }
+        }
+</script>

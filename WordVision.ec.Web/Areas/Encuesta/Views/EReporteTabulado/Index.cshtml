@@ -1,0 +1,48 @@
+﻿@using WordVision.ec.Web.Areas.Encuesta.Models
+@model List<EReporteTabuladoViewModel>
+
+@{ ViewBag.Title = "Tabulados";}
+
+<a asp-action="Index" class="btn btn-sm btn-primary">Refrescar</a>
+
+<form asp-action="Index" method="get">
+    <div >
+        <p style="display:flex;">
+            @Html.DropDownList("EvaluacionID", (IEnumerable <SelectListItem>)ViewData["EEvaluacionesList"])
+            <input type="submit" value="Buscar" class="btn btn-default" /> |
+            <a asp-action="Index">Limpiar Filtros</a>
+        </p>
+    </div>
+</form>
+
+<table class="table table-sm table-striped table-bordered m-2">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Programa</th>
+            <th>Indicador</th>
+            <th>Número</th>
+            <th>Entrevistados</th>
+            <th>% Porcentaje</th>
+            <th>Resultado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var fila in Model)
+            {
+                <tr>
+                    <td>@fila.Codigo</td>
+                    <td>@fila.PA</td>
+                    <td>@fila.Indicador</td>
+                    <td>@fila.NumeroTotal</td>
+                    <td>@fila.EntrevistadosTotal</td>
+                    <td>@fila.Porcentaje</td>
+                    <td>@fila.Resultado</td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>

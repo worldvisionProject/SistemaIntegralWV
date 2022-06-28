@@ -3,7 +3,7 @@
 @model IndicadorCicloEstrategicoViewModel
 
 
-<form id="create-form" method="post" asp-controller="IndicadorCicloEstrategico" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+<form id="create-formICE" method="post" asp-controller="IndicadorCicloEstrategico" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
     @Html.HiddenFor(x=>x.IdEstrategia)
     <div class="row">
         <div class="col-md-12">
@@ -17,17 +17,41 @@
 
 
             </div>
-             <div class="form-group row">
+            <div class="form-group row">
+                @foreach(var i in Model.TipoMetaList)
+                {
+                   <div class="col-md-3">
+                    <div class="form-check form-check-inline">
+                        @if (Model.TipoMeta==Convert.ToInt32( i.Value))
+                            {
+                                <input class="form-control form-check-input" type="radio" name="tipoMeta" id="@i.Value" value="@i.Value" checked>
+                            }
+
+                            else
+                            {
+                                <input class="form-control form-check-input" type="radio" name="tipoMeta" id="@i.Value" value="@i.Value">
+                            }
+                            
+                      <label class="form-check-label" for="@i.Value">@i.Text</label>
+                    </div>
+                </div> 
+                }
+                
+               
+            </div>
+            <hr>
+             <div class="form-group row"> 
+                 <div class="col-md-3"  style="text-align: right;">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Tipo Indicador</label>
+                     @Html.DropDownListFor(x => x.TipoIndicador, (IEnumerable<SelectListItem>)Model.TipoIndicadorList, new { @class = "form-control" })
+                    <span asp-validation-for="TipoIndicador" class="text-danger"></span>
+                </div>
                 <div class="col-md-3"  style="text-align: right;">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Codigo Indicador</label>
                      @Html.DropDownListFor(x => x.CodigoIndicador, (IEnumerable<SelectListItem>)Model.CodigoIndicadorList, new { @class = "form-control" })
                     <span asp-validation-for="CodigoIndicador" class="text-danger"></span>
                 </div>
-                <div class="col-md-3"  style="text-align: right;">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Tipo Indicador</label>
-                     @Html.DropDownListFor(x => x.TipoIndicador, (IEnumerable<SelectListItem>)Model.TipoIndicadorList, new { @class = "form-control" })
-                    <span asp-validation-for="TipoIndicador" class="text-danger"></span>
-                </div>
+               
                     <div class="col-md-3"  style="text-align: right;">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Unidad Medida</label>
                     @Html.DropDownListFor(x => x.UnidadMedida, (IEnumerable<SelectListItem>)Model.UnidadMedidaList, new { @class = "form-control" })
@@ -36,44 +60,563 @@
                 </div>
                  <div class="col-md-3"  style="text-align: right;">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Actores/Participantes</label>
-                    <input  type="text" name="ActorParticipante" asp-for="ActorParticipante" class="form-control"  />
+                    @Html.DropDownListFor(x => x.ActorParticipante, (IEnumerable<SelectListItem>)Model.ActorParticipanteList, new { @class = "form-control" })
+               
                     <span asp-validation-for="ActorParticipante" class="text-danger"></span>
        
                 </div>
+                
             </div>
-            <div class="form-group row">
-                <div class="col-md-3"  style="text-align: right;">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Año Fiscal</label>
-                     @Html.DropDownListFor(x => x.AnioFiscal, (IEnumerable<SelectListItem>)Model.AnioFiscalList, new { @class = "form-control" })
-                    <span asp-validation-for="AnioFiscal" class="text-danger"></span>
-                </div>
-                <div class="col-md-3"  style="text-align: right;">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Meta</label>
-                    <input  type="text" name="Meta"  asp-for="Meta" class="form-control" />
-                    <span asp-validation-for="Meta" class="text-danger"></span>
-                </div>
+             <div class="form-group row" id="descIndicador">
+               <div class="col-md-12">
+                    <input type="text" value="" height="20" id="descResultado" name="descResultado" style="border:0px" class="col-md-12 col-form-label texto-pregunta" readonly  />
+               </div>
+             </div>
+                
+             <div class="form-group row" >
+                <div class="col-md-12">
+                    <div class="form-check form-check-inline">
+                        @if (Model.IndicadorVinculadoCEs.Count==0)
+                        {
+                          <input class="form-control form-check-input" type="checkbox" name="chkVinculacion" id="chkVinculacion" value="1">  
+                        }
+                        else
+                        {
+                           <input class="form-control form-check-input" type="checkbox" name="chkVinculacion" id="chkVinculacion" value="1" checked> 
+                        }
+                        
+                         <label class="form-check-label" for="chkVinculacion">Vinculación con otro Indicador</label>
+                    </div>
+                </div>         
+             </div>
+            <div id="divVincularIndicador">
+                 <hr>
+                 <div class="form-group row"> 
+                     <div class="col-md-3"  style="text-align: right;">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Tipo Indicador</label>
+                         @Html.DropDownListFor(x => x.TipoIndicadorVinculo, (IEnumerable<SelectListItem>)Model.TipoIndicadorList, new { @class = "form-control" })
+                        <span asp-validation-for="TipoIndicadorVinculo" class="text-danger"></span>
+                    </div>
                     <div class="col-md-3"  style="text-align: right;">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Logro</label>
-                    <input  type="text" name="Logro" asp-for="Logro" class="form-control"  />
-                    <span asp-validation-for="Logro" class="text-danger"></span>
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Codigo Indicador</label>
+                         @Html.DropDownListFor(x => x.CodigoIndicadorVinculo, (IEnumerable<SelectListItem>)Model.CodigoIndicadorList, new { @class = "form-control" })
+                        <span asp-validation-for="CodigoIndicadorVinculo" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2"  style="text-align: right;">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Unidad Medida</label>
+                        @Html.DropDownListFor(x => x.UnidadMedidaVinculo, (IEnumerable<SelectListItem>)Model.UnidadMedidaList, new { @class = "form-control" })
+                        <span asp-validation-for="UnidadMedidaVinculo" class="text-danger"></span>
        
-                </div>
+                    </div>
+                    <div class="col-md-2"  style="text-align: right;">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Actores/Participantes</label>
+                        @Html.DropDownListFor(x => x.ActorParticipanteVinculo, (IEnumerable<SelectListItem>)Model.ActorParticipanteList, new { @class = "form-control" })
+               
+                        <span asp-validation-for="ActorParticipanteVinculo" class="text-danger"></span>
+       
+                    </div>
+                    <div class="col-md-2" style="padding-top: 25px;">
+                       <button type="button" class="btn bg-success" onclick="AgregaIndicador(); return false;"> 
+                           <i class="fa fa-plus-square"></i> Agregar</button>
+                    </div>
             </div>
+                 <div class="form-group row" id="divdescIndicador">
+                    <div class="col-md-12">
+                         <input type="text" value="" height="20" id="descResultadoVinculo" name="descResultadoVinculo" style="border:0px" class="col-md-12 col-form-label texto-pregunta" readonly  />
+                    </div>
+                 </div>
+
+             
+            <div id="divIndicador">
+                <table id="indicadorVinculadoTable" class="table table-striped rwd-table" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Tipo Indicador</th>
+                            <th>Cod. Indicador</th>
+                            <th>Unidad Medida</th>
+                            <th>Actor Participante</th>
+                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Delete)).Result.Succeeded)
+                            {
+                                <th class="text-right">Acciones</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.IndicadorVinculadoCEs != null)
+                        {
+                       
+
+                            @foreach (var indicador in Model.IndicadorVinculadoCEs)
+                            {
+                           
+                                <tr id="@indicador.Id" class="rowdata">
+                                    <td class="ti">
+                                   
+                                         @{
+                                            var selectedTipo = Model.TipoIndicadorList;
+                                            string txtTipo = selectedTipo.Where(x => x.Value == indicador.TipoIndicador.ToString())?.FirstOrDefault()?.Text;
+                                        }
+                                        @txtTipo
+                                    </td>
+                                    <td class="ci">
+                                        @{
+                                            var selectedCodigo = Model.CodigoIndicadorList;
+                                            string txtCodigo = selectedCodigo.Where(x => x.Value == indicador.CodigoIndicador.ToString())?.FirstOrDefault()?.Text;
+                                        }
+                                        @txtCodigo
+
+                                    </td>
+                                    <td class="um">
+                                         @{
+                                            var selectedUnidad = Model.UnidadMedidaList;
+                                            string txtUnidad = selectedUnidad.Where(x => x.Value == indicador.UnidadMedida.ToString())?.FirstOrDefault()?.Text;
+                                        }
+                                        @txtUnidad
+                                    </td>
+                                    <td class="ap">
+                                       @{
+                                            var selectedActor = Model.ActorParticipanteList;
+                                            string txtActor = selectedActor.Where(x => x.Value == indicador.ActorParticipante.ToString())?.FirstOrDefault()?.Text;
+                                        }
+                                        @txtActor
+                                    </td>
+
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Delete)).Result.Succeeded)
+                                    {
+
+                                        <td class="text-right">
+                                            <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFila(@indicador.Id,@indicador.TipoIndicador,@indicador.CodigoIndicador,@indicador.UnidadMedida,@indicador.ActorParticipante)">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </button>
+                                            <button type="button" onclick="EliminaFilaConfirmacion(@indicador.Id)" class="btn btn-danger btn-xp">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+
+                                        </td>
+                                    }
+
+                                </tr>
+                            }
+
+
+                        }
+
+                
+                        <input  type="hidden" id="idact" name="idact" />
+                    </tbody>
+                </table>
+
+           
+            </div>
+            <hr>
+         </div>
+
+                    <br />
+            @{
+                var contar = 0;
+            }
+            @foreach(var a in Model.AnioFiscalList)
+            {
+                switch (contar)
+                {
+                    case 0:
+                    <div class="form-group row">
+                         <div class="col-md-3"  style="text-align: right;">
+                                <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
+                                <input  type="text" name="LineBase" asp-for="LineBase" class="form-control"  />
+                                <span asp-validation-for="LineBase" class="text-danger"></span>
+       
+                            </div>
+                            <div class="col-md-3"  style="text-align: right;">
+                                <label class="col-md-12 col-form-label texto-pregunta text-left">Año Fiscal</label>
+                                 @Html.DropDownListFor(x => x.AnioFiscal, (IEnumerable<SelectListItem>)Model.AnioFiscalList, new { @class = "form-control" })
+                                <span asp-validation-for="AnioFiscal" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-3"  style="text-align: right;">
+                                <label class="col-md-12 col-form-label texto-pregunta text-left">Meta</label>
+                                <input  type="text" name="Meta"  asp-for="Meta" class="form-control" />
+                                <span asp-validation-for="Meta" class="text-danger"></span>
+                            </div>
+                                <div class="col-md-3"  style="text-align: right;">
+                                <label class="col-md-12 col-form-label texto-pregunta text-left">Logro</label>
+                                <input  type="text" name="Logro" asp-for="Logro" class="form-control"  />
+                                <span asp-validation-for="Logro" class="text-danger"></span>
+       
+                            </div>
+                           
+                        </div>
+                        break;
+                        case 1:
+                            <div class="form-group row">
+                                 <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
+                                        <input  type="text" name="LineBase2" asp-for="LineBase2" class="form-control"  />
+                                        <span asp-validation-for="LineBase2" class="text-danger"></span>
+       
+                                    </div>
+                                    <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Año Fiscal</label>
+                                         @Html.DropDownListFor(x => x.AnioFiscal2, (IEnumerable<SelectListItem>)Model.AnioFiscalList, new { @class = "form-control" })
+                                        <span asp-validation-for="AnioFiscal2" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta</label>
+                                        <input  type="text" name="Meta2"  asp-for="Meta2" class="form-control" />
+                                        <span asp-validation-for="Meta2" class="text-danger"></span>
+                                    </div>
+                                        <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Logro</label>
+                                        <input  type="text" name="Logro2" asp-for="Logro2" class="form-control"  />
+                                        <span asp-validation-for="Logro2" class="text-danger"></span>
+       
+                                    </div>
+                                   
+                                </div>
+                        break;
+
+                        case 2:
+                            <div class="form-group row">
+                                 <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
+                                        <input  type="text" name="LineBase3" asp-for="LineBase3" class="form-control"  />
+                                        <span asp-validation-for="LineBase3" class="text-danger"></span>
+       
+                                    </div>
+                                    <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Año Fiscal</label>
+                                         @Html.DropDownListFor(x => x.AnioFiscal3, (IEnumerable<SelectListItem>)Model.AnioFiscalList, new { @class = "form-control" })
+                                        <span asp-validation-for="AnioFiscal3" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta</label>
+                                        <input  type="text" name="Meta3"  asp-for="Meta3" class="form-control" />
+                                        <span asp-validation-for="Meta3" class="text-danger"></span>
+                                    </div>
+                                        <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Logro</label>
+                                        <input  type="text" name="Logro3" asp-for="Logro3" class="form-control"  />
+                                        <span asp-validation-for="Logro3" class="text-danger"></span>
+       
+                                    </div>
+                                   
+                                </div>
+                        break;
+
+                        case 3:
+                            <div class="form-group row">
+                                <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
+                                        <input  type="text" name="LineBase4" asp-for="LineBase4" class="form-control"  />
+                                        <span asp-validation-for="LineBase4" class="text-danger"></span>
+       
+                                    </div>
+                                    <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Año Fiscal</label>
+                                         @Html.DropDownListFor(x => x.AnioFiscal4, (IEnumerable<SelectListItem>)Model.AnioFiscalList, new { @class = "form-control",@readonly="readonly" })
+                                        <span asp-validation-for="AnioFiscal4" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta</label>
+                                        <input  type="text" name="Meta4"  asp-for="Meta4" class="form-control" />
+                                        <span asp-validation-for="Meta4" class="text-danger"></span>
+                                    </div>
+                                        <div class="col-md-3"  style="text-align: right;">
+                                        <label class="col-md-12 col-form-label texto-pregunta text-left">Logro</label>
+                                        <input  type="text" name="Logro4" asp-for="Logro4" class="form-control"  />
+                                        <span asp-validation-for="Logro4" class="text-danger"></span>
+       
+                                    </div>
+                                    
+                                </div>
+                        break;
+                        
+                }
+                
+
+            contar = contar + 1;
+            }
+            <div class="col-md-3"  style="text-align: right;">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Acumulada</label>
+                                <input  type="text" name="MetaAcumulada"  asp-for="MetaAcumulada" class="form-control" />
+                                <span asp-validation-for="MetaAcumulada" class="text-danger"></span>
+                </div>
         </div>
     </div>
 
     <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-        <button type="submit" class="btn btn-success">Guardar</button>
-        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.Create)).Result.Succeeded)
+        {   <input type="hidden" value="false" name="band" id="band" />
+            <button type="submit" class="btn btn-success">Guardar</button>
+        }
+        else { <input type="hidden" value="true" name="band" id="band" />}
+        <button type="submit" class="btn btn-default close-button" name="cancelar" id="cancelar" data-dismiss="modal">Cancelar</button>
     </div>
 </form>
 
 
         
         <script type="text/javascript" language=javascript>
-    $.validator.unobtrusive.parse(document);
-    $(function () {
+    
+            $.validator.unobtrusive.parse(document);
+        
+             $('input[name="tipoMeta"]').on('change', function() {
+              //var radioValue = $('input[name="tipoMeta"]:checked').val();        
+            
+              //if (radioValue==1)
+              //{
+               $("#Meta3").val('');
+               $("#Meta2").val('');
+               $("#Meta").val('');
+               $("#Meta4").val('');
+              //}
+
+            });
+
+             $('input[name="Meta"]').on('change', function() {
+              //var m1= $("#Meta").val();
+              var m1= $("#Meta2").val();
+              var m3= $("#Meta3").val();
+              var m4= $("#Meta4").val();
+               if (m1 == null || m1 == undefined){
+                  m1=0;
+                } 
+              if (m3 == null || m3 == undefined){
+                  m3=0;
+                } 
+                if (m4 == null || m4 == undefined){
+                  m4=0;
+                } 
+
+
+                var tipo=  $('input[name=tipoMeta]:checked').val();
+             
+              switch (tipo)
+              {
+                case "1": 
+                if(parseFloat($(this).val()) < parseFloat(m1)) {
+                    alert('Meta debe ser mayor.');  $(this).val('');$(this).focus();
+                    }
+                break;
+                case "2":
+                if(parseFloat($(this).val()) > parseFloat(m1)) {
+                    alert('Meta debe ser menor.');  $(this).val('');$(this).focus();
+                    }
+                break;
+                case "3":
+                //if(parseFloat($(this).val()) != parseFloat(m1)) {
+                //    alert('Meta debe ser igual.'); $(this).val('');$(this).focus();
+                //    }
+                break;
+                case "4":
+              
+                $('#MetaAcumulada').val(parseFloat(m1)+parseFloat($(this).val())+parseFloat(m3)+parseFloat(m4));
+                return;
+                break;
+
+                default:
+                 alert('Seleccione el tipo de Meta.'); $(this).focus();
+                break;
+              }
+                   $('#MetaAcumulada').val( $(this).val());
+             });
+
+             $('input[name="Meta2"]').on('change', function() {
+              var m1= $("#Meta").val();
+              var m3= $("#Meta3").val();
+               var m4= $("#Meta4").val();
+              if (m3 == null || m3 == undefined){
+                  m3=0;
+                } 
+                if (m4 == null || m4 == undefined){
+                  m4=0;
+                } 
+             
+           
+              var tipo=  $('input[name=tipoMeta]:checked').val();
+             
+              switch (tipo)
+              {
+                case "1": 
+                if(parseFloat($(this).val()) < parseFloat(m1)) {
+                    alert('Meta debe ser mayor.');  $(this).val('');$(this).focus();
+                    }
+                break;
+                case "2":
+                if(parseFloat($(this).val()) > parseFloat(m1)) {
+                    alert('Meta debe ser menor.');  $(this).val('');$(this).focus();
+                    }
+                break;
+                case "3":
+                if(parseFloat($(this).val()) != parseFloat(m1)) {
+                    alert('Meta debe ser igual.'); $(this).val('');$(this).focus();
+                    }
+                break;
+                case "4":
+              
+                $('#MetaAcumulada').val(parseFloat(m1)+parseFloat($(this).val())+parseFloat(m3)+parseFloat(m4));
+                return;
+                break;
+
+                default:
+                 alert('Seleccione el tipo de Meta.'); $(this).focus();
+                break;
+              }
+                //if($(this).val().length == 0) {
+                //    alert('Input field is empty');
+                //}
+
+                $('#MetaAcumulada').val( $(this).val());
+            });
+
+
+             $('input[name="Meta3"]').on('change', function() {
+              var m1= $("#Meta2").val();
+              var m2= $("#Meta").val();
+              var m4= $("#Meta4").val();
+                if (m1 == null || m1 == undefined){
+                  m1=0;
+                } 
+               if (m2 == null || m2 == undefined){
+                  m2=0;
+                } 
+           
+                if (m4 == null || m4 == undefined){
+                  m4=0;
+                } 
+
+                   
+
+              var tipo=  $('input[name=tipoMeta]:checked').val();
+               
+              //if (tipo==1)
+              //{
+              //    if($(this).val() < m1) {
+              //      alert('Debe ser mayor');
+              //  }
+              //}
+              switch (tipo)
+              {
+                case "1": 
+                if(parseFloat($(this).val()) < parseFloat(m1)) {
+                    alert('Meta debe ser mayor.'); $(this).val('');$(this).focus();
+                    }
+                break;
+                case "2":
+                if(parseFloat($(this).val()) > parseFloat(m1)) {
+                    alert('Meta debe ser menor.'); $(this).val('');$(this).focus();
+                    }
+                break;
+                case "3":
+                if(parseFloat($(this).val()) != parseFloat(m1)) {
+                    alert('Meta debe ser igual.'); $(this).val('');$(this).focus();
+                    }
+                break;
+                case "4":
+              $('#MetaAcumulada').val(parseFloat($(this).val())+parseFloat(m1)+parseFloat(m2)+parseFloat(m4));
+               return;
+                break;
+                
+                default:
+                 alert('Seleccione el tipo de Meta.');$(this).focus();
+                break;
+              }
+                //if($(this).val().length == 0) {
+                //    alert('Input field is empty');
+                //}
+
+                 $('#MetaAcumulada').val( $(this).val());
+            });
+
+
+             $('input[name="Meta4"]').on('change', function() {
+              var m1= $("#Meta3").val();
+              var m2= $("#Meta2").val();
+              var m3= $("#Meta").val();
+             
+                if (m1 == null || m1 == undefined){
+                  m1=0;
+                } 
+               if (m2 == null || m2 == undefined){
+                  m2=0;
+                } 
+           
+                if (m3 == null || m3 == undefined){
+                  m3=0;
+                } 
+
+              var tipo=  $('input[name=tipoMeta]:checked').val();
+               
+              //if (tipo==1)
+              //{
+              //    if($(this).val() < m1) {
+              //      alert('Debe ser mayor');
+              //  }
+              //}
+              switch (tipo)
+              {
+                case "1": 
+                if(parseFloat($(this).val()) < parseFloat(m1) ){
+                    alert('Meta debe ser mayor.');
+                    $(this).val('');
+                    $(this).focus();
+                    }
+                break;
+                case "2":
+                if(parseFloat($(this).val()) > parseFloat(m1)) {
+                    alert('Meta debe ser menor.'); $(this).val('');$(this).focus();
+                    }
+                break;
+                case "3":
+                if(parseFloat($(this).val()) != parseFloat(m1)) {
+                    alert('Meta debe ser igual.'); $(this).val('');$(this).focus();
+                    }
+                break;
+                case "4":
+                $('#MetaAcumulada').val(parseFloat($(this).val())+parseFloat(m1)+parseFloat(m2)+parseFloat(m3));
+                return;
+                break;
+                
+                default:
+                 alert('Seleccione el tipo de Meta.'); $(this).focus();
+                break;
+              }
+                //if($(this).val().length == 0) {
+                //    alert('Input field is empty');
+                //}
+
+                 $('#MetaAcumulada').val( $(this).val());
+            });
+
+
+           
+
+     //$.get("/Planificacion/IndicadorProductoObjetivo/GetTiposIndicador", { idTipoIndicador: $("#TipoIndicador").val() }, function (data) {
+     //               // VACIAMOS EL DropDownList
+     //               $("#CodigoIndicador").empty();
+     //               // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+     //               $("#CodigoIndicador").append("<option value> -- Seleccionar --</option>")
+     //               // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+     //               $.each(data, function (index, row) {
+     //                   $("#CodigoIndicador").append("<option value='" + row.id + "'>" + row.codigoIndicador + "</option>")
+     //               });
+     //           });
+
+
+    $(function () { 
+       $('#create-formICE *').prop('disabled', (document.getElementById("band").value == "true"));
+        $("#cancelar").removeAttr("disabled");  
+
+        $("#divVincularIndicador").hide();
+        $("#descResultado").empty();
+        $("#descIndicador").hide();
+        $("#divdescIndicador").hide();
+
+         if (@Model.IndicadorVinculadoCEs.Count()>0)
+        {
+            $("#divVincularIndicador").show(1000);
+        }
+
         $(".datepicker").datepicker({
             format: "dd-mm-yyyy",
             autoclose: true,
@@ -91,5 +634,281 @@
         }
     });
 
+             $("#TipoIndicador").change(function () {
+                        $.get("/Planificacion/IndicadorProductoObjetivo/GetTiposIndicador", { idTipoIndicador: $("#TipoIndicador").val() }, function (data) {
+                            // VACIAMOS EL DropDownList
+                            $("#CodigoIndicador").empty();
+                            $("#descResultado").empty();
+                            $("#descIndicador").hide(10);
+                            // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                            $("#CodigoIndicador").append("<option value=-1> -- Seleccionar --</option>")
+                            // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                            $.each(data, function (index, row) {
+                                $("#CodigoIndicador").append("<option value='" + row.id + "'>" + row.codigoIndicador + "</option>")
+                            });
+                        });
+                    });
+                $("#CodigoIndicador").change(function () {
+                     $("#descResultado").empty();
+                     $("#descIndicador").hide(10);
+                    $.get("/Planificacion/IndicadorProductoObjetivo/GetDescTiposIndicador", { idCodigoIndicador: $("#CodigoIndicador").val() }, function (data) {
+                       $("#descResultado").val(data.descripcion);
+                       $("#descIndicador").show(10);
+                    });
+                });
 
+
+            $("#TipoIndicadorVinculo").change(function () {
+                        $.get("/Planificacion/IndicadorProductoObjetivo/GetTiposIndicador", { idTipoIndicador: $("#TipoIndicadorVinculo").val() }, function (data) {
+                            // VACIAMOS EL DropDownList
+                            $("#CodigoIndicadorVinculo").empty();
+                            $("#descResultadoVinculo").empty();
+                            $("#divdescIndicador").hide(10);
+                            // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                            $("#CodigoIndicadorVinculo").append("<option value=-1> -- Seleccionar --</option>")
+                            // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                            $.each(data, function (index, row) {
+                                $("#CodigoIndicadorVinculo").append("<option value='" + row.id + "'>" + row.codigoIndicador + "</option>")
+                            });
+                        });
+                    });
+            $("#CodigoIndicadorVinculo").change(function () {
+                 $("#descResultadoVinculo").empty();
+                 $("#divdescIndicador").hide(10);
+                $.get("/Planificacion/IndicadorProductoObjetivo/GetDescTiposIndicador", { idCodigoIndicador: $("#CodigoIndicadorVinculo").val() }, function (data) {
+                   $("#descResultadoVinculo").val(data.descripcion);
+                   $("#divdescIndicador").show(10);
+                });
+            });
+
+            $("#chkVinculacion").change(function () {
+                var tipo=  $('input[name=chkVinculacion]:checked').val();
+           
+                if (tipo==1)
+                    $("#divVincularIndicador").show(1000);
+                else
+                    $("#divVincularIndicador").hide(1000);
+            });
+
+            var num = 0;
+function AgregaIndicador() {
+            let idact = document.getElementById("idact").value;
+          
+            if (idact.length != 0) {
+                EliminaFilaCicloIndicador(idact);
+            }
+
+            let TipoIndicador = document.getElementById("TipoIndicadorVinculo").value;
+            let CodigoIndicador = document.getElementById("CodigoIndicadorVinculo").value;
+            let CodigoIndicadorNo = document.getElementById("CodigoIndicador").value;
+            let UnidadMedida = document.getElementById("UnidadMedidaVinculo").value;
+            let ActorParticipante = document.getElementById("ActorParticipanteVinculo").value;
+
+             if (CodigoIndicadorNo.length == 0) {
+                alert("Ingrese Tipo Indicador.");
+                document.getElementById("CodigoIndicador").focus();
+                return;
+            }
+
+            if (CodigoIndicador == CodigoIndicadorNo) {
+                alert("El tipo de  indicador a vincular  es el mismo ya ingresado.");
+                document.getElementById("CodigoIndicadorVinculo").focus();
+                return;
+            }
+            if (TipoIndicador.length == 0) {
+                alert("Ingrese TipoIndicador.");
+                document.getElementById("TipoIndicadorVinculo").focus();
+                return;
+            }
+            if (CodigoIndicador.length == 0) {
+                alert("Ingrese CodigoIndicador.");
+                document.getElementById("CodigoIndicadorVinculo").focus();
+                return;
+            }
+            if (UnidadMedida.length == 0) {
+                alert("Ingrese UnidadMedida.");
+                document.getElementById("UnidadMedidaVinculo").focus();
+                return;
+            }
+            if (ActorParticipante.length == 0) {
+                alert("Ingrese ActorParticipante.");
+                document.getElementById("ActorParticipanteVinculo").focus();
+                return;
+            }
+
+            var selectionTI = document.getElementById("TipoIndicadorVinculo");
+            let TipoIndicadorDesc = selectionTI.options[selectionTI.selectedIndex].innerHTML;
+             var selectionCI = document.getElementById("CodigoIndicadorVinculo");
+            let CodigoIndicadorDesc = selectionCI.options[selectionCI.selectedIndex].innerHTML;
+             var selectionUM = document.getElementById("UnidadMedidaVinculo");
+            let UnidadMedidaDesc = selectionUM.options[selectionUM.selectedIndex].innerHTML;
+             var selectionAP = document.getElementById("ActorParticipanteVinculo");
+            let ActorParticipanteDesc = selectionAP.options[selectionAP.selectedIndex].innerHTML;
+
+            //if (duplicados(TipoIndicadorDesc,"ti","TipoIndicador")) { return;}
+            if (duplicados(CodigoIndicadorDesc,"ci","CodigoIndicador")) { return;}
+            //if (duplicados(UnidadMedidaDesc,"um","UnidadMedida")) { return;}
+            //if (duplicados(ActorParticipanteDesc,"ap","ActorParticipante")) { return;}
+           
+            
+
+
+            //agregamos tabla
+            let Tabla = document.getElementById("indicadorVinculadoTable");
+            let TR = document.createElement("tr");
+            TR.setAttribute('id', num);
+            TR.className = "rowdata";
+           // let TDId = document.createElement("td");
+            let TDTipoIndicador = document.createElement("td");
+            let TDCodigoIndicador = document.createElement("td");
+            let TDUnidadMedida = document.createElement("td");
+            let TDActorParticipante = document.createElement("td");
+            let TDEliminar = document.createElement("td");
+            TDEliminar.className = "text-right";
+            TDTipoIndicador.className = "ti";
+            TDCodigoIndicador.className = "ci";
+            TDUnidadMedida.className = "um";
+            TDActorParticipante.className = "ap";
+
+            TR.appendChild(TDTipoIndicador);
+            TR.appendChild(TDCodigoIndicador);
+            TR.appendChild(TDUnidadMedida);
+            TR.appendChild(TDActorParticipante);
+            TR.appendChild(TDEliminar);
+           
+            TDTipoIndicador.innerHTML = TipoIndicadorDesc;
+            TDCodigoIndicador.innerHTML = CodigoIndicadorDesc;
+            TDUnidadMedida.innerHTML = UnidadMedidaDesc;
+            TDActorParticipante.innerHTML = ActorParticipanteDesc;
+            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFila(" + num + "," + TipoIndicador+","+CodigoIndicador+","+UnidadMedida+","+ActorParticipante+")'> <i class='fas fa-pencil-alt'></i>  </button> <button type='button' onclick='EliminaFilaConfirmacion("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            
+
+            //agregamos hiddens
+            //let DivConceptos = document.getElementById("divIndicador");
+            let HiddenIndex = document.createElement("input");
+            let HiddenTipoIndicador = document.createElement("input");
+            let HiddenCodigoIndicador = document.createElement("input");
+            let HiddenUnidadMedida = document.createElement("input");
+            let HiddenActorParticipante = document.createElement("input");
+            HiddenIndex.name = "indicador.Index";
+            HiddenIndex.value = num;
+            HiddenIndex.type = "hidden";
+            HiddenTipoIndicador.name = "IndicadorVinculadoCEs[" + num + "].TipoIndicador";
+            HiddenTipoIndicador.value = TipoIndicador;
+            HiddenTipoIndicador.type = "hidden";
+            HiddenCodigoIndicador.name = "IndicadorVinculadoCEs[" + num + "].CodigoIndicador";
+            HiddenCodigoIndicador.value = CodigoIndicador;
+            HiddenCodigoIndicador.type = "hidden";
+            HiddenUnidadMedida.name = "IndicadorVinculadoCEs[" + num + "].UnidadMedida";
+            HiddenUnidadMedida.value = UnidadMedida;
+            HiddenUnidadMedida.type = "hidden";
+            HiddenActorParticipante.name = "IndicadorVinculadoCEs[" + num + "].ActorParticipante";
+            HiddenActorParticipante.value = ActorParticipante;
+            HiddenActorParticipante.type = "hidden";
+            TR.appendChild(HiddenIndex);
+            TR.appendChild(HiddenTipoIndicador);
+            TR.appendChild(HiddenCodigoIndicador);
+            TR.appendChild(HiddenUnidadMedida);
+            TR.appendChild(HiddenActorParticipante);
+            Tabla.appendChild(TR);
+            document.getElementById("TipoIndicadorVinculo").value = "";
+            document.getElementById("CodigoIndicadorVinculo").value = "";
+            document.getElementById("UnidadMedidaVinculo").value = "";
+            document.getElementById("ActorParticipanteVinculo").value = "";
+            document.getElementById("descResultadoVinculo").value = "";
+           $("#divdescIndicador").hide(10);
+            num++;
+
+        }
+
+ function EliminaFilaCicloIndicador(id) {
+        
+       $("#" + id).remove();
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "IndicadorVinculadoCE", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+             
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+         });
+        
+       
+    }
+
+    function EliminaFilaConfirmacion(id) {
+       
+        if (confirm('¿Estás segura de eliminar este registro?')) {
+        
+          
+
+            var GestionViewModel = {
+                id: id
+            };
+
+             $.ajax({
+                type: "post",
+                url:'@Url.Action("OnPostDelete", "IndicadorVinculadoCE", new { area = "Planificacion" })',
+                 data: GestionViewModel,
+                datatype: "json",
+                cache: false,
+                success: function (data) {
+                /*  alert('Validooo');*/
+                 
+                },
+                error: function(xhr) {
+                   // alert('No Valid Data');
+                } 
+         });
+        $("#" + id).remove();
+       }
+    }
+
+     function duplicados(dato,comparar,tipo) {
+
+        const tableRows = document.querySelectorAll('#indicadorVinculadoTable tr.rowdata');
+
+
+        // Recorremos las filas que tengan el class="row"
+        // así obviamos la cabecera
+        for (let i = 0; i < tableRows.length; i++) {
+            const row = tableRows[i];
+            const status = row.querySelector('.'+comparar);
+
+            if (dato == status.innerText) {
+                alert("El dato " + dato+" ya existe en " +tipo);
+                return true;
+            }
+            // Para modificar un estado:
+            // status.innerText = 'offline';
+        }
+        return false;
+
+    }
+
+
+     function ActualizaFila(id, tipoIndicador,codigoIndicador,unidadMedida,actorParticipante) {
+         document.getElementById("idact").value = id;
+       
+            $("#TipoIndicadorVinculo").val(tipoIndicador);
+            $("#TipoIndicadorVinculo").select2().trigger('change');
+            $("#CodigoIndicadorVinculo").val(codigoIndicador);
+            $("#CodigoIndicadorVinculo").select2().trigger('change');
+            $("#UnidadMedidaVinculo").val(unidadMedida);
+            $("#UnidadMedidaVinculo").select2().trigger('change');
+            $("#ActorParticipanteVinculo").val(actorParticipante);
+            $("#ActorParticipanteVinculo").select2().trigger('change');
+            
+        }
         </script>

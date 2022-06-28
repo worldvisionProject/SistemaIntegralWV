@@ -20,8 +20,14 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
         public int? UnidadMedida { get; set; }
         public decimal? LineaBase { get; set; }
         public decimal? Meta { get; set; }
+        public int TipoMeta { get; set; }
         public int IdFactorCritico { get; set; }
+        public int Codigo { get; set; }
+        public int Tipo { get; set; }
+        public int Actor { get; set; }
+        public int? Seleccionado { get; set; }
         public List<IndicadorAF> IndicadorAFs { get; set; }
+        public ICollection<IndicadorVinculadoE> IndicadorVinculadoEs { get; set; }
     }
 
     public class CreateIndicadorEstrategicoCommandHandler : IRequestHandler<CreateIndicadorEstrategicoCommand, Result<int>>

@@ -16,6 +16,7 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorAFes.Command
         public decimal? Meta { get; set; }
         public string Entregable { get; set; }
         public int Anio { get; set; }
+        public decimal? LineBase { get; set; }
         public int IdIndicadorEstrategico { get; set; }
     }
 

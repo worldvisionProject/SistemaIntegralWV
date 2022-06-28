@@ -5,18 +5,24 @@ using WordVision.ec.Application.Interfaces.CacheRepositories;
 
 using WordVision.ec.Application.Interfaces.CacheRepositories.Maestro;
 using WordVision.ec.Application.Interfaces.CacheRepositories.Planificacion;
+using WordVision.ec.Application.Interfaces.CacheRepositories.Valoracion;
 using WordVision.ec.Application.Interfaces.Contexts;
+using WordVision.ec.Application.Interfaces.Repositories.Indicadores;
 using WordVision.ec.Application.Interfaces.Repositories.Log;
 using WordVision.ec.Application.Interfaces.Repositories.Maestro;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
 using WordVision.ec.Application.Interfaces.Repositories.Presupuesto;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Application.Interfaces.Repositories.Soporte;
+using WordVision.ec.Application.Interfaces.Repositories.Valoracion;
+using WordVision.ec.Application.Interfaces.Repositories.Encuesta;
 using WordVision.ec.Infrastructure.Data.CacheRepositories;
 
 using WordVision.ec.Infrastructure.Data.CacheRepositories.Maestro;
 using WordVision.ec.Infrastructure.Data.CacheRepositories.Planificacion;
+using WordVision.ec.Infrastructure.Data.CacheRepositories.Valoracion;
 using WordVision.ec.Infrastructure.Data.Contexts;
+using WordVision.ec.Infrastructure.Data.Repositories.Indicadores;
 using WordVision.ec.Infrastructure.Data.Repositories.Log;
 using WordVision.ec.Infrastructure.Data.Repositories.Maestro;
 using WordVision.ec.Infrastructure.Data.Repositories.Mensajeria;
@@ -24,6 +30,10 @@ using WordVision.ec.Infrastructure.Data.Repositories.Planificacion;
 using WordVision.ec.Infrastructure.Data.Repositories.Presupuesto;
 using WordVision.ec.Infrastructure.Data.Repositories.Registro;
 using WordVision.ec.Infrastructure.Data.Repositories.Soporte;
+using WordVision.ec.Infrastructure.Data.Repositories.Valoracion;
+
+using WordVision.ec.Infrastructure.Data.Repositories.Encuesta;
+
 
 namespace WordVision.ec.Infrastructure.Data.Extensions
 {
@@ -71,6 +81,25 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<IIdiomaRepository, IdiomaRepository>();
             services.AddTransient<ICatalogoRepository, CatalogoRepository>();
             services.AddTransient<ICatalogoCacheRepository, CatalogoCacheRepository>();
+            services.AddScoped<IRCNinoPatrocinadoRepository, RCNinoPatrocinadoRepository>();
+            services.AddScoped<IProgramaAreaRepository, ProgramaAreaRepository>();
+            services.AddScoped<IProyectoTecnicoRepository, ProyectoTecnicoRepository>();
+            services.AddScoped<IModeloProyectoRepository, ModeloProyectoRepository>();
+            services.AddScoped<ILogFrameRepository, LogFrameRepository>();
+            services.AddScoped<IEtapaModeloProyectoRepository, EtapaModeloProyectoRepository>();
+            //services.AddScoped<IProyectoTecnicoRepository, ProyectoTecnicoRepository>();
+            services.AddScoped<IActorParticipanteRepository, ActorParticipanteRepository>();
+            services.AddScoped<IIndicadorPRRepository, IndicadorPRRepository>();
+            services.AddScoped<IOtroIndicadorRepository, OtroIndicadorRepository>();
+            services.AddScoped<IPresupuestoProyectoRepository, PresupuestoProyectoRepository>();
+            services.AddScoped<IVinculacionIndicadorRepository, VinculacionIndicadorRepository>();
+            services.AddScoped<IFaseProgramaAreaRepository, FaseProgramaAreaRepository>();
+            services.AddScoped<IProyectoITTDIPRepository, ProyectoITTDIPRepository>();
+            services.AddScoped<IProyectoITTRepository, ProyectoITTRepository>();
+            services.AddScoped<IDipInsumoRepository, DipInsumoRepository>();
+            services.AddScoped<IEstadoPorAnioFiscalRepository, EstadoPorAnioFiscalRepository>();
+            services.AddScoped<ILogFrameIndicadorPRRepository, LogFrameIndicadorPRRepository>();
+
 
             services.AddTransient<IObjetivoEstrategicoCacheRepository, ObjetivoEstrategicoCacheRepository>();
             services.AddTransient<IEstrategiaNacionalCacheRepository, EstrategiaNacionalCacheRepository>();
@@ -96,7 +125,9 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<IProductoObjetivoRepository, ProductoObjetivoRepository>();
             services.AddTransient<IIndicadorProductoObjetivoRepository, IndicadorProductoObjetivoRepository>();
             services.AddTransient<IIndicadorCicloEstrategicoRepository, IndicadorCicloEstrategicoRepository>();
-            //services.AddTransient<IMetaCicloEstrategicoRepository, MetaCicloEstrategicoRepository>();
+            services.AddTransient<ITiposIndicadorRepository, TiposIndicadorRepository>();
+            services.AddTransient<IIndicadorVinculadoCERepository, IndicadorVinculadoCERepository>();
+            services.AddTransient<IIndicadorVinculadoERepository, IndicadorVinculadoERepository>();
 
             services.AddTransient<ISolicitudRepository, SolicitudRepository>();
             services.AddTransient<IMensajeriaRepository, MensajeriaRepository>();
@@ -106,6 +137,38 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<IPersonalRepository, PersonalRepository>();
             services.AddTransient<IPonenteRepository, PonenteRepository>();
             services.AddTransient<IDonanteRepository, DonanteRepository>();
+
+            services.AddTransient<IObjetivoRepository, ObjetivoRepository>();
+            services.AddTransient<IResultadoRepository, ResultadoRepository>();
+            services.AddTransient<IResultadoCacheRepository, ResultadoCacheRepository>();
+            services.AddTransient<IPlanificacionResultadoRepository, PlanificacionResultadoRepository>();
+            services.AddTransient<IResponsabilidadRepository, ResponsabilidadRepository>();
+            services.AddTransient<IPlanificacionHitoRepository, PlanificacionHitoRepository>();
+            services.AddTransient<ICompetenciaRepository, CompetenciaRepository>();
+            services.AddTransient<IAvanceObjetivoRepository, AvanceObjetivoRepository>();
+            services.AddTransient<ISeguimientoObjetivoRepository, SeguimientoObjetivoRepository>();
+            services.AddTransient<IPlanificacionComportamientoRepository, PlanificacionComportamientoRepository>();
+            services.AddTransient<IEscalaRepository, EscalaRepository>();
+
+            services.AddTransient<IEncuestaKoboRepository, EncuestaKoboRepository>();
+            services.AddTransient<IPreguntaKoboRepository, PreguntaKoboRepository>();
+            services.AddTransient<IEncuestadoKoboRepository, EncuestadoKoboRepository>();
+            services.AddTransient<IEncuestadoPreguntaKoboRepository, EncuestadoPreguntaKoboRepository>();
+
+            services.AddTransient<IERegionRepository, ERegionRepository>();
+            services.AddTransient<IEProvinciaRepository, EProvinciaRepository>();
+            services.AddTransient<IECantonRepository, ECantonRepository>();
+            services.AddTransient<IEParroquiaRepository, EParroquiaRepository>();
+            services.AddTransient<IEComunidadRepository, EComunidadRepository>();
+
+            services.AddTransient<IEEvaluacionRepository, EEvaluacionRepository>();
+            services.AddTransient<IEProgramaRepository, EProgramaRepository>();
+            services.AddTransient<IEObjetivoRepository, EObjetivoRepository>();
+            services.AddTransient<IEIndicadorRepository, EIndicadorRepository>();
+            services.AddTransient<IEMetaRepository, EMetaRepository>();
+            services.AddTransient<IEIndicadorUsuarioRepository, EIndicadorUsuarioRepository>();
+            services.AddTransient<IETabuladoRepository, ETabuladoRepository>();
+            services.AddTransient<IEReporteTabuladoRepository, EReporteTabuladoRepository>();
 
             #endregion Repositories
         }

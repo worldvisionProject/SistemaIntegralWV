@@ -1,8 +1,9 @@
 ﻿using System;
+using WordVision.ec.Domain.Entities;
 
 namespace WordVision.ec.Domain.Contracts
 {
-    public abstract class AuditableEntity : IAuditableEntity
+    public abstract class AuditableEntity : GenericEntity, IAuditableEntity
     {
         public int Id { get; set; }
         public string CreatedBy { get; set; }

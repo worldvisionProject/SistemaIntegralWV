@@ -117,7 +117,22 @@
                     if (res.isValid) {
 
                         if (res.solocerrar ?? false) {
-                            $('#form-modal').modal('hide');
+                            /*$('#form-modal').modal('hide');*/
+                            var hijo = res.hijo ?? 0;
+                            switch (hijo) {
+                                case 1:
+                                    $('#form-modal-hijo').modal('hide');
+                                    break;
+                                case 2:
+                                    $('#form-modal-hijo-1').modal('hide');
+                                    break;
+                                case 3:
+                                    $('#form-modal-hijo-2').modal('hide');
+                                    break;
+                                default:
+                                    $('#form-modal').modal('hide');
+                                    break;
+                            }
                             return;
                         }
                            
@@ -163,6 +178,9 @@
                                 break;
                             case 2:
                                 $('#form-modal-hijo-1').modal('hide');
+                                break;
+                            case 3:
+                                $('#form-modal-hijo-2').modal('hide');
                                 break;
                             default:
                                 $('#form-modal').modal('hide');
@@ -213,6 +231,12 @@
                                 case 101:
                                     $(res.page).html(res.html);
                                     break;
+                                case 102:
+                                    $(res.page).html(res.html);
+                                    break;
+                                case 103:
+                                    $(res.page).html(res.html);
+                                    break;
                                 default:
                                     $('#viewAll').html(res.html);
                                     break;
@@ -234,6 +258,31 @@
 
                             //$('#viewAll').html(res.html)
                         }
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                })
+            } catch (ex) {
+                console.log(ex)
+            }
+        }
+
+        //prevent default form submit event
+        return false;
+    }
+
+    jQueryModalController = form => {
+        if (confirm('¿Estás segura de ejecutar esta acción?')) {
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: form.action,
+                    data: new FormData(form),
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        
                     },
                     error: function (err) {
                         console.log(err)

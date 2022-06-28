@@ -3,8 +3,8 @@
 @model IndicadorProductoObjetivoViewModel
 
 
-<form id="create-form" method="post" asp-controller="IndicadorCicloEstrategico" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
-   
+<form id="create-formIPO" method="post" asp-controller="IndicadorProductoObjetivo" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+    @Html.HiddenFor(x => x.IdEstrategia, new { name = "IdEstrategia", @Value = Model.IdEstrategia })
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
@@ -18,16 +18,19 @@
 
             </div>
             <div class="form-group row">
-                <div class="col-md-3"  style="text-align: right;">
-                    <label class="col-md-12 col-form-label texto-pregunta text-left">Codigo Indicador</label>
-                     @Html.DropDownListFor(x => x.CodigoIndicador, (IEnumerable<SelectListItem>)Model.CodigoIndicadorList, new { @class = "form-control" })
-                    <span asp-validation-for="CodigoIndicador" class="text-danger"></span>
-                </div>
-                <div class="col-md-3"  style="text-align: right;">
+                  <div class="col-md-3"  style="text-align: right;">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Tipo Indicador</label>
                      @Html.DropDownListFor(x => x.TipoIndicador, (IEnumerable<SelectListItem>)Model.TipoIndicadorList, new { @class = "form-control" })
                     <span asp-validation-for="TipoIndicador" class="text-danger"></span>
                 </div>
+                <div class="col-md-3"  style="text-align: right;">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Codigo Indicador</label>
+                     @Html.DropDownListFor(x => x.CodigoIndicador, (IEnumerable<SelectListItem>)Model.CodigoIndicadorList, new { @class = "form-control" })
+                       
+
+                    <span asp-validation-for="CodigoIndicador" class="text-danger"></span>
+                </div>
+              
                     <div class="col-md-3"  style="text-align: right;">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Unidad Medida</label>
                     @Html.DropDownListFor(x => x.UnidadMedida, (IEnumerable<SelectListItem>)Model.UnidadMedidaList, new { @class = "form-control" })
@@ -36,18 +39,27 @@
                 </div>
                  <div class="col-md-3"  style="text-align: right;">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Actores/Participantes</label>
-                    <input  type="text" name="ActorParticipante" asp-for="ActorParticipante" class="form-control"  />
+                     @Html.DropDownListFor(x => x.ActorParticipante, (IEnumerable<SelectListItem>)Model.ActorParticipanteList, new { @class = "form-control" })
+               
+                 
                     <span asp-validation-for="ActorParticipante" class="text-danger"></span>
        
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="col-md-3"  style="text-align: right;">
+
+            <div class=" row" >
+                         <div class="col-md-12">
+                              <input type="text" value="" height="20" id="descResultado" name="descResultado" style="border:0px" class="col-md-12 col-form-label texto-pregunta" readonly  />
+                         </div>
+                    </div>
+
+          @*  <div class="form-group row">*@
+               @* <div class="col-md-3"  style="text-align: right;">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Año Fiscal</label>
                      @Html.DropDownListFor(x => x.AnioFiscal, (IEnumerable<SelectListItem>)Model.AnioFiscalList, new { @class = "form-control" })
                     <span asp-validation-for="AnioFiscal" class="text-danger"></span>
-                </div>
-                <div class="col-md-3"  style="text-align: right;">
+                </div>*@
+              @*  <div class="col-md-3"  style="text-align: right;">
                     <label class="col-md-12 col-form-label texto-pregunta text-left">Meta</label>
                     <input  type="text" name="Meta"  asp-for="Meta" class="form-control" />
                     <span asp-validation-for="Meta" class="text-danger"></span>
@@ -58,14 +70,18 @@
                     <span asp-validation-for="Logro" class="text-danger"></span>
        
                 </div>
-            </div>
+            </div>*@
         </div>
     </div>
 
     <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-        <button type="submit" class="btn btn-success">Guardar</button>
-        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorProductoObjetivo.Create)).Result.Succeeded)
+        {   <input type="hidden" value="false" name="band" id="band" />
+            <button type="submit" class="btn btn-success">Guardar</button>
+        }
+        else { <input type="hidden" value="true" name="band" id="band" />}
+        <button type="submit" class="btn btn-default close-button" name="cancelar" id="cancelar" data-dismiss="modal">Cancelar</button>
     </div>
 </form>
 
@@ -73,7 +89,11 @@
         
         <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
-    $(function () {
+    $(function () { 
+        $('#create-formIPO *').prop('disabled', (document.getElementById("band").value == "true"));
+       
+        $("#cancelar").removeAttr("disabled");  
+        $("#descResultado").empty();
         $(".datepicker").datepicker({
             format: "dd-mm-yyyy",
             autoclose: true,
@@ -90,6 +110,24 @@
             return m;
         }
     });
-
+    $("#TipoIndicador").change(function () {
+                $.get("/Planificacion/IndicadorProductoObjetivo/GetTiposIndicador", { idTipoIndicador: $("#TipoIndicador").val() }, function (data) {
+                    // VACIAMOS EL DropDownList
+                    $("#CodigoIndicador").empty(); 
+                            $("#descResultado").empty();
+                    // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                   // $("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
+                    // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                    $.each(data, function (index, row) {
+                        $("#CodigoIndicador").append("<option value='" + row.id + "'>" + row.codigoIndicador + "</option>")
+                    });
+                });
+            });
+            $("#CodigoIndicador").change(function () {
+                 $("#descResultado").empty();
+                $.get("/Planificacion/IndicadorProductoObjetivo/GetDescTiposIndicador", { idCodigoIndicador: $("#CodigoIndicador").val() }, function (data) {
+                   $("#descResultado").val(data.descripcion);
+                });
+            });
 
         </script>

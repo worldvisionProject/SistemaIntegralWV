@@ -12,6 +12,8 @@ using WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategico
 using WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategicos.Commands.Delete;
 using WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategicos.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.IndicadorCicloEstrategicos.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.TiposIndicadores.Queries.GetAll;
+using WordVision.ec.Application.Features.Planificacion.TiposIndicadores.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Planificacion.Models;
 
@@ -22,7 +24,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
     public class IndicadorCicloEstrategicoController : BaseController<IndicadorCicloEstrategicoController>
     {
-        public async Task<ActionResult> LoadIndicadores(int idEstrategia)
+        public async Task<ActionResult> LoadIndicadores(int idEstrategia,string ciclo)
         {
             try
             {
@@ -36,14 +38,15 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     //{
 
                     //    var entidadViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
-                  
+
 
 
                     //     ViewBag.AnioList = entidadViewModel;
                     //}
                     var model = new IndicadorCicloEstrategicoViewModelMaster();
                     model.IndicadorCicloEstrategicoViewModel = viewModel;
-                    model.AnioFiscalList= new SelectList(responseE.Data, "Id", "Anio");
+                    model.AnioFiscalList = new SelectList(responseE.Data, "Id", "Anio");
+                    model.Ciclo = ciclo;
                     //var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
                     //return new JsonResult(new { isValid = true, html = html1 });
                     return PartialView("_ViewAll", model);
@@ -69,24 +72,31 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             //{
             //    var viewModel = _mapper.Map<List<GestionViewModel>>(responseGestion.Data);
             //}
-            var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 40 });
+            //var cat1 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 40 });
             var cat2 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 39 });
             var cat3 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 10 });
+            var cat4 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 43 });
+            var cat5 = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 44 });
 
             if (id == 0)
             {
                 var entidadViewModel = new IndicadorCicloEstrategicoViewModel();
+                entidadViewModel.IndicadorVinculadoCEs = new List<IndicadorVinculadoCEViewModel>();
                 entidadViewModel.IdEstrategia = idEstrategia;
                 var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = idEstrategia });
                 if (responseE.Succeeded)
                 {
 
                     var gestionViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
-                    entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Descripcion"); 
+                    entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Anio");
                 }
-                entidadViewModel.CodigoIndicadorList = new SelectList(cat1.Data, "Secuencia", "Nombre");
+                var entidadModel = await _mediator.Send(new GetTiposIndicadorById() { IdTipoIndicador = 1 });
+
+                entidadViewModel.CodigoIndicadorList = new SelectList(entidadModel.Data, "Id", "CodigoIndicador");
                 entidadViewModel.TipoIndicadorList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                 entidadViewModel.UnidadMedidaList = new SelectList(cat3.Data, "Secuencia", "Nombre");
+                entidadViewModel.ActorParticipanteList = new SelectList(cat4.Data, "Secuencia", "Nombre");
+                entidadViewModel.TipoMetaList = new SelectList(cat5.Data, "Secuencia", "Nombre");
                 return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }
             else
@@ -100,11 +110,15 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                     {
 
                         var gestionViewModel = _mapper.Map<List<GestionViewModel>>(responseE.Data);
-                        entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Descripcion");
+                        entidadViewModel.AnioFiscalList = new SelectList(gestionViewModel, "Id", "Anio");
                     }
-                    entidadViewModel.CodigoIndicadorList = new SelectList(cat1.Data, "Secuencia", "Nombre");
+                    var entidadModel = await _mediator.Send(new GetAllTiposIndicadoresQuery() );// { IdTipoIndicador = entidadViewModel.TipoIndicador });
+         
+                    entidadViewModel.CodigoIndicadorList = new SelectList(entidadModel.Data, "Id", "CodigoIndicador");
                     entidadViewModel.TipoIndicadorList = new SelectList(cat2.Data, "Secuencia", "Nombre");
                     entidadViewModel.UnidadMedidaList = new SelectList(cat3.Data, "Secuencia", "Nombre");
+                    entidadViewModel.ActorParticipanteList = new SelectList(cat4.Data, "Secuencia", "Nombre");
+                    entidadViewModel.TipoMetaList = new SelectList(cat5.Data, "Secuencia", "Nombre");
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 return null;
@@ -118,6 +132,73 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                  
+                    switch (entidad.TipoMeta)
+                    {
+                        case 1:
+                            if (entidad.Meta2 != null && entidad.Meta3 == null)
+                            {
+                                if (Convert.ToDecimal(entidad.Meta2) < Convert.ToDecimal(entidad.Meta))
+                                {
+                                    _notify.Information("La meta debe ser mayor");
+                                    return new JsonResult(new { isValid = true, Id = id });
+                                }
+                            }
+                            else if (entidad.Meta2 != null && entidad.Meta3 != null)
+                            {
+                                if (Convert.ToDecimal(entidad.Meta3) < Convert.ToDecimal(entidad.Meta2))
+                                {
+                                    _notify.Information("La meta debe ser mayor");
+                                    return new JsonResult(new { isValid = true, Id = id });
+                                }
+                            }
+
+                            break;
+                        case 2:
+                            if (entidad.Meta2 != null && entidad.Meta3 == null)
+                            {
+                                if (Convert.ToDecimal(entidad.Meta2) > Convert.ToDecimal(entidad.Meta))
+                                {
+                                    _notify.Information("La meta debe ser menor");
+                                }
+                            }
+                            else if (entidad.Meta2 != null && entidad.Meta3 != null)
+                            {
+                                if (Convert.ToDecimal(entidad.Meta3) > Convert.ToDecimal(entidad.Meta2))
+                                {
+                                    _notify.Information("La meta debe ser mayor");
+                                    return new JsonResult(new { isValid = true, Id = id });
+                                }
+                            }
+                            break;
+                        case 3:
+                            if (entidad.Meta2 != null && entidad.Meta3 == null)
+                            {
+                                if (Convert.ToDecimal(entidad.Meta2) != Convert.ToDecimal(entidad.Meta))
+                                {
+                                    _notify.Information("La meta debe ser igual");
+                                }
+                            }
+                            else if (entidad.Meta2 != null && entidad.Meta3 != null)
+                            {
+                                if (Convert.ToDecimal(entidad.Meta3) != Convert.ToDecimal(entidad.Meta2))
+                                {
+                                    _notify.Information("La meta debe ser mayor");
+                                    return new JsonResult(new { isValid = true, Id = id });
+                                }
+                            }
+                            break;
+                        case 4:
+                            //if($(this).val() > m1) {
+                            //    alert('Debe ser mayor');
+                            //    }
+                            break;
+
+                        default:
+                            _notify.Information("Debe seleccionar un tipo de meta.");
+                            break;
+                    }
+
                     if (id == 0)
                     {
                         var createEntidadCommand = _mapper.Map<CreateIndicadorCicloEstrategicoCommand>(entidad);
@@ -142,7 +223,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                         var viewModel = _mapper.Map<List<IndicadorCicloEstrategicoViewModel>>(response.Data);
                         ViewBag.IdEstrategia = entidad.IdEstrategia;
                         var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = entidad.IdEstrategia });
-                  
+
                         var model = new IndicadorCicloEstrategicoViewModelMaster();
                         model.IndicadorCicloEstrategicoViewModel = viewModel;
                         model.AnioFiscalList = new SelectList(responseE.Data, "Id", "Anio");
@@ -158,7 +239,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
 
 
                 }
-                return new JsonResult(new { isValid = true, Id = id });
+                else
+                {
+                    return new JsonResult(new { isValid = false, Id = id });
+                }
+                //return new JsonResult(new { isValid = true, Id = id });
             }
             catch (Exception ex)
             {
@@ -169,18 +254,36 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         }
 
 
-        public async Task<JsonResult> OnPostDelete(int id = 0)
+        public async Task<JsonResult> OnPostDelete(int id = 0, int idEstrategia=0)
         {
             var deleteCommand = await _mediator.Send(new DeleteIndicadorCicloEstrategicoCommand { Id = id });
             if (deleteCommand.Succeeded)
             {
                 _notify.Information($"Indicador con Id {id} Eliminado.");
-                return new JsonResult(new { isValid = true });
-
+              
             }
             else
             {
                 _notify.Error(deleteCommand.Message);
+               
+            }
+            var response = await _mediator.Send(new GetIndicadorCicloEstrategicoByIdEstrategiaQuery() { Id = idEstrategia });
+            if (response.Succeeded)
+            {
+                var viewModel = _mapper.Map<List<IndicadorCicloEstrategicoViewModel>>(response.Data);
+                ViewBag.IdEstrategia = idEstrategia;
+                var responseE = await _mediator.Send(new GetListGestionByIdQuery() { Id = idEstrategia });
+
+                var model = new IndicadorCicloEstrategicoViewModelMaster();
+                model.IndicadorCicloEstrategicoViewModel = viewModel;
+                model.AnioFiscalList = new SelectList(responseE.Data, "Id", "Anio");
+                var html1 = await _viewRenderer.RenderViewToStringAsync("_ViewAll", model);
+                return new JsonResult(new { isValid = true, opcion = 102, page = "#viewAllIndicador", html = html1 });
+
+            }
+            else
+            {
+                _notify.Error(response.Message);
                 return null;
             }
         }

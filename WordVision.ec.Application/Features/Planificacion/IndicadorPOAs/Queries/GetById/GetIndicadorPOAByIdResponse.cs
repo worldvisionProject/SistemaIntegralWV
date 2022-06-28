@@ -12,9 +12,11 @@ namespace WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoe
         public int? UnidadMedida { get; set; }
         public decimal? LineaBase { get; set; }
         public decimal? Meta { get; set; }
+        public int TipoMeta { get; set; }
         public int IdProducto { get; set; }
         public Producto Productos { get; set; }
         public ICollection<Actividad> Actividades { get; set; }
         public ICollection<MetaTactica> MetaTacticas { get; set; }
+        public ICollection<IndicadorVinculadoPOA> IndicadorVinculadoPOAs { get; set; }
     }
 }

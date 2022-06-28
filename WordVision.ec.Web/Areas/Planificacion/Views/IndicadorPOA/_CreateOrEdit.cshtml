@@ -47,6 +47,7 @@
 
     <form id="create-form" method="post" asp-controller="IndicadorPOA" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
         @Html.HiddenFor(x => x.IdProducto)
+         @{ decimal suma = 0;}
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group row">
@@ -57,38 +58,251 @@
                         <span asp-validation-for="IndicadorProducto" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <div class="col-md-12">
-                        <label class="col-md-12 col-form-label texto-pregunta">Medio Verificacion</label>
-
-                        <textarea asp-for="MedioVerificacion" name="MedioVerificacion" class="form-control"></textarea>
-                        <span asp-validation-for="MedioVerificacion" class="text-danger"></span>
+               @* TIPO DE INDICADOR*@
+                 <div class="form-group row">
+                     <div class="col-md-3"  style="text-align: right;">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Tipo Indicador</label>
+                         @Html.DropDownListFor(x => x.Tipo, (IEnumerable<SelectListItem>)Model.TipoIndicadorList, new { @class = "form-control" })
+                        <span asp-validation-for="Tipo" class="text-danger"></span>
                     </div>
+                    <div class="col-md-3"  style="text-align: right;">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Codigo Indicador</label>
+                         @Html.DropDownListFor(x => x.Codigo, (IEnumerable<SelectListItem>)Model.CodigoIndicadorList, new { @class = "form-control" })
+                     
+                        <span asp-validation-for="Codigo" class="text-danger"></span>
+                    </div>
+              
+                    <div class="col-md-3">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Unidad Medida</label>
+                        @Html.DropDownListFor(x => x.UnidadMedida, Model.UnidadList, new { @class = "form-control" })
+
+                        <span asp-validation-for="UnidadMedida" class="text-danger"></span>
+                    </div>
+                     <div class="col-md-3"  style="text-align: right;">
+                    <label class="col-md-12 col-form-label texto-pregunta text-left">Actores/Participantes</label>
+                     @Html.DropDownListFor(x => x.Actor, (IEnumerable<SelectListItem>)Model.ActorParticipanteList, new { @class = "form-control" })
+               
+                 
+                    <span asp-validation-for="Actor" class="text-danger"></span>
+       
+                    </div>
+                 </div>
+                 <div class="form-group row" id="descIndicador">
+                         <div class="col-md-12">
+                              <input type="text" value="" height="20" id="descResultado" name="descResultado" style="border:0px" class="col-md-12 col-form-label texto-pregunta" readonly  />
+                         </div>
                 </div>
+               @* FIN TIPO DE INDICADOR*@
+
+             @*  INICIO VICNULAR INDICADOR*@
+              <div class="form-group row" > 
+                <div class="col-md-12">
+                    <div class="form-check form-check-inline">
+                        @if (Model.IndicadorVinculadoPOAs.Count==0)
+                        {
+                          <input class="form-control form-check-input" type="checkbox" name="chkVinculacion" id="chkVinculacion" value="1">  
+                        }
+                        else
+                        {
+                           <input class="form-control form-check-input" type="checkbox" name="chkVinculacion" id="chkVinculacion" value="1" checked> 
+                        }
+                        
+                         <label class="form-check-label" for="chkVinculacion">Vinculación con otro Indicador</label>
+                    </div>
+                </div>         
+             </div>
+            <div id="divVincularIndicador">
+                 <hr>
+                 <div class="form-group row"> 
+                     <div class="col-md-3"  style="text-align: right;">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Tipo Indicador</label>
+                         @Html.DropDownListFor(x => x.TipoIndicadorVinculo, (IEnumerable<SelectListItem>)Model.TipoIndicadorList, new { @class = "form-control" })
+                        <span asp-validation-for="TipoIndicadorVinculo" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3"  style="text-align: right;">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Codigo Indicador</label>
+                         @Html.DropDownListFor(x => x.CodigoIndicadorVinculo, (IEnumerable<SelectListItem>)Model.CodigoIndicadorList, new { @class = "form-control" })
+                        <span asp-validation-for="CodigoIndicadorVinculo" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2"  style="text-align: right;">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Unidad Medida</label>
+                        @Html.DropDownListFor(x => x.UnidadMedidaVinculo, (IEnumerable<SelectListItem>)Model.UnidadList, new { @class = "form-control" })
+                        <span asp-validation-for="UnidadMedidaVinculo" class="text-danger"></span>
+       
+                    </div>
+                    <div class="col-md-2"  style="text-align: right;">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Actores/Participantes</label>
+                        @Html.DropDownListFor(x => x.ActorParticipanteVinculo, (IEnumerable<SelectListItem>)Model.ActorParticipanteList, new { @class = "form-control" })
+               
+                        <span asp-validation-for="ActorParticipanteVinculo" class="text-danger"></span>
+       
+                    </div>
+                    <div class="col-md-2" style="padding-top: 25px;">
+                       <button type="button" class="btn bg-success" onclick="AgregaIndicador(); return false;"> 
+                           <i class="fa fa-plus-square"></i> Agregar</button>
+                    </div>
+            </div>
+                 <div class="form-group row" id="divdescIndicador">
+                    <div class="col-md-12">
+                         <input type="text" value="" height="20" id="descResultadoVinculo" name="descResultadoVinculo" style="border:0px" class="col-md-12 col-form-label texto-pregunta" readonly  />
+                    </div>
+                 </div>
+
+
+                    <div id="divIndicador">
+                <table id="indicadorVinculadoTable" class="table table-striped rwd-table" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Tipo Indicador</th>
+                            <th>Cod. Indicador</th>
+                            <th>Unidad Medida</th>
+                            <th>Actores/Participantes</th>
+                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Delete)).Result.Succeeded)
+                            {
+                                <th class="text-right">Acciones</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.IndicadorVinculadoPOAs != null)
+                        {
+                       
+
+                            @foreach (var indicador in Model.IndicadorVinculadoPOAs)
+                            {
+                           
+                                <tr id="@indicador.Id" class="rowdata">
+                                    <td class="ti">
+                                   
+                                         @{
+                                            var selectedTipo = Model.TipoIndicadorList;
+                                            string txtTipo = selectedTipo.Where(x => x.Value == indicador.TipoIndicador.ToString())?.FirstOrDefault()?.Text;
+                                        }
+                                        @txtTipo
+                                    </td>
+                                    <td class="ci">
+                                        @{
+                                            var selectedCodigo = Model.CodigoIndicadorList;
+                                            string txtCodigo = selectedCodigo.Where(x => x.Value == indicador.CodigoIndicador.ToString())?.FirstOrDefault()?.Text;
+                                        }
+                                        @txtCodigo
+
+                                    </td>
+                                    <td class="um">
+                                         @{
+                                            var selectedUnidad = Model.UnidadList;
+                                            string txtUnidad = selectedUnidad.Where(x => x.Value == indicador.UnidadMedida.ToString())?.FirstOrDefault()?.Text;
+                                        }
+                                        @txtUnidad
+                                    </td>
+                                    <td class="ap">
+                                       @{
+                                            var selectedActor = Model.ActorParticipanteList;
+                                            string txtActor = selectedActor.Where(x => x.Value == indicador.ActorParticipante.ToString())?.FirstOrDefault()?.Text;
+                                        }
+                                        @txtActor
+                                    </td>
+
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.IndicadorEstrategico.Delete)).Result.Succeeded)
+                                    {
+
+                                        <td class="text-right">
+                                            <button type="button" class="btn btn-warning btn-xp" id="btnViewModel" onclick="ActualizaFila(@indicador.Id,@indicador.TipoIndicador,@indicador.CodigoIndicador,@indicador.UnidadMedida,@indicador.ActorParticipante)">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </button>
+                                            <button type="button" onclick="EliminaFilaConfirmacion(@indicador.Id)" class="btn btn-danger btn-xp">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+
+                                        </td>
+                                    }
+
+                                </tr>
+                            }
+
+
+                        }
+
+                
+                        <input  type="hidden" id="idact" name="idact" />
+                        <input  type="hidden" id="idactI" name="idactI" />
+                    </tbody>
+                </table>
+
+           
+            </div>
+            <hr>
+         </div>
+        
+         <hr />
+              @* FIN VINCULAR INDICADOR*@
+
+              <div class="form-group row">
+                @foreach(var i in Model.TipoMetaList)
+                {
+                   <div class="col-md-3">
+                    <div class="form-check form-check-inline">
+                        @if (Model.TipoMeta==Convert.ToInt32( i.Value))
+                            {
+                                <input class="form-control form-check-input" type="radio" name="tipoMeta" id="@i.Value" value="@i.Value" checked>
+                            }
+
+                            else
+                            {
+                                <input class="form-control form-check-input" type="radio" name="tipoMeta" id="@i.Value" value="@i.Value">
+                            }
+                            
+                      <label class="form-check-label" for="@i.Value">@i.Text</label>
+                    </div>
+                </div> 
+                }
+                
+               
+            </div>
+            <hr />
+
                 <div class="form-group row">
-                    <div class="col-md-5">
+                     <div class="col-md-2">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
+                        <input asp-for="LineaBase" type="text" name="LineaBase" class="form-control" />
+                        <span asp-validation-for="LineaBase" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="col-md-2">
+                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Acumulada ciclo</label>
+                        <input asp-for="Meta" type="text" name="Meta" class="form-control" />
+                        <span asp-validation-for="Meta" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                            <label class="col-md-12 col-form-label texto-pregunta text-left">Logro acumulada ciclo</label>
+                            <input asp-for="LogroAcumulado" type="text" name="LogroAcumulado" class="form-control" />
+                            <span asp-validation-for="LogroAcumulado" class="text-danger"></span>
+                        </div>
+                     <div class="col-md-3">
                         <label class="col-md-12 col-form-label texto-pregunta">Responsable</label>
 
                         @Html.DropDownListFor(x => x.Responsable, (IEnumerable<SelectListItem>)Model.responsableList, new { @class = "form-control" })
                         <span asp-validation-for="Responsable" class="text-danger"></span>
                     </div>
+                    <div class="col-md-3">
+                        <label class="col-md-12 col-form-label texto-pregunta">Medio Verificación</label>
+
+                        <textarea asp-for="MedioVerificacion" name="MedioVerificacion" class="form-control"></textarea>
+                        <span asp-validation-for="MedioVerificacion" class="text-danger"></span>
+                    </div>
+                </div>
+                
+              @*  <div class="form-group row">
+                   
                     <div class="col-md-2">
                         <label class="col-md-12 col-form-label texto-pregunta text-left">Unidad Medida</label>
                         @Html.DropDownListFor(x => x.UnidadMedida, Model.UnidadList, new { @class = "form-control" })
 
                         <span asp-validation-for="UnidadMedida" class="text-danger"></span>
                     </div>
-                    <div class="col-md-2">
-                        <label class="col-md-12 col-form-label texto-pregunta text-left">Linea Base</label>
-                        <input asp-for="LineaBase" type="text" name="LineaBase" class="form-control" />
-                        <span asp-validation-for="LineaBase" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Acumulada</label>
-                        <input asp-for="Meta" type="text" name="Meta" class="form-control" />
-                        <span asp-validation-for="Meta" class="text-danger"></span>
-                    </div>
-                </div>
+                   
+                    
+                </div>*@
 
 
                 <div class="row">
@@ -98,11 +312,15 @@
                                 <hr />
                             </div>
                             <div class="col-md-12">
-                                <label class="col-md-12 col-form-label">Metas de Indicador</label>
+                                <label class="col-md-12 col-form-label">Metas Anuales de Indicador</label>
                             </div>
                         </div>
                         <div class="form-group row">
-
+                            <div class="col-md-2">
+                                <label class="col-md-12 col-form-label texto-pregunta text-left">Línea Base</label>
+                                <input asp-for="LineaBaseMeta" type="text" name="LineaBaseMeta" class="form-control" />
+                                <span asp-validation-for="LineaBaseMeta" class="text-danger"></span>
+                            </div>
                             <div class="col-md-2">
                                 <label class="col-md-12 col-form-label texto-pregunta text-left">Meta a los (meses)</label>
                                 @Html.DropDownListFor(x => x.NumMesesList, Model.NumMesesList, new { @class = "form-control" })
@@ -115,13 +333,13 @@
                                     <span asp-validation-for="UnidadList" class="text-danger"></span>
 
                                 </div>*@
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <label class="col-md-12 col-form-label texto-pregunta text-left">Meta Trimestral</label>
 
                                 <input asp-for="ValorMeta" type="text" name="ValorMeta" class="form-control" />
                                 <span asp-validation-for="ValorMeta" class="text-danger"></span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label class="col-md-12 col-form-label texto-pregunta text-left">Logro Entregable</label>
 
                                 <input asp-for="EntregableMeta" type="text" name="EntregableMeta" class="form-control" />
@@ -140,7 +358,7 @@
                     <table id="metasTable" class="table table-striped" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                @*<th>Id</th>*@
+                                <th>Línea Base</th>
                                 <th>Meses</th>
                                 @*<th>Medida/Unidad</th>*@
                                 <th>Meta Trimestral</th>
@@ -155,10 +373,11 @@
                                 @foreach (var metaanual in Model.MetaTacticas)
                                 {
                                     <tr id="@metaanual.Id" class="rowdata">
-                                        @*<td>
+                                       <td class="linebase">
 
-                                                @colaborador.Id
-                                            </td>*@
+                                            @metaanual.LineaBase
+
+                                        </td>
                                         <td class="mes">
 
                                             @metaanual.NumMeses
@@ -207,7 +426,23 @@
 
     <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
+
     $(function () {
+
+        
+      
+        //$('#create-form *').prop('disabled', (document.getElementById("band").value == "true"));
+
+        $("#divVincularIndicador").hide();
+        $("#descResultado").empty();
+        $("#descIndicador").hide();
+        $("#divdescIndicador").hide();
+
+        if (@Model.IndicadorVinculadoPOAs.Count()>0)
+        {
+            $("#divVincularIndicador").show(1000);
+        }
+
         $(".datepicker").datepicker({
             format: "dd-mm-yyyy",
             autoclose: true,
@@ -225,6 +460,290 @@
         }
     });
 
+
+           $("#Tipo").change(function () {
+                $.get("/Planificacion/IndicadorProductoObjetivo/GetTiposIndicador", { idTipoIndicador: $("#Tipo").val() }, function (data) {
+                    // VACIAMOS EL DropDownList
+                    $("#Codigo").empty();
+                    
+                            $("#descResultado").empty();
+                            $("#descIndicador").hide(10);
+                    // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                   // $("#IdResultado").append("<option value> -- Seleccionar Comportamiento de " + $("#IdPadreCompetencia option:selected").text() + " --</option>")
+                    // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                    $.each(data, function (index, row) {
+                        $("#Codigo").append("<option value='" + row.id + "'>" + row.codigoIndicador + "</option>")
+                    });
+                });
+            });
+            
+            $("#Codigo").change(function () {
+                $.get("/Planificacion/IndicadorProductoObjetivo/GetDescTiposIndicador", { idCodigoIndicador: $("#Codigo").val() }, function (data) {
+                   $("#descResultado").val(data.descripcion);
+                     $("#descIndicador").show(10);
+                });
+            });
+
+            $("#TipoIndicadorVinculo").change(function () {
+                        $.get("/Planificacion/IndicadorProductoObjetivo/GetTiposIndicador", { idTipoIndicador: $("#TipoIndicadorVinculo").val() }, function (data) {
+                            // VACIAMOS EL DropDownList
+                            $("#CodigoIndicadorVinculo").empty();
+                            $("#descResultadoVinculo").empty();
+                            $("#divdescIndicador").hide(10);
+                            // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                            $("#CodigoIndicadorVinculo").append("<option value=-1> -- Seleccionar --</option>")
+                            // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                            $.each(data, function (index, row) {
+                                $("#CodigoIndicadorVinculo").append("<option value='" + row.id + "'>" + row.codigoIndicador + "</option>")
+                            });
+                        });
+                    });
+            
+             $("#CodigoIndicadorVinculo").change(function () {
+                 $("#descResultadoVinculo").empty();
+                 $("#divdescIndicador").hide(10);
+                $.get("/Planificacion/IndicadorProductoObjetivo/GetDescTiposIndicador", { idCodigoIndicador: $("#CodigoIndicadorVinculo").val() }, function (data) {
+                   $("#descResultadoVinculo").val(data.descripcion);
+                   $("#divdescIndicador").show(10);
+                });
+            });
+
+            $("#chkVinculacion").change(function () {
+                var tipo=  $('input[name=chkVinculacion]:checked').val();
+           
+                if (tipo==1)
+                    $("#divVincularIndicador").show(1000);
+                else
+                    $("#divVincularIndicador").hide(1000);
+            });
+
+
+//INICIA VINCULACION
+        var numI = 0;
+        function AgregaIndicador() {
+            let idact = document.getElementById("idactI").value;
+          
+            if (idact.length != 0) {
+                EliminaFilaIndicadorE(idact);
+            }
+
+            let TipoIndicador = document.getElementById("TipoIndicadorVinculo").value;
+            let CodigoIndicador = document.getElementById("CodigoIndicadorVinculo").value;
+            let CodigoIndicadorNo = document.getElementById("Codigo").value;
+            let UnidadMedida = document.getElementById("UnidadMedidaVinculo").value;
+            let ActorParticipante = document.getElementById("ActorParticipanteVinculo").value;
+
+             if (CodigoIndicadorNo.length == 0) {
+                alert("Ingrese Tipo Indicador.");
+                document.getElementById("CodigoIndicador").focus();
+                return;
+            }
+
+            if (CodigoIndicador == CodigoIndicadorNo) {
+                 alert("El tipo de  indicador a vincular  es el mismo ya ingresado.");
+                document.getElementById("CodigoIndicadorVinculo").focus();
+                return;
+            }
+            if (TipoIndicador.length == 0) {
+                alert("Ingrese TipoIndicador.");
+                document.getElementById("TipoIndicadorVinculo").focus();
+                return;
+            }
+            if (CodigoIndicador.length == 0) {
+                alert("Ingrese CodigoIndicador.");
+                document.getElementById("CodigoIndicadorVinculo").focus();
+                return;
+            }
+            if (UnidadMedida.length == 0) {
+                alert("Ingrese UnidadMedida.");
+                document.getElementById("UnidadMedidaVinculo").focus();
+                return;
+            }
+            if (ActorParticipante.length == 0) {
+                alert("Ingrese ActorParticipante.");
+                document.getElementById("ActorParticipanteVinculo").focus();
+                return;
+            }
+
+            var selectionTI = document.getElementById("TipoIndicadorVinculo");
+            let TipoIndicadorDesc = selectionTI.options[selectionTI.selectedIndex].innerHTML;
+             var selectionCI = document.getElementById("CodigoIndicadorVinculo");
+            let CodigoIndicadorDesc = selectionCI.options[selectionCI.selectedIndex].innerHTML;
+             var selectionUM = document.getElementById("UnidadMedidaVinculo");
+            let UnidadMedidaDesc = selectionUM.options[selectionUM.selectedIndex].innerHTML;
+             var selectionAP = document.getElementById("ActorParticipanteVinculo");
+            let ActorParticipanteDesc = selectionAP.options[selectionAP.selectedIndex].innerHTML;
+
+            //if (duplicados(TipoIndicadorDesc,"ti","TipoIndicador")) { return;}
+            if (duplicadosIndicadorE(CodigoIndicadorDesc,"ci","CodigoIndicador")) { return;}
+            //if (duplicados(UnidadMedidaDesc,"um","UnidadMedida")) { return;}
+            //if (duplicados(ActorParticipanteDesc,"ap","ActorParticipante")) { return;}
+           
+            
+
+
+            //agregamos tabla
+            let Tabla = document.getElementById("indicadorVinculadoTable");
+            let TR = document.createElement("tr");
+            TR.setAttribute('id', numI);
+            TR.className = "rowdata";
+           // let TDId = document.createElement("td");
+            let TDTipoIndicador = document.createElement("td");
+            let TDCodigoIndicador = document.createElement("td");
+            let TDUnidadMedida = document.createElement("td");
+            let TDActorParticipante = document.createElement("td");
+            let TDEliminar = document.createElement("td");
+            TDEliminar.className = "text-right";
+            TDTipoIndicador.className = "ti";
+            TDCodigoIndicador.className = "ci";
+            TDUnidadMedida.className = "um";
+            TDActorParticipante.className = "ap";
+
+            TR.appendChild(TDTipoIndicador);
+            TR.appendChild(TDCodigoIndicador);
+            TR.appendChild(TDUnidadMedida);
+            TR.appendChild(TDActorParticipante);
+            TR.appendChild(TDEliminar);
+           
+            TDTipoIndicador.innerHTML = TipoIndicadorDesc;
+            TDCodigoIndicador.innerHTML = CodigoIndicadorDesc;
+            TDUnidadMedida.innerHTML = UnidadMedidaDesc;
+            TDActorParticipante.innerHTML = ActorParticipanteDesc;
+            TDEliminar.innerHTML = " <button type='button' class='btn btn-warning btn-xp' id='btnViewModel' onclick='ActualizaFila(" + numI + "," + TipoIndicador+","+CodigoIndicador+","+UnidadMedida+","+ActorParticipante+")'> <i class='fas fa-pencil-alt'></i>  </button> <button type='button' onclick='EliminaFilaConfirmacion("+numI+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
+            
+
+            //agregamos hiddens
+            //let DivConceptos = document.getElementById("divIndicador");
+            let HiddenIndex = document.createElement("input");
+            let HiddenTipoIndicador = document.createElement("input");
+            let HiddenCodigoIndicador = document.createElement("input");
+            let HiddenUnidadMedida = document.createElement("input");
+            let HiddenActorParticipante = document.createElement("input");
+            HiddenIndex.name = "IndicadorVinculadoPOAs.Index";
+            HiddenIndex.value = numI;
+            HiddenIndex.type = "hidden";
+            HiddenTipoIndicador.name = "IndicadorVinculadoPOAs[" + numI + "].TipoIndicador";
+            HiddenTipoIndicador.value = TipoIndicador;
+            HiddenTipoIndicador.type = "hidden";
+            HiddenCodigoIndicador.name = "IndicadorVinculadoPOAs[" + numI + "].CodigoIndicador";
+            HiddenCodigoIndicador.value = CodigoIndicador;
+            HiddenCodigoIndicador.type = "hidden";
+            HiddenUnidadMedida.name = "IndicadorVinculadoPOAs[" + numI + "].UnidadMedida";
+            HiddenUnidadMedida.value = UnidadMedida;
+            HiddenUnidadMedida.type = "hidden";
+            HiddenActorParticipante.name = "IndicadorVinculadoPOAs[" + numI + "].ActorParticipante";
+            HiddenActorParticipante.value = ActorParticipante;
+            HiddenActorParticipante.type = "hidden";
+            TR.appendChild(HiddenIndex);
+            TR.appendChild(HiddenTipoIndicador);
+            TR.appendChild(HiddenCodigoIndicador);
+            TR.appendChild(HiddenUnidadMedida);
+            TR.appendChild(HiddenActorParticipante);
+            Tabla.appendChild(TR);
+            document.getElementById("TipoIndicadorVinculo").value = "";
+            document.getElementById("CodigoIndicadorVinculo").value = "";
+            document.getElementById("UnidadMedidaVinculo").value = "";
+            document.getElementById("ActorParticipanteVinculo").value = "";
+            document.getElementById("descResultadoVinculo").value = "";
+           $("#divdescIndicador").hide(10);
+            numI++;
+
+        }
+
+ function EliminaFilaIndicadorE(id) {
+        
+       $("#" + id).remove();
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "IndicadorVinculadoCE", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+             
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+         });
+        
+       
+    }
+
+    function EliminaFilaConfirmacion(id) {
+       
+        if (confirm('¿Estás segura de eliminar este registro?')) {
+        
+          
+
+            var GestionViewModel = {
+                id: id
+            };
+
+             $.ajax({
+                type: "post",
+                url:'@Url.Action("OnPostDelete", "IndicadorVinculadoCE", new { area = "Planificacion" })',
+                 data: GestionViewModel,
+                datatype: "json",
+                cache: false,
+                success: function (data) {
+                /*  alert('Validooo');*/
+                 
+                },
+                error: function(xhr) {
+                   // alert('No Valid Data');
+                } 
+         });
+        $("#" + id).remove();
+       }
+    }
+
+     function duplicadosIndicadorE(dato,comparar,tipo) {
+
+        const tableRows = document.querySelectorAll('#indicadorVinculadoTable tr.rowdata');
+
+
+        // Recorremos las filas que tengan el class="row"
+        // así obviamos la cabecera
+        for (let i = 0; i < tableRows.length; i++) {
+            const row = tableRows[i];
+            const status = row.querySelector('.'+comparar);
+
+            if (dato == status.innerText) {
+                alert("El dato " + dato+" ya existe en " +tipo);
+                return true;
+            }
+            // Para modificar un estado:
+            // status.innerText = 'offline';
+        }
+        return false;
+
+    }
+
+
+     function ActualizaFilaIndicadorE(id, tipoIndicador,codigoIndicador,unidadMedida,actorParticipante) {
+         document.getElementById("idactI").value = id;
+       
+            $("#TipoIndicadorVinculo").val(tipoIndicador);
+            $("#TipoIndicadorVinculo").select2().trigger('change');
+            $("#CodigoIndicadorVinculo").val(codigoIndicador);
+            $("#CodigoIndicadorVinculo").select2().trigger('change');
+            $("#UnidadMedidaVinculo").val(unidadMedida);
+            $("#UnidadMedidaVinculo").select2().trigger('change');
+            $("#ActorParticipanteVinculo").val(actorParticipante);
+            $("#ActorParticipanteVinculo").select2().trigger('change');
+            
+        }
+//FIN VINCULACION
+
+
+//METAS
     function duplicadosMeta(af_in) {
 
         const tableRows = document.querySelectorAll('#metasTable tr.rowdata');
@@ -278,7 +797,67 @@
     }
 
 
-       var num = 0;
+    function ValidaTipoMeta(anioactual,metaactual) {
+
+        const tableRows = document.querySelectorAll('#metasTable tr.rowdata');
+
+         var sum = 0;
+        // Recorremos las filas que tengan el class="row"
+        // así obviamos la cabecera
+        for (let i = 0; i < tableRows.length; i++) {
+            const row = tableRows[i];
+            const status = row.querySelector('.meta');
+            const anio = row.querySelector('.mes');
+
+             sum = sum + parseFloat(status.innerText);
+             var m1=parseFloat(status.innerText);
+              var tipo=  $('input[name=tipoMeta]:checked').val();
+              //alert(tipo);
+              //alert(m1);
+              //alert(anio.innerText);
+              //alert(metaactual);
+             if (anioactual != anio.innerText) {
+                 //alert("entro");
+              switch (tipo)
+              {
+                case "1": 
+                if(parseFloat(metaactual) < parseFloat(m1)) {
+                    alert('Meta debe ser mayor.'); return true;
+                    }
+                break;
+                case "2":
+                if(parseFloat(metaactual) > parseFloat(m1)) {
+                    alert('Meta debe ser menor.'); return true;
+                    }
+                break;
+                case "3":
+                if(parseFloat(metaactual) != parseFloat(m1)) {
+                    alert('Meta debe ser igual.');return true;
+                    }
+                break;
+                case "4":
+              
+                //$('#Meta').val(parseFloat(m1)+parseFloat(metaactual));
+                sumar();
+                return false;
+                break;
+
+                default:
+                 alert('Seleccione el tipo de Meta.');return true;
+                break;
+              }
+
+           }
+
+           
+           
+        }
+        $('#Meta').val(parseFloat(metaactual));
+        return false;
+
+    }
+
+    var num = 0;
         function AgregaConcepto() {
             let NumMeses = document.getElementById("NumMesesList").value;
            /* let UnidadList = document.getElementById("UnidadList").value;*/
@@ -286,10 +865,17 @@
             let Unidad = selection.options[selection.selectedIndex].innerHTML;
             let ValorMeta = document.getElementById("ValorMeta").value.replace(',', '.');
             let EntregableMeta = document.getElementById("EntregableMeta").value;
-           // let IdEstrategia = document.getElementById("Id").value;
+            let LineaBaseMeta = document.getElementById("LineaBaseMeta").value.replace(',', '.');
+            var selectionMes = document.getElementById("NumMesesList");
+            let NumMesesDesc = selection.options[selectionMes.selectedIndex].innerHTML;
 
             if (duplicadosMeta(NumMeses)) { return; }
+            if (ValidaTipoMeta(NumMeses,ValorMeta)) { return;}
 
+            if (LineaBaseMeta.length == 0) {
+                alert("Ingrese la Línea Base.");
+                return;
+            }
             if (NumMeses.length == 0) {
                 alert("Ingrese los meses.");
                 return;
@@ -308,25 +894,26 @@
             let TR = document.createElement("tr");
             TR.setAttribute('id', num);
             TR.className = "rowdata";
+            let TDLineaBase = document.createElement("td");
             let TDNumMeses = document.createElement("td");
-            //let TDUnidad = document.createElement("td");
             let TDValorMeta = document.createElement("td");
             let TDEntregableMeta = document.createElement("td");
             let TDEliminar = document.createElement("td");
             TDEliminar.className = "text-right";
             TDValorMeta.className = "meta";
             TDNumMeses.className = "mes";
+            TDLineaBase.className = "lineabase";
             //let TDTotal = document.createElement("td");
            // TR.appendChild(TDId);
+            TR.appendChild(TDLineaBase);
             TR.appendChild(TDNumMeses);
-           /* TR.appendChild(TDUnidad);*/
             TR.appendChild(TDValorMeta);
             TR.appendChild(TDEntregableMeta);
             TR.appendChild(TDEliminar);
             //TR.appendChild(TDTotal);
            // TDId.innerHTML = num;
             TDNumMeses.innerHTML = NumMeses;
-           /* TDUnidad.innerHTML = Unidad;*/
+            TDLineaBase.innerHTML = LineaBaseMeta;
             TDValorMeta.innerHTML = ValorMeta +" "+ Unidad;
             TDEntregableMeta.innerHTML = EntregableMeta;
             TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila("+num+")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i></button>";
@@ -341,6 +928,7 @@
             //agregamos hiddens
             let DivConceptos = document.getElementById("divMetas");
             let HiddenIndex = document.createElement("input");
+            let HiddenLineaBase = document.createElement("input");
             let HiddenNumMeses = document.createElement("input");
             let HiddenUnidad = document.createElement("input");
             let HiddenValorMeta = document.createElement("input");
@@ -348,6 +936,9 @@
             HiddenIndex.name = "MetaTacticas.Index";
             HiddenIndex.value = num;
             HiddenIndex.type = "hidden";
+            HiddenLineaBase.name = "MetaTacticas[" + num + "].LineaBase";
+            HiddenLineaBase.value = LineaBaseMeta.replace('.', ',');
+            HiddenLineaBase.type = "hidden";
             HiddenNumMeses.name = "MetaTacticas[" + num + "].NumMeses";
             HiddenNumMeses.value = NumMeses;
             HiddenNumMeses.type = "hidden";
@@ -363,42 +954,18 @@
             HiddenEntregableMeta.type = "hidden";
 
             DivConceptos.appendChild(HiddenIndex);
+            DivConceptos.appendChild(HiddenLineaBase);
             DivConceptos.appendChild(HiddenNumMeses);
             DivConceptos.appendChild(HiddenUnidad);
             DivConceptos.appendChild(HiddenValorMeta);
             DivConceptos.appendChild(HiddenEntregableMeta);
 
             document.getElementById("NumMesesList").value = "";
-            //document.getElementById("UnidadList").value = "";
+            document.getElementById("LineaBaseMeta").value = "";
             document.getElementById("ValorMeta").value = "";
             document.getElementById("EntregableMeta").value = "";
 
             num++;
-
-            //sumar();
-
-            //var GestionViewModel = {
-            //    Anio: Nombre,
-            //    Descripcion: Hablado,
-            //    Estado: Escrito,
-            //    IdEstrategia: IdEstrategia
-
-            //};
-
-        @*$.ajax({
-            type: "post",
-            url:'@Url.Action("OnPostCreateOrEdit", "Idioma", new { area = "Registro" })',
-            data: GestionViewModel,
-            datatype: "json",
-            cache: false,
-            success: function (data) {
-            /* alert('Validooo');*/
-
-            },
-            error: function(xhr) {
-            //    alert('No Valid Data');
-            }
-        });*@
 
         }
 

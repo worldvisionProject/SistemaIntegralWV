@@ -1,0 +1,57 @@
+﻿@model IEnumerable<WordVision.ec.Web.Areas.Indicadores.Models.EstadoPorAnioFiscalViewModel>
+
+<table id="estadoPorAnioFiscalTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                Anio Fiscal
+            </th>
+            <th>
+                Fecha
+            </th>
+            <th>
+                Proceso
+            </th>
+            <th>
+                Estado
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnioFiscal)
+            </td>
+            <td>
+                @item.FechaInicio.Date.ToString("y")  -  @item.FechaFin.ToString("y")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Proceso.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstadoAnioFiscal.Nombre)
+            </td>
+            <td>
+                 <div class="btn-group">
+                    <a onclick="jQueryModalGet('/Indicadores/EstadoPorAnioFiscal/OnGetCreateOrEdit?id=@item.Id','Editar Estado Año Fiscal')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+<script>
+    $(document).ready(function () {
+        $("#estadoPorAnioFiscalTable").DataTable();
+    });
+</script>

@@ -21,7 +21,7 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public decimal Valor { get; set; }
         public string Entregable { get; set; }
         public int IdIndicadorPOA { get; set; }
-
+        public int? LineaBase { get; set; }
         public IndicadorPOA IndicadorPOAs { get; set; }
     }
 }

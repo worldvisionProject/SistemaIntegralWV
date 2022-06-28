@@ -23,6 +23,7 @@
   <ItemGroup>
     <Compile Remove="Areas\Planificacion\Controllers\AnioFiscalController.cs" />
     <Compile Remove="Areas\Registro\Validators\ContactosStepValidator.cs" />
+    <Compile Remove="Services\SessionExpireFilterAttribute.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -78,6 +79,7 @@
     <None Include="Areas\Admin\Views\User\Index.cshtml" />
     <None Include="Areas\Admin\Views\User\_Create.cshtml" />
     <None Include="Areas\Admin\Views\User\_ViewAll.cshtml" />
+    <None Include="Areas\Encuesta\Views\ETabulado\Index.cshtml" />
     <None Include="Areas\Soporte\Views\Donante\Index.cshtml" />
     <None Include="Areas\Soporte\Views\Donante\_CreateOrEdit.cshtml" />
     <None Include="Areas\Soporte\Views\Donante\_ViewAll.cshtml" />
@@ -2275,7 +2277,7 @@
 
 
   <ItemGroup>
-    <Folder Include="Areas\Maestro\Validators\" />
+    <Folder Include="Areas\Indicadores\Data\" />
     <Folder Include="Areas\Presupuesto\Validators\" />
     <Folder Include="Areas\Registro\Views\Tercero\" />
     <Folder Include="Logs\" />

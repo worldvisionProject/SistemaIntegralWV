@@ -369,41 +369,22 @@ $.extend( $.validator, {
 	},
 
 	messages: {
-		//required: "This field is required.",
-		//remote: "Please fix this field.",
-		//email: "Please enter a valid email address.",
-		//url: "Please enter a valid URL.",
-		//date: "Please enter a valid date.",
-		//dateISO: "Please enter a valid date (ISO).",
-		//number: "Please enter a valid number.",
-		//digits: "Please enter only digits.",
-		//equalTo: "Please enter the same value again.",
-		//maxlength: $.validator.format( "Please enter no more than {0} caracteres." ),
-		//minlength: $.validator.format( "Please enter at least {0} caracteres." ),
-		//rangelength: $.validator.format( "Please enter a value between {0} and {1} caracteres long." ),
-		//range: $.validator.format( "Please enter a value between {0} and {1}." ),
-		//max: $.validator.format( "Please enter a value less than or equal to {0}." ),
-		//min: $.validator.format( "Please enter a value greater than or equal to {0}." ),
-		//step: $.validator.format( "Please enter a multiple of {0}." )
-
-		required: "Este campo es obligatorio.",
-		remote: "Por favor, rellena este campo.",
-		email: "Por favor, escribe una dirección de correo válida",
-		url: "Por favor, escribe una URL válida.",
-		date: "Por favor, escribe una fecha válida.",
-		dateISO: "Por favor, escribe una fecha (ISO) válida.",
-		number: "Por favor, escribe un número entero válido.",
-		digits: "Por favor, escribe sólo dígitos.",
-		creditcard: "Por favor, escribe un número de tarjeta válido.",
-		equalTo: "Por favor, escribe el mismo valor de nuevo.",
-		accept: "Por favor, escribe un valor con una extensión aceptada.",
-		maxlength: jQuery.validator.format("Por favor, no escribas más de {0} caracteres."),
-		minlength: jQuery.validator.format("Por favor, no escribas menos de {0} caracteres."),
-		rangelength: jQuery.validator.format("Por favor, escribe un valor entre {0} y {1} caracteres."),
-		range: jQuery.validator.format("Por favor, escribe un valor entre {0} y {1}."),
-		max: jQuery.validator.format("Por favor, escribe un valor menor o igual a {0}."),
-		min: jQuery.validator.format("Por favor, escribe un valor mayor o igual a {0}."),
-		step: jQuery.validator.format("Por favor, escribe un multiplo de {0}.")
+		required: "This field is required.",
+		remote: "Please fix this field.",
+		email: "Please enter a valid email address.",
+		url: "Please enter a valid URL.",
+		date: "Please enter a valid date.",
+		dateISO: "Please enter a valid date (ISO).",
+		number: "Please enter a valid number.",
+		digits: "Please enter only digits.",
+		equalTo: "Please enter the same value again.",
+		maxlength: $.validator.format( "Please enter no more than {0} characters." ),
+		minlength: $.validator.format( "Please enter at least {0} characters." ),
+		rangelength: $.validator.format( "Please enter a value between {0} and {1} characters long." ),
+		range: $.validator.format( "Please enter a value between {0} and {1}." ),
+		max: $.validator.format( "Please enter a value less than or equal to {0}." ),
+		min: $.validator.format( "Please enter a value greater than or equal to {0}." ),
+		step: $.validator.format( "Please enter a multiple of {0}." )
 	},
 
 	autoCreateRanges: false,
@@ -1066,7 +1047,7 @@ $.extend( $.validator, {
 		},
 
 		// See https://api.jquery.com/category/selectors/, for CSS
-		// meta-caracteres that should be escaped in order to be used with JQuery
+		// meta-characters that should be escaped in order to be used with JQuery
 		// as a literal part of a name/id or any selector.
 		escapeCssMeta: function( string ) {
 			return string.replace( /([\\!"#$%&'()*+,./:;<=>?@\[\]^`{|}~])/g, "\\$1" );

@@ -1,0 +1,177 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WordVision.ec.Web.Areas.Valoracion.Models
+@using WordVision.ec.Infrastructure.Data.Identity.Models;
+@model WordVision.ec.Web.Areas.Valoracion.Pages.Objetivo.Wizard.Objetivo_1Step
+@inject UserManager<ApplicationUser> UserManager
+
+<table id="TableObj1"  class="table table-bordered " width="100%" cellspacing="0">
+
+
+    <thead>
+        <tr>
+                   
+                        <th data-priority="1" style="background-color:#F9D6BF;color: black;" width="30%">Competencia</th>
+                        <th  style="background-color:#F9D6BF;color: black;" width="20%">Comportamiento</th>
+                        <th  style="background-color:#2ED4E0;color: black;" width="10%">Fecha Inicio</th>
+                        <th  style="background-color:#2ED4E0;color: black;" width="10%">Fecha Fin</th>
+                        <th  style="background-color:#2ED4E0;color: black;" width="10%">Ponderación Objetivo especifico</th>
+                        <th data-priority="2" style="background-color:#F9D6BF;color: black;" width="10%">Ponderación Resultado</th>
+
+
+                   
+                     <th data-priority="2" class="acciones-th">Acciones</th>
+
+        </tr>
+    </thead>
+    <tbody>
+         @foreach (var planificacion in Model.PlanificacionResultados)
+        {
+        @foreach (var comportamiento in planificacion.Comportamientos)
+        {
+        <tr  id="@planificacion.IdPlanificacion" style="@(planificacion.Estado==3 && planificacion.ObservacionLider!=null?"background-color:#F4EEFB":"")" >
+            <td  style="vertical-align: middle;">
+              <font style="font-weight: bold;"> @planificacion.Nombre</font> @planificacion.Descripcion 
+            </td>
+         
+                            <td>
+                               @comportamiento.DescCompetencia
+                            </td> 
+
+               
+
+                   <td>
+                      
+                            @comportamiento.FechaInicio.ToShortDateString()
+                      
+               
+                   </td>
+                
+                <td>
+                    
+                       @comportamiento.FechaFin.ToShortDateString()
+                  
+                </td>
+               
+                            <td style="vertical-align: middle;">
+                                @planificacion.Ponderacion
+                            </td>
+                            <td style="vertical-align: middle;">
+                                   @Model.PonderacionObjetivo
+                            </td>
+                      
+
+            <td class="acciones-td">
+           
+                <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="@((planificacion.Estado==4 || planificacion.Estado==5)?"Seguimiento":"Editar")" id="btnViewModel" onclick="jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=@planificacion.IdPlanificacion&idColaborador=@Model.IdColaborador&idObjetivo=@Model.IdObjetivo&idObjetivoAnioFiscal=@Model.IdObjetivoAnioFiscal&idResultado=@planificacion.IdResultado&anioFiscal=@Model.AnioFiscal&objNumero=@Model.NumeroObjetivo&tipoObjetivo=3&ponderacionObjetivo=@Model.PonderacionObjetivo.ToString().Replace(",",".")&perfil=@Model.Perfil','Objetivo @Model.NumeroObjetivo : @Model.Objetivo')">
+                   <i class="@((planificacion.Estado==4 || planificacion.Estado==5)?"fas fa-bullseye":"fas fa-edit")"></i>
+                </button>
+                @if((planificacion.Estado==1 || planificacion.Estado==2|| planificacion.Estado==3))
+                 {
+                     <button type="button" onclick="EliminaFilaCompetencia(@planificacion.IdPlanificacion,@User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value,@Model.IdObjetivo,@Model.AnioFiscal,@Model.IdObjetivoAnioFiscal,@Model.NumeroObjetivo,@Model.PonderacionObjetivo.ToString().Replace(",","."))" class="btn btn-danger btn-xp">
+                         <i class="fas fa-trash-alt"></i>
+                     </button>
+                 }
+                        
+                @*<button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/IndicadorPOA/OnGetCreateOrEdit?id=0&idProducto=@producto.Id&idGestion=@Model.IdGestion&idIndicadorEstrategia=@Model.Id','Indicador de Producto')">
+                <i class="fas fa-plus-square"></i>
+            </button>*@
+            </td>
+
+        </tr>
+        }
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+                <th></th>
+                <th>Total:</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+               
+            </tr>
+    </tfoot>
+</table>
+<script>
+
+    $(document).ready(function () {
+        var table = $("#TableObj1").DataTable({
+aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "bFilter": false ,
+               "bLengthChange" : false,"bPaginate": false,
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },
+            'rowsGroup':  [5,0,4,6],
+           
+            "info": false,"length":false,
+
+            "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+             var intVal = function (i) {
+                return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+            };
+
+
+            var total = api
+                //.column(4)//numero de columna a sumar
+                .column(4, {page: 'current'})//para sumar solo la pagina actual
+                .data()
+                .reduce(function (a, b) {
+                    return parseInt(a) + parseInt(b);
+                }, 0 );
+
+            $(api.column(4).footer()).html(total);
+            
+        }
+        });
+        
+
+        $('#valoracionTable tbody').on('dblclick', 'tr', function () {
+            var data = table.row(this).data();
+
+            jQueryModalGet('/Valoracion/Objetivo/OnGetCreateOrEdit?id=' + data[0], 'Solicitud');
+
+
+        });
+
+        /*  $(".dynmic-hidden-col").hide();*/
+
+    });
+
+
+     function EliminaFilaCompetencia(id,idColaborador,idObjetivo, anioFiscal, idObjetivoAnioFiscal , numeroObjetivo , ponderacionObjetivo) {
+          if (confirm('¿Estás segura de eliminar este registro?')) {
+        $("#" + id).remove();
+        var IdiomaViewModel = {
+            id: id,
+            idColaborador:idColaborador,
+            idObjetivo:idObjetivo, 
+            anioFiscal:anioFiscal, 
+            idObjetivoAnioFiscal:idObjetivoAnioFiscal ,
+            numeroObjetivo:numeroObjetivo , 
+            ponderacionObjetivo:ponderacionObjetivo
+
+        };
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "objetivo", new { area = "Valoracion" })',
+            data: IdiomaViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+      }
+    }
+</script>

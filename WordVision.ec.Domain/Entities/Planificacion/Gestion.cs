@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using WordVision.ec.Domain.Contracts;
 
 namespace WordVision.ec.Domain.Entities.Planificacion
@@ -18,6 +19,8 @@ namespace WordVision.ec.Domain.Entities.Planificacion
 
         public decimal? Meta { get; set; }
         public decimal? Logro { get; set; }
+        public DateTime? FechaDesde { get; set; }
+        public DateTime? FechaHasta { get; set; }
         public int IdEstrategia { get; set; }
         public EstrategiaNacional EstrategiaNacionales { get; set; }
 
