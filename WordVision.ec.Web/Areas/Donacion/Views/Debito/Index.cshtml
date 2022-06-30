@@ -1,0 +1,382 @@
+﻿@using WordVision.ec.Web.Areas.Donacion.Models
+@model DebitoFiltroViewModel
+            
+<link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css" />
+<link rel="stylesheet" href="~/lib/bootstrap-select/css/bootstrap-select.min.css">
+
+<div class="card card-info">
+    <div class="card-header card-header-int">
+
+        <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Débitos Automáticos </font> </label>
+    </div>
+    <div class="card-body" style="padding:15px 20px 20px 20px !important">
+
+
+         <div class="content">
+            <div class="row mb-0">
+              
+                <div class="col-12">
+                  
+                 
+                                 <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <label class="col-md-12 col-form-label texto-pregunta" >Forma de pago</label>
+                                        <select id="selectFormaPago"  data-width="600px" title="Seleccionar..." class="form-control form-control-sm selectpicker" asp-items="@((IEnumerable<SelectListItem>)Model.FormaPagoList)" data-live-search="true">
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="col-md-12 col-form-label texto-pregunta" >Banco</label>
+                                       <select id="selectBanco" name="selectBanco" data-width="600px" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.BancosList)" data-live-search="true">
+                                        </select>
+                                    </div>
+                                     <div class="col-md-2">
+                                        <label class="col-md-12 col-form-label texto-pregunta" >Año</label>
+                                       <select id="selectAnio" data-width="500px" title="Seleccionar..." class="form-control form-control-sm selectpicker" asp-items="@((IEnumerable<SelectListItem>)Model.AnioList)" data-live-search="true">
+                                </select>
+                                    </div>
+                                     <div class="col-md-1">
+                                        <label class="col-md-12 col-form-label texto-pregunta" >Mes</label>
+                                      <select id="selectMes" style="width:5%" data-width="500px" title="Seleccionar..." class="form-control form-control-sm selectpicker" asp-items="@((IEnumerable<SelectListItem>)Model.MesList)" data-live-search="true">
+                                </select>
+                                    </div>
+
+                                    <div class="col-md-3" style="padding:25px 10px 10px 5px">
+                                       <a class="btn btn-sm btn-labeled btn-outline-info" href="#" onclick="buscarDebitos()">
+                                            <span class="btn-label pr-1">
+                                                <i class="fa fa-search"></i>
+                                            </span>
+                                            Buscar Datos
+                                        </a>
+                                    </div>
+                                     
+                                </div>
+                              
+                            <div class=" row">
+                                <div  class="col-md-12">
+                                    <hr/>
+                                    </div>
+                            </div>
+                           <div class=" row">
+                           
+                                   <div  class="col-md-6">
+                                     
+                                      <a class="btn btn-sm btn-labeled btn-info tool-action"href="#">
+                                            <span class="btn-label pr-1">
+                                                <i class="fa fa-file-download"></i>
+                                            </span>
+                                            Exportar
+                                        </a>
+                                      
+                                   &nbsp; &nbsp; 
+                                      <a class="btn btn-sm btn-labeled btn-outline-info" href="#" onclick="generarTxtDebitos()">
+                                            <span class="btn-label pr-1">
+                                                <i class="fa fa-file-download"></i>
+                                            </span>
+                                            Generar Txt
+                                        </a>
+                                     
+                                    
+                                    </div>
+                                <div class="col-md-4">
+                                <form  method="POST" id="frmRespuesta" enctype="multipart/form-data">
+                                  
+                                    @*<span class="btn-label pr-1">
+                                        <i class="fa fa-file-download"></i>
+                                    </span>*@
+                                        <input id="formaPago" name="formaPago" type="hidden"  />
+                                        <input id="bancoTarjeta" name="bancoTarjeta" type="hidden" />
+                                        <input id="anio" name="anio" type="hidden"/>
+                                        <input id="mes" name="mes" type="hidden" />
+                                        <input accept=".csv"
+                                             name="Id"
+                                               type="file" class="custom-file-input"
+                           
+                                               id="customFile">
+                                        <label class="custom-file-label" for="customFile">Cargar Respuestas</label>
+                               
+                             
+                                  
+                                
+                                
+                                </form>
+                                </div>
+                                <div class="col-md-2">
+                                      <input type="hidden" name="uAccion" value="Salir">
+                                    <a class="btn btn-sm btn-labeled btn-outline-info" id="salir" href="#" onclick="validacion()">
+                                        <span class="btn-label pr-1">
+                                            <i class="fa fa-file-download"></i>
+                                        </span>
+                                        Cargar Respuesta
+                                    </a>
+                                 </div>
+                               
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="row pt-1">
+                <div class="col table-responsive min-height-300">
+                    <table class="table table-sm table-striped table-bordered table-hover w-100" id="debitosTable">
+                        <thead>
+                            <tr class="text-center">
+                                <th>
+                                    Estado Débito
+                                </th>
+                                <th>
+                                    Tipo
+                                </th>
+                                <th>
+                                    Categoría
+                                </th>
+                                <th>
+                                    Campaña
+                                </th>
+                                 <th>
+                                    Frecuencia
+                                </th>
+                                <th>
+                                    Identificación
+                                </th>
+                                <th>
+                                    Donante
+                                </th>
+                                 <th>
+                                    Banco/Tarjeta
+                                </th>
+                                <th>
+                                    Cuenta/Tarjeta
+                                </th>
+                                <th>
+                                    Respuesta Banco
+                                </th>
+                                <th>
+                                    Fecha Respuesta
+                                </th>
+                                <th class="text-right">
+                                    Valor
+                                </th>
+                 
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th> 
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                              
+                                    <th class="text-right">Totales: </th>
+                                <th></th>
+                                <th class="text-right"> </th>
+                               
+                            </tr>
+                        </tfoot>
+                    </table>
+         
+                </div>
+            </div>
+        </div>
+
+  
+
+
+@section Scripts
+{
+    <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/lib/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js"></script>
+    <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
+<script src="~/js/site.js"></script>
+<script>
+   
+
+   let tableMain = null;
+        let config = {
+            id: "debitosTable",
+            dateFormat: '{dd}/{MM}/{yyyy}',
+            language: { url: dataTableLangPath},
+            ajax: {
+                url: "@Url.Action("LoadDebitos", "Debito")",
+                method: 'POST',
+                dataType: "json",
+                contentType: "application/json",
+                dataSrc: function (e) {
+                    
+                    return e.data;
+                },
+                data: function (d) {
+                    var filtros = new Object();
+                    filtros.formaPago = parseInt($("#selectFormaPago").val());
+                    filtros.bancoTarjeta = parseInt($("#selectBanco").val());
+                    filtros.anio = parseInt($("#selectAnio").val());
+                    filtros.mes = parseInt($("#selectMes").val());
+                    return JSON.stringify(filtros);
+                }
+            },
+            dom: "tipr",
+            buttons: [
+                { extend: "excel", exportOptions: { columns: ':not(.no-export)' } }
+            ],
+            columns: [
+                { width: '10%', filter: 'input', type: 'string', data: 'estado' },
+                { width: '10%', filter: 'input', type: 'string', data: 'tipo' },
+                { width: '10%', filter: 'input', type: 'string', data: 'categoria' },
+                { width: '10%', filter: 'input', type: 'string', data: 'campana' },
+                { width: '8%', filter: 'input', type: 'string', data: 'frecuencia' },
+                { width: '10%', filter: 'input', type: 'string', data: 'identificacion' },
+                { width: '15%', filter: 'input', type: 'string', data: 'nombreDonante' },
+                { width: '15%', filter: 'input', type: 'string', data: 'bancoTarjeta' },
+                { width: '15%', filter: 'input', type: 'string', data: 'cuentaTarjeta' },
+                { width: '10%', filter: 'input', type: 'string', data: 'respuestaBanco' },
+                { width: '10%', filter: 'input', type: 'date', data: 'fechaDebito' },
+                {
+                    width: '10%', filter: 'input', type: 'num', data: 'valor', className: 'text-right', operation: "sum", prefix: 'none',
+                    render: function (data, type, row) {
+                        return $.fn.dataTable.render.number('', '.', 2, '').display(data);
+                    }
+                },
+                //{
+                //    width: '25%', filter: 'input', type: 'num', data: 'costoRecurso', className: 'text-right', operation: "sum",
+                //    render: function (data, type, row) {
+                //        return $.fn.dataTable.render.number('', '.', 2, '').display(data);
+                //    }
+                //}
+            ],
+            initComplete: function () {
+                reHandle();
+            },
+            order: []
+        };
+
+        function reHandle() {
+            fillSelectFilter(config, tableMain)
+            finishLoading();
+        }
+
+
+    $(document).ready(function () {
+         tableMain = LoadTableWithAjax(config);
+         
+      });
+        
+ 
+       function buscarDebitos() {
+            var formaPago = parseInt($("#selectFormaPago").val());
+            var banco = parseInt($("#selectBanco").val());
+            var anio = parseInt($("#selectAnio").val());
+            var mes = parseInt($("#selectMes").val());
+
+             if (isNaN(formaPago) || formaPago === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar la forma de pago", "warning");
+                return false;
+            }
+            if (isNaN(banco) || banco === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el Banco", "warning");
+                return false;
+            }
+            if (isNaN(anio) || anio === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el Año", "warning");
+                return false;
+            }
+            if (isNaN(mes) || mes === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el Mes", "warning");
+                return false;
+            }
+          
+            startLoading();
+          
+            tableMain.ajax.reload(reHandle, true);
+        }
+        function validacion()
+        {
+            var formaPago = parseInt($("#selectFormaPago").val());
+            var bancoTarjeta = parseInt($("#selectBanco").val());
+            var anio = parseInt($("#selectAnio").val());
+            var mes = parseInt($("#selectMes").val());
+            $("#formaPago").val(formaPago);
+             $("#bancoTarjeta").val(bancoTarjeta);
+              $("#anio").val(anio);
+               $("#mes").val(mes);
+
+               var form = $('#frmRespuesta')[0];
+                var data = new FormData(form);
+                data.append("CustomField", "This is some extra data, testing");
+                //$("#btnSubmit").prop("disabled", true);
+                $.ajax({
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    url:  "@Url.Action("LoadRespuestas", "Debito")",
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+                       // console.log();
+                    },
+                });
+
+            //return true;
+
+           //   var formaPago = parseInt($("#selectFormaPago").val());
+           // var bancoTarjeta = parseInt($("#selectBanco").val());
+           // var anio = parseInt($("#selectAnio").val());
+           // var mes = parseInt($("#selectMes").val());
+
+           // alert("formaPago");
+           // window.location.href = '@Url.Action("LoadRespuestas", "Debito")?formaPago='+formaPago+'&bancoTarjeta='+bancoTarjeta+'&anio='+anio+'&mes='+mes;
+          // document.getElementById('frmRespuesta').submit();
+        }
+        function generarTxtDebitos() {
+           startLoading();
+            var formaPago = parseInt($("#selectFormaPago").val());
+            var bancoTarjeta = parseInt($("#selectBanco").val());
+            var anio = parseInt($("#selectAnio").val());
+            var mes = parseInt($("#selectMes").val());
+
+   
+            window.location.href = '@Url.Action("DescargarExportableTXT", "Debito")?formaPago='+formaPago+'&bancoTarjeta='+bancoTarjeta+'&anio='+anio+'&mes='+mes;
+                    //$.post("/Debito/DescargarExportableTXT", { 
+                    //    function (d) {
+                    //        var filtros = new Object();
+                    //        filtros.formaPago = parseInt($("#selectFormaPago").val());
+                    //        filtros.bancoTarjeta = parseInt($("#selectBanco").val());
+                    //        filtros.anio = parseInt($("#selectAnio").val());
+                    //        filtros.mes = parseInt($("#selectMes").val());
+                    //        return JSON.stringify(filtros);
+                    //    } 
+                    //}, function (data) {
+                        
+                    //    $.each(data, function (index, row) {
+                           
+                    //    });
+                    //});
+                     finishLoading();
+        }
+
+        $("#selectFormaPago").change(function () {
+                  
+                         $.get("/Donacion/Debito/GetFormaPago", { idFormaPago: $("#selectFormaPago").val() }, function (data) {
+                                // VACIAMOS EL DropDownList
+                                $("#selectBanco").empty();
+                              
+                               // $("#descCompetencia").val(data[0].nombreCompetencia);
+                                // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                                //$("#selectBanco").append("<option value>Seleccione</option>")
+                                // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                                $.each(data, function (index, row) {
+                                    $("#selectBanco").append("<option value='" + row.secuencia + "'>" + row.nombre + "</option>")
+                                });
+                            });
+                    });
+ </script>
+}

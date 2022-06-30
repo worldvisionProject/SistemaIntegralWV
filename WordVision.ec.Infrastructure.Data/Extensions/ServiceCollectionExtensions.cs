@@ -7,6 +7,7 @@ using WordVision.ec.Application.Interfaces.CacheRepositories.Maestro;
 using WordVision.ec.Application.Interfaces.CacheRepositories.Planificacion;
 using WordVision.ec.Application.Interfaces.CacheRepositories.Valoracion;
 using WordVision.ec.Application.Interfaces.Contexts;
+using WordVision.ec.Application.Interfaces.Repositories.Donacion;
 using WordVision.ec.Application.Interfaces.Repositories.Indicadores;
 using WordVision.ec.Application.Interfaces.Repositories.Log;
 using WordVision.ec.Application.Interfaces.Repositories.Maestro;
@@ -22,6 +23,7 @@ using WordVision.ec.Infrastructure.Data.CacheRepositories.Maestro;
 using WordVision.ec.Infrastructure.Data.CacheRepositories.Planificacion;
 using WordVision.ec.Infrastructure.Data.CacheRepositories.Valoracion;
 using WordVision.ec.Infrastructure.Data.Contexts;
+using WordVision.ec.Infrastructure.Data.Repositories.Donacion;
 using WordVision.ec.Infrastructure.Data.Repositories.Indicadores;
 using WordVision.ec.Infrastructure.Data.Repositories.Log;
 using WordVision.ec.Infrastructure.Data.Repositories.Maestro;
@@ -80,6 +82,8 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<IEstructuraCacheRepository, EstructuraCacheRepository>();
             services.AddTransient<IIdiomaRepository, IdiomaRepository>();
             services.AddTransient<ICatalogoRepository, CatalogoRepository>();
+            services.AddTransient<IPaisRepository, PaisRepository>();
+
             services.AddTransient<ICatalogoCacheRepository, CatalogoCacheRepository>();
             services.AddScoped<IRCNinoPatrocinadoRepository, RCNinoPatrocinadoRepository>();
             services.AddScoped<IProgramaAreaRepository, ProgramaAreaRepository>();
@@ -137,6 +141,7 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<IPersonalRepository, PersonalRepository>();
             services.AddTransient<IPonenteRepository, PonenteRepository>();
             services.AddTransient<IDonanteRepository, DonanteRepository>();
+            services.AddTransient<IDebitoRepository, DebitoRepository>();
 
             services.AddTransient<IObjetivoRepository, ObjetivoRepository>();
             services.AddTransient<IResultadoRepository, ResultadoRepository>();

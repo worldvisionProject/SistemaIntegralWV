@@ -13,9 +13,12 @@ namespace WordVision.ec.Domain.Entities.Maestro
         [StringLength(250)]
         public string Nombre { get; set; }
 
-        [Required]
+       // [Required]
         [StringLength(10)]
         public string Codigo { get; set; }
+
+        [StringLength(2)]
+        public string CodigoArea { get; set; }
 
         [Required]
         public int Estado { get; set; }

@@ -4,6 +4,7 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Interfaces.Repositories.Donacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Application.Interfaces.Repositories.Soporte;
 
@@ -43,7 +44,7 @@ namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Update
         public bool WhatsApp { get; set; }
         public string Email { get; set; }
         public int FrecuenciaDonacion { get; set; }
-        public decimal? Cantidad { get; set; }
+        public decimal Cantidad { get; set; }
         public DateTime? MesInicialDebito { get; set; }
 
         public int FormaPago { get; set; }

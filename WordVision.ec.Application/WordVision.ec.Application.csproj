@@ -14,6 +14,7 @@
     <Compile Remove="Features\Planificacion\IndicadorPOAs\Queries\GetAllPaged\**" />
     <Compile Remove="Features\Planificacion\ObjetivoEstrategicoes\Queries\GetAllPaged\**" />
     <Compile Remove="Features\Registro\Pregunta\Queries\GetAllPaged\**" />
+    <Compile Remove="Features\Soporte\Donantes\**" />
     <Compile Remove="Features\Valoracion\Objetivos\Queries\GetAllCached\**" />
     <Compile Remove="ViewModels\**" />
     <EmbeddedResource Remove="Features\Planificacion\EstrategiaNacionales\Queries\GetAllPaged\**" />
@@ -25,6 +26,7 @@
     <EmbeddedResource Remove="Features\Planificacion\IndicadorPOAs\Queries\GetAllPaged\**" />
     <EmbeddedResource Remove="Features\Planificacion\ObjetivoEstrategicoes\Queries\GetAllPaged\**" />
     <EmbeddedResource Remove="Features\Registro\Pregunta\Queries\GetAllPaged\**" />
+    <EmbeddedResource Remove="Features\Soporte\Donantes\**" />
     <EmbeddedResource Remove="Features\Valoracion\Objetivos\Queries\GetAllCached\**" />
     <EmbeddedResource Remove="ViewModels\**" />
     <None Remove="Features\Planificacion\EstrategiaNacionales\Queries\GetAllPaged\**" />
@@ -36,11 +38,13 @@
     <None Remove="Features\Planificacion\IndicadorPOAs\Queries\GetAllPaged\**" />
     <None Remove="Features\Planificacion\ObjetivoEstrategicoes\Queries\GetAllPaged\**" />
     <None Remove="Features\Registro\Pregunta\Queries\GetAllPaged\**" />
+    <None Remove="Features\Soporte\Donantes\**" />
     <None Remove="Features\Valoracion\Objetivos\Queries\GetAllCached\**" />
     <None Remove="ViewModels\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Donacion\Debitos\Commands\Delete\DeleteDebitoCommand.cs" />
     <Compile Remove="Features\Identity\Usuarios\Commands\Update\UpdateUsuarioCommand.cs" />
     <Compile Remove="Features\Identity\Usuarios\Queries\GetAllCached\GetAllUsuariosCachedQuery.cs" />
     <Compile Remove="Features\Identity\Usuarios\Queries\GetAllCached\GetAllUsuariosCachedResponse.cs" />
@@ -77,6 +81,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Donacion\Debitos\Commands\Delete\" />
     <Folder Include="Features\Encuesta\RespuestaKobos\" />
     <Folder Include="Features\Encuesta\PreguntaKobos\" />
     <Folder Include="Features\Identity\Usuarios\Commands\Update\" />

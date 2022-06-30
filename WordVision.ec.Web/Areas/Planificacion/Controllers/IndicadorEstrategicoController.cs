@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using SmartBreadcrumbs.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Co
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Commands.Update;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Planificacion.IndicadorEstrategicoes.Queries.GetById;
+using WordVision.ec.Application.Features.Planificacion.ObjetivoEstrategicoes.Queries.GetById;
 using WordVision.ec.Application.Features.Planificacion.TiposIndicadores.Queries.GetAll;
 using WordVision.ec.Application.Features.Planificacion.TiposIndicadores.Queries.GetById;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
@@ -63,6 +65,77 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 //return PartialView("_ViewAll", viewModel);
             }
             return null;
+        }
+
+
+        public async Task<IActionResult> GetByIdIndicadores(int id,int idObjetivoEstrategico, int idEstrategia, int AnioGestion, int Categoria)
+        {
+            int idObjetivoEstra = idObjetivoEstrategico;
+            int idIndicador = id;
+            var TipoObjetivo = string.Empty;
+            var response = await _mediator.Send(new GetObjetivoEstrategicoByIdQuery() { Id = idObjetivoEstra });
+            if (response.Succeeded)
+            {
+                ViewBag.Message = response.Data.Descripcion;
+                var catCategoria = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 5 });
+                TipoObjetivo = catCategoria.Data.Where(r => r.Secuencia == response.Data.Categoria).FirstOrDefault().Nombre;
+                //id = response.Data.IdEstrategia;
+                ViewBag.Categoria = TipoObjetivo;
+            }
+            var gestionDesc = string.Empty;
+            var responseE = await _mediator.Send(new GetEstrategiaNacionalByIdQuery() { Id = idEstrategia });
+            if (responseE.Succeeded)
+            {
+
+                var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(responseE.Data);
+                ViewBag.Ciclo = entidadViewModel.Nombre;
+                gestionDesc = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault()?.Anio ?? string.Empty; ;
+                //ViewBag.SNGestion = "N";
+                //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+            }
+
+            var ciclo = idEstrategia;
+            var childNode1 = new MvcBreadcrumbNode("PlanImplementacion", "EstrategiaNacional", "Ciclo Estratégico", false, null, "Planificacion")
+            {
+                RouteValues = new { ciclo },//this comes in as a param into the action
+                                            // Parent = childNode0
+            };
+            id = idEstrategia;
+            var childNode2 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Gestión " + gestionDesc)
+            {
+                RouteValues = new { id, AnioGestion },
+                OverwriteTitleOnExactMatch = true,
+                Parent = childNode1
+            };
+
+            id = idEstrategia;
+            var childNode21 = new MvcBreadcrumbNode("OnGetCreateOrEditEstrategia", "EstrategiaNacional", "Objetivo " + TipoObjetivo)
+            {
+                RouteValues = new { id, AnioGestion, Categoria },
+                OverwriteTitleOnExactMatch = true,
+                Parent = childNode2
+            };
+
+
+            id = idObjetivoEstra;
+            var childNode3 = new MvcBreadcrumbNode("IndexIndicador", "FactorCriticoExito", "Indicadores de Resultado")
+            {
+                RouteValues = new { id, idEstrategia, AnioGestion },
+                OverwriteTitleOnExactMatch = true,
+                Parent = childNode21
+            };
+
+
+            ViewData["BreadcrumbNode"] = childNode3;
+            id = idIndicador;
+            var responseIndicador = await _mediator.Send(new GetIndicadorEstrategicoByIdQuery() { Id = id });
+            if (responseIndicador.Succeeded)
+            {
+                var entidadViewModel = _mapper.Map<IndicadorEstrategicoViewModel>(responseIndicador.Data);
+                ViewBag.Nivel = User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value;
+                return View("IndexIndicador", entidadViewModel);
+            }
+                return null;
         }
 
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0, int IdFactorCritico = 0, int IdEstrategia = 0, int IdObjetivoEstrategico = 0)

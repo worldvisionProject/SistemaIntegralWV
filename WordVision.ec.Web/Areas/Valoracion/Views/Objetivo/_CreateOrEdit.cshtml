@@ -2,12 +2,12 @@
 @using WordVision.ec.Web.Areas.Valoracion.Models
 @using System.Web
 @model PlanificacionResultadoViewModel
- <form asp-controller="Objetivo" asp-action="UploadFile" method="post"  
+@* <form asp-controller="Objetivo" asp-action="UploadFile" method="post"  
                                           enctype="multipart/form-data">  
       
                                         <input type="file" name="file" />  
                                         <button type="submit">Upload File</button>  
-                                    </form> 
+                                    </form> *@
 <form id="create-form" method="post" asp-controller="Objetivo" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" asp-route-idAnioFiscal="@Model." onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
 
     <input type="hidden" asp-for="Id" name="Resultados.Id" class="form-control">

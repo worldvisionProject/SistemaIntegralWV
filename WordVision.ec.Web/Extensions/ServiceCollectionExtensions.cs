@@ -101,7 +101,8 @@ namespace WordVision.ec.Web.Extensions
             else
             {
                 services.AddDbContext<RegistroDbContext>(options => {
-                    options.UseSqlServer(configuration.GetConnectionString("RegistroConnection"));  options.EnableSensitiveDataLogging(true);
+                    options.UseSqlServer(configuration.GetConnectionString("RegistroConnection"),
+    sqlServerOptions => sqlServerOptions.CommandTimeout(60));  options.EnableSensitiveDataLogging(true);
                 });
                 services.AddDbContext<IdentityContext>(options => { options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")); 
                     options.EnableSensitiveDataLogging(true);

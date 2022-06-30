@@ -4,8 +4,9 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Interfaces.Repositories.Donacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
-using WordVision.ec.Application.Interfaces.Repositories.Soporte;
+using WordVision.ec.Domain.Entities.Donacion;
 using WordVision.ec.Domain.Entities.Soporte;
 
 namespace WordVision.ec.Application.Features.Soporte.Donantes.Commands.Create

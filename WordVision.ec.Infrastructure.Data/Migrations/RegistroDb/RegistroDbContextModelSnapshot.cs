@@ -55,6 +55,324 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.ToTable("AuditLogs");
                 });
 
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Donacion.Debito", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Anio")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CodigoBanco")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CodigoRespuesta")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Contrapartida")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("Estado")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("FechaDebito")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FormaPago")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdDonante")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Intento")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Mes")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Quincena")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Valor")
+                        .IsRequired()
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdDonante");
+
+                    b.ToTable("Debitos", "donacion");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Donacion.Donante", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Apellido1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Apellido2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Banco")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BancoBp")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Campana")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Canal")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Cantidad")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Categoria")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Cedula")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Ciudad")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CodigoArea")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ComentarioActualizacion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ComentarioResolucion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Direccion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Edad")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EstadoDonante")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("EvidenciaConversion")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<DateTime?>("FechaCaducidad")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaCaducidadBp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaConversion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaNacimiento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaVencimiento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FormaPago")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FrecuenciaDonacion")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Genero")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Hubspot")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("MesInicialDebito")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Nombre1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nombre2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumReferencia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumReferenciaBp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumeroCuenta")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumeroCuentaBp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumeroTarjeta")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumeroTarjetaBp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Provincia")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RUC")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Region")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Responsable")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TelefonoCelular")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TelefonoConvencional")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Tipo")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TipoCuenta")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TipoCuentaBp")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TiposTarjetasCredito")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TiposTarjetasCreditoBp")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("WhatsApp")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Donantes", "donacion");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Donacion.ProductoDonante", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("Banco")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BancoBp")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaCaducidad")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaCaducidadBp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaVencimiento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FormaPago")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdDonante")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NombreProducto")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumReferencia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumReferenciaBp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumeroCuenta")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumeroCuentaBp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumeroTarjeta")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumeroTarjetaBp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Precio")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TipoCuenta")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TipoCuentaBp")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TiposTarjetasCredito")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TiposTarjetasCreditoBp")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdDonante");
+
+                    b.ToTable("ProductoDonantes", "donacion");
+                });
+
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.ECanton", b =>
                 {
                     b.Property<string>("Id")
@@ -1053,6 +1371,43 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.ToTable("ActorParticipantes", "adm");
                 });
 
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.BancosCompania", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CuentaContable")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("Estado")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BancosCompanias", "adm");
+                });
+
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.Catalogo", b =>
                 {
                     b.Property<int>("Id")
@@ -1084,9 +1439,12 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Codigo")
-                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("CodigoArea")
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
 
                     b.Property<int>("Estado")
                         .HasColumnType("int");
@@ -1104,6 +1462,48 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.HasIndex("IdProvincia");
 
                     b.ToTable("Ciudades", "adm");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.CodigoSCI", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CodigoBanco")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EstadoBanco")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdEmpresa")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NombreBanco")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdEmpresa");
+
+                    b.ToTable("CodigoSCIs", "adm");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.DetalleCatalogo", b =>
@@ -3981,171 +4381,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.ToTable("Comunicaciones", "soporte");
                 });
 
-            modelBuilder.Entity("WordVision.ec.Domain.Entities.Soporte.Donante", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Apellido1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Apellido2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Banco")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("BancoBp")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Campana")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Canal")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("Cantidad")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Categoria")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Cedula")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Ciudad")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CodigoArea")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ComentarioActualizacion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ComentarioResolucion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Direccion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Edad")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("EstadoDonante")
-                        .HasColumnType("int");
-
-                    b.Property<byte[]>("EvidenciaConversion")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<DateTime?>("FechaCaducidad")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaCaducidadBp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaConversion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaNacimiento")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaVencimiento")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("FormaPago")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FrecuenciaDonacion")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Genero")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("MesInicialDebito")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Nombre1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nombre2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NumReferencia")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NumReferenciaBp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NumeroCuenta")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NumeroCuentaBp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NumeroTarjeta")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NumeroTarjetaBp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Provincia")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RUC")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Region")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Responsable")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TelefonoCelular")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TelefonoConvencional")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Tipo")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TipoCuenta")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TipoCuentaBp")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TiposTarjetasCredito")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TiposTarjetasCreditoBp")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("WhatsApp")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Donantes", "soporte");
-                });
-
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Soporte.Email", b =>
                 {
                     b.Property<int>("Id")
@@ -4988,6 +5223,28 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.ToTable("SeguimientoObjetivos", "valoracion");
                 });
 
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Donacion.Debito", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Donacion.Donante", "Donantes")
+                        .WithMany("Debitos")
+                        .HasForeignKey("IdDonante")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Donantes");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Donacion.ProductoDonante", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Donacion.Donante", "Donantes")
+                        .WithMany("ProductoDonantes")
+                        .HasForeignKey("IdDonante")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Donantes");
+                });
+
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.ECanton", b =>
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Encuesta.EProvincia", "EProvincia")
@@ -5286,6 +5543,17 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                         .IsRequired();
 
                     b.Navigation("Provincias");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.CodigoSCI", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.Empresa", "Empresas")
+                        .WithMany("CodigoSCIS")
+                        .HasForeignKey("IdEmpresa")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Empresas");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.DetalleCatalogo", b =>
@@ -6055,6 +6323,13 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Navigation("ObjetivoAnioFiscales");
                 });
 
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Donacion.Donante", b =>
+                {
+                    b.Navigation("Debitos");
+
+                    b.Navigation("ProductoDonantes");
+                });
+
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.ECanton", b =>
                 {
                     b.Navigation("EParroquias");
@@ -6142,6 +6417,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Maestro.Empresa", b =>
                 {
+                    b.Navigation("CodigoSCIS");
+
                     b.Navigation("Estructuras");
                 });
 

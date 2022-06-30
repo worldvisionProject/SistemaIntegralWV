@@ -151,6 +151,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             model.IdObjetivoEstra = idObjetivoEstra;
             model.IdGestion = AnioGestion;
             model.IdEstrategia = idEstrategia;
+
             ViewBag.Nivel = User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value;
             return View("IndexIndicador", model);
         }

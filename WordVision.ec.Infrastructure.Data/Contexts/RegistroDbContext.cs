@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Contexts;
 using WordVision.ec.Application.Interfaces.Shared;
 using WordVision.ec.Domain.Contracts;
+using WordVision.ec.Domain.Entities.Donacion;
 using WordVision.ec.Domain.Entities.Indicadores;
 using WordVision.ec.Domain.Entities.Maestro;
 using WordVision.ec.Domain.Entities.Planificacion;
@@ -31,7 +32,7 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
         }
 
 
-
+      
         public IDbConnection Connection => Database.GetDbConnection();
         public bool HasChanges => ChangeTracker.HasChanges();
 
@@ -119,6 +120,10 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             .ToTable("PresupuestoProyectos", "adm");
             builder.Entity<LogFrameIndicadorPR>()
             .ToTable("LogFrameIndicadoresPR", "adm");
+            builder.Entity<CodigoSCI>()
+            .ToTable("CodigoSCIs", "adm");
+            builder.Entity<BancosCompania>()
+            .ToTable("BancosCompanias", "adm");
 
             builder.Entity<FaseProgramaArea>()
             .ToTable("FaseProgramaAreas", "indicador");
@@ -189,10 +194,8 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
                  .ToTable("EstadosSolicitudes", "soporte");
             builder.Entity<Email>()
                 .ToTable("Emails", "soporte");
-            builder.Entity<Donante>()
-                .ToTable("Donantes", "soporte");
             builder.Entity<Personal>()
-                .ToTable("Personales", "soporte");
+                .ToTable("Personales", "soporte"); 
             builder.Entity<Ponente>()
                .ToTable("Ponentes", "soporte");
             builder.Entity<Mensajeria>()
@@ -228,8 +231,16 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             builder.Entity<Escala>()
          .ToTable("Escalas", "valoracion");
 
+            builder.Entity<Donante>()
+               .ToTable("Donantes", "donacion");
+            builder.Entity<Debito>()
+               .ToTable("Debitos", "donacion");
+            builder.Entity<ProductoDonante>()
+               .ToTable("ProductoDonantes", "donacion");
+
 
             builder.Entity<ETabulado>().HasNoKey();
+
 
             //builder.Entity<Colaborador>().HasMany(m => m.Formularios)
             //     .WithOne(c => c.Colaboradores)

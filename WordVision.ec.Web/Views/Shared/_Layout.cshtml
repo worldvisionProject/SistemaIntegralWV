@@ -66,6 +66,13 @@
     </div>
     <partial name="_Scripts" />
     @await Component.InvokeAsync("Notyf")
+
+     <script>
+    $(document).ready(function () {
+        if ("@TempData["MensajeError"]" !== "")
+            Swal.fire("¡Error!", "@TempData["MensajeError"]", "error");
+    });
+    </script>
     @RenderSection("Scripts", required: false)
 
 

@@ -2,6 +2,7 @@
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Interfaces.Repositories.Donacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Application.Interfaces.Repositories.Soporte;
 
