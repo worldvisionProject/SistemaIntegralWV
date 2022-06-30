@@ -87,7 +87,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
                         var resultado1 = _repositoryDonante.Entities.Where(c => c.FormaPago == formaPago && c.Banco == 10 && fecha>= c.MesInicialDebito)
                                      .Select(a => new DebitoResponse
                                      {
-                                         Estado = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 62 && c.Secuencia == _repository.Entities.Where(d => d.FormaPago == formaPago && d.CodigoBanco == 10 && d.Anio == anio && d.Mes == mes && d.IdDonante == a.Id).FirstOrDefault().Estado.ToString()).FirstOrDefault().Nombre,
+                                         Estado = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 64 && c.Secuencia == _repository.Entities.Where(d => d.FormaPago == formaPago && d.CodigoBanco == 10 && d.Anio == anio && d.Mes == mes && d.IdDonante == a.Id).FirstOrDefault().Estado.ToString()).FirstOrDefault().Nombre,
                                          Tipo = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 24 && c.Secuencia == a.Tipo.ToString()).FirstOrDefault().Nombre,
                                          Categoria = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 25 && c.Secuencia == a.Categoria.ToString()).FirstOrDefault().Nombre,
                                          Campana = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 26 && c.Secuencia == a.Campana.ToString()).FirstOrDefault().Nombre,
@@ -114,7 +114,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
                         var resultado2 = _repositoryDonante.Entities.Where(c => c.FormaPago == formaPago && c.Banco != 10 && fecha >= c.MesInicialDebito)
                      .Select(a => new DebitoResponse
                      {
-                         Estado = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 62 && c.Secuencia == _repository.Entities.Where(d => d.FormaPago == formaPago && d.CodigoBanco != 10 && d.Anio == anio && d.Mes == mes && d.IdDonante == a.Id).FirstOrDefault().Estado.ToString()).FirstOrDefault().Nombre,
+                         Estado = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 64 && c.Secuencia == _repository.Entities.Where(d => d.FormaPago == formaPago && d.CodigoBanco != 10 && d.Anio == anio && d.Mes == mes && d.IdDonante == a.Id).FirstOrDefault().Estado.ToString()).FirstOrDefault().Nombre,
                          Tipo = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 24 && c.Secuencia == a.Tipo.ToString()).FirstOrDefault().Nombre,
                          Categoria = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 25 && c.Secuencia == a.Categoria.ToString()).FirstOrDefault().Nombre,
                          Campana = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 26 && c.Secuencia == a.Campana.ToString()).FirstOrDefault().Nombre,
@@ -145,7 +145,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
                     var resultado = _repositoryDonante.Entities.Where(c => c.FormaPago == formaPago && c.TiposTarjetasCredito == bancoTarjeta)
                                     .Select(a => new DebitoResponse
                                     {
-                                        Estado = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 62 && c.Secuencia == _repository.Entities.Where(d => d.FormaPago == formaPago && d.CodigoBanco == bancoTarjeta && d.Anio == anio && d.Mes == mes && d.IdDonante == a.Id).FirstOrDefault().Estado.ToString()).FirstOrDefault().Nombre,
+                                        Estado = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 64 && c.Secuencia == _repository.Entities.Where(d => d.FormaPago == formaPago && d.CodigoBanco == bancoTarjeta && d.Anio == anio && d.Mes == mes && d.IdDonante == a.Id).FirstOrDefault().Estado.ToString()).FirstOrDefault().Nombre,
                                         Tipo = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 24 && c.Secuencia == a.Tipo.ToString()).FirstOrDefault().Nombre,
                                         Categoria = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 25 && c.Secuencia == a.Categoria.ToString()).FirstOrDefault().Nombre,
                                         Campana = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 26 && c.Secuencia == a.Campana.ToString()).FirstOrDefault().Nombre,

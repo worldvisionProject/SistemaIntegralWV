@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using WordVision.ec.Application.DTOs.Debitos;
 using WordVision.ec.Application.Features.Donacion.Donantes.Commands.Create;
 using WordVision.ec.Application.Features.Donacion.Donantes.Commands.Update;
 using WordVision.ec.Application.Features.Donacion.Donantes.Queries.GetAllCached;
@@ -18,7 +19,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Mappings
             CreateMap<GetAllDonantesResponse, DonanteViewModel>().ReverseMap();
             CreateMap<GetDonantesByIdResponse, DonanteViewModel>().ReverseMap();
             CreateMap<Donante, DonanteViewModel>().ReverseMap();
-
+            CreateMap<ReporteDonantesResponse, ReporteDonantesResponseViewModel>().ReverseMap();
         }
     }
 

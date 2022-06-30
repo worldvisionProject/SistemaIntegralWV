@@ -35,4 +35,6 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public SelectList AnioList { get; set; }
         public SelectList MesList { get; set; }
     }
+
+    
 }

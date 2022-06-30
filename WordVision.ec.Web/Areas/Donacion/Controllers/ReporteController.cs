@@ -20,6 +20,8 @@ using WordVision.ec.Web.Areas.Donacion.Models;
 using WordVision.ec.Application.Features.Donacion.Debitos.Queries.GetById;
 using WordVision.ec.Application.Features.Donacion.Debitos.Commands.Create;
 using WordVision.ec.Application.Features.Donacion.Debitos.Commands.Update;
+using WordVision.ec.Application.DTOs.Debitos;
+
 
 namespace WordVision.ec.Web.Areas.Donacion.Controllers
 {
@@ -40,44 +42,32 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
 
             var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 21, Ninguno = true });
             var formaPago = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 61, Ninguno = true });
-            var banco = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            var entidadViewModel = new DebitoFiltroViewModel();
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 24, Ninguno = true });
+            var tipoDonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 27, Ninguno = true });
+            var estadoDonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            
+            var entidadViewModel = new DonanteFiltroReporteViewModel();
             entidadViewModel.FormaPagoList = formaPago;
-            entidadViewModel.BancosList = banco;
+            entidadViewModel.TipoDonanteList = tipoDonante;
+            entidadViewModel.EstadoDonanteList = estadoDonante;
 
-            List<SelectListItem> items = new List<SelectListItem>();
-            for (int i = DateTime.Now.Year - 5; i <= DateTime.Now.Year; i++)
-            {
-                items.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
-            }
-
-            var anio = new SelectList(items, "Value", "Text");
-            entidadViewModel.AnioList = anio;
-
-            items = new List<SelectListItem>();
-            for (int i = 1; i <= 12; i++)
-            {
-                items.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
-            }
-
-            var mes = new SelectList(items, "Value", "Text");
-            entidadViewModel.MesList = mes;
+           
             return View(entidadViewModel);// dirije a la carpeta Views
         }
 
         [HttpPost]
-        public async Task<JsonResult> LoadReporteDonantes([FromBody] DebitoFiltroViewModel filtro)
+        public async Task<JsonResult> LoadReporteDonantes([FromBody] DonanteFiltroReporteViewModel filtro)
         {
             try
             {
                 if (filtro == null)
-                    return Json(new { data = new List<DebitoResponseViewModel>() });
+                    return Json(new { data = new List<ReporteDonantesResponseViewModel>() });
 
-                var response = await _mediator.Send(new GetDebitosSeleccionarQuery() { formaPago = filtro.FormaPago, bancoTarjeta = filtro.BancoTarjeta, anio = filtro.Anio, mes = filtro.Mes });
+                var response = await _mediator.Send(new GetReporteDonantesQuery() {fechaDesde=filtro.FechaDesde,fechaHasta=filtro.FechaHasta, formaPago = filtro.FormaPago, tipoDonante=filtro.TipoDonante,estadoDonante=filtro.EstadoDonante });
                 if (response.Succeeded)
                 {
-                    var viewModel = _mapper.Map<List<DebitoResponseViewModel>>(response.Data);
+                    var viewModel = _mapper.Map<List<ReporteDonantesResponseViewModel>>(response.Data);
 
                     return Json(new { data = viewModel });
                 }
@@ -88,13 +78,13 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
             }
 
 
-            return Json(new { data = new List<DebitoResponseViewModel>() });
+            return Json(new { data = new List<ReporteDonantesResponseViewModel>() });
 
         }
         public async Task<JsonResult> GetFormaPago(int idFormaPago)
         {
 
-            var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = idFormaPago == 2 ? 61 : 36, Ninguno = true });
+            var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = idFormaPago == 2 ? 63 : 36, Ninguno = true });
             var banco = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
             //var entidadModel = await _mediator.Send(new GetProvinciaByIdRegionQuery() { IdRegion = idRegion });

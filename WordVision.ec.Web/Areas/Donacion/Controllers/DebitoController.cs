@@ -40,7 +40,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
 
             var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 21, Ninguno = true });
             var formaPago = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 61, Ninguno = true });
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 63, Ninguno = true });
             var banco = new SelectList(catalogo.Data, "Secuencia", "Nombre");
             var entidadViewModel = new DebitoFiltroViewModel();
             entidadViewModel.FormaPagoList = formaPago;
@@ -94,7 +94,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
         public async Task<JsonResult> GetFormaPago(int idFormaPago)
         {
 
-            var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = idFormaPago == 2 ? 61 : 36, Ninguno = true });
+            var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = idFormaPago == 2 ? 63 : 36, Ninguno = true });
             var banco = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
             //var entidadModel = await _mediator.Send(new GetProvinciaByIdRegionQuery() { IdRegion = idRegion });

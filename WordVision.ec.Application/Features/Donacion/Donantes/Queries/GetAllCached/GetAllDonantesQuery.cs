@@ -1,6 +1,7 @@
 ﻿using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace WordVision.ec.Application.Features.Donacion.Donantes.Queries.GetAllCac
 {
     public class GetAllDonantesQuery : IRequest<Result<List<GetAllDonantesResponse>>>
     {
+       
         public GetAllDonantesQuery()
         {
         }
