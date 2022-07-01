@@ -4,7 +4,7 @@
 @model DonanteViewModel
 
 
- <form id="create-form" method="post" asp-controller="Donante" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+ <form id="create-form" method="post" asp-controller="Donante" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id"  onsubmit="setTimeout('location.href ='javascript:history.back()'',2000);  return jQueryModalPost(this); " enctype="multipart/form-data">
 
                                                             @*<div class="row">
                                                                 <div class="col-md-4">
@@ -535,15 +535,24 @@
                                                                     <input type="hidden" value="true" name="band" id="band" />
                                                                 }
                                                                 <button type="submit" id="btnCancelar"  class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
-                                                            </div>
+                                                          </div>
 
                                                         </form>
 
 
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
+
+    document.addEventListener('DOMContentLoaded', function(){
+    let formulario = document.getElementById('create-form');
+    formulario.addEventListener('submit', function() {
+        alert("www");
+      formulario.reset();
+    });
+  });
+
     $(function () {
-      
+       
         $('#FechaNacimiento').on('change', calcularEdadEdit);
         $('#create-form *').prop('disabled', (document.getElementById("band").value == "true"));
         $('#ComentarioActualizacion').removeAttr("disabled"); 

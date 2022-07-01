@@ -29,7 +29,7 @@ namespace WordVision.ec.Application.Features.Maestro.DivisionPolitica.Queries.Ge
             public async Task<Result<List<GetProvinciaByIdResponse>>> Handle(GetProvinciaByIdRegionQuery query, CancellationToken cancellationToken)
             {
                 var Pais = await _paisCache.GetByIdRegionAsync(query.IdRegion);
-                var mappedPais = _mapper.Map<List<GetProvinciaByIdResponse>>(Pais);
+                    var mappedPais = _mapper.Map<List<GetProvinciaByIdResponse>>(Pais);
 
                 return Result<List<GetProvinciaByIdResponse>>.Success(mappedPais);
             }

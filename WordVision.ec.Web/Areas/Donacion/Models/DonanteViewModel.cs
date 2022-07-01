@@ -17,9 +17,9 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public int Id { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Fecha de conversión")]
+        [Display(Name = "Fecha de Conversión")]
         public DateTime? FechaConversion { get; set; }
-        [Display(Name = "Evidencia de conversión")]
+        [Display(Name = "Evidencia de Conversión")]
         public byte[] EvidenciaConversion { get; set; }
         [Display(Name = "Canal")]
         public int Canal { get; set; }
@@ -31,13 +31,13 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public int Campana { get; set; }
         [Display(Name = "Estado del Donante")]
         public int EstadoDonante { get; set; }
-        [Display(Name = "Primer nombre")]
+        [Display(Name = "Primer Nombre")]
         public string Nombre1 { get; set; }
-        [Display(Name = "Segundo nombre")]
+        [Display(Name = "Segundo Nombre")]
         public string Nombre2 { get; set; }
-        [Display(Name = "Primer apellido")]
+        [Display(Name = "Primer Apellido")]
         public string Apellido1 { get; set; }
-        [Display(Name = "Segundo apellido")]
+        [Display(Name = "Segundo Apellido")]
         public string Apellido2 { get; set; }
         [Display(Name = "Género")]
         public int Genero { get; set; }
@@ -48,7 +48,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         [Display(Name = "Identificación")]
         public string RUC { get; set; }
 
-        [Display(Name = "Fecha de nacimiento")]
+        [Display(Name = "Fecha de Nacimiento")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? FechaNacimiento { get; set; }
         public int? Edad { get; set; }
@@ -82,20 +82,20 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? MesInicialDebito { get; set; }
 
-        [Display(Name = "Forma de pago")]
+        [Display(Name = "Forma de Pago")]
         public int FormaPago { get; set; }
-        [Display(Name = "Num. referencia")]
+        [Display(Name = "Num. Referencia")]
         public string NumReferencia { get; set; }
-        [Display(Name = "Tipo de cuenta")]
+        [Display(Name = "Tipo de Cuenta")]
         public int? TipoCuenta { get; set; }
-        [Display(Name = "Número de cuenta")]
+        [Display(Name = "Número de Cuenta")]
         public string NumeroCuenta { get; set; }
-        [Display(Name = "Tipo de tarjetas")]
+        [Display(Name = "Tipo de Tarjetas")]
         public int? TiposTarjetasCredito { get; set; }
-        [Display(Name = "Número de tarjeta")]
+        [Display(Name = "Número de Tarjeta")]
         public string NumeroTarjeta { get; set; }
 
-        [Display(Name = "Fecha de caducidad")]
+        [Display(Name = "Fecha de Caducidad")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? FechaCaducidad { get; set; }
 
@@ -103,7 +103,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public int? Banco { get; set; }
 
 
-        [Display(Name = "Num. referencia")]
+        [Display(Name = "Num. Referencia")]
         public string NumReferenciaBp { get; set; }
         public int? TipoCuentaBp { get; set; }
         public string NumeroCuentaBp { get; set; }
@@ -112,7 +112,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? FechaCaducidadBp { get; set; }
 
-        [Display(Name = "Fecha de vencimiento")]
+        [Display(Name = "Fecha de Vencimiento")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? FechaVencimiento { get; set; }
         public int? BancoBp { get; set; }

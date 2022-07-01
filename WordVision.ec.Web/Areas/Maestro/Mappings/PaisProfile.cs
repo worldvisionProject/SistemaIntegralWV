@@ -9,6 +9,9 @@ namespace WordVision.ec.Web.Areas.Maestro.Mappings
     {
         public PaisProfile()
         {
+            CreateMap<GetPaisByIdResponse, Pais>().ReverseMap();
+            CreateMap<GetProvinciaByIdResponse, Provincia>().ReverseMap();
+            CreateMap<GetCiudadByIdResponse, Ciudad>().ReverseMap();
             CreateMap<PaisViewModel, Pais>().ReverseMap();
             CreateMap<ProvinciaViewModel, Provincia>().ReverseMap();
             CreateMap<CiudadViewModel, Ciudad>().ReverseMap();
