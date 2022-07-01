@@ -114,8 +114,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             {
                 var result = string.Join(',', ModelState.Values.SelectMany(v => v.Errors).Select(a => a.ErrorMessage));
                 return _commonMethods.SaveError($"Error al insertar Rc Niño Patrocinado.", result);
-                //_logger.LogError(result);
-                //return new JsonResult(new { isValid = false }); //, html = html
+
             }
         }
 
@@ -141,9 +140,9 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                 programas = programas.Where(e => e.IdEstado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
             }
 
-            entidadViewModel.EstadoList = _commonMethods.SetGenericCatalog(estados, CatalogoConstant.FieldEstado);
-            entidadViewModel.GeneroList = _commonMethods.SetGenericCatalog(generos, CatalogoConstant.FieldGenero);
-            entidadViewModel.GrupoEtarioList = _commonMethods.SetGenericCatalog(etarios, CatalogoConstant.FieldGrupoEtario);
+            entidadViewModel.EstadoList = _commonMethods.SetGenericCatalogWithoutIdLabel(estados, CatalogoConstant.FieldEstado);
+            entidadViewModel.GeneroList = _commonMethods.SetGenericCatalogWithoutIdLabel(generos, CatalogoConstant.FieldGenero);
+            entidadViewModel.GrupoEtarioList = _commonMethods.SetGenericCatalogWithoutIdLabel(etarios, CatalogoConstant.FieldGrupoEtario);
             entidadViewModel.ProgramaAreaList = _commonMethods.SetGenericCatalog(programas, CatalogoConstant.FieldProgramaArea);
         }
     }

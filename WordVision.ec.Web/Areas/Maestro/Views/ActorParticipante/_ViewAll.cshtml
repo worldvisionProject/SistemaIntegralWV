@@ -7,7 +7,7 @@
                 Código
             </th>
             <th>
-                Actor Participante
+                Actor/Participante
             </th>
             <th>
                 Descripción
@@ -19,32 +19,38 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Codigo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ActoresParticipantes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado.Nombre)
-            </td>
-            <td>
-                <div class="btn-group">
-                    <a onclick="jQueryModalGet('/Maestro/ActorParticipante/OnGetCreateOrEdit?id=@item.Id','Editar Actor Participante')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
-                </div>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Codigo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActoresParticipantes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado.Nombre)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <a onclick="jQueryModalGet('/Maestro/ActorParticipante/OnGetCreateOrEdit?id=@item.Id','Editar Actor/Participante')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Editar</a> 
+                    </div>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
 <script>
     $(document).ready(function () {
-        $("#actorParticipanteTable").DataTable();
+        $("#actorParticipanteTable").DataTable({
+        columnDefs: [ {
+            "targets": 4,
+            "orderable": false
+            } ]
+        });
     });
 </script>

@@ -71,7 +71,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             }
             catch (Exception ex)
             {
-                return _commonMethods.SaveError($"OnGetCreateOrEdit Error al consultar Actor Participantes.", ex.Message);
+                return _commonMethods.SaveError($"OnGetCreateOrEdit Error al consultar Actor/Participantes.", ex.Message);
             }
         }
 
@@ -87,14 +87,14 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                     createEntidadCommand.IdEstado = CatalogoConstant.IdDetalleCatalogoEstadoActivo;
                     var result = await _mediator.Send(createEntidadCommand);
                     if (result.Succeeded)
-                        _notify.Success($"Actor Participante con ID {result.Data} Creado.");
+                        _notify.Success($"Actor/Participante con ID {result.Data} Creado.");
                     else return _commonMethods.SaveError(result.Message);
                 }
                 else
                 {
                     var updateEntidadCommand = _mapper.Map<UpdateActorParticipanteCommand>(ActorParticipanteViewModel);
                     var result = await _mediator.Send(updateEntidadCommand);
-                    if (result.Succeeded) _notify.Information($"Actor Participante con ID {result.Data} Actualizado.");
+                    if (result.Succeeded) _notify.Information($"Actor/Participante con ID {result.Data} Actualizado.");
                     else return _commonMethods.SaveError(result.Message);
                 }
 
@@ -111,7 +111,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             else
             {
                 var result = string.Join(',', ModelState.Values.SelectMany(v => v.Errors).Select(a => a.ErrorMessage));
-                return _commonMethods.SaveError($"Error al insertar Actor Participante", result);
+                return _commonMethods.SaveError($"Error al insertar Actor/Participante", result);
             }
         }
 
@@ -126,7 +126,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             if (isNew)
                 estados = estados.Where(e => e.Estado == CatalogoConstant.EstadoActivo).ToList();
 
-            entidadViewModel.EstadoList = _commonMethods.SetGenericCatalog(estados, CatalogoConstant.FieldEstado);
+            entidadViewModel.EstadoList = _commonMethods.SetGenericCatalogWithoutIdLabel(estados, CatalogoConstant.FieldEstado);
         }
     }
 }

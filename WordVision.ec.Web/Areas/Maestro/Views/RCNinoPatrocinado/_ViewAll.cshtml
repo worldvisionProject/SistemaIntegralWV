@@ -6,16 +6,25 @@
     <thead>
         <tr>
             <th>
-                Código
+                Programa Área
             </th>
             <th>
                 Cédula
+            </th>
+            <th>
+                Código
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Comunidad)
+            </th>
+            <th>
+                Genero
+            </th>
+            <th>
+                GrupoEtario
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Edad)
@@ -26,15 +35,6 @@
             <th>
                 Estado
             </th>
-            <th>
-                Programa Área
-            </th>
-            <th>
-                Genero
-            </th>
-            <th>
-                GrupoEtario
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -42,16 +42,25 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Codigo)
+                @Html.DisplayFor(modelItem => item.ProgramaArea.Descripcion)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Cedula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Comunidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genero.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GrupoEtario.Nombre)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Edad)
@@ -63,17 +72,8 @@
                 @Html.DisplayFor(modelItem => item.Estado.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProgramaArea.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genero.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GrupoEtario.Nombre)
-            </td>
-            <td>
                <div class="btn-group">
-                    <a onclick="jQueryModalGet('/Maestro/RCNinoPatrocinado/OnGetCreateOrEdit?id=@item.Id','Editar RC Niño Patrocinado')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
+                    <a onclick="jQueryModalGet('/Maestro/RCNinoPatrocinado/OnGetCreateOrEdit?id=@item.Id','Editar RC Niño Patrocinado')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Editar</a> 
                 </div>
             </td>
         </tr>
@@ -83,6 +83,11 @@
 
 <script>
     $(document).ready(function () {
-        $("#rCPatrocinadoTable").DataTable();
+        $("#rCPatrocinadoTable").DataTable({
+        columnDefs: [ {
+            "targets": 10,
+            "orderable": false
+            } ]
+        });
     });
 </script>

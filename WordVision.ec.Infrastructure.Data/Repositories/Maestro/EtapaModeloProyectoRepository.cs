@@ -34,6 +34,9 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
         {
             IQueryable<EtapaModeloProyecto> list = _repository.Entities;
 
+            if (!string.IsNullOrEmpty(etapaModelo.Etapa) && etapaModelo.IdAccionOperativa != 0)
+                list = list.Where(c => c.Etapa == etapaModelo.Etapa && c.IdAccionOperativa == etapaModelo.IdAccionOperativa);
+
             if (etapaModelo.Include)
             {
                 list = list.Include(p => p.AccionOperativa).Include(e => e.Estado);

@@ -9,11 +9,11 @@ namespace WordVision.ec.Web.Areas.Maestro.Validators
         public ActorParticipanteViewModelValidator()
         {
             RuleFor(p => p.Codigo)
-            .NotEmpty().WithMessage("{PropertyName} vvvves obligatoriovvvvv.")
+            .NotEmpty().WithMessage("Código es obligatorio.")
             .NotNull();
 
             RuleFor(p => p.ActoresParticipantes)
-            .NotEmpty().WithMessage("{PropertyName} vvvvves obligatoriovvvvvv.")
+            .NotEmpty().WithMessage("Actor/Participante es obligatorio.")
             .NotNull();
         }
 

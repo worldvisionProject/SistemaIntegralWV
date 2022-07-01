@@ -155,10 +155,10 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                 //indicadores = indicadores.Where(e => e.IdEstado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
             }
 
-            entidadViewModel.EstadoList = _commonMethods.SetGenericCatalog(estados, CatalogoConstant.FieldEstado);
-            entidadViewModel.NivelList = _commonMethods.SetGenericCatalog(niveles, CatalogoConstant.FieldNivel);
+            entidadViewModel.EstadoList = _commonMethods.SetGenericCatalogWithoutIdLabel(estados, CatalogoConstant.FieldEstado);
+            entidadViewModel.NivelList = _commonMethods.SetGenericCatalogWithoutIdLabel(niveles, CatalogoConstant.FieldNivel);
             entidadViewModel.RubroList = _commonMethods.SetGenericCatalog(rubros, CatalogoConstant.FieldRubro);
-            entidadViewModel.TipoActividadList = _commonMethods.SetGenericCatalog(tipoActividades, CatalogoConstant.FieldTipoActividad);
+            entidadViewModel.TipoActividadList = _commonMethods.SetGenericCatalogWithoutIdLabel(tipoActividades, CatalogoConstant.FieldTipoActividad);
             entidadViewModel.SectorProgramaticoList = _commonMethods.SetGenericCatalog(sectores, CatalogoConstant.FieldSectorProgrematico);
             entidadViewModel.ProyectoTecnicoList = _commonMethods.SetGenericCatalog(proyectos, CatalogoConstant.FieldProyectoTecnico);
             //entidadViewModel.IndicadorPRList = _commonMethods.SetGenericCatalog(indicadores, CatalogoConstant.FieldIndicadorPR);

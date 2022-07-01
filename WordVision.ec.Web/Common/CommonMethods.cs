@@ -49,6 +49,41 @@ namespace WordVision.ec.Web.Common
             return new SelectList(genericCatalogs, valueField, "Nombre");
         }
 
+        public SelectList SetGenericCatalogWithoutIdLabel(List<GetListByIdDetalleResponse> items, string valueField)
+        {
+            List<GenericCatalog> genericCatalogs = new List<GenericCatalog>();
+            foreach (GetListByIdDetalleResponse item in items)
+                genericCatalogs.Add(new GenericCatalog
+                {
+                    IdCatalogo = item.IdCatalogo,
+                    Secuencia = item.Secuencia,
+                    Nombre = $"{item.Nombre}",
+                    Estado = item.Estado,
+
+                    IdEstado = item.Id,
+                    IdAccionOperativa = item.Id,
+                    IdFinanciamiento = item.Id,
+                    IdNivel = item.Id,
+                    IdTipoProyecto = item.Id,
+                    IdUbicacion = item.Id,
+                    IdGenero = item.Id,
+                    IdGrupoEtario = item.Id,
+                    IdFrecuencia = item.Id,
+                    IdArea = item.Id,
+                    IdTipoMedida = item.Id,
+                    IdTipoIndicador = item.Id,
+                    IdRubro = item.Id,
+                    IdTarget = item.Id,
+                    IdSectorProgramatico = item.Id,
+                    IdTipoActividad = item.Id,
+                    IdFaseProyecto = item.Id,
+                    IdProceso = item.Id,
+                    IdEstadoAnioFiscal = item.Id,
+                });
+
+            return new SelectList(genericCatalogs, valueField, "Nombre");
+        }
+
         public SelectList SetGenericCatalog(List<ProgramaAreaViewModel> items, string valueField)
         {
             List<GenericCatalog> genericCatalogs = new List<GenericCatalog>();

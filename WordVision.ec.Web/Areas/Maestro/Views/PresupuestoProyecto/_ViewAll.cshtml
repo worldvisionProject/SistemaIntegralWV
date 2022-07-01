@@ -4,10 +4,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                Programa Área
             </th>
             <th>
-                Total
+                Techo Presupuestario
             </th>
             <th>
                 Costo Soporte
@@ -28,10 +28,7 @@
                 Lineamientos On Operativos
             </th>
             <th>
-                Techo Presupuestario
-            </th>
-            <th>
-                Programa Área
+                Total
             </th>
             <th>
                 Estado
@@ -43,10 +40,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
+                @Html.DisplayFor(modelItem => item.ProgramaArea.Descripcion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Total)
+                @Html.DisplayFor(modelItem => item.TechoPresupuestario)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CostoSoporte)
@@ -67,10 +64,7 @@
                 @Html.DisplayFor(modelItem => item.LineamientosOnOperativos)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TechoPresupuestario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProgramaArea.Descripcion)
+                @Html.DisplayFor(modelItem => item.Total)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Estado.Nombre)
@@ -87,6 +81,13 @@
 
 <script>
     $(document).ready(function () {
-        $("#presupuestoProyectoTable").DataTable();
+        $("#presupuestoProyectoTable").DataTable(
+            {
+            columnDefs: [ {
+                "targets": 10,
+                "orderable": false
+                } ]
+            }
+        );
     });
 </script>

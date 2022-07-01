@@ -111,7 +111,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             else
             {
                 var result = string.Join(',', ModelState.Values.SelectMany(v => v.Errors).Select(a => a.ErrorMessage));
-                return _commonMethods.SaveError($"Error al insertar Proyecto Técnico.", result);
+                return _commonMethods.SaveError($"Error al insertar Modelo Proyecto.", result);
             }
         }
 
@@ -131,7 +131,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                 proyectos = proyectos.Where(e => e.IdEstado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
             }
 
-            entidadViewModel.EstadoList = _commonMethods.SetGenericCatalog(estados, CatalogoConstant.FieldEstado);
+            entidadViewModel.EstadoList = _commonMethods.SetGenericCatalogWithoutIdLabel(estados, CatalogoConstant.FieldEstado);
             entidadViewModel.EtapaModeloProyectoList = _commonMethods.SetGenericCatalog(proyectos, CatalogoConstant.FieldEtapaModeloProyecto);
         }
     }

@@ -227,7 +227,7 @@
                             <li class="nav-item">
                                 <a is-active-route asp-area="Maestro" asp-controller="ActorParticipante" class="nav-link">
                                     <i class="far fa-file-archive nav-icon"></i>
-                                    <p>@localizer["Actor Participante"]</p>
+                                    <p>@localizer["Actor/Participante"]</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -260,12 +260,12 @@
                                     <p>@localizer["RC Niño Patrocinado"]</p>
                                 </a>
                             </li>
-                            @*<li class="nav-item">
+                            <li class="nav-item">
                                 <a is-active-route asp-area="Maestro" asp-controller="PresupuestoProyecto" class="nav-link">
                                     <i class="far fa-file-archive nav-icon"></i>
                                     <p>@localizer["Presupuesto"]</p>
                                 </a>
-                            </li>*@
+                            </li>
                             <li class="nav-item">
                                 <a is-active-route asp-area="Maestro" asp-controller="IndicadorPR" class="nav-link">
                                     <i class="far fa-file-archive nav-icon"></i>
@@ -275,7 +275,7 @@
                             <li class="nav-item">
                                 <a is-active-route asp-area="Maestro" asp-controller="OtroIndicador" class="nav-link">
                                     <i class="far fa-file-archive nav-icon"></i>
-                                    <p>@localizer["Otros Indicacdor"]</p>
+                                    <p>@localizer["Otros Indicadores"]</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -381,6 +381,28 @@
 
                     </li>
 
+
+                    <li class="nav-header">@localizer["Planificaciones"]</li>
+                    <li is-active-route asp-area="Maestro" class="nav-item has-treeview">
+                        <a is-active-route asp-area="Maestro" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                @localizer["Planificación"]
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Planificacion" asp-controller="ProyectoITT" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Proyecto ITT"]</p>
+                                </a>
+                            </li>                              
+                            
+                        </ul>
+
+                    </li>
                 }
 
                 <li class="nav-header">@localizer["Servicios Administrativos"]</li>
@@ -484,8 +506,8 @@
                 @if (User.IsInRole("DonanteEdicion") || User.IsInRole("DonantesVisualizacion")|| User.IsInRole("DonantesAdministrador"))
                 {
                      <li class="nav-header"></li>
-                   <li is-active-route asp-area="Donacion" class="nav-item has-treeview">
-                    <a is-active-route asp-area="Donacion" class="nav-link">
+                   <li is-active-route asp-area="Soporte" class="nav-item has-treeview">
+                    <a is-active-route asp-area="Soporte" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                        
                           <font style="font-size:.9rem">  @localizer["Gestión de Donantes"]</font>
@@ -494,7 +516,7 @@
                     </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Donacion" asp-controller="Donante" asp-action="IngresarDonante" class="nav-link">
+                                <a is-active-route asp-area="Soporte" asp-controller="Donante" asp-action="Index" class="nav-link">
                                     <i class="nav-icon fas fa-th"></i>
                                     <p>
                                         @localizer["Ingreso de Donantes"]
@@ -507,32 +529,7 @@
 
                          <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Donacion" asp-controller="Donante" asp-action="Index" class="nav-link">
-                                    <i class="nav-icon fas fa-th"></i>
-                                    <p>
-                                        @localizer["Lista de Donantes"]
-                                        @*<span class="right badge badge-danger">@localizer["New"]</span>*@
-                                    </p>
-                                </a>
-                            </li>
-
-                        </ul>
-                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Donacion" asp-controller="Debito" asp-action="Index" class="nav-link">
-                                    <i class="nav-icon fas fa-th"></i>
-                                    <p>
-                                        @localizer["Débitos Automáticos"]
-                                        @*<span class="right badge badge-danger">@localizer["New"]</span>*@
-                                    </p>
-                                </a>
-                            </li>
-
-                        </ul>
-
-                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Donacion" asp-controller="Reporte"  asp-action="Index" class="nav-link">
+                                <a is-active-route asp-area="Maestro" asp-controller="Catalogo" class="nav-link">
                                     <i class="far fa-file-archive nav-icon"></i>
                                     <p>@localizer["Reportes"]</p>
                                 </a>
