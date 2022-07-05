@@ -66,8 +66,8 @@ namespace WordVision.ec.Domain.Entities.Donacion
         
         [StringLength(50)]
         public string Hubspot { get; set; }
-        [StringLength(50)]
-        public string Formulario { get; set; }
+        //[StringLength(50)]
+        //public string Formulario { get; set; }
 
         [ForeignKey("IdDonante")]
         public ICollection<Debito> Debitos { get; set; }
