@@ -121,6 +121,23 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         [Display(Name = "Comentario Resolución")]
         public string ComentarioResolucion { get; set; }
 
+        public string Hubspot { get; set; }
+        public string Formulario { get; set; }
+
+        [Display(Name = "Periodo de Donación ")]
+        public int PeriodoDonacion { get; set; }
+
+        [Display(Name = "Calificación  del Donante")]
+        public int CalificacionDonante { get; set; }
+        
+        [Display(Name = "Número de guia")]
+        public string NumeroGuia { get; set; }
+
+        [Display(Name = "Fecha de Entrega")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? FechaEntrega { get; set; }
+
+
         public string Colaborador { get; set; }
 
         public int? EsAdmin { get; set; }
@@ -141,6 +158,9 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public SelectList TipoTarjetaList { get; set; }
         public SelectList BancoList { get; set; }
         public SelectList CodigoAreaList { get; set; }
+        public SelectList PeriodoDonacionList { get; set; }
+
+        public SelectList CalificacionDonanteList { get; set; }
         //public SelectList QuincenaList { get; set; }
     }
 }

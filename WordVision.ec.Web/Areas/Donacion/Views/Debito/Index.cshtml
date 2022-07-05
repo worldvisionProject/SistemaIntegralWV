@@ -40,8 +40,9 @@
                                 </select>
                                     </div>
 
+
                                     <div class="col-md-3" style="padding:25px 10px 10px 5px">
-                                       <a class="btn btn-sm btn-labeled btn-outline-info" href="#" onclick="buscarDebitos()">
+                                       <a class="btn btn-sm btn-labeled btn-success" href="#" onclick="buscarDebitos()">
                                             <span class="btn-label pr-1">
                                                 <i class="fa fa-search"></i>
                                             </span>
@@ -60,7 +61,7 @@
                            
                                    <div  class="col-md-6">
                                      
-                                      <a class="btn btn-sm btn-labeled btn-info tool-action"href="#">
+                                      <a class="btn btn-sm btn-labeled btn-success tool-action"href="#">
                                             <span class="btn-label pr-1">
                                                 <i class="fa fa-file-download"></i>
                                             </span>
@@ -68,7 +69,7 @@
                                         </a>
                                       
                                    &nbsp; &nbsp; 
-                                      <a class="btn btn-sm btn-labeled btn-outline-info" href="#" onclick="generarTxtDebitos()">
+                                      <a class="btn btn-sm btn-labeled btn-success" href="#" onclick="generarTxtDebitos()">
                                             <span class="btn-label pr-1">
                                                 <i class="fa fa-file-download"></i>
                                             </span>
@@ -78,6 +79,7 @@
                                     
                                     </div>
                                 <div class="col-md-4">
+                                    
                                 <form  method="POST" id="frmRespuesta" enctype="multipart/form-data">
                                   
                                     @*<span class="btn-label pr-1">
@@ -102,7 +104,7 @@
                                 </div>
                                 <div class="col-md-2">
                                       <input type="hidden" name="uAccion" value="Salir">
-                                    <a class="btn btn-sm btn-labeled btn-outline-info" id="salir" href="#" onclick="validacion()">
+                                    <a class="btn btn-sm btn-labeled btn-success" id="salir" href="#" onclick="validacion()">
                                         <span class="btn-label pr-1">
                                             <i class="fa fa-file-download"></i>
                                         </span>
@@ -276,7 +278,7 @@
             var mes = parseInt($("#selectMes").val());
 
              if (isNaN(formaPago) || formaPago === 0) {
-                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar la forma de pago", "warning");
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar la forma de Pago", "warning");
                 return false;
             }
             if (isNaN(banco) || banco === 0) {

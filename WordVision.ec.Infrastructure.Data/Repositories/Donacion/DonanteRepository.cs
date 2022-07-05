@@ -70,7 +70,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
         public async Task<List<ReporteDonantesResponse>> GetReporteDonantesAsync(DateTime fechaDesde, DateTime fechaHasta, int tipoDonante, int formaPago, int estadoDonante)
         {
             _db.Database.SetCommandTimeout(TimeSpan.FromMinutes(20));
-            var resultado1 = _repository.Entities.Where(c => c.Tipo==tipoDonante && c.FormaPago == formaPago && c.EstadoDonante == estadoDonante && (c.FechaConversion >= fechaDesde && c.FechaConversion<=fechaHasta))
+            var resultado1 = _repository.Entities.Where(c => (c.Tipo==tipoDonante || tipoDonante==0) && (c.FormaPago == formaPago || formaPago == 0) && (c.EstadoDonante == estadoDonante || estadoDonante == 0) && (fechaDesde >=  c.FechaConversion && fechaHasta  <= c.FechaConversion))
                                     .Select(a => new ReporteDonantesResponse
                                     {
                                         Id =a.Id ,

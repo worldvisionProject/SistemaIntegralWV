@@ -100,6 +100,11 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
             var tipoTarjeta = new SelectList(catalogo.Data, "Secuencia", "Nombre");
             catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 37, Ninguno = true });
             var banco = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 65, Ninguno = true });
+            var periodoDonacion = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 66, Ninguno = true });
+            var calificaciondonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+
             //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 60, Ninguno = true });
             //var quincena = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
@@ -123,9 +128,11 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 entidadViewModel.FrecuenciaList = frecuencia;
                 entidadViewModel.TipoCuentaList = tipoCuenta;
                 entidadViewModel.TipoTarjetaList = tipoTarjeta;
-                entidadViewModel.BancoList = banco; 
+                entidadViewModel.BancoList = banco;
                 //entidadViewModel.QuincenaList = quincena;
                 entidadViewModel.FechaConversion = DateTime.Now;
+                entidadViewModel.CalificacionDonanteList = calificaciondonante;
+                entidadViewModel.PeriodoDonacionList = periodoDonacion;
                 return PartialView("_CreateOrEdit", entidadViewModel);
             }
             return null;
@@ -183,6 +190,9 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 var tipoTarjeta = new SelectList(catalogo.Data, "Secuencia", "Nombre");
                 catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 37, Ninguno = true });
                 var banco = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                var periodoDonacion = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 66, Ninguno = true });
+                var calificaciondonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
                 //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 60, Ninguno = true });
                 //var quincena = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
@@ -209,6 +219,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     entidadViewModel.BancoList = banco;
                     //entidadViewModel.QuincenaList = quincena;
                     entidadViewModel.FechaConversion = DateTime.Now;
+                    entidadViewModel.CalificacionDonanteList = calificaciondonante;
+                    entidadViewModel.PeriodoDonacionList = periodoDonacion;
 
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
@@ -234,16 +246,20 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         entidadViewModel.TipoCuentaList = tipoCuenta;
                         entidadViewModel.TipoTarjetaList = tipoTarjeta;
                         entidadViewModel.BancoList = banco;
+                        entidadViewModel.FechaConversion = DateTime.Now;
+                        entidadViewModel.CalificacionDonanteList = calificaciondonante;
+                        entidadViewModel.PeriodoDonacionList = periodoDonacion;
                         //entidadViewModel.QuincenaList = quincena;
 
                         return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                     }
-                   
+
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
+                _logger.LogError("OnGetCreateOrEdit", ex);
+                _notify.Error("Error al insertar el Donante");
             }
             return null;
 
@@ -251,7 +267,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
 
 
         [HttpPost]
-        public async Task<JsonResult> OnPostCreateOrEdit(int? id, DonanteViewModel entidad)
+        public async Task<ActionResult> OnPostCreateOrEdit(int? id, DonanteViewModel entidad, int vienede=0)
         {
             try
             {
@@ -300,7 +316,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         }
                            
                     }
-                  
+                    if (vienede == 0 )
+                    {
                         var response = await _mediator.Send(new GetAllDonantesQuery());
                         if (response.Succeeded)
                         {
@@ -323,6 +340,21 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
 
 
                         }
+
+                    }
+                    else
+                    {
+                        var entidadViewModel = new DonanteViewModel();
+                        var responseCola = await _mediator.Send(new GetColaboradorByIdQuery() { Id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
+                        if (responseCola.Succeeded)
+                        {
+                            entidadViewModel.Colaborador = responseCola.Data.Apellidos + " " + responseCola.Data.ApellidoMaterno + " " + responseCola.Data.PrimerNombre + " " + responseCola.Data.SegundoNombre;
+                            entidadViewModel.Colaborador = entidadViewModel.Colaborador + "-" + responseCola.Data.Estructuras?.Designacion;
+                        }
+                        return View("_IngresoDonantes", entidadViewModel);
+                    }
+                  
+                       
                         
 
                   

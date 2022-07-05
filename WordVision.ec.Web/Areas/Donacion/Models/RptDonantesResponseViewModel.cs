@@ -16,6 +16,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public string Genero { get; set; }
         public string Provincia { get; set; }
         public string NombreDonante { get; set; }
+        public string Nombres { get; set; }
+        public string Apellidos { get; set; }
         public string Nombre1 { get; set; }
         public string Nombre2 { get; set; }
         public string Apellido1 { get; set; }

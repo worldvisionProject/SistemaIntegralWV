@@ -1,4 +1,4 @@
-﻿@using WordVision.ec.Web.Areas.Donacion.Models
+﻿    @using WordVision.ec.Web.Areas.Donacion.Models
 @model DonanteFiltroReporteViewModel
             
 <link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css" />
@@ -46,13 +46,14 @@
                                         <select id="selectFormaPago" data-width="300px" title="Seleccionar..." class="form-control form-control-sm selectpicker" asp-items="@((IEnumerable<SelectListItem>)Model.FormaPagoList)" data-live-search="true">
                                         </select>
                                     </div>
-                                    <a class="btn btn-sm btn-labeled btn-outline-info" href="#" onclick="filtrarReporte()">
+                                    <a class="btn btn-sm btn-labeled btn-success" href="#" onclick="filtrarReporte()">
                                         <span class="btn-label pr-1">
                                             <i class="fa fa-search"></i>
                                         </span>
                                         Buscar
                                     </a>
-                                    <a class="btn btn-sm btn-labeled btn-info tool-action" href="#">
+                                    &nbsp;&nbsp;&nbsp;
+                                    <a class="btn btn-sm btn-labeled btn-success tool-action" href="#">
                                         <span class="btn-label pr-1">
                                             <i class="fa fa-file-download"></i>
                                         </span>
@@ -71,7 +72,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th>
-                                    Fecha Captacion
+                                    Fecha Captación
                                 </th>
                                 <th>
                                     Canal
@@ -87,28 +88,20 @@
                                     Identificación
                                 </th>
                                 <th>
-                                    NombreDonante
+                                    Nombres
                                 </th>
                                 <th>
-                                    Nombre Pri.
+                                    Apellidos
                                 </th>
-                                <th>
-                                    Nombre Seg.
-                                </th>
-                                <th>
-                                    Apellido Pri.
-                                </th>
-                                <th>
-                                    Apellido Seg.
-                                </th>
+                              
                                 <th>
                                     FormaPago
                                 </th>
                                  <th>
-                                    EntidadBancaria    
+                                    Entidad Bancaria    
                                 </th>
                                 <th>
-                                    TipoCuenta
+                                    Tipo Cuenta
                                 </th>
                                 <th>
                                    Cuenta
@@ -127,9 +120,7 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th> 
+                                
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -175,11 +166,25 @@
                 },
                 data: function (d) {
                     var filtros = new Object();
-                     filtros.fechaInicio = $("#fechaInicio").datepicker().datepicker("getDate");
-                    filtros.fechaFin = $("#fechaFin").datepicker().datepicker("getDate");
-                    filtros.formaPago = parseInt($("#selectFormaPago").val());
-                    filtros.tipoDonante = parseInt($("#selectTipoDonante").val());
-                    filtros.estadoDonante = parseInt($("#selectEstadoDonante").val());
+                     filtros.fechaDesde = $("#fechaInicio").datepicker().datepicker("getDate");
+                    filtros.fechaHasta = $("#fechaFin").datepicker().datepicker("getDate");
+                    var tipo = 0;
+                    if ($("#selectTipoDonante").val() != "") {
+                        tipo = $("#selectTipoDonante").val();
+                    }
+                    filtros.tipoDonante = parseInt(tipo);
+
+                    tipo = 0;
+                    if ($("#selectFormaPago").val() != "") {
+                        tipo = $("#selectFormaPago").val();
+                    }
+                    filtros.formaPago = parseInt(tipo);
+
+                     tipo = 0;
+                    if ($("#selectEstadoDonante").val() != "") {
+                        tipo = $("#selectEstadoDonante").val();
+                    }
+                    filtros.estadoDonante = parseInt(tipo);
                 
                     return JSON.stringify(filtros);
                 }
@@ -195,11 +200,11 @@
                 { width: '10%', filter: 'input', type: 'string', data: 'genero' },
                 { width: '8%', filter: 'input', type: 'string', data: 'frecuencia' },
                 { width: '10%', filter: 'input', type: 'string', data: 'identificacion' },
-                { width: '15%', filter: 'input', type: 'string', data: 'nombreDonante' },
-                { width: '15%', filter: 'input', type: 'string', data: 'nombre1' },
-                { width: '15%', filter: 'input', type: 'string', data: 'nombre2' },
-                { width: '15%', filter: 'input', type: 'string', data: 'apellido1' },
-                { width: '15%', filter: 'input', type: 'string', data: 'apellido2' },
+                { width: '15%', filter: 'input', type: 'string', data: 'nombres' },
+                { width: '30%', filter: 'input', type: 'string', data: 'apellidos' },
+                //{ width: '15%', filter: 'input', type: 'string', data: 'nombre2' },
+                //{ width: '15%', filter: 'input', type: 'string', data: 'apellido1' },
+                //{ width: '15%', filter: 'input', type: 'string', data: 'apellido2' },
                 { width: '15%', filter: 'input', type: 'string', data: 'formaPago' },
                 { width: '15%', filter: 'input', type: 'string', data: 'entidadBancaria' },
                 { width: '10%', filter: 'input', type: 'string', data: 'tipoCuenta' },
@@ -238,9 +243,9 @@
         
  
        function filtrarReporte() {
-            var formaPago = parseInt($("#selectFormaPago").val());
-            var tipoDonante = parseInt($("#selectTipoDonante").val());
-            var estadoDonante = parseInt($("#selectEstadoDonante").val());
+            //var formaPago = parseInt($("#selectFormaPago").val());
+            //var tipoDonante = parseInt($("#selectTipoDonante").val());
+            //var estadoDonante = parseInt($("#selectEstadoDonante").val());
             
             var fechaInicio = $('#fechaInicio').val();
             var fechaFin = $('#fechaFin').val();
@@ -256,18 +261,18 @@
                 return false;
             }
 
-             if (isNaN(formaPago) || formaPago === 0) {
-                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar la forma de pago", "warning");
-                return false;
-            }
-            if (isNaN(tipoDonante) || tipoDonante === 0) {
-                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el tipo de Donante", "warning");
-                return false;
-            }
-            if (isNaN(estadoDonante) || estadoDonante === 0) {
-                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el estado del Donante", "warning");
-                return false;
-            }
+            // if (isNaN(formaPago) || formaPago === 0) {
+            //    Swal.fire("¡Advertencia!", "Es obligatorio seleccionar la forma de pago", "warning");
+            //    return false;
+            //}
+            //if (isNaN(tipoDonante) || tipoDonante === 0) {
+            //    Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el tipo de Donante", "warning");
+            //    return false;
+            //}
+            //if (isNaN(estadoDonante) || estadoDonante === 0) {
+            //    Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el estado del Donante", "warning");
+            //    return false;
+            //}
            
           
             startLoading();

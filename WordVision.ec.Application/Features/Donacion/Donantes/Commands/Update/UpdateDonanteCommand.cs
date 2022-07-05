@@ -2,6 +2,7 @@
 using AutoMapper;
 using MediatR;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Donacion;
@@ -70,6 +71,12 @@ namespace WordVision.ec.Application.Features.Donacion.Donantes.Commands.Update
         public int? EsAdmin { get; set; }
         public string ComentarioActualizacion { get; set; }
         public string ComentarioResolucion { get; set; }
+        public string Hubspot { get; set; }
+        public string Formulario { get; set; }
+        public int PeriodoDonacion { get; set; }
+        public int CalificacionDonante { get; set; }
+        public string NumeroGuia { get; set; }
+        public DateTime? FechaEntrega { get; set; }
 
         public class UpdateDonanteCommandHandler : IRequestHandler<UpdateDonanteCommand, Result<int>>
         {

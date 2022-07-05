@@ -15,11 +15,14 @@ namespace WordVision.ec.Web.Areas.Donacion.Mappings
         public DonanteProfile()
         {
             CreateMap<CreateDonanteCommand, DonanteViewModel>().ReverseMap();
+            
             CreateMap<UpdateDonanteCommand, DonanteViewModel>().ReverseMap();
             CreateMap<GetAllDonantesResponse, DonanteViewModel>().ReverseMap();
             CreateMap<GetDonantesByIdResponse, DonanteViewModel>().ReverseMap();
             CreateMap<Donante, DonanteViewModel>().ReverseMap();
-            CreateMap<ReporteDonantesResponse, ReporteDonantesResponseViewModel>().ReverseMap();
+            CreateMap<ReporteDonantesResponseViewModel,ReporteDonantesResponse >().ReverseMap()
+                .ForMember(dest=>dest.Nombres,opt=>opt.MapFrom(src=> string.Format("{0} {1} ", src.Nombre1, src.Nombre2)))
+                .ForMember(dest => dest.Apellidos, opt => opt.MapFrom(src => string.Format("{0} {1} ", src.Apellido1, src.Apellido2)));
         }
     }
 
