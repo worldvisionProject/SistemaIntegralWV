@@ -32,7 +32,7 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
         }
 
 
-      
+
         public IDbConnection Connection => Database.GetDbConnection();
         public bool HasChanges => ChangeTracker.HasChanges();
 
@@ -195,7 +195,7 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             builder.Entity<Email>()
                 .ToTable("Emails", "soporte");
             builder.Entity<Personal>()
-                .ToTable("Personales", "soporte"); 
+                .ToTable("Personales", "soporte");
             builder.Entity<Ponente>()
                .ToTable("Ponentes", "soporte");
             builder.Entity<Mensajeria>()
@@ -265,6 +265,13 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             //.HasOne(p => p.FactorCriticoExitos)
             //.WithMany(b => b.IndicadorEstrategicos)
             //.IsRequired(false);
+
+
+            /*carlos cm 29062022*/
+            builder.Entity<ProyectoITT>()
+          .ToTable("ProyectoITTs", "planifica");
+            builder.Entity<DetalleProyectoITT>()
+         .ToTable("DetalleProyectoITTs", "planifica");
 
             foreach (var property in builder.Model.GetEntityTypes()
             .SelectMany(t => t.GetProperties())

@@ -1,0 +1,710 @@
+﻿@model WordVision.ec.Web.Areas.Planificacion.Models.ProyectoITTViewModel
+
+<style>
+
+    .error {
+        color: #5a5c69;
+        font-size: 1rem !important;
+        position: relative;
+        line-height: 1;
+        width: 12.5rem;
+    }
+
+
+
+    /*.tablay .thead {
+                                                                                    background-color: yellow !important;
+                                                                                }*/
+
+    .tablay thead, .tablay tfoot {
+        background-color: lightgoldenrodyellow !important;
+        color: white !important;
+        text-shadow: 1px 1px 1px white !important;
+        color: black !important;
+    }
+
+    .tablazul thead, .tablazul tfoot {
+        background-color: deepskyblue !important;
+        color: white !important;
+        text-shadow: 1px 1px 1px white !important;
+        color: black !important;
+    }
+
+    div.ex3 {
+        width: 105%;
+        height: 100%;
+        overflow: auto !important;
+    }
+
+</style>
+
+@*asp-action="OnPostCreateOrEdit" method="post" asp-controller="ProyectoITT" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);"*@
+<form id="create-form" enctype="multipart/form-data" action="#">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input hidden="hidden" asp-for="Id" />
+    <div class="row">
+
+        <div class="form-group">
+            <label asp-for="IdProyectoTecnico" class="control-label">Proyecto Tècnico / Especial</label>
+            @Html.DropDownList("IdProyectoTecnico", (IEnumerable<SelectListItem>)Model.ProyectoTecnicoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" , @onchange="Changeptnewup()" })
+            <span asp-validation-for="IdProyectoTecnico" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdProgramaArea" class="control-label">Programa Área</label>
+            @Html.DropDownList("IdProgramaArea", (IEnumerable<SelectListItem>)Model.ProgramaAreaList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
+            <span asp-validation-for="IdProgramaArea" class="text-danger"></span>
+        </div>
+
+
+
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label class="control-label">Proyecto Goal</label>
+            <select class="form-control" data-val="true" data-val-required="The IdNivel field is required." id="IdNivel" name="IdNivel" style="width:100%;" aria-describedby="IdNivel-error" aria-invalid="false">
+                <option value="4333">Goal</option>
+                <option value="4334">Outcome</option>
+                <option value="4335">Output</option>
+                <option value="4336">Activity</option>
+            </select>
+            <span class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Supervisor</label>
+            <input class="form-control" />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Responsable</label>
+            <input class="form-control" />
+        </div>
+    </div>
+    <br />
+
+    <div class="tabsPITT">
+        <h3>Projecto ITT</h3>
+        <section>
+
+            <div class="ex3">
+
+                <table border="1">
+                    <tr>
+                        <td colspan="2">
+                            <div class="form-group">
+                                <label for="loframecodeoutcome" class="control-label">Log Frame Code - Outcome</label>
+                                <select class="form-control" data-val="true" data-val-required="The loframecodeoutcome field is required." id="loframecodeoutcome" name="loframecodeoutcome" aria-describedby="loframecodeoutcome-error" aria-invalid="false" style="width:20%">
+                                    <option value="">Seleccionar</option>
+                                    <option value="4334">bb</option>
+                                    <option value="4335">cc</option>
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><hr /> </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="background-color:antiquewhite">METAS ANUALES AF</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table id="tblindres" class="table table-striped tablay" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Codigo Log Frame-Resultado</th>
+                                        <th>Summary</th>
+                                        <th>Codigo Indicador</th>
+                                        <th>Indicador</th>
+                                        <th>Tipo</th>
+                                        <th>Unidad Medida</th>
+                                        <th>Actores / Participantes</th>
+                                        <th>Frecuencia</th>
+                                        <th>Vinculado</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </td>
+                        <td>
+                            <table id="tblindresma" class="table tablay" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Linea Base</th>
+                                        <th>Meta AF 22</th>
+                                        <th>Meta AF 23</th>
+                                        <th>Meta AF 24</th>
+                                        <th>Meta AF 25</th>
+                                        <th>Meta AF 26</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><hr /></></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td style="background-color:deepskyblue">METAS ANUALES AF</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table id="tblprod" class="table table-striped display tablazul" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Codigo Log Frame-Producto</th>
+                                        <th>Summary</th>
+                                        <th>Codigo Indicador</th>
+                                        <th>Indicador</th>
+                                        <th>Tipo</th>
+                                        <th>Unidad Medida</th>
+                                        <th>Actores / Participantes</th>
+                                        <th>Frecuencia</th>
+                                        <th>Vinculado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </td>
+                        <td>
+                            <table id="tblproma" class="table tablay tablazul" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Linea Base</th>
+                                        <th>Meta AF 22</th>
+                                        <th>Meta AF 23</th>
+                                        <th>Meta AF 24</th>
+                                        <th>Meta AF 25</th>
+                                        <th>Meta AF 26</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><hr /></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td>METAS ANUALES AF</td>
+                    </tr>
+                    <tr>
+                        <td>
+
+                            <table id="tblactrel" class="table table-striped display" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Codigo Actividad</th>
+                                        <th>Actividad</th>
+                                        <th>Descripcion</th>
+                                        <th>Medio de Verificacion</th>
+                                    </tr>
+                                </thead>
+
+                            </table>
+                        </td>
+                        <td>
+                            <table id="tblactrelma" class="table" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Linea Base</th>
+                                        <th>Meta AF 22</th>
+                                        <th>Meta AF 23</th>
+                                        <th>Meta AF 24</th>
+                                        <th>Meta AF 25</th>
+                                        <th>Meta AF 26</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="form-group justify-content-between group-button-modal">
+                <button class="btn btn-success">Guardar</button>
+                <button class="btn btn-info">Editar</button>
+                <button class="btn btn-default close-button" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </section>
+        <h3>DIP</h3>
+        <section>
+            <div class="ex3">
+
+                <table border="1">
+                    <tr>
+                        <td colspan="2">
+                            <div class="form-group">
+                                <label for="idaniosfiscal" class="control-label">Año Fiscal</label>
+                                <select class="form-control" id="idaniosfiscal" style="width:20%">
+                                    <option value="">Seleccionar</option>
+                                    <option value="10">2022</option>
+                                    <option value="11">2023</option>
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="loframecodeoutcomedip" class="control-label">Log Frame Code - Outcome</label>
+                                <select class="form-control" id="loframecodeoutcomedip" style="width:20%">
+                                    <option value="">Seleccionar</option>
+                                    <option value="10">bb</option>
+                                    <option value="11">cc</option>
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><hr /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="background-color:antiquewhite">METAS TRIMESTRALES</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table id="tblindresdip" class="table tablay" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Codigo Log Frame-Resultado</th>
+                                        <th>Summary</th>
+                                        <th>Codigo Indicador</th>
+                                        <th>Indicador</th>
+                                        <th>Tipo</th>
+                                        <th>Unidad Medida</th>
+                                        <th>Actores / Participantes</th>
+                                        <th>Frecuencia</th>
+                                        <th>Vinculado</th>
+                                        <th>Linea Base</th>
+                                        <th>Meta AF 22</th>
+                                    </tr>
+                                </thead>
+
+                            </table>
+                        </td>
+                        <td>
+
+                            <table class="table tablay" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <td>Q1</td>
+                                        <td>OCT</td>
+                                        <td>NOV</td>
+                                        <td>DIC</td>
+                                        <td>Q2</td>
+                                        <td>ENE</td>
+                                        <td>FEB</td>
+                                        <td>MAR</td>
+                                        <td>Q3</td>
+                                        <td>ABR</td>
+                                        <td>MAY</td>
+                                        <td>JUN</td>
+                                        <td>Q4</td>
+                                        <td>JUL</td>
+                                        <td>AGO</td>
+                                        <td>SEP</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><hr /></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td style="background-color:deepskyblue">METAS TRIMESTRALES</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table id="tblproddip" class="table table-striped display tablazul" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Codigo Log Frame-Producto</th>
+                                        <th>Summary</th>
+                                        <th>Codigo Indicador</th>
+                                        <th>Indicador</th>
+                                        <th>Tipo</th>
+                                        <th>Unidad Medida</th>
+                                        <th>Actores / Participantes</th>
+                                        <th>Frecuencia</th>
+                                        <th>Vinculado</th>
+                                        <th>Linea Base</th>
+                                        <th>Meta AF 22</th>
+
+                                    </tr>
+                                </thead>
+
+                            </table>
+                        </td>
+                        <td>
+                            <table class="table tablay tablazul" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <td>Q1</td>
+                                        <td>OCT</td>
+                                        <td>NOV</td>
+                                        <td>DIC</td>
+                                        <td>Q2</td>
+                                        <td>ENE</td>
+                                        <td>FEB</td>
+                                        <td>MAR</td>
+                                        <td>Q3</td>
+                                        <td>ABR</td>
+                                        <td>MAY</td>
+                                        <td>JUN</td>
+                                        <td>Q4</td>
+                                        <td>JUL</td>
+                                        <td>AGO</td>
+                                        <td>SEP</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><hr /></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td>METAS TRIMESTRALES</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table id="tblactreldip" class="table table-striped display" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Codigo Actividad</th>
+                                        <th>Actividad</th>
+                                        <th>Descripcion</th>
+                                        <th>Medio de Verificacion</th>
+                                        <th>Linea Base</th>
+                                        <th>Meta AF 22</th>
+                                    </tr>
+                                </thead>
+
+                            </table>
+                        </td>
+                        <td>
+                            <table class="table" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <td>Q1</td>
+                                        <td>OCT</td>
+                                        <td>NOV</td>
+                                        <td>DIC</td>
+                                        <td>Q2</td>
+                                        <td>ENE</td>
+                                        <td>FEB</td>
+                                        <td>MAR</td>
+                                        <td>Q3</td>
+                                        <td>ABR</td>
+                                        <td>MAY</td>
+                                        <td>JUN</td>
+                                        <td>Q4</td>
+                                        <td>JUL</td>
+                                        <td>AGO</td>
+                                        <td>SEP</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+
+                        </td>
+                        <td rowspan="2">
+                            <button type="button" class="btn btn-warning" id="btnViewModel" onclick="jQueryModalGetHijo('2','../Planificacion/ProyectoITT/OnInsumos?id=0','Insumos')">
+                                <i class="fas fa-pencil-alt"></i>
+                                Insumos
+                            </button>
+
+                        </td>
+                    </tr>
+
+                </table>
+
+            </div>
+            <div class="form-group justify-content-between group-button-modal">
+                <button class="btn btn-success">Guardar</button>
+                <button class="btn btn-info">Editar</button>
+                <button class="btn btn-default close-button" data-dismiss="modal">Cerrar</button>
+            </div>
+        </section>
+    </div>
+</form>
+
+
+
+
+
+
+
+
+<script>
+
+    $(document).ready(function() {
+
+
+
+        var form = $("#create-form");
+        //form.validate({
+        //    errorPlacement: function errorPlacement(error, element) { element.before(error); },
+        //    rules: {
+        //        confirm: {
+        //            equalTo: "#password"
+        //        }
+        //    }
+        //});
+
+        form.children("div .tabsPITT").steps({
+            headerTag: "h3",
+            bodyTag: "section",
+            transitionEffect: "slideLeft",
+            //onStepChanging: function(event, currentIndex, newIndex) {
+            //    //form.validate().settings.ignore = ":disabled,:hidden";
+            //    //return form.valid();
+            //},
+            //onFinishing: function(event, currentIndex) {
+            //    //form.validate().settings.ignore = ":disabled";
+            //    //return form.valid();
+            //},
+            //onFinished: function(event, currentIndex) {
+            //    alert("Submitted!");
+            //}
+        });
+
+
+        $('#tblindres').DataTable({
+            ajax: '../jsonpruebas/indresjson.json',
+            columns: [
+                { data: 'idlogframe' },
+                { data: 'summary' },
+                { data: 'idindicador' },
+                { data: 'indicador' },
+                { data: 'tipo' },
+                { data: 'unidadmedida' },
+                { data: 'actoresparticipantes' },
+                { data: 'frecuencia' },
+                { data: 'viculado' }
+            ],
+        });
+
+        $('#tblprod').DataTable({
+            ajax: '../jsonpruebas/indprodjson.json',
+            columns: [
+                { data: 'idlogframe' },
+                { data: 'summary' },
+                { data: 'idindicador' },
+                { data: 'indicador' },
+                { data: 'tipo' },
+                { data: 'unidadmedida' },
+                { data: 'actoresparticipantes' },
+                { data: 'frecuencia' },
+                { data: 'viculado' }
+            ],
+        });
+
+        $('#tblactrel').DataTable({
+            ajax: '../jsonpruebas/indactreljson.json',
+            columns: [
+                { data: 'idactividad' },
+                { data: 'actividad' },
+                { data: 'descripcion' },
+                { data: 'medioverificacion' }
+            ],
+        });
+
+
+    });
+
+</script>
+
+@section Scripts {
+    @*@{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }*@
+
+    <script>
+        //    var datageneralfa = null;
+        //    var datapydisthelp = [];
+        //    var datapadisthelp = [];
+
+        //$(document).ready(function() {
+
+        //    $("#IdProyectoTecnico").append('<option value="0">Seleccionar</option>');
+        //    $("#IdProgramaArea").append('<option value="0">Seleccionar</option>');
+
+        //    $.getJSON('../Planificacion/ProyectoITT/Cargarcombos?handler',
+        //        (data) => {
+
+        //            if (data === null) {
+        //                return;
+        //            }
+        //            datageneralfa = data;
+        //            $.each(data, function(i, value) {
+        //                datapydisthelp.push({ idpt: value.idpt, nombreproyecto: value.nombreproyecto });
+        //            });
+
+        //            $.each($.unique(datapydisthelp), function(i, value) {
+        //                $("#IdProyectoTecnico").append('<option value="'
+        //                    + value.idpt + '">'
+        //                    + value.nombreproyecto + '</option>');
+        //            });
+        //        }).done(function(data) {
+        //            console.log("second success");
+        //        })
+        //        .fail(function(jqxhr, textStatus, error) {
+        //            var err = textStatus + ", " + error;
+        //        })
+        //        .always(function() {
+        //            console.log("complete");
+        //        });
+        //});
+
+        //function Changeptnewup() {
+        //    //$('#viewAll').load('/Planificacion/ProyectoITT/LoadAll');
+        //    $('#IdProgramaArea').empty();
+        //    $("#IdProgramaArea").append('<option value="0">Seleccionar</option>');
+        //    if (datageneralfa === null) {
+        //        return;
+        //    }
+        //    datapadisthelp = [];
+        //    $.each(datageneralfa, function(i, value) {
+        //        if ($("#IdProyectoTecnico").val() === value.idpt.toString()) {
+        //            datapadisthelp.push({ idpa: value.idpa, nombreprograma: value.nombreprograma , idfase: value.idfase, fase: value.fase });
+        //        }
+        //    });
+
+        //    $.each($.unique(datapadisthelp), function(i, value) {
+        //        $("#IdProgramaArea").append('<option value="'
+        //            + value.idpa + '">'
+        //            + value.nombreprograma + ' - ' + value.fase + '</option>');
+        //    });
+        //}
+
+        //$(document).ready(function() {
+        //    //loadData();
+        //});
+                                //function loadData() {
+                                //    $('#viewAll').load('/Planificacion/ProyectoITT/LoadAll');
+                                //}
+
+
+
+    </script>
+    }

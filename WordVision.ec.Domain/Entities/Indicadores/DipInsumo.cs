@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Domain.Contracts;
 using WordVision.ec.Domain.Entities.Maestro;
+using WordVision.ec.Domain.Entities.Planificacion;
 
 namespace WordVision.ec.Domain.Entities.Indicadores
 {
