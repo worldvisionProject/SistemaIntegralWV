@@ -118,6 +118,10 @@
     <None Include="Areas\Maestro\Views\RCNinoPatrocinado\ViewPrueba.cshtml" />
     <None Include="Areas\Maestro\Views\RCNinoPatrocinado\_CreateOrEdit.cshtml" />
     <None Include="Areas\Maestro\Views\RCNinoPatrocinado\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\ProyectoITT\Index.cshtml" />
+    <None Include="Areas\Planificacion\Views\ProyectoITT\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\ProyectoITT\_Insumos.cshtml" />
+    <None Include="Areas\Planificacion\Views\ProyectoITT\_ViewAll.cshtml" />
     <None Include="Areas\Soporte\Views\Donante\Index.cshtml" />
     <None Include="Areas\Soporte\Views\Donante\_CreateOrEdit.cshtml" />
     <None Include="Areas\Soporte\Views\Donante\_ViewAll.cshtml" />
@@ -2171,6 +2175,13 @@
     <None Include="wwwroot\lib\jquery-easing\jquery.easing.compatibility.min.js.map" />
     <None Include="wwwroot\lib\jquery-easing\jquery.easing.js" />
     <None Include="wwwroot\lib\jquery-easing\jquery.easing.min.js" />
+    <None Include="wwwroot\lib\jquery-steps\js\jquery-1.10.2.min.js" />
+    <None Include="wwwroot\lib\jquery-steps\js\jquery-1.11.1.min.js" />
+    <None Include="wwwroot\lib\jquery-steps\js\jquery-1.9.1.min.js" />
+    <None Include="wwwroot\lib\jquery-steps\js\jquery.cookie-1.3.1.js" />
+    <None Include="wwwroot\lib\jquery-steps\js\jquery.steps.js" />
+    <None Include="wwwroot\lib\jquery-steps\js\jquery.steps.min.js" />
+    <None Include="wwwroot\lib\jquery-steps\js\modernizr-2.6.2.min.js" />
     <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
     <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
     <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />

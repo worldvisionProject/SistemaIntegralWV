@@ -1,0 +1,26 @@
+{
+  "data": [
+    {
+      "idlogframe": "1",
+      "summary": "22222",
+      "idindicador": "01",
+      "indicador": "ind 1",
+      "tipo": "tipo 01",
+      "unidadmedida": "uni",
+      "actoresparticipantes": "xxxx yyyyy",
+      "frecuencia": "1 d",
+      "viculado": "ccc bbb"
+    },
+    {
+      "idlogframe": "2",
+      "summary": "33333",
+      "idindicador": "02",
+      "indicador": "ind 2",
+      "tipo": "tipo 02",
+      "unidadmedida": "uni",
+      "actoresparticipantes": "xxxx yyyyy",
+      "frecuencia": "1 s",
+      "viculado": "ccc bbb"
+    }
+  ]
+}
