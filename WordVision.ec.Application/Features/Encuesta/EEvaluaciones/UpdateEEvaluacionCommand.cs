@@ -45,12 +45,15 @@ namespace WordVision.ec.Application.Features.Encuesta.EEvaluaciones
                 }
                 else
                 {
-                    var EEvaluacionUpdate = _mapper.Map<EEvaluacion>(request);    //mapea los datos recibidos a la estructura de la bbdd
+                    //Listado de campos que se va a actualizar con los nuevos datos traidos en request
+                    EEvaluacion.eva_Nombre = request.eva_Nombre;
+                    EEvaluacion.eva_Desde = request.eva_Desde;
+                    EEvaluacion.eva_Hasta = request.eva_Hasta;
 
                     //Actualizamos el registro en la base de datos
-                    await _eEvaluacionRepository.UpdateAsync(EEvaluacionUpdate);
+                    await _eEvaluacionRepository.UpdateAsync(EEvaluacion);
                     await _unitOfWork.Commit(cancellationToken);
-                    return Result<int>.Success(EEvaluacionUpdate.Id);
+                    return Result<int>.Success(EEvaluacion.Id);
                 }
             }
         }

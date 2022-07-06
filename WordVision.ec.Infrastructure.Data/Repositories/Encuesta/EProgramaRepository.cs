@@ -25,9 +25,12 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Encuesta
         }
 
         public IQueryable<EPrograma> EProgramas => _repository.Entities;
-        public async Task<List<EPrograma>> GetListAsync()
+        public async Task<List<EPrograma>> GetListAsync(bool incluir)
         {
-            return await _repository.Entities.Include(c => c.EParroquias).ToListAsync();
+            if (incluir)
+                return await _repository.Entities.Include(c => c.EParroquias).Include(c => c.EProgramaIndicadores).ToListAsync();
+            else
+                return await _repository.Entities.ToListAsync();
         }
         public async Task<EPrograma> GetByIdAsync(string idEPrograma)
         {

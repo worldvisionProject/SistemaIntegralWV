@@ -11,6 +11,10 @@ namespace WordVision.ec.Domain.Entities.Encuesta
         [Key]
         public int Id { get; set; }
 
+        [Required]
+        public int pi_Poblacion { get; set; }
+
+
         public EPrograma EPrograma { get; set; }
 
         public EIndicador EIndicador { get; set; }

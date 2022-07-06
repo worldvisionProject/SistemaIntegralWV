@@ -5,21 +5,20 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Application.Interfaces.Repositories.Encuesta;
 using WordVision.ec.Domain.Entities.Encuesta;
 
 namespace WordVision.ec.Application.Features.Encuesta.EProgramas
 {
-    public class GetEProgramasByIdResponse
+    public class GetEProgramasByIdResponse : GenericResponse
     {
         public string Id { get; set; }
         public string pa_nombre { get; set; }
     }
 
-    public class GetEProgramasByIdQuery : IRequest<Result<GetEProgramasByIdResponse>>
+    public class GetEProgramasByIdQuery : GetEProgramasByIdResponse, IRequest<Result<GetEProgramasByIdResponse>>
     {
-        public string Id { get; set; }
-
         public class GetEProgramasByIdQueryHandler : IRequestHandler<GetEProgramasByIdQuery, Result<GetEProgramasByIdResponse>>
         {
             private readonly IEProgramaRepository _eProgramasRepository;

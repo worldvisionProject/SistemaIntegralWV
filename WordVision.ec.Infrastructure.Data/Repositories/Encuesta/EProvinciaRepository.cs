@@ -26,13 +26,23 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Encuesta
         }
 
         public IQueryable<EProvincia> EProvincias => _repository.Entities;
-        public async Task<List<EProvincia>> GetListAsync()
+        public async Task<List<EProvincia>> GetListAsync(bool incluir)
         {
-            return await _repository.Entities.Include(c => c.ECantones).ToListAsync();
+            if (incluir)
+                return await _repository.Entities.Include(c => c.ECantones).Include(c => c.eRegion).ToListAsync();
+            else
+                return await _repository.Entities.ToListAsync();
+        }
+        public async Task<List<EProvincia>> GetListAsync(bool incluir, int padre)
+        {
+            if (incluir)
+                return await _repository.Entities.Where(x => x.eRegion.Id == padre).Include(c => c.ECantones).Include(c => c.eRegion).ToListAsync();
+            else
+                return await _repository.Entities.Where(x => x.eRegion.Id == padre).ToListAsync();
         }
         public async Task<EProvincia> GetByIdAsync(string idEProvincia)
         {
-            return await _repository.Entities.Where(x => x.Id == idEProvincia).Include(c => c.ECantones).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(x => x.Id == idEProvincia).Include(c => c.eRegion).Include(c => c.ECantones).FirstOrDefaultAsync();
         }
 
         public async Task<string> InsertAsync(EProvincia eProvincia)

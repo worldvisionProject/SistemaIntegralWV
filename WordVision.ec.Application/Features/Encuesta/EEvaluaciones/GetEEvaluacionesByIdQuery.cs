@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Application.Interfaces.Repositories.Encuesta;
 using WordVision.ec.Domain.Entities.Encuesta;
 
 namespace WordVision.ec.Application.Features.Encuesta.EEvaluaciones
 {
-    public class GetEEvaluacionesByIdResponse
+    public class GetEEvaluacionesByIdResponse : GenericResponse
     {
         public int Id { get; set; }
         public string eva_Nombre { get; set; }
@@ -22,10 +23,9 @@ namespace WordVision.ec.Application.Features.Encuesta.EEvaluaciones
         public virtual List<EMeta> EMetas { get; set; }
     }
 
-    public class GetEEvaluacionesByIdQuery : IRequest<Result<GetEEvaluacionesByIdResponse>>
+    public class GetEEvaluacionesByIdQuery : GetEEvaluacionesByIdResponse, IRequest<Result<GetEEvaluacionesByIdResponse>>
     {
-        public int Id { get; set; }
-
+  
         public class GetEEvaluacionesByIdQueryHandler : IRequestHandler<GetEEvaluacionesByIdQuery, Result<GetEEvaluacionesByIdResponse>>
         {
             private readonly IEEvaluacionRepository _eEvaluacionesRepository;

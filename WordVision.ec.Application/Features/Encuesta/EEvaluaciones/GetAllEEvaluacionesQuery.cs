@@ -6,11 +6,13 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Encuesta;
+using WordVision.ec.Application.Features.Extensions;
+using WordVision.ec.Domain.Entities.Encuesta;
 
 namespace WordVision.ec.Application.Features.Encuesta.EEvaluaciones
 {
 
-    public class GetAllEEvaluacionesResponse
+    public class GetAllEEvaluacionesResponse : GenericResponse
     {
         public int Id { get; set; }
         public string eva_Nombre { get; set; }
@@ -18,7 +20,7 @@ namespace WordVision.ec.Application.Features.Encuesta.EEvaluaciones
         public DateTime eva_Hasta { get; set; }
         public string NombreCompleto { get; set; }
     }
-    public class GetAllEEvaluacionesQuery : IRequest<Result<List<GetAllEEvaluacionesResponse>>>
+    public class GetAllEEvaluacionesQuery : GetAllEEvaluacionesResponse, IRequest<Result<List<GetAllEEvaluacionesResponse>>>
     {
         public GetAllEEvaluacionesQuery()
         {
@@ -40,7 +42,7 @@ namespace WordVision.ec.Application.Features.Encuesta.EEvaluaciones
             public async Task<Result<List<GetAllEEvaluacionesResponse>>> Handle(GetAllEEvaluacionesQuery request, CancellationToken cancellationToken)
             {
                 //Traemos el listado de registro de la base de dartos
-                var EEvaluacionList = await _eEvaluacion.GetListAsync();
+                var EEvaluacionList = await _eEvaluacion.GetListAsync(request.Include);
 
                 //Mapeamos la estructura de la base a la estructura deseada tipo GetAllEEvaluacionesResponse
                 var mappedEEValuaciones = _mapper.Map<List<GetAllEEvaluacionesResponse>>(EEvaluacionList);

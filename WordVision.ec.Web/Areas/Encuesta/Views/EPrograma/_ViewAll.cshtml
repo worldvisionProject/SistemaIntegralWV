@@ -1,0 +1,73 @@
+﻿@model IEnumerable<WordVision.ec.Web.Areas.Encuesta.Models.EProgramaViewModel>
+
+<table id="EProgramaTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                Código
+            </th>
+            <th>
+                Nombre
+            </th>
+            <th data-priority="2" class="acciones-th">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pa_nombre)
+            </td>
+            <td class="acciones-td">
+                <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Editar"   id="btnEditViewModel"   onclick="jQueryModalGet('/Encuesta/EPrograma/OnGetCreateOrEdit?id=@item.Id','Editar')">
+                   <i class="fas fa-edit"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-xp"   data-toggle="tooltip" data-placement="top" title="Eliminar" id="btnDeleteViewModel" onclick='EliminarRegistro("@item.Id")' >
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#EProgramaTable").DataTable();
+    });
+
+    function EliminarRegistro(id) 
+    {
+        if (confirm('Favor confirmar si desea ELIMINAR este registro y todos sus datos relacionados. ¿Acepta que desea eliminar?')) 
+        {
+            $("#" + id).remove();
+
+            var parametros = {
+                Id: id,
+            };
+
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("OnPostDelete", "EPrograma", new { area = "Encuesta" })',
+                data: parametros,
+                datatype: "json",
+                cache: false,
+                success: function(data) {
+                    window.location.href = "/Encuesta/EPrograma";
+                      //alert('Validooo');
+
+                },
+                error: function(xhr) {
+                    return false;
+                    // alert('No Valid Data');
+                }
+            });
+        }
+    }
+      
+
+
+</script>

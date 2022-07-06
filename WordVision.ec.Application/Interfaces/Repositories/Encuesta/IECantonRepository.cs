@@ -10,7 +10,8 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Encuesta
     {
         IQueryable<ECanton> ECantones { get; }
 
-        Task<List<ECanton>> GetListAsync();
+        Task<List<ECanton>> GetListAsync(bool incluir);
+        Task<List<ECanton>> GetListAsync(bool incluir, string padre);
         Task<ECanton> GetByIdAsync(string idECanton);
 
         Task<string> InsertAsync(ECanton eCanton);

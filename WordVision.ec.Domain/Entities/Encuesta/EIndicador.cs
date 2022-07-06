@@ -46,8 +46,7 @@ namespace WordVision.ec.Domain.Entities.Encuesta
         [Required]
         public string ind_tipo { get; set; }
 
-        [Required]
-        public string ind_proyecto { get; set; }
+        public string ind_Operacion { get; set; }
 
 
         public EObjetivo EObjetivo { get; set; }

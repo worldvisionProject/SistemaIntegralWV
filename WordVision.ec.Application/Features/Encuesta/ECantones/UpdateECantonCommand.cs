@@ -14,18 +14,24 @@ namespace WordVision.ec.Application.Features.Encuesta.ECantones
     {
         public string Id { get; set; }
         public string can_nombre { get; set; }
-        public EProvincia EProvincia { get; set; }
+        public string EProvinciaId { get; set; }
 
 
         public class UpdateECantonCommandHandler : IRequestHandler<UpdateECantonCommand, Result<int>>
         {
             private readonly IUnitOfWork _unitOfWork;
             private readonly IECantonRepository _eCantonRepository;
+            private readonly IEProvinciaRepository _eProvinciaRepository;
             private readonly IMapper _mapper;
 
-            public UpdateECantonCommandHandler(IECantonRepository eCantonRepository, IUnitOfWork unitOfWork, IMapper mapper)
+            public UpdateECantonCommandHandler(
+                                                IECantonRepository eCantonRepository,
+                                                IEProvinciaRepository eProvinciaRepository,
+                                                IUnitOfWork unitOfWork, 
+                                                IMapper mapper)
             {
                 _eCantonRepository = eCantonRepository;
+                _eProvinciaRepository = eProvinciaRepository;
                 _unitOfWork = unitOfWork;
                 _mapper = mapper;
             }
@@ -44,12 +50,17 @@ namespace WordVision.ec.Application.Features.Encuesta.ECantones
                 }
                 else
                 {
-                    var ECantonUpdate = _mapper.Map<ECanton>(request);    //mapea los datos recibidos a la estructura de la bbdd
+                    ECanton.Id = request.Id;
+                    ECanton.can_nombre = request.can_nombre;
+
+                    EProvincia eProvincia = await _eProvinciaRepository.GetByIdAsync(request.EProvinciaId);
+                    ECanton.EProvincia = eProvincia;
+
 
                     //Actualizamos el registro en la base de datos
-                    await _eCantonRepository.UpdateAsync(ECantonUpdate);
+                    await _eCantonRepository.UpdateAsync(ECanton);
                     await _unitOfWork.Commit(cancellationToken);
-                    return Result<int>.Success(ECantonUpdate.Id);
+                    return Result<int>.Success(ECanton.Id);
                 }
             }
         }

@@ -9,7 +9,9 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Encuesta
     {
         IQueryable<EComunidad> EComunidades { get; }
 
-        Task<List<EComunidad>> GetListAsync();
+        Task<List<EComunidad>> GetListAsync(bool incluir);
+        Task<List<EComunidad>> GetListAsync(bool incluir, string padre);
+
         Task<EComunidad> GetByIdAsync(string idEComunidad);
 
         Task<string> InsertAsync(EComunidad eComunidad);

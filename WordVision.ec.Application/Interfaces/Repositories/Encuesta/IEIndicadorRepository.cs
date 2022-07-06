@@ -9,7 +9,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Encuesta
     {
         IQueryable<EIndicador> EIndicadores { get; }
 
-        Task<List<EIndicador>> GetListAsync();
+        Task<List<EIndicador>> GetListAsync(bool incluir);
         Task<EIndicador> GetByIdAsync(string idEIndicador);
 
         Task<string> InsertAsync(EIndicador eIndicador);

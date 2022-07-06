@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Application.Interfaces.Repositories.Encuesta;
 using WordVision.ec.Domain.Entities.Encuesta;
+using System.Collections.Generic;
 
 namespace WordVision.ec.Application.Features.Encuesta.EProgramas
 {
@@ -43,12 +44,13 @@ namespace WordVision.ec.Application.Features.Encuesta.EProgramas
                 }
                 else
                 {
-                    var EProgramaUpdate = _mapper.Map<EPrograma>(request);    //mapea los datos recibidos a la estructura de la bbdd
+                    //Listado de campos que se va a actualizar con los nuevos datos traidos en request
+                    EPrograma.pa_nombre = request.pa_nombre;
 
                     //Actualizamos el registro en la base de datos
-                    await _eProgramaRepository.UpdateAsync(EProgramaUpdate);
+                    await _eProgramaRepository.UpdateAsync(EPrograma);
                     await _unitOfWork.Commit(cancellationToken);
-                    return Result<int>.Success(EProgramaUpdate.Id);
+                    return Result<int>.Success(EPrograma.Id);
                 }
             }
         }

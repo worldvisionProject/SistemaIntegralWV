@@ -1,0 +1,35 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Web.Areas.Encuesta.Models
+@model ERegionViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="create-form" asp-action="OnPostCreateOrEdit" method="post" asp-controller="ERegion" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input hidden="hidden" asp-for="OperacionEdicion"/>
+            <input hidden="hidden" asp-for="Id"/>
+            <div class="form-group">
+                <label asp-for="reg_nombre" class="control-label">@Html.DisplayNameFor(model => model.reg_nombre)</label>
+                <input asp-for="reg_nombre" class="form-control" />
+                <span asp-validation-for="reg_nombre" class="text-danger"></span>
+            </div>
+
+            <br />
+            <div class="form-group justify-content-between group-button-modal">
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+
+
+    <script type="text/javascript" language=javascript>
+        $.validator.unobtrusive.parse(document);
+        $('#create-form').disableAutoFill();
+    </script>
+}

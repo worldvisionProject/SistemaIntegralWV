@@ -180,6 +180,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ind_Operacion")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ind_Preguntas")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -192,10 +195,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ind_UnidadMedida")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ind_proyecto")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ind_tipo")
@@ -302,17 +301,34 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("EProyectoId")
+                        .HasColumnType("int");
+
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("obj_Activity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("obj_Nivel")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("obj_Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("obj_Outcome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("obj_Output")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("EProyectoId");
 
                     b.ToTable("EObjetivos", "survey");
                 });
@@ -380,6 +396,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Property<string>("EProgramaId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("pi_Poblacion")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EIndicadorId");
@@ -420,6 +439,34 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.ToTable("EProvincias", "survey");
                 });
 
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EProyecto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("py_nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EProyectos", "survey");
+                });
+
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.ERegion", b =>
                 {
                     b.Property<int>("Id")
@@ -446,6 +493,74 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.HasKey("Id");
 
                     b.ToTable("ERegiones", "survey");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EReporteConsolidado", b =>
+                {
+                    b.Property<decimal?>("rpt_Anio4_ejec")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("rpt_Anio4_meta")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("rpt_Anio5_ejec")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("rpt_Anio5_meta")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("rpt_Anio6_ejec")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("rpt_Anio6_meta")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("rpt_Canton")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rpt_Frecuencia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rpt_IndicadorCodigo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rpt_IndicadorNombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("rpt_LineaBaseResultado")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("rpt_LogFrame")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rpt_Objetivo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rpt_Parroquia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rpt_Programa")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rpt_Provincia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rpt_Proyecto")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("rpt_Region")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("rpt_Total_ejec")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("rpt_Total_meta")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("rpt_UnidadMedida")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("EReporteConsolidado", t => t.ExcludeFromMigrations());
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EReporteTabulado", b =>
@@ -489,6 +604,10 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("rta_Operacion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("rta_denominador")
                         .HasColumnType("decimal(18,2)");
 
@@ -505,10 +624,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
 
                     b.Property<decimal>("rta_porcentaje")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("rta_proyecto")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("rta_resultado")
                         .HasColumnType("decimal(18,2)");
@@ -5051,6 +5166,15 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Navigation("EPrograma");
                 });
 
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EObjetivo", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Encuesta.EProyecto", "EProyecto")
+                        .WithMany("EObjetivos")
+                        .HasForeignKey("EProyectoId");
+
+                    b.Navigation("EProyecto");
+                });
+
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EParroquia", b =>
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Encuesta.ECanton", "ECanton")
@@ -6104,6 +6228,11 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Navigation("ECantones");
 
                     b.Navigation("EReporteTabulados");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EProyecto", b =>
+                {
+                    b.Navigation("EObjetivos");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.ERegion", b =>

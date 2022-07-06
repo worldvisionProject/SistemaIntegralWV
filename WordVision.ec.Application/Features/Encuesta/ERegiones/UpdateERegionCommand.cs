@@ -43,12 +43,12 @@ namespace WordVision.ec.Application.Features.Encuesta.ERegiones
                 }
                 else
                 {
-                    var ERegionUpdate = _mapper.Map<ERegion>(request);    //mapea los datos recibidos a la estructura de la bbdd
+                    ERegion.reg_nombre = request.reg_nombre;
 
                     //Actualizamos el registro en la base de datos
-                    await _eRegionRepository.UpdateAsync(ERegionUpdate);
+                    await _eRegionRepository.UpdateAsync(ERegion);
                     await _unitOfWork.Commit(cancellationToken);
-                    return Result<int>.Success(ERegionUpdate.Id);
+                    return Result<int>.Success(ERegion.Id);
                 }
             }
         }

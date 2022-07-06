@@ -169,6 +169,9 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<IEIndicadorUsuarioRepository, EIndicadorUsuarioRepository>();
             services.AddTransient<IETabuladoRepository, ETabuladoRepository>();
             services.AddTransient<IEReporteTabuladoRepository, EReporteTabuladoRepository>();
+            services.AddTransient<IEReporteConsolidadoRepository, EReporteConsolidadoRepository>();
+            services.AddTransient<IEProyectoRepository, EProyectoRepository>();
+            services.AddTransient<IEProgramaIndicadorRepository, EProgramaIndicadorRepository>();
 
             #endregion Repositories
         }

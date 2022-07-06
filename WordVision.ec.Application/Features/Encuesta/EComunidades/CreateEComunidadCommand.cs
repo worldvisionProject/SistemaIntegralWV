@@ -22,12 +22,18 @@ namespace WordVision.ec.Application.Features.Encuesta.EComunidades
     public class CreateEComunidadCommandHandler : IRequestHandler<CreateEComunidadCommand, Result<int>>
     {
         private readonly IEComunidadRepository _eComunidadRepository;
+        private readonly IEParroquiaRepository _eParroquiaRepository;
         private readonly IMapper _mapper;    //Con los campos de la interfaz y el modelo hace un mapeo
         private IUnitOfWork _unitOfWork { get; set; }  // hace la transaccionabilidad crea la cabecera y luego detalle
 
-        public CreateEComunidadCommandHandler(IEComunidadRepository eComunidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateEComunidadCommandHandler(
+                                                IEComunidadRepository eComunidadRepository,
+                                                IEParroquiaRepository eParroquiaRepository,
+                                                IUnitOfWork unitOfWork, 
+                                                IMapper mapper)
         {
             _eComunidadRepository = eComunidadRepository;
+            _eParroquiaRepository = eParroquiaRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -36,6 +42,10 @@ namespace WordVision.ec.Application.Features.Encuesta.EComunidades
         public async Task<Result<int>> Handle(CreateEComunidadCommand request, CancellationToken cancellationToken)
         {
             var EComunidad = _mapper.Map<EComunidad>(request);    //mapea los datos recibidos a la estructura de la bbdd
+
+            EParroquia eParroquia = await _eParroquiaRepository.GetByIdAsync(request.EParroquiaId);
+            EComunidad.eParroquia = eParroquia;
+
             await _eComunidadRepository.InsertAsync(EComunidad);  //Insertar a la BBDD
 
             await _unitOfWork.Commit(cancellationToken);    //commit

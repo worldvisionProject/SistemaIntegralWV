@@ -230,6 +230,14 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
 
 
             builder.Entity<ETabulado>().HasNoKey();
+            builder.Entity<EReporteConsolidado>().ToTable(nameof(EReporteConsolidado), t => t.ExcludeFromMigrations()).HasNoKey();
+
+            //builder.Entity<PreguntaKobo>()
+            //            .HasIndex(p => p.prk_CodigoKobo);
+
+            //builder.Entity<EncuestadoPreguntaKobo>()
+            //            .HasIndex(p => p.Valor);
+
 
             //builder.Entity<Colaborador>().HasMany(m => m.Formularios)
             //     .WithOne(c => c.Colaboradores)
@@ -291,9 +299,12 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
         public DbSet<EIndicador> EIndicadores { get; set; }
         public DbSet<EProgramaIndicador> EProgramaIndicadores { get; set; }
         public DbSet<EReporteTabulado> EReporteTabulados { get; set; }
+        public DbSet<EReporteConsolidado> EReporteConsolidados { get; set; }
         public DbSet<EObjetivo> EObjetivos { get; set; }
         public DbSet<EMeta> EMetas { get; set; }
         public DbSet<EIndicadorUsuario> EIndicadorUsuarios { get; set; }
+        public DbSet<EProyecto> EProyectos { get; set; }
+
 
     }
 }

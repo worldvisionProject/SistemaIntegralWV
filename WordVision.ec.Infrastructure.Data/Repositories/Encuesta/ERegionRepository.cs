@@ -26,9 +26,12 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Encuesta
         }
 
         public IQueryable<ERegion> ERegiones => _repository.Entities;
-        public async Task<List<ERegion>> GetListAsync()
+        public async Task<List<ERegion>> GetListAsync(bool incluir)
         {
-            return await _repository.Entities.Include(c => c.EProvincias).ToListAsync();
+            if (incluir)
+                return await _repository.Entities.Include(c => c.EProvincias).ToListAsync();
+            else
+                return await _repository.Entities.ToListAsync();
         }
         public async Task<ERegion> GetByIdAsync(int idERegion)
         {
