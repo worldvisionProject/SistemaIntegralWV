@@ -74,7 +74,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error en traer los debitos.");
+                _logger.LogError(ex, "Error en traer los donantes.");
+                _notify.Error($"Exitio un error al generar el reporte");
             }
 
 
@@ -94,6 +95,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
         }
         public async Task<FileContentResult> DescargarExportableTXT(int formaPago, int bancoTarjeta, int anio, int mes, int quincena = 0)
         {
+            try
+            { 
             //List<String[]> listado = new List<String[]>();
             //listado.Add(new String[] { "Carlos Alvarado Ferreiros", "52632030", "27/10/1990" });
             //listado.Add(new String[] { "Franciso Larios Loaiza", "20205263", "15/02/1982" });
@@ -233,6 +236,13 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 _notify.Success($"Archivo "+ nombreArchivo+" Txt generado");
                 return File(new System.Text.UTF8Encoding().GetBytes(contenido), "text/" + ExtensionArchivo, nombreArchivo + "." + ExtensionArchivo);
 
+            }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error en genrar txt de debitos.");
+                _notify.Error($"Exitio un error al generar txt.");
             }
             return null;
         }

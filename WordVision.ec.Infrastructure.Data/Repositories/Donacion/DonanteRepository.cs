@@ -25,11 +25,12 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
         private readonly IRepositoryAsync<DetalleCatalogo> _repositoryDetalle;
         private readonly IDistributedCache _distributedCache;
 
-        public DonanteRepository(RegistroDbContext db,IRepositoryAsync<Donante> repository, IDistributedCache distributedCache)
+        public DonanteRepository(IRepositoryAsync<DetalleCatalogo> repositoryDetalle,RegistroDbContext db,IRepositoryAsync<Donante> repository, IDistributedCache distributedCache)
         {
             _repository = repository;
             _distributedCache = distributedCache;
             _db = db;
+            _repositoryDetalle = repositoryDetalle;
         }
 
         public IQueryable<Donante> donantes => _repository.Entities;
@@ -70,7 +71,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
         public async Task<List<ReporteDonantesResponse>> GetReporteDonantesAsync(DateTime fechaDesde, DateTime fechaHasta, int tipoDonante, int formaPago, int estadoDonante)
         {
             _db.Database.SetCommandTimeout(TimeSpan.FromMinutes(20));
-            var resultado1 = _repository.Entities.Where(c => (c.Tipo==tipoDonante || tipoDonante==0) && (c.FormaPago == formaPago || formaPago == 0) && (c.EstadoDonante == estadoDonante || estadoDonante == 0) && (fechaDesde >=  c.FechaConversion && fechaHasta  <= c.FechaConversion))
+            var resultado1 = _repository.Entities.Where(c => (c.Tipo==tipoDonante || tipoDonante==0) && (c.FormaPago == formaPago || formaPago == 0) && (c.EstadoDonante == estadoDonante || estadoDonante == 0) && (fechaDesde >=  c.FechaConversion && c.FechaConversion <= fechaHasta ))
                                     .Select(a => new ReporteDonantesResponse
                                     {
                                         Id =a.Id ,
@@ -93,13 +94,13 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
 
                                         //Mes = ,
                                         //Anio = ,
-                                        CodigoSCI =Convert.ToInt32( a.Banco),
+                                        CodigoSCI = Convert.ToInt32(a.Banco),
                                         Categoria = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 25 && c.Secuencia == a.Categoria.ToString()).FirstOrDefault().Nombre,
                                         TipoDonante = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 24 && c.Secuencia == a.Tipo.ToString()).FirstOrDefault().Nombre,
                                         //EstadoDebito = ,
                                         //FechaDebito = ,
                                         Estado = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 27 && c.Secuencia == a.EstadoDonante.ToString()).FirstOrDefault().Nombre,
-                                      
+
 
                                     }
                                     ).ToListAsync();
