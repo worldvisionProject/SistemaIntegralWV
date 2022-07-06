@@ -36,7 +36,7 @@
             </td>
             <td>
                 <div class="btn-group">
-                    <a onclick="jQueryModalGet('/Maestro/ModeloProyecto/OnGetCreateOrEdit?id=@item.Id','Editar Modelo Proyecto')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
+                    <a onclick="jQueryModalGet('/Maestro/ModeloProyecto/OnGetCreateOrEdit?id=@item.Id','Editar Modelo Proyecto')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Editar</a> 
                 </div>
             </td>
         </tr>
@@ -46,6 +46,12 @@
 
 <script>
     $(document).ready(function () {
-        $("#modeloProyectoTable").DataTable();
+        $("#modeloProyectoTable").DataTable(
+            {
+        columnDefs: [ {
+            "targets": 4,
+            "orderable": false
+            } ]
+        });
     });
 </script>

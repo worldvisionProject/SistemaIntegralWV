@@ -11,22 +11,22 @@
                 Descripción
             </th>
             <th>
-                Asunciones
-            </th>
-            <th>
-                Frecuencia
-            </th>
-            <th>
                 Tipo Indicador
             </th>
             <th>
-                Tipo Medida
+                Unidad Medida
             </th>
             <th>
                 Actor Participante
             </th>
             <th>
+                Frecuencia
+            </th>
+            <th>
                 Área
+            </th>
+            <th>
+                Asunciones
             </th>
             <th>
                 Estado
@@ -44,22 +44,22 @@
                 @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Asunciones)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Frecuencia.Nombre)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.TipoIndicador.Nombre)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TipoMedida.Nombre)
             </td>            
             <td>
-                @Html.DisplayFor(modelItem => item.ActorParticipante.Descripcion)
+                @Html.DisplayFor(modelItem => item.ActorParticipante.ActoresParticipantes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Frecuencia.Nombre)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Area.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Asunciones)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Estado.Nombre)
@@ -76,7 +76,13 @@
 
 <script>
     $(document).ready(function () {
-        $("#otroIndicadorTable").DataTable();
+        $("#otroIndicadorTable").DataTable(
+        {
+        columnDefs: [ {
+            "targets": 9,
+            "orderable": false
+            } ]
+        });
     });
 </script>
 

@@ -1,0 +1,735 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Infrastructure.Data.Identity.Models;
+@using WordVision.ec.Web.Areas.Donacion.Models;
+@model DonanteViewModel
+
+
+ <form id="create-form" method="post" asp-controller="Donante" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id"  onsubmit="setTimeout('location.href ='javascript:history.back()'',2000);  return jQueryModalPost(this); " enctype="multipart/form-data">
+
+                                                            @*<div class="row">
+                                                                <div class="col-md-4">
+                                                                <div class="form-group row">
+                                                                <div class="col-md-12">
+                                                                <label class="col-md-12 col-form-label texto-pregunta">Id HubSpot</label>
+                                                                <input asp-for="IDHubspot" type="text" name="IDHubspot" class="form-control" />
+                                                                <span asp-validation-for="IDHubspot" class="text-danger"></span>
+                                                                </div>
+                                                                </div>
+
+                                                                </div>
+
+
+
+                                                                </div>*@
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group row">
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaConversion"></label>
+                                                                            <input asp-for="FechaConversion" type="text" name="FechaConversion" class=" form-control" readonly />
+                                                                            <span asp-validation-for="FechaConversion" class="text-danger"></span>
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Canal"></label>
+                                                                            @Html.DropDownListFor(x => x.Canal, (IEnumerable<SelectListItem>)Model.CanalList, new { @class = "form-control" })
+                                                                            <span asp-validation-for="Canal" class="text-danger"></span>
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Responsable"></label>
+                                                                            @Html.DropDownListFor(x => x.Responsable, (IEnumerable<SelectListItem>)Model.ResponsableList, new { @class = "form-control" })
+                                                                            <span asp-validation-for="Responsable" class="text-danger"></span>
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Tipo"></label>
+                                                                            @Html.DropDownListFor(x => x.Tipo, (IEnumerable<SelectListItem>)Model.TipoList, new { @class = "form-control" })
+                                                                            <span asp-validation-for="Tipo" class="text-danger"></span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group row">
+                        
+
+                                                                        <div class="col-md-4">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Categoria"></label>
+                                                                            @Html.DropDownListFor(x => x.Categoria, (IEnumerable<SelectListItem>)Model.CategoriaList, new { @class = "form-control" })
+                                                                            <span asp-validation-for="Categoria" class="text-danger"></span>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Campana"></label>
+                                                                            @Html.DropDownListFor(x => x.Campana, (IEnumerable<SelectListItem>)Model.CampanaList, new { @class = "form-control" })
+                                                                            <span asp-validation-for="Campana" class="text-danger"></span>
+                                                                        </div>
+                   
+                                                                        <div class="col-md-4">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="EstadoDonante"></label>
+                                                                            @Html.DropDownListFor(x => x.EstadoDonante, (IEnumerable<SelectListItem>)Model.EstadoDonanteList, new { @class = "form-control" })
+                                                                            <span asp-validation-for="EstadoDonante" class="text-danger"></span>
+                                                                        </div>
+                  
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+         
+                                                            <hr />
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group row">
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Nombre1"></label>
+                                                                            <input asp-for="Nombre1" type="text" name="Nombre1" class="form-control" />
+                                                                            <span asp-validation-for="Nombre1" class="text-danger"></span>
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Nombre2"></label>
+                                                                            <input asp-for="Nombre2" type="text" name="Nombre2" class="form-control" />
+                                                                            <span asp-validation-for="Nombre2" class="text-danger"></span>
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Apellido1"></label>
+                                                                            <input asp-for="Apellido1" type="text" name="Apellido1" class="form-control" />
+                                                                            <span asp-validation-for="Apellido1" class="text-danger"></span>
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Apellido2"></label>
+                                                                            <input asp-for="Apellido2" type="text" name="Apellido2" class="form-control" />
+                                                                            <span asp-validation-for="Apellido2" class="text-danger"></span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group row">
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Genero"></label>
+                                                                            @Html.DropDownListFor(x => x.Genero, (IEnumerable<SelectListItem>)Model.GeneroList, new { @class = "form-control" })
+                                                                            <span asp-validation-for="Genero" class="text-danger"></span>
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Cedula"></label>
+                                                                            @Html.DropDownListFor(x => x.Cedula, (IEnumerable<SelectListItem>)Model.TipoIdList, new { @class = "form-control" })
+                                                                            <span asp-validation-for="Cedula" class="text-danger"></span>
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="RUC"></label>
+                                                                            <input asp-for="RUC" type="text" name="RUC" class="form-control" />
+                                                                            <span asp-validation-for="RUC" class="text-danger"></span>
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaNacimiento"></label>
+                                                                            <input asp-for="FechaNacimiento" type="text" name="FechaNacimiento" id="FechaNacimiento" class="datepicker form-control" />
+                                                                            <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group row">
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Edad"></label>
+                                                                            <input asp-for="Edad" type="text" name="Edad" id="Edad" class="form-control" />
+                                                                            <span asp-validation-for="Edad" class="text-danger"></span>
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Region"></label>
+                                                                            @Html.DropDownListFor(x => x.Region, (IEnumerable<SelectListItem>)Model.RegionList, new { @class = "form-control" })
+                                                                            <span asp-validation-for="Region" class="text-danger"></span>
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Provincia"></label>
+                                                                            @Html.DropDownListFor(x => x.Provincia, (IEnumerable<SelectListItem>)Model.ProvinciaList, new { @class = "form-control" })
+                                                                            <span asp-validation-for="Provincia" class="text-danger"></span>
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Ciudad"></label>
+                                                                            @Html.DropDownListFor(x => x.Ciudad, (IEnumerable<SelectListItem>)Model.CiudadList, new { @class = "form-control" })
+                                                                            <span asp-validation-for="Ciudad" class="text-danger"></span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group row">
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Direccion"></label>
+                                                                            <input asp-for="Direccion" type="text" name="Direccion" class="form-control" />
+                                                                            <span asp-validation-for="Direccion" class="text-danger"></span>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="form-group row">
+                                                                                <div class="col-md-4">
+                                                                                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="CodigoArea"></label>
+                                                                                    @*@Html.DropDownListFor(x => x.CodigoArea, (IEnumerable<SelectListItem>)Model.CodigoAreaList, new { @class = "form-control" })*@
+                                                                                     <input asp-for="CodigoArea" type="text" name="CodigoArea" class="form-control" readonly/>
+                                                                                    <span asp-validation-for="CodigoArea" class="text-danger"></span>
+                                                                                </div>
+                                                                                <div class="col-md-8">
+                                                                                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="TelefonoConvencional"></label>
+                                                                                    <input asp-for="TelefonoConvencional" maxlength=7 type="text" name="TelefonoConvencional" class="form-control" />
+                                                                                    <span asp-validation-for="TelefonoConvencional" class="text-danger"></span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="TelefonoCelular"></label>
+                                                                            <input asp-for="TelefonoCelular" type="text" maxlength=10 name="TelefonoCelular" class="form-control" />
+                                                                            <span asp-validation-for="TelefonoCelular" class="text-danger"></span>
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta">WhatsApp</label>
+                                                                            <input asp-for="WhatsApp" type="checkbox" name="WhatsApp" />
+                                                                            <span asp-validation-for="WhatsApp" class="text-danger"></span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group row">
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Email"></label>
+                                                                            <input asp-for="Email" type="text" name="Email" class="form-control" />
+                                                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="FrecuenciaDonacion"></label>
+                                                                            @Html.DropDownListFor(x => x.FrecuenciaDonacion, (IEnumerable<SelectListItem>)Model.FrecuenciaList, new { @class = "form-control" })
+                                                                            <span asp-validation-for="FrecuenciaDonacion" class="text-danger"></span>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="PeriodoDonacion"></label>
+                                                                            @Html.DropDownListFor(x => x.PeriodoDonacion, (IEnumerable<SelectListItem>)Model.PeriodoDonacionList, new { @class = "form-control" })
+                                                                            <span asp-validation-for="PeriodoDonacion" class="text-danger"></span>
+                                                                        </div>  
+
+                                                                        <div class="col-md-2">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Cantidad"></label>
+                                                                            <input asp-for="Cantidad" type="text" name="Cantidad" class="form-control" />
+                                                                            <span asp-validation-for="Cantidad" class="text-danger"></span>
+                                                                        </div>
+                                                                       @* <div class="col-md-2">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Quincena"></label>
+                                                                            @Html.DropDownListFor(x => x.Quincena, (IEnumerable<SelectListItem>)Model.QuincenaList, new { @class = "form-control" })
+                                                                            <span asp-validation-for="Quincena" class="text-danger"></span>
+                                                                        </div>*@
+                                                                       
+                                                                    </div>
+
+                                                                    <div class="form-group row">
+                                                                       
+                                                                            <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="MesInicialDebito"></label>
+                                                                       
+                                                                             <input type="text" asp-for="MesInicialDebito" name="MesInicialDebito" class="datepicker form-control"  />
+                                                                            <span asp-validation-for="MesInicialDebito" class="text-danger"></span>
+                                                                        </div>
+                                                                        
+
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                       
+                                                                         <div class="col-md-2">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Hubspot"></label>
+                                                                       
+                                                                             <input type="text" asp-for="Hubspot" name="Hubspot" class="form-control"  />
+                                                                            <span asp-validation-for="Hubspot" class="text-danger"></span>
+                                                                         </div>
+                                                                         <div class="col-md-2">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Formulario"></label>
+                                                                       
+                                                                             <input type="text" asp-for="Formulario" name="Formulario" class="form-control"  />
+                                                                            <span asp-validation-for="Formulario" class="text-danger"></span>
+                                                                         </div>
+                                                                         <div class="col-md-2">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="NumeroGuia"></label>
+                                                                       
+                                                                             <input type="text" asp-for="NumeroGuia" name="NumeroGuia" class="form-control"  />
+                                                                            <span asp-validation-for="NumeroGuia" class="text-danger"></span>
+                                                                         </div>
+
+                                                                         <div class="col-md-2">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaEntrega"></label>
+                                                                       
+                                                                             <input type="text" asp-for="FechaEntrega" name="FechaEntrega" class="datepicker form-control"  />
+                                                                            <span asp-validation-for="FechaEntrega" class="text-danger"></span>
+                                                                         </div>
+                                                                         <div class="col-md-3">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="CalificacionDonante"></label>
+                                                                             @Html.DropDownListFor(x => x.CalificacionDonante, (IEnumerable<SelectListItem>)Model.CalificacionDonanteList, new { @class = "form-control" })
+                                                                            <span asp-validation-for="CalificacionDonante" class="text-danger"></span>
+                                                                        </div>
+
+                                                                    </div>
+                                                                  
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-md-10">
+                                                                    <div class="form-group row">
+                                                                        <div class="col-md-8">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="FormaPago"></label>
+
+                                                                            @Html.DropDownListFor(x => x.FormaPago, (IEnumerable<SelectListItem>)Model.FormaPagoList, new { @class = "form-control" })
+
+                                                                            <span asp-validation-for="FormaPago" class="text-danger"></span>
+                                                                        </div>
+
+                                                                        <div class="col-md-4">
+                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="EvidenciaConversion"></label>
+                                                                            <div class="custom-file form-image">
+
+                                                                                @if (Model.EvidenciaConversion != null && Model.EvidenciaConversion.Length > 0)
+                                                                                {
+                                                                                    <a href='/soporte/donante/ShowPDF?id=@Model.Id&tipo=1' target="_blank"><i class="fas fa-newspaper"></i> Ver Adjunto</a>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <input accept=".pdf"
+                                                                                       asp-for="@Model.EvidenciaConversion"
+                                                                                       type="file" class="custom-file-input"
+                                                                                       id="customFile">
+
+
+                                                                                    if (Model.EvidenciaConversion != null && Model.EvidenciaConversion.Length > 0)
+                                                                                    {
+                                                                                        <label class="custom-file-label" for="customFile">Archivo almacenado</label>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <label class="custom-file-label" for="customFile">Buscar Archivo</label>
+
+                                                                                    }
+                                                                                }
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            @*inicio boton pagos*@
+                                                            <div id="botonpagos" class="row">
+
+                                                                <div class="col-md-12">
+
+                                                                    <div class="card">
+                                                                        <div class="card-header  bg-primary">Botón de pago</div>
+                                                                        <div class="card-body">
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group row">
+                                                                                        <div class="col-md-4">
+                                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="NumReferenciaBp"></label>
+                                                                                            <input asp-for="NumReferenciaBp" type="text" name="NumReferenciaBp" class="form-control" />
+                                                                                            <span asp-validation-for="NumReferenciaBp" class="text-danger"></span>
+                                                                                        </div>
+
+                                                                                        @*<div class="col-md-4">
+                                                                                            <label class="col-md-12 col-form-label texto-pregunta">TipoCuenta</label>
+                                                                                            @Html.DropDownListFor(x => x.TipoCuentaBp, (IEnumerable<SelectListItem>)Model.TipoCuentaList, new { @class = "form-control" })
+
+                                                                                            <span asp-validation-for="TipoCuentaBp" class="text-danger"></span>
+                                                                                            </div>
+
+                                                                                            <div class="col-md-4">
+                                                                                            <label class="col-md-12 col-form-label texto-pregunta">NumeroCuenta</label>
+                                                                                            <input asp-for="NumeroCuentaBp" type="text" name="NumeroCuentaBp" class="form-control" />
+                                                                                            <span asp-validation-for="NumeroCuentaBp" class="text-danger"></span>
+                                                                                            </div>*@
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+                                                                            @*<div class="row">
+                                                                                <div class="col-md-12">
+                                                                                <div class="form-group row">
+                                                                                <div class="col-md-4">
+                                                                                <label class="col-md-12 col-form-label texto-pregunta">TiposTarjetasCredito</label>
+                                                                                @Html.DropDownListFor(x => x.TiposTarjetasCreditoBp, (IEnumerable<SelectListItem>)Model.TipoTarjetaList, new { @class = "form-control" })
+                                                                                <span asp-validation-for="TiposTarjetasCreditoBp" class="text-danger"></span>
+                                                                                </div>
+
+                                                                                <div class="col-md-4">
+                                                                                <label class="col-md-12 col-form-label texto-pregunta">NumeroTarjeta</label>
+                                                                                <input asp-for="NumeroTarjetaBp" type="text" name="NumeroTarjetaBp" class="form-control" />
+                                                                                <span asp-validation-for="NumeroTarjetaBp" class="text-danger"></span>
+                                                                                </div>
+
+                                                                                <div class="col-md-4">
+                                                                                <label class="col-md-12 col-form-label texto-pregunta">FechaCaducidad</label>
+                                                                                <input asp-for="FechaCaducidadBp" type="text" name="FechaCaducidadBp" class="datepicker form-control" />
+                                                                                <span asp-validation-for="FechaCaducidadBp" class="text-danger"></span>
+                                                                                </div>
+                                                                                </div>
+
+                                                                                </div>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                <div class="form-group row">
+                                                                                <div class="col-md-4">
+                                                                                <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaVencimiento"></label>
+                                                                                <input asp-for="FechaVencimiento" type="text" name="FechaVencimiento" class="datepicker form-control" />
+                                                                                <span asp-validation-for="FechaVencimiento" class="text-danger"></span>
+                                                                                </div>
+
+                                                                                <div class="col-md-4">
+                                                                                <label class="col-md-4 col-form-label texto-pregunta">Banco</label>
+                                                                                @Html.DropDownListFor(x => x.BancoBp, (IEnumerable<SelectListItem>)Model.BancoList, new { @class = "form-control" })
+                                                                                <span asp-validation-for="BancoBp" class="text-danger"></span>
+                                                                                </div>
+                                                                                </div>
+
+                                                                                </div>
+                                                                                </div>*@
+                                                                        </div>
+                                                                        @*fin boton pagos*@
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+
+                                                            @*debito bancario*@
+                                                            <div id="debitobancario" class="row">
+
+                                                                <div class="col-md-12">
+
+                                                                    <div class="card">
+                                                                        <div class="card-header  bg-primary">Débito bancario</div>
+                                                                        <div class="card-body">
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group row">
+
+                                                                                        <div class="col-md-4">
+                                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="TipoCuenta"></label>
+                                                                                            @Html.DropDownListFor(x => x.TipoCuenta, (IEnumerable<SelectListItem>)Model.TipoCuentaList, new { @class = "form-control" })
+
+                                                                                            <span asp-validation-for="TipoCuenta" class="text-danger"></span>
+                                                                                        </div>
+
+                                                                                        <div class="col-md-4">
+                                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="NumeroCuenta"></label>
+                                                                                            <input asp-for="NumeroCuenta" type="text" name="NumeroCuenta" class="form-control" />
+                                                                                            <span asp-validation-for="NumeroCuenta" class="text-danger"></span>
+                                                                                        </div>
+                                                                                        <div class="col-md-4">
+                                                                                            <label class="col-md-4 col-form-label texto-pregunta" asp-for="Banco"></label>
+                                                                                            @Html.DropDownListFor(x => x.Banco, (IEnumerable<SelectListItem>)Model.BancoList, new { @class = "form-control" })
+                                                                                            <span asp-validation-for="Banco" class="text-danger"></span>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        @*debito bancario*@
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+
+                                                            @*inicio deposito/transferencia*@
+                                                            <div id="deposito" class="row">
+
+                                                                <div class="col-md-12">
+
+                                                                    <div class="card">
+                                                                        <div class="card-header  bg-primary">Deposito/Transferencia</div>
+                                                                        <div class="card-body">
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group row">
+                                                                                        <div class="col-md-4">
+                                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="NumReferencia"></label>
+                                                                                            <input asp-for="NumReferencia" type="text" name="NumReferencia" class="form-control" />
+                                                                                            <span asp-validation-for="NumReferencia" class="text-danger"></span>
+                                                                                        </div>
+
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        @*fin deposito/transferencia*@
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+
+                                                            @*inicio tarjeta de Creditos*@
+                                                            <div id="tarjeta" class="row">
+
+                                                                <div class="col-md-12">
+
+                                                                    <div class="card">
+                                                                        <div class="card-header  bg-primary">Tarjeta de crédito</div>
+                                                                        <div class="card-body">
+
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group row">
+                                                                                        <div class="col-md-4">
+                                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="TiposTarjetasCredito"></label>
+                                                                                            @Html.DropDownListFor(x => x.TiposTarjetasCredito, (IEnumerable<SelectListItem>)Model.TipoTarjetaList, new { @class = "form-control" })
+                                                                                            <span asp-validation-for="TiposTarjetasCredito" class="text-danger"></span>
+                                                                                        </div>
+
+                                                                                        <div class="col-md-4">
+                                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="NumeroTarjeta"></label>
+                                                                                            <input asp-for="NumeroTarjeta" type="text" name="NumeroTarjeta" class="form-control" />
+                                                                                            <span asp-validation-for="NumeroTarjeta" class="text-danger"></span>
+                                                                                        </div>
+
+                                                                                        <div class="col-md-4">
+                                                                                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaCaducidad"></label>
+                                                                                            <input asp-for="FechaCaducidad" type="month" name="FechaCaducidad" class=" form-control" />
+                                                                                            <span asp-validation-for="FechaCaducidad" class="text-danger"></span>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        @*fin boton pagos*@
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                            @if (User.IsInRole("DonantesAdministrador") || @Model.ComentarioActualizacion != null)
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group row">
+                                                                            <div class="col-md-12">
+                                                                                <label class="col-md-12 col-form-label texto-pregunta" asp-for="ComentarioActualizacion"></label>
+                                                                                <textarea asp-for="ComentarioActualizacion" name="ComentarioActualizacion" class="form-control"></textarea>
+                                                                                <span asp-validation-for="ComentarioActualizacion" class="text-danger"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+
+                                                            @if (!User.IsInRole("DonantesAdministrador") && @Model.ComentarioActualizacion != null)
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group row">
+                                                                            <div class="col-md-12">
+                                                                                <label class="col-md-12 col-form-label texto-pregunta" asp-for="ComentarioResolucion"></label>
+                                                                                <textarea asp-for="ComentarioResolucion" name="ComentarioResolucion" class="form-control"></textarea>
+                                                                                <span asp-validation-for="ComentarioResolucion" class="text-danger"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+
+
+                                                            <br />
+                                                            <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+                                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Donante.Create)).Result.Succeeded)
+                                                                {
+                                                                    <input type="hidden" value="false" name="band" id="band" />
+                                                                    <button type="submit"  class="btn btn-info">Guardar</button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Donante.Edit)).Result.Succeeded)
+                                                                    {
+                                                                        <button type="submit" id="btnGuardar"  class="btn btn-info">Guardar</button>
+                                                                        <input asp-for="EsAdmin" type="hidden" name="EsAdmin" value=1 class="form-control" />
+                                                                    }
+                                                                    <input type="hidden" value="true" name="band" id="band" />
+                                                                }
+                                                                <button type="submit" id="btnCancelar"  class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+                                                          </div>
+
+                                                        </form>
+
+
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+
+    document.addEventListener('DOMContentLoaded', function(){
+    let formulario = document.getElementById('create-form');
+    formulario.addEventListener('submit', function() {
+        alert("www");
+      formulario.reset();
+    });
+  });
+
+    $(function () {
+       
+        $('#FechaNacimiento').on('change', calcularEdadEdit);
+        $('#create-form *').prop('disabled', (document.getElementById("band").value == "true"));
+        $('#ComentarioActualizacion').removeAttr("disabled"); 
+        $('#EsAdmin').removeAttr("disabled"); 
+        $('#btnCancelar').removeAttr("disabled");
+        $('#btnGuardar').removeAttr("disabled");
+        $('#ComentarioResolucion').removeAttr("disabled"); 
+        
+        $(".datepicker").datepicker({
+            format: "dd-mm-yyyy",
+            autoclose: true,
+            todayBtn: true });
+
+        $("#botonpagos").hide();
+        $("#debitobancario").hide();
+        $("#deposito").hide();
+        $("#tarjeta").hide();
+        cambiaFormaPago();
+        $("#FormaPago").change(function () {
+          
+            cambiaFormaPago();
+
+        });
+    });
+
+
+    function cambiaFormaPago() {
+        let seleccionar = $("#FormaPago option:selected").val();
+  
+        $("#botonpagos").hide();
+        $("#debitobancario").hide();
+        $("#deposito").hide();
+        $("#tarjeta").hide();
+        switch (seleccionar)
+         {
+             case "1":
+              $("#botonpagos").show();
+             break;
+              case "2":
+              $("#debitobancario").show();
+             break;
+              case "3":
+               $("#deposito").show();
+             break;
+              case "4":
+                $("#tarjeta").show();
+             break;
+         }
+        
+    }
+
+
+    function calcularEdadEdit() {
+    
+        fecha = $(this).val();
+        var birthday_arr = fecha.split("-");
+        var fecha = new Date(birthday_arr[2], birthday_arr[1] - 1, birthday_arr[0]);
+        
+        var today = new Date();
+        //Restamos los años
+        anos = today.getFullYear() - fecha.getFullYear();
+        // Si no ha llegado su cumpleaños le restamos el año por cumplir
+        if (fecha.getMonth() > (today.getMonth()) || fecha.getDay() > today.getDay())
+            anos--;
+   
+        $('#Edad').val(anos);
+    }
+
+    
+   //INICIO DIVISION POLITICAS
+       $("#Region").change(function () {
+                  
+                         $.get("/Maestro/Pais/GetProvincia", { idRegion: $("#Region").val() }, function (data) {
+                                // VACIAMOS EL DropDownList
+                                $("#Provincia").empty();
+                              
+                               // $("#descCompetencia").val(data[0].nombreCompetencia);
+                                // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                                $("#Provincia").append("<option value>Seleccione</option>")
+                                // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                                $.each(data, function (index, row) {
+                                    $("#Provincia").append("<option value='" + row.id + "'>" + row.nombre + "</option>")
+                                });
+                            });
+                    });
+
+    $("#Provincia").change(function () {
+                  
+                         $.get("/Maestro/Pais/GetCiudad", { idProvincia: $("#Provincia").val() }, function (data) {
+                                // VACIAMOS EL DropDownList
+                                $("#Ciudad").empty();
+                              
+                               // $("#descCompetencia").val(data[0].nombreCompetencia);
+                                // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                                $("#Ciudad").append("<option value>Seleccione</option>")
+                                // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                                $.each(data, function (index, row) {
+                                    $("#Ciudad").append("<option value='" + row.id + "'>" + row.nombre + "</option>")
+                                });
+                            });
+                    });
+
+   $("#Ciudad").change(function () {
+                          $.get("/Maestro/Pais/GetCiudad", { idProvincia: $("#Provincia option:selected").val() }, function (data) {
+                           
+                                $("#CodigoArea").empty();
+                            
+                                $.each(data, function (index, row) {
+                                    $("#CodigoArea").val(row.codigoArea);
+                                });
+                            });
+                       
+                                
+                         
+                    });
+
+   //FIN DIVISION POLITICAS
+   $("#Cedula").change(function () {
+             var tipo=$("#Cedula").val();
+           
+             if (tipo==2)
+             {
+                $("#RUC").attr('maxlength','10');
+             }
+             else
+             {
+                $("#RUC").attr('maxlength','13');
+             }
+                         
+                         
+    });
+   
+</script>

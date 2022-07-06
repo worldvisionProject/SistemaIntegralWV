@@ -9,15 +9,27 @@ namespace WordVision.ec.Web.Areas.Maestro.Validators
         public IndicadorPRViewModelValidator()
         {
             RuleFor(p => p.Codigo)
-            .NotEmpty().WithMessage("{PropertyName} vvvves obligatoriovvvvv.")
+            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
             .NotNull();
 
             RuleFor(p => p.Descripcion)
-            .NotEmpty().WithMessage("{PropertyName} vvvvves obligatoriovvvvvv.")
+            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
             .NotNull();
 
             RuleFor(p => p.Asunciones)
-            .NotEmpty().WithMessage("{PropertyName} vvvvves obligatoriovvvvvv.")
+            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            .NotNull();
+
+            RuleFor(p => p.MedioVerificacion)
+            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            .NotNull();
+
+            RuleFor(p => p.Poblacion)
+            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            .NotNull().GreaterThan(0);
+
+            RuleFor(p => p.CWB)
+            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
             .NotNull();
         }
     }

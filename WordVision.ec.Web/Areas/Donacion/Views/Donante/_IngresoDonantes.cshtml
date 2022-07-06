@@ -1,0 +1,93 @@
+﻿@using WordVision.ec.Web.Areas.Donacion.Models
+@model DonanteViewModel
+
+<div class="container-fluid" style="padding: 0px 25px !important;">
+    <div class="row">
+        <div class="col-md-12">
+             <label class="col-md-12 col-form-label texto-pregunta" style="color:black;font-weight: bold;">@Model.Colaborador</label>
+        </div>
+    </div>
+
+    <div class="row" style="border:2px;border-style:solid;padding:5px 5px 5px 5px;    border-color: #2ED4E0;">
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta" style="color:#666666"><font style="font-weight: bold;font-size:18px!important;color:#46bb95"><u>Sistema de Gestión de Donantes</u></font></label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta">
+                        <b>
+                            *Ingresar toda la información relacionada al Donante
+                        </b>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="card card-info">
+    <div class="card-header card-header-int">
+
+        <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Información del Donante </font> </label>
+    </div>
+    <div class="card-body" style="padding:15px 20px 20px 20px !important">
+
+      <div id="edit" class="card-body table-responsive">
+                                                                 </div>
+                                                                 
+    </div>
+
+                                                         
+
+                                                    </div>
+                                         
+@*<div class="card card-info">
+    <div class="card-header card-header-int">
+
+        <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Información del Donante </font> </label>
+    </div>
+    <div class="card-body" style="padding:15px 20px 20px 20px !important">
+
+      
+    </div>
+*@
+    @* <div class="col-sm-12 header-button">
+
+        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Soporte/Donante/OnGetCreateOrEdit?id=0','Donante')">
+        <i class="fa fa-plus-square"></i>
+        Agregar
+        </button>
+
+        </div>
+        <div id="viewAll" class="card-body table-responsive">
+        </div>*@
+@*</div>*@
+
+
+@section Scripts
+{
+<script src="~/js/site.js"></script>
+<script>
+    function limpiarFormulario() {
+    document.getElementById("create-form").reset();
+  }
+
+    $(document).ready(function () {
+          loadData();
+      });
+         function loadData() {
+          
+            $('#edit').load('/Donacion/Donante/OnGetCreate?id=0');
+        }
+ 
+   
+   
+   
+ </script>
+}

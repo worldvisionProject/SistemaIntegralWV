@@ -9,29 +9,19 @@ namespace WordVision.ec.Web.Areas.Maestro.Models
         public int Id { get; set; }
 
         [Display(Name = "Código")]
-        [MaxLength(5, ErrorMessage = "Campo {0} no puede tener más de {1} caracteres.")]
-        [Required(ErrorMessage = "Campo Obligatorio.")]
         public string Codigo { get; set; }
 
         [Display(Name = "Cédula")]
-        [MaxLength(10, ErrorMessage = "Campo {0} no puede tener más de {1} caracteres.")]
-        [Required(ErrorMessage = "Campo Obligatorio.")]
         public string Cedula { get; set; }
 
         [Display(Name = "Nombre")]
-        [MaxLength(250, ErrorMessage = "Campo {0} no puede tener más de {1} caracteres.")]
-        [Required(ErrorMessage = "Campo Obligatorio.")]
         public string Nombre { get; set; }
 
         [Display(Name = "Comunidad")]
-        [MaxLength(250, ErrorMessage = "Campo {0} no puede tener más de {1} caracteres.")]
-        [Required(ErrorMessage = "Campo Obligatorio.")]
         public string Comunidad { get; set; }
 
         [Display(Name = "Edad")]
-        [MaxLength(3, ErrorMessage = "Campo {0} no puede tener más de {1} caracteres.")]
-        [Required(ErrorMessage = "Campo Obligatorio.")]
-        public int Edad { get; set; }
+        public int? Edad { get; set; }
 
         public bool Patrocinado { get; set; }
 

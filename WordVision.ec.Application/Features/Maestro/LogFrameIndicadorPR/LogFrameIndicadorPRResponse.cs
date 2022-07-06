@@ -13,14 +13,7 @@ namespace WordVision.ec.Application.Features.Maestro.LogFrameIndicadorPR
 
         public int IdIndicadorPR { get; set; }
         public IndicadorPRResponse IndicadorPR { get; set; }
-
-        //public int IdEstado { get; set; }
-        //public DetalleCatalogoResponse Estado { get; set; }
-
-        //public string CodigoIndicador { get; set; }
-        //public string DescripcionIndicador { get; set; }
-
-        //public bool Selected { get; set; }
+        public int IdEstado { get; set; }
 
     }
 }

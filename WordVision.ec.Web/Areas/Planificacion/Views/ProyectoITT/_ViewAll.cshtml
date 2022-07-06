@@ -1,0 +1,61 @@
+﻿@model IEnumerable<WordVision.ec.Web.Areas.Planificacion.Models.ProyectoITTViewModel>
+
+<table id="idTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            
+            <th>
+                Proyecto Tecnico
+            </th>
+           <th>
+                Programa Área
+            </th>
+            <th>
+                Fecha Fase
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FaseProgramaAreaViewModel.ProyectoTecnico.NombreProyecto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FaseProgramaAreaViewModel.ProgramaArea.Descripcion)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.FaseProgramaAreaViewModel.FechaInicio)
+            </td>
+            <td>
+                <div class="btn-group">
+                    @*onclick="jQueryModalGet('/Planificacion/ProyectoITT/OnGetCreateOrEdit?id=@item.Id','Editar ProyectoITT')"*@
+                    <a  class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
+                    <a class="dropdown-item"><i class="fas fa-download"></i>  Descargar</a> 
+                    <a class="dropdown-item"><i class="fas fa-remove"> Eliminar</i></a> 
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#idTable").DataTable({
+        "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },            
+            responsive: true,          
+            "info": false
+        });
+    });
+</script>

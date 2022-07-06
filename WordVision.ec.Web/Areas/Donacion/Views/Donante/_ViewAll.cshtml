@@ -1,0 +1,91 @@
+﻿@using WordVision.ec.Web.Areas.Soporte.Models;
+@using WordVision.ec.Web.Areas.Donacion.Models
+@model DonanteViewModelView
+
+
+<table id="personalTable" class="table table-striped " width="100%" cellspacing="0">
+            <thead>
+                <tr>
+
+
+                     <th data-priority="1">Campaña</th>
+                    <th data-priority="1">Nombre</th>
+                    <th data-priority="1">Apellido</th>
+                    <th data-priority="1">Cédula</th>
+                    <th data-priority="1">Estado Donante</th>
+                    <th data-priority="1">Ciudad</th>
+                    <th data-priority="1">Cantidad</th>
+                
+
+                    <th data-priority="2" class="acciones-th">Acciones</th>
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+               
+                @foreach (var donante in Model.DonanteViewModels)
+                {
+                <tr>
+                   
+                    <td>
+                        @Model.CampanaList.Where(x => x.Value == donante.Campana.ToString()).FirstOrDefault().Text
+                     
+                    </td>
+                    <td>
+                        @donante.Nombre1
+                    </td>
+                    <td>
+                        @donante.Apellido1
+                    </td>
+                    <td>
+                        @donante.RUC
+                    </td>
+                    <td>
+                        @Model.EstadoDonanteList.Where(x => x.Value == donante.EstadoDonante.ToString()).FirstOrDefault().Text
+                      
+                    </td>
+                    <td>
+                        @Model.CiudadList.Where(x => x.Value == @donante.Ciudad.ToString()).FirstOrDefault().Text
+                    </td>
+                    <td>
+                        @donante.Cantidad
+                    </td>
+
+
+                    <td class="acciones-td">
+
+                        <button type="button" class="btn btn-success  btn-xp" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Donacion/Donante/OnGetCreateOrEdit?id=@donante.Id', 'Donante')">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                    </td>
+
+
+                </tr>
+                }
+                
+            </tbody>
+        </table>
+
+<script>
+
+    $(document).ready(function () {
+        var table = $("#personalTable").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ], dom: 'Bfrtip',buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ],
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            }
+        });
+
+        
+    });
+</script>

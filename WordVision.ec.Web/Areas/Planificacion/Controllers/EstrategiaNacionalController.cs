@@ -285,6 +285,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 var entidadViewModel = _mapper.Map<EstrategiaNacionalViewModel>(responseE.Data);
                 ViewBag.Ciclo = entidadViewModel.Nombre;
                 gestionDesc = entidadViewModel.Gestiones.Where(x => x.Id == AnioGestion).FirstOrDefault()?.Anio ?? string.Empty; ;
+                ViewBag.DescGestion = gestionDesc;
                 //ViewBag.SNGestion = "N";
                 //return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
             }

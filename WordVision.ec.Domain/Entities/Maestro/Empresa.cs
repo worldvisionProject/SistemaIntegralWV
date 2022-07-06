@@ -19,5 +19,7 @@ namespace WordVision.ec.Domain.Entities.Maestro
 
         [ForeignKey("IdEmpresa")]
         public ICollection<Estructura> Estructuras { get; set; }
+        [ForeignKey("IdEmpresa")]
+        public ICollection<CodigoSCI> CodigoSCIS { get; set; }
     }
 }

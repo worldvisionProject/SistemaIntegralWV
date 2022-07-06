@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WordVision.ec.Web.Areas.Maestro.Models
 {
@@ -13,6 +14,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Models
         public int IdIndicadorPR { get; set; }
         public IndicadorPRViewModel IndicadorPR { get; set; }
 
+        [Display(Name = "Estado")]
         public int IdEstado { get; set; }
         public DetalleCatalogoViewModel Estado { get; set; }
 

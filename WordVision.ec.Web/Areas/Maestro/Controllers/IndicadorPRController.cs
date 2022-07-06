@@ -142,9 +142,9 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                 actores = actores.Where(e => e.IdEstado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
             }
 
-            entidadViewModel.EstadoList = _commonMethods.SetGenericCatalog(estados, CatalogoConstant.FieldEstado);
-            entidadViewModel.FrecuenciaList = _commonMethods.SetGenericCatalog(frecuencias, CatalogoConstant.FieldFrecuencia);
-            entidadViewModel.TipoMedidaList = _commonMethods.SetGenericCatalog(tipos, CatalogoConstant.FieldTipoMedida);
+            entidadViewModel.EstadoList = _commonMethods.SetGenericCatalogWithoutIdLabel(estados, CatalogoConstant.FieldEstado);
+            entidadViewModel.FrecuenciaList = _commonMethods.SetGenericCatalogWithoutIdLabel(frecuencias, CatalogoConstant.FieldFrecuencia);
+            entidadViewModel.TipoMedidaList = _commonMethods.SetGenericCatalogWithoutIdLabel(tipos, CatalogoConstant.FieldTipoMedida);
             entidadViewModel.TargetList = _commonMethods.SetGenericCatalog(targets, CatalogoConstant.FieldTipoMedida);
             entidadViewModel.ActorParticipanteList = _commonMethods.SetGenericCatalog(actores, CatalogoConstant.FieldActorParticipante);
         }

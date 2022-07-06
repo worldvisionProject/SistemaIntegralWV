@@ -87,7 +87,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                 if (LogFrameIndicadorPRViewModel.Id == 0)
                 {                    
                     var createEntidadCommand = _mapper.Map<CreateLogFrameIndicadorPRCommand>(LogFrameIndicadorPRViewModel);
-                    //createEntidadCommand.IdEstado = CatalogoConstant.IdDetalleCatalogoEstadoActivo;
+                    createEntidadCommand.IdEstado = CatalogoConstant.IdDetalleCatalogoEstadoActivo;
                     var result = await _mediator.Send(createEntidadCommand);
                     if (result.Succeeded)
                         _notify.Success($"LogFrameIndicadorPR con ID {result.Data} Creado.");
@@ -100,6 +100,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                     if (result.Succeeded) _notify.Information($"LogFrameIndicadorPR con ID {result.Data} Actualizado.");
                     else _notify.Error(result.Message);
                 }
+
                 var response = await _mediator.Send(new GetAllLogFrameIndicadorPRQuery { Include = true });
                 if (response.Succeeded)
                 {

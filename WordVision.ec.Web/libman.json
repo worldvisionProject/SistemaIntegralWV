@@ -29,6 +29,17 @@
     {
       "library": "notify@0.4.2",
       "destination": "wwwroot/lib/notify/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "sweetalert2@9.10.12",
+      "destination": "wwwroot/lib/sweetalert2/",
+      "files": [
+        "dist/sweetalert2.all.js",
+        "dist/sweetalert2.all.min.js",
+        "dist/sweetalert2.css",
+        "dist/sweetalert2.min.css"
+      ]
     }
   ]
 }

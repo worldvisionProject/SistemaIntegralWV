@@ -12,9 +12,9 @@
             <th>
                 Indicador
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.IdEstado)
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -31,9 +31,9 @@
                 <p>@Html.DisplayFor(modelItem => item.IndicadorPR.Codigo) - @Html.DisplayFor(modelItem => item.IndicadorPR.Descripcion)</p>
                 
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Estado.Nombre)
-            </td>
+            </td>*@
             <td>
                 <div class="btn-group">
                     <a onclick="jQueryModalGet('/Maestro/LogFrameIndicadorPR/OnGetCreateOrEdit?id=@item.Id','Editar Marco Lógico')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
@@ -46,7 +46,14 @@
 
 <script>
     $(document).ready(function () {
-        $("#logFrameIndicadorTable").DataTable();
+        $("#logFrameIndicadorTable").DataTable(
+        {
+            columnDefs: [ {
+                "targets": -1,
+                "orderable": false
+                } ]
+            }
+        );
     });
 
 

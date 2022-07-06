@@ -101,6 +101,13 @@
 
 <script>
     $(document).ready(function () {
-        $("#indicadorPRTable").DataTable();
+        $("#indicadorPRTable").DataTable(
+            {
+            columnDefs: [ {
+                "targets": 13,
+                "orderable": false
+                } ]
+            }
+        );
     });
 </script>

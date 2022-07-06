@@ -31,11 +31,11 @@ namespace WordVision.ec.Application.Features.Maestro.PresupuestoProyecto.Command
         public async Task<Result<int>> Handle(CreatePresupuestoProyectoCommand request, CancellationToken cancellationToken)
         {            
             var presupuesto = _mapper.Map<Domain.Entities.Maestro.PresupuestoProyecto>(request);
-            if (!await ValidateInsert(presupuesto))
-            {
+            //if (!await ValidateInsert(presupuesto))
+            //{
                 await _repository.InsertAsync(presupuesto);
                 await _unitOfWork.Commit(cancellationToken);
-            }
+            //}
             //else
             //    return Result<int>.Fail($"RC Niño Patrocinado con PA y PT: {request.} o Cédula: {request.Cedula} ya existe.");
 

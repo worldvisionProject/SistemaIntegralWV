@@ -4,6 +4,7 @@ using MediatR;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Interfaces.Repositories.Donacion;
 using WordVision.ec.Application.Interfaces.Repositories.Soporte;
 
 namespace WordVision.ec.Application.Features.Soporte.Donantes.Queries.GetAllCached

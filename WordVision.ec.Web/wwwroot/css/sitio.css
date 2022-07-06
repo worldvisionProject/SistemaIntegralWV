@@ -965,3 +965,31 @@ div.upload input[type="file"] {
 .group-button-modal {
     margin-bottom: 0px !important
 }
+
+
+.buttons-copy {
+    color: #fff !important;
+    background-color: #1cc88a !important;
+    border-color: #1cc88a !important;
+    border-radius: 0.25rem !important;
+}
+
+.buttons-excel {
+    color: #fff !important;
+    background-color: #1cc88a !important;
+    border-color: #1cc88a !important;
+    border-radius: 0.25rem !important;
+}
+
+.buttons-csv {
+    color: #fff !important;
+    background-color: #1cc88a !important;
+    border-color: #1cc88a !important;
+    border-radius: 0.25rem !important;
+}
+.buttons-pdf {
+    color: #fff !important;
+    background-color: #1cc88a !important;
+    border-color: #1cc88a !important;
+    border-radius: 0.25rem !important;
+}

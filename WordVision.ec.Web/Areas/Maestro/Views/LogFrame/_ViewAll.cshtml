@@ -13,11 +13,11 @@
                 @Html.DisplayNameFor(model => model.Activity)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SumaryObjetives)
-            </th>           
-            <th>
                 Nivel
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SumaryObjetives)
+            </th>           
             <th>
                 Cobertura
             </th>
@@ -53,11 +53,11 @@
                 @Html.DisplayFor(modelItem => item.Activity)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SumaryObjetives)
-            </td>            
-            <td>
                 @Html.DisplayFor(modelItem => item.Nivel.Nombre)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SumaryObjetives)
+            </td>            
             <td>
                 @Html.DisplayFor(modelItem => item.Cobertura)
             </td>
@@ -108,7 +108,13 @@
 
 <script>
     $(document).ready(function () {
-        $("#logFrameTable").DataTable();
+        $("#logFrameTable").DataTable(
+        {
+            columnDefs: [ {
+                "targets": 10,
+                "orderable": false
+                } ]
+            });
     });
 
 

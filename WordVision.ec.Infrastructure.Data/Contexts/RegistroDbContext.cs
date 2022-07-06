@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Contexts;
 using WordVision.ec.Application.Interfaces.Shared;
 using WordVision.ec.Domain.Contracts;
+using WordVision.ec.Domain.Entities.Donacion;
 using WordVision.ec.Domain.Entities.Indicadores;
 using WordVision.ec.Domain.Entities.Maestro;
 using WordVision.ec.Domain.Entities.Planificacion;
@@ -119,6 +120,10 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             .ToTable("PresupuestoProyectos", "adm");
             builder.Entity<LogFrameIndicadorPR>()
             .ToTable("LogFrameIndicadoresPR", "adm");
+            builder.Entity<CodigoSCI>()
+            .ToTable("CodigoSCIs", "adm");
+            builder.Entity<BancosCompania>()
+            .ToTable("BancosCompanias", "adm");
 
             builder.Entity<FaseProgramaArea>()
             .ToTable("FaseProgramaAreas", "indicador");
@@ -189,8 +194,6 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
                  .ToTable("EstadosSolicitudes", "soporte");
             builder.Entity<Email>()
                 .ToTable("Emails", "soporte");
-            builder.Entity<Donante>()
-                .ToTable("Donantes", "soporte");
             builder.Entity<Personal>()
                 .ToTable("Personales", "soporte");
             builder.Entity<Ponente>()
@@ -228,6 +231,13 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             builder.Entity<Escala>()
          .ToTable("Escalas", "valoracion");
 
+            builder.Entity<Donante>()
+               .ToTable("Donantes", "donacion");
+            builder.Entity<Debito>()
+               .ToTable("Debitos", "donacion");
+            builder.Entity<ProductoDonante>()
+               .ToTable("ProductoDonantes", "donacion");
+
 
             builder.Entity<ETabulado>().HasNoKey();
             builder.Entity<EReporteConsolidado>().ToTable(nameof(EReporteConsolidado), t => t.ExcludeFromMigrations()).HasNoKey();
@@ -237,6 +247,7 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
 
             //builder.Entity<EncuestadoPreguntaKobo>()
             //            .HasIndex(p => p.Valor);
+
 
 
             //builder.Entity<Colaborador>().HasMany(m => m.Formularios)
@@ -262,6 +273,13 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             //.HasOne(p => p.FactorCriticoExitos)
             //.WithMany(b => b.IndicadorEstrategicos)
             //.IsRequired(false);
+
+
+            /*carlos cm 29062022*/
+            builder.Entity<ProyectoITT>()
+          .ToTable("ProyectoITTs", "planifica");
+            builder.Entity<DetalleProyectoITT>()
+         .ToTable("DetalleProyectoITTs", "planifica");
 
             foreach (var property in builder.Model.GetEntityTypes()
             .SelectMany(t => t.GetProperties())

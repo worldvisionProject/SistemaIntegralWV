@@ -1,0 +1,328 @@
+﻿@model WordVision.ec.Web.Areas.Planificacion.Models.ProyectoITTViewModel
+
+<form>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group row">
+                <label for="iddipprod" class="col-sm-5 col-form-label">DIP #</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="iddipprod">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="idproareaprod" class="col-sm-5 col-form-label">Programa de Area</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="idproareaprod">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="idproyectecprod" class="col-sm-5 col-form-label">Proyecto Tecnico / Especial</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="idproyectecprod">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="idlogframecodeprod" class="col-sm-5 col-form-label">Log Frame Code - Producto</label>
+                <div class="col-sm-7">
+                    <select class="form-control" id="idlogframecodeprod">
+                        <option value="4333">Goal</option>
+                        <option value="4334">Outcome</option>
+                        <option value="4335">Output</option>
+                        <option value="4336">Activity</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="idlogframecodeactprod" class="col-sm-5 col-form-label">Log frame Code - Actividad</label>
+                <div class="col-sm-7">
+                    <select class="form-control" id="idlogframecodeactprod">
+                        <option value="4333">01 02 03</option>
+                        <option value="4334">010204</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="idactividadpro" class="col-sm-5 col-form-label">Actividad</label>
+                <div class="col-sm-7">
+                    <textarea class="form-control" id="idactividadpro"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="iddescpro" class="col-sm-5 col-form-label">Descripcion</label>
+                <div class="col-sm-7">
+                    <textarea class="form-control" id="iddescpro"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="idparticpantepro" class="col-sm-5 col-form-label">Participantes</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="idparticpantepro">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="idmodeloproyectopro" class="col-sm-5 col-form-label">Modelo Proyecto</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="idmodeloproyectopro">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="idetiquetapro" class="col-sm-5 col-form-label">Etiqueta</label>
+                <div class="col-sm-7">
+                    <select class="form-control" id="idetiquetapro">
+                        <option value="">Seleccionar</option>
+                        <option value="4334">etiqueta 1</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-8">
+            <div class="form-group">
+                <label for="idaccopprod" class="control-label">Accion Operativa</label>
+                <select class="form-control" id="idaccopprod" style="width:100%;">
+                    <option value="4333">opertivan 1</option>
+                    <option value="4334">oiperativa 2</option>
+                </select>
+            </div>
+
+
+            <table align="center" border="1" style="width:auto;" class="table table-condensed table-bordered table-hover">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div>Distribucion de Insumos</div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="idanualprod">
+                                <label class="form-check-label" for="idanualprod">
+                                    Anual
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="idmensualprod" disabled>
+                                <label class="form-check-label" for="idmensualprod">
+                                    Mensual
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div>OBJETIVO</div>
+                            <div class="ex3">
+                                <div style="width:580px">
+                                    <table class="table" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <td>Q1</td>
+                                                <td>OCT</td>
+                                                <td>NOV</td>
+                                                <td>DIC</td>
+                                                <td>Q2</td>
+                                                <td>ENE</td>
+                                                <td>FEB</td>
+                                                <td>MAR</td>
+                                                <td>Q3</td>
+                                                <td>ABR</td>
+                                                <td>MAY</td>
+                                                <td>JUN</td>
+                                                <td>Q4</td>
+                                                <td>JUL</td>
+                                                <td>AGO</td>
+                                                <td>SEP</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" disabled /></td>
+                                                <td><input type="checkbox" disabled /></td>
+                                                <td><input type="checkbox" disabled /></td>
+                                                <td><input type="checkbox" disabled /></td>
+                                                <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" disabled /></td>
+                                                <td><input type="checkbox" disabled /></td>
+                                                <td><input type="checkbox" disabled /></td>
+                                                <td><input type="checkbox" disabled /></td>
+                                                <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" disabled /></td>
+                                                <td><input type="checkbox" disabled /></td>
+                                                <td><input type="checkbox" disabled /></td>
+                                                <td><input type="checkbox" disabled /></td>
+                                                <td><input type="number" step="0.01" value="0.00" min="0.00" max="9999999.99" disabled /></td>
+                                                <td><input type="checkbox" disabled /></td>
+                                                <td><input type="checkbox" disabled /></td>
+                                                <td><input type="checkbox" disabled /></td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="form-group row">
+                <label for="idmesespro" class="col-sm-2 col-form-label">Meses</label>
+                <div class="col-sm-7">
+                    <select class="form-control" id="idmesespro">
+                        <option value="1">Enero</option>
+                        <option value="2">Febrero</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="idinsumosincatalogo">
+                <label class="form-check-label" for="idinsumosincatalogo">
+                    Sin catalogo
+                </label>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="idinsumoprod" class="control-label">Insumo</label>
+                    <select class="form-control" id="idinsumoprod">
+                        <option value="0">Seleccionar</option>
+                        <option value="1">Producto2</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="idcategoriaprod" class="control-label">Categoria</label>
+                    <input id="idcategoriaprod" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="idpreciorefprod" class="control-label">Precio Referencial</label>
+                    <input id="idpreciorefprod" class="form-control" type="number" step="0.01" min="0.00" max="999999.99" />
+                </div>
+
+                <div class="form-group">
+                    <label for="idpreciouniprod" class="control-label">Precio Unitario</label>
+                    <input id="idpreciouniprod" class="form-control" type="number" step="0.01" min="0.00" max="999999.99" />
+                </div>
+
+                <div class="form-group">
+                    <label for="idcantprod" class="control-label">Cantidad</label>
+                    <input id="idcantprod" class="form-control" type="number" step="1" min="0" max="999" />
+                </div>
+
+                <div class="form-group">
+                    <label for="idvalorprod" class="control-label">Valor</label>
+                    <input id="idvalorprod" class="form-control" type="number" step="0.01" min="0.00" max="999999.99" />
+                </div>
+
+                <div class="form-group">
+                    <br />
+                    <br />
+                    <button type="button" class="btn btn-primary">
+                        <i class="fa fa-plus-square"></i>
+                        Agregar Resultado
+                    </button>
+                </div>
+
+            </div>
+            <div class="row">
+                <table id="tblindresdip" class="table tablay" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Insumo</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Valor Total</th>
+                            <th>Mes</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button type="button" class="btn btn-danger">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <hr />
+            <div class="row">
+                <div class="form-group">
+                    <label for="idtechopresuprod" class="control-label">Techo Presupuestario PT</label>
+                    <input id="idtechopresuprod" class="form-control" type="number" step="0.01" min="0.00" max="999999.99" />
+                </div>
+                <div class="ex3">
+                    <div style="width:600px">
+
+                        <table id="tblindresdip" class="table tablay" style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th>Codigo Log Frame - Producto</th>
+                                    <th>Codigo Log Frame Actividad</th>
+                                    <th>Accion Operativa</th>
+                                    <th>Valor Insumos por Accion Operativa</th>
+                                    <th>Valor Insumos por Actividad</th>
+                                    <th>Presupuesto Ejecutado</th>
+                                    <th>Presupuesto en Compras</th>
+                                    <th>Saldo Disponible</th>
+                                    <th>Saldo Replaniacion</th>
+                                    <th>Saldo Total Actividad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Valor Total Isumos por PRODUCTO</th>
+                                    <th>0.00</th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Saldo por PRODUCTO</th>
+                                    <th>0.00</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+        <button class="btn btn-success">Guardar</button>
+        <button class="btn btn-info">Editar</button>
+        <button class="btn btn-default close-button" data-dismiss="modal">Cerrar</button>
+    </div>
+</form>

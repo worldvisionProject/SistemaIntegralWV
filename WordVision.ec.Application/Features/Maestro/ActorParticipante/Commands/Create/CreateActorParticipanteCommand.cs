@@ -33,14 +33,12 @@ namespace WordVision.ec.Application.Features.Maestro.ActorParticipante.Commands.
         public async Task<Result<int>> Handle(CreateActorParticipanteCommand request, CancellationToken cancellationToken)
         {
             var actorParticipante = _mapper.Map<Domain.Entities.Maestro.ActorParticipante>(request);
-            if (!await ValidateInsert(actorParticipante))
-            {
-                await _repository.InsertAsync(actorParticipante);
-                await _unitOfWork.Commit(cancellationToken);
-            }
-            else
-                return Result<int>.Fail($"ActorParticipante con Código: {request.Codigo} ya existe.");
+            // Se valida que no exista el código del actor/participante
+            if (await ValidateInsert(actorParticipante))
+                return Result<int>.Fail($"Actor/Participante con Código: {request.Codigo} ya existe.");
 
+            await _repository.InsertAsync(actorParticipante);
+            await _unitOfWork.Commit(cancellationToken);
             return Result<int>.Success(actorParticipante.Id);
         }
 

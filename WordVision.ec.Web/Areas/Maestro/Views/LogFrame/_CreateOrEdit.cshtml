@@ -1,6 +1,6 @@
 ﻿@model WordVision.ec.Web.Areas.Maestro.Models.LogFrameViewModel
 
-<form asp-action="OnPostCreateOrEdit" method="post" asp-controller="LogFrame" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+<form id="create-form" method="post" asp-controller="LogFrame" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input hidden="hidden" asp-for="Id"/>
     <div class="row">
@@ -25,19 +25,18 @@
                 <input asp-for="Activity" class="form-control" />
                 <span asp-validation-for="Activity" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="SumaryObjetives" class="control-label">Sumary/Objetives</label>
-                <input asp-for="SumaryObjetives" class="form-control" />
-                <span asp-validation-for="SumaryObjetives" class="text-danger"></span>
-            </div>
-            
-        </div>
-        <div class="col-md-6">
            <div class="form-group">
                 <label asp-for="IdNivel" class="control-label">Nivel</label>
                 @Html.DropDownList("IdNivel", (IEnumerable<SelectListItem>)Model.NivelList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
                 <span asp-validation-for="IdNivel" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="SumaryObjetives" class="control-label">Sumary/Objetives</label>
+                <textarea asp-for="SumaryObjetives" class="form-control" rows="2"></textarea>
+                <span asp-validation-for="SumaryObjetives" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
            @* <div class="overflow-auto" style="max-height:500px" id="containerIndicadores">
                 <ul class="list-group" role="group" aria-labelledby="SeletDistributionListLabel">
                     <p><label class="control-label">Indicadores</label></p>
@@ -58,7 +57,6 @@
                     }
                 </ul>
             </div>*@
-            <br />
             @*<div class="form-group">
                 <label asp-for="IdIndicadorPR" class="control-label">Indicador</label>
                 @Html.DropDownList("IdIndicadorPR", (IEnumerable<SelectListItem>)Model.IndicadorPRList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
@@ -104,12 +102,14 @@
     <br />
     <div class="form-group justify-content-between group-button-modal">
         <button type="submit" class="btn btn-success">Guardar</button>
-        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
     </div>
 </form>
 
 <script>
     $(document).ready(function () {
+        $.validator.unobtrusive.parse(document);
+        $('#create-form').disableAutoFill();
 
         $("#IdNivel").click(function() {
 
@@ -138,6 +138,4 @@
         }
 
 </script>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+

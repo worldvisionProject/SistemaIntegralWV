@@ -110,7 +110,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             else
             {
                 var result = string.Join(',', ModelState.Values.SelectMany(v => v.Errors).Select(a => a.ErrorMessage));
-                return _commonMethods.SaveError($"Error al insertar Rc Niño Patrocinado", result);
+                return _commonMethods.SaveError($"Error al insertar la Etapa Model Proyecto", result);
             }
         }
 
@@ -131,8 +131,8 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                 acciones = acciones.Where(e => e.Estado == CatalogoConstant.EstadoActivo).ToList();
             }
 
-            entidadViewModel.EstadoList = _commonMethods.SetGenericCatalog(estados, CatalogoConstant.FieldEstado);
-            entidadViewModel.AccionOperativaList = _commonMethods.SetGenericCatalog(acciones, CatalogoConstant.FieldAccionOperativa);
+            entidadViewModel.EstadoList = _commonMethods.SetGenericCatalogWithoutIdLabel(estados, CatalogoConstant.FieldEstado);
+            entidadViewModel.AccionOperativaList = _commonMethods.SetGenericCatalogWithoutIdLabel(acciones, CatalogoConstant.FieldAccionOperativa);
         }
     }   
 }

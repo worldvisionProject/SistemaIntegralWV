@@ -14,7 +14,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Models
 
         public string MedioVerificacion { get; set; }
 
-        public decimal Poblacion { get; set; }
+        public decimal? Poblacion { get; set; }
 
         public string CWB { get; set; }
 

@@ -42,14 +42,35 @@ namespace WordVision.ec.Application.Features.Maestro.LogFrameIndicadorPR.Command
             }
             else
             {
+
+
                 entity.IdLogFrame = update.IdLogFrame;
                 entity.IdIndicadorPR = update.IdIndicadorPR;
-                //entity.IdEstado = update.IdEstado;             
+
+                // Se valida que no se repita el logFrame e indicador
+                var listEtaparMP = await ValidateInsert(entity);
+
+                if (listEtaparMP.Count > 0)
+                {
+                    var first = listEtaparMP.First();
+                    return Result<int>.Fail($"ModeloLogico con LogFrame: {first.LogFrame.SumaryObjetives} e Indicador: {first.IndicadorPR.Codigo} ya existe.");
+                }
 
                 await _repository.UpdateAsync(entity);
                 await _unitOfWork.Commit(cancellationToken);
                 return Result<int>.Success(entity.Id);
             }
+        }
+
+        private async Task<List<Domain.Entities.Maestro.LogFrameIndicadorPR>> ValidateInsert(Domain.Entities.Maestro.LogFrameIndicadorPR etapaModelo)
+        {
+            var list = await _repository.GetListAsync(new Domain.Entities.Maestro.LogFrameIndicadorPR() { Include = true });
+
+            if (list.Count == 0)
+                return new List<Domain.Entities.Maestro.LogFrameIndicadorPR>();
+
+            return list.FindAll(x => x.IdLogFrame == etapaModelo.IdLogFrame && x.IdIndicadorPR == etapaModelo.IdIndicadorPR && x.Id != etapaModelo.Id);
+
         }
     }
 }

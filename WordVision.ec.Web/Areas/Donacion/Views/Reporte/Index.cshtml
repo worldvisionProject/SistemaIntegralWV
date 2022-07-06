@@ -1,0 +1,283 @@
+﻿    @using WordVision.ec.Web.Areas.Donacion.Models
+@model DonanteFiltroReporteViewModel
+            
+<link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css" />
+<link rel="stylesheet" href="~/lib/bootstrap-select/css/bootstrap-select.min.css">
+
+<div class="card card-info">
+    <div class="card-header card-header-int">
+
+        <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Reportes </font> </label>
+    </div>
+    <div class="card-body" style="padding:15px 20px 20px 20px !important">
+
+
+         <div class="content">
+               <div class="row mb-0">
+                       <div class="col-3 my-auto">
+                            <h6><i class="fas fa-calendar-check mr-2"></i>Reporte Consolidado</h6>
+                        </div>
+                        <div class="col-9">
+                            <div class="btn-toolbar float-right" role="toolbar">
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <div class="input-group input-group-sm">
+                                       
+                                        <div class="input-group-prepend input-group-sm">
+                                            <div class="input-group-text input-group-sm">F. Inicio</div>
+                                        </div>
+                                        <input class="form-control form-control-sm mw-100" id="fechaInicio" />
+                                        <div class="input-group-prepend input-group-sm">
+                                            <div class="input-group-text input-group-sm">F. Fin</div>
+                                        </div>
+                                        <input class="form-control form-control-sm mw-100" id="fechaFin" />
+                                         <div class="input-group-prepend input-group-sm">
+                                            <div class="input-group-text input-group-sm">Tipo Donante</div>
+                                        </div>
+                                        <select id="selectTipoDonante" data-width="300px" title="Seleccionar..." class="form-control form-control-sm selectpicker" asp-items="@((IEnumerable<SelectListItem>)Model.TipoDonanteList)" data-live-search="true">
+                                        </select>
+                                         <div class="input-group-prepend input-group-sm">
+                                            <div class="input-group-text input-group-sm">Estado Donante</div>
+                                        </div>
+                                        <select id="selectEstadoDonante" data-width="300px" title="Seleccionar..." class="form-control form-control-sm selectpicker" asp-items="@((IEnumerable<SelectListItem>)Model.EstadoDonanteList)" data-live-search="true">
+                                        </select>
+                                         <div class="input-group-prepend input-group-sm">
+                                            <div class="input-group-text input-group-sm">Forma de Pago</div>
+                                        </div>
+                                        <select id="selectFormaPago" data-width="300px" title="Seleccionar..." class="form-control form-control-sm selectpicker" asp-items="@((IEnumerable<SelectListItem>)Model.FormaPagoList)" data-live-search="true">
+                                        </select>
+                                    </div>
+                                    <a class="btn btn-sm btn-labeled btn-success" href="#" onclick="filtrarReporte()">
+                                        <span class="btn-label pr-1">
+                                            <i class="fa fa-search"></i>
+                                        </span>
+                                        Buscar
+                                    </a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <a class="btn btn-sm btn-labeled btn-success tool-action" href="#">
+                                        <span class="btn-label pr-1">
+                                            <i class="fa fa-file-download"></i>
+                                        </span>
+                                        Exportar
+                                    </a>
+           
+                   
+                                </div>
+                            </div>
+                        </div>
+               </div>
+           
+            <div class="row pt-1">
+                <div class="col table-responsive min-height-300">
+                    <table class="table table-sm table-striped table-bordered table-hover w-100" id="rptDonanteTable">
+                        <thead>
+                            <tr class="text-center">
+                                <th>
+                                    Fecha Captación
+                                </th>
+                                <th>
+                                    Canal
+                                </th>
+                                <th>
+                                    Frecuencia
+                                </th>
+                                <th>
+                                    Género
+                                </th>
+                               
+                                <th>
+                                    Identificación
+                                </th>
+                                <th>
+                                    Nombres
+                                </th>
+                                <th>
+                                    Apellidos
+                                </th>
+                              
+                                <th>
+                                    FormaPago
+                                </th>
+                                 <th>
+                                    Entidad Bancaria    
+                                </th>
+                                <th>
+                                    Tipo Cuenta
+                                </th>
+                                <th>
+                                   Cuenta
+                                </th>
+                              
+                                <th class="text-right">
+                                    Valor
+                                </th>
+                 
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                  <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                              <th></th>
+                                <th class="text-right">Totales: </th>
+                                 <th></th>
+                                <th class="text-right"> </th>
+                               
+                            </tr>
+                        </tfoot>
+                    </table>
+         
+                </div>
+            </div>
+        </div>
+ </div>
+  
+ </div>
+
+@section Scripts
+{
+    <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/lib/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js"></script>
+    <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
+<script src="~/js/site.js"></script>
+<script>
+   
+
+   let tableMain = null;
+        let config = {
+            id: "rptDonanteTable",
+            dateFormat: '{dd}/{MM}/{yyyy}',
+            language: { url: dataTableLangPath},
+            ajax: {
+                url: "@Url.Action("LoadReporteDonantes", "Reporte")",
+                method: 'POST',
+                dataType: "json",
+                contentType: "application/json",
+                dataSrc: function (e) {
+                    
+                    return e.data;
+                },
+                data: function (d) {
+                    var filtros = new Object();
+                     filtros.fechaDesde = $("#fechaInicio").datepicker().datepicker("getDate");
+                    filtros.fechaHasta = $("#fechaFin").datepicker().datepicker("getDate");
+                    var tipo = 0;
+                    if ($("#selectTipoDonante").val() != "") {
+                        tipo = $("#selectTipoDonante").val();
+                    }
+                    filtros.tipoDonante = parseInt(tipo);
+
+                    tipo = 0;
+                    if ($("#selectFormaPago").val() != "") {
+                        tipo = $("#selectFormaPago").val();
+                    }
+                    filtros.formaPago = parseInt(tipo);
+
+                     tipo = 0;
+                    if ($("#selectEstadoDonante").val() != "") {
+                        tipo = $("#selectEstadoDonante").val();
+                    }
+                    filtros.estadoDonante = parseInt(tipo);
+                
+                    return JSON.stringify(filtros);
+                }
+            },
+            dom: "tipr",
+            buttons: [
+                { extend: "excel", exportOptions: { columns: ':not(.no-export)' } }
+            ],
+            columns: [
+                { width: '10%', filter: 'input', type: 'string', data: 'fechaCaptacion' },
+                { width: '10%', filter: 'input', type: 'string', data: 'canal' },
+                { width: '10%', filter: 'input', type: 'string', data: 'frecuencia' },
+                { width: '10%', filter: 'input', type: 'string', data: 'genero' },
+                { width: '10%', filter: 'input', type: 'string', data: 'identificacion' },
+                { width: '15%', filter: 'input', type: 'string', data: 'nombres' },
+                { width: '15%', filter: 'input', type: 'string', data: 'apellidos' },
+                //{ width: '15%', filter: 'input', type: 'string', data: 'nombre2' },
+                //{ width: '15%', filter: 'input', type: 'string', data: 'apellido1' },
+                //{ width: '15%', filter: 'input', type: 'string', data: 'apellido2' },
+                { width: '15%', filter: 'input', type: 'string', data: 'formaPago' },
+                { width: '15%', filter: 'input', type: 'string', data: 'entidadBancaria' },
+                { width: '10%', filter: 'input', type: 'string', data: 'tipoCuenta' },
+                { width: '10%', filter: 'input', type: 'date', data: 'cuenta' },
+                {
+                    width: '10%', filter: 'input', type: 'num', data: 'valor', className: 'text-right', operation: "sum", prefix: 'none',
+                    render: function (data, type, row) {
+                        return $.fn.dataTable.render.number('', '.', 2, '').display(data);
+                    }
+                },
+                //{
+                //    width: '25%', filter: 'input', type: 'num', data: 'costoRecurso', className: 'text-right', operation: "sum",
+                //    render: function (data, type, row) {
+                //        return $.fn.dataTable.render.number('', '.', 2, '').display(data);
+                //    }
+                //}
+            ],
+            initComplete: function () {
+                reHandle();
+            },
+            order: []
+        };
+
+        function reHandle() {
+            fillSelectFilter(config, tableMain)
+            finishLoading();
+        }
+
+
+    $(document).ready(function () {
+         tableMain = LoadTableWithAjax(config);
+         $('#fechaInicio').datepicker({ language: 'es', todayHighlight: true }, { dateFormat: "yy/mm/dd" }).datepicker("setDate", new Date());
+            $('#fechaFin').datepicker({ language: 'es', todayHighlight: true }, { dateFormat: "yy/mm/dd" }).datepicker("setDate", new Date());
+
+      });
+        
+ 
+       function filtrarReporte() {
+            //var formaPago = parseInt($("#selectFormaPago").val());
+            //var tipoDonante = parseInt($("#selectTipoDonante").val());
+            //var estadoDonante = parseInt($("#selectEstadoDonante").val());
+            
+            var fechaInicio = $('#fechaInicio').val();
+            var fechaFin = $('#fechaFin').val();
+            if (!fechaInicio || !fechaFin){
+                Swal.fire("¡Advertencia!", "El rango de fechas ingresado no es válido", "warning");
+                return false;
+            }
+
+            var fechaInicioTemp = $("#fechaInicio").datepicker().datepicker("getDate");
+            var fechaFinTemp = $("#fechaFin").datepicker().datepicker("getDate");
+            if (fechaFinTemp < fechaInicioTemp) {
+                Swal.fire("¡Advertencia!", "La fecha de fin no puede ser anterior a la fecha de inicio", "warning");
+                return false;
+            }
+
+            // if (isNaN(formaPago) || formaPago === 0) {
+            //    Swal.fire("¡Advertencia!", "Es obligatorio seleccionar la forma de pago", "warning");
+            //    return false;
+            //}
+            //if (isNaN(tipoDonante) || tipoDonante === 0) {
+            //    Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el tipo de Donante", "warning");
+            //    return false;
+            //}
+            //if (isNaN(estadoDonante) || estadoDonante === 0) {
+            //    Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el estado del Donante", "warning");
+            //    return false;
+            //}
+           
+          
+            startLoading();
+          
+            tableMain.ajax.reload(reHandle, true);
+        }
+        
+ </script>
+}

@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "idactividad": "1",
+      "actividad": "actv 01",
+      "descripcion": "desc  xxx",
+      "medioverificacion": "m v"
+    },
+    {
+      "idactividad": "2",
+      "actividad": "actv 02",
+      "descripcion": "desc  yyyy",
+      "medioverificacion": "m v"
+    }
+  ]
+}

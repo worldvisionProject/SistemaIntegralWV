@@ -9,36 +9,36 @@ namespace WordVision.ec.Web.Areas.Maestro.Validators
         public PresupuestoProyectoViewModelValidator()
         {
             RuleFor(p => p.Total)
-           .NotEmpty().WithMessage("{PropertyName} vvvves obligatoriovvvvv.")
-           .NotNull();
+           .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+           .NotNull().GreaterThanOrEqualTo(0);
 
             RuleFor(p => p.CostoSoporte)
-            .NotEmpty().WithMessage("{PropertyName} vvvvves obligatoriovvvvvv.")
-            .NotNull();
+            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            .NotNull().GreaterThanOrEqualTo(0); 
 
             RuleFor(p => p.Nomina)
-           .NotEmpty().WithMessage("{PropertyName} vvvves obligatoriovvvvv.")
-           .NotNull();
+           .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+           .NotNull().GreaterThanOrEqualTo(0);
 
             RuleFor(p => p.TI)
-            .NotEmpty().WithMessage("{PropertyName} vvvvves obligatoriovvvvvv.")
-            .NotNull();
+            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            .NotNull().GreaterThanOrEqualTo(0);
 
             RuleFor(p => p.Administracion)
-           .NotEmpty().WithMessage("{PropertyName} vvvves obligatoriovvvvv.")
-           .NotNull();
+           .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+           .NotNull().GreaterThanOrEqualTo(0);
 
             RuleFor(p => p.LineamientosOnAdmistrativos)
-            .NotEmpty().WithMessage("{PropertyName} vvvvves obligatoriovvvvvv.")
-            .NotNull();
+            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            .NotNull().GreaterThanOrEqualTo(0);
 
             RuleFor(p => p.LineamientosOnOperativos)
-           .NotEmpty().WithMessage("{PropertyName} vvvves obligatoriovvvvv.")
-           .NotNull();
+           .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+           .NotNull().GreaterThanOrEqualTo(0);
 
             RuleFor(p => p.TechoPresupuestario)
-            .NotEmpty().WithMessage("{PropertyName} vvvvves obligatoriovvvvvv.")
-            .NotNull();
+            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            .NotNull().GreaterThanOrEqualTo(0);
         }        
     }
 }
