@@ -993,3 +993,8 @@ div.upload input[type="file"] {
     border-color: #1cc88a !important;
     border-radius: 0.25rem !important;
 }
+
+.file-caption-name{
+    background-color: transparent;
+    height: 38px !important;
+}

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
-namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
+namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.grupoinnover
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220707144241_MigrationV3G003")]
+    partial class MigrationV3G003
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,8 +193,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Property<byte[]>("EvidenciaConversion")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<DateTime?>("FechaBaja")
-                        .HasColumnType("datetime2");
+                //    b.Property<DateTime?>("FechaBaja")
+                  //      .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("FechaCaducidad")
                         .HasColumnType("datetime2");
@@ -238,9 +240,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Property<DateTime?>("MesInicialDebito")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("MotivosBaja")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                  //  b.Property<string>("MotivosBaja")
+                      //  .HasMaxLength(50)
+                    //    .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Nombre1")
                         .HasColumnType("nvarchar(max)");

@@ -70,6 +70,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public string TelefonoCelular { get; set; }
         public bool WhatsApp { get; set; }
         [EmailAddress]
+
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
         [Display(Name = "Frecuencia de Donación")]
         public int FrecuenciaDonacion { get; set; }

@@ -40,6 +40,15 @@
         "dist/sweetalert2.css",
         "dist/sweetalert2.min.css"
       ]
+    },
+    {
+      "library": "jasny-bootstrap@4.0.0",
+      "destination": "wwwroot/lib/jasny-bootstrap/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "bootstrap-fileinput@5.5.0",
+      "destination": "wwwroot/lib/bootstrap-fileinput/"
     }
   ]
 }

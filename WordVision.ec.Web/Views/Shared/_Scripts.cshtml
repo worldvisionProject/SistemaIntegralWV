@@ -1,7 +1,7 @@
 ﻿@*<script src="~/lib/jquery/jquery.min.js"></script>
 *@
 <script src="~/lib/jquery/jquery.js"></script>
- <script src="~/js/preloader/src/js/jquery.preloader.js"></script>
+<script src="~/js/preloader/src/js/jquery.preloader.js"></script>
 <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/lib/jquery-easing/jquery.easing.min.js"></script>
 <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
@@ -33,20 +33,29 @@
 <script src="https://cdn.jsdelivr.net/npm/disableautofill/src/jquery.disableAutoFill.min.js"></script>
 
 <script src="~/lib/notify/notify.js"></script>
- <script src="~/lib/sweetalert2/dist/sweetalert2.all.js"></script>
+<script src="~/lib/sweetalert2/dist/sweetalert2.all.js"></script>
 
 
-    <script src="~/lib/datatables.net/js/jquery.dataTables.js"></script>
-    <script src="~/lib/datatables.net-responsive/js/dataTables.responsive.js"></script>
-    <script src="~/lib/datatables.net-buttons/js/dataTables.buttons.js"></script>
-    <script src="~/lib/datatables.net-buttons/js/buttons.flash.js"></script>
-    <script src="~/lib/jszip/dist/jszip.js"></script>
-    <script src="~/lib/datatables.net-buttons/js/buttons.html5.js"></script>
-    <script src="~/lib/datatables.net-buttons/js/buttons.print.js"></script>
-    <script src="~/lib/datatables.net-bs4/js/dataTables.bootstrap4.js"></script>
-    <script src="~/lib/datatables.net-plugins/api/order.neutral().js"></script>
-    <script src="~/lib/datatables.net-plugins/sorting/date-euro.js"></script>
+<script src="~/lib/datatables.net/js/jquery.dataTables.js"></script>
+<script src="~/lib/datatables.net-responsive/js/dataTables.responsive.js"></script>
+<script src="~/lib/datatables.net-buttons/js/dataTables.buttons.js"></script>
+<script src="~/lib/datatables.net-buttons/js/buttons.flash.js"></script>
+<script src="~/lib/jszip/dist/jszip.js"></script>
+<script src="~/lib/datatables.net-buttons/js/buttons.html5.js"></script>
+<script src="~/lib/datatables.net-buttons/js/buttons.print.js"></script>
+<script src="~/lib/datatables.net-bs4/js/dataTables.bootstrap4.js"></script>
+<script src="~/lib/datatables.net-plugins/api/order.neutral().js"></script>
+<script src="~/lib/datatables.net-plugins/sorting/date-euro.js"></script>
+<script src="~/lib/bootstrap-fileinput/js/fileinput.js"></script>
+<script src="~/lib/bootstrap-fileinput/js/locales/es.js"></script>
+<script src="~/lib/bootstrap-fileinput/themes/fa/theme.js"></script>
+<script src="~/lib/bootstrap-fileinput/themes/fas/theme.js"></script>
+
 
 <script>
     const dataTableLangPath = '@Url.Content("~/js/datatables.net/i18n/Spanish.json")';
+    $('input[type=file]').on('change fileselect', function(event) {
+        $("button[title='Subir archivo']").remove();
+        $("button[title='Ver detalles']").remove();
+    });
 </script>
