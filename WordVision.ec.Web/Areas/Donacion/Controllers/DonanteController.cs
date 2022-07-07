@@ -190,6 +190,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 var tipoTarjeta = new SelectList(catalogo.Data, "Secuencia", "Nombre");
                 catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 37, Ninguno = true });
                 var banco = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 65, Ninguno = true });
                 var periodoDonacion = new SelectList(catalogo.Data, "Secuencia", "Nombre");
                 catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 66, Ninguno = true });
                 var calificaciondonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");

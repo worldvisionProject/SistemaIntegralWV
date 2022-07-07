@@ -27,10 +27,10 @@
                                                                         <div class="col-md-3">
                                                                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaConversion"></label>
                                                                             <input asp-for="FechaConversion" type="text" name="FechaConversion" class=" form-control" readonly />
-                                                                            <span asp-validation-for="FechaConversion" class="text-danger"></span>
-                                                                        </div>
+                                                                                <span asp-validation-for="FechaConversion" class="text-danger"></span>
+                                                                            </div>
 
-                                                                        <div class="col-md-3">
+                                                                            <div class="col-md-3">
                                                                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="Canal"></label>
                                                                             @Html.DropDownListFor(x => x.Canal, (IEnumerable<SelectListItem>)Model.CanalList, new { @class = "form-control" })
                                                                             <span asp-validation-for="Canal" class="text-danger"></span>
@@ -132,7 +132,7 @@
 
                                                                         <div class="col-md-3">
                                                                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaNacimiento"></label>
-                                                                            <input asp-for="FechaNacimiento" type="text" name="FechaNacimiento" id="FechaNacimiento" class="datepicker form-control" />
+                                                                            <input asp-for="FechaNacimiento" type="text" name="FechaNacimiento" id="FechaNacimiento" class="datepicker3 form-control" />
                                                                             <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
                                                                         </div>
                                                                     </div>
@@ -245,7 +245,7 @@
                                                                             <div class="col-md-3">
                                                                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="MesInicialDebito"></label>
                                                                        
-                                                                             <input type="text" asp-for="MesInicialDebito" name="MesInicialDebito" class="datepicker form-control"  />
+                                                                             <input type="text" asp-for="MesInicialDebito" name="MesInicialDebito" class="datepicker2 form-control"   />
                                                                             <span asp-validation-for="MesInicialDebito" class="text-danger"></span>
                                                                         </div>
                                                                         
@@ -275,7 +275,7 @@
                                                                          <div class="col-md-2">
                                                                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaEntrega"></label>
                                                                        
-                                                                             <input type="text" asp-for="FechaEntrega" name="FechaEntrega" class="datepicker form-control"  />
+                                                                             <input type="text" asp-for="FechaEntrega" name="FechaEntrega" class="datepicker5 form-control"  />
                                                                             <span asp-validation-for="FechaEntrega" class="text-danger"></span>
                                                                          </div>
                                                                          <div class="col-md-3">
@@ -441,7 +441,7 @@
 
                                                                                         <div class="col-md-4">
                                                                                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="NumeroCuenta"></label>
-                                                                                            <input asp-for="NumeroCuenta" type="text" name="NumeroCuenta" class="form-control" />
+                                                                                            <input asp-for="NumeroCuenta" type="text" name="NumeroCuenta" maxlength="30" class="form-control" />
                                                                                             <span asp-validation-for="NumeroCuenta" class="text-danger"></span>
                                                                                         </div>
                                                                                         <div class="col-md-4">
@@ -513,13 +513,13 @@
 
                                                                                         <div class="col-md-4">
                                                                                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="NumeroTarjeta"></label>
-                                                                                            <input asp-for="NumeroTarjeta" type="text" name="NumeroTarjeta" class="form-control" />
+                                                                                            <input asp-for="NumeroTarjeta" type="text" maxlength="20"   name="NumeroTarjeta" class="form-control" />
                                                                                             <span asp-validation-for="NumeroTarjeta" class="text-danger"></span>
                                                                                         </div>
 
                                                                                         <div class="col-md-4">
                                                                                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaCaducidad"></label>
-                                                                                            <input asp-for="FechaCaducidad" type="month" name="FechaCaducidad" class=" form-control" />
+                                                                                            <input asp-for="FechaCaducidad" type="text" name="FechaCaducidad" class="datepicker4 form-control" />
                                                                                             <span asp-validation-for="FechaCaducidad" class="text-danger"></span>
                                                                                         </div>
                                                                                     </div>
@@ -590,13 +590,6 @@
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
 
-    document.addEventListener('DOMContentLoaded', function(){
-    let formulario = document.getElementById('create-form');
-    formulario.addEventListener('submit', function() {
-        alert("www");
-      formulario.reset();
-    });
-  });
 
     $(function () {
        
@@ -613,6 +606,71 @@
             autoclose: true,
             todayBtn: true });
 
+     /*   $("#MesInicialDebito.datepicker").datepicker({
+            format: "dd-mm-yyyy",
+            autoclose: true,
+            todayBtn: true,
+        startDate: "06/07/2022"});*/
+        //FECHA DE INGRESO DE DONACION 
+        $(".datepicker2").datepicker({
+        changeMonth : true,
+        changeYear : true,
+        autoclose: true,
+        todayBtn: true,
+        firstDay : 1,
+        minDate : new Date(2005, 0, 1),
+        yearRange : '2005:' + String((new Date()).getFullYear() + 1),
+       format: "dd-mm-yyyy",
+        startDate: new Date()
+        
+        //datesDisabled: [
+        //    "05/07/2022", fechas especificas
+        //    "04/07/2022", 
+        //],
+         
+    });
+    //FECHA DE NACIMIENTO  
+     $(".datepicker3").datepicker({
+        changeMonth : true,
+        changeYear : true,
+        autoclose: true,
+        todayBtn: true,
+        firstDay : 1,
+        //minDate : new Date(2005, 0, 1),
+        yearRange : '2005:' + String((new Date()).getFullYear() + 1),
+       format: "dd-mm-yyyy",
+        endDate: new Date()
+    });
+    //FECHA VENCIMIENTO TARJETA
+   
+    $(".datepicker4").datepicker({
+        changeMonth : true,
+        changeYear : true,
+        autoclose: true,
+        todayBtn: true,
+        firstDay : 1,
+        minDate : new Date(2005, 0, 1),
+        yearRange : '2005:' + String((new Date()).getFullYear() + 1),
+        format: "mm-yyyy",
+        startDate: new Date()
+ 
+    });
+
+    //FECHA ENTREGA PRODUCTO
+   
+    $(".datepicker5").datepicker({
+        changeMonth : true,
+        changeYear : true,
+        autoclose: true,
+        todayBtn: true,
+        firstDay : 1,
+        minDate : new Date(2005, 0, 1),
+        yearRange : '2005:' + String((new Date()).getFullYear() + 1),
+        format: "dd-mm-yyyy",
+        startDate: new Date()
+
+    });
+ 
         $("#botonpagos").hide();
         $("#debitobancario").hide();
         $("#deposito").hide();
@@ -653,7 +711,7 @@
 
 
     function calcularEdadEdit() {
-    
+       
         fecha = $(this).val();
         var birthday_arr = fecha.split("-");
         var fecha = new Date(birthday_arr[2], birthday_arr[1] - 1, birthday_arr[0]);
@@ -668,8 +726,81 @@
         $('#Edad').val(anos);
     }
 
+    //INICIO INGRESO DATOS
+    $('#NumeroTarjeta').on('input', function () { 
+        this.value = this.value.replace(/[^0-9]/g,'');
+
+    });
+
+    $('#NumeroCuenta').on('input', function () { 
+        this.value = this.value.replace(/[^0-9]/g,'');
+
+    });
+
+     $('#Cantidad').on('input', function () { 
+        this.value = this.value.replace(/[^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?]/g,'');
+
+    });
+
+    $('#RUC').on('input', function () { 
+        this.value = this.value.replace(/[^0-9]/g,'');
+
+    });
+
+     $('#TelefonoCelular').on('input', function () { 
+        this.value = this.value.replace(/[^0-9]/g,'');
+
+    });
+
+     $('#TelefonoConvencional').on('input', function () { 
+        this.value = this.value.replace(/[^0-9]/g,'');
+
+    });
+
+
+    
+   $("#FrecuenciaDonacion").change(function () {
+                  
+       var valor = $("#FrecuenciaDonacion").val();
+       var categoria = $("#Categoria").val();
+
+       
+       if (valor == 5 & categoria == 1) 
+       { 
+           Swal.fire("¡Advertencia!", "Categoría Recurrente no puede ser Frecuencia de Donación: Único", "warning");
+           $("#FrecuenciaDonacion").val(-1);
+           $("#Categoria").val(-1);
+                return false;
+           
+       }
+
+                    });
+    //FIN INGRESO DATOS
+
+    //INICIO CATEGORIAS
+     $("#Categoria").change(function () {
+
+                          var valor = $("#FrecuenciaDonacion").val();
+                         var categoria = $("#Categoria").val();
+
+       
+                        if (valor == 5 & categoria == 1) 
+                           { 
+                               Swal.fire("¡Advertencia!", "Categoría Recurrente no puede ser Frecuencia de Donación: Único", "warning");
+                               $("#FrecuenciaDonacion").val(-1);
+                               $("#Categoria").val(-1);
+                                    return false;
+           
+                           }
+                  
+                    });
+
+
+
+    // FIN CATEGORIAS
     
    //INICIO DIVISION POLITICAS
+
        $("#Region").change(function () {
                   
                          $.get("/Maestro/Pais/GetProvincia", { idRegion: $("#Region").val() }, function (data) {
@@ -731,5 +862,7 @@
                          
                          
     });
+    //
+   
    
 </script>
