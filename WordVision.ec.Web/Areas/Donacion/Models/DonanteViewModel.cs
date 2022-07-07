@@ -14,6 +14,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
     }
     public class DonanteViewModel
     {
+        public int Vienede { get; set; }
         public int Id { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]

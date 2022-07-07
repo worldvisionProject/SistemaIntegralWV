@@ -153,6 +153,11 @@ namespace WordVision.ec.Application.Features.Donacion.Donantes.Commands.Update
                     Donante.NumeroTarjetaBp = command.NumeroTarjetaBp;
                     Donante.FechaCaducidadBp = command.FechaCaducidadBp;
                     Donante.BancoBp = command.BancoBp == 0 ? Donante.BancoBp : command.BancoBp;
+                        Donante.Hubspot = command.Hubspot;
+                        Donante.Formulario = command.Formulario;
+                        Donante.NumeroGuia = command.NumeroGuia;
+                        Donante.FechaEntrega= command.FechaEntrega;
+                        Donante.CalificacionDonante = command.CalificacionDonante;
                         Donante.ComentarioResolucion = command.ComentarioResolucion;
                     }
                     else

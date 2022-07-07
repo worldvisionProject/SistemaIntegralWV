@@ -1,5 +1,4 @@
-﻿@using WordVision.ec.Web.Areas.Soporte.Models;
-@using WordVision.ec.Web.Areas.Donacion.Models
+﻿@using WordVision.ec.Web.Areas.Donacion.Models
 @model DonanteViewModelView
 
 
@@ -57,7 +56,7 @@
                     <td class="acciones-td">
 
                         <button type="button" class="btn btn-success  btn-xp" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Donacion/Donante/OnGetCreateOrEdit?id=@donante.Id', 'Donante')">
-                            <i class="fas fa-pencil-alt"></i>
+                            <i class="fa fa-pencil-square-o"></i>
                         </button>
                     </td>
 
@@ -89,3 +88,4 @@
         
     });
 </script>
+
