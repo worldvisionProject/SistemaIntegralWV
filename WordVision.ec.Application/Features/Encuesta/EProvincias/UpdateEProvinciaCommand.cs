@@ -14,18 +14,24 @@ namespace WordVision.ec.Application.Features.Encuesta.EProvincias
     {
         public string Id { get; set; }
         public string pro_nombre { get; set; }
-        public ERegion eRegion { get; set; }
+        public int eRegionId { get; set; }
 
 
         public class UpdateEProvinciaCommandHandler : IRequestHandler<UpdateEProvinciaCommand, Result<int>>
         {
             private readonly IUnitOfWork _unitOfWork;
             private readonly IEProvinciaRepository _eProvinciaRepository;
+            private readonly IERegionRepository _eRegionRepository;
             private readonly IMapper _mapper;
 
-            public UpdateEProvinciaCommandHandler(IEProvinciaRepository eProvinciaRepository, IUnitOfWork unitOfWork, IMapper mapper)
+            public UpdateEProvinciaCommandHandler(
+                                                    IEProvinciaRepository eProvinciaRepository,
+                                                    IERegionRepository eRegionRepository,
+                                                    IUnitOfWork unitOfWork, 
+                                                    IMapper mapper)
             {
                 _eProvinciaRepository = eProvinciaRepository;
+                _eRegionRepository = eRegionRepository;
                 _unitOfWork = unitOfWork;
                 _mapper = mapper;
             }
@@ -44,12 +50,17 @@ namespace WordVision.ec.Application.Features.Encuesta.EProvincias
                 }
                 else
                 {
-                    var EProvinciaUpdate = _mapper.Map<EProvincia>(request);    //mapea los datos recibidos a la estructura de la bbdd
+                    EProvincia.Id = request.Id;
+                    EProvincia.pro_nombre = request.pro_nombre;
+
+                    ERegion eRegion = await _eRegionRepository.GetByIdAsync(request.eRegionId);
+                    EProvincia.eRegion = eRegion;
+
 
                     //Actualizamos el registro en la base de datos
-                    await _eProvinciaRepository.UpdateAsync(EProvinciaUpdate);
+                    await _eProvinciaRepository.UpdateAsync(EProvincia);
                     await _unitOfWork.Commit(cancellationToken);
-                    return Result<int>.Success(EProvinciaUpdate.Id);
+                    return Result<int>.Success(EProvincia.Id);
                 }
             }
         }

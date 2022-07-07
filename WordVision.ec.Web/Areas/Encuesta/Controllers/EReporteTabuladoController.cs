@@ -39,7 +39,7 @@ namespace WordVision.ec.Web.Areas.Encuesta.Controllers
                 var fromDatabaseEF = new SelectList(respuestaEEvaluaciones.Data.ToList(), "Id", "NombreCompleto");
                 ViewData["EEvaluacionesList"] = fromDatabaseEF;
 
-                //Ejecuta el Select que trae todos los registros de la base
+                //Ejecuta la consulta que trae todos los registros de la base
                 var response = await _mediator.Send(new GetAllEReporteTabuladosQuery() { EvaluacionId = evaluacionID, RegionId = regionID, ProvinciaId = provinciaID, CantonId = cantonID, ProgramaId = programaID, IndicadorId = indicadorID });
                 if (response.Succeeded && response.Data != null)
                 {

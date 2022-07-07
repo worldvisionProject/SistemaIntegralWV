@@ -21,12 +21,21 @@ namespace WordVision.ec.Application.Features.Encuesta.EParroquias
     public class CreateEParroquiaCommandHandler : IRequestHandler<CreateEParroquiaCommand, Result<int>>
     {
         private readonly IEParroquiaRepository _eParroquiaRepository;
+        private readonly IEProgramaRepository _eProgramaRepository;
+        private readonly IECantonRepository _eCantonRepository;
         private readonly IMapper _mapper;    //Con los campos de la interfaz y el modelo hace un mapeo
         private IUnitOfWork _unitOfWork { get; set; }  // hace la transaccionabilidad crea la cabecera y luego detalle
 
-        public CreateEParroquiaCommandHandler(IEParroquiaRepository eParroquiaRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateEParroquiaCommandHandler(
+                                                IEParroquiaRepository eParroquiaRepository,
+                                                IEProgramaRepository eProgramaRepository,
+                                                IECantonRepository eCantonRepository,
+                                                IUnitOfWork unitOfWork, 
+                                                IMapper mapper)
         {
             _eParroquiaRepository = eParroquiaRepository;
+            _eProgramaRepository = eProgramaRepository;
+            _eCantonRepository = eCantonRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -35,6 +44,14 @@ namespace WordVision.ec.Application.Features.Encuesta.EParroquias
         public async Task<Result<int>> Handle(CreateEParroquiaCommand request, CancellationToken cancellationToken)
         {
             var EParroquia = _mapper.Map<EParroquia>(request);    //mapea los datos recibidos a la estructura de la bbdd
+
+            EPrograma ePrograma = await _eProgramaRepository.GetByIdAsync(request.EProgramaId);
+            EParroquia.EPrograma = ePrograma;
+
+            ECanton eCanton = await _eCantonRepository.GetByIdAsync(request.ECantonId);
+            EParroquia.ECanton = eCanton;
+
+
             await _eParroquiaRepository.InsertAsync(EParroquia);  //Insertar a la BBDD
 
             await _unitOfWork.Commit(cancellationToken);    //commit

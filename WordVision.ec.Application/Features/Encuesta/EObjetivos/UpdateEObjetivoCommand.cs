@@ -15,16 +15,29 @@ namespace WordVision.ec.Application.Features.Encuesta.EObjetivos
         public string Id { get; set; }
         public string obj_Nombre { get; set; }
 
+        public string obj_Nivel { get; set; }
+        public string obj_Outcome { get; set; }
+        public string obj_Output { get; set; }
+        public string obj_Activity { get; set; }
+
+        public int EProyectoId { get; set; }
+
 
         public class UpdateEObjetivoCommandHandler : IRequestHandler<UpdateEObjetivoCommand, Result<int>>
         {
             private readonly IUnitOfWork _unitOfWork;
             private readonly IEObjetivoRepository _eObjetivoRepository;
+            private readonly IEProyectoRepository _eProyectoRepository;
             private readonly IMapper _mapper;
 
-            public UpdateEObjetivoCommandHandler(IEObjetivoRepository eObjetivoRepository, IUnitOfWork unitOfWork, IMapper mapper)
+            public UpdateEObjetivoCommandHandler(
+                                                    IEObjetivoRepository eObjetivoRepository,
+                                                    IEProyectoRepository eProyectoRepository,
+                                                    IUnitOfWork unitOfWork, 
+                                                    IMapper mapper)
             {
                 _eObjetivoRepository = eObjetivoRepository;
+                _eProyectoRepository = eProyectoRepository;
                 _unitOfWork = unitOfWork;
                 _mapper = mapper;
             }
@@ -43,12 +56,21 @@ namespace WordVision.ec.Application.Features.Encuesta.EObjetivos
                 }
                 else
                 {
-                    var EObjetivoUpdate = _mapper.Map<EObjetivo>(request);    //mapea los datos recibidos a la estructura de la bbdd
+                    //Listado de campos que se va a actualizar con los nuevos datos traidos en request
+                    EObjetivo.obj_Nombre = request.obj_Nombre;
+                    EObjetivo.obj_Nivel = request.obj_Nivel;
+                    EObjetivo.obj_Outcome = request.obj_Outcome;
+                    EObjetivo.obj_Output = request.obj_Output;
+                    EObjetivo.obj_Activity = request.obj_Activity;
+
+                    EProyecto eEProyecto = await _eProyectoRepository.GetByIdAsync(request.EProyectoId);
+                    EObjetivo.EProyecto = eEProyecto;
+
 
                     //Actualizamos el registro en la base de datos
-                    await _eObjetivoRepository.UpdateAsync(EObjetivoUpdate);
+                    await _eObjetivoRepository.UpdateAsync(EObjetivo);
                     await _unitOfWork.Commit(cancellationToken);
-                    return Result<int>.Success(EObjetivoUpdate.Id);
+                    return Result<int>.Success(EObjetivo.Id);
                 }
             }
         }

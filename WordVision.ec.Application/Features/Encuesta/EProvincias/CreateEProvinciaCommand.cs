@@ -14,18 +14,24 @@ namespace WordVision.ec.Application.Features.Encuesta.EProvincias
     {
         public string Id { get; set; }
         public string pro_nombre { get; set; }
-        public ERegion eRegion { get; set; }
+        public int ERegionId { get; set; }
     }
 
     public class CreateEProvinciaCommandHandler : IRequestHandler<CreateEProvinciaCommand, Result<int>>
     {
         private readonly IEProvinciaRepository _eProvinciaRepository;
+        private readonly IERegionRepository _eRegionRepository;
         private readonly IMapper _mapper;    //Con los campos de la interfaz y el modelo hace un mapeo
         private IUnitOfWork _unitOfWork { get; set; }  // hace la transaccionabilidad crea la cabecera y luego detalle
 
-        public CreateEProvinciaCommandHandler(IEProvinciaRepository eProvinciaRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateEProvinciaCommandHandler(
+                                                IEProvinciaRepository eProvinciaRepository,
+                                                IERegionRepository eRegionRepository,
+                                                IUnitOfWork unitOfWork, 
+                                                IMapper mapper)
         {
             _eProvinciaRepository = eProvinciaRepository;
+            _eRegionRepository = eRegionRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -34,8 +40,11 @@ namespace WordVision.ec.Application.Features.Encuesta.EProvincias
         public async Task<Result<int>> Handle(CreateEProvinciaCommand request, CancellationToken cancellationToken)
         {
             var EProvincia = _mapper.Map<EProvincia>(request);    //mapea los datos recibidos a la estructura de la bbdd
-            await _eProvinciaRepository.InsertAsync(EProvincia);  //Insertar a la BBDD
 
+            ERegion eRegion = await _eRegionRepository.GetByIdAsync(request.ERegionId);
+            EProvincia.eRegion = eRegion;
+
+            await _eProvinciaRepository.InsertAsync(EProvincia);  //Insertar a la BBDD
             await _unitOfWork.Commit(cancellationToken);    //commit
             return Result<int>.Success(EProvincia.Id);    //devuelve le id existoso del registro insertado
         }

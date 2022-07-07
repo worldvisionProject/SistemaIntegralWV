@@ -25,7 +25,7 @@ namespace WordVision.ec.Application.Features.Encuesta.EIndicadores
         public string ind_UnidadMedida { get; set; }
         public int ind_Frecuencia { get; set; }
         public string ind_tipo { get; set; }
-        public string ind_proyecto { get; set; }
+        public string ind_Operacion { get; set; }
 
 
         public string EObjetivoId { get; set; }
@@ -34,12 +34,18 @@ namespace WordVision.ec.Application.Features.Encuesta.EIndicadores
     public class CreateEIndicadorCommandHandler : IRequestHandler<CreateEIndicadorCommand, Result<int>>
     {
         private readonly IEIndicadorRepository _eIndicadorRepository;
+        private readonly IEObjetivoRepository _eObjetivoRepository;
         private readonly IMapper _mapper;    //Con los campos de la interfaz y el modelo hace un mapeo
         private IUnitOfWork _unitOfWork { get; set; }  // hace la transaccionabilidad crea la cabecera y luego detalle
 
-        public CreateEIndicadorCommandHandler(IEIndicadorRepository eIndicadorRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateEIndicadorCommandHandler(
+                                                IEIndicadorRepository eIndicadorRepository,
+                                                IEObjetivoRepository eObjetivoRepository,
+                                                IUnitOfWork unitOfWork, 
+                                                IMapper mapper)
         {
             _eIndicadorRepository = eIndicadorRepository;
+            _eObjetivoRepository = eObjetivoRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -48,6 +54,11 @@ namespace WordVision.ec.Application.Features.Encuesta.EIndicadores
         public async Task<Result<int>> Handle(CreateEIndicadorCommand request, CancellationToken cancellationToken)
         {
             var EIndicador = _mapper.Map<EIndicador>(request);    //mapea los datos recibidos a la estructura de la bbdd
+
+            EObjetivo eObjetivo = await _eObjetivoRepository.GetByIdAsync(request.EObjetivoId);
+            EIndicador.EObjetivo = eObjetivo;
+            EIndicador.ind_LogFrame = eObjetivo.Id;
+
             await _eIndicadorRepository.InsertAsync(EIndicador);  //Insertar a la BBDD
 
             await _unitOfWork.Commit(cancellationToken);    //commit

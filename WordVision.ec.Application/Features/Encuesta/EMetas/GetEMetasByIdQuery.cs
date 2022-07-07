@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Application.Interfaces.Repositories.Encuesta;
 using WordVision.ec.Domain.Entities.Encuesta;
 
 namespace WordVision.ec.Application.Features.Encuesta.EMetas
 {
-    public class GetEMetasByIdResponse
+    public class GetEMetasByIdResponse : GenericResponse
     {
         public int Id { get; set; }
         public decimal met_valor { get; set; }
@@ -19,7 +20,7 @@ namespace WordVision.ec.Application.Features.Encuesta.EMetas
         public string EProgramaId { get; set; }
     }
 
-    public class GetEMetasByIdQuery : IRequest<Result<GetEMetasByIdResponse>>
+    public class GetEMetasByIdQuery : GetEMetasByIdResponse, IRequest<Result<GetEMetasByIdResponse>>
     {
         public int Id { get; set; }
 

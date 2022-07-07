@@ -14,18 +14,24 @@ namespace WordVision.ec.Application.Features.Encuesta.ECantones
     {
         public string Id { get; set; }
         public string can_nombre { get; set; }
-        public EProvincia EProvincia { get; set; }
+        public string EProvinciaId { get; set; }
     }
 
     public class CreateECantonCommandHandler : IRequestHandler<CreateECantonCommand, Result<int>>
     {
         private readonly IECantonRepository _eCantonRepository;
+        private readonly IEProvinciaRepository _eProvinciaRepository;
         private readonly IMapper _mapper;    //Con los campos de la interfaz y el modelo hace un mapeo
         private IUnitOfWork _unitOfWork { get; set; }  // hace la transaccionabilidad crea la cabecera y luego detalle
 
-        public CreateECantonCommandHandler(IECantonRepository eCantonRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateECantonCommandHandler(
+                                            IECantonRepository eCantonRepository,
+                                            IEProvinciaRepository eProvinciaRepository,
+                                            IUnitOfWork unitOfWork, 
+                                            IMapper mapper)
         {
             _eCantonRepository = eCantonRepository;
+            _eProvinciaRepository = eProvinciaRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -34,6 +40,11 @@ namespace WordVision.ec.Application.Features.Encuesta.ECantones
         public async Task<Result<int>> Handle(CreateECantonCommand request, CancellationToken cancellationToken)
         {
             var ECanton = _mapper.Map<ECanton>(request);    //mapea los datos recibidos a la estructura de la bbdd
+
+            EProvincia eProvincia = await _eProvinciaRepository.GetByIdAsync(request.EProvinciaId);
+            ECanton.EProvincia = eProvincia;
+
+
             await _eCantonRepository.InsertAsync(ECanton);  //Insertar a la BBDD
 
             await _unitOfWork.Commit(cancellationToken);    //commit

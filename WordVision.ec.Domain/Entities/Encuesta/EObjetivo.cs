@@ -18,6 +18,14 @@ namespace WordVision.ec.Domain.Entities.Encuesta
         [Required]
         public string obj_Nombre { get; set; }
 
+        public string obj_Nivel { get; set; }
+        public string obj_Outcome { get; set; }
+        public string obj_Output { get; set; }
+        public string obj_Activity { get; set; }
+
+
+        public EProyecto EProyecto { get; set; }
+
         public ICollection<EIndicador> EIndicadores { get; set; }
 
 

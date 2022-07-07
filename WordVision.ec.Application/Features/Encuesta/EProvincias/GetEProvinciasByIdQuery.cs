@@ -5,21 +5,21 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Application.Interfaces.Repositories.Encuesta;
 using WordVision.ec.Domain.Entities.Encuesta;
 
 namespace WordVision.ec.Application.Features.Encuesta.EProvincias
 {
-    public class GetEProvinciasByIdResponse
+    public class GetEProvinciasByIdResponse : GenericResponse
     {
         public string Id { get; set; }
         public string pro_nombre { get; set; }
         public int ERegionId { get; set; }
         public virtual List<ECanton> ECantones { get; set; }
-        public virtual List<EReporteTabulado> EReporteTabulados { get; set; }
     }
 
-    public class GetEProvinciasByIdQuery : IRequest<Result<GetEProvinciasByIdResponse>>
+    public class GetEProvinciasByIdQuery : GetEProvinciasByIdResponse, IRequest<Result<GetEProvinciasByIdResponse>>
     {
         public string Id { get; set; }
 

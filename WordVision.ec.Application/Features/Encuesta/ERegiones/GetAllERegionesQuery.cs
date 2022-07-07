@@ -5,20 +5,20 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Application.Interfaces.Repositories.Encuesta;
 using WordVision.ec.Domain.Entities.Encuesta;
 
 namespace WordVision.ec.Application.Features.Encuesta.ERegiones
 {
-    public class GetAllERegionesResponse
+    public class GetAllERegionesResponse : GenericResponse
     {
         public int Id { get; set; }
         public string reg_nombre { get; set; }
 
         public virtual List<EProvincia> EProvincias { get; set; }
-        public virtual List<EReporteTabulado> EReporteTabulados { get; set; }
     }
-    public class GetAllERegionesQuery : IRequest<Result<List<GetAllERegionesResponse>>>
+    public class GetAllERegionesQuery : GetAllERegionesResponse, IRequest<Result<List<GetAllERegionesResponse>>>
     {
         public GetAllERegionesQuery()
         {
@@ -40,7 +40,7 @@ namespace WordVision.ec.Application.Features.Encuesta.ERegiones
             public async Task<Result<List<GetAllERegionesResponse>>> Handle(GetAllERegionesQuery request, CancellationToken cancellationToken)
             {
                 //Traemos el listado de registro de la base de dartos
-                var ERegionList = await _eRegion.GetListAsync();
+                var ERegionList = await _eRegion.GetListAsync(request.Include);
 
                 //Mapeamos la estructura de la base a la estructura deseada tipo GetAllERegionesResponse
                 var mappedERegiones = _mapper.Map<List<GetAllERegionesResponse>>(ERegionList);

@@ -1,0 +1,52 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Web.Areas.Encuesta.Models
+@model EMetaViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="create-form" asp-action="OnPostCreateOrEdit" method="post" asp-controller="EMeta" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input hidden="hidden" asp-for="OperacionEdicion"/>
+            <div class="form-group">
+                <label asp-for="EEvaluacionId" class="control-label">@Html.DisplayNameFor(model => model.EEvaluacionId)</label>
+                @Html.DropDownListFor(x => x.EEvaluacionId, (IEnumerable<SelectListItem>)Model.EEvaluacionList, new { @class = "form-control" })
+                <span asp-validation-for="EEvaluacionId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EIndicadorId" class="control-label">@Html.DisplayNameFor(model => model.EIndicadorId)</label>
+                @Html.DropDownListFor(x => x.EIndicadorId, (IEnumerable<SelectListItem>)Model.EIndicadorList, new { @class = "form-control" })
+                <span asp-validation-for="EIndicadorId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EProgramaId" class="control-label">@Html.DisplayNameFor(model => model.EProgramaId)</label>
+                @Html.DropDownListFor(x => x.EProgramaId, (IEnumerable<SelectListItem>)Model.EProgramaList, new { @class = "form-control" })
+                <span asp-validation-for="EProgramaId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="met_valor" class="control-label">@Html.DisplayNameFor(model => model.met_valor)</label>
+                <input asp-for="met_valor" class="form-control" />
+                <span asp-validation-for="met_valor" class="text-danger"></span>
+            </div>
+
+
+
+            <br />
+            <div class="form-group justify-content-between group-button-modal">
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+
+
+    <script type="text/javascript" language=javascript>
+        $.validator.unobtrusive.parse(document);
+        $('#create-form').disableAutoFill();
+    </script>
+}

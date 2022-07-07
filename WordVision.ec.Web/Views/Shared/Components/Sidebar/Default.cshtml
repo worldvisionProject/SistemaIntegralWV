@@ -574,12 +574,9 @@
 
                 }
 
-                @if (User.IsInRole("SuperAdmin") || User.IsInRole("AdminEncuestas") || User.IsInRole("UserEncuestas"))
-                {
-                    <li class="nav-header">@localizer["Encuestas"]</li>
 
-                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("AdminEncuestas"))
-                    {
+                    <li class="nav-header">@localizer["Sistema de Encuestas"]</li>
+
                         <li is-active-route asp-area="encuesta" class="nav-item has-treeview">
                             <a is-active-route asp-area="encuesta" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
@@ -593,28 +590,42 @@
                                     <a is-active-route asp-area="encuesta" asp-controller="encuestaKobo" asp-action="Index" class="nav-link">
                                         <i class="nav-icon fas fa-th"></i>
                                         <p>
-                                            @localizer["API"]
+                                            @localizer["Datos Kobo"]
                                         </p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a is-active-route asp-area="encuesta" asp-controller="evaluacion" asp-action="Index" class="nav-link">
+                                    <a is-active-route asp-area="encuesta" asp-controller="eevaluacion" asp-action="Index" class="nav-link">
                                         <i class="nav-icon fas fa-th"></i>
                                         <p>
-                                            @localizer["Evaluaciones"]
+                                            @localizer["Mediciones"]
                                         </p>
                                     </a>
                                 </li>
+
+
+                            </ul>
+                        </li>
+                    
+                        <li is-active-route asp-area="encuesta" class="nav-item has-treeview">
+                            <a is-active-route asp-area="encuesta" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    @localizer["Catálogos"]
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a is-active-route asp-area="encuesta" asp-controller="programa" asp-action="Index" class="nav-link">
+                                    <a is-active-route asp-area="encuesta" asp-controller="eproyecto" asp-action="Index" class="nav-link">
                                         <i class="nav-icon fas fa-th"></i>
                                         <p>
-                                            @localizer["Programas"]
+                                            @localizer["Programas Técnicos"]
                                         </p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a is-active-route asp-area="encuesta" asp-controller="objetivo" asp-action="Index" class="nav-link">
+                                    <a is-active-route asp-area="encuesta" asp-controller="eobjetivo" asp-action="Index" class="nav-link">
                                         <i class="nav-icon fas fa-th"></i>
                                         <p>
                                             @localizer["Objetivos"]
@@ -622,7 +633,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a is-active-route asp-area="encuesta" asp-controller="indicador" asp-action="Index" class="nav-link">
+                                    <a is-active-route asp-area="encuesta" asp-controller="eindicador" asp-action="Index" class="nav-link">
                                         <i class="nav-icon fas fa-th"></i>
                                         <p>
                                             @localizer["Indicadores"]
@@ -630,15 +641,23 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a is-active-route asp-area="encuesta" asp-controller="indicadorusuario" asp-action="Index" class="nav-link">
+                                    <a is-active-route asp-area="encuesta" asp-controller="eprograma" asp-action="Index" class="nav-link">
                                         <i class="nav-icon fas fa-th"></i>
                                         <p>
-                                            @localizer["Indicadores a Usuarios"]
+                                            @localizer["Programas de Área"]
                                         </p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a is-active-route asp-area="encuesta" asp-controller="meta" asp-action="Index" class="nav-link">
+                                    <a is-active-route asp-area="encuesta" asp-controller="eprogramaindicador" asp-action="Index" class="nav-link">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        <p>
+                                            @localizer["PA - Indicadores"]
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="encuesta" asp-controller="emeta" asp-action="Index" class="nav-link">
                                         <i class="nav-icon fas fa-th"></i>
                                         <p>
                                             @localizer["Metas"]
@@ -646,7 +665,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a is-active-route asp-area="encuesta" asp-controller="region" asp-action="Index" class="nav-link">
+                                    <a is-active-route asp-area="encuesta" asp-controller="eregion" asp-action="Index" class="nav-link">
                                         <i class="nav-icon fas fa-th"></i>
                                         <p>
                                             @localizer["Regiones"]
@@ -654,7 +673,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a is-active-route asp-area="encuesta" asp-controller="provincia" asp-action="Index" class="nav-link">
+                                    <a is-active-route asp-area="encuesta" asp-controller="eprovincia" asp-action="Index" class="nav-link">
                                         <i class="nav-icon fas fa-th"></i>
                                         <p>
                                             @localizer["Provincias"]
@@ -662,7 +681,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a is-active-route asp-area="encuesta" asp-controller="canton" asp-action="Index" class="nav-link">
+                                    <a is-active-route asp-area="encuesta" asp-controller="ecanton" asp-action="Index" class="nav-link">
                                         <i class="nav-icon fas fa-th"></i>
                                         <p>
                                             @localizer["Cantones"]
@@ -670,7 +689,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a is-active-route asp-area="encuesta" asp-controller="parroquia" asp-action="Index" class="nav-link">
+                                    <a is-active-route asp-area="encuesta" asp-controller="eparroquia" asp-action="Index" class="nav-link">
                                         <i class="nav-icon fas fa-th"></i>
                                         <p>
                                             @localizer["Parroquias"]
@@ -678,7 +697,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a is-active-route asp-area="encuesta" asp-controller="comunidad" asp-action="Index" class="nav-link">
+                                    <a is-active-route asp-area="encuesta" asp-controller="ecomunidad" asp-action="Index" class="nav-link">
                                         <i class="nav-icon fas fa-th"></i>
                                         <p>
                                             @localizer["Comunidades"]
@@ -688,7 +707,6 @@
 
                             </ul>
                         </li>
-                    }
 
 
                     <li is-active-route asp-area="encuesta" class="nav-item has-treeview">
@@ -700,14 +718,6 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a is-active-route asp-area="encuesta" asp-controller="ereportemisindicadores" asp-action="Index" class="nav-link">
-                                    <i class="nav-icon fas fa-th"></i>
-                                    <p>
-                                        @localizer["Mis Indicadores"]
-                                    </p>
-                                </a>
-                            </li>
                             <li class="nav-item">
                                 <a is-active-route asp-area="encuesta" asp-controller="ereportetabulado" asp-action="Index" class="nav-link">
                                     <i class="nav-icon fas fa-th"></i>
@@ -735,7 +745,7 @@
                         </ul>
                     </li>
 
-                }
+                
 
 
 

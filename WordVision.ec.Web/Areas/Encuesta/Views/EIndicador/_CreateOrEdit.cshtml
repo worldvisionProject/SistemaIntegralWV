@@ -1,0 +1,107 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Web.Areas.Encuesta.Models
+@model EIndicadorViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="create-form" asp-action="OnPostCreateOrEdit" method="post" asp-controller="EIndicador" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input hidden="hidden" asp-for="OperacionEdicion"/>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label">@Html.DisplayNameFor(model => model.Id)</label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ind_Nombre" class="control-label">@Html.DisplayNameFor(model => model.ind_Nombre)</label>
+                <input asp-for="ind_Nombre" class="form-control" />
+                <span asp-validation-for="ind_Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EObjetivoId" class="control-label">@Html.DisplayNameFor(model => model.EObjetivoId)</label>
+                @Html.DropDownListFor(x => x.EObjetivoId, (IEnumerable<SelectListItem>)Model.ObjetivoList, new { @class = "form-control" })
+                <span asp-validation-for="EObjetivoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ind_Frecuencia" class="control-label">@Html.DisplayNameFor(model => model.ind_Frecuencia)</label>
+                @Html.DropDownListFor(x => x.ind_Frecuencia, (IEnumerable<SelectListItem>)Model.ind_FrecuenciaList, new { @class = "form-control" })
+                <span asp-validation-for="ind_Frecuencia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ind_tipo" class="control-label">@Html.DisplayNameFor(model => model.ind_tipo)</label>
+                @Html.DropDownListFor(x => x.ind_tipo, (IEnumerable<SelectListItem>)Model.ind_tipoList, new { @class = "form-control" })
+                <span asp-validation-for="ind_tipo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ind_Operacion" class="control-label">@Html.DisplayNameFor(model => model.ind_Operacion)</label>
+                @Html.DropDownListFor(x => x.ind_Operacion, (IEnumerable<SelectListItem>)Model.ind_OperacionList, new { @class = "form-control" })
+                <span asp-validation-for="ind_Operacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ind_Resultado" class="control-label">@Html.DisplayNameFor(model => model.ind_Resultado)</label>
+                <input asp-for="ind_Resultado" class="form-control" />
+                <span asp-validation-for="ind_Resultado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ind_Definicion" class="control-label">@Html.DisplayNameFor(model => model.ind_Definicion)</label>
+                <input asp-for="ind_Definicion" class="form-control" />
+                <span asp-validation-for="ind_Definicion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ind_Fuente" class="control-label">@Html.DisplayNameFor(model => model.ind_Fuente)</label>
+                <input asp-for="ind_Fuente" class="form-control" />
+                <span asp-validation-for="ind_Fuente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ind_Seccion" class="control-label">@Html.DisplayNameFor(model => model.ind_Seccion)</label>
+                <input asp-for="ind_Seccion" class="form-control" />
+                <span asp-validation-for="ind_Seccion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ind_Preguntas" class="control-label">@Html.DisplayNameFor(model => model.ind_Preguntas)</label>
+                <input asp-for="ind_Preguntas" class="form-control" />
+                <span asp-validation-for="ind_Preguntas" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ind_Medicion" class="control-label">@Html.DisplayNameFor(model => model.ind_Medicion)</label>
+                <input asp-for="ind_Medicion" class="form-control" />
+                <span asp-validation-for="ind_Medicion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="int_PlanTabulados" class="control-label">@Html.DisplayNameFor(model => model.int_PlanTabulados)</label>
+                <input asp-for="int_PlanTabulados" class="form-control" />
+                <span asp-validation-for="int_PlanTabulados" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ind_UnidadMedida" class="control-label">@Html.DisplayNameFor(model => model.ind_UnidadMedida)</label>
+                <input asp-for="ind_UnidadMedida" class="form-control" />
+                <span asp-validation-for="ind_UnidadMedida" class="text-danger"></span>
+            </div>
+
+
+
+
+
+
+
+
+
+            <br />
+            <div class="form-group justify-content-between group-button-modal">
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+
+
+    <script type="text/javascript" language=javascript>
+        $.validator.unobtrusive.parse(document);
+        $('#create-form').disableAutoFill();
+    </script>
+}

@@ -26,13 +26,16 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Encuesta
         }
 
         public IQueryable<EObjetivo> EObjetivos => _repository.Entities;
-        public async Task<List<EObjetivo>> GetListAsync()
+        public async Task<List<EObjetivo>> GetListAsync(bool incluir)
         {
-            return await _repository.Entities.Include(c => c.EIndicadores).ToListAsync();
+            if (incluir)
+                return await _repository.Entities.Include(c => c.EIndicadores).Include(c => c.EProyecto).ToListAsync();
+            else
+                return await _repository.Entities.ToListAsync();
         }
         public async Task<EObjetivo> GetByIdAsync(string idEObjetivo)
         {
-            return await _repository.Entities.Where(x => x.Id == idEObjetivo).Include(c => c.EIndicadores).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(x => x.Id == idEObjetivo).Include(c => c.EIndicadores).Include(c => c.EProyecto).FirstOrDefaultAsync();
         }
 
         public async Task<string> InsertAsync(EObjetivo eObjetivo)

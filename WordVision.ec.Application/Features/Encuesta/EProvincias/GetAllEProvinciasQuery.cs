@@ -5,21 +5,24 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Application.Interfaces.Repositories.Encuesta;
 using WordVision.ec.Domain.Entities.Encuesta;
 
 namespace WordVision.ec.Application.Features.Encuesta.EProvincias
 {
-    public class GetAllEProvinciasResponse
+    public class GetAllEProvinciasResponse : GenericResponse
     {
         public string Id { get; set; }
         public string pro_nombre { get; set; }
+
+        public string NombreCompleto { get; set; }
         public int ERegionId { get; set; }
+        public ERegion ERegion { get; set; }    
         public virtual List<ECanton> ECantones { get; set; }
-        public virtual List<EReporteTabulado> EReporteTabulados { get; set; }
 
     }
-    public class GetAllEProvinciasQuery : IRequest<Result<List<GetAllEProvinciasResponse>>>
+    public class GetAllEProvinciasQuery : GetAllEProvinciasResponse, IRequest<Result<List<GetAllEProvinciasResponse>>>
     {
         public GetAllEProvinciasQuery()
         {
@@ -41,10 +44,21 @@ namespace WordVision.ec.Application.Features.Encuesta.EProvincias
             public async Task<Result<List<GetAllEProvinciasResponse>>> Handle(GetAllEProvinciasQuery request, CancellationToken cancellationToken)
             {
                 //Traemos el listado de registro de la base de dartos
-                var EProvinciaList = await _eProvincia.GetListAsync();
+                List<EProvincia> EProvinciaList = new();
+                if (request.ERegionId > 0)
+                    EProvinciaList = await _eProvincia.GetListAsync(request.Include, request.ERegionId);
+                else
+                    EProvinciaList = await _eProvincia.GetListAsync(request.Include);
 
                 //Mapeamos la estructura de la base a la estructura deseada tipo GetAllEProvinciasResponse
                 var mappedEProvincias = _mapper.Map<List<GetAllEProvinciasResponse>>(EProvinciaList);
+
+                //Cambiamos el Nombre Completo
+                foreach (GetAllEProvinciasResponse fila in mappedEProvincias)
+                {
+                    fila.NombreCompleto = "(" + fila.Id + ") " + fila.pro_nombre;
+                }
+
 
                 return Result<List<GetAllEProvinciasResponse>>.Success(mappedEProvincias);
             }

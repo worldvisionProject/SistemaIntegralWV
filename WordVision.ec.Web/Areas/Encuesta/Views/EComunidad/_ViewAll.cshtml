@@ -1,0 +1,150 @@
+﻿@model IEnumerable<WordVision.ec.Web.Areas.Encuesta.Models.EComunidadViewModel>
+
+<table id="EComunidadTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                Código
+            </th>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Provincia
+            </th>
+            <th>
+                Cantón
+            </th>
+            <th>
+                Parroquia
+            </th>
+            <th data-priority="2" class="acciones-th">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.com_nombre)
+            </td>
+            <td>
+               @Html.DisplayFor(modelItem => item.EProvincia.pro_nombre)
+            </td>
+            <td>
+               @Html.DisplayFor(modelItem => item.ECanton.can_nombre)
+            </td>
+            <td>
+               @Html.DisplayFor(modelItem => item.EParroquia.par_nombre)
+            </td>
+            <td class="acciones-td">
+                <button type="button" class="btn btn-success  btn-xp" data-toggle="tooltip" data-placement="top" title="Editar"   id="btnEditViewModel"   onclick="jQueryModalGet('/Encuesta/EComunidad/OnGetCreateOrEdit?id=@item.Id','Editar')">
+                   <i class="fas fa-edit"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-xp"   data-toggle="tooltip" data-placement="top" title="Eliminar" id="btnDeleteViewModel" onclick='EliminarRegistro("@item.Id")' >
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#EComunidadTable").DataTable();
+    });
+
+    function EliminarRegistro(id) 
+    {
+        if (confirm('Favor confirmar si desea ELIMINAR este registro y todos sus datos relacionados. ¿Acepta que desea eliminar?')) 
+        {
+            $("#" + id).remove();
+
+            var parametros = {
+                Id: id,
+            };
+
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("OnPostDelete", "EComunidad", new { area = "Encuesta" })',
+                data: parametros,
+                datatype: "json",
+                cache: false,
+                success: function(data) {
+                    window.location.href = "/Encuesta/EComunidad";
+                      //alert('Validooo');
+
+                },
+                error: function(xhr) {
+                    return false;
+                    // alert('No Valid Data');
+                }
+            });
+        }
+    }
+      
+
+
+</script>
+
+
+    <script type="text/javascript" language=javascript>
+
+        function callChangefunc(combo, val, codigo){
+
+            var parametros = {
+                tipoCombo: combo,
+                valor: val,
+                id: codigo,
+            };
+
+            $.ajax({
+                type: "get",
+                url: '@Url.Action("setDropDrownList", "EComunidad", new { area = "Encuesta" })',
+                data: parametros,
+                datatype: "json",
+                cache: false,
+                success: function(data) {
+                    //alert(JSON.stringify(data, null, 4));  //Para ver que viene en data
+                    switch (combo) {
+                            case "cmbRegion":
+                                PopulateDropDown("#cmbProvincia", data.eProvinciaList);
+                                PopulateDropDown("#cmbCanton", data.eCantonList);
+                                PopulateDropDown("#cmbParroquia", data.eParroquiaList);
+                                break;
+                            case "cmbProvincia":
+                                PopulateDropDown("#cmbCanton", data.eCantonList);
+                                PopulateDropDown("#cmbParroquia", data.eParroquiaList);
+                                break;
+                            case "cmbCanton":
+                                PopulateDropDown("#cmbParroquia", data.eParroquiaList);
+                                break;
+                    }
+
+                },
+                error: function(xhr) {
+                    return false;
+                    // alert('No Valid Data');
+                }
+            });
+
+        }
+
+        function PopulateDropDown(dropDownId, list) {
+            //alert(dropDownId);
+            $(dropDownId).empty();
+            $(dropDownId).append("<option>Seleccione una opción</option>")
+            $.each(list, function (index, row) {
+                if (index == 0) {
+                    $(dropDownId).append("<option value='" + row.value + "' selected='selected'>" + row.text + "</option>");
+                } else {
+                    $(dropDownId).append("<option value='" + row.value + "'>" + row.text + "</option>")
+                }
+            });
+        }
+
+    </script>
+

@@ -88,7 +88,7 @@ namespace WordVision.ec.Application.Features.Encuesta.EReporteTabulados
                         EReporteTabulado eReporteTabulado = new EReporteTabulado();
                         eReporteTabulado.rta_nombre_indicador = fila.Indicador;
                         eReporteTabulado.rta_tipo_indicador = fila.TipoIndicador;
-                        eReporteTabulado.rta_proyecto = eIndicador.ind_proyecto;
+                        eReporteTabulado.rta_Operacion = eIndicador.ind_Operacion;
                         eReporteTabulado.rta_nombre_pa = fila.PA;
                         eReporteTabulado.rta_numerador = fila.NumeroTotal;
                         eReporteTabulado.rta_denominador = fila.EntrevistadosTotal;

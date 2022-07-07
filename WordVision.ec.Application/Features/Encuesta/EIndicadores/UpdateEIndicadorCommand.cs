@@ -25,7 +25,7 @@ namespace WordVision.ec.Application.Features.Encuesta.EIndicadores
         public string ind_UnidadMedida { get; set; }
         public int ind_Frecuencia { get; set; }
         public string ind_tipo { get; set; }
-        public string ind_proyecto { get; set; }
+        public string ind_Operacion { get; set; }
 
 
         public string EObjetivoId { get; set; }
@@ -35,10 +35,15 @@ namespace WordVision.ec.Application.Features.Encuesta.EIndicadores
             private readonly IUnitOfWork _unitOfWork;
             private readonly IEIndicadorRepository _eIndicadorRepository;
             private readonly IMapper _mapper;
+            private readonly IEObjetivoRepository _eObjetivoRepository;
 
-            public UpdateEIndicadorCommandHandler(IEIndicadorRepository eIndicadorRepository, IUnitOfWork unitOfWork, IMapper mapper)
+            public UpdateEIndicadorCommandHandler(  IEIndicadorRepository eIndicadorRepository,
+                                                    IEObjetivoRepository eObjetivoRepository,
+                                                    IUnitOfWork unitOfWork, 
+                                                    IMapper mapper)
             {
                 _eIndicadorRepository = eIndicadorRepository;
+                _eObjetivoRepository = eObjetivoRepository;
                 _unitOfWork = unitOfWork;
                 _mapper = mapper;
             }
@@ -57,12 +62,29 @@ namespace WordVision.ec.Application.Features.Encuesta.EIndicadores
                 }
                 else
                 {
-                    var EIndicadorUpdate = _mapper.Map<EIndicador>(request);    //mapea los datos recibidos a la estructura de la bbdd
+                    EIndicador.Id = request.Id;
+                    
+                    EIndicador.ind_Nombre = request.ind_Nombre;
+                    EIndicador.ind_Resultado = request.ind_Resultado;
+                    EIndicador.ind_Definicion = request.ind_Definicion;
+                    EIndicador.ind_Fuente = request.ind_Fuente;
+                    EIndicador.ind_Seccion = request.ind_Seccion;
+                    EIndicador.ind_Preguntas = request.ind_Preguntas;
+                    EIndicador.ind_Medicion = request.ind_Medicion;
+                    EIndicador.int_PlanTabulados = request.int_PlanTabulados;
+                    EIndicador.ind_UnidadMedida = request.ind_UnidadMedida;
+                    EIndicador.ind_Frecuencia = request.ind_Frecuencia;
+                    EIndicador.ind_tipo = request.ind_tipo;
+                    EIndicador.ind_Operacion = request.ind_Operacion;
+
+                    EObjetivo eObjetivo = await _eObjetivoRepository.GetByIdAsync(request.EObjetivoId);
+                    EIndicador.EObjetivo = eObjetivo;
+                    EIndicador.ind_LogFrame = eObjetivo.Id;
 
                     //Actualizamos el registro en la base de datos
-                    await _eIndicadorRepository.UpdateAsync(EIndicadorUpdate);
+                    await _eIndicadorRepository.UpdateAsync(EIndicador);
                     await _unitOfWork.Commit(cancellationToken);
-                    return Result<int>.Success(EIndicadorUpdate.Id);
+                    return Result<int>.Success(EIndicador.Id);
                 }
             }
         }

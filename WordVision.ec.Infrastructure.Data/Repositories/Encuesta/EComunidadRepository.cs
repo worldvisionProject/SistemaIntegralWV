@@ -26,13 +26,23 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Encuesta
         }
 
         public IQueryable<EComunidad> EComunidades => _repository.Entities;
-        public async Task<List<EComunidad>> GetListAsync()
+        public async Task<List<EComunidad>> GetListAsync(bool incluir)
         {
-            return await _repository.Entities.ToListAsync();
+            if (incluir)
+                return await _repository.Entities.Include(c => c.eParroquia).ThenInclude(c => c.ECanton).ThenInclude(c => c.EProvincia).ThenInclude(c => c.eRegion).ToListAsync();
+            else
+                return await _repository.Entities.ToListAsync();
+        }
+        public async Task<List<EComunidad>> GetListAsync(bool incluir,string padre)
+        {
+            if (incluir)
+                return await _repository.Entities.Where(x => x.eParroquia.Id == padre).Include(c => c.eParroquia).ThenInclude(c => c.ECanton).ThenInclude(c => c.EProvincia).ThenInclude(c => c.eRegion).ToListAsync();
+            else
+                return await _repository.Entities.Where(x => x.eParroquia.Id == padre).ToListAsync();
         }
         public async Task<EComunidad> GetByIdAsync(string idEComunidad)
         {
-            return await _repository.Entities.Where(x => x.Id == idEComunidad).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(x => x.Id == idEComunidad).Include(c => c.eParroquia).ThenInclude(c => c.ECanton).ThenInclude(c => c.EProvincia).ThenInclude(c => c.eRegion).FirstOrDefaultAsync();
         }
 
         public async Task<string> InsertAsync(EComunidad eComunidad)

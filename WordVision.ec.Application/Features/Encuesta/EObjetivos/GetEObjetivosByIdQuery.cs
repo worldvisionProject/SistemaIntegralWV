@@ -5,23 +5,32 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Application.Interfaces.Repositories.Encuesta;
 using WordVision.ec.Domain.Entities.Encuesta;
 
+
 namespace WordVision.ec.Application.Features.Encuesta.EObjetivos
 {
-    public class GetEObjetivosByIdResponse
+    public class GetEObjetivosByIdResponse : GenericResponse
     {
         public string Id { get; set; }
         public string obj_Nombre { get; set; }
 
+        public string obj_Nivel { get; set; }
+        public string obj_Outcome { get; set; }
+        public string obj_Output { get; set; }
+        public string obj_Activity { get; set; }
+
+        public int EProyectoId { get; set; }
+        public EProyecto EProyecto { get; set; }
+
+
         public virtual List<EIndicador> EIndicadores { get; set; }
     }
 
-    public class GetEObjetivosByIdQuery : IRequest<Result<GetEObjetivosByIdResponse>>
+    public class GetEObjetivosByIdQuery : GetEObjetivosByIdResponse, IRequest<Result<GetEObjetivosByIdResponse>>
     {
-        public string Id { get; set; }
-
         public class GetEObjetivosByIdQueryHandler : IRequestHandler<GetEObjetivosByIdQuery, Result<GetEObjetivosByIdResponse>>
         {
             private readonly IEObjetivoRepository _eObjetivosRepository;

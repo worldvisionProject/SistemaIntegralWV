@@ -22,11 +22,20 @@ namespace WordVision.ec.Application.Features.Encuesta.EParroquias
         {
             private readonly IUnitOfWork _unitOfWork;
             private readonly IEParroquiaRepository _eParroquiaRepository;
+            private readonly IEProgramaRepository _eProgramaRepository;
+            private readonly IECantonRepository _eCantonRepository;
             private readonly IMapper _mapper;
 
-            public UpdateEParroquiaCommandHandler(IEParroquiaRepository eParroquiaRepository, IUnitOfWork unitOfWork, IMapper mapper)
+            public UpdateEParroquiaCommandHandler(
+                                                    IEParroquiaRepository eParroquiaRepository,
+                                                    IEProgramaRepository eProgramaRepository,
+                                                    IECantonRepository eCantonRepository,
+                                                    IUnitOfWork unitOfWork, 
+                                                    IMapper mapper)
             {
                 _eParroquiaRepository = eParroquiaRepository;
+                _eProgramaRepository = eProgramaRepository;
+                _eCantonRepository = eCantonRepository;
                 _unitOfWork = unitOfWork;
                 _mapper = mapper;
             }
@@ -45,12 +54,19 @@ namespace WordVision.ec.Application.Features.Encuesta.EParroquias
                 }
                 else
                 {
-                    var EParroquiaUpdate = _mapper.Map<EParroquia>(request);    //mapea los datos recibidos a la estructura de la bbdd
+                    EParroquia.Id = request.Id;
+                    EParroquia.par_nombre = request.par_nombre;
+
+                    EPrograma ePrograma = await _eProgramaRepository.GetByIdAsync(request.EProgramaId);
+                    EParroquia.EPrograma = ePrograma;
+
+                    ECanton eCanton = await _eCantonRepository.GetByIdAsync(request.ECantonId);
+                    EParroquia.ECanton = eCanton;
 
                     //Actualizamos el registro en la base de datos
-                    await _eParroquiaRepository.UpdateAsync(EParroquiaUpdate);
+                    await _eParroquiaRepository.UpdateAsync(EParroquia);
                     await _unitOfWork.Commit(cancellationToken);
-                    return Result<int>.Success(EParroquiaUpdate.Id);
+                    return Result<int>.Success(EParroquia.Id);
                 }
             }
         }

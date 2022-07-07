@@ -20,8 +20,8 @@ namespace WordVision.ec.Domain.Entities.Encuesta
         public string rta_tipo_indicador { get; set; }
 
         [Required]
-        [Display(Name = "Proyecto")]
-        public string rta_proyecto { get; set; }
+        [Display(Name = "Operación")]
+        public string rta_Operacion { get; set; }
 
         [Required]
         [Display(Name = "Programa de Área")]

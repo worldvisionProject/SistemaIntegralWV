@@ -3,14 +3,17 @@ using AutoMapper;
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Application.Interfaces.Repositories.Encuesta;
 using WordVision.ec.Domain.Entities.Encuesta;
 
+
 namespace WordVision.ec.Application.Features.Encuesta.EIndicadores
 {
-    public class GetEIndicadoresByIdResponse
+    public class GetEIndicadoresByIdResponse : GenericResponse
     {
         public string Id { get; set; }
         public string ind_LogFrame { get; set; }
@@ -25,20 +28,16 @@ namespace WordVision.ec.Application.Features.Encuesta.EIndicadores
         public string ind_UnidadMedida { get; set; }
         public int ind_Frecuencia { get; set; }
         public string ind_tipo { get; set; }
-        public string ind_proyecto { get; set; }
+        public string ind_Operacion { get; set; }
 
 
         public string EObjetivoId { get; set; }
-        public virtual List<EProgramaIndicador> EProgramaIndicadores { get; set; }
-        public virtual List<EReporteTabulado> EReporteTabulados { get; set; }
         public virtual List<EMeta> EMetas { get; set; }
 
     }
 
-    public class GetEIndicadoresByIdQuery : IRequest<Result<GetEIndicadoresByIdResponse>>
+    public class GetEIndicadoresByIdQuery : GetEIndicadoresByIdResponse, IRequest<Result<GetEIndicadoresByIdResponse>>
     {
-        public string Id { get; set; }
-
         public class GetEIndicadoresByIdQueryHandler : IRequestHandler<GetEIndicadoresByIdQuery, Result<GetEIndicadoresByIdResponse>>
         {
             private readonly IEIndicadorRepository _eIndicadoresRepository;
@@ -54,8 +53,10 @@ namespace WordVision.ec.Application.Features.Encuesta.EIndicadores
             public async Task<Result<GetEIndicadoresByIdResponse>> Handle(GetEIndicadoresByIdQuery query, CancellationToken cancellationToken)
             {
                 var EIndicadorModel = await _eIndicadoresRepository.GetByIdAsync(query.Id);
-                var mappedEIndicadores = _mapper.Map<GetEIndicadoresByIdResponse>(EIndicadorModel);
 
+                var mappedEIndicadores = _mapper.Map<GetEIndicadoresByIdResponse>(EIndicadorModel);
+                //mappedEIndicadores.EObjetivoId = EIndicadorModel.EObjetivo.Id;    //Se comento porque esto ya lo hace el mapper
+                //mappedEIndicadores.EMetas = EIndicadorModel.EMetas.ToList();      //Se comento porque esto ya lo hace el mapper
                 return Result<GetEIndicadoresByIdResponse>.Success(mappedEIndicadores);
             }
         }

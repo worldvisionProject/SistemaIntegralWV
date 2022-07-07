@@ -1,0 +1,75 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Web.Areas.Encuesta.Models
+@model EComunidadViewModel
+
+
+<div class="row">
+    <div class="col-md-12">
+        
+            <form id="create-form" method="post" asp-controller="EComunidad" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input hidden="hidden" asp-for="OperacionEdicion"/>
+
+                <div class="form-group">
+                    <label asp-for="Id" class="control-label">@Html.DisplayNameFor(model => model.Id)</label>
+                    <input asp-for="Id" class="form-control" />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="ERegionId" class="control-label">@Html.DisplayNameFor(model => model.ERegionId)</label>
+                    @Html.DropDownListFor(x => x.ERegionId, (IEnumerable<SelectListItem>)Model.ERegionList, new { @class = "form-control", id="cmbRegion", Name="cmbRegion", @onchange="callChangefunc('cmbRegion', this.value, '" + @Model.Id + "')" })
+                    <span asp-validation-for="ERegionId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="EProvinciaId" class="control-label">@Html.DisplayNameFor(model => model.EProvinciaId)</label>
+                    @Html.DropDownListFor(x => x.EProvinciaId, (IEnumerable<SelectListItem>)Model.EProvinciaList, new { @class = "form-control", id="cmbProvincia", Name="cmbProvincia", @onchange="callChangefunc('cmbProvincia', this.value, '" + @Model.Id + "')" })
+                    <span asp-validation-for="EProvinciaId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ECantonId" class="control-label">@Html.DisplayNameFor(model => model.ECantonId)</label>
+                    @Html.DropDownListFor(x => x.ECantonId, (IEnumerable<SelectListItem>)Model.ECantonList, new { @class = "form-control", id="cmbCanton", Name="cmbCanton", @onchange="callChangefunc('cmbCanton', this.value, '" + @Model.Id + "')" })
+                    <span asp-validation-for="ECantonId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="EParroquiaId" class="control-label">@Html.DisplayNameFor(model => model.EParroquiaId)</label>
+                    @Html.DropDownListFor(x => x.EParroquiaId, (IEnumerable<SelectListItem>)Model.EParroquiaList, new { @class = "form-control", id="cmbParroquia", Name="cmbParroquia" })
+                    <span asp-validation-for="EParroquiaId" class="text-danger"></span>
+                </div>
+
+
+
+
+                <div class="form-group">
+                    <label asp-for="com_nombre" class="control-label">@Html.DisplayNameFor(model => model.com_nombre)</label>
+                    <input asp-for="com_nombre" class="form-control" />
+                    <span asp-validation-for="com_nombre" class="text-danger"></span>
+                </div>
+
+                <br />
+                <div class="form-group justify-content-between group-button-modal">
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                    <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        
+    </div>
+</div>
+
+
+@section Scripts {
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+
+
+    <script type="text/javascript" language=javascript>
+        $.validator.unobtrusive.parse(document);
+        $('#create-form').disableAutoFill();
+
+
+    </script>
+
+}

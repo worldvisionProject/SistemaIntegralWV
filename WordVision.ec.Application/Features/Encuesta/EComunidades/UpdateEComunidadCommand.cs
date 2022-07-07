@@ -21,11 +21,17 @@ namespace WordVision.ec.Application.Features.Encuesta.EComunidades
         {
             private readonly IUnitOfWork _unitOfWork;
             private readonly IEComunidadRepository _eComunidadRepository;
+            private readonly IEParroquiaRepository _eParroquiaRepository;
             private readonly IMapper _mapper;
 
-            public UpdateEComunidadCommandHandler(IEComunidadRepository eComunidadRepository, IUnitOfWork unitOfWork, IMapper mapper)
+            public UpdateEComunidadCommandHandler(
+                                                    IEComunidadRepository eComunidadRepository,
+                                                    IEParroquiaRepository eParroquiaRepository,
+                                                    IUnitOfWork unitOfWork, 
+                                                    IMapper mapper)
             {
                 _eComunidadRepository = eComunidadRepository;
+                _eParroquiaRepository = eParroquiaRepository;
                 _unitOfWork = unitOfWork;
                 _mapper = mapper;
             }
@@ -44,12 +50,16 @@ namespace WordVision.ec.Application.Features.Encuesta.EComunidades
                 }
                 else
                 {
-                    var EComunidadUpdate = _mapper.Map<EComunidad>(request);    //mapea los datos recibidos a la estructura de la bbdd
+                    EComunidad.Id = request.Id;
+                    EComunidad.com_nombre = request.com_nombre;
+
+                    EParroquia eParroquia = await _eParroquiaRepository.GetByIdAsync(request.EParroquiaId);
+                    EComunidad.eParroquia = eParroquia;
 
                     //Actualizamos el registro en la base de datos
-                    await _eComunidadRepository.UpdateAsync(EComunidadUpdate);
+                    await _eComunidadRepository.UpdateAsync(EComunidad);
                     await _unitOfWork.Commit(cancellationToken);
-                    return Result<int>.Success(EComunidadUpdate.Id);
+                    return Result<int>.Success(EComunidad.Id);
                 }
             }
         }

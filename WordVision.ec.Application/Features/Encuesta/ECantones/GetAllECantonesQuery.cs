@@ -5,20 +5,30 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Application.Interfaces.Repositories.Encuesta;
 using WordVision.ec.Domain.Entities.Encuesta;
 
 namespace WordVision.ec.Application.Features.Encuesta.ECantones
 {
-    public class GetAllECantonesResponse
+    public class GetAllECantonesResponse : GenericResponse
     {
         public string Id { get; set; }
         public string can_nombre { get; set; }
+        
+        
+        public int ERegionId { get; set; }
+        public ERegion ERegion { get; set; }
+
+        
         public string EProvinciaId { get; set; }
+        public EProvincia EProvincia { get; set; }
+
+
+        public string NombreCompleto { get; set; }
         public virtual List<EParroquia> EParroquias { get; set; }
-        public virtual List<EReporteTabulado> EReporteTabulados { get; set; }
     }
-    public class GetAllECantonesQuery : IRequest<Result<List<GetAllECantonesResponse>>>
+    public class GetAllECantonesQuery : GetAllECantonesResponse, IRequest<Result<List<GetAllECantonesResponse>>>
     {
         public GetAllECantonesQuery()
         {
@@ -40,10 +50,24 @@ namespace WordVision.ec.Application.Features.Encuesta.ECantones
             public async Task<Result<List<GetAllECantonesResponse>>> Handle(GetAllECantonesQuery request, CancellationToken cancellationToken)
             {
                 //Traemos el listado de registro de la base de dartos
-                var ECantonList = await _eCanton.GetListAsync();
+                List<ECanton> ECantonList = new();
+                if (request.EProvinciaId != null && request.EProvinciaId != "")
+                    ECantonList = await _eCanton.GetListAsync(request.Include, request.EProvinciaId);
+                else
+                    ECantonList = await _eCanton.GetListAsync(request.Include);
+
 
                 //Mapeamos la estructura de la base a la estructura deseada tipo GetAllECantonesResponse
                 var mappedECantones = _mapper.Map<List<GetAllECantonesResponse>>(ECantonList);
+
+                //Cambiamos el Nombre Completo
+                foreach (GetAllECantonesResponse fila in mappedECantones)
+                {
+                    fila.NombreCompleto = "(" + fila.Id + ") " + fila.can_nombre;
+                    fila.ERegionId = fila.EProvincia.eRegion.Id;
+                    fila.ERegion = fila.EProvincia.eRegion;
+                }
+
 
                 return Result<List<GetAllECantonesResponse>>.Success(mappedECantones);
             }

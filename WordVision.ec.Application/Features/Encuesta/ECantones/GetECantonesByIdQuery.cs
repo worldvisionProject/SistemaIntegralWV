@@ -5,22 +5,24 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Application.Interfaces.Repositories.Encuesta;
 using WordVision.ec.Domain.Entities.Encuesta;
 
 
 namespace WordVision.ec.Application.Features.Encuesta.ECantones
 {
-    public class GetECantonesByIdResponse
+    public class GetECantonesByIdResponse : GenericResponse
     {
         public string Id { get; set; }
         public string can_nombre { get; set; }
+        public int ERegionId { get; set; }
         public string EProvinciaId { get; set; }
+        
         public virtual List<EParroquia> EParroquias { get; set; }
-        public virtual List<EReporteTabulado> EReporteTabulados { get; set; }
     }
 
-    public class GetECantonesByIdQuery : IRequest<Result<GetECantonesByIdResponse>>
+    public class GetECantonesByIdQuery : GetECantonesByIdResponse, IRequest<Result<GetECantonesByIdResponse>>
     {
         public string Id { get; set; }
 
@@ -40,6 +42,8 @@ namespace WordVision.ec.Application.Features.Encuesta.ECantones
             {
                 var ECantonModel = await _eCantonesRepository.GetByIdAsync(query.Id);
                 var mappedECantones = _mapper.Map<GetECantonesByIdResponse>(ECantonModel);
+                
+                mappedECantones.ERegionId = ECantonModel.EProvincia.eRegion.Id;
 
                 return Result<GetECantonesByIdResponse>.Success(mappedECantones);
             }

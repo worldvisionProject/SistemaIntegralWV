@@ -8,7 +8,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Encuesta
     {
         IQueryable<EPrograma> EProgramas { get; }
 
-        Task<List<EPrograma>> GetListAsync();
+        Task<List<EPrograma>> GetListAsync(bool incluir);
         Task<EPrograma> GetByIdAsync(string idEPrograma);
 
         Task<string> InsertAsync(EPrograma ePrograma);

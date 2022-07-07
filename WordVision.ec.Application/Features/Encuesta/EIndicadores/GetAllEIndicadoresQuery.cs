@@ -6,11 +6,12 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Encuesta;
+using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Domain.Entities.Encuesta;
 
 namespace WordVision.ec.Application.Features.Encuesta.EIndicadores
 {
-    public class GetAllEIndicadoresResponse
+    public class GetAllEIndicadoresResponse : GenericResponse
     {
         public string Id { get; set; }
         public string ind_LogFrame { get; set; }
@@ -25,15 +26,14 @@ namespace WordVision.ec.Application.Features.Encuesta.EIndicadores
         public string ind_UnidadMedida { get; set; }
         public int ind_Frecuencia { get; set; }
         public string ind_tipo { get; set; }
-        public string ind_proyecto { get; set; }
+        public string ind_Operacion { get; set; }
 
 
+        public string NombreCompleto { get; set; }
         public string EObjetivoId { get; set; }
-        public virtual List<EProgramaIndicador> EProgramaIndicadores { get; set; }
-        public virtual List<EReporteTabulado> EReporteTabulados { get; set; }
         public virtual List<EMeta> EMetas { get; set; }
     }
-    public class GetAllEIndicadoresQuery : IRequest<Result<List<GetAllEIndicadoresResponse>>>
+    public class GetAllEIndicadoresQuery : GetAllEIndicadoresResponse, IRequest<Result<List<GetAllEIndicadoresResponse>>>
     {
         public GetAllEIndicadoresQuery()
         {
@@ -55,10 +55,17 @@ namespace WordVision.ec.Application.Features.Encuesta.EIndicadores
             public async Task<Result<List<GetAllEIndicadoresResponse>>> Handle(GetAllEIndicadoresQuery request, CancellationToken cancellationToken)
             {
                 //Traemos el listado de registro de la base de dartos
-                var EIndicadorList = await _eIndicador.GetListAsync();
+                var EIndicadorList = await _eIndicador.GetListAsync(request.Include);
 
                 //Mapeamos la estructura de la base a la estructura deseada tipo GetAllEIndicadoresResponse
                 var mappedEIndicadores = _mapper.Map<List<GetAllEIndicadoresResponse>>(EIndicadorList);
+
+                //Cambiamos el Nombre Completo
+                foreach (GetAllEIndicadoresResponse fila in mappedEIndicadores)
+                {
+                    fila.NombreCompleto = "(" + fila.Id + ") " + fila.ind_Nombre;
+                }
+
 
                 return Result<List<GetAllEIndicadoresResponse>>.Success(mappedEIndicadores);
             }

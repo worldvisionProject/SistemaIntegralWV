@@ -1,0 +1,105 @@
+﻿@using WordVision.ec.Web.Areas.Encuesta.Models
+@model List<EReporteConsolidadoViewModel>
+
+@{ ViewBag.Title = "Consolidados";}
+
+<div style="border:solid; border-width:1px; padding:5px;">
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta" style="color:#666666">Para mantener Nuestra Promesa</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta" style="color:#EC7D31">Establecer 3-5 objetivos de Desempeño para este año - CLARIDAD</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta">Incluya tanto el QUÉ <font style="color:#2ED4E0">(Resultado)</font> como el CÓMO <font style="color:#2ED4E0">(mentalidades y comportamientos)</font> se lograrán los objetivos. Utiliza los hitos para considerar cómo vas a hacer un seguimiento del progreso a lo largo del año, al menos trimestralmente*.</label>
+        </div>
+    </div>
+</div>
+
+<br />
+
+
+
+<table id="grdDatos" class="table table-sm table-striped table-bordered m-2">
+    <thead>
+        <tr>
+            <th>Proyecto</th>
+            <th>Programa</th>
+            <th>Log Frame</th>
+            <th>Objetivo</th>
+            <th>Código Indicador</th>
+            <th>Indicador</th>
+            <th>Unidad de Medida</th>
+            <th>Frecuencia</th>
+            <th>Línea Base</th>
+            <th>Año 4 Meta</th>
+            <th>Año 4 Ejec</th>
+            <th>Año 5 Meta</th>
+            <th>Año 5 Ejec</th>
+            <th>Año 6 Meta</th>
+            <th>Año 6 Ejec</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var fila in Model)
+            {
+                <tr>
+                    <td>@fila.rpt_Proyecto</td>
+                    <td>@fila.rpt_Programa</td>
+                    <td>@fila.rpt_LogFrame</td>
+                    <td>@fila.rpt_Objetivo</td>
+                    <td>@fila.rpt_IndicadorCodigo</td>
+                    <td>@fila.rpt_IndicadorNombre</td>
+                    <td>@fila.rpt_UnidadMedida</td>
+                    <td>@fila.rpt_Frecuencia</td>
+                    <td>@fila.rpt_LineaBaseResultado</td>
+                    <td>@fila.rpt_Anio4_meta</td>
+                    <td>@fila.rpt_Anio4_ejec</td>
+                    <td>@fila.rpt_Anio5_meta</td>
+                    <td>@fila.rpt_Anio5_ejec</td>
+                    <td>@fila.rpt_Anio6_meta</td>
+                    <td>@fila.rpt_Anio6_ejec</td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>
+
+
+<script>
+
+    $(document).ready(function () {
+        var table = $("#grdDatos").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ],
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 }
+            ],
+            "info": false
+        });
+
+
+    });
+</script>
