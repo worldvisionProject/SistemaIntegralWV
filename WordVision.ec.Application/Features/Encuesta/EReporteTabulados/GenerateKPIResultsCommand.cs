@@ -60,7 +60,7 @@ namespace WordVision.ec.Application.Features.Encuesta.EReporteTabulados
                 await _eReporteTabuladoRepository.DeleteAllAsync(command.evaluacionId);
                 await _unitOfWork.Commit(cancellationToken);
 
-                //Generamos los resultados con el EvaluacionId recibido.
+                //Generamos los resultadzos con el EvaluacionId recibido.  (Con la mayoria de los indicadores)
                 List<ETabulado> responseKPI = new List<ETabulado>();
                 responseKPI = await _eReporteTabuladoRepository.GenerateResultsListAsync(command.evaluacionId);
                 if (responseKPI != null && responseKPI.Count > 0)
@@ -106,6 +106,103 @@ namespace WordVision.ec.Application.Features.Encuesta.EReporteTabulados
                     }
                     await _unitOfWork.Commit(cancellationToken);
                 }
+
+
+                //Generamos los resultadzos con el EvaluacionId recibido.  (Con la mayoria de los indicadores COMPLEJOS)
+                List<ETabulado> responseKPIComplejos = new List<ETabulado>();
+                responseKPIComplejos = await _eReporteTabuladoRepository.GenerateResultsComplejosListAsync(command.evaluacionId);
+                if (responseKPIComplejos != null && responseKPIComplejos.Count > 0)
+                {
+                    foreach (ETabulado fila in responseKPIComplejos)
+                    {
+                        //Antes de insertar traemos los clases 
+                        ERegion eRegion = await _eRegionRepository.GetByIdAsync(fila.CodigoRegion);
+                        EProvincia eProvincia = await _eProvinciaRepository.GetByIdAsync(fila.CodigoProvincia);
+                        ECanton eCanton = await _eCantonRepository.GetByIdAsync(fila.CodigoCanton);
+
+                        EEvaluacion eEvaluacion = await _eEvaluacionRepository.GetByIdAsync(command.evaluacionId);
+                        EPrograma ePrograma = await _eProgramaRepository.GetByIdAsync(fila.CodigoPA);
+                        EIndicador eIndicador = await _eIndicadorRepository.GetByIdAsync(fila.CodigoIndicador);
+
+                        if (eIndicador == null) throw new ArgumentException("No se ha encontrado el indicador " + fila.CodigoIndicador.ToString());
+                        if (ePrograma == null) throw new ArgumentException("No se ha encontrado el PA " + fila.CodigoPA.ToString());
+                        if (eEvaluacion == null) throw new ArgumentException("No se ha encontrado la evaluación " + command.evaluacionId.ToString());
+
+                        if (eRegion == null) throw new ArgumentException("No se ha encontrado la región " + fila.CodigoRegion.ToString());
+                        if (eProvincia == null) throw new ArgumentException("No se ha encontrado la provincia " + fila.CodigoProvincia.ToString());
+                        if (eCanton == null) throw new ArgumentException("No se ha encontrado el cantón " + fila.CodigoCanton.ToString());
+
+                        //Insertar en la base de datos.
+                        EReporteTabulado eReporteTabulado = new EReporteTabulado();
+                        eReporteTabulado.rta_nombre_indicador = fila.Indicador;
+                        eReporteTabulado.rta_tipo_indicador = fila.TipoIndicador;
+                        eReporteTabulado.rta_Operacion = eIndicador.ind_Operacion;
+                        eReporteTabulado.rta_nombre_pa = fila.PA;
+                        eReporteTabulado.rta_numerador = fila.NumeroTotal;
+                        eReporteTabulado.rta_denominador = fila.EntrevistadosTotal;
+                        eReporteTabulado.rta_porcentaje = Convert.ToDecimal(fila.Porcentaje);
+                        eReporteTabulado.rta_resultado = fila.Result;
+                        eReporteTabulado.EEvaluacion = eEvaluacion;
+                        eReporteTabulado.EPrograma = ePrograma;
+                        eReporteTabulado.EIndicador = eIndicador;
+                        eReporteTabulado.ERegion = eRegion;
+                        eReporteTabulado.EProvincia = eProvincia;
+                        eReporteTabulado.ECanton = eCanton;
+
+                        await _eReporteTabuladoRepository.InsertAsync(eReporteTabulado);  //Insertar a la BBDD
+                        numRegistrosInsertados++;
+                    }
+                    await _unitOfWork.Commit(cancellationToken);
+                }
+
+
+                //Generamos los resultadzos con el EvaluacionId recibido.  (Con la mayoria de los indicadores NACIONALES)
+                List<ETabulado> responseKPINacionales = new List<ETabulado>();
+                responseKPINacionales = await _eReporteTabuladoRepository.GenerateResultsNacionalesListAsync(command.evaluacionId);
+                if (responseKPINacionales != null && responseKPINacionales.Count > 0)
+                {
+                    foreach (ETabulado fila in responseKPINacionales)
+                    {
+                        //Antes de insertar traemos los clases 
+                        ERegion eRegion = await _eRegionRepository.GetByIdAsync(fila.CodigoRegion);
+                        EProvincia eProvincia = await _eProvinciaRepository.GetByIdAsync(fila.CodigoProvincia);
+                        ECanton eCanton = await _eCantonRepository.GetByIdAsync(fila.CodigoCanton);
+
+                        EEvaluacion eEvaluacion = await _eEvaluacionRepository.GetByIdAsync(command.evaluacionId);
+                        EPrograma ePrograma = await _eProgramaRepository.GetByIdAsync(fila.CodigoPA);
+                        EIndicador eIndicador = await _eIndicadorRepository.GetByIdAsync(fila.CodigoIndicador);
+
+                        if (eIndicador == null) throw new ArgumentException("No se ha encontrado el indicador " + fila.CodigoIndicador.ToString());
+                        if (ePrograma == null) throw new ArgumentException("No se ha encontrado el PA " + fila.CodigoPA.ToString());
+                        if (eEvaluacion == null) throw new ArgumentException("No se ha encontrado la evaluación " + command.evaluacionId.ToString());
+
+                        if (eRegion == null) throw new ArgumentException("No se ha encontrado la región " + fila.CodigoRegion.ToString());
+                        if (eProvincia == null) throw new ArgumentException("No se ha encontrado la provincia " + fila.CodigoProvincia.ToString());
+                        if (eCanton == null) throw new ArgumentException("No se ha encontrado el cantón " + fila.CodigoCanton.ToString());
+
+                        //Insertar en la base de datos.
+                        EReporteTabulado eReporteTabulado = new EReporteTabulado();
+                        eReporteTabulado.rta_nombre_indicador = fila.Indicador;
+                        eReporteTabulado.rta_tipo_indicador = fila.TipoIndicador;
+                        eReporteTabulado.rta_Operacion = eIndicador.ind_Operacion;
+                        eReporteTabulado.rta_nombre_pa = fila.PA;
+                        eReporteTabulado.rta_numerador = fila.NumeroTotal;
+                        eReporteTabulado.rta_denominador = fila.EntrevistadosTotal;
+                        eReporteTabulado.rta_porcentaje = Convert.ToDecimal(fila.Porcentaje);
+                        eReporteTabulado.rta_resultado = fila.Result;
+                        eReporteTabulado.EEvaluacion = eEvaluacion;
+                        eReporteTabulado.EPrograma = ePrograma;
+                        eReporteTabulado.EIndicador = eIndicador;
+                        eReporteTabulado.ERegion = eRegion;
+                        eReporteTabulado.EProvincia = eProvincia;
+                        eReporteTabulado.ECanton = eCanton;
+
+                        await _eReporteTabuladoRepository.InsertAsync(eReporteTabulado);  //Insertar a la BBDD
+                        numRegistrosInsertados++;
+                    }
+                    await _unitOfWork.Commit(cancellationToken);
+                }
+
 
                 return Result<int>.Success(numRegistrosInsertados);
             }

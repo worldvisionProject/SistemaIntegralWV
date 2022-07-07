@@ -1,9 +1,30 @@
 ﻿@using WordVision.ec.Web.Areas.Encuesta.Models
 @model List<EncuestaKoboViewModel>
 
-@{ ViewBag.Title = "Encuestas Kobo";}
+@{ ViewBag.Title = "Datos Kobo";}
 
-<a asp-action="LoadFromAPI" class="btn btn-sm btn-primary">Sincronizar datos con Servidor Kobo</a>
+<div style="border:solid; border-width:1px; padding:5px;">
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta" style="color:#666666">Para mantener Nuestra Promesa</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta" style="color:#EC7D31">Establecer 3-5 objetivos de Desempeño para este año - CLARIDAD</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta">Incluya tanto el QUÉ <font style="color:#2ED4E0">(Resultado)</font> como el CÓMO <font style="color:#2ED4E0">(mentalidades y comportamientos)</font> se lograrán los objetivos. Utiliza los hitos para considerar cómo vas a hacer un seguimiento del progreso a lo largo del año, al menos trimestralmente*.</label>
+        </div>
+    </div>
+</div>
+
+<br />
+
+
+<a asp-action="LoadFromAPI" class="btn btn-sm btn-primary">Sincronizar Encuestas con Servidor Kobo</a>
 
 <table class="table table-sm table-striped table-bordered m-2">
     <thead>
@@ -14,8 +35,7 @@
             <th>Últ. Sincronización</th>
             <th># de Preguntas</th>
             <th># de Encuestados</th>
-            <th></th>
-            <th></th>
+            <th data-priority="2" class="acciones-th" colspan="2" style="text-align:center;">Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -46,3 +66,36 @@
         }
     </tbody>
 </table>
+
+<hr />
+
+<div style="border:solid; border-width:1px; padding:5px;">
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta" style="color:#666666">Para mantener Nuestra Promesa</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta" style="color:#EC7D31">Establecer 3-5 objetivos de Desempeño para este año - CLARIDAD</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta">Incluya tanto el QUÉ <font style="color:#2ED4E0">(Resultado)</font> como el CÓMO <font style="color:#2ED4E0">(mentalidades y comportamientos)</font> se lograrán los objetivos. Utiliza los hitos para considerar cómo vas a hacer un seguimiento del progreso a lo largo del año, al menos trimestralmente*.</label>
+        </div>
+    </div>
+</div>
+
+<br />
+
+
+Ejecutar cálculo de indicadores con datos cargados. (Esta operación puede demorar hasta 20 minutos)
+<form asp-action="GenerarKPI" method="get">
+    <div >
+        <p style="display:flex;">
+            @Html.DropDownList("EvaluacionID", (IEnumerable <SelectListItem>)ViewData["EEvaluacionesList"])
+            <input type="submit" value="Generar Resultados Indicadores" class="btn btn-sm btn-primary" />
+        </p>
+    </div>
+</form>

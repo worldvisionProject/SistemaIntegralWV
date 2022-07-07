@@ -85,6 +85,17 @@ namespace WordVision.ec.Web.Areas.Encuesta.Controllers
                         //Una vez terminada la operación de inserción o edición, se va a leer todos los registros nuevamente
                         //para mostrar un listado actualizado al usuario
                         //Ejecuta el Select que trae todos los registros de la base
+
+                        //Traemos las evaluaciones de la base de datos y lo ponemos en el SelectList para el combo
+                        //https://www.c-sharpcorner.com/article/different-ways-bind-the-value-to-razor-dropdownlist-in-aspnet-mvc5/
+                        var respuestaEEvaluaciones = await _mediator.Send(new GetAllEEvaluacionesQuery());
+                        if (respuestaEEvaluaciones.Succeeded && respuestaEEvaluaciones.Data != null)
+                        {
+                            var fromDatabaseEF = new SelectList(respuestaEEvaluaciones.Data.ToList(), "Id", "NombreCompleto");
+                            ViewData["EEvaluacionesList"] = fromDatabaseEF;
+                        }
+
+
                         var response = await _mediator.Send(new GetAllEncuestaKobosQuery());
                         if (response.Succeeded && response.Data != null)
                         {
@@ -121,9 +132,22 @@ namespace WordVision.ec.Web.Areas.Encuesta.Controllers
             {
                 var resp = await _mediator.Send(new SyncEncuestaKoboCommand() { Id = id });
 
+
                 //Una vez terminada la operación de sincronizacion API, se va a leer todos los registros nuevamente
                 //para mostrar un listado actualizado al usuario
                 //Ejecuta el Select que trae todos los registros de la base
+
+                //Traemos las evaluaciones de la base de datos y lo ponemos en el SelectList para el combo
+                //https://www.c-sharpcorner.com/article/different-ways-bind-the-value-to-razor-dropdownlist-in-aspnet-mvc5/
+                var respuestaEEvaluaciones = await _mediator.Send(new GetAllEEvaluacionesQuery());
+                if (respuestaEEvaluaciones.Succeeded && respuestaEEvaluaciones.Data != null)
+                {
+                    var fromDatabaseEF = new SelectList(respuestaEEvaluaciones.Data.ToList(), "Id", "NombreCompleto");
+                    ViewData["EEvaluacionesList"] = fromDatabaseEF;
+                }
+
+
+
                 var response = await _mediator.Send(new GetAllEncuestaKobosQuery());
                 if (response.Succeeded && response.Data != null)
                 {
@@ -158,6 +182,17 @@ namespace WordVision.ec.Web.Areas.Encuesta.Controllers
                     //Una vez terminada la operación de sincronizacion API, se va a leer todos los registros nuevamente
                     //para mostrar un listado actualizado al usuario
                     //Ejecuta el Select que trae todos los registros de la base
+
+                    //Traemos las evaluaciones de la base de datos y lo ponemos en el SelectList para el combo
+                    //https://www.c-sharpcorner.com/article/different-ways-bind-the-value-to-razor-dropdownlist-in-aspnet-mvc5/
+                    var respuestaEEvaluaciones = await _mediator.Send(new GetAllEEvaluacionesQuery());
+                    if (respuestaEEvaluaciones.Succeeded && respuestaEEvaluaciones.Data != null)
+                    {
+                        var fromDatabaseEF = new SelectList(respuestaEEvaluaciones.Data.ToList(), "Id", "NombreCompleto");
+                        ViewData["EEvaluacionesList"] = fromDatabaseEF;
+                    }
+
+
                     var response = await _mediator.Send(new GetAllEncuestaKobosQuery());
                     if (response.Succeeded && response.Data != null)
                     {
@@ -257,6 +292,17 @@ namespace WordVision.ec.Web.Areas.Encuesta.Controllers
 
                         //Una vez terminada la operación de inserción o edición, se va a leer todos los registros nuevamente
                         //para mostrar un listado actualizado al usuario
+
+                        //Traemos las evaluaciones de la base de datos y lo ponemos en el SelectList para el combo
+                        //https://www.c-sharpcorner.com/article/different-ways-bind-the-value-to-razor-dropdownlist-in-aspnet-mvc5/
+                        var respuestaEEvaluaciones = await _mediator.Send(new GetAllEEvaluacionesQuery());
+                        if (respuestaEEvaluaciones.Succeeded && respuestaEEvaluaciones.Data != null)
+                        {
+                            var fromDatabaseEF = new SelectList(respuestaEEvaluaciones.Data.ToList(), "Id", "NombreCompleto");
+                            ViewData["EEvaluacionesList"] = fromDatabaseEF;
+                        }
+
+
                         var response = await _mediator.Send(new GetAllEncuestaKobosQuery());
                         if (response.Succeeded)
                         {

@@ -149,7 +149,166 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Encuesta
 
         }
 
+        public async Task<List<ETabulado>> GenerateResultsComplejosListAsync(int EvaluacionId)
+        {
+            //Consultamos los resultados ejecutado el StoreProcedure survey.ConsultarIndicadoresTabulados
 
+            int RegionId = 0;
+            string ProvinciaId = "";
+            string CantonId = "";
+            string ParroquiaId = "";
+            string ComunidadId = "";
+            string ProgramaId = "";
+            string IndicadorId = "";
+
+
+            List<ETabulado> Resultado = new List<ETabulado>();
+            //using (var _dbContext = _db)
+            //{
+            var param1 = new SqlParameter
+            {
+                ParameterName = "EvaluacionId",
+                SqlDbType = System.Data.SqlDbType.Int,
+                Value = EvaluacionId,
+            };
+
+            var param2 = new SqlParameter
+            {
+                ParameterName = "RegionId",
+                SqlDbType = System.Data.SqlDbType.Int,
+                Value = RegionId,
+            };
+
+            var param3 = new SqlParameter
+            {
+                ParameterName = "ProvinciaId",
+                SqlDbType = System.Data.SqlDbType.NVarChar,
+                Size = 450,
+                Value = ProvinciaId,
+            };
+
+            var param4 = new SqlParameter
+            {
+                ParameterName = "CantonId",
+                SqlDbType = System.Data.SqlDbType.NVarChar,
+                Size = 450,
+                Value = CantonId,
+            };
+
+            var param5 = new SqlParameter
+            {
+                ParameterName = "ParroquiaId",
+                SqlDbType = System.Data.SqlDbType.NVarChar,
+                Size = 450,
+                Value = ParroquiaId,
+            };
+
+            var param6 = new SqlParameter
+            {
+                ParameterName = "ComunidadId",
+                SqlDbType = System.Data.SqlDbType.NVarChar,
+                Size = 450,
+                Value = ComunidadId,
+            };
+            var param7 = new SqlParameter
+            {
+                ParameterName = "ProgramaId",
+                SqlDbType = System.Data.SqlDbType.NVarChar,
+                Size = 450,
+                Value = ProgramaId,
+            };
+            var param8 = new SqlParameter
+            {
+                ParameterName = "IndicadorId",
+                SqlDbType = System.Data.SqlDbType.NVarChar,
+                Size = 450,
+                Value = IndicadorId,
+            };
+
+            _db.Database.SetCommandTimeout(TimeSpan.FromMinutes(30));
+
+            Resultado = await _db.Set<ETabulado>()
+                .FromSqlRaw("EXEC [survey].[ConsultarIndicadoresTabulados_2] @EvaluacionId, @RegionId, @ProvinciaId, @CantonId, @ParroquiaId, @ComunidadId, @ProgramaId, @IndicadorId ", param1, param2, param3, param4, param5, param6, param7, param8)
+                .ToListAsync();
+
+            //}
+
+            return Resultado;
+
+        }
+
+        public async Task<List<ETabulado>> GenerateResultsNacionalesListAsync(int EvaluacionId)
+        {
+            //Consultamos los resultados ejecutado el StoreProcedure survey.ConsultarIndicadoresTabulados
+
+            int RegionId = 0;
+            string ProvinciaId = "";
+            string CantonId = "";
+            string ParroquiaId = "";
+            string ComunidadId = "";
+            string ProgramaId = "";
+            string IndicadorId = "";
+
+
+            List<ETabulado> Resultado = new List<ETabulado>();
+            //using (var _dbContext = _db)
+            //{
+            var param1 = new SqlParameter
+            {
+                ParameterName = "EvaluacionId",
+                SqlDbType = System.Data.SqlDbType.Int,
+                Value = EvaluacionId,
+            };
+
+            var param2 = new SqlParameter
+            {
+                ParameterName = "RegionId",
+                SqlDbType = System.Data.SqlDbType.Int,
+                Value = RegionId,
+            };
+
+            var param3 = new SqlParameter
+            {
+                ParameterName = "ProvinciaId",
+                SqlDbType = System.Data.SqlDbType.NVarChar,
+                Size = 450,
+                Value = ProvinciaId,
+            };
+
+            var param4 = new SqlParameter
+            {
+                ParameterName = "CantonId",
+                SqlDbType = System.Data.SqlDbType.NVarChar,
+                Size = 450,
+                Value = CantonId,
+            };
+
+            var param7 = new SqlParameter
+            {
+                ParameterName = "ProgramaId",
+                SqlDbType = System.Data.SqlDbType.NVarChar,
+                Size = 450,
+                Value = ProgramaId,
+            };
+            var param8 = new SqlParameter
+            {
+                ParameterName = "IndicadorId",
+                SqlDbType = System.Data.SqlDbType.NVarChar,
+                Size = 450,
+                Value = IndicadorId,
+            };
+
+            _db.Database.SetCommandTimeout(TimeSpan.FromMinutes(30));
+
+            Resultado = await _db.Set<ETabulado>()
+                .FromSqlRaw("EXEC [survey].[ConsultarIndicadoresTabuladosNacionales] @EvaluacionId, @RegionId, @ProvinciaId, @CantonId, @ProgramaId, @IndicadorId ", param1, param2, param3, param4, param7, param8)
+                .ToListAsync();
+
+            //}
+
+            return Resultado;
+
+        }
 
 
         public async Task<int> InsertAsync(EReporteTabulado eReporteTabulado)
