@@ -4,7 +4,7 @@
 @model DonanteViewModel
 
 
- <form id="create-form" method="post" asp-controller="Donante" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id"  onsubmit="setTimeout('location.href ='javascript:history.back()'',2000);  return jQueryModalPost(this); " enctype="multipart/form-data">
+ <form id="create-form" method="post" asp-controller="Donante" asp-route-vienede=@Model.Vienede asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id"  onsubmit="@(Model.Vienede==0?"return jQueryModalPost(this);":"")" enctype="multipart/form-data">
 
                                                             @*<div class="row">
                                                                 <div class="col-md-4">
@@ -604,7 +604,14 @@
         $(".datepicker").datepicker({
             format: "dd-mm-yyyy",
             autoclose: true,
-            todayBtn: true });
+            todayBtn: true});
+
+         $("#MesInicialDebito .datepicker").datepicker({
+            format: "dd-mm-yyyy",
+            autoclose: true,
+            todayBtn: true,
+        startDate: "06/07/2022"});
+        
 
      /*   $("#MesInicialDebito.datepicker").datepicker({
             format: "dd-mm-yyyy",

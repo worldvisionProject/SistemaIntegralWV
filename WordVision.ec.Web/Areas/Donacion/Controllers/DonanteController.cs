@@ -64,7 +64,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
 
         }
 
-        public async Task<IActionResult> OnGetCreate(int id = 0)
+        public async Task<IActionResult> OnGetCreate(int id = 0, int vienede= 0)
         {
 
 
@@ -133,16 +133,18 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 entidadViewModel.FechaConversion = DateTime.Now;
                 entidadViewModel.CalificacionDonanteList = calificaciondonante;
                 entidadViewModel.PeriodoDonacionList = periodoDonacion;
+                entidadViewModel.Vienede = vienede;
                 return PartialView("_CreateOrEdit", entidadViewModel);
             }
             return null;
 
         }
 
-        public async Task<IActionResult> IngresarDonante()
+        public async Task<IActionResult> IngresarDonante(int vienede = 0)
         {
 
             var entidadViewModel = new DonanteViewModel();
+            entidadViewModel.Vienede = vienede;
             var responseCola = await _mediator.Send(new GetColaboradorByIdQuery() { Id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
             if (responseCola.Succeeded)
             {
@@ -268,7 +270,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> OnPostCreateOrEdit(int? id, DonanteViewModel entidad, int vienede=0)
+        public async Task<IActionResult> OnPostCreateOrEdit(int? id, DonanteViewModel entidad, int vienede=0)
         {
             try
             {

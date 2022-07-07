@@ -232,17 +232,22 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     var result = await _mediator.Send(createEntidadCommand);
                     if (result.Succeeded)
                     {
+                        String contenido = sw.ToString();
+                        nombreArchivo = nombreArchivo + DateTime.Now.Date;
+                        String ExtensionArchivo = "txt";
+                        _notify.Success($"Archivo " + nombreArchivo + " Txt generado");
+                        return File(new System.Text.UTF8Encoding().GetBytes(contenido), "text/" + ExtensionArchivo, nombreArchivo + "." + ExtensionArchivo);
 
+                    }
+                    else
+                    {
+                        _notify.Error($"Archivo Txt no se pudo generar.");
+                        return null;
                     }
 
                 }
 
-                String contenido = sw.ToString();
-                nombreArchivo = nombreArchivo + DateTime.Now.Date;
-                String ExtensionArchivo = "txt";
-                _notify.Success($"Archivo "+ nombreArchivo+" Txt generado");
-                return File(new System.Text.UTF8Encoding().GetBytes(contenido), "text/" + ExtensionArchivo, nombreArchivo + "." + ExtensionArchivo);
-
+              
             }
             return null;
         }
@@ -310,7 +315,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                             //if (resultLDR.Succeeded)
                             //{
 
-                            //    i++;
+                                i++;
                             //}
                             //else _notify.Error(resultLDR.Message);
 
@@ -324,15 +329,23 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         var result = await _mediator.Send(createEntidadCommand);
                         if (result.Succeeded)
                         {
-
+                            _notify.Success($"{i} Registros almacenadas.");
+                            return new JsonResult(new { isValid = true });
+                        }
+                        else
+                        {
+                            _notify.Success($"Error en almacenar los registros.");
+                            return new JsonResult(new { isValid = false });
                         }
 
                     }
 
                 }
-
-                _notify.Success($"{i} Registros almacenadas.");
-                return new JsonResult(new { isValid = true });
+                else
+                {
+                    _notify.Success($"No existe archivo para cargar.");
+                    return new JsonResult(new { isValid = false });
+                }
             }
             catch (Exception ex)
             {
