@@ -29,13 +29,13 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Encuesta
         public async Task<List<EProgramaIndicador>> GetListAsync(bool incluir)
         {
             if (incluir)
-                return await _repository.Entities.Include(c => c.EIndicador).Include(c => c.EPrograma).ToListAsync();
+                return await _repository.Entities.Include(c => c.EPrograma).Include(c => c.EIndicador).ToListAsync();
             else
                 return await _repository.Entities.ToListAsync();
         }
         public async Task<EProgramaIndicador> GetByIdAsync(int idEProgramaIndicador)
         {
-            return await _repository.Entities.Where(x => x.Id == idEProgramaIndicador).Include(c => c.EIndicador).Include(c => c.EPrograma).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(x => x.Id == idEProgramaIndicador).Include(c => c.EPrograma).Include(c => c.EIndicador).FirstOrDefaultAsync();
         }
 
         public async Task<int> InsertAsync(EProgramaIndicador eProgramaIndicador)
