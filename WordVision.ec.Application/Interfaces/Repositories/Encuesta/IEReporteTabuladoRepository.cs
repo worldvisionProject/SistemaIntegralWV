@@ -13,6 +13,9 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Encuesta
         Task<List<EReporteTabulado>> GetListAsync(int EvaluacionId, int RegionId, string ProvinciaId, string CantonId, string ProgramaId, string IndicadorId);
 
         Task<List<ETabulado>> GenerateResultsListAsync(int EvaluacionId);
+        Task<List<ETabulado>> GenerateResultsComplejosListAsync(int EvaluacionId);
+        Task<List<ETabulado>> GenerateResultsNacionalesListAsync(int EvaluacionId);
+
 
         Task<int> InsertAsync(EReporteTabulado eReporteTabulado);
 

@@ -15,8 +15,9 @@ namespace WordVision.ec.Application.Features.Encuesta.EProgramaIndicadores
     {
         public int Id { get; set; }
         public int pi_Poblacion { get; set; }
-        public string EIndicadorId { get; set; }
         public string EProgramaId { get; set; }
+        public string EIndicadorId { get; set; }
+        
     }
 
     public class GetEProgramaIndicadoresByIdQuery : GetEProgramaIndicadoresByIdResponse, IRequest<Result<GetEProgramaIndicadoresByIdResponse>>
