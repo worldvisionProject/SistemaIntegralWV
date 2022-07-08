@@ -58,7 +58,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
 
         public async Task<Debito> GetByContrapartidaAsync(int formaPago, int bancoTarjeta, int anio, int mes, string contrapartida)
         {
-            return await _repository.Entities.Where(d => d.FormaPago == formaPago && d.CodigoBanco == bancoTarjeta && d.Anio == anio && d.Mes == mes && d.Contrapartida == contrapartida).FirstOrDefaultAsync();
+            return await _repository.Entities.Where(d => d.FormaPago == formaPago && d.CodigoBanco == bancoTarjeta && d.Anio == anio && d.Mes == mes && d.Contrapartida == contrapartida && d.Estado ==1 ).FirstOrDefaultAsync();
         }
 
         public async Task<Debito> GetByIdAsync(int idDebito)
@@ -84,7 +84,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
                     if (bancoTarjeta == 1)
                     {
                         
-                        var resultado1 = _repositoryDonante.Entities.Where(c => c.FormaPago == formaPago && c.Banco == 10 && fecha>= c.MesInicialDebito)
+                        var resultado1 = _repositoryDonante.Entities.Where(c => c.FormaPago == formaPago && c.Banco == 10 && fecha>= c.MesInicialDebito && c.EstadoDonante == 1)
                                      .Select(a => new DebitoResponse
                                      {
                                          Estado = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 64 && c.Secuencia == _repository.Entities.Where(d => d.FormaPago == formaPago && d.CodigoBanco == 10 && d.Anio == anio && d.Mes == mes && d.IdDonante == a.Id).FirstOrDefault().Estado.ToString()).FirstOrDefault().Nombre,

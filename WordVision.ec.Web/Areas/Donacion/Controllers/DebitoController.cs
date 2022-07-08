@@ -104,11 +104,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
         }
         public async Task<FileContentResult> DescargarExportableTXT(int formaPago, int bancoTarjeta, int anio, int mes, int quincena = 0)
         {
-            //List<String[]> listado = new List<String[]>();
-            //listado.Add(new String[] { "Carlos Alvarado Ferreiros", "52632030", "27/10/1990" });
-            //listado.Add(new String[] { "Franciso Larios Loaiza", "20205263", "15/02/1982" });
-            //listado.Add(new String[] { "Deysi Zárate Ríos", "42635120", "10/01/1975" });
-            //listado.Add(new String[] { "Marcela Morán Flores", "20435230", "26/05/1985" });
+ 
             var response = await _mediator.Send(new GetDebitosSeleccionarQuery() { formaPago = formaPago, bancoTarjeta = bancoTarjeta, anio = anio, mes = mes });
             if (response.Succeeded)
             {
@@ -158,8 +154,10 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                             }
                             break;
                     }
+                    var count = 0;
                     foreach (DebitoResponseViewModel item in viewModel)
                     {
+                        count++;
                         var debito = new DebitoViewModel();
                         debito.Anio = anio;
                         debito.CodigoBanco = Convert.ToInt32(item.BancoTarjeta);
@@ -175,8 +173,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         {
                             case 2:
 
-                                linea = @"CO" + "\t" + "2100101057" + "\t" + item.Id + "\t" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "-";
-                                linea = linea + DateTime.Now.Day.ToString() + "\t" + item.Identificacion + "\t" + "USD" + "\t" + Math.Round(item.Valor, 2).ToString().Replace(",", "").Replace(".", "");
+                                linea = @"CO" + "\t" + "2100101057" + "\t" + count + "\t" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "-";
+                                linea = linea + DateTime.Now.ToString("yy") + "\t" + item.Identificacion + "\t" + "USD" + "\t" + Math.Round(item.Valor, 2).ToString().Replace(",", "").Replace(".", "");
                                 linea = linea + "\t" + "CTA" + "\t" + item.BancoTarjeta;
                                 linea = linea + "\t" + (item.TipoCuenta == 1 ? "CTE" : "AHO") + "\t" + item?.CuentaTarjeta;
                                 linea = linea + "\t" + (item.TipoId == 1 ? "R" : item.TipoId == 2 ? "C" : item.TipoId == 3 ? "P" : "N");

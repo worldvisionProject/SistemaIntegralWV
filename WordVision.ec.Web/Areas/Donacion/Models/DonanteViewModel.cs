@@ -133,7 +133,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         [Display(Name = "Calificación  del Donante")]
         public int CalificacionDonante { get; set; }
         
-        [Display(Name = "Número de guia")]
+        [Display(Name = "Número de Guía")]
         public string NumeroGuia { get; set; }
 
         [Display(Name = "Fecha de Entrega")]
