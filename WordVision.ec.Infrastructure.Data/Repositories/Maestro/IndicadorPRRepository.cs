@@ -60,5 +60,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
         {
             await _repository.UpdateAsync(IndicadorPR);
         }
+
+        public async Task DeleteAsync(IndicadorPR IndicadorPR)
+        {
+            await _repository.DeleteAsync(IndicadorPR);
+        }
     }
 }

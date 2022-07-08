@@ -13,5 +13,6 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Maestro
         Task<List<EtapaModeloProyecto>> GetListAsync(EtapaModeloProyecto etapaModelo);
         Task<int> InsertAsync(EtapaModeloProyecto etapaModeloProyecto);
         Task UpdateAsync(EtapaModeloProyecto etapaModeloProyecto);
+        Task DeleteAsync(EtapaModeloProyecto etapaModeloProyecto);
     }
 }

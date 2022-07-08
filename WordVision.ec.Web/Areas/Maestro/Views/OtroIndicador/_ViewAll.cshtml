@@ -36,7 +36,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr id="@item.Id">
             <td>
                 @Html.DisplayFor(modelItem => item.Codigo)
             </td>
@@ -66,7 +66,8 @@
             </td>
             <td>
                 <div class="btn-group">
-                    <a onclick="jQueryModalGet('/Maestro/OtroIndicador/OnGetCreateOrEdit?id=@item.Id','Editar Otro Indicador')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
+                    <button onclick="jQueryModalGet('/Maestro/OtroIndicador/OnGetCreateOrEdit?id=@item.Id','Editar Otro Indicador')" class="btn btn-warning btn-xp mr-1" type="button"><i class="fas fa-pencil-alt"></i></button> 
+                    <button type="button" onclick="EliminaFila(@item.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
                 </div>
             </td>
         </tr>
@@ -79,10 +80,36 @@
         $("#otroIndicadorTable").DataTable(
         {
         columnDefs: [ {
-            "targets": 9,
+            "targets": -1,
             "orderable": false
-            } ]
+            } ],
+            language: {
+                "url": "../lib/datatables/language/Spanish.json"
+            },
         });
     });
+
+    function EliminaFila(id) {
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "delete",
+            url:'@Url.Action("OnPostDelete", "OtroIndicador", new { area = "maestro" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+                if(data.isValid)
+                    $("#" + id).remove();
+
+            },
+            error: function(xhr) {
+
+            }
+        });
+    }
 </script>
 

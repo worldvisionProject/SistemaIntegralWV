@@ -1,0 +1,18 @@
+﻿.grupoSeleccion .select2-container .select2-selection__rendered {
+    padding-left: 0px !important;
+    color: #6e707e !important;
+}
+
+.grupoSeleccion .select2-container .select2-selection {
+    border: 1px solid #d1d3e2 !important;
+    border-radius: 0.35rem !important;
+    min-height: calc(1.5em + 0.75rem + 2px) !important;
+}
+
+.grupoSeleccion .select2-selection__arrow {
+    min-height: calc(1.5em + 0.75rem + 2px) !important;
+}
+
+.grupoSeleccion .select2-selection__choice {
+    color: #6e707e !important
+}

@@ -15,6 +15,9 @@ namespace WordVision.ec.Web.Areas.Indicadores.Models
         [Required]
         public DateTime FechaFin { get; set; }
 
+        [StringLength(200)]
+        public string Observacion { get; set; }
+
         [Required]
         public DateTime FechaDisenio { get; set; }
 
@@ -56,6 +59,7 @@ namespace WordVision.ec.Web.Areas.Indicadores.Models
 
 
         public SelectList ProgramaAreaList { get; set; }
+        public SelectList ProyectoTecnicoList { get; set; }
         public SelectList FaseProyectoList { get; set; }
         public SelectList EstadoList { get; set; }
 

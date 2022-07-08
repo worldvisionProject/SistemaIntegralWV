@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Maestro.IndicadorPR.Queries.GetAll;
 using WordVision.ec.Application.Features.Maestro.LogFrame.Commands.Create;
+using WordVision.ec.Application.Features.Maestro.LogFrame.Commands.Delete;
 using WordVision.ec.Application.Features.Maestro.LogFrame.Commands.Update;
 using WordVision.ec.Application.Features.Maestro.LogFrame.Queries.GetAll;
 using WordVision.ec.Application.Features.Maestro.LogFrame.Queries.GetById;
@@ -120,6 +121,31 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             {
                 var result = string.Join(',', ModelState.Values.SelectMany(v => v.Errors).Select(a => a.ErrorMessage));
                 return _commonMethods.SaveError($"Error al insertar LogFrame", result);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<JsonResult> OnPostDelete(int id)
+        {
+            _commonMethods.SetProperties(_notify, _logger);
+            var deleteCommand = await _mediator.Send(new DeleteLogFrameCommand { Id = id });
+            if (deleteCommand.Succeeded)
+            {
+                _notify.Information($"El registro de LogFrame fue eliminado");
+                var response = await _mediator.Send(new GetAllLogFrameQuery { Include = true });
+                if (response.Succeeded)
+                {
+                    var viewModel = _mapper.Map<List<LogFrameViewModel>>(response.Data);
+                    var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                    return new JsonResult(new { isValid = true, html = html });
+                }
+                else
+                    return _commonMethods.SaveError(response.Message);
+
+            }
+            else
+            {
+                return _commonMethods.SaveError(deleteCommand.Message);
             }
         }
 

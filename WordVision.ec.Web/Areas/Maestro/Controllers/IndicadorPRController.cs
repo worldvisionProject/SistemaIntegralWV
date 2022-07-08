@@ -5,16 +5,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WordVision.ec.Application.Features.Maestro.ActorParticipante.Queries.GetAll;
+using WordVision.ec.Application.Features.Maestro.IndicadorPR.Queries.GetAll;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Maestro.IndicadorPR.Commands.Create;
 using WordVision.ec.Application.Features.Maestro.IndicadorPR.Commands.Update;
-using WordVision.ec.Application.Features.Maestro.IndicadorPR.Queries.GetAll;
 using WordVision.ec.Application.Features.Maestro.IndicadorPR.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Maestro.Models;
 using WordVision.ec.Web.Common;
 using WordVision.ec.Web.Common.Constants;
+using WordVision.ec.Application.Features.Maestro.IndicadorPR.Commands.Delete;
+using WordVision.ec.Application.Features.Maestro.ActorParticipante.Queries.GetAll;
 
 namespace WordVision.ec.Web.Areas.Maestro.Controllers
 {
@@ -112,6 +113,31 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             {
                 var result = string.Join(',', ModelState.Values.SelectMany(v => v.Errors).Select(a => a.ErrorMessage));
                 return _commonMethods.SaveError($"Error al insertar IndicadorPR", result);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<JsonResult> OnPostDelete(int id)
+        {
+            _commonMethods.SetProperties(_notify, _logger);
+            var deleteCommand = await _mediator.Send(new DeleteIndicadorPRCommand { Id = id });
+            if (deleteCommand.Succeeded)
+            {
+                _notify.Information($"El registro de IndicadorPR fue eliminado");
+                var response = await _mediator.Send(new GetAllIndicadorPRQuery { Include = true });
+                if (response.Succeeded)
+                {
+                    var viewModel = _mapper.Map<List<IndicadorPRViewModel>>(response.Data);
+                    var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                    return new JsonResult(new { isValid = true, html = html });
+                }
+                else
+                    return _commonMethods.SaveError(response.Message);
+
+            }
+            else
+            {
+                return _commonMethods.SaveError(deleteCommand.Message);
             }
         }
 

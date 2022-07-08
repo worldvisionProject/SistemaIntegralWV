@@ -14,5 +14,6 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Maestro
         Task<int> CountAsync(IndicadorPR IndicadorPR);
         Task<int> InsertAsync(IndicadorPR indicador);
         Task UpdateAsync(IndicadorPR indicador);
+        Task DeleteAsync(IndicadorPR indicador);
     }
 }

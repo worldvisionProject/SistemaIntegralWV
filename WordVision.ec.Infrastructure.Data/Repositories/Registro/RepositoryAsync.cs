@@ -24,6 +24,12 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Registro
             return entity;
         }
 
+        public async Task<List<T>> AddRangeAsync(List<T> entities)
+        {
+            await _dbContext.Set<T>().AddRangeAsync(entities);
+            return entities;
+        }
+
         public Task DeleteAsync(T entity)
         {
             _dbContext.Set<T>().Remove(entity);

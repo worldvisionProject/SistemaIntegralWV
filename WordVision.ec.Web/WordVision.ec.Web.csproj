@@ -80,6 +80,15 @@
     <None Include="Areas\Admin\Views\User\_Create.cshtml" />
     <None Include="Areas\Admin\Views\User\_ViewAll.cshtml" />
     <None Include="Areas\Encuesta\Views\ETabulado\Index.cshtml" />
+    <None Include="Areas\Indicadores\Views\EstadoPorAnioFiscal\Index.cshtml" />
+    <None Include="Areas\Indicadores\Views\EstadoPorAnioFiscal\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Indicadores\Views\EstadoPorAnioFiscal\_ViewAll.cshtml" />
+    <None Include="Areas\Indicadores\Views\FaseProgramaArea\Index.cshtml" />
+    <None Include="Areas\Indicadores\Views\FaseProgramaArea\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Indicadores\Views\FaseProgramaArea\_ViewAll.cshtml" />
+    <None Include="Areas\Indicadores\Views\VinculacionIndicador\Index.cshtml" />
+    <None Include="Areas\Indicadores\Views\VinculacionIndicador\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Indicadores\Views\VinculacionIndicador\_ViewAll.cshtml" />
     <None Include="Areas\Maestro\Views\ActorParticipante\Index.cshtml" />
     <None Include="Areas\Maestro\Views\ActorParticipante\_CreateOrEdit.cshtml" />
     <None Include="Areas\Maestro\Views\ActorParticipante\_ViewAll.cshtml" />

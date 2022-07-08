@@ -175,6 +175,23 @@ namespace WordVision.ec.Web.Common
             return new SelectList(genericCatalogs, valueField, "Nombre");
         }
 
+        public SelectList SetGenericCatalogWithCode(List<LogFrameViewModel> items, string valueField)
+        {
+            List<GenericCatalog> genericCatalogs = new List<GenericCatalog>();
+            foreach (LogFrameViewModel item in items)
+            {
+                item.OutPut = !string.IsNullOrEmpty(item.OutPut) ? $".{item.OutPut}" : "";
+                item.Activity = !string.IsNullOrEmpty(item.Activity) ? $".{item.Activity}" : "";
+                genericCatalogs.Add(new GenericCatalog
+                {
+                    Nombre = $"{item.OutCome}{item.OutPut}{item.Activity} - {item.SumaryObjetives}",
+                    IdLogFrame = item.Id
+                });
+            }
+
+            return new SelectList(genericCatalogs, valueField, "Nombre");
+        }
+
         public void SetProperties(INotyfService notify, ILogger<object> logger)
         {
             _notify = notify;
