@@ -10,13 +10,12 @@ namespace WordVision.ec.Application.Features.Indicadores.FaseProgramaArea
     {
         public int Id { get; set; }
         public DateTime FechaInicio { get; set; }
-
         public DateTime FechaFin { get; set; }
+        public string Observacion { get; set; }
+
 
         public DateTime FechaDisenio { get; set; }
-
         public DateTime FechaRedisenio { get; set; }
-
         public DateTime FechaTransicion { get; set; }
 
         public string Dip1 { get; set; }
@@ -43,6 +42,6 @@ namespace WordVision.ec.Application.Features.Indicadores.FaseProgramaArea
         public int IdEstado { get; set; }
         public DetalleCatalogoResponse Estado { get; set; }
 
-       
+
     }
 }
