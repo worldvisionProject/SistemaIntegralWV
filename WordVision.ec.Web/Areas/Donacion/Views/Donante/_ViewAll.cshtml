@@ -1,4 +1,5 @@
-﻿@using WordVision.ec.Web.Areas.Donacion.Models
+﻿@using WordVision.ec.Web.Areas.Soporte.Models;
+@using WordVision.ec.Web.Areas.Donacion.Models
 @model DonanteViewModelView
 
 
@@ -8,8 +9,8 @@
 
 
                      <th data-priority="1">Campaña</th>
-                    <th data-priority="1">Nombre</th>
-                    <th data-priority="1">Apellido</th>
+                    <th data-priority="1">Donante</th>
+                    
                     <th data-priority="1">Cédula</th>
                     <th data-priority="1">Estado Donante</th>
                     <th data-priority="1">Ciudad</th>
@@ -33,11 +34,9 @@
                      
                     </td>
                     <td>
-                        @donante.Nombre1
+                        @donante.Nombre1 @donante.Nombre2 @donante.Apellido1 @donante.Apellido2
                     </td>
-                    <td>
-                        @donante.Apellido1
-                    </td>
+                   
                     <td>
                         @donante.RUC
                     </td>

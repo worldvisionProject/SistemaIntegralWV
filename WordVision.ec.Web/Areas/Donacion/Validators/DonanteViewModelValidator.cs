@@ -74,13 +74,39 @@ namespace WordVision.ec.Web.Areas.Donacion.Validators
             RuleFor(p => p.TelefonoCelular)
                         .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
                         .NotNull().MaximumLength(15).WithMessage("{PropertyName} No debe exceder 15 caracteres.");
-            RuleFor(p => p.TelefonoConvencional)
-                        .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
-                        .NotNull().MaximumLength(15).WithMessage("{PropertyName} No debe exceder 15 caracteres.");
+            //RuleFor(p => p.TelefonoConvencional)
+            //            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            //            .NotNull().MaximumLength(15).WithMessage("{PropertyName} No debe exceder 15 caracteres.");
             RuleFor(p => p.Tipo)
                         .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
                         .NotNull();
-
+            RuleFor(p => p.Cantidad)
+                        .GreaterThanOrEqualTo("0").WithMessage("{PropertyName} El Valor no debe ser 0")
+                        .NotNull().WithMessage("{PropertyName} es obligatorio.");
+            RuleFor(p => p.Banco)
+             .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+             .NotNull();
+            RuleFor(p => p.TipoCuenta)
+             .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+             .NotNull();
+            RuleFor(p => p.NumeroCuenta)
+             .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+             .NotNull();
+            RuleFor(p => p.NumReferencia)
+             .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+             .NotNull();
+            RuleFor(p => p.TiposTarjetasCredito)
+             .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+             .NotNull();
+            RuleFor(p => p.NumeroTarjeta)
+             .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+             .NotNull();
+            RuleFor(p => p.FechaCaducidad   )
+             .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+             .NotNull();
+            RuleFor(p => p.NumReferenciaBp)
+             .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+             .NotNull();
 
         }
     }

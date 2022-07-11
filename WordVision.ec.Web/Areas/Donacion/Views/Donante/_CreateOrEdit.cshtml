@@ -4,7 +4,7 @@
 @model DonanteViewModel
 
 
-<form id="create-form" method="post" asp-controller="Donante" asp-route-vienede=@Model.Vienede asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="@(Model.Vienede==0?"return jQueryModalPost(this);":"")" enctype="multipart/form-data">
+<form id="create-form" name="createoredit" method="post" asp-controller="Donante" asp-route-vienede=@Model.Vienede asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="@(Model.Vienede==0?"return jQueryModalPost(this);":"")" enctype="multipart/form-data">
 
     @*<div class="row">
     <div class="col-md-4">
@@ -132,12 +132,12 @@
 
                 <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaNacimiento"></label>
-                    <input asp-for="FechaNacimiento" type="text" name="FechaNacimiento" id="FechaNacimiento" class="datepicker3 form-control" />
+                    <input asp-for="FechaNacimiento" type="text" name="FechaNacimiento" id="FechaNacimiento" class="datepicker3 form-control" readonly />
                     <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
                 </div>
                 <div class="col-md-1">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Edad"></label>
-                    <input asp-for="Edad" type="text" name="Edad" id="Edad" class="form-control" readonly/>
+                    <input asp-for="Edad" type="text" name="Edad" id="Edad" class="form-control" readonly />
                     <span asp-validation-for="Edad" class="text-danger"></span>
                 </div>
             </div>
@@ -147,15 +147,15 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-                
 
-                <div class="col-md-2">
+
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Region"></label>
                     @Html.DropDownListFor(x => x.Region, (IEnumerable<SelectListItem>)Model.RegionList, new { @class = "form-control" })
                     <span asp-validation-for="Region" class="text-danger"></span>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Provincia"></label>
                     @Html.DropDownListFor(x => x.Provincia, (IEnumerable<SelectListItem>)Model.ProvinciaList, new { @class = "form-control" })
                     <span asp-validation-for="Provincia" class="text-danger"></span>
@@ -166,20 +166,27 @@
                     @Html.DropDownListFor(x => x.Ciudad, (IEnumerable<SelectListItem>)Model.CiudadList, new { @class = "form-control" })
                     <span asp-validation-for="Ciudad" class="text-danger"></span>
                 </div>
-                <div class="col-md-4">
-                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Direccion"></label>
-                    <input asp-for="Direccion" type="text" name="Direccion" class="form-control" />
-                    <span asp-validation-for="Direccion" class="text-danger"></span>
-                </div>
-                 
+                
+
             </div>
 
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
+               <div class="form-group row">
+                   <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Direccion"></label>
+                    <textarea asp-for="Direccion" type="text" name="Direccion" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Direccion" class="text-danger"></span>
+                </div>
+             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <div class="form-group row">
-               
+
                 <div class="col-md-12">
                     <div class="form-group row">
                         <div class="col-md-1">
@@ -194,25 +201,25 @@
                             <span asp-validation-for="TelefonoConvencional" class="text-danger"></span>
                         </div>
                         <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="TelefonoCelular"></label>
-                    <input asp-for="TelefonoCelular" type="text" maxlength=10 name="TelefonoCelular" class="form-control" />
-                    <span asp-validation-for="TelefonoCelular" class="text-danger"></span>
-                </div>
+                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="TelefonoCelular"></label>
+                            <input asp-for="TelefonoCelular" type="text" maxlength=10 name="TelefonoCelular" class="form-control" />
+                            <span asp-validation-for="TelefonoCelular" class="text-danger"></span>
+                        </div>
 
-                <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta">WhatsApp</label>
-                    <input asp-for="WhatsApp" type="checkbox" name="WhatsApp" />
-                    <span asp-validation-for="WhatsApp" class="text-danger"></span>
+                        <div class="col-md-2">
+                            <label class="col-md-12 col-form-label texto-pregunta">WhatsApp</label>
+                            <input asp-for="WhatsApp" type="checkbox" name="WhatsApp" />
+                            <span asp-validation-for="WhatsApp" class="text-danger"></span>
 
-                </div>
-                <div class="col-md-4">
-                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Email"></label>
-                    <input asp-for="Email" type="text" name="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="Email"></label>
+                            <input asp-for="Email" type="text" name="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
-                
+
             </div>
 
         </div>
@@ -220,7 +227,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-               
+
 
                 <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="FrecuenciaDonacion"></label>
@@ -235,7 +242,7 @@
 
                 <div class="col-md-2">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Cantidad"></label>
-                    <input asp-for="Cantidad" type="text" name="Cantidad" class="form-control" />
+                    <input asp-for="Cantidad" type="text" name="Cantidad" class="form-control" step="0,01"/>
                     <span asp-validation-for="Cantidad" class="text-danger"></span>
                 </div>
                 <div class="col-md-3">
@@ -253,10 +260,6 @@
             </div>
 
             <div class="form-group row">
-
-                
-
-
             </div>
             <div class="form-group row">
 
@@ -283,7 +286,7 @@
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaEntrega"></label>
 
                     <input type="text" asp-for="FechaEntrega" name="FechaEntrega" class="datepicker5 form-control" />
-                    <span asp-validation-for="FechaEntrega" class="text-danger"></span>
+                    <span asp-validation-for="FechaEntrega" class="text-danger" readonly></span>
                 </div>
                 <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="CalificacionDonante"></label>
@@ -309,54 +312,55 @@
                 </div>
 
                 @*<div class="col-md-4">
-                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="EvidenciaConversion"></label>
-                    <div class="custom-file form-image">
+                <label class="col-md-12 col-form-label texto-pregunta" asp-for="EvidenciaConversion"></label>
+                <div class="custom-file form-image">
+
+                @if (Model.EvidenciaConversion != null && Model.EvidenciaConversion.Length > 0)
+                {
+                <a href='/soporte/donante/ShowPDF?id=@Model.Id&tipo=1' target="_blank"><i class="fas fa-newspaper"></i> Ver Adjunto</a>
+                }
+                else
+                {
+                <input accept=".pdf"
+                asp-for="@Model.EvidenciaConversion"
+                type="file" class="form-control form-control-sm file"
+                id="customFile"  >
+
+
+
+                if (Model.EvidenciaConversion != null && Model.EvidenciaConversion.Length > 0)
+                {
+                <label class="custom-file-label" for="customFile">Archivo almacenado</label>
+                }
+                else
+                {
+                <label class="custom-file-label" for="customFile">Buscar Archivo</label>
+
+                }
+                }
+
+                </div></div>*@
+                <div class="col-md-6">
+
+
+                    @* @if (!string.IsNullOrEmpty(ViewBag.RutaLogo) && !string.IsNullOrEmpty(ViewBag.NombreLogo))
+                    {
+                    <a href="@ViewBag.RutaLogo" download="@ViewBag.NombreLogo" data-tippy-content="Descargar logo actual"><i class="fas fa-download"></i></a>
+                    }*@
+
+                    <label class="col-md-12 col-form-label texto-pregunta" for="input-file-logo">
+                        Evidencia
 
                         @if (Model.EvidenciaConversion != null && Model.EvidenciaConversion.Length > 0)
                         {
-                            <a href='/soporte/donante/ShowPDF?id=@Model.Id&tipo=1' target="_blank"><i class="fas fa-newspaper"></i> Ver Adjunto</a>
+                            <a href='/donacion/donante/ShowPDF?id=@Model.Id&tipo=1' download="evidencia"><i class="fas fa-download"></i></a>
                         }
-                        else
-                        {
-                            <input accept=".pdf"
-                               asp-for="@Model.EvidenciaConversion"
-                               type="file" class="form-control form-control-sm file"
-                               id="customFile"  >
+                    </label>
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left:0px !important">
+                        <input class="alto" id="input-file-logo" name="input-file-logo" style="height: 38px !important" type="file" class="form-control form-control-sm file" data-msg-placeholder="SELECCIONAR EVIDENCIA..." data-show-preview="false" accept=".png, .jpg, ,jpeg, .gif,.pdf, .xlsx" />
 
+                    </div>
 
-
-                            if (Model.EvidenciaConversion != null && Model.EvidenciaConversion.Length > 0)
-                            {
-                                <label class="custom-file-label" for="customFile">Archivo almacenado</label>
-                            }
-                            else
-                            {
-                                <label class="custom-file-label" for="customFile">Buscar Archivo</label>
-
-                            }
-                        }
-
-                    </div></div>*@
-                      <div class="col-md-6">
-                    
-                             
-                       @* @if (!string.IsNullOrEmpty(ViewBag.RutaLogo) && !string.IsNullOrEmpty(ViewBag.NombreLogo))
-                        {
-                        <a href="@ViewBag.RutaLogo" download="@ViewBag.NombreLogo" data-tippy-content="Descargar logo actual"><i class="fas fa-download"></i></a>
-                          }*@
-                        
-                         <label class="col-md-12 col-form-label texto-pregunta" for="input-file-logo">Evidencia 
-
-                         @if (Model.EvidenciaConversion != null && Model.EvidenciaConversion.Length > 0)
-                            {
-                                <a href='/donacion/donante/ShowPDF?id=@Model.Id&tipo=1'  download="evidencia"  ><i class="fas fa-download"></i></a>
-                            }
-                            </label>
-                        <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left:0px !important">
-                          <input class="alto" id="input-file-logo" name="input-file-logo" style="height: 38px !important" type="file" class="form-control form-control-sm file" data-msg-placeholder="SELECCIONAR EVIDENCIA..." data-show-preview="false" accept=".png, .jpg, ,jpeg, .gif,.pdf, .xlsx" />
-        
-                         </div>
-                     
                 </div>
 
             </div>
@@ -369,7 +373,7 @@
         <div class="col-md-12">
 
             <div class="card">
-                <div class="card-header  bg-primary">Botón de pago</div>
+                <div class="card-header  bg-primary">Botón de Pago</div>
                 <div class="card-body">
 
                     <div class="row">
@@ -453,7 +457,7 @@
         <div class="col-md-12">
 
             <div class="card">
-                <div class="card-header  bg-primary">Débito bancario</div>
+                <div class="card-header  bg-primary">Débito Bancario</div>
                 <div class="card-body">
 
                     <div class="row">
@@ -464,7 +468,7 @@
                                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="TipoCuenta"></label>
                                     @Html.DropDownListFor(x => x.TipoCuenta, (IEnumerable<SelectListItem>)Model.TipoCuentaList, new { @class = "form-control" })
 
-                                    <span asp-validation-for="TipoCuenta" class="text-danger"></span>
+                                    <span asp-validation-for="TipoCuenta" class="text-danger" ></span>
                                 </div>
 
                                 <div class="col-md-4">
@@ -496,7 +500,7 @@
         <div class="col-md-12">
 
             <div class="card">
-                <div class="card-header  bg-primary">Deposito/Transferencia</div>
+                <div class="card-header  bg-primary">Depósito/Transferencia</div>
                 <div class="card-body">
 
                     <div class="row">
@@ -526,7 +530,7 @@
         <div class="col-md-12">
 
             <div class="card">
-                <div class="card-header  bg-primary">Tarjeta de crédito</div>
+                <div class="card-header  bg-primary">Tarjeta de Crédito</div>
                 <div class="card-body">
 
 
@@ -598,7 +602,7 @@
         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Donante.Create)).Result.Succeeded)
         {
             <input type="hidden" value="false" name="band" id="band" />
-            <button type="submit" class="btn btn-info">Guardar</button>
+            <button type="submit" class="btn btn-info" style="background-color:blue !important">Guardar</button>
         }
         else
         {
@@ -618,15 +622,15 @@
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
     //Logo
-        $('#input-file-logo').fileinput({
-            language: "es",
-            showUpload: false,
-            maxFileCount: 1,
-            inputGroupClass: "input-group-sm",
-            allowedFileExtensions: ["jpg", "png", "jpeg", "gif","pdf","xlsx"],
-        }).on('fileloaded', function () {
-            //validarDimensiones();
-        });
+    $('#input-file-logo').fileinput({
+        language: "es",
+        showUpload: false,
+        maxFileCount: 1,
+        inputGroupClass: "input-group-sm",
+        allowedFileExtensions: ["jpg", "png", "jpeg", "gif", "pdf", "xlsx"],
+    }).on('fileloaded', function() {
+        //validarDimensiones();
+    });
 
     $(function() {
 
@@ -800,100 +804,102 @@
     $('#TelefonoConvencional').on('input', function() {
         this.value = this.value.replace(/[^0-9]/g, '');
 
-        
+
 
 
     });
 
-    $("#Nombre1").keypress(function (key) {
-            window.console.log(key.charCode)
-            if ((key.charCode < 97 || key.charCode > 122)//letras mayusculas
-                && (key.charCode < 65 || key.charCode > 90) //letras minusculas
-                && (key.charCode != 45) //retroceso
-                && (key.charCode != 241) //ñ
-                 && (key.charCode != 209) //Ñ
-                 && (key.charCode != 32) //espacio
-                 && (key.charCode != 225) //á
-                 && (key.charCode != 233) //é
-                 && (key.charCode != 237) //í
-                 && (key.charCode != 243) //ó
-                 && (key.charCode != 250) //ú
-                 && (key.charCode != 193) //Á
-                 && (key.charCode != 201) //É
-                 && (key.charCode != 205) //Í
-                 && (key.charCode != 211) //Ó
-                 && (key.charCode != 218) //Ú
- 
-                )
-                return false;
-        });
-         $("#Nombre2").keypress(function (key) {
-            window.console.log(key.charCode)
-            if ((key.charCode < 97 || key.charCode > 122)//letras mayusculas
-                && (key.charCode < 65 || key.charCode > 90) //letras minusculas
-                && (key.charCode != 45) //retroceso
-                && (key.charCode != 241) //ñ
-                 && (key.charCode != 209) //Ñ
-                 && (key.charCode != 32) //espacio
-                 && (key.charCode != 225) //á
-                 && (key.charCode != 233) //é
-                 && (key.charCode != 237) //í
-                 && (key.charCode != 243) //ó
-                 && (key.charCode != 250) //ú
-                 && (key.charCode != 193) //Á
-                 && (key.charCode != 201) //É
-                 && (key.charCode != 205) //Í
-                 && (key.charCode != 211) //Ó
-                 && (key.charCode != 218) //Ú
- 
-                )
-                return false;
-        });
-         $("#Apellido1").keypress(function (key) {
-            window.console.log(key.charCode)
-            if ((key.charCode < 97 || key.charCode > 122)//letras mayusculas
-                && (key.charCode < 65 || key.charCode > 90) //letras minusculas
-                && (key.charCode != 45) //retroceso
-                && (key.charCode != 241) //ñ
-                 && (key.charCode != 209) //Ñ
-                 && (key.charCode != 32) //espacio
-                 && (key.charCode != 225) //á
-                 && (key.charCode != 233) //é
-                 && (key.charCode != 237) //í
-                 && (key.charCode != 243) //ó
-                 && (key.charCode != 250) //ú
-                 && (key.charCode != 193) //Á
-                 && (key.charCode != 201) //É
-                 && (key.charCode != 205) //Í
-                 && (key.charCode != 211) //Ó
-                 && (key.charCode != 218) //Ú
- 
-                )
-                return false;
-        });
-        $("#Apellido2").keypress(function (key) {
-            window.console.log(key.charCode)
-            if ((key.charCode < 97 || key.charCode > 122)//letras mayusculas
-                && (key.charCode < 65 || key.charCode > 90) //letras minusculas
-                && (key.charCode != 45) //retroceso
-                && (key.charCode != 241) //ñ
-                 && (key.charCode != 209) //Ñ
-                 && (key.charCode != 32) //espacio
-                 && (key.charCode != 225) //á
-                 && (key.charCode != 233) //é
-                 && (key.charCode != 237) //í
-                 && (key.charCode != 243) //ó
-                 && (key.charCode != 250) //ú
-                 && (key.charCode != 193) //Á
-                 && (key.charCode != 201) //É
-                 && (key.charCode != 205) //Í
-                 && (key.charCode != 211) //Ó
-                 && (key.charCode != 218) //Ú
- 
-                )
-                return false;
-        });
-  
+    $("#Nombre1").keypress(function(key) {
+        window.console.log(key.charCode)
+        if ((key.charCode < 97 || key.charCode > 122)//letras mayusculas
+            && (key.charCode < 65 || key.charCode > 90) //letras minusculas
+            && (key.charCode != 45) //retroceso
+            && (key.charCode != 241) //ñ
+            && (key.charCode != 209) //Ñ
+            && (key.charCode != 32) //espacio
+            && (key.charCode != 225) //á
+            && (key.charCode != 233) //é
+            && (key.charCode != 237) //í
+            && (key.charCode != 243) //ó
+            && (key.charCode != 250) //ú
+            && (key.charCode != 193) //Á
+            && (key.charCode != 201) //É
+            && (key.charCode != 205) //Í
+            && (key.charCode != 211) //Ó
+            && (key.charCode != 218) //Ú
+
+        )
+            return false;
+    });
+    $("#Nombre2").keypress(function(key) {
+        window.console.log(key.charCode)
+        if ((key.charCode < 97 || key.charCode > 122)//letras mayusculas
+            && (key.charCode < 65 || key.charCode > 90) //letras minusculas
+            && (key.charCode != 45) //retroceso
+            && (key.charCode != 241) //ñ
+            && (key.charCode != 209) //Ñ
+            && (key.charCode != 32) //espacio
+            && (key.charCode != 225) //á
+            && (key.charCode != 233) //é
+            && (key.charCode != 237) //í
+            && (key.charCode != 243) //ó
+            && (key.charCode != 250) //ú
+            && (key.charCode != 193) //Á
+            && (key.charCode != 201) //É
+            && (key.charCode != 205) //Í
+            && (key.charCode != 211) //Ó
+            && (key.charCode != 218) //Ú
+
+        )
+            return false;
+    });
+    $("#Apellido1").keypress(function(key) {
+        window.console.log(key.charCode)
+        if ((key.charCode < 97 || key.charCode > 122)//letras mayusculas
+            && (key.charCode < 65 || key.charCode > 90) //letras minusculas
+            && (key.charCode != 45) //retroceso
+            && (key.charCode != 241) //ñ
+            && (key.charCode != 209) //Ñ
+            && (key.charCode != 32) //espacio
+            && (key.charCode != 225) //á
+            && (key.charCode != 233) //é
+            && (key.charCode != 237) //í
+            && (key.charCode != 243) //ó
+            && (key.charCode != 250) //ú
+            && (key.charCode != 193) //Á
+            && (key.charCode != 201) //É
+            && (key.charCode != 205) //Í
+            && (key.charCode != 211) //Ó
+            && (key.charCode != 218) //Ú
+
+        )
+            return false;
+    });
+    $("#Apellido2").keypress(function(key) {
+        window.console.log(key.charCode)
+        if ((key.charCode < 97 || key.charCode > 122)//letras mayusculas
+            && (key.charCode < 65 || key.charCode > 90) //letras minusculas
+            && (key.charCode != 45) //retroceso
+            && (key.charCode != 241) //ñ
+            && (key.charCode != 209) //Ñ
+            && (key.charCode != 32) //espacio
+            && (key.charCode != 225) //á
+            && (key.charCode != 233) //é
+            && (key.charCode != 237) //í
+            && (key.charCode != 243) //ó
+            && (key.charCode != 250) //ú
+            && (key.charCode != 193) //Á
+            && (key.charCode != 201) //É
+            && (key.charCode != 205) //Í
+            && (key.charCode != 211) //Ó
+            && (key.charCode != 218) //Ú
+
+        )
+            return false;
+    });
+
+   
+
     $("#WhatsApp").change(function() {
 
         var valor = $("#TelefonoCelular").val();
@@ -906,7 +912,7 @@
             return false;
 
         }
-       
+
 
     });
     //JHOSEL MACIAS 08.07.22
@@ -966,6 +972,18 @@
         var valor = $("#FrecuenciaDonacion").val();
         var categoria = $("#Categoria").val();
 
+        $("#FrecuenciaDonacion").prop('disabled', false);
+
+        //if ( categoria ==  2) {
+        //    $("#FrecuenciaDonacion").val(5);
+        //    $("#FrecuenciaDonacion").attr('readonly', true);
+        if ($("#Categoria").val() == "2") {
+            $("#FrecuenciaDonacion").val(5);
+            $('#FrecuenciaDonacion').prop('disabled', true);
+
+            return false;
+        }
+        
 
         if (valor == 5 & categoria == 1) {
             Swal.fire("¡Advertencia!", "Categoría Recurrente no puede ser Frecuencia de Donación: Único", "warning");
@@ -976,6 +994,9 @@
         }
 
     });
+
+
+
 
 
 
@@ -1042,7 +1063,7 @@
 
 
     });
-        //
+                //
 
 
 </script>

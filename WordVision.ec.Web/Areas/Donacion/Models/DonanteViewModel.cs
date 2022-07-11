@@ -32,7 +32,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public int Campana { get; set; }
         [Display(Name = "Estado del Donante")]
         public int EstadoDonante { get; set; }
-        [Display(Name = "Primer Nombre")]
+       
         public string Nombre1 { get; set; }
         [Display(Name = "Segundo Nombre")]
         public string Nombre2 { get; set; }
@@ -81,7 +81,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         //[Display(Name = "Quincena")]
         //public int? Quincena { get; set; }
 
-        [Display(Name = "Fecha de inicio de débito")]
+        [Display(Name = "Fecha de Inicio de Débito")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? MesInicialDebito { get; set; }
 

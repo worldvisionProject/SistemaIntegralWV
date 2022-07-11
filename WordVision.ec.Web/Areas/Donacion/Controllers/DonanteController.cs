@@ -17,6 +17,8 @@ using WordVision.ec.Application.Features.Donacion.Donantes.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Donacion.Donantes.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Donacion.Models;
+using WordVision.ec.Application.Features.Maestro.DivisionPolitica.Queries.GetById;
+using WordVision.ec.Web.Areas.Maestro.Models;
 
 namespace WordVision.ec.Web.Areas.Donacion.Controllers
 {
@@ -67,75 +69,84 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
         public async Task<IActionResult> OnGetCreate(int id = 0, int vienede= 0)
         {
 
-
-            var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 21, Ninguno = true });
-            var formaPago = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 22, Ninguno = true });
-            var canal = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 23, Ninguno = true });
-            var responsable = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 24, Ninguno = true });
-            var tipo = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 25, Ninguno = true });
-            var categoria = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 26, Ninguno = true });
-            var campana = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 27, Ninguno = true });
-            var estadoDonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 28, Ninguno = true });
-            var genero = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 30, Ninguno = true });
-            var tipoId = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 31, Ninguno = true });
-            var region = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 32, Ninguno = true });
-            var provincia = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 33, Ninguno = true });
-            var ciudad = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 34, Ninguno = true });
-            var frecuencia = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 35, Ninguno = true });
-            var tipoCuenta = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 36, Ninguno = true });
-            var tipoTarjeta = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 37, Ninguno = true });
-            var banco = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 65, Ninguno = true });
-            var periodoDonacion = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 66, Ninguno = true });
-            var calificaciondonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-
-            //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 60, Ninguno = true });
-            //var quincena = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-
-
-
-            if (id == 0)
+            try
             {
-                var entidadViewModel = new DonanteViewModel();
-                entidadViewModel.FormaPagoList = formaPago;
-                entidadViewModel.CanalList = canal;
-                entidadViewModel.ResponsableList = responsable;
-                entidadViewModel.TipoList = tipo;
-                entidadViewModel.CategoriaList = categoria;
-                entidadViewModel.CampanaList = campana;
-                entidadViewModel.EstadoDonanteList = estadoDonante;
-                entidadViewModel.GeneroList = genero;
-                entidadViewModel.TipoIdList = tipoId;
-                entidadViewModel.RegionList = region;
-                entidadViewModel.ProvinciaList = provincia;
-                entidadViewModel.CiudadList = ciudad;
-                entidadViewModel.FrecuenciaList = frecuencia;
-                entidadViewModel.TipoCuentaList = tipoCuenta;
-                entidadViewModel.TipoTarjetaList = tipoTarjeta;
-                entidadViewModel.BancoList = banco;
-                //entidadViewModel.QuincenaList = quincena;
-                entidadViewModel.FechaConversion = DateTime.Now;
-                entidadViewModel.CalificacionDonanteList = calificaciondonante;
-                entidadViewModel.PeriodoDonacionList = periodoDonacion;
-                entidadViewModel.Vienede = vienede;
-                return PartialView("_CreateOrEdit", entidadViewModel);
+                var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 21, Ninguno = true });
+                var formaPago = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 22, Ninguno = true });
+                var canal = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 23, Ninguno = true });
+                var responsable = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 24, Ninguno = true });
+                var tipo = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 25, Ninguno = true });
+                var categoria = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 26, Ninguno = true });
+                var campana = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 27, Ninguno = true });
+                var estadoDonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 28, Ninguno = true });
+                var genero = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 30, Ninguno = true });
+                var tipoId = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 31, Ninguno = true });
+                var region = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 32, Ninguno = true });
+                //var provincia = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 33, Ninguno = true });
+                //var ciudad = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 34, Ninguno = true });
+                var frecuencia = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 35, Ninguno = true });
+                var tipoCuenta = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 36, Ninguno = true });
+                var tipoTarjeta = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 37, Ninguno = true });
+                var banco = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 65, Ninguno = true });
+                var periodoDonacion = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 66, Ninguno = true });
+                var calificaciondonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+
+                //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 60, Ninguno = true });
+                //var quincena = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+
+
+
+                if (id == 0)
+                {
+                    List<SelectListItem> items = new List<SelectListItem>();
+                    var entidadViewModel = new DonanteViewModel();
+                    entidadViewModel.FormaPagoList = formaPago;
+                    entidadViewModel.CanalList = canal;
+                    entidadViewModel.ResponsableList = responsable;
+                    entidadViewModel.TipoList = tipo;
+                    entidadViewModel.CategoriaList = categoria;
+                    entidadViewModel.CampanaList = campana;
+                    entidadViewModel.EstadoDonanteList = estadoDonante;
+                    entidadViewModel.GeneroList = genero;
+                    entidadViewModel.TipoIdList = tipoId;
+                    entidadViewModel.RegionList = region;
+                    entidadViewModel.ProvinciaList = new SelectList(items, "Value", "Text");
+                    entidadViewModel.CiudadList = new SelectList(items, "Value", "Text");
+                    entidadViewModel.FrecuenciaList = frecuencia;
+                    entidadViewModel.TipoCuentaList = tipoCuenta;
+                    entidadViewModel.TipoTarjetaList = tipoTarjeta;
+                    entidadViewModel.BancoList = banco;
+                    //entidadViewModel.QuincenaList = quincena;
+                    entidadViewModel.FechaConversion = DateTime.Now;
+                    entidadViewModel.CalificacionDonanteList = calificaciondonante;
+                    entidadViewModel.PeriodoDonacionList = periodoDonacion;
+                    entidadViewModel.Vienede = vienede;
+                    return PartialView("_CreateOrEdit", entidadViewModel);
+                }
             }
+            catch (Exception ex)
+            {
+                _logger.LogError("OnGetCreateOrEdit", ex);
+                _notify.Error("Error al crear el Donante");
+            }
+        
             return null;
 
         }
@@ -180,10 +191,10 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 var tipoId = new SelectList(catalogo.Data, "Secuencia", "Nombre");
                 catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 31, Ninguno = true });
                 var region = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 32, Ninguno = true });
-                var provincia = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 33, Ninguno = true });
-                var ciudad = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 32, Ninguno = true });
+                //var provincia = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 33, Ninguno = true });
+                //var ciudad = new SelectList(catalogo.Data, "Secuencia", "Nombre");
                 catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 34, Ninguno = true });
                 var frecuencia = new SelectList(catalogo.Data, "Secuencia", "Nombre");
                 catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 35, Ninguno = true });
@@ -214,8 +225,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     entidadViewModel.GeneroList = genero;
                     entidadViewModel.TipoIdList = tipoId;
                     entidadViewModel.RegionList = region;
-                    entidadViewModel.ProvinciaList = provincia;
-                    entidadViewModel.CiudadList = ciudad;
+                    //entidadViewModel.ProvinciaList = provincia;
+                    //entidadViewModel.CiudadList = ciudad;
                     entidadViewModel.FrecuenciaList = frecuencia;
                     entidadViewModel.TipoCuentaList = tipoCuenta;
                     entidadViewModel.TipoTarjetaList = tipoTarjeta;
@@ -233,6 +244,15 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     if (response.Succeeded)
                     {
                         var entidadViewModel = _mapper.Map<DonanteViewModel>(response.Data);
+                        var entidadModel = await _mediator.Send(new GetProvinciaByIdRegionQuery() { IdRegion = entidadViewModel.Region });
+                        var lista = _mapper.Map<List<ProvinciaViewModel>>(entidadModel.Data);
+
+                        entidadViewModel.ProvinciaList = new SelectList(lista, "Id", "Nombre");
+                        var entidadModelC = await _mediator.Send(new GetCiudadByIdProvinciaQuery() { IdProvincia = entidadViewModel.Provincia});
+                        var listaC = _mapper.Map<List<CiudadViewModel>>(entidadModelC.Data);
+                        entidadViewModel.CiudadList = new SelectList(listaC, "Id", "Nombre");
+
+
                         entidadViewModel.FormaPagoList = formaPago;
                         entidadViewModel.CanalList = canal;
                         entidadViewModel.ResponsableList = responsable;
@@ -243,8 +263,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         entidadViewModel.GeneroList = genero;
                         entidadViewModel.TipoIdList = tipoId;
                         entidadViewModel.RegionList = region;
-                        entidadViewModel.ProvinciaList = provincia;
-                        entidadViewModel.CiudadList = ciudad;
+                        
                         entidadViewModel.FrecuenciaList = frecuencia;
                         entidadViewModel.TipoCuentaList = tipoCuenta;
                         entidadViewModel.TipoTarjetaList = tipoTarjeta;
