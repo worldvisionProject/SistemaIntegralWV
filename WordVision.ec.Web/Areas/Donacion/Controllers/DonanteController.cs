@@ -300,6 +300,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     if (result.Succeeded) _notify.Information($"Donante con ID {result.Data} Actualizado.");
                 }
 
+               
+
                 if (ModelState.IsValid)
                 {
                     if (Request.Form.Files.Count > 0)

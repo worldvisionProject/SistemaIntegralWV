@@ -88,7 +88,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
                                         Identificacion =a.RUC ,
                                         FormaPago = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 21 && c.Secuencia == a.FormaPago.ToString()).FirstOrDefault().Nombre,
                                         //EntidadBancaria = ,
-                                        TipoCuenta = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 25 && c.Secuencia == a.TipoCuenta.ToString()).FirstOrDefault().Nombre,
+                                        TipoCuenta = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 35 && c.Secuencia == a.TipoCuenta.ToString()).FirstOrDefault().Nombre,
                                         Cuenta = a.NumeroCuenta,
                                         Valor =a.Cantidad ,
 

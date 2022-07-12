@@ -32,7 +32,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public int Campana { get; set; }
         [Display(Name = "Estado del Donante")]
         public int EstadoDonante { get; set; }
-       
+        [Display(Name = "Primer Nombre")]
         public string Nombre1 { get; set; }
         [Display(Name = "Segundo Nombre")]
         public string Nombre2 { get; set; }
@@ -75,7 +75,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public string Email { get; set; }
         [Display(Name = "Frecuencia de Donación")]
         public int FrecuenciaDonacion { get; set; }
-        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$" , ErrorMessage = "Ingrese un valor decimal")]
         public string Cantidad { get; set; }
 
         //[Display(Name = "Quincena")]

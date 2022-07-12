@@ -270,6 +270,17 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     }
                     
                 }
+                var responseExisteRespuesta = await _mediator.Send(new GetExisteCargaRespuestaQuery() { formaPago = formaPago, bancoTarjeta = bancoTarjeta, anio = anio, mes = mes }); ;
+                if (responseExisteRespuesta.Succeeded)
+                {
+                    if ((int)responseExisteRespuesta.Data <= 0)
+                    {
+                        _notify.Success($"Ya se ha cargado las respuestas para este mes y este año");
+
+                        return new JsonResult(new { isValid = false });
+                    }
+
+                }
                 int i = 0;
                 if (Request.Form.Files.Count > 0)
                 {
@@ -289,6 +300,11 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                             var linea = stream.ReadLine();
                             strContent.Add(linea);//agrego al List el contenido del archivo                   
                         }
+                        if (strContent.Count == 0)
+                        {
+                            _notify.Success($"No existen registros en el archivo.");
+                            return new JsonResult(new { isValid = false });
+                        }
                         i = 0;
                         foreach (var item in strContent.Skip(1))//salteo las cabeceras
                         {
@@ -301,21 +317,9 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                             debito.FormaPago = formaPago;
                             debito.CodigoRespuesta = cells[1];
                             debito.FechaDebito = cells[2];
-                            //D.Codigo = cells[0];
-                            //D.Nombre = cells[1];
-                            //D.Cuentasop = cells[2];
-                            //D.T2 = cells[3];
-                            //D.DescripcionT2 = cells[4];
-                            //D.Tipo = 1;
-
-                            //var createLDRCommand = _mapper.Map<CreateDatosT5Command>(D);
-                            //var resultLDR = await _mediator.Send(createLDRCommand);
-                            //if (resultLDR.Succeeded)
-                            //{
-
+                           
                                 i++;
-                            //}
-                            //else _notify.Error(resultLDR.Message);
+                 
 
                             listaDatos.Add(debito);
                         }
@@ -347,7 +351,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
             }
             catch (Exception ex)
             {
-                _notify.Error($"Error al Insertar.");
+                _notify.Error($"No se puedo cargar el archivo.");
                 _logger.LogError(ex, $"Error al Insertar archivo respuesta.");
                 return new JsonResult(new { isValid = false });
             }

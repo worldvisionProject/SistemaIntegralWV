@@ -4,7 +4,7 @@
 @model DonanteViewModel
 
 
-<form id="create-form" name="createoredit" method="post" asp-controller="Donante" asp-route-vienede=@Model.Vienede asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="@(Model.Vienede==0?"return jQueryModalPost(this);":"")" enctype="multipart/form-data">
+<form id="create-form" name="createoredit" method="post" asp-controller="Donante" asp-route-vienede=@Model.Vienede asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" enctype="multipart/form-data">
 
     @*<div class="row">
     <div class="col-md-4">
@@ -166,7 +166,7 @@
                     @Html.DropDownListFor(x => x.Ciudad, (IEnumerable<SelectListItem>)Model.CiudadList, new { @class = "form-control" })
                     <span asp-validation-for="Ciudad" class="text-danger"></span>
                 </div>
-                
+
 
             </div>
 
@@ -174,13 +174,13 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-               <div class="form-group row">
-                   <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-12">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Direccion"></label>
                     <textarea asp-for="Direccion" type="text" name="Direccion" class="form-control" rows="3"></textarea>
                     <span asp-validation-for="Direccion" class="text-danger"></span>
                 </div>
-             </div>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -242,7 +242,7 @@
 
                 <div class="col-md-2">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Cantidad"></label>
-                    <input asp-for="Cantidad" type="text" name="Cantidad" class="form-control" step="0,01"/>
+                    <input asp-for="Cantidad" type="text" name="Cantidad" class="form-control" min="0,0">
                     <span asp-validation-for="Cantidad" class="text-danger"></span>
                 </div>
                 <div class="col-md-3">
@@ -468,7 +468,7 @@
                                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="TipoCuenta"></label>
                                     @Html.DropDownListFor(x => x.TipoCuenta, (IEnumerable<SelectListItem>)Model.TipoCuentaList, new { @class = "form-control" })
 
-                                    <span asp-validation-for="TipoCuenta" class="text-danger" ></span>
+                                    <span asp-validation-for="TipoCuenta" class="text-danger"></span>
                                 </div>
 
                                 <div class="col-md-4">
@@ -621,6 +621,80 @@
 
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
+
+    //jhosel macias 12.07.22 20 minutos con validaciones              
+    ("#create-form".on("submit", function(e) {
+        e.preventDefault();
+         
+          var formaPago  = $("#FormaPago").val();
+
+        if (formaPago == 1) {
+            var referencia  = $("#NumReferenciaBp").val();
+
+            if (referencia == "") {
+                Swal.fire("¡Advertencia!", "Campo Num. Referencia no puede estar vacio", "warning");
+                return false;
+            }
+        }
+        var formaPago  = $("#FormaPago").val();
+
+        if (formaPago == 2) {
+            var tipoCuenta = $("#TipoCuenta").val();
+            var banco = $("#Banco").val();
+
+            if (tipoCuenta == "") {
+                Swal.fire("¡Advertencia!", "Campo Tipo de Cuenta no puede estar vacio", "warning");
+                return false;
+            }
+            if (banco == "") {
+                Swal.fire("¡Advertencia!", "Campo Banco no puede estar vacio", "warning");
+                return false;
+
+            }
+        }
+        var formaPago=  $("#FormaPago").val();
+      
+        if (formaPago == 3) {
+             var referenciadt=  $("#NumReferencia").val();
+          
+              if (referenciadt == "") {
+                   Swal.fire("¡Advertencia!", "Campo  Num. Referencia no puede estar vacio", "warning");
+                  return false;
+              }
+        }
+         var formaPago  = $("#FormaPago").val();
+
+        if (formaPago == 4) {
+            var tipotarjetaCredito = $("#TiposTarjetasCredito").val();
+            var numerotarjeta = $("#NumeroTarjeta").val();
+            var fechacaducidad = $("#FechaCaducidad").val();
+
+            if (tipotarjetaCredito == "") {
+                Swal.fire("¡Advertencia!", "Campo Tipo de Tarjeta no puede estar vacio", "warning");
+                return false;
+            }
+            if (numerotarjeta == "") {
+                Swal.fire("¡Advertencia!", "Campo Numero de Tarjeta no puede estar vacio", "warning");
+                return false;
+
+            }
+             if (fechacaducidad == "") {
+                Swal.fire("¡Advertencia!", "Campo Fecha Caducidad no puede estar vacio", "warning");
+                return false;
+
+            }
+        }
+
+        if (@Model.Vienede == 0)  {
+
+                return jQueryModalPost(this);
+         } else {
+
+             $("#create-form")[0].submit();
+              return true;
+        }
+
+    });
     //Logo
     $('#input-file-logo').fileinput({
         language: "es",
@@ -789,7 +863,11 @@
     $('#Cantidad').on('input', function() {
         this.value = this.value.replace(/[^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?]/g, '').replace('.', ',');
 
+
     });
+
+
+
 
     $('#RUC').on('input', function() {
         this.value = this.value.replace(/[^0-9]/g, '');
@@ -897,8 +975,50 @@
         )
             return false;
     });
+    //poner decimales
+        //    $("#Cantidad").on({
+        //    "focus": function (event) {
+        //        $(event.target).select();
+        //    },
+        //    "keyup": function (event) {
+        //        $(event.target).val(function (index, value ) {
+        //            return value.replace(/\D/g, "")
+        //                        .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+        //                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+        //        });
+        //    }
+        //});
+     $("#Cantidad").change(function() {
 
-   
+         if ($("#Cantidad").val() == '0,00' || $("#Cantidad").val() == '0' || $("#Cantidad").val() == '0,0' || $("#Cantidad").val() == '0,000') {
+            $("#Cantidad").focus();
+            Swal.fire("¡Advertencia!", "Ingrese una cantidad mayor a 0", "warning");
+            $('#Cantidad').prop('checked', false);
+            $("#Cantidad").val("");
+
+            return false;
+
+        }
+
+
+    });
+
+        //$("#Cantidad").change(function() {
+
+        //    var valor = parseInt($("#Cantidad").val());
+
+        //    if ( valor <= 0 ) {
+        //            $("#Cantidad").focus();
+        //            Swal.fire("¡Advertencia!", "Ingrese una cantidad mayor a 0", "warning");
+        //            $('#Cantidad').prop('checked', false);
+        //             $("#Cantidad").val("");
+
+        //            return false;
+
+        //        }
+
+
+        //    });
 
     $("#WhatsApp").change(function() {
 
@@ -983,7 +1103,7 @@
 
             return false;
         }
-        
+
 
         if (valor == 5 & categoria == 1) {
             Swal.fire("¡Advertencia!", "Categoría Recurrente no puede ser Frecuencia de Donación: Único", "warning");
@@ -1063,7 +1183,7 @@
 
 
     });
-                //
+                        //
 
 
 </script>

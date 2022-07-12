@@ -57,8 +57,13 @@ namespace WordVision.ec.Application.Features.Donacion.Debitos.Commands.Create
         {
             foreach(var item in request.ListaDebitos)
             {
-                var debito = _mapper.Map<Debito>(item);//mapea
-            await _debitoRepository.InsertAsync(debito);//INsertar a la BBDD
+              var resultado =   await _debitoRepository.GetByPersonaAsync(item.FormaPago, item.CodigoBanco, item.Anio, item.Mes, item.Contrapartida);
+                if (resultado <= 0)
+                {
+                    var debito = _mapper.Map<Debito>(item);//mapea
+                    await _debitoRepository.InsertAsync(debito);//INsertar a la BBDD
+                }
+              
 
             }
 

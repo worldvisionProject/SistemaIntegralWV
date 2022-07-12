@@ -61,9 +61,42 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
             return await _repository.Entities.Where(d => d.FormaPago == formaPago && d.CodigoBanco == bancoTarjeta && d.Anio == anio && d.Mes == mes && d.Contrapartida == contrapartida && d.Estado ==1 ).FirstOrDefaultAsync();
         }
 
+        public async Task<int> GetByExisteCargaRespuestaAsync(int formaPago, int bancoTarjeta, int anio, int mes)
+        {
+            switch (formaPago)
+            {
+                case 1:
+                    break;
+                case 2:
+                    if (bancoTarjeta == 1)
+                    {
+                        return await _repository.Entities.Where(d => d.FormaPago == formaPago && d.CodigoBanco == 10 && d.Anio == anio && d.Mes == mes && d.CodigoRespuesta != null ).CountAsync();
+
+                    }
+                    else
+                    {
+                        return await _repository.Entities.Where(d => d.FormaPago == formaPago && d.CodigoBanco != 10 && d.Anio == anio && d.Mes == mes && d.CodigoRespuesta != null).CountAsync();
+                    }
+                    break;
+
+                case 3:
+                    break;
+                case 4:
+                    return await _repository.Entities.Where(d => d.FormaPago == formaPago && d.CodigoBanco == bancoTarjeta && d.Anio == anio && d.Mes == mes && d.CodigoRespuesta != null).CountAsync();
+                    break;
+
+            }
+            return 0;
+        }
+
         public async Task<Debito> GetByIdAsync(int idDebito)
         {
             return await _repository.Entities.Where(d => d.Id == idDebito).FirstOrDefaultAsync();
+        }
+
+        public async Task<int> GetByPersonaAsync(int formaPago, int bancoTarjeta, int anio, int mes, string contrapartida)
+        {
+            return await _repository.Entities.Where(d => d.FormaPago == formaPago && d.CodigoBanco == bancoTarjeta && d.Anio == anio && d.Mes == mes && d.Contrapartida == contrapartida).CountAsync();
         }
 
         public async Task<List<Debito>> GetListAsync()

@@ -335,9 +335,24 @@
                     contentType: false,
                     cache: false,
                     timeout: 600000,
+                    beforeSend: function () {
+                                startLoading("#frmRespuesta");
+                            },
                     success: function (data) {
-                       // console.log();
+                        finishLoading("#frmRespuesta");
+                                Swal.fire("¡Listo!", "El archivo fue cargado", "success").then((value) => {
+                                    tableMain.ajax.reload(reHandle, true);
+                                   
+                                });
                     },
+                    error: function (error) {
+                        finishLoading("#frmRespuesta");
+                        Swal.fire({
+                            title: "Error",
+                            text: error.responseJSON.mensaje,
+                            icon: 'error'
+                        });
+                    }
                 });
 
             //return true;
