@@ -4,7 +4,7 @@
 <div class="container-fluid" style="padding: 0px 25px !important;">
     <div class="row">
         <div class="col-md-12">
-             <label class="col-md-12 col-form-label texto-pregunta" style="color:black;font-weight: bold;">@Model.Colaborador</label>
+            <label class="col-md-12 col-form-label texto-pregunta" style="color:black;font-weight: bold;">@Model.Colaborador</label>
         </div>
     </div>
 
@@ -30,7 +30,7 @@
     </div>
 </div>
 <br />
-              
+
 
 
 <div class="card card-info">
@@ -39,39 +39,78 @@
         <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Donantes </font> </label>
     </div>
     <div class="card-body" style="padding:15px 20px 20px 20px !important">
-        
-       <div id="viewAll" class="card-body table-responsive">
+
+        <div class="col-12">
+            <div class="form-group row">
+        <div class="col-md-3">
+            <label class="col-md-12 col-form-label texto-pregunta">Estado Donante</label>
+            <select id="estadoDonante" name="estadoDonante" data-width="600px" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.EstadoDonanteList)" data-live-search="true">
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="col-md-12 col-form-label texto-pregunta">Categoria</label>
+            <select id="categoria" name="categoria" data-width="600px" style="color:#999 !important" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.CategoriaList)" data-live-search="true">
+            </select>
+        </div>
+
+
+        <div class="col-md-4" style="padding:25px 10px 30px 55px">
+            <a class="btn btn-sm btn-labeled btn-success" href="#" onclick="buscarDonante()">
+                <span class="btn-label pr-1">
+                    <i class="fa fa-search"></i>
+                </span>
+                Buscar Datos
+            </a>
+        </div>
+        </div>
+        </div>
+        <div id="viewAll" class="card-body table-responsive">
         </div>
     </div>
-    
+
     @* <div class="col-sm-12 header-button">
 
-        <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Soporte/Donante/OnGetCreateOrEdit?id=0','Donante')">
-        <i class="fa fa-plus-square"></i>
-        Agregar
-        </button>
+    <button type="button" class="btn btn-primary" id="btnViewModel" onclick="jQueryModalGet('/Soporte/Donante/OnGetCreateOrEdit?id=0','Donante')">
+    <i class="fa fa-plus-square"></i>
+    Agregar
+    </button>
 
-        </div>*@
-       
+    </div>*@
+
 </div>
 
 
 @section Scripts
-{
-<script src="~/js/site.js"></script>
-<script>
-    function limpiarFormulario() {
-    document.getElementById("create-form").reset();
-  }
-
-    $(document).ready(function () {
-          loadData();
-      });
-         function loadData() {
-            $('#viewAll').load('/Donacion/Donante/LoadAll');
-           
+    {
+    <script src="~/js/site.js"></script>
+    <script>
+        function limpiarFormulario() {
+            document.getElementById("create-form").reset();
         }
- 
 
- </script>
+         function buscarDonante() {
+              startLoading();
+           
+           var estado = $("#estadoDonante").val();
+
+            var categoria = $("#categoria").val();
+
+            $('#viewAll').load('/Donacion/Donante/LoadAll?estadoDonante=' + estado + '&categoria=' + categoria);
+            finishLoading();
+        }
+
+        $(document).ready(function() {
+         //   loadData();
+        });
+        function loadData() {
+            var estado = $("#EstadoDonante").val();
+
+            var categoria = $("#Categoria").val();
+
+            $('#viewAll').load('/Donacion/Donante/LoadAll?estadoDonante=' + estado + '&categoria=' + categoria);
+
+        }
+
+
+    </script>
 }

@@ -37,29 +37,36 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 entidadViewModel.Colaborador = entidadViewModel.Colaborador + "-" + responseCola.Data.Estructuras?.Designacion;
             }
 
+            var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 27, Ninguno = true });
+            var estadoDonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            entidadViewModel.EstadoDonanteList = estadoDonante;
+
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 25, Ninguno = true });
+            var categoria = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            entidadViewModel.CategoriaList = categoria;
 
             return View(entidadViewModel);// dirije a la carpeta Views
         }
 
-        public async Task<IActionResult> LoadAll()
+        public async Task<IActionResult> LoadAll(int estadoDonante, int categoria)
         {
-            var response = await _mediator.Send(new GetAllDonantesQuery());
+            var response = await _mediator.Send(new GetAllDonantesQuery() { EstadoDonante=estadoDonante , Categoria = categoria} );
             if (response.Succeeded)
             {
-                DonanteViewModelView entidad = new DonanteViewModelView();
+                //DonanteViewModelView entidad = new DonanteViewModelView();
 
-                var viewModel = _mapper.Map<List<DonanteViewModel>>(response.Data);
-                entidad.DonanteViewModels = viewModel;
-                var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 26, Ninguno = true });
-                var campana = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-                entidad.CampanaList = campana;
-                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 27, Ninguno = true });
-                var estadoDonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-                entidad.EstadoDonanteList = estadoDonante;
-                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 33, Ninguno = true });
-                var ciudad = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-                entidad.CiudadList = ciudad;
-                return PartialView("_ViewAll", entidad);
+                var viewModel = _mapper.Map<List<DonanteResponseViewModel>>(response.Data);
+                //entidad.DonanteViewModels = viewModel;
+                //var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 26, Ninguno = true });
+                //var campana = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                //entidad.CampanaList = campana;
+                //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 27, Ninguno = true });
+                //var estadoDonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                //entidad.EstadoDonanteList = estadoDonante;
+                //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 33, Ninguno = true });
+                //var ciudad = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                //entidad.CiudadList = ciudad;
+                return PartialView("_ViewAll", viewModel);
             }
 
             return null;

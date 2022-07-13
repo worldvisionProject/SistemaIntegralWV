@@ -8,6 +8,7 @@ namespace WordVision.ec.Application.DTOs.Donantes
 {
     public class DonanteResponse
     {
+        public int Id { get; set; }
         public string Campana { get; set; }
         public string Donante { get; set; }
         public string Cedula { get; set; }

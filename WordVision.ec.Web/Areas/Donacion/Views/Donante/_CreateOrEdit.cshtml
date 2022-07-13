@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-                <div class="col-md-3">
+                <div class="col-md-3">  
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaConversion"></label>
                     <input asp-for="FechaConversion" type="text" name="FechaConversion" class=" form-control" readonly />
                     <span asp-validation-for="FechaConversion" class="text-danger"></span>
@@ -625,7 +625,22 @@
     //jhosel macias 12.07.22 20 minutos con validaciones              
     $("#create-form").on("submit", function(e) {
         e.preventDefault();
-         
+
+        var validacion = $("#Nombre1").val();
+        alert($("#Nombre1").val().indexOf("."));
+      
+        if  ($("#Nombre1").val().indexOf(".") >= 0 || $("#Nombre1").val() > 48 || $("#Nombre1").val() < 57  || $("#Nombre1").val().indexOf(",") >= 0 ) {
+                  
+
+                 Swal.fire("¡Advertencia!", "Campo Nombre no debe tener caracteres especiales", "warning");
+                  $("#Nombre1").val("");
+              return false;
+                          
+              
+            
+        }
+
+
           var formaPago  = $("#FormaPago").val();
 
         if (formaPago == 1) {
@@ -690,6 +705,7 @@
 
             }
         }
+
 
         if (@Model.Vienede == 0)  {
 
@@ -906,7 +922,7 @@
             && (key.charCode != 45) //retroceso
             && (key.charCode != 241) //ñ
             && (key.charCode != 209) //Ñ
-            && (key.charCode != 32) //espacio
+            //&& (key.charCode != 32) //espacio
             && (key.charCode != 225) //á
             && (key.charCode != 233) //é
             && (key.charCode != 237) //í
@@ -928,7 +944,7 @@
             && (key.charCode != 45) //retroceso
             && (key.charCode != 241) //ñ
             && (key.charCode != 209) //Ñ
-            && (key.charCode != 32) //espacio
+            //&& (key.charCode != 32) //espacio
             && (key.charCode != 225) //á
             && (key.charCode != 233) //é
             && (key.charCode != 237) //í
@@ -950,7 +966,7 @@
             && (key.charCode != 45) //retroceso
             && (key.charCode != 241) //ñ
             && (key.charCode != 209) //Ñ
-            && (key.charCode != 32) //espacio
+           // && (key.charCode != 32) //espacio
             && (key.charCode != 225) //á
             && (key.charCode != 233) //é
             && (key.charCode != 237) //í
@@ -972,7 +988,7 @@
             && (key.charCode != 45) //retroceso
             && (key.charCode != 241) //ñ
             && (key.charCode != 209) //Ñ
-            && (key.charCode != 32) //espacio
+            //&& (key.charCode != 32) //espacio
             && (key.charCode != 225) //á
             && (key.charCode != 233) //é
             && (key.charCode != 237) //í

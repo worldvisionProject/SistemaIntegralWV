@@ -1,6 +1,5 @@
-﻿@using WordVision.ec.Web.Areas.Soporte.Models;
-@using WordVision.ec.Web.Areas.Donacion.Models
-@model DonanteViewModelView
+﻿@using WordVision.ec.Web.Areas.Donacion.Models
+@model List<DonanteResponseViewModel>
 
 
 <table id="personalTable" class="table table-striped " width="100%" cellspacing="0">
@@ -25,36 +24,36 @@
             </thead>
             <tbody>
                
-                @foreach (var donante in Model.DonanteViewModels)
+                @foreach (var d in Model.ToList())
                 {
                 <tr>
                    
                     <td>
-                        @Model.CampanaList.Where(x => x.Value == donante.Campana.ToString()).FirstOrDefault().Text
+                        @d.Campana
                      
                     </td>
                     <td>
-                        @donante.Nombre1 @donante.Nombre2 @donante.Apellido1 @donante.Apellido2
+                       @d.Donante
                     </td>
                    
                     <td>
-                        @donante.RUC
+                       @d.Cedula
                     </td>
                     <td>
-                        @Model.EstadoDonanteList.Where(x => x.Value == donante.EstadoDonante.ToString()).FirstOrDefault().Text
+                      @d.Estado
                       
                     </td>
                     <td>
-                        @Model.CiudadList.Where(x => x.Value == @donante.Ciudad.ToString()).FirstOrDefault().Text
+                       @d.Ciudad
                     </td>
                     <td>
-                        @donante.Cantidad
+                      @d.Cantidad
                     </td>
 
 
                     <td class="acciones-td">
 
-                        <button type="button" class="btn btn-success  btn-xp" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Donacion/Donante/OnGetCreateOrEdit?id=@donante.Id', 'Donante')">
+                        <button type="button" class="btn btn-success  btn-xp" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Donacion/Donante/OnGetCreateOrEdit?id=@d.Id', 'Donante')">
                             <i class="fa fa-pencil-square-o"></i>
                         </button>
                     </td>

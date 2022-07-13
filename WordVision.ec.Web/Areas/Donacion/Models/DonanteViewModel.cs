@@ -166,4 +166,15 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public SelectList CalificacionDonanteList { get; set; }
         //public SelectList QuincenaList { get; set; }
     }
+
+    public class DonanteResponseViewModel
+    {
+        public string Id { get; set; }
+        public string Campana { get; set; }
+        public string Donante { get; set; }
+        public string Cedula { get; set; }
+        public string Estado { get; set; }
+        public string Ciudad { get; set; }
+        public decimal Cantidad { get; set; }
+    }
 }
