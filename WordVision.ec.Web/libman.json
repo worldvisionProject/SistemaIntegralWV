@@ -46,9 +46,12 @@
       "destination": "wwwroot/lib/jasny-bootstrap/"
     },
     {
-      "provider": "cdnjs",
       "library": "bootstrap-fileinput@5.5.0",
       "destination": "wwwroot/lib/bootstrap-fileinput/"
+    },
+    {
+      "library": "moment.js@2.29.4",
+      "destination": "wwwroot/lib/moment.js/"
     }
   ]
 }
