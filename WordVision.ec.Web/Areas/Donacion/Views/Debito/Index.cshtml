@@ -204,7 +204,7 @@
     <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
 <script src="~/js/site.js"></script>
 <script>
-   
+  
     $('#input-file-debito').fileinput({
         language: "es",
         showUpload: false,
@@ -240,21 +240,22 @@
             dom: "tipr",
             buttons: [
                 { extend: "excel", exportOptions: { columns: ':not(.no-export)' } }
-            ],
+            ], 
+            
             columns: [
-                { width: '10%', filter: 'input', type: 'string', data: 'estado' },
-                { width: '10%', filter: 'input', type: 'string', data: 'tipo' },
-                { width: '10%', filter: 'input', type: 'string', data: 'categoria' },
+                { width: '8%', filter: 'input', type: 'string', data: 'estado' },
+                { width: '6%', filter: 'input', type: 'string', data: 'tipo' },
+                { width: '8%', filter: 'input', type: 'string', data: 'categoria' },
                 { width: '10%', filter: 'input', type: 'string', data: 'campana' },
-                { width: '8%', filter: 'input', type: 'string', data: 'frecuencia' },
-                { width: '10%', filter: 'input', type: 'string', data: 'identificacion' },
-                { width: '15%', filter: 'input', type: 'string', data: 'nombreDonante' },
-                { width: '15%', filter: 'input', type: 'string', data: 'bancoTarjeta' },
-                { width: '15%', filter: 'input', type: 'string', data: 'cuentaTarjeta' },
+                { width: '6%', filter: 'input', type: 'string', data: 'frecuencia' },
+                { width: '8%', filter: 'input', type: 'string', data: 'identificacion' },
+                { width: '10%', filter: 'input', type: 'string', data: 'nombreDonante' },
+                { width: '10%', filter: 'input', type: 'string', data: 'bancoTarjeta' },
+                { width: '10%', filter: 'input', type: 'string', data: 'cuentaTarjeta' },
                 { width: '10%', filter: 'input', type: 'string', data: 'respuestaBanco' },
-                { width: '10%', filter: 'input', type: 'date', data: 'fechaDebito' },
+                { width: '10%', filter: 'input', type: 'date', data: 'fechaDebito'},
                 {
-                    width: '10%', filter: 'input', type: 'num', data: 'valor', className: 'text-right', operation: "sum", prefix: 'none',
+                    width: '8%', filter: 'input', type: 'num', data: 'valor', className: 'text-right', operation: "sum", prefix: 'none',
                     render: function (data, type, row) {
                         return $.fn.dataTable.render.number('', '.', 2, '').display(data);
                     }
@@ -266,6 +267,14 @@
                 //    }
                 //}
             ],
+            //columnDefs: [
+            //      //{ targets: [0, 1], "width": "20%", render: $.fn.dataTable.render.ellipsis(20, false, true) },
+            //      //{ targets: 2, "width": "33%", render: $.fn.dataTable.render.ellipsis(40, false, true) },
+            //      { targets: 10,  render:function(data){
+            //          return moment(data).format('dd/MM/YYYY'); 
+            //        }} 
+            //      //{ targets: 4, "width": "11%", render: $.fn.dataTable.render.number(',', '.', 0) }
+            // ],
             initComplete: function () {
                 reHandle();
             },
@@ -317,6 +326,25 @@
             var bancoTarjeta = parseInt($("#selectBanco").val());
             var anio = parseInt($("#selectAnio").val());
             var mes = parseInt($("#selectMes").val());
+
+            if (isNaN(formaPago) || formaPago === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar la forma de Pago", "warning");
+                return false;
+            }
+            if (isNaN(bancoTarjeta) || bancoTarjeta === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el Banco", "warning");
+                return false;
+            }
+            if (isNaN(anio) || anio === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el Año", "warning");
+                return false;
+            }
+            if (isNaN(mes) || mes === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el Mes", "warning");
+                return false;
+            }
+
+
             $("#formaPago").val(formaPago);
              $("#bancoTarjeta").val(bancoTarjeta);
               $("#anio").val(anio);
@@ -340,8 +368,8 @@
                             },
                     success: function (data) {
                         finishLoading("#frmRespuesta");
-                                Swal.fire("¡Listo!", "El archivo fue cargado", "success").then((value) => {
-                                    tableMain.ajax.reload(reHandle, true);
+                                Swal.fire("¡Listo!", data.mensaje, "success").then((value) => {
+                                tableMain.ajax.reload(reHandle, true);
                                    
                                 });
                     },
@@ -367,13 +395,29 @@
           // document.getElementById('frmRespuesta').submit();
         }
         function generarTxtDebitos() {
-           startLoading();
+           
             var formaPago = parseInt($("#selectFormaPago").val());
             var bancoTarjeta = parseInt($("#selectBanco").val());
             var anio = parseInt($("#selectAnio").val());
             var mes = parseInt($("#selectMes").val());
 
-   
+             if (isNaN(formaPago) || formaPago === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar la forma de Pago", "warning");
+                return false;
+            }
+            if (isNaN(bancoTarjeta) || bancoTarjeta === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el Banco", "warning");
+                return false;
+            }
+            if (isNaN(anio) || anio === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el Año", "warning");
+                return false;
+            }
+            if (isNaN(mes) || mes === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el Mes", "warning");
+                return false;
+            }
+   startLoading();
             window.location.href = '@Url.Action("DescargarExportableTXT", "Debito")?formaPago='+formaPago+'&bancoTarjeta='+bancoTarjeta+'&anio='+anio+'&mes='+mes;
                     //$.post("/Debito/DescargarExportableTXT", { 
                     //    function (d) {

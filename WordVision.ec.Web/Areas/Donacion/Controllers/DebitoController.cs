@@ -264,20 +264,22 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 {
                     if ((int)responseExiste.Data<=0)
                     {
-                        _notify.Success($"Genere Primero el archivo Txt");
+                        // _notify.Success($"Genere Primero el archivo Txt");
 
-                        return new JsonResult(new { isValid = false });
+                        return StatusCode(StatusCodes.Status400BadRequest, new { mensaje = "Genere Primero el archivo Txt" });
+
                     }
-                    
+
                 }
                 var responseExisteRespuesta = await _mediator.Send(new GetExisteCargaRespuestaQuery() { formaPago = formaPago, bancoTarjeta = bancoTarjeta, anio = anio, mes = mes }); ;
                 if (responseExisteRespuesta.Succeeded)
                 {
-                    if ((int)responseExisteRespuesta.Data <= 0)
+                    if ((int)responseExisteRespuesta.Data > 0)
                     {
-                        _notify.Success($"Ya se ha cargado las respuestas para este mes y este año");
+                        //_notify.Success($"Ya se ha cargado las respuestas para este mes y este año");
+                        return StatusCode(StatusCodes.Status400BadRequest, new { mensaje = "Ya se ha cargado las respuestas para este mes y este año." });
 
-                        return new JsonResult(new { isValid = false });
+                       // return new JsonResult(new { mensaje = "Ya se ha cargado las respuestas para este mes y este año" });
                     }
 
                 }
@@ -302,8 +304,9 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         }
                         if (strContent.Count == 0)
                         {
-                            _notify.Success($"No existen registros en el archivo.");
-                            return new JsonResult(new { isValid = false });
+                            //_notify.Success($"No existen registros en el archivo.");
+                            return StatusCode(StatusCodes.Status400BadRequest, new { mensaje = "No existen registros en el archivo." });
+
                         }
                         i = 0;
                         foreach (var item in strContent.Skip(1))//salteo las cabeceras
@@ -331,13 +334,14 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         var result = await _mediator.Send(createEntidadCommand);
                         if (result.Succeeded)
                         {
-                            _notify.Success($"{i} Registros almacenadas.");
-                            return new JsonResult(new { isValid = true });
+                            // _notify.Success($"{i} Registros almacenadas.");
+                            return StatusCode(StatusCodes.Status200OK, new { mensaje = $"{i} Registros almacenadas." });
+
                         }
                         else
                         {
-                            _notify.Success($"Error en almacenar los registros.");
-                            return new JsonResult(new { isValid = false });
+                            //_notify.Success($"Error en almacenar los registros.");
+                            return StatusCode(StatusCodes.Status400BadRequest, new { mensaje = $"Error en almacenar los registros." });
                         }
 
                     }
@@ -345,15 +349,16 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 }
                 else
                 {
-                    _notify.Success($"No existe archivo para cargar.");
-                    return new JsonResult(new { isValid = false });
+                    //_notify.Success($"No existe archivo para cargar.");
+                    return StatusCode(StatusCodes.Status400BadRequest, new { mensaje = $"No existe archivo para cargar." });
+
                 }
             }
             catch (Exception ex)
             {
-                _notify.Error($"No se puedo cargar el archivo.");
+               // _notify.Error($"No se puedo cargar el archivo.");
                 _logger.LogError(ex, $"Error al Insertar archivo respuesta.");
-                return new JsonResult(new { isValid = false });
+                return StatusCode(StatusCodes.Status400BadRequest, new { mensaje = $"No se puedo cargar el archivo." });
             }
 
         }

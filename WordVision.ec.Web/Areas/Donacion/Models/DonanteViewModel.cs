@@ -128,10 +128,10 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public string Formulario { get; set; }
 
         [Display(Name = "Periodo de Donación ")]
-        public int PeriodoDonacion { get; set; }
+        public int? PeriodoDonacion { get; set; }
 
         [Display(Name = "Calificación  del Donante")]
-        public int CalificacionDonante { get; set; }
+        public int? CalificacionDonante { get; set; }
         
         [Display(Name = "Número de Guía")]
         public string NumeroGuia { get; set; }

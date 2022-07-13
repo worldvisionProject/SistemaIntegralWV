@@ -386,7 +386,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 }
                 else
                 {
-                    return new JsonResult(new { isValid = false });
+                    return StatusCode(StatusCodes.Status400BadRequest, new { mensaje = "Ingrese todos los datos Obligatorios" });
+
                 }
 
                 return new JsonResult(new { isValid = true, Id = id });
