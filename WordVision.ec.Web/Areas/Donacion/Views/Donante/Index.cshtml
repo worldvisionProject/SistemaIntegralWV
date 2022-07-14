@@ -42,27 +42,27 @@
 
         <div class="col-12">
             <div class="form-group row">
-        <div class="col-md-3">
-            <label class="col-md-12 col-form-label texto-pregunta">Estado Donante</label>
-            <select id="estadoDonante" name="estadoDonante" data-width="600px" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.EstadoDonanteList)" data-live-search="true">
-            </select>
-        </div>
-        <div class="col-md-3">
-            <label class="col-md-12 col-form-label texto-pregunta">Categoria</label>
-            <select id="categoria" name="categoria" data-width="600px" style="color:#999 !important" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.CategoriaList)" data-live-search="true">
-            </select>
-        </div>
+                <div class="col-md-3">
+                    <label class="col-md-12 col-form-label texto-pregunta">Estado Donante</label>
+                    <select id="estadoDonante" name="estadoDonante" data-width="600px" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.EstadoDonanteList)" data-live-search="true">
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="col-md-12 col-form-label texto-pregunta">Categoria</label>
+                    <select id="categoria" name="categoria" data-width="600px" style="color:#999 !important" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.CategoriaList)" data-live-search="true">
+                    </select>
+                </div>
 
 
-        <div class="col-md-4" style="padding:25px 10px 30px 55px">
-            <a class="btn btn-sm btn-labeled btn-success" href="#" onclick="buscarDonante()">
-                <span class="btn-label pr-1">
-                    <i class="fa fa-search"></i>
-                </span>
-                Buscar Datos
-            </a>
-        </div>
-        </div>
+                <div class="col-md-4" style="padding:25px 10px 30px 55px">
+                    <a class="btn btn-sm btn-labeled btn-success" href="#" onclick="buscarDonante()">
+                        <span class="btn-label pr-1">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        Buscar Datos
+                    </a>
+                </div>
+            </div>
         </div>
         <div id="viewAll" class="card-body table-responsive">
         </div>
@@ -88,24 +88,27 @@
             document.getElementById("create-form").reset();
         }
 
-         function buscarDonante() {
-              startLoading();
-           
-           var estado = $("#estadoDonante").val();
+        function buscarDonante() {
+            startLoading();
 
-            var categoria = $("#categoria").val();
+        
+                var estado = $("#estadoDonante").val();
 
-            $('#viewAll').load('/Donacion/Donante/LoadAll?estadoDonante=' + estado + '&categoria=' + categoria);
-            finishLoading();
+                var categoria = $("#categoria").val();
+
+                $('#viewAll').load('/Donacion/Donante/LoadAll?estadoDonante=' + estado + '&categoria=' + categoria);
+                finishLoading();
+            
         }
 
         $(document).ready(function() {
-         //   loadData();
+            //   loadData();
         });
         function loadData() {
-            var estado = $("#EstadoDonante").val();
 
+            var estado = $("#EstadoDonante").val();
             var categoria = $("#Categoria").val();
+
 
             $('#viewAll').load('/Donacion/Donante/LoadAll?estadoDonante=' + estado + '&categoria=' + categoria);
 

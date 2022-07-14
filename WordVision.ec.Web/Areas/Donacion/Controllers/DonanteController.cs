@@ -19,6 +19,7 @@ using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Donacion.Models;
 using WordVision.ec.Application.Features.Maestro.DivisionPolitica.Queries.GetById;
 using WordVision.ec.Web.Areas.Maestro.Models;
+using WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetById;
 
 namespace WordVision.ec.Web.Areas.Donacion.Controllers
 {
@@ -72,7 +73,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
             return null;
 
         }
-
+       
         public async Task<IActionResult> OnGetCreate(int id = 0, int vienede= 0)
         {
 
@@ -172,6 +173,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
             return View("_IngresoDonantes", entidadViewModel);
 
         }
+        
 
 
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0)
@@ -322,6 +324,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
 
                     if (id == 0)
                     {
+                        
                         var createEntidadCommand = _mapper.Map<CreateDonanteCommand>(entidad);
                         var result = await _mediator.Send(createEntidadCommand);
                         if (result.Succeeded)

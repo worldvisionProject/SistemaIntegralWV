@@ -89,5 +89,8 @@ namespace WordVision.ec.Domain.Entities.Donacion
 
         [ForeignKey("IdDonante")]
         public ICollection<ProductoDonante> ProductoDonantes { get; set; }
+
+        [ForeignKey("IdDonante")]
+        public ICollection<Interacion> Interacion { get; set; }
     }
 }

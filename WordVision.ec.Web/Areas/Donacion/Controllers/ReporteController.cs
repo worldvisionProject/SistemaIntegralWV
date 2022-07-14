@@ -47,7 +47,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
             catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 27, Ninguno = true });
             var estadoDonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
             
-            var entidadViewModel = new DonanteFiltroReporteViewModel();
+            var entidadViewModel = new DonanteFiltroReporteViewModel(); 
             entidadViewModel.FormaPagoList = formaPago;
             entidadViewModel.TipoDonanteList = tipoDonante;
             entidadViewModel.EstadoDonanteList = estadoDonante;

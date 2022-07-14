@@ -1,0 +1,45 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Infrastructure.Data.Identity.Models;
+@using WordVision.ec.Web.Areas.Donacion.Models;
+@model InteracionViewModel
+
+
+<form id="create-form" name="createoredit" method="post" asp-controller="Interacion"  asp-action="OnPostCreateOrEdit"  asp-route-id="@Model.Id" asp-route-tipo="1" enctype="multipart/form-data">
+    <input asp-for="Tipo" hidden="text" name="Tipo" value="1"/>
+    <dic class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Interaciones"></label>
+                    @Html.DropDownListFor(x => x.Interaciones, (IEnumerable<SelectListItem>)Model.interacionesList, new { @class = "form-control",required = "required" })
+                    <span asp-validation-for="Interaciones" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Observacion"></label>
+                    <textarea asp-for="Observacion" type="text" name="Observacion" class="form-control" rows="3" required></textarea>
+                    <span asp-validation-for="Observacion" class="text-danger"></span>
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Tipo"></label>
+                    @Html.DropDownListFor(x => x.Tipo, (IEnumerable<SelectListItem>)Model.tipoList, new { @class = "form-control",required = "required" })                   
+                        <span asp-validation-for="Tipo" class="text-danger"></span>
+                </div>
+               
+            </div>
+        </div>
+    </dic>
+      <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+       
+        
+            <input type="hidden" value="false" name="band" id="band" />
+            <button type="submit" class="btn btn-info" style="background-color:blue !important">Guardar</button>
+        
+      
+       
+        <button type="submit" id="btnCancelar" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+    </div>
+
+</form>
+
+    

@@ -21,6 +21,10 @@
 
 
     </div>*@
+
+
+
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
@@ -66,13 +70,19 @@
                     @Html.DropDownListFor(x => x.Campana, (IEnumerable<SelectListItem>)Model.CampanaList, new { @class = "form-control" ,required = "required"})
                     <span asp-validation-for="Campana" class="text-danger"></span>
                 </div>
-
+                
+                @if (@Model.Vienede == 0){  
+                    
                 <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="EstadoDonante"></label>
                     @Html.DropDownListFor(x => x.EstadoDonante, (IEnumerable<SelectListItem>)Model.EstadoDonanteList, new { @class = "form-control",required = "required" })
                     <span asp-validation-for="EstadoDonante" class="text-danger"></span>
                 </div>
-
+                }
+                else
+                {
+                     <input asp-for="EstadoDonante" hidden="text" name="EstadoDonante" value="3"/>
+                }
             </div>
 
         </div>
@@ -626,10 +636,9 @@
     $("#create-form").on("submit", function(e) {
         e.preventDefault();
 
-        var validacion = $("#Nombre1").val();
-        alert($("#Nombre1").val().indexOf("."));
+        var validacion = $("#Nombre1").val();    
       
-        if  ($("#Nombre1").val().indexOf(".") >= 0 || $("#Nombre1").val() > 48 || $("#Nombre1").val() < 57  || $("#Nombre1").val().indexOf(",") >= 0 ) {
+        if  ($("#Nombre1").val().indexOf(".") >= 0 || $("#Nombre1").val() > 48 || $("#Nombre1").val() < 57  || $("#Nombre1").val().indexOf(",") >= 0 || $("#Nombre1").val().indexOf("'") >= 0 || $("#Nombre1").val().indexOf("´") >= 0  ) {
                   
 
                  Swal.fire("¡Advertencia!", "Campo Nombre no debe tener caracteres especiales", "warning");
@@ -639,7 +648,42 @@
               
             
         }
+        var validacion = $("#Nombre2").val();    
+      
+        if  ($("#Nombre2").val().indexOf(".") >= 0 || $("#Nombre2").val() > 48 || $("#Nombre2").val() < 57  || $("#Nombre2").val().indexOf(",") >= 0 || $("#Nombre2").val().indexOf("'") >= 0 || $("#Nombre2").val().indexOf("´") >= 0  ) {
+                  
 
+                 Swal.fire("¡Advertencia!", "Campo Nombre no debe tener caracteres especiales", "warning");
+                  $("#Nombre2").val("");
+              return false;
+                          
+              
+            
+        }
+        var validacion = $("#Apellido1").val();    
+      
+        if  ($("#Apellido1").val().indexOf(".") >= 0 || $("#Apellido1").val() > 48 || $("#Apellido1").val() < 57  || $("#Apellido1").val().indexOf(",") >= 0 || $("#Apellido1").val().indexOf("'") >= 0 || $("#Apellido1").val().indexOf("+") >= 0  ) {
+                  
+
+                 Swal.fire("¡Advertencia!", "Campo Nombre no debe tener caracteres especiales", "warning");
+                  $("#Apellido1").val("");
+              return false;
+                          
+              
+            
+        }
+        var validacion = $("#Apellido2").val();    
+      
+        if  ($("#Apellido2").val().indexOf(".") >= 0 || $("#Apellido2").val() > 48 || $("#Apellido2").val() < 57  || $("#Apellido2").val().indexOf(",") >= 0 || $("#Apellido2").val().indexOf("'") >= 0 || $("#Apellido2").val().indexOf("+") >= 0  ) {
+                  
+
+                 Swal.fire("¡Advertencia!", "Campo Nombre no debe tener caracteres especiales", "warning");
+                  $("#Apellido2").val("");
+              return false;
+                          
+              
+            
+        }
 
           var formaPago  = $("#FormaPago").val();
 

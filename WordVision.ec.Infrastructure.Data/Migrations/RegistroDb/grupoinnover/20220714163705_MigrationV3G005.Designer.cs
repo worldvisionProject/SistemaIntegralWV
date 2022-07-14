@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
-namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
+namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.grupoinnover
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220714163705_MigrationV3G005")]
+    partial class MigrationV3G005
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -341,7 +343,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
 
                     b.HasIndex("IdDonante");
 
-                    b.ToTable("Interaciones", "donacion");
+                    b.ToTable("Interacion", "donacion");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Donacion.ProductoDonante", b =>

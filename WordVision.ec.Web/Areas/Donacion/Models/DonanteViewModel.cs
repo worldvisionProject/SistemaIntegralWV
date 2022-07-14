@@ -177,4 +177,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public string Ciudad { get; set; }
         public decimal Cantidad { get; set; }
     }
+
+   
 }
+
+

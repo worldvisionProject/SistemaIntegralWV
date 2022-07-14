@@ -55,7 +55,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
         public async Task<List<DonanteResponse>> GetListAsync(int estadoDonante , int categoria)
         {
             // return await _repository.Entities.ToListAsync();
-            var resultado1 = _repository.Entities.Where(x =>x.EstadoDonante == estadoDonante && x.Categoria == categoria )
+            var resultado1 = _repository.Entities.Where(x =>(x.EstadoDonante == estadoDonante || estadoDonante == 0) && x.Categoria == categoria )
                                       .Select(a => new DonanteResponse
                                       {
                                           Id = a.Id,

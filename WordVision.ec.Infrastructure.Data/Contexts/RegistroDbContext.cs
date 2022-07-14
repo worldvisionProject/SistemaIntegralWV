@@ -239,6 +239,8 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
                .ToTable("Debitos", "donacion");
             builder.Entity<ProductoDonante>()
                .ToTable("ProductoDonantes", "donacion");
+            builder.Entity<Interacion>()
+               .ToTable("Interaciones", "donacion");
 
 
             builder.Entity<ETabulado>().HasNoKey();

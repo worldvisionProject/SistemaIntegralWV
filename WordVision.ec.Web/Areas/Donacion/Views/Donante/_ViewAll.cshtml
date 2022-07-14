@@ -7,7 +7,7 @@
                 <tr>
 
 
-                     <th data-priority="1">Campaña</th>
+                    <th data-priority="1">Campaña</th>
                     <th data-priority="1">Donante</th>
                     
                     <th data-priority="1">Cédula</th>
@@ -15,8 +15,9 @@
                     <th data-priority="1">Ciudad</th>
                     <th data-priority="1">Cantidad</th>
                 
-
+                     <th data-priority="2" class="interaccion-th">Interaciones </th>
                     <th data-priority="2" class="acciones-th">Acciones</th>
+                   
 
 
 
@@ -50,6 +51,12 @@
                       @d.Cantidad
                     </td>
 
+                    <td class="interaccion-td">
+
+                        <button type="button" class="btn btn-success  btn-xp" title="interacion" id="btnViewModel" onclick="jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante=@d.Id', 'Interacion')">
+                            <i class="fa fa-pencil-square-o"></i>
+                        </button>
+                    </td>
 
                     <td class="acciones-td">
 
