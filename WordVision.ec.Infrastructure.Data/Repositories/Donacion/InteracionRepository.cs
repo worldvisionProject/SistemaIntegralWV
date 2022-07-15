@@ -19,29 +19,18 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
       
         public InteracionRepository(RegistroDbContext db, IRepositoryAsync<Interacion> repository )
         {
-            _repository = repository;
-            
-           
+            _repository = repository;         
             _db = db;
         }
 
         public IQueryable<Interacion> interacion => _repository.Entities;
 
-        public async Task DeleteAsync(Interacion interacion)
+     
+        public async Task<List<Interacion>> GetInteracionXDonanteAsync(int idDonante)
         {
-            await _repository.DeleteAsync(interacion);
-        }
+            return await _repository.Entities.Where(x => x.IdDonante == idDonante).ToListAsync();
 
-        public async Task<Interacion> GetByIdAsync(int idInteracion)
-        {
-            return await _repository.Entities.Where(x => x.Id == idInteracion).FirstOrDefaultAsync();
         }
-
-        public async Task<Interacion> GetInteracionAsync(int idInteracion)
-        {
-            return await _repository.Entities.Where(x => x.Id == idInteracion).FirstOrDefaultAsync();
-        }
-
 
         public async Task<int> InsertAsync(Interacion interacion)
         {
@@ -49,9 +38,6 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
             return interacion.Id;
         }
 
-        public async Task UpdateAsync(Interacion interacion)
-        {
-            await _repository.UpdateAsync(interacion);
-        }
+        
     }
 }

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Commands.Create;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Commands.Update;
+using WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAll;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
@@ -30,15 +31,22 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 var interacion = new SelectList(catalogo.Data, "Secuencia", "Nombre");
                 catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 68, Ninguno = true });
                 var tipointeracion = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-
-
-
                
                     var entidadViewModel = new InteracionViewModel();
                     entidadViewModel.interacionesList = interacion;
                     entidadViewModel.tipoList = tipointeracion;
 
-                    return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+
+                var viewModel = await _mediator.Send(new GetAllInteracionesXDonanteQuery() { idDonante = idDonante });
+                if (viewModel.Succeeded)
+                {
+                 
+                    entidadViewModel.ListaInteracciones = _mapper.Map<List<InteracionListaViewModel>>(viewModel.Data);
+                }
+
+                entidadViewModel.IdDonante = idDonante;
+
+                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                
                
             }
@@ -67,7 +75,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         if (result.Succeeded)
                         {
                             id = result.Data;
-                            _notify.Success($"Interacción {result.Data} Creado.");
+                            _notify.Success($"Interacción Creada.");
 
                         }
                         else _notify.Error(result.Message);

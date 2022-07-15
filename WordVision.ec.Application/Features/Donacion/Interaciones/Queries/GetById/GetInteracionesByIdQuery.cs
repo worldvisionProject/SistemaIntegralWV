@@ -31,18 +31,23 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetBy
                 _mapper = mapper;
             }
 
-            //Devuelve todos la información de las entidades. 
-     
-
-            public async Task<Result<GetInteracionesByIdResponse>> Handle(GetInteracionesByIdQuery query, CancellationToken cancellationToken)
+            public Task<Result<GetInteracionesByIdResponse>> Handle(GetInteracionesByIdQuery request, CancellationToken cancellationToken)
             {
-                var interacion = await _interacionRepository.GetByIdAsync(query.Id);
-
-
-                var mappedInteracion = _mapper.Map<GetInteracionesByIdResponse>(interacion);
-
-                return Result<GetInteracionesByIdResponse>.Success(mappedInteracion);
+                throw new NotImplementedException();
             }
+
+            //Devuelve todos la información de las entidades. 
+
+
+            //public async Task<Result<GetInteracionesByIdResponse>> Handle(GetInteracionesByIdQuery query, CancellationToken cancellationToken)
+            //{
+            //    var interacion = await _interacionRepository.GetByIdAsync(query.Id);
+
+
+            //    var mappedInteracion = _mapper.Map<GetInteracionesByIdResponse>(interacion);
+
+            //    return Result<GetInteracionesByIdResponse>.Success(mappedInteracion);
+            //}
         }
     }
 }

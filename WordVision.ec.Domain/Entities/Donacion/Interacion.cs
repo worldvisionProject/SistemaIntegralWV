@@ -16,6 +16,8 @@ namespace WordVision.ec.Domain.Entities.Donacion
 
         public string Observacion { get; set; }
 
+        public int IdDonante { get; set; }
+
         public Donante Donantes { get; set; }
     }
 }

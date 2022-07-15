@@ -4,8 +4,9 @@
 @model InteracionViewModel
 
 
-<form id="create-form" name="createoredit" method="post" asp-controller="Interacion"  asp-action="OnPostCreateOrEdit"  asp-route-id="@Model.Id" asp-route-tipo="1" enctype="multipart/form-data">
-    <input asp-for="Tipo" hidden="text" name="Tipo" value="1"/>
+<form id="create-form" name="createoredit" method="post" asp-controller="Interacion" asp-action="OnPostCreateOrEdit" onsubmit="return jQueryModalPost(this);" asp-route-id="@Model.Id" asp-route-tipo="1" enctype="multipart/form-data">
+    <input asp-for="Tipo" hidden="text" name="Tipo" value="1" />
+    <input asp-for="IdDonante" hidden="text" name="IdDonante"  />
     <dic class="row">
         <div class="col-md-12">
             <div class="form-group row">
@@ -14,32 +15,112 @@
                     @Html.DropDownListFor(x => x.Interaciones, (IEnumerable<SelectListItem>)Model.interacionesList, new { @class = "form-control",required = "required" })
                     <span asp-validation-for="Interaciones" class="text-danger"></span>
                 </div>
-                <div class="col-md-4">
+
+
+                @*  <div class="col-md-4">
+                <label class="col-md-12 col-form-label texto-pregunta" asp-for="Tipo"></label>
+                @Html.DropDownListFor(x => x.Tipo, (IEnumerable<SelectListItem>)Model.tipoList, new { @class = "form-control",required = "required" })
+                <span asp-validation-for="Tipo" class="text-danger"></span>
+                </div>*@
+
+            </div>
+            <div class="form-group row">
+                <div class="col-md-7">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Observacion"></label>
                     <textarea asp-for="Observacion" type="text" name="Observacion" class="form-control" rows="3" required></textarea>
                     <span asp-validation-for="Observacion" class="text-danger"></span>
                 </div>
-                
-                <div class="col-md-4">
-                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Tipo"></label>
-                    @Html.DropDownListFor(x => x.Tipo, (IEnumerable<SelectListItem>)Model.tipoList, new { @class = "form-control",required = "required" })                   
-                        <span asp-validation-for="Tipo" class="text-danger"></span>
-                </div>
-               
             </div>
         </div>
     </dic>
-      <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-       
-        
-            <input type="hidden" value="false" name="band" id="band" />
-            <button type="submit" class="btn btn-info" style="background-color:blue !important">Guardar</button>
-        
-      
-       
+    <br />
+
+
+    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+
+
+        <input type="hidden" value="false" name="band" id="band"/>
+        <button type="submit" class="btn btn-info" style="background-color:blue !important">Guardar</button>
+
         <button type="submit" id="btnCancelar" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
     </div>
 
 </form>
+<br />
+<br />
 
-    
+<table id="interaccionesTable" class="table table-striped " width="100%" cellspacing="0">
+    <thead>
+        <tr>
+
+
+            <th data-priority="1">Gestion</th>
+            <th data-priority="1">Observaciones</th>
+            <th data-priority="1">Usuario que Creo</th>
+            <th data-priority="1">Fecha que Creo</th>
+            <th data-priority="1">Usuario que Modifico</th>
+            <th data-priority="1">Fecha que Modifico</th>
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var d in Model.ListaInteracciones)
+        {
+            <tr>
+
+                <td>
+                    @Model.interacionesList.Where(x => x.Value == @d.Interaciones.ToString()).FirstOrDefault().Text
+
+                </td>
+                <td>
+                    @d.Observacion
+                </td>
+
+                <td>
+                    @d.CreatedBy
+                </td>
+                <td>
+                    @d.CreatedOn
+
+                </td>
+                <td>
+                    @d.LastModifiedBy
+                </td>
+                <td>
+                    @d.LastModifiedOn
+                </td>
+
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+
+<script>
+
+    $(document).ready(function() {
+        var table = $("#interaccionesTable").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ], dom: 'Bfrtip', buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ],
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            }
+        });
+
+
+    });
+</script>
+

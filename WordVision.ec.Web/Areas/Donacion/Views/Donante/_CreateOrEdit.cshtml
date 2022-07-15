@@ -4,7 +4,7 @@
 @model DonanteViewModel
 
 
-<form id="create-form" name="createoredit" method="post" asp-controller="Donante" asp-route-vienede=@Model.Vienede asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" enctype="multipart/form-data">
+<form id="create-form" name="createoredit" method="post" asp-controller="Donante" asp-route-vienede=@Model.Vienede asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id"  enctype="multipart/form-data">
 
     @*<div class="row">
     <div class="col-md-4">
@@ -632,7 +632,7 @@
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
 
-    //jhosel macias 12.07.22 20 minutos con validaciones              
+    //jhosel macias 12.07.22 30 minutos con validaciones              
     $("#create-form").on("submit", function(e) {
         e.preventDefault();
 

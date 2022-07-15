@@ -13,16 +13,17 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Donacion
 
         Task<int> InsertAsync(Interacion interacion);
 
-       
 
-        Task UpdateAsync(Interacion interacion);
+        Task<List<Interacion>> GetInteracionXDonanteAsync(int idDonante);
 
-        Task DeleteAsync(Interacion interacion);
+        //Task UpdateAsync(Interacion interacion);
 
-        Task<Interacion> GetInteracionAsync(int idInteracion);
+        //Task DeleteAsync(Interacion interacion);
+
+        //Task<Interacion> GetInteracionAsync(int idInteracion);
 
 
-        Task<Interacion> GetByIdAsync(int idInteracion);
+        //Task<Interacion> GetByIdAsync(int idInteracion);
 
 
     }
