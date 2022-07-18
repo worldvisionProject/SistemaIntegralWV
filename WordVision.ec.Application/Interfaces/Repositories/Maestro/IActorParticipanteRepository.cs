@@ -13,5 +13,6 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Maestro
         Task<List<ActorParticipante>> GetListAsync(ActorParticipante actor);
         Task<int> InsertAsync(ActorParticipante actorParticipante);
         Task UpdateAsync(ActorParticipante actorParticipante);
+        Task DeleteAsync(ActorParticipante actorParticipante);
     }
 }

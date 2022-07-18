@@ -139,8 +139,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Property<int?>("BancoBp")
                         .HasColumnType("int");
 
-                    b.Property<int>("CalificacionDonante")
-                        .HasMaxLength(10)
+                    b.Property<int?>("CalificacionDonante")
                         .HasColumnType("int");
 
                     b.Property<int>("Campana")
@@ -263,8 +262,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Property<string>("NumeroTarjetaBp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PeriodoDonacion")
-                        .HasMaxLength(10)
+                    b.Property<int?>("PeriodoDonacion")
                         .HasColumnType("int");
 
                     b.Property<int>("Provincia")
@@ -306,6 +304,44 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.HasKey("Id");
 
                     b.ToTable("Donantes", "donacion");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Donacion.Interacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Gestion")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdDonante")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Observacion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Tipo")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdDonante");
+
+                    b.ToTable("Interaciones", "donacion");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Donacion.ProductoDonante", b =>
@@ -1406,6 +1442,10 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Observacion")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IdEstado");
@@ -1417,6 +1457,38 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.HasIndex("IdProyectoTecnico");
 
                     b.ToTable("FaseProgramaAreas", "indicador");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Indicadores.ProyectoTecnicoPorProgramaArea", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Asignado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdLogFrameIndicadorPR")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdLogFrameIndicadorPR");
+
+                    b.ToTable("ProyectoTecnicoPorProgramaAreas", "indicador");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Indicadores.VinculacionIndicador", b =>
@@ -2444,6 +2516,62 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.ToTable("Actividades", "planifica");
                 });
 
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.DetalleProyectoITT", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdLogFrame")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdProyectoITT")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LineBase")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("MetaAF1")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("MetaAF2")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("MetaAF3")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("MetaAF4")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("MetaAF5")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("MetaAF6")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdLogFrame");
+
+                    b.HasIndex("IdProyectoITT");
+
+                    b.ToTable("DetalleProyectoITTs", "planifica");
+                });
+
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.EstrategiaNacional", b =>
                 {
                     b.Property<int>("Id")
@@ -3397,6 +3525,40 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.HasIndex("IdObjetivoEstra");
 
                     b.ToTable("ProductoObjetivos", "planifica");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.ProyectoITT", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdFaseProgramaArea")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdLogFrameOutCome")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdFaseProgramaArea");
+
+                    b.HasIndex("IdLogFrameOutCome");
+
+                    b.ToTable("ProyectoITTs", "planifica");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.Recurso", b =>
@@ -5367,6 +5529,17 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Navigation("Donantes");
                 });
 
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Donacion.Interacion", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Donacion.Donante", "Donantes")
+                        .WithMany("Interaciones")
+                        .HasForeignKey("IdDonante")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Donantes");
+                });
+
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Donacion.ProductoDonante", b =>
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Donacion.Donante", "Donantes")
@@ -5644,6 +5817,17 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Navigation("ProgramaArea");
 
                     b.Navigation("ProyectoTecnico");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Indicadores.ProyectoTecnicoPorProgramaArea", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.LogFrameIndicadorPR", "LogFrameIndicadorPR")
+                        .WithMany()
+                        .HasForeignKey("IdLogFrameIndicadorPR")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LogFrameIndicadorPR");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Indicadores.VinculacionIndicador", b =>
@@ -6052,6 +6236,25 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Navigation("IndicadorPOAs");
                 });
 
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.DetalleProyectoITT", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.LogFrame", "LogFrame")
+                        .WithMany()
+                        .HasForeignKey("IdLogFrame")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WordVision.ec.Domain.Entities.Planificacion.ProyectoITT", "ProyectoITT")
+                        .WithMany("DetalleProyectoITTs")
+                        .HasForeignKey("IdProyectoITT")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LogFrame");
+
+                    b.Navigation("ProyectoITT");
+                });
+
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.FactorCriticoExito", b =>
                 {
                     b.HasOne("WordVision.ec.Domain.Entities.Planificacion.ObjetivoEstrategico", "ObjetivoEstrategicos")
@@ -6237,6 +6440,25 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                         .IsRequired();
 
                     b.Navigation("ObjetivoEstrategicos");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.ProyectoITT", b =>
+                {
+                    b.HasOne("WordVision.ec.Domain.Entities.Indicadores.FaseProgramaArea", "FaseProgramaArea")
+                        .WithMany()
+                        .HasForeignKey("IdFaseProgramaArea")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WordVision.ec.Domain.Entities.Maestro.LogFrame", "LogFrameOutCome")
+                        .WithMany()
+                        .HasForeignKey("IdLogFrameOutCome")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FaseProgramaArea");
+
+                    b.Navigation("LogFrameOutCome");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.Recurso", b =>
@@ -6469,6 +6691,8 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                 {
                     b.Navigation("Debitos");
 
+                    b.Navigation("Interaciones");
+
                     b.Navigation("ProductoDonantes");
                 });
 
@@ -6648,6 +6872,11 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.ProductoObjetivo", b =>
                 {
                     b.Navigation("IndicadorProductoObjetivos");
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.ProyectoITT", b =>
+                {
+                    b.Navigation("DetalleProyectoITTs");
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Planificacion.Recurso", b =>

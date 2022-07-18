@@ -36,6 +36,7 @@ namespace WordVision.ec.Application.Features.Indicadores.FaseProgramaArea.Comman
 
                 entity.FechaInicio = update.FechaInicio;
                 entity.FechaFin = update.FechaFin;
+                entity.Observacion = update.Observacion;
                 entity.FechaDisenio = update.FechaDisenio;
                 entity.FechaRedisenio = update.FechaRedisenio;
                 entity.FechaTransicion = update.FechaTransicion;

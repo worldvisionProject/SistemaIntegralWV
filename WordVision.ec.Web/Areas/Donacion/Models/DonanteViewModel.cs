@@ -70,16 +70,18 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public string TelefonoCelular { get; set; }
         public bool WhatsApp { get; set; }
         [EmailAddress]
+
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
         [Display(Name = "Frecuencia de Donación")]
         public int FrecuenciaDonacion { get; set; }
-        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$", ErrorMessage = "Ingese un valor decimal")]
+        [RegularExpression(@"^-?(?:\d+|\d{1,3}(?:.\d{3})+)?(?:\,\d+)?$" , ErrorMessage = "Ingrese un valor decimal")]
         public string Cantidad { get; set; }
 
         //[Display(Name = "Quincena")]
         //public int? Quincena { get; set; }
 
-        [Display(Name = "Fecha de inicio de débito")]
+        [Display(Name = "Fecha de Inicio de Débito")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? MesInicialDebito { get; set; }
 
@@ -126,12 +128,12 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public string Formulario { get; set; }
 
         [Display(Name = "Periodo de Donación ")]
-        public int PeriodoDonacion { get; set; }
+        public int? PeriodoDonacion { get; set; }
 
         [Display(Name = "Calificación  del Donante")]
-        public int CalificacionDonante { get; set; }
+        public int? CalificacionDonante { get; set; }
         
-        [Display(Name = "Número de guia")]
+        [Display(Name = "Número de Guía")]
         public string NumeroGuia { get; set; }
 
         [Display(Name = "Fecha de Entrega")]
@@ -164,4 +166,19 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public SelectList CalificacionDonanteList { get; set; }
         //public SelectList QuincenaList { get; set; }
     }
+
+    public class DonanteResponseViewModel
+    {
+        public string Id { get; set; }
+        public string Campana { get; set; }
+        public string Donante { get; set; }
+        public string Cedula { get; set; }
+        public string Estado { get; set; }
+        public string Ciudad { get; set; }
+        public decimal Cantidad { get; set; }
+    }
+
+   
 }
+
+

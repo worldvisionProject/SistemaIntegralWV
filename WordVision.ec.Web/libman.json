@@ -40,6 +40,18 @@
         "dist/sweetalert2.css",
         "dist/sweetalert2.min.css"
       ]
+    },
+    {
+      "library": "jasny-bootstrap@4.0.0",
+      "destination": "wwwroot/lib/jasny-bootstrap/"
+    },
+    {
+      "library": "bootstrap-fileinput@5.5.0",
+      "destination": "wwwroot/lib/bootstrap-fileinput/"
+    },
+    {
+      "library": "moment.js@2.29.4",
+      "destination": "wwwroot/lib/moment.js/"
     }
   ]
 }

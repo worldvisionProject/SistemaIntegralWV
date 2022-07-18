@@ -104,11 +104,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
         }
         public async Task<FileContentResult> DescargarExportableTXT(int formaPago, int bancoTarjeta, int anio, int mes, int quincena = 0)
         {
-            //List<String[]> listado = new List<String[]>();
-            //listado.Add(new String[] { "Carlos Alvarado Ferreiros", "52632030", "27/10/1990" });
-            //listado.Add(new String[] { "Franciso Larios Loaiza", "20205263", "15/02/1982" });
-            //listado.Add(new String[] { "Deysi Zárate Ríos", "42635120", "10/01/1975" });
-            //listado.Add(new String[] { "Marcela Morán Flores", "20435230", "26/05/1985" });
+ 
             var response = await _mediator.Send(new GetDebitosSeleccionarQuery() { formaPago = formaPago, bancoTarjeta = bancoTarjeta, anio = anio, mes = mes });
             if (response.Succeeded)
             {
@@ -158,8 +154,10 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                             }
                             break;
                     }
+                    var count = 0;
                     foreach (DebitoResponseViewModel item in viewModel)
                     {
+                        count++;
                         var debito = new DebitoViewModel();
                         debito.Anio = anio;
                         debito.CodigoBanco = Convert.ToInt32(item.BancoTarjeta);
@@ -175,8 +173,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         {
                             case 2:
 
-                                linea = @"CO" + "\t" + "2100101057" + "\t" + item.Id + "\t" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "-";
-                                linea = linea + DateTime.Now.Day.ToString() + "\t" + item.Identificacion + "\t" + "USD" + "\t" + Math.Round(item.Valor, 2).ToString().Replace(",", "").Replace(".", "");
+                                linea = @"CO" + "\t" + "2100101057" + "\t" + count + "\t" + DateTime.Now.Month.ToString().PadLeft(2, '0') + "-";
+                                linea = linea + DateTime.Now.ToString("yy") + "\t" + item.Identificacion + "\t" + "USD" + "\t" + Math.Round(item.Valor, 2).ToString().Replace(",", "").Replace(".", "");
                                 linea = linea + "\t" + "CTA" + "\t" + item.BancoTarjeta;
                                 linea = linea + "\t" + (item.TipoCuenta == 1 ? "CTE" : "AHO") + "\t" + item?.CuentaTarjeta;
                                 linea = linea + "\t" + (item.TipoId == 1 ? "R" : item.TipoId == 2 ? "C" : item.TipoId == 3 ? "P" : "N");
@@ -266,11 +264,24 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 {
                     if ((int)responseExiste.Data<=0)
                     {
-                        _notify.Success($"Genere Primero el archivo Txt");
+                        // _notify.Success($"Genere Primero el archivo Txt");
 
-                        return new JsonResult(new { isValid = false });
+                        return StatusCode(StatusCodes.Status400BadRequest, new { mensaje = "Genere Primero el archivo Txt" });
+
                     }
-                    
+
+                }
+                var responseExisteRespuesta = await _mediator.Send(new GetExisteCargaRespuestaQuery() { formaPago = formaPago, bancoTarjeta = bancoTarjeta, anio = anio, mes = mes }); ;
+                if (responseExisteRespuesta.Succeeded)
+                {
+                    if ((int)responseExisteRespuesta.Data > 0)
+                    {
+                        //_notify.Success($"Ya se ha cargado las respuestas para este mes y este año");
+                        return StatusCode(StatusCodes.Status400BadRequest, new { mensaje = "Ya se ha cargado las respuestas para este mes y este año." });
+
+                       // return new JsonResult(new { mensaje = "Ya se ha cargado las respuestas para este mes y este año" });
+                    }
+
                 }
                 int i = 0;
                 if (Request.Form.Files.Count > 0)
@@ -291,6 +302,12 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                             var linea = stream.ReadLine();
                             strContent.Add(linea);//agrego al List el contenido del archivo                   
                         }
+                        if (strContent.Count == 0)
+                        {
+                            //_notify.Success($"No existen registros en el archivo.");
+                            return StatusCode(StatusCodes.Status400BadRequest, new { mensaje = "No existen registros en el archivo." });
+
+                        }
                         i = 0;
                         foreach (var item in strContent.Skip(1))//salteo las cabeceras
                         {
@@ -303,21 +320,9 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                             debito.FormaPago = formaPago;
                             debito.CodigoRespuesta = cells[1];
                             debito.FechaDebito = cells[2];
-                            //D.Codigo = cells[0];
-                            //D.Nombre = cells[1];
-                            //D.Cuentasop = cells[2];
-                            //D.T2 = cells[3];
-                            //D.DescripcionT2 = cells[4];
-                            //D.Tipo = 1;
-
-                            //var createLDRCommand = _mapper.Map<CreateDatosT5Command>(D);
-                            //var resultLDR = await _mediator.Send(createLDRCommand);
-                            //if (resultLDR.Succeeded)
-                            //{
-
+                           
                                 i++;
-                            //}
-                            //else _notify.Error(resultLDR.Message);
+                 
 
                             listaDatos.Add(debito);
                         }
@@ -329,13 +334,14 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         var result = await _mediator.Send(createEntidadCommand);
                         if (result.Succeeded)
                         {
-                            _notify.Success($"{i} Registros almacenadas.");
-                            return new JsonResult(new { isValid = true });
+                            // _notify.Success($"{i} Registros almacenadas.");
+                            return StatusCode(StatusCodes.Status200OK, new { mensaje = $"{i} Registros almacenadas." });
+
                         }
                         else
                         {
-                            _notify.Success($"Error en almacenar los registros.");
-                            return new JsonResult(new { isValid = false });
+                            //_notify.Success($"Error en almacenar los registros.");
+                            return StatusCode(StatusCodes.Status400BadRequest, new { mensaje = $"Error en almacenar los registros." });
                         }
 
                     }
@@ -343,15 +349,16 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 }
                 else
                 {
-                    _notify.Success($"No existe archivo para cargar.");
-                    return new JsonResult(new { isValid = false });
+                    //_notify.Success($"No existe archivo para cargar.");
+                    return StatusCode(StatusCodes.Status400BadRequest, new { mensaje = $"No existe archivo para cargar." });
+
                 }
             }
             catch (Exception ex)
             {
-                _notify.Error($"Error al Insertar.");
+               // _notify.Error($"No se puedo cargar el archivo.");
                 _logger.LogError(ex, $"Error al Insertar archivo respuesta.");
-                return new JsonResult(new { isValid = false });
+                return StatusCode(StatusCodes.Status400BadRequest, new { mensaje = $"No se puedo cargar el archivo." });
             }
 
         }

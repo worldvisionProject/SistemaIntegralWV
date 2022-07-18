@@ -29,6 +29,17 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
             return await list.FirstOrDefaultAsync();
         }
 
+        public async Task<List<LogFrameIndicadorPR>> GetByPtAsync(LogFrameIndicadorPR entity, int idPT)
+        {
+            IQueryable<LogFrameIndicadorPR> list = _repository.Entities.Where(p => p.LogFrame.IdProyectoTecnico == idPT);
+            if (entity.Include)
+            {
+                list = list.Include(r => r.LogFrame).ThenInclude(p=> p.ProyectoTecnico).Include(i => i.IndicadorPR)
+                       .Include(e => e.Estado);
+            }
+            return await list.ToListAsync();
+        }
+
         public async Task<List<LogFrameIndicadorPR>> GetListAsync(LogFrameIndicadorPR entity)
         {
             IQueryable<LogFrameIndicadorPR> list = _repository.Entities;
@@ -58,5 +69,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
         //    foreach (var item in list)
         //        await _repositoryLogIndicador.DeleteAsync(item);
         //}
+
+        public async Task DeleteAsync(LogFrameIndicadorPR entity)
+        {
+            await _repository.DeleteAsync(entity);
+        }
     }
 }

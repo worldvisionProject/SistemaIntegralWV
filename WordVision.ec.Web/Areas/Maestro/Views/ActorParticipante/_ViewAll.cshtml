@@ -21,25 +21,26 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
+                <tr id="@item.Id">
+                    <td>
                     @Html.DisplayFor(modelItem => item.Codigo)
-                </td>
-                <td>
+                    </td>
+                    <td>
                     @Html.DisplayFor(modelItem => item.ActoresParticipantes)
-                </td>
-                <td>
+                    </td>
+                    <td>
                     @Html.DisplayFor(modelItem => item.Descripcion)
-                </td>
-                <td>
+                    </td>
+                    <td>
                     @Html.DisplayFor(modelItem => item.Estado.Nombre)
-                </td>
-                <td>
-                    <div class="btn-group">
-                        <a onclick="jQueryModalGet('/Maestro/ActorParticipante/OnGetCreateOrEdit?id=@item.Id','Editar Actor/Participante')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Editar</a> 
-                    </div>
-                </td>
-            </tr>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button onclick="jQueryModalGet('/Maestro/ActorParticipante/OnGetCreateOrEdit?id=@item.Id','Editar Actor/Participante')" class="btn btn-warning btn-xp mr-1" type="button"><i class="fas fa-pencil-alt"></i></button> 
+                            <button type="button" onclick="EliminaFila(@item.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </td>
+                </tr>
         }
     </tbody>
 </table>
@@ -47,10 +48,37 @@
 <script>
     $(document).ready(function () {
         $("#actorParticipanteTable").DataTable({
-        columnDefs: [ {
-            "targets": 4,
-            "orderable": false
-            } ]
+            columnDefs: [ {
+                "targets": -1,
+                "orderable": false
+                } ],
+            language: {
+                "url": "../lib/datatables/language/Spanish.json"
+            },
         });
     });
+
+    function EliminaFila(id) {
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "delete",
+            url:'@Url.Action("OnPostDelete", "ActorParticipante", new { area = "maestro" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+                if(data.isValid)
+                    $("#" + id).remove();
+
+            },
+            error: function(xhr) {
+
+            }
+        });
+    }
+
 </script>

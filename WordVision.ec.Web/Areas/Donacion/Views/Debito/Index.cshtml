@@ -29,7 +29,7 @@
                                        <select id="selectBanco" name="selectBanco" data-width="600px" style="color:#999 !important" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.BancosList)" data-live-search="true">
                                         </select>
                                     </div>
-                                     <div class="col-md-2">
+                                     <div class="col-md-1">
                                         <label class="col-md-12 col-form-label texto-pregunta" >Año</label>
                                        <select id="selectAnio" data-width="500px" title="Seleccionar..." class="form-control form-control-sm selectpicker" asp-items="@((IEnumerable<SelectListItem>)Model.AnioList)" data-live-search="true">
                                 </select>
@@ -41,7 +41,7 @@
                                     </div>
 
 
-                                    <div class="col-md-3" style="padding:25px 10px 10px 5px">
+                                    <div class="col-md-4" style="padding:25px 10px 30px 55px">
                                        <a class="btn btn-sm btn-labeled btn-success" href="#" onclick="buscarDebitos()">
                                             <span class="btn-label pr-1">
                                                 <i class="fa fa-search"></i>
@@ -79,22 +79,27 @@
                                     
                                     </div>
                                 <div class="col-md-4">
-                                    
+                                   
                                 <form  method="POST" id="frmRespuesta" enctype="multipart/form-data">
-                                  
-                                    @*<span class="btn-label pr-1">
-                                        <i class="fa fa-file-download"></i>
-                                    </span>*@
-                                        <input id="formaPago" name="formaPago" type="hidden"  />
+                                  <input id="formaPago" name="formaPago" type="hidden"  />
                                         <input id="bancoTarjeta" name="bancoTarjeta" type="hidden" />
                                         <input id="anio" name="anio" type="hidden"/>
                                         <input id="mes" name="mes" type="hidden" />
+                                    @*    JHOSEL MACIAS 08.07.2022 <span class="btn-label pr-1">
+                                        <i class="fa fa-file-download"></i>
+                                    </span>*@
+                                       @* 
                                         <input accept=".csv"
                                              name="Id"
                                                type="file" class="custom-file-input"
                            
                                                id="customFile">
-                                        <label class="custom-file-label" for="customFile">Cargar Respuestas</label>
+                                        <label class="custom-file-label" for="customFile">Cargar Respuestas</label>*@
+                                        
+                                         <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left:0px !important">
+                                     <input  id="input-file-debito" name="input-file-debito" style="height: 38px !important" type="file" class="form-control form-control-sm file" data-msg-placeholder="SELECCIONAR ARCHIVO..." data-show-preview="false" accept=" .csv" />
+        
+                                 </div>
                                
                              
                                   
@@ -175,7 +180,7 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th></th>
+                               
                               
                                     <th class="text-right">Totales: </th>
                                 <th></th>
@@ -199,8 +204,16 @@
     <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
 <script src="~/js/site.js"></script>
 <script>
-   
-
+  
+    $('#input-file-debito').fileinput({
+        language: "es",
+        showUpload: false,
+        maxFileCount: 1,
+        inputGroupClass: "input-group-sm",
+        allowedFileExtensions: ["csv"],
+    }).on('fileloaded', function() {
+        //validarDimensiones();
+    });
    let tableMain = null;
         let config = {
             id: "debitosTable",
@@ -227,21 +240,22 @@
             dom: "tipr",
             buttons: [
                 { extend: "excel", exportOptions: { columns: ':not(.no-export)' } }
-            ],
+            ], 
+            
             columns: [
-                { width: '10%', filter: 'input', type: 'string', data: 'estado' },
-                { width: '10%', filter: 'input', type: 'string', data: 'tipo' },
-                { width: '10%', filter: 'input', type: 'string', data: 'categoria' },
+                { width: '8%', filter: 'input', type: 'string', data: 'estado' },
+                { width: '6%', filter: 'input', type: 'string', data: 'tipo' },
+                { width: '8%', filter: 'input', type: 'string', data: 'categoria' },
                 { width: '10%', filter: 'input', type: 'string', data: 'campana' },
-                { width: '8%', filter: 'input', type: 'string', data: 'frecuencia' },
-                { width: '10%', filter: 'input', type: 'string', data: 'identificacion' },
-                { width: '15%', filter: 'input', type: 'string', data: 'nombreDonante' },
-                { width: '15%', filter: 'input', type: 'string', data: 'bancoTarjeta' },
-                { width: '15%', filter: 'input', type: 'string', data: 'cuentaTarjeta' },
+                { width: '6%', filter: 'input', type: 'string', data: 'frecuencia' },
+                { width: '8%', filter: 'input', type: 'string', data: 'identificacion' },
+                { width: '10%', filter: 'input', type: 'string', data: 'nombreDonante' },
+                { width: '10%', filter: 'input', type: 'string', data: 'bancoTarjeta' },
+                { width: '10%', filter: 'input', type: 'string', data: 'cuentaTarjeta' },
                 { width: '10%', filter: 'input', type: 'string', data: 'respuestaBanco' },
-                { width: '10%', filter: 'input', type: 'date', data: 'fechaDebito' },
+                { width: '10%', filter: 'input', type: 'date', data: 'fechaDebito'},
                 {
-                    width: '10%', filter: 'input', type: 'num', data: 'valor', className: 'text-right', operation: "sum", prefix: 'none',
+                    width: '8%', filter: 'input', type: 'num', data: 'valor', className: 'text-right', operation: "sum", prefix: 'none',
                     render: function (data, type, row) {
                         return $.fn.dataTable.render.number('', '.', 2, '').display(data);
                     }
@@ -253,6 +267,14 @@
                 //    }
                 //}
             ],
+            //columnDefs: [
+            //      //{ targets: [0, 1], "width": "20%", render: $.fn.dataTable.render.ellipsis(20, false, true) },
+            //      //{ targets: 2, "width": "33%", render: $.fn.dataTable.render.ellipsis(40, false, true) },
+            //      { targets: 10,  render:function(data){
+            //          return moment(data).format('dd/MM/YYYY'); 
+            //        }} 
+            //      //{ targets: 4, "width": "11%", render: $.fn.dataTable.render.number(',', '.', 0) }
+            // ],
             initComplete: function () {
                 reHandle();
             },
@@ -304,6 +326,25 @@
             var bancoTarjeta = parseInt($("#selectBanco").val());
             var anio = parseInt($("#selectAnio").val());
             var mes = parseInt($("#selectMes").val());
+
+            if (isNaN(formaPago) || formaPago === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar la forma de Pago", "warning");
+                return false;
+            }
+            if (isNaN(bancoTarjeta) || bancoTarjeta === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el Banco", "warning");
+                return false;
+            }
+            if (isNaN(anio) || anio === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el Año", "warning");
+                return false;
+            }
+            if (isNaN(mes) || mes === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el Mes", "warning");
+                return false;
+            }
+
+
             $("#formaPago").val(formaPago);
              $("#bancoTarjeta").val(bancoTarjeta);
               $("#anio").val(anio);
@@ -322,9 +363,24 @@
                     contentType: false,
                     cache: false,
                     timeout: 600000,
+                    beforeSend: function () {
+                                startLoading("#frmRespuesta");
+                            },
                     success: function (data) {
-                       // console.log();
+                        finishLoading("#frmRespuesta");
+                                Swal.fire("¡Listo!", data.mensaje, "success").then((value) => {
+                                tableMain.ajax.reload(reHandle, true);
+                                   
+                                });
                     },
+                    error: function (error) {
+                        finishLoading("#frmRespuesta");
+                        Swal.fire({
+                            title: "Error",
+                            text: error.responseJSON.mensaje,
+                            icon: 'error'
+                        });
+                    }
                 });
 
             //return true;
@@ -339,13 +395,29 @@
           // document.getElementById('frmRespuesta').submit();
         }
         function generarTxtDebitos() {
-           startLoading();
+           
             var formaPago = parseInt($("#selectFormaPago").val());
             var bancoTarjeta = parseInt($("#selectBanco").val());
             var anio = parseInt($("#selectAnio").val());
             var mes = parseInt($("#selectMes").val());
 
-   
+             if (isNaN(formaPago) || formaPago === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar la forma de Pago", "warning");
+                return false;
+            }
+            if (isNaN(bancoTarjeta) || bancoTarjeta === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el Banco", "warning");
+                return false;
+            }
+            if (isNaN(anio) || anio === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el Año", "warning");
+                return false;
+            }
+            if (isNaN(mes) || mes === 0) {
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar el Mes", "warning");
+                return false;
+            }
+   startLoading();
             window.location.href = '@Url.Action("DescargarExportableTXT", "Debito")?formaPago='+formaPago+'&bancoTarjeta='+bancoTarjeta+'&anio='+anio+'&mes='+mes;
                     //$.post("/Debito/DescargarExportableTXT", { 
                     //    function (d) {

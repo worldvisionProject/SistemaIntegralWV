@@ -2,34 +2,59 @@
 
 <form id="create-form" asp-action="OnPostCreateOrEdit" method="post" asp-controller="FaseProgramaArea" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input hidden="hidden" asp-for="Id"/>
-    <div class = "row">
-        <div class="col-md-6">
+    <input hidden="hidden" asp-for="Id" />
+    <div class="row">
+        <div class="col-md-5">
             <div class="form-group">
-                <label asp-for="FechaInicio" class="control-label">Fecha Inicio</label>
-                <input asp-for="FechaInicio" class="form-control" />
+                <label asp-for="IdProgramaArea" class="control-label">Programa Área</label>
+                @Html.DropDownList("IdProgramaArea", (IEnumerable<SelectListItem>)Model.ProgramaAreaList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
+                <span asp-validation-for="IdProgramaArea" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="IdProyectoTecnico" class="control-label">Proyecto Tecnico</label>
+                @Html.DropDownList("IdProyectoTecnico", (IEnumerable<SelectListItem>)Model.ProyectoTecnicoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
+                <span asp-validation-for="IdProyectoTecnico" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="IdFaseProyecto" class="control-label">Fase</label>
+                @Html.DropDownList("IdFaseProyecto", (IEnumerable<SelectListItem>)Model.FaseProyectoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" , @onchange = "onchangeFase()" })
+                <span asp-validation-for="IdFaseProyecto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaInicio" class="control-label boxfi">Fecha Inicio</label>
+                <input asp-for="FechaInicio" class="form-control" onchange="finionchange()" />
                 <span asp-validation-for="FechaInicio" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaFin" class="control-label">Fecha Fin</label>
-                <input asp-for="FechaFin" class="form-control" />
+                <input asp-for="FechaFin" class="form-control" onchange="ffinonchange()" />
                 <span asp-validation-for="FechaFin" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Observacion" class="control-label">Observacion</label>
+                <textarea asp-for="Observacion" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group">
                 <label asp-for="FechaDisenio" class="control-label">Fecha Diseño</label>
-                <input asp-for="FechaDisenio" class="form-control" />
+                <input asp-for="FechaDisenio" class="form-control" readonly />
                 <span asp-validation-for="FechaDisenio" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaRedisenio" class="control-label">Fecha Rediseño</label>
-                <input asp-for="FechaRedisenio" class="form-control" />
+                <input asp-for="FechaRedisenio" class="form-control" readonly />
                 <span asp-validation-for="FechaRedisenio" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaTransicion" class="control-label">Fecha Transición</label>
-                <input asp-for="FechaTransicion" class="form-control" />
+                <input asp-for="FechaTransicion" class="form-control" readonly />
                 <span asp-validation-for="FechaTransicion" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-2">
             <div class="form-group">
                 <label asp-for="Dip1" class="control-label"></label>
                 <input asp-for="Dip1" class="form-control" />
@@ -40,8 +65,6 @@
                 <input asp-for="Dip2" class="form-control" />
                 <span asp-validation-for="Dip2" class="text-danger"></span>
             </div>
-        </div>
-        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Dip3" class="control-label"></label>
                 <input asp-for="Dip3" class="form-control" />
@@ -57,32 +80,23 @@
                 <input asp-for="Dip5" class="form-control" />
                 <span asp-validation-for="Dip5" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group dip6box">
                 <label asp-for="Dip6" class="control-label"></label>
                 <input asp-for="Dip6" class="form-control" />
                 <span asp-validation-for="Dip6" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="IdProgramaArea" class="control-label">Programa Área</label>
-                @Html.DropDownList("IdProgramaArea", (IEnumerable<SelectListItem>)Model.ProgramaAreaList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
-                <span asp-validation-for="IdProgramaArea" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdFaseProyecto" class="control-label">Fase</label>
-                @Html.DropDownList("IdFaseProyecto", (IEnumerable<SelectListItem>)Model.FaseProyectoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
-                <span asp-validation-for="IdFaseProyecto" class="text-danger"></span>
-            </div>
+
             @if (Model.Id != 0)
             {
                 <div class="form-group">
-                        <label asp-for="IdEstado" class="control-label">Estado</label>
+                    <label asp-for="IdEstado" class="control-label">Estado</label>
                     @Html.DropDownList("IdEstado", (IEnumerable<SelectListItem>)Model.EstadoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
                     <span asp-validation-for="IdEstado" class="text-danger"></span>
                 </div>
             }
         </div>
-    </div>          
-            
+    </div>
+
     <br />
     <div class="form-group justify-content-between group-button-modal">
         <button type="submit" class="btn btn-success">Guardar</button>
@@ -90,6 +104,102 @@
     </div>
 </form>
 
+<script type="text/javascript">
+
+
+    $(document).ready(function() {
+
+        var fini = new Date();
+        fini.setMinutes(fini.getMinutes() - fini.getTimezoneOffset());
+        document.getElementById('FechaInicio').value = fini.toISOString().slice(0, 16);
+
+        var ffin = new Date($('#FechaInicio').val());
+        addyearinputdate(ffin, "FechaFin", 15);
+
+        var ffin = new Date($('#FechaInicio').val());
+        addyearinputdate(ffin, "FechaDisenio", 5);
+
+        var ffin = new Date($('#FechaInicio').val());
+        addyearinputdate(ffin, "FechaRedisenio", 10);
+
+        document.getElementById('FechaTransicion').value = document.getElementById('FechaFin').value;
+        $("#FechaTransicion").attr('value', $("#FechaTransicion").val());
+
+        onchangeFase();
+    });
+
+    function onchangeFase() {
+        var textselectdip6 = $('#IdFaseProyecto option:selected').text();
+        let resultdip6 = textselectdip6.includes("CIERRE");
+        if (resultdip6 === true) {
+
+            var fini = new Date($('#FechaInicio').val());
+            fini.setFullYear(fini.getFullYear() + 16);
+            var aniocalc = fini.getFullYear();
+
+            var ffin = new Date($('#FechaFin').val());
+            var aniocomp = ffin.getFullYear();
+
+            if (aniocalc === aniocomp) {
+                $(".dip6box").attr('hidden', false);
+            }            
+        }
+        else {
+            $(".dip6box").attr('hidden', true);
+        }
+    }
+
+    function addyearinputdate(ffininicio, idnameipdate, anio) {
+
+        var ffin = new Date(ffininicio);
+
+        var mimdate = new Date(ffin);
+        mimdate.setFullYear(mimdate.getFullYear() + 1);
+        $("#" + idnameipdate).attr('min', mimdate.toISOString().slice(0, 16));
+       
+        ffin.setFullYear(ffin.getFullYear() + anio);
+        ffin.setDate(ffin.getDate() - 1);
+        document.getElementById(idnameipdate).value = ffin.toISOString().slice(0, 16);
+        $("#" + idnameipdate).attr('value', $("#" + idnameipdate).val());
+
+        ffin.setFullYear(ffin.getFullYear() + 1);
+        $("#" + idnameipdate).attr('max', ffin.toISOString().slice(0, 16));
+
+    }
+
+    function finionchange() {
+        var fini = new Date($('#FechaInicio').val());
+        addyearinputdate(fini, "FechaFin", 15);
+
+        //var fini = new Date($('#FechaInicio').val());
+        addyearinputdate(fini, "FechaDisenio", 5);
+        //document.getElementById('FechaDisenio').value = $('#FechaDisenio').val();
+
+        //var fini = new Date($('#FechaInicio').val());
+        addyearinputdate(fini, "FechaRedisenio", 10);
+        //document.getElementById('FechaRedisenio').value = $('#FechaRedisenio').val();
+
+        document.getElementById('FechaTransicion').value = document.getElementById('FechaFin').value;
+        $("#FechaTransicion").attr('value', $("#FechaTransicion").val());
+    }
+
+    function ffinonchange() {
+        document.getElementById('FechaTransicion').value = document.getElementById('FechaFin').value;
+        $("#FechaTransicion").attr('value', $("#FechaTransicion").val());
+        onchangeFase();
+    }
+
+
+
+
+</script>
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @*@{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }*@
+
+    <script>
+        alert(1)
+    </script>
+    }

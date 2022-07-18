@@ -13,5 +13,6 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Maestro
         Task<List<OtroIndicador>> GetListAsync(OtroIndicador indicador);
         Task<int> InsertAsync(OtroIndicador indicador);
         Task UpdateAsync(OtroIndicador indicador);
+        Task DeleteAsync(OtroIndicador indicador);
     }
 }

@@ -15,7 +15,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Registro
         Task<List<T>> GetPagedReponseAsync(int pageNumber, int pageSize);
 
         Task<T> AddAsync(T entity);
-
+        Task<List<T>> AddRangeAsync(List<T> entities);
         Task UpdateAsync(T entity);
 
         Task DeleteAsync(T entity);

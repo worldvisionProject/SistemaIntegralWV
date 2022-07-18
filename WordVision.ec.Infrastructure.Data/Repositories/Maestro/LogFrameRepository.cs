@@ -63,5 +63,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
             foreach(var item in list)
             await _repositoryLogIndicador.DeleteAsync(item);
         }
+
+        public async Task DeleteAsync(LogFrame logFrame)
+        {
+            await _repository.DeleteAsync(logFrame);
+        }
     }
 }

@@ -14,5 +14,6 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Maestro
         Task<int> InsertAsync(LogFrame logFrame);
         Task UpdateAsync(LogFrame logFrame);
         Task DeleteLogFrameIndicadorPRAsync(List<LogFrameIndicadorPR> list);
+        Task DeleteAsync(LogFrame logFrame);
     }
 }

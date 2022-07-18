@@ -2,14 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Indicadores.FaseProgramaArea;
 using WordVision.ec.Application.Features.Indicadores.FaseProgramaArea.Commands.Create;
 using WordVision.ec.Application.Features.Indicadores.FaseProgramaArea.Commands.Update;
 using WordVision.ec.Application.Features.Indicadores.FaseProgramaArea.Queries.GetAll;
 using WordVision.ec.Application.Features.Indicadores.FaseProgramaArea.Queries.GetById;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Maestro.ProgramaArea.Queries.GetAll;
+using WordVision.ec.Application.Features.Maestro.ProyectoTecnico.Queries.GetAll;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Indicadores.Models;
 using WordVision.ec.Web.Areas.Maestro.Models;
@@ -21,7 +24,7 @@ namespace WordVision.ec.Web.Areas.Indicadores.Controllers
     [Area("Indicadores")]
     [Authorize]
     public class FaseProgramaAreaController : BaseController<FaseProgramaAreaController>
-    {       
+    {
         private readonly CommonMethods _commonMethods;
 
         public FaseProgramaAreaController()
@@ -39,9 +42,17 @@ namespace WordVision.ec.Web.Areas.Indicadores.Controllers
         {
             List<FaseProgramaAreaViewModel> viewModels = new List<FaseProgramaAreaViewModel>();
             var response = await _mediator.Send(new GetAllFaseProgramaAreaQuery { Include = true });
+            List<FaseProgramaAreaResponse> faprresponse = new List<FaseProgramaAreaResponse>();
             if (response.Succeeded)
-                viewModels = _mapper.Map<List<FaseProgramaAreaViewModel>>(response.Data);
+            {
+                faprresponse = response.Data;
+                // viewModels = _mapper.Map<List<FaseProgramaAreaViewModel>>(faprresponse);
+            }
 
+            var OLista = new ObservableCollection<FaseProgramaAreaViewModel>(
+            faprresponse.Select(m => _mapper.Map<FaseProgramaAreaViewModel>(m)).ToList());
+
+            viewModels = OLista.ToList();
             return PartialView("_ViewAll", viewModels);
         }
 
@@ -131,21 +142,26 @@ namespace WordVision.ec.Web.Areas.Indicadores.Controllers
             var estado = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoEstado });
             var fase = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoFaseProyecto });
             var programaAreas = await _mediator.Send(new GetAllProgramaAreaQuery());
-            
+
+            var proyectoTecnicos = await _mediator.Send(new GetAllProyectoTecnicoQuery());
+
             List<GetListByIdDetalleResponse> estados = estado.Data;
             List<GetListByIdDetalleResponse> fases = fase.Data;
             List<ProgramaAreaViewModel> programas = _mapper.Map<List<ProgramaAreaViewModel>>(programaAreas.Data);
+            List<ProyectoTecnicoViewModel> proyectos = _mapper.Map<List<ProyectoTecnicoViewModel>>(proyectoTecnicos.Data);
 
             if (isNew)
             {
                 estados = estados.Where(e => e.Estado == CatalogoConstant.EstadoActivo).ToList();
                 fases = fases.Where(e => e.Estado == CatalogoConstant.EstadoActivo).ToList();
                 programas = programas.Where(e => e.IdEstado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
+                proyectos = proyectos.Where(e => e.IdEstado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
             }
 
             entidadViewModel.EstadoList = _commonMethods.SetGenericCatalog(estados, CatalogoConstant.FieldEstado);
             entidadViewModel.FaseProyectoList = _commonMethods.SetGenericCatalog(fases, CatalogoConstant.FieldFaseProyecto);
             entidadViewModel.ProgramaAreaList = _commonMethods.SetGenericCatalog(programas, CatalogoConstant.FieldProgramaArea);
+            entidadViewModel.ProyectoTecnicoList = _commonMethods.SetGenericCatalog(proyectos, CatalogoConstant.FieldProyectoTecnico);
         }
     }
 }

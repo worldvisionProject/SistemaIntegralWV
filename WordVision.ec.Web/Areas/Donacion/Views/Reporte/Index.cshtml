@@ -5,6 +5,7 @@
 
 
 
+
             
 <link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css" />
 <link rel="stylesheet" href="~/lib/bootstrap-select/css/bootstrap-select.min.css">
@@ -23,49 +24,50 @@
                        <div class="col-3 my-auto">
                             <h6><i class="fas fa-calendar-check mr-2"></i>Reporte Consolidado</h6>
                         </div>
-                        <div class="col-9">
+                        <div class="col-12">
                             <div class="btn-toolbar float-right" role="toolbar">
                                 <div class="btn-group btn-group-sm" role="group">
                                     <div class="input-group input-group-sm">
                                        
                                         <div class="input-group-prepend input-group-sm">
-                                            <div class="input-group-text input-group-sm">F. Inicio</div>
+                                            <div class="input-group-text input-group-sm" style="height: 31px !important;">F. Inicio</div>
                                         </div>
                                         <input class="form-control form-control-sm mw-100" id="fechaInicio" />
                                         <div class="input-group-prepend input-group-sm">
-                                            <div class="input-group-text input-group-sm">F. Fin</div>
+                                            <div class="input-group-text input-group-sm"  style="height: 31px !important;">F. Fin</div>
                                         </div>
                                         <input class="form-control form-control-sm mw-100" id="fechaFin" />
                                          <div class="input-group-prepend input-group-sm">
-                                            <div class="input-group-text input-group-sm">Tipo Donante</div>
+                                            <div class="input-group-text input-group-sm"  style="height: 31px !important;">Tipo Donante</div>
                                         </div>
                                         <select id="selectTipoDonante" data-width="300px" title="Seleccionar..." class="form-control form-control-sm selectpicker" asp-items="@((IEnumerable<SelectListItem>)Model.TipoDonanteList)" data-live-search="true">
                                         </select>
                                          <div class="input-group-prepend input-group-sm">
-                                            <div class="input-group-text input-group-sm">Estado Donante</div>
+                                            <div class="input-group-text input-group-sm"  style="height: 31px !important;">Estado Donante</div>
                                         </div>
                                         <select id="selectEstadoDonante" data-width="300px" title="Seleccionar..." class="form-control form-control-sm selectpicker" asp-items="@((IEnumerable<SelectListItem>)Model.EstadoDonanteList)" data-live-search="true">
                                         </select>
                                          <div class="input-group-prepend input-group-sm">
-                                            <div class="input-group-text input-group-sm">Forma de Pago</div>
+                                            <div class="input-group-text input-group-sm"  style="height: 31px !important;">Forma de Pago</div>
                                         </div>
                                         <select id="selectFormaPago" data-width="300px" title="Seleccionar..." class="form-control form-control-sm selectpicker" asp-items="@((IEnumerable<SelectListItem>)Model.FormaPagoList)" data-live-search="true">
                                         </select>
-                                    </div>
-                                    <a class="btn btn-sm btn-labeled btn-success" href="#" onclick="filtrarReporte()">
+                                    
+                                    &nbsp;&nbsp;&nbsp;
+                                    <a class="btn btn-sm btn-labeled btn-success"  style="height: 31px !important;" href="#" onclick="filtrarReporte()">
                                         <span class="btn-label pr-1">
                                             <i class="fa fa-search"></i>
                                         </span>
                                         Buscar
                                     </a>
                                     &nbsp;&nbsp;&nbsp;
-                                    <a class="btn btn-sm btn-labeled btn-success tool-action" href="#">
+                                    <a class="btn btn-sm btn-labeled btn-success tool-action"  style="height: 31px !important;" href="#">
                                         <span class="btn-label pr-1">
                                             <i class="fa fa-file-download"></i>
                                         </span>
                                         Exportar
                                     </a>
-           
+           </div>
                    
                                 </div>
                             </div>
@@ -101,7 +103,7 @@
                                 </th>
                               
                                 <th>
-                                    FormaPago
+                                    Forma Pago
                                 </th>
                                  <th>
                                     Entidad Bancaria    

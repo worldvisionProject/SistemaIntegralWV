@@ -18,6 +18,9 @@ namespace WordVision.ec.Domain.Entities.Indicadores
         [Required]
         public DateTime FechaFin { get; set; }
 
+        [StringLength(200)]
+        public string Observacion { get; set; }
+
         [Required]
         public DateTime FechaDisenio { get; set; }
 

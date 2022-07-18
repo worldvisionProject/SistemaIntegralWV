@@ -1,0 +1,128 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using WordVision.ec.Infrastructure.Data.Identity.Models;
+@using WordVision.ec.Web.Areas.Donacion.Models;
+@model InteracionViewModel
+
+
+<form id="create-form" method="post" asp-controller="Interacion" asp-action="OnPostCreateOrEdit" onsubmit="return jQueryModalPost(this);" asp-route-id="@Model.Id"  enctype="multipart/form-data">
+   
+    <input asp-for="Tipo" hidden="text" name="Tipo" value="@Model.vieneDe" />
+    <input asp-for="IdDonante" hidden="text" name="IdDonante"  />
+    <dic class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Gestion"></label>
+                    @Html.DropDownListFor(x => x.Gestion, (IEnumerable<SelectListItem>)Model.interacionesList, new { @class = "form-control",required = "required" })
+                    <span asp-validation-for="Gestion" class="text-danger"></span>
+                </div>
+
+
+                @*  <div class="col-md-4">
+                <label class="col-md-12 col-form-label texto-pregunta" asp-for="Tipo"></label>
+                @Html.DropDownListFor(x => x.Tipo, (IEnumerable<SelectListItem>)Model.tipoList, new { @class = "form-control",required = "required" })
+                <span asp-validation-for="Tipo" class="text-danger"></span>
+                </div>*@
+
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Observacion"></label>
+                    <textarea asp-for="Observacion" type="text" name="Observacion" class="form-control" rows="3" required></textarea>
+                    <span asp-validation-for="Observacion" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </dic>
+    <br />
+
+
+    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+
+
+        <input type="hidden" value="false" name="band" id="band"/>
+        <button type="submit" class="btn btn-info" style="background-color:blue !important">Guardar</button>
+
+        <button type="submit" id="btnCancelar" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+    </div>
+
+</form>
+<br />
+
+<hr />
+
+<table id="interaccionesTable" class="table table-striped " width="100%" cellspacing="0">
+    <thead>
+        <tr>
+
+
+            <th data-priority="1">Gestion</th>
+            <th data-priority="1">Observaciones</th>
+            <th data-priority="1">Usuario que Creo</th>
+            <th data-priority="1">Fecha que Creo</th>
+            <th data-priority="1">Usuario que Modifico</th>
+            <th data-priority="1">Fecha que Modifico</th>
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var d in Model.ListaInteracciones)
+        {
+            <tr>
+
+                <td>
+                    @Model.interacionesList.Where(x => x.Value == @d.Gestion.ToString()).FirstOrDefault().Text
+
+                </td>
+                <td>
+                    @d.Observacion
+                </td>
+
+                <td>
+                    @d.CreatedBy
+                </td>
+                <td>
+                    @d.CreatedOn
+
+                </td>
+                <td>
+                    @d.LastModifiedBy
+                </td>
+                <td>
+                    @d.LastModifiedOn
+                </td>
+
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+
+<script>
+
+    $(document).ready(function() {
+        var table = $("#interaccionesTable").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ], dom: 'Bfrtip', buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ],
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            }
+        });
+
+
+    });
+</script>
+

@@ -73,5 +73,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
         {
             await _repository.UpdateAsync(rCNinoPatrocinado);
         }
+
+        public async Task DeleteAsync(RCNinoPatrocinado rCNinoPatrocinado)
+        {
+            await _repository.DeleteAsync(rCNinoPatrocinado);
+        }
     }
 }

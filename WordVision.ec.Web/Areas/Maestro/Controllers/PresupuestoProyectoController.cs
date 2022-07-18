@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Maestro.PresupuestoProyecto.Commands.Create;
+using WordVision.ec.Application.Features.Maestro.PresupuestoProyecto.Commands.Delete;
 using WordVision.ec.Application.Features.Maestro.PresupuestoProyecto.Commands.Update;
 using WordVision.ec.Application.Features.Maestro.PresupuestoProyecto.Queries.GetAll;
 using WordVision.ec.Application.Features.Maestro.PresupuestoProyecto.Queries.GetById;
@@ -112,6 +113,31 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             {
                 var result = string.Join(',', ModelState.Values.SelectMany(v => v.Errors).Select(a => a.ErrorMessage));
                 return _commonMethods.SaveError($"Error al insertar PresupuestoProyecto", result);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<JsonResult> OnPostDelete(int id)
+        {
+            _commonMethods.SetProperties(_notify, _logger);
+            var deleteCommand = await _mediator.Send(new DeletePresupuestoProyectoCommand { Id = id });
+            if (deleteCommand.Succeeded)
+            {
+                _notify.Information($"El registro de PresupuestoProyecto fue eliminado");
+                var response = await _mediator.Send(new GetAllPresupuestoProyectoQuery { Include = true });
+                if (response.Succeeded)
+                {
+                    var viewModel = _mapper.Map<List<PresupuestoProyectoViewModel>>(response.Data);
+                    var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                    return new JsonResult(new { isValid = true, html = html });
+                }
+                else
+                    return _commonMethods.SaveError(response.Message);
+
+            }
+            else
+            {
+                return _commonMethods.SaveError(deleteCommand.Message);
             }
         }
 

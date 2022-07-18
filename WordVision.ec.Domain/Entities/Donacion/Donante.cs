@@ -70,21 +70,27 @@ namespace WordVision.ec.Domain.Entities.Donacion
         [StringLength(50)]
         public string Formulario { get; set; }
 
-        [StringLength(10)]
-        public int PeriodoDonacion { get; set; }
+        public int? PeriodoDonacion { get; set; }
 
-        [StringLength(10)]
-        public int CalificacionDonante { get; set; }
+        public int? CalificacionDonante { get; set; }
 
         [StringLength(50)]
         public string NumeroGuia { get; set; }
 
         public DateTime? FechaEntrega { get; set; }
 
+       // [StringLength(50)]
+       // public string MotivosBaja { get; set; }
+
+        //public DateTime? FechaBaja { get; set; } 
+
         [ForeignKey("IdDonante")]
         public ICollection<Debito> Debitos { get; set; }
 
         [ForeignKey("IdDonante")]
         public ICollection<ProductoDonante> ProductoDonantes { get; set; }
+
+        [ForeignKey("IdDonante")]
+        public ICollection<Interacion> Interaciones { get; set; }
     }
 }

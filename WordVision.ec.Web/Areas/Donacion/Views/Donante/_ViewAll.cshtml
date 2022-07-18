@@ -1,5 +1,5 @@
 ﻿@using WordVision.ec.Web.Areas.Donacion.Models
-@model DonanteViewModelView
+@model List<DonanteResponseViewModel>
 
 
 <table id="personalTable" class="table table-striped " width="100%" cellspacing="0">
@@ -7,16 +7,19 @@
                 <tr>
 
 
-                     <th data-priority="1">Campaña</th>
-                    <th data-priority="1">Nombre</th>
-                    <th data-priority="1">Apellido</th>
+                    <th data-priority="1">Campaña</th>
+                    <th data-priority="1">Donante</th>
+                    
                     <th data-priority="1">Cédula</th>
                     <th data-priority="1">Estado Donante</th>
                     <th data-priority="1">Ciudad</th>
                     <th data-priority="1">Cantidad</th>
                 
-
-                    <th data-priority="2" class="acciones-th">Acciones</th>
+                     <th data-priority="2" class="interaccion-th">Fidelización </th>
+                     <th data-priority="2" class="cobranza-th">Cobranzas </th>
+                     <th data-priority="2" class="cobranza-th">Courier </th>
+                     <th data-priority="2" class="acciones-th">Acciones</th>
+                   
 
 
 
@@ -24,38 +27,54 @@
             </thead>
             <tbody>
                
-                @foreach (var donante in Model.DonanteViewModels)
+                @foreach (var d in Model.ToList())
                 {
                 <tr>
                    
                     <td>
-                        @Model.CampanaList.Where(x => x.Value == donante.Campana.ToString()).FirstOrDefault().Text
+                        @d.Campana
                      
                     </td>
                     <td>
-                        @donante.Nombre1
+                       @d.Donante
+                    </td>
+                   
+                    <td>
+                       @d.Cedula
                     </td>
                     <td>
-                        @donante.Apellido1
-                    </td>
-                    <td>
-                        @donante.RUC
-                    </td>
-                    <td>
-                        @Model.EstadoDonanteList.Where(x => x.Value == donante.EstadoDonante.ToString()).FirstOrDefault().Text
+                      @d.Estado
                       
                     </td>
                     <td>
-                        @Model.CiudadList.Where(x => x.Value == @donante.Ciudad.ToString()).FirstOrDefault().Text
+                       @d.Ciudad
                     </td>
                     <td>
-                        @donante.Cantidad
+                      @d.Cantidad
                     </td>
 
+                    <td class="interaccion-td">
 
+                        <button type="button" class="btn btn-success  btn-xp" title="interacion" id="btnViewModel" onclick="jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante=@d.Id&vienede=1', 'Fidelización-Verificación de Datos')">
+                            <i class="fa fa-handshake-o"></i>
+                        </button>
+                    </td>
+
+                     <td class="cobranza-td">
+
+                        <button type="button" class="btn btn-success  btn-xp" title="cobranza" id="btnViewModel" onclick="jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante=@d.Id&vienede=2', 'Gestion de Cobranza')">
+                            <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                     <td class="courier-td">
+
+                        <button type="button" class="btn btn-success  btn-xp" title="courier" id="btnViewModel" onclick="jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante=@d.Id&vienede=3', 'Courier')">
+                            <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                        </button>
+                    </td>
                     <td class="acciones-td">
 
-                        <button type="button" class="btn btn-success  btn-xp" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Donacion/Donante/OnGetCreateOrEdit?id=@donante.Id', 'Donante')">
+                        <button type="button" class="btn btn-success  btn-xp" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Donacion/Donante/OnGetCreateOrEdit?id=@d.Id', 'Donante')">
                             <i class="fa fa-pencil-square-o"></i>
                         </button>
                     </td>

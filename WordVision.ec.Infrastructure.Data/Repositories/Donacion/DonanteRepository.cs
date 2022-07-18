@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.DTOs.Debitos;
+using WordVision.ec.Application.DTOs.Donantes;
 using WordVision.ec.Application.Interfaces.Repositories.Donacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Application.Interfaces.Repositories.Soporte;
@@ -23,18 +24,22 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
         private readonly RegistroDbContext _db;
         private readonly IRepositoryAsync<Donante> _repository;
         private readonly IRepositoryAsync<DetalleCatalogo> _repositoryDetalle;
+        private readonly IRepositoryAsync<Ciudad> _repositoryCiudad;
         private readonly IDistributedCache _distributedCache;
 
-        public DonanteRepository(IRepositoryAsync<DetalleCatalogo> repositoryDetalle,RegistroDbContext db,IRepositoryAsync<Donante> repository, IDistributedCache distributedCache)
+        public DonanteRepository(IRepositoryAsync<Ciudad> repositoryCiudad, IRepositoryAsync<DetalleCatalogo> repositoryDetalle,RegistroDbContext db,IRepositoryAsync<Donante> repository, IDistributedCache distributedCache)
         {
             _repository = repository;
             _distributedCache = distributedCache;
             _db = db;
             _repositoryDetalle = repositoryDetalle;
+            _repositoryCiudad = repositoryCiudad;
+
+
         }
 
         public IQueryable<Donante> donantes => _repository.Entities;
-
+        
 
         public async Task DeleteAsync(Donante donante)
         {
@@ -47,9 +52,24 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
             return await _repository.Entities.Where(x => x.Id == idDonante).FirstOrDefaultAsync();
         }
 
-        public async Task<List<Donante>> GetListAsync()
+        public async Task<List<DonanteResponse>> GetListAsync(int estadoDonante , int categoria)
         {
-            return await _repository.Entities.ToListAsync();
+            // return await _repository.Entities.ToListAsync();
+            var resultado1 = _repository.Entities.Where(x =>(x.EstadoDonante == estadoDonante || estadoDonante == 0) && x.Categoria == categoria )
+                                      .Select(a => new DonanteResponse
+                                      {
+                                          Id = a.Id,
+                                          Campana    = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 26 && c.Secuencia == a.Campana.ToString()).FirstOrDefault().Nombre,
+                                          Donante = a.Apellido1 + " " + a.Apellido2 + " " + a.Nombre1 + " " + a.Nombre2,
+                                          Cedula = a.RUC,
+                                          Estado = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 27 && c.Secuencia == a.EstadoDonante.ToString()).FirstOrDefault().Nombre,
+                                          Ciudad = _repositoryCiudad.Entities.Where(c => c.Codigo == a.Ciudad.ToString()).FirstOrDefault().Nombre,
+                                          Cantidad = a.Cantidad,
+                                         
+                                      }
+                                      ).ToListAsync();
+
+            return await resultado1;
         }
 
         public async Task<int> InsertAsync(Donante donante)
@@ -88,7 +108,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
                                         Identificacion =a.RUC ,
                                         FormaPago = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 21 && c.Secuencia == a.FormaPago.ToString()).FirstOrDefault().Nombre,
                                         //EntidadBancaria = ,
-                                        TipoCuenta = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 25 && c.Secuencia == a.TipoCuenta.ToString()).FirstOrDefault().Nombre,
+                                        TipoCuenta = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 35 && c.Secuencia == a.TipoCuenta.ToString()).FirstOrDefault().Nombre,
                                         Cuenta = a.NumeroCuenta,
                                         Valor =a.Cantidad ,
 
@@ -107,5 +127,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
 
             return await resultado1;
         }
+
+       
     }
 }

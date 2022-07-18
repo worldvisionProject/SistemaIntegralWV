@@ -48,5 +48,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
         {
             await _repository.UpdateAsync(actorParticipante);
         }
+
+        public async Task DeleteAsync(ActorParticipante actorParticipante)
+        {
+            await _repository.DeleteAsync(actorParticipante);
+        }
     }
 }

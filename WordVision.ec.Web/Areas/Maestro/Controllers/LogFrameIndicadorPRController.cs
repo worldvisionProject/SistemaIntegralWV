@@ -9,6 +9,7 @@ using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Maestro.IndicadorPR.Queries.GetAll;
 using WordVision.ec.Application.Features.Maestro.LogFrame.Queries.GetAll;
 using WordVision.ec.Application.Features.Maestro.LogFrameIndicadorPR.Commands.Create;
+using WordVision.ec.Application.Features.Maestro.LogFrameIndicadorPR.Commands.Delete;
 using WordVision.ec.Application.Features.Maestro.LogFrameIndicadorPR.Commands.Update;
 using WordVision.ec.Application.Features.Maestro.LogFrameIndicadorPR.Queries.GetAll;
 using WordVision.ec.Application.Features.Maestro.LogFrameIndicadorPR.Queries.GetById;
@@ -118,6 +119,31 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             }
         }
 
+        [HttpDelete]
+        public async Task<JsonResult> OnPostDelete(int id)
+        {
+            _commonMethods.SetProperties(_notify, _logger);
+            var deleteCommand = await _mediator.Send(new DeleteLogFrameIndicadorPRCommand { Id = id });
+            if (deleteCommand.Succeeded)
+            {
+                _notify.Information($"El registro de LogFrameIndicadorPR fue eliminado");
+                var response = await _mediator.Send(new GetAllLogFrameIndicadorPRQuery { Include = true });
+                if (response.Succeeded)
+                {
+                    var viewModel = _mapper.Map<List<LogFrameIndicadorPRViewModel>>(response.Data);
+                    var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                    return new JsonResult(new { isValid = true, html = html });
+                }
+                else
+                    return _commonMethods.SaveError(response.Message);
+
+            }
+            else
+            {
+                return _commonMethods.SaveError(deleteCommand.Message);
+            }
+        }
+
         private async Task SetDropDownList(LogFrameIndicadorPRViewModel entidadViewModel)
         {
             bool isNew = true;
@@ -140,7 +166,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
 
             entidadViewModel.EstadoList = _commonMethods.SetGenericCatalog(estados, CatalogoConstant.FieldEstado);
             entidadViewModel.IndicadorPRList = _commonMethods.SetGenericCatalog(indicadores, CatalogoConstant.FieldIndicadorPR);
-            entidadViewModel.LogFrameList = _commonMethods.SetGenericCatalog(logFrames, CatalogoConstant.FieldLogFrame);
+            entidadViewModel.LogFrameList = _commonMethods.SetGenericCatalogWithCode(logFrames, CatalogoConstant.FieldLogFrame);
             //entidadViewModel.IndicadorPRList = _commonMethods.SetGenericCatalog(indicadores, CatalogoConstant.FieldIndicadorPR);
             //List<LogFrameIndicadorPRIndicadorPRViewModel> list= new List<LogFrameIndicadorPRIndicadorPRViewModel>();
             //foreach(var item in indicadores)

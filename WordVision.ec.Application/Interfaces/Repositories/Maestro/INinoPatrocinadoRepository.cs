@@ -13,5 +13,6 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Maestro
         Task<List<RCNinoPatrocinado>> GetListAsync();
         Task<int> InsertAsync(RCNinoPatrocinado rCNinoPatrocinado);
         Task UpdateAsync(RCNinoPatrocinado rCNinoPatrocinado);
+        Task DeleteAsync(RCNinoPatrocinado rCNinoPatrocinado);
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.ActorParticipante.Commands.Create;
+using WordVision.ec.Application.Features.Maestro.ActorParticipante.Commands.Delete;
 using WordVision.ec.Application.Features.Maestro.ActorParticipante.Commands.Update;
 using WordVision.ec.Application.Features.Maestro.ActorParticipante.Queries.GetAll;
 using WordVision.ec.Application.Features.Maestro.ActorParticipante.Queries.GetById;
@@ -51,7 +52,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                 var entidadViewModel = new ActorParticipanteViewModel();
                 if (id == 0)
                 {
-                     await SetDropDownList(entidadViewModel);
+                    await SetDropDownList(entidadViewModel);
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
                 else
@@ -106,12 +107,37 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                     return new JsonResult(new { isValid = true, html = html });
                 }
                 else
-                    return _commonMethods.SaveError(response.Message);  
+                    return _commonMethods.SaveError(response.Message);
             }
             else
             {
                 var result = string.Join(',', ModelState.Values.SelectMany(v => v.Errors).Select(a => a.ErrorMessage));
                 return _commonMethods.SaveError($"Error al insertar Actor/Participante", result);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<JsonResult> OnPostDelete(int id)
+        {
+            _commonMethods.SetProperties(_notify, _logger);
+            var deleteCommand = await _mediator.Send(new DeleteActorParticipanteCommand { Id = id });
+            if (deleteCommand.Succeeded)
+            {
+                _notify.Information($"El registro de Actor/Participante fue eliminado");
+                var response = await _mediator.Send(new GetAllActorParticipanteQuery { Include = true });
+                if (response.Succeeded)
+                {
+                    var viewModel = _mapper.Map<List<ActorParticipanteViewModel>>(response.Data);
+                    var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                    return new JsonResult(new { isValid = true, html = html });
+                }
+                else
+                    return _commonMethods.SaveError(response.Message);
+
+            }
+            else
+            {
+                return _commonMethods.SaveError(deleteCommand.Message);
             }
         }
 

@@ -163,7 +163,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
 
                                 await _mediator.Send(new AddActivityLogCommand() { userId = users.Id, Action = "Logged In" });
                                 _logger.LogInformation("Usuario conectado.");
-                                _notyf.Success($"Conectado como { userName }.");
+                                _notyf.Success($"Conectado como {userName}.");
                                 return LocalRedirect(returnUrl);
                             }
 
@@ -265,7 +265,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
 
                                 await _mediator.Send(new AddActivityLogCommand() { userId = user.Id, Action = "Logged In" });
                                 _logger.LogInformation("Usuario conectado.");
-                                _notyf.Success($"Conectado como { userName}.");
+                                _notyf.Success($"Conectado como {userName}.");
                                 return LocalRedirect(returnUrl);
                                 //return this.RedirectToPage("./Main");
                             }
@@ -405,7 +405,7 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
 
                         await _mediator.Send(new AddActivityLogCommand() { userId = users.Id, Action = "Logged In" });
                         _logger.LogInformation("Usuario conectado.");
-                        _notyf.Success($"Conectado como { wp.Identity.Name.Split((char)92)[1] }.");
+                        _notyf.Success($"Conectado como {wp.Identity.Name.Split((char)92)[1]}.");
                         //return LocalRedirect(returnUrl);
                         return LocalRedirect(returnUrl);
                     }
@@ -747,10 +747,22 @@ namespace WordVision.ec.Web.Areas.Identity.Pages.Account
                 claims.Add(new Claim("IdEstructura", logindetails.IdEstrutura.ToString()));
                 // await _signInManager.SignInWithClaimsAsync(user, new AuthenticationProperties() { IsPersistent = false }, claims);
 
-                var result = await _userManager.RemoveClaimsAsync(user, claims);
+                try
+                {
+                    var result = await _userManager.RemoveClaimsAsync(user, claims);
+                }
+                catch
+                {
+                }
                 HttpContext.Session.SetString("UserId", idColabora.ToString());
                 // Sign In.
-                await _userManager.AddClaimsAsync(user, claims);
+                try
+                {
+                    await _userManager.AddClaimsAsync(user, claims);
+                }
+                catch
+                {
+                }
             }
             catch (Exception ex)
             {

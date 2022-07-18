@@ -102,6 +102,7 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddScoped<IProyectoITTRepository, ProyectoITTRepository>();
             services.AddScoped<IDipInsumoRepository, DipInsumoRepository>();
             services.AddScoped<IEstadoPorAnioFiscalRepository, EstadoPorAnioFiscalRepository>();
+			services.AddScoped<IProyectoTecnicoPorProgramaAreaRepository, ProyectoTecnicoPorProgramaAreaRepository>();																										  
             services.AddScoped<ILogFrameIndicadorPRRepository, LogFrameIndicadorPRRepository>();
 
 
@@ -142,6 +143,7 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<IPonenteRepository, PonenteRepository>();
             services.AddTransient<IDonanteRepository, DonanteRepository>();
             services.AddTransient<IDebitoRepository, DebitoRepository>();
+            services.AddTransient<IInteracionRepository, InteracionRepository>();
 
             services.AddTransient<IObjetivoRepository, ObjetivoRepository>();
             services.AddTransient<IResultadoRepository, ResultadoRepository>();
