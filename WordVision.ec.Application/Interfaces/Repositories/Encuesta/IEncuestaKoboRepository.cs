@@ -11,7 +11,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Encuesta
 
         Task<List<EncuestaKobo>> GetListAsync();
         Task<EncuestaKobo> GetByIdAsync(int idEncuestaKobo);
-        Task<List<EncuestaKobo>> GetKoboAPIAsync();
+        Task<List<EncuestaKobo>> GetKoboAPIAsync(string urlKobo, string usuarioKobo, string claveKobo);
 
 
         Task<int> InsertAsync(EncuestaKobo encuestaKobo);

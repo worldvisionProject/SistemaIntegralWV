@@ -13,6 +13,7 @@ using WordVision.ec.Domain.Entities.Encuesta;
 using WordVision.ec.Application.DTOs.Encuesta;
 using System;
 using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace WordVision.ec.Infrastructure.Data.Repositories.Encuesta
 {
@@ -20,7 +21,6 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Encuesta
     public class EncuestaKoboRepository : IEncuestaKoboRepository
     {
         private readonly IRepositoryAsync<EncuestaKobo> _repository;
-
         public EncuestaKoboRepository(IRepositoryAsync<EncuestaKobo> repository)
         {
             _repository = repository;
@@ -35,19 +35,28 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Encuesta
         {
             return await _repository.Entities.Where(x => x.Id == idEncuestaKobo).FirstOrDefaultAsync();
         }
-        public async Task<List<EncuestaKobo>> GetKoboAPIAsync()
+        public async Task<List<EncuestaKobo>> GetKoboAPIAsync(string urlKobo, string usuarioKobo, string claveKobo)
         {
             //Esta funcion trae un listado de encuestas (no las respuestas) del API de Kobo
             List<EncuestaKoboAPIResponse> ListadoEncuestaKoboAPI = new List<EncuestaKoboAPIResponse>();
 
-            using(var httpCliente = new HttpClient())
+            //Estas lineas son para ignorar los errores del certificado SSL
+            var httpClientHandler = new HttpClientHandler();
+            httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) =>
+            {
+                return true;
+            };
+
+            //Abrimos el httpClient Para enviar la consulta al servidor Kobo
+            using (var httpCliente = new HttpClient(httpClientHandler))
             {
                 //Ponemos la seguridad en la cabecera
                 Encoding ascii = Encoding.ASCII;
-                httpCliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(ascii.GetBytes("super_admin" + ":" + "wve**Bio*_?2022")));
+                httpCliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(ascii.GetBytes(usuarioKobo + ":" + claveKobo)));
+
 
                 //Ejecutamos la consulta del API
-                using var respuesta = await httpCliente.GetAsync("https://kc.visionmundial.org.ec/api/v1/data");
+                using var respuesta = await httpCliente.GetAsync(urlKobo);
                 string respuestaAPI = await respuesta.Content.ReadAsStringAsync();
                 ListadoEncuestaKoboAPI = JsonConvert.DeserializeObject<List<EncuestaKoboAPIResponse>>(respuestaAPI);
 

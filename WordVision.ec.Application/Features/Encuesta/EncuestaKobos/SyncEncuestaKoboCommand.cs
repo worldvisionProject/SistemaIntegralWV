@@ -18,6 +18,11 @@ namespace WordVision.ec.Application.Features.Encuesta.EncuestaKobos
     public class SyncEncuestaKoboCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
+        public string urlKobo { get; set; }
+        public string usuarioKobo { get; set; }
+        public string claveKobo { get; set; }
+
+
 
         public class SyncEncuestaKoboCommandHandler : IRequestHandler<SyncEncuestaKoboCommand, Result<int>>
         {
@@ -59,17 +64,26 @@ namespace WordVision.ec.Application.Features.Encuesta.EncuestaKobos
                 var encuestaKoboModel = await _encuestaKoboRepository.GetByIdAsync(command.Id);
                 int numRegistrosInsertados = 0;
 
-                using (var httpCliente = new HttpClient())
+
+                //Estas lineas son para ignorar los errores del certificado SSL
+                var httpClientHandler = new HttpClientHandler();
+                httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) =>
+                {
+                    return true;
+                };
+
+                //Abrimos el httpClient Para enviar la consulta al servidor Kobo
+                using (var httpCliente = new HttpClient(httpClientHandler))
                 {
                     //Ponemos la seguridad en la cabecera
                     Encoding ascii = Encoding.ASCII;
-                    httpCliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(ascii.GetBytes("super_admin" + ":" + "wve**Bio*_?2022")));
+                    httpCliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(ascii.GetBytes(command.usuarioKobo + ":" + command.claveKobo)));
 
                     //Consultamos el ultimo secuencial de la tabla EncuestadoPreguntaKobo de la encuesta seleccionada
                     int UltimoSecuencial = await _encuestadoKoboRepository.GetLastIdAsync(command.Id) + 1;
 
                     //Ejecutamos la consulta del API
-                    string url = "https://kc.visionmundial.org.ec/api/v1/data/" + command.Id.ToString() + "?query={\"_id\":{\"$gt\":" + UltimoSecuencial.ToString() + "}}&sort={\"_id\":\"1\"}";
+                    string url = command.urlKobo + "/" + command.Id.ToString() + "?query={\"_id\":{\"$gt\":" + UltimoSecuencial.ToString() + "}}&sort={\"_id\":\"1\"}";
                     using var respuesta = await httpCliente.GetAsync(url);
                     string respuestaAPI = await respuesta.Content.ReadAsStringAsync();
 

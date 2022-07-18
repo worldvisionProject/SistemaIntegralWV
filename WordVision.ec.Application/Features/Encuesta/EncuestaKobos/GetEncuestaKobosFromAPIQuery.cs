@@ -23,6 +23,11 @@ namespace WordVision.ec.Application.Features.Encuesta.EncuestaKobos
 
     public class GetAllEncuestaKobosFromAPIQuery : IRequest<Result<List<GetAllEncuestaKobosFromAPIResponse>>>
     {
+        public string urlKobo { get; set; }
+        public string usuarioKobo { get; set; }
+        public string claveKobo { get; set; }
+
+
         public GetAllEncuestaKobosFromAPIQuery()
         {
         }
@@ -42,7 +47,7 @@ namespace WordVision.ec.Application.Features.Encuesta.EncuestaKobos
             public async Task<Result<List<GetAllEncuestaKobosFromAPIResponse>>> Handle(GetAllEncuestaKobosFromAPIQuery request, CancellationToken cancellationToken)
             {
                 //Consulta el API que devuelve un listado de EncuestaKobo
-                var EncuestaKoboList = await _encuestaKobo.GetKoboAPIAsync();
+                var EncuestaKoboList = await _encuestaKobo.GetKoboAPIAsync(request.urlKobo, request.usuarioKobo, request.claveKobo);
 
                 //Mapeamos la estructura de la base a la estructura deseada tipo GetAllEncuestaKobosFromAPIResponse
                 var mappedEncuestaKobos = _mapper.Map<List<GetAllEncuestaKobosFromAPIResponse>>(EncuestaKoboList);
