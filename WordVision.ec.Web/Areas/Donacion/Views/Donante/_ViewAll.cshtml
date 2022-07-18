@@ -17,6 +17,7 @@
                 
                      <th data-priority="2" class="interaccion-th">Fidelización </th>
                      <th data-priority="2" class="cobranza-th">Cobranzas </th>
+                     <th data-priority="2" class="cobranza-th">Courier </th>
                      <th data-priority="2" class="acciones-th">Acciones</th>
                    
 
@@ -62,6 +63,12 @@
                      <td class="cobranza-td">
 
                         <button type="button" class="btn btn-success  btn-xp" title="cobranza" id="btnViewModel" onclick="jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante=@d.Id&vienede=2', 'Gestion de Cobranza')">
+                            <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                     <td class="courier-td">
+
+                        <button type="button" class="btn btn-success  btn-xp" title="courier" id="btnViewModel" onclick="jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante=@d.Id&vienede=3', 'Courier')">
                             <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
                         </button>
                     </td>

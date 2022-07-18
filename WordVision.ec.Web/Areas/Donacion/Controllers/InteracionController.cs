@@ -33,6 +33,11 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 {
                     numCatalogo = 67;
                 }
+                if (vienede == 3)
+                {
+                    numCatalogo = 70;
+                }
+
                 var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = numCatalogo, Ninguno = true });
                     var interacion = new SelectList(catalogo.Data, "Secuencia", "Nombre");
                    
