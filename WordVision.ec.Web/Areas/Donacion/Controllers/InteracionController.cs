@@ -23,36 +23,48 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
     [Authorize]//Sirve para dar permiso cuando esta logeado
     public class InteracionController : BaseController<InteracionController>
     {
-        public async Task<JsonResult> OnGetCreateOrEdit(int idDonante = 0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int idDonante, int vienede = 0)
         {
+
             try
             {
-                var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 67, Ninguno = true });
-                var interacion = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 68, Ninguno = true });
-                var tipointeracion = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-               
+                int numCatalogo = 69;
+                if (vienede == 1)
+                {
+                    numCatalogo = 67;
+                }
+                var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = numCatalogo, Ninguno = true });
+                    var interacion = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                   
+                    catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 68, Ninguno = true });
+                    var tipointeracion = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+
                     var entidadViewModel = new InteracionViewModel();
                     entidadViewModel.interacionesList = interacion;
                     entidadViewModel.tipoList = tipointeracion;
 
 
-                var viewModel = await _mediator.Send(new GetAllInteracionesXDonanteQuery() { idDonante = idDonante });
-                if (viewModel.Succeeded)
-                {
-                 
-                    entidadViewModel.ListaInteracciones = _mapper.Map<List<InteracionListaViewModel>>(viewModel.Data);
-                }
+                    var viewModel = await _mediator.Send(new GetAllInteracionesXDonanteQuery() { idDonante = idDonante , tipo = vienede });
+                    if (viewModel.Succeeded)
+                    {
 
-                entidadViewModel.IdDonante = idDonante;
+                        entidadViewModel.ListaInteracciones = _mapper.Map<List<InteracionListaViewModel>>(viewModel.Data);//para hacer lista y poder visualizar
+                    }
 
-                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+                    entidadViewModel.IdDonante = idDonante;
+                    entidadViewModel.vieneDe = vienede;
+
+                    return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+
+
                
-               
+
+
+
             }
             catch (Exception ex)
             {
-                _logger.LogError("OnGetCreateOrEditInteraciones", ex);
+                _logger.LogError("OnGetCreateOrEdit", ex);
                 _notify.Error("Error al Crear la Interación");
             }
             return null;

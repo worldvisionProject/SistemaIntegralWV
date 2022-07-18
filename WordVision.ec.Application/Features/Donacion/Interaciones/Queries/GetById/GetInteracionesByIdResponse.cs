@@ -9,7 +9,7 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetBy
     public class GetInteracionesByIdResponse
     {
 
-        public int Interaciones { get; set; }
+        public int Gestion { get; set; }
 
         public int Tipo { get; set; }
 

@@ -15,7 +15,8 @@
                     <th data-priority="1">Ciudad</th>
                     <th data-priority="1">Cantidad</th>
                 
-                     <th data-priority="2" class="interaccion-th">Interaciones </th>
+                     <th data-priority="2" class="interaccion-th">Fidelización </th>
+                     <th data-priority="2" class="cobranza-th">Cobranzas </th>
                      <th data-priority="2" class="acciones-th">Acciones</th>
                    
 
@@ -53,11 +54,17 @@
 
                     <td class="interaccion-td">
 
-                        <button type="button" class="btn btn-success  btn-xp" title="interacion" id="btnViewModel" onclick="jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante=@d.Id', 'Interacción')">
-                            <i class="fa fa-pencil-square-o"></i>
+                        <button type="button" class="btn btn-success  btn-xp" title="interacion" id="btnViewModel" onclick="jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante=@d.Id&vienede=1', 'Fidelización-Verificación de Datos')">
+                            <i class="fa fa-handshake-o"></i>
                         </button>
                     </td>
 
+                     <td class="cobranza-td">
+
+                        <button type="button" class="btn btn-success  btn-xp" title="cobranza" id="btnViewModel" onclick="jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante=@d.Id&vienede=2', 'Gestion de Cobranza')">
+                            <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                        </button>
+                    </td>
                     <td class="acciones-td">
 
                         <button type="button" class="btn btn-success  btn-xp" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Donacion/Donante/OnGetCreateOrEdit?id=@d.Id', 'Donante')">

@@ -10,7 +10,7 @@ namespace WordVision.ec.Domain.Entities.Donacion
     public class Interacion : AuditableEntity
     {
 
-        public int Interaciones  { get; set; }
+        public int Gestion  { get; set; }
 
         public int Tipo { get; set; }
 

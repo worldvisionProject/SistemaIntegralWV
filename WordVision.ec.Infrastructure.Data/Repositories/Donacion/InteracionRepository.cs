@@ -19,16 +19,16 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
       
         public InteracionRepository(RegistroDbContext db, IRepositoryAsync<Interacion> repository )
         {
-            _repository = repository;         
+            _repository = repository;
             _db = db;
         }
 
-        public IQueryable<Interacion> interacion => _repository.Entities;
+        public IQueryable<Interacion> interaciones => _repository.Entities;
 
      
-        public async Task<List<Interacion>> GetInteracionXDonanteAsync(int idDonante)
+        public async Task<List<Interacion>> GetInteracionXDonanteAsync(int idDonante, int tipo)
         {
-            return await _repository.Entities.Where(x => x.IdDonante == idDonante).ToListAsync();
+            return await _repository.Entities.Where(x => x.IdDonante == idDonante && x.Tipo == tipo).ToListAsync();
 
         }
 

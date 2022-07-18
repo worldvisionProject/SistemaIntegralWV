@@ -10,7 +10,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public int Id { get; set; }
 
         [Display(Name = "Gestión")]
-        public int Interaciones { get; set; }
+        public int Gestion { get; set; }
 
         public int Tipo { get; set; }
 
@@ -21,6 +21,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
 
         public SelectList tipoList { get; set; }
         public int IdDonante { get; set; }
+         public int vieneDe { get; set; }
 
         public List<InteracionListaViewModel> ListaInteracciones { get; set; }
     }
@@ -30,7 +31,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public int Id { get; set; }
 
        
-        public int Interaciones { get; set; }
+        public int Gestion { get; set; }
 
         public int Tipo { get; set; }
 

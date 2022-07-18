@@ -9,12 +9,12 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Donacion
 {
     public interface IInteracionRepository
     {
-        IQueryable<Interacion> interacion { get; }
+        IQueryable<Interacion> interaciones { get; }
 
         Task<int> InsertAsync(Interacion interacion);
 
 
-        Task<List<Interacion>> GetInteracionXDonanteAsync(int idDonante);
+        Task<List<Interacion>> GetInteracionXDonanteAsync(int idDonante, int tipo);
 
         //Task UpdateAsync(Interacion interacion);
 

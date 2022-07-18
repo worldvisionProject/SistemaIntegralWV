@@ -8,14 +8,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Donacion;
-using WordVision.ec.Application.Interfaces.Repositories.Identity;
+using WordVision.ec.Application.Interfaces.Repositories.Registro;
 using WordVision.ec.Domain.Entities.Donacion;
 
 namespace WordVision.ec.Application.Features.Donacion.Interaciones.Commands.Create
 {
     public partial class CreateInteracionCommand : IRequest<Result<int>>
     {
-        public int Interaciones { get; set; }
+        public int Gestion { get; set; }
 
         public int Tipo { get; set; }
 

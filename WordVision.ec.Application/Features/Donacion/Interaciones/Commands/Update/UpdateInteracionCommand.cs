@@ -15,7 +15,7 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Commands.Upda
     public class UpdateInteracionCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
-        public int Interaciones { get; set; }
+        public int Gestion { get; set; }
 
         public int Tipo { get; set; }
 

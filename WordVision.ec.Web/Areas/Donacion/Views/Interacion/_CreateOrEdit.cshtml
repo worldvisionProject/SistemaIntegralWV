@@ -4,16 +4,17 @@
 @model InteracionViewModel
 
 
-<form id="create-form" name="createoredit" method="post" asp-controller="Interacion" asp-action="OnPostCreateOrEdit" onsubmit="return jQueryModalPost(this);" asp-route-id="@Model.Id" asp-route-tipo="1" enctype="multipart/form-data">
-    <input asp-for="Tipo" hidden="text" name="Tipo" value="1" />
+<form id="create-form" method="post" asp-controller="Interacion" asp-action="OnPostCreateOrEdit" onsubmit="return jQueryModalPost(this);" asp-route-id="@Model.Id"  enctype="multipart/form-data">
+   
+    <input asp-for="Tipo" hidden="text" name="Tipo" value="@Model.vieneDe" />
     <input asp-for="IdDonante" hidden="text" name="IdDonante"  />
     <dic class="row">
         <div class="col-md-12">
             <div class="form-group row">
                 <div class="col-md-4">
-                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Interaciones"></label>
-                    @Html.DropDownListFor(x => x.Interaciones, (IEnumerable<SelectListItem>)Model.interacionesList, new { @class = "form-control",required = "required" })
-                    <span asp-validation-for="Interaciones" class="text-danger"></span>
+                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Gestion"></label>
+                    @Html.DropDownListFor(x => x.Gestion, (IEnumerable<SelectListItem>)Model.interacionesList, new { @class = "form-control",required = "required" })
+                    <span asp-validation-for="Gestion" class="text-danger"></span>
                 </div>
 
 
@@ -25,7 +26,7 @@
 
             </div>
             <div class="form-group row">
-                <div class="col-md-7">
+                <div class="col-md-12">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Observacion"></label>
                     <textarea asp-for="Observacion" type="text" name="Observacion" class="form-control" rows="3" required></textarea>
                     <span asp-validation-for="Observacion" class="text-danger"></span>
@@ -47,7 +48,8 @@
 
 </form>
 <br />
-<br />
+
+<hr />
 
 <table id="interaccionesTable" class="table table-striped " width="100%" cellspacing="0">
     <thead>
@@ -72,7 +74,7 @@
             <tr>
 
                 <td>
-                    @Model.interacionesList.Where(x => x.Value == @d.Interaciones.ToString()).FirstOrDefault().Text
+                    @Model.interacionesList.Where(x => x.Value == @d.Gestion.ToString()).FirstOrDefault().Text
 
                 </td>
                 <td>
