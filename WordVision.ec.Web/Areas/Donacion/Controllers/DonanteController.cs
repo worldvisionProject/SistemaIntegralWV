@@ -46,35 +46,46 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
             var categoria = new SelectList(catalogo.Data, "Secuencia", "Nombre");
             entidadViewModel.CategoriaList = categoria;
 
+            //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 33, Ninguno = true });
+            //var ciudad = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            //entidadViewModel.CiudadList = ciudad;
+
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 26, Ninguno = true });
+            var campana = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            entidadViewModel.CampanaList = campana;
+
             return View(entidadViewModel);// dirije a la carpeta Views
         }
 
-        public async Task<IActionResult> LoadAll(int estadoDonante, int categoria)
+        public async Task<IActionResult> LoadAll([FromBody]  DonanteFiltroViewModel filtro)
         {
-            var response = await _mediator.Send(new GetAllDonantesQuery() { EstadoDonante=estadoDonante , Categoria = categoria} );
+            try
+            {
+                if (filtro == null)
+                return Json(new { data = new List<DonanteResponseViewModel>() });
+
+            var response = await _mediator.Send(new GetAllDonantesQuery() { EstadoDonante= filtro.Estado, Categoria = filtro .Categoria, Ciudad = filtro.Ciudad , Campana=filtro.Campana, Identificacion= filtro.Identificacion} );
             if (response.Succeeded)
             {
-                //DonanteViewModelView entidad = new DonanteViewModelView();
 
                 var viewModel = _mapper.Map<List<DonanteResponseViewModel>>(response.Data);
-                //entidad.DonanteViewModels = viewModel;
-                //var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 26, Ninguno = true });
-                //var campana = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-                //entidad.CampanaList = campana;
-                //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 27, Ninguno = true });
-                //var estadoDonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-                //entidad.EstadoDonanteList = estadoDonante;
-                //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 33, Ninguno = true });
-                //var ciudad = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-                //entidad.CiudadList = ciudad;
-                return PartialView("_ViewAll", viewModel);
-                
+               
+                return Json(new { data = viewModel });
+
             }
 
-            return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error en traer los donantes.");
+                _notify.Error($"Exitio un error al generar el reporte de donantes");
+            }
+
+
+            return Json(new { data = new List<DonanteResponseViewModel>() });
 
         }
-       
+
         public async Task<IActionResult> OnGetCreate(int id = 0, int vienede= 0)
         {
 
@@ -116,7 +127,9 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 var periodoDonacion = new SelectList(catalogo.Data, "Secuencia", "Nombre");
                 catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 66, Ninguno = true });
                 var calificaciondonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 71, Ninguno = true });
+                var motivobaja = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                 
                 //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 60, Ninguno = true });
                 //var quincena = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
@@ -147,6 +160,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     entidadViewModel.CalificacionDonanteList = calificaciondonante;
                     entidadViewModel.PeriodoDonacionList = periodoDonacion;
                     entidadViewModel.Vienede = vienede;
+                    entidadViewModel.FechaNacimiento = DateTime.Now;
+                    entidadViewModel.MotivoBajaList = motivobaja;
                     return PartialView("_CreateOrEdit", entidadViewModel);
                 }
             }
@@ -217,6 +232,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 var periodoDonacion = new SelectList(catalogo.Data, "Secuencia", "Nombre");
                 catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 66, Ninguno = true });
                 var calificaciondonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 71, Ninguno = true });
+                var motivobaja = new SelectList(catalogo.Data, "Secuencia", "Nombre");
                 //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 60, Ninguno = true });
                 //var quincena = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
@@ -243,8 +260,10 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     entidadViewModel.BancoList = banco;
                     //entidadViewModel.QuincenaList = quincena;
                     entidadViewModel.FechaConversion = DateTime.Now;
+                    entidadViewModel.FechaNacimiento = DateTime.Now;
                     entidadViewModel.CalificacionDonanteList = calificaciondonante;
                     entidadViewModel.PeriodoDonacionList = periodoDonacion;
+                    entidadViewModel.MotivoBajaList = motivobaja;
 
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
@@ -279,8 +298,10 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         entidadViewModel.TipoTarjetaList = tipoTarjeta;
                         entidadViewModel.BancoList = banco;
                         entidadViewModel.FechaConversion = DateTime.Now;
+                        entidadViewModel.FechaNacimiento = DateTime.Now;
                         entidadViewModel.CalificacionDonanteList = calificaciondonante;
                         entidadViewModel.PeriodoDonacionList = periodoDonacion;
+                        entidadViewModel.MotivoBajaList = motivobaja;
                         //entidadViewModel.QuincenaList = quincena;
 
                         return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });

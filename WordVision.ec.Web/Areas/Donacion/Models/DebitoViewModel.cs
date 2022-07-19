@@ -16,7 +16,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public int Quincena { get; set; }
 
 
-        public int Intento { get; set; }
+        public int Intento { get; set; }    
 
         public decimal? Valor { get; set; }
         public string CodigoRespuesta { get; set; }
