@@ -17,24 +17,24 @@ using Microsoft.Data.SqlClient;
 
 namespace WordVision.ec.Infrastructure.Data.Repositories.Encuesta
 {
-    public class EReporteConsolidadoRepository : IEReporteConsolidadoRepository
-    { 
+    public class EReporteDAPRepository : IEReporteDAPRepository
+    {
         private readonly RegistroDbContext _db;
 
-        private readonly IRepositoryAsync<EReporteConsolidado> _repository;
+        private readonly IRepositoryAsync<EReporteDAP> _repository;
 
-        public EReporteConsolidadoRepository(IRepositoryAsync<EReporteConsolidado> repository, RegistroDbContext db)
+        public EReporteDAPRepository(IRepositoryAsync<EReporteDAP> repository, RegistroDbContext db)
         {
             _repository = repository;
             _db = db;
         }
 
-        public IQueryable<EReporteConsolidado> EReporteConsolidados => _repository.Entities;
+        public IQueryable<EReporteDAP> EReporteDAPs => _repository.Entities;
 
-        public async Task<List<EReporteConsolidado>> GetListAsync(int EvaluacionId, int RegionId, string ProvinciaId, string CantonId, string ProgramaId, string IndicadorId)
+        public async Task<List<EReporteDAP>> GetListAsync(int EvaluacionId, int RegionId, string ProvinciaId, string CantonId, string ProgramaId, string IndicadorId)
         {
-            //Consultamos de la tabla EReporteConsolidados los registros segun los criterios de busqueda seleccionados
-            //Si EvaluacionId es 0, entonces buscamos el primer EvaluacionId de la tabla EReporteConsolidados y le asignamos al parametro EvaluacionId
+            //Consultamos de la tabla EReporteDAPs los registros segun los criterios de busqueda seleccionados
+            //Si EvaluacionId es 0, entonces buscamos el primer EvaluacionId de la tabla EReporteDAPs y le asignamos al parametro EvaluacionId
 
             if (EvaluacionId == 0) EvaluacionId = 1;
             if (ProvinciaId == null) ProvinciaId = "";
@@ -42,9 +42,9 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Encuesta
             if (ProgramaId == null) ProgramaId = "";
             if (IndicadorId == null) IndicadorId = "";
 
-            //Consultamos los resultados ejecutado el StoreProcedure survey.ConsultarIndicadoresConsolidado
+            //Consultamos los resultados ejecutado el StoreProcedure survey.ConsultarIndicadoresDAP
 
-            List<EReporteConsolidado> Resultado = new();
+            List<EReporteDAP> Resultado = new();
 
             var param1 = new SqlParameter
             {
@@ -93,8 +93,8 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Encuesta
 
             _db.Database.SetCommandTimeout(TimeSpan.FromMinutes(30));
 
-            Resultado = await _db.Set<EReporteConsolidado>()
-                .FromSqlRaw("EXEC [survey].[ConsultarIndicadoresConsolidados] @EvaluacionId, @RegionId, @ProvinciaId, @CantonId, @ProgramaId, @IndicadorId ", param1, param2, param3, param4, param7, param8)
+            Resultado = await _db.Set<EReporteDAP>()
+                .FromSqlRaw("EXEC [survey].[ConsultarReporteDAP] @EvaluacionId, @RegionId, @ProvinciaId, @CantonId, @ProgramaId, @IndicadorId ", param1, param2, param3, param4, param7, param8)
                 .ToListAsync();
 
 
