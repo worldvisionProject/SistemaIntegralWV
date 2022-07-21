@@ -140,15 +140,6 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? FechaEntrega { get; set; }
 
-        [Display(Name = "Motivo de Baja")]
-        public string MotivosBaja { get; set; }
-
-        [Display(Name = "Fecha de Baja")]
-        public DateTime? FechaBaja { get; set; }
-
-        public string EstadoCourier { get; set; }
-
-        public bool DonantesMora    { get; set; }
 
         public string Colaborador { get; set; }
 
@@ -173,17 +164,11 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public SelectList PeriodoDonacionList { get; set; }
 
         public SelectList CalificacionDonanteList { get; set; }
-
-        public SelectList MotivoBajaList { get; set; }
-
-        public SelectList EstadoCourierList { get; set; }
-
         //public SelectList QuincenaList { get; set; }
     }
 
     public class DonanteResponseViewModel
     {
-
         public string Id { get; set; }
         public string Campana { get; set; }
         public string Donante { get; set; }
@@ -192,18 +177,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public string Ciudad { get; set; }
         public decimal Cantidad { get; set; }
     }
-    public class DonanteFiltroViewModel
-    {
-        
-        public int Categoria { get; set; }
-        public int Campana { get; set; }
-        public string Identificacion { get; set; }
-        public int Estado { get; set; }
-        public int Ciudad { get; set; }
-        
-    }
 
-
+   
 }
 
 

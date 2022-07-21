@@ -77,11 +77,6 @@ namespace WordVision.ec.Application.Features.Donacion.Donantes.Commands.Update
         public int CalificacionDonante { get; set; }
         public string NumeroGuia { get; set; }
         public DateTime? FechaEntrega { get; set; }
-        public string MotivosBaja { get; set; }
-
-        public DateTime? FechaBaja { get; set; }
-
-        public string EstadoCourier { get; set; }
 
         public class UpdateDonanteCommandHandler : IRequestHandler<UpdateDonanteCommand, Result<int>>
         {
