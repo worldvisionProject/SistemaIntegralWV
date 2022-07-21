@@ -16,11 +16,9 @@
     </div>
     </div>
 
-    </div>
-
-
-
     </div>*@
+       <input asp-for="Tipo" type="hidden" name="Tipo" value="@Model.Vienede" />
+
 
 
 
@@ -78,6 +76,7 @@
                     @Html.DropDownListFor(x => x.EstadoDonante, (IEnumerable<SelectListItem>)Model.EstadoDonanteList, new { @class = "form-control",required = "required" })
                     <span asp-validation-for="EstadoDonante" class="text-danger"></span>
                 </div>
+               
                 }
                 else
                 {
@@ -85,6 +84,25 @@
                 }
             </div>
 
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group row">
+                @if (@Model.Vienede == 3)
+                {
+               
+                    <div class="col-md-4">
+                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="MotivosBaja"></label>
+                        @Html.DropDownListFor(x => x.MotivosBaja, (IEnumerable<SelectListItem>)Model.MotivosBajaList, new { @class = "form-control" })
+                        <span asp-validation-for="MotivosBaja" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaBaja"></label>
+                        <input asp-for="FechaBaja" type="text" name="FechaBaja" id="FechaBaja" class="datepicker3 form-control" readonly  />
+                        <span asp-validation-for="FechaBaja" class="text-danger"></span>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 
@@ -285,29 +303,43 @@
                     <input type="text" asp-for="Formulario" name="Formulario" class="form-control" />
                     <span asp-validation-for="Formulario" class="text-danger"></span>
                 </div>
-                <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="NumeroGuia"></label>
+                @if (@Model.Vienede == 4)
+                {
+                    <div class="col-md-2">
+                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="NumeroGuia"></label>
 
-                    <input type="text" asp-for="NumeroGuia" name="NumeroGuia" class="form-control" />
-                    <span asp-validation-for="NumeroGuia" class="text-danger"></span>
-                </div>
+                        <input type="text" asp-for="NumeroGuia" name="NumeroGuia" class="form-control" />
+                        <span asp-validation-for="NumeroGuia" class="text-danger"></span>
+                    </div>
 
-                <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaEntrega"></label>
+                    <div class="col-md-2">
+                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaEntrega"></label>
 
-                    <input type="text" asp-for="FechaEntrega" name="FechaEntrega" class="datepicker5 form-control" />
-                    <span asp-validation-for="FechaEntrega" class="text-danger" readonly></span>
-                </div>
-                <div class="col-md-3">
-                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="CalificacionDonante"></label>
-                    @Html.DropDownListFor(x => x.CalificacionDonante, (IEnumerable<SelectListItem>)Model.CalificacionDonanteList, new { @class = "form-control" })
-                    <span asp-validation-for="CalificacionDonante" class="text-danger"></span>
-                </div>
-
+                        <input type="text" asp-for="FechaEntrega" name="FechaEntrega" class="datepicker5 form-control" />
+                        <span asp-validation-for="FechaEntrega" class="text-danger" readonly></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="CalificacionDonante"></label>
+                        @Html.DropDownListFor(x => x.CalificacionDonante, (IEnumerable<SelectListItem>)Model.CalificacionDonanteList, new { @class = "form-control" })
+                        <span asp-validation-for="CalificacionDonante" class="text-danger"></span>
+                    </div>
+                 }
             </div>
 
 
         </div>
+        <div class="col-md-12">
+            <div class="form-group row">
+                 @if (@Model.Vienede == 4)
+                {
+                      <div class="col-md-3">
+                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="EstadoCourier"></label>
+                            @Html.DropDownListFor(x => x.EstadoCourier, (IEnumerable<SelectListItem>)Model.EstadoCourierList, new { @class = "form-control" })
+                            <span asp-validation-for="EstadoCourier" class="text-danger"></span>
+                        </div>
+                }
+            </div>
+         </div>
     </div>
 
     <div class="row">
@@ -575,38 +607,43 @@
 
         </div>
     </div>
-
-    @if (User.IsInRole("DonantesAdministrador") || @Model.ComentarioActualizacion != null)
+    @if (@Model.Vienede == 0)
     {
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group row">
+        if (@Model.EstadoDonante == 3)
+        {
+             @if (User.IsInRole("DonantesAdministrador") || @Model.ComentarioActualizacion != null)
+            {
+                <div class="row">
                     <div class="col-md-12">
-                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="ComentarioActualizacion"></label>
-                        <textarea asp-for="ComentarioActualizacion" name="ComentarioActualizacion" class="form-control"></textarea>
-                        <span asp-validation-for="ComentarioActualizacion" class="text-danger"></span>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <label class="col-md-12 col-form-label texto-pregunta" asp-for="ComentarioActualizacion"></label>
+                                <textarea asp-for="ComentarioActualizacion" name="ComentarioActualizacion" class="form-control"></textarea>
+                                <span asp-validation-for="ComentarioActualizacion" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    }
+            }
 
-    @if (!User.IsInRole("DonantesAdministrador") && @Model.ComentarioActualizacion != null)
-    {
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group row">
+            @if (!User.IsInRole("DonantesAdministrador") && @Model.ComentarioActualizacion != null)
+            {
+                <div class="row">
                     <div class="col-md-12">
-                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="ComentarioResolucion"></label>
-                        <textarea asp-for="ComentarioResolucion" name="ComentarioResolucion" class="form-control"></textarea>
-                        <span asp-validation-for="ComentarioResolucion" class="text-danger"></span>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <label class="col-md-12 col-form-label texto-pregunta" asp-for="ComentarioResolucion"></label>
+                                <textarea asp-for="ComentarioResolucion" name="ComentarioResolucion" class="form-control"></textarea>
+                                <span asp-validation-for="ComentarioResolucion" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            }
+
+        }
     }
-
-
+       
     <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Donante.Create)).Result.Succeeded)
@@ -1174,12 +1211,30 @@
 
     });
     //FIN INGRESO DATOS
+     // INICIO ESTADO 
+    
+    $("#EstadoDonante").change(function() {
+         
+        var categoria = $("#Categoria").val();
+        var estado = $("#EstadoDonante").val();
+        
+         if (categoria == 1 & estado == 4 ) {
+         Swal.fire("¡Advertencia!", "No Puede Cambiar a Estado No Aplica a un Donante Recurrente", "warning");
+         $("#EstadoDonante").val(-1);
+         
+         $("#Categoria").val(-1);
+            return false;
 
+        }
+
+    });
+    // FIN DE ESTADO
     //INICIO CATEGORIAS
     $("#Categoria").change(function() {
 
         var valor = $("#FrecuenciaDonacion").val();
         var categoria = $("#Categoria").val();
+         var estado = $("#EstadoDonante").val();
 
         $("#FrecuenciaDonacion").prop('disabled', false);
 
@@ -1198,6 +1253,13 @@
             Swal.fire("¡Advertencia!", "Categoría Recurrente no puede ser Frecuencia de Donación: Único", "warning");
             $("#FrecuenciaDonacion").val(-1);
             $("#Categoria").val(-1);
+            return false;
+
+        }
+         if (categoria == 1 & estado == 4 ) {
+         Swal.fire("¡Advertencia!", "No Puede Cambiar a Estado No Aplica a un Donante Recurrente", "warning");
+         $("#EstadoDonante").val(-1);        
+         $("#Categoria").val(-1);
             return false;
 
         }

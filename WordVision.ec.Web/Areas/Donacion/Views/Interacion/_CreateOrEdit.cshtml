@@ -6,8 +6,8 @@
 
 <form id="create-form" method="post" asp-controller="Interacion" asp-action="OnPostCreateOrEdit" onsubmit="return jQueryModalPost(this);" asp-route-id="@Model.Id"  enctype="multipart/form-data">
    
-    <input asp-for="Tipo" hidden="text" name="Tipo" value="@Model.vieneDe" />
-    <input asp-for="IdDonante" hidden="text" name="IdDonante"  />
+    <input asp-for="Tipo" type="hidden" name="Tipo" value="@Model.vieneDe" />
+    <input asp-for="IdDonante" type="hidden" name="IdDonante"  />
     <dic class="row">
         <div class="col-md-12">
             <div class="form-group row">

@@ -117,6 +117,7 @@ namespace WordVision.ec.Application.Features.Donacion.Donantes.Commands.Update
                     Donante.Apellido2 = command.Apellido2;
                     Donante.Nombre1 = command.Nombre1;
                     Donante.Nombre2 = command.Nombre2;
+                   
                     Donante.Banco = command.Banco == 0 ? Donante.Banco : command.Banco;
                     Donante.Cedula = command.Cedula == 0 ? Donante.Cedula : command.Cedula;
                     Donante.Ciudad = command.Ciudad == 0 ? Donante.Ciudad : command.Ciudad;
@@ -159,6 +160,11 @@ namespace WordVision.ec.Application.Features.Donacion.Donantes.Commands.Update
                         Donante.FechaEntrega= command.FechaEntrega;
                         Donante.CalificacionDonante = command.CalificacionDonante;
                         Donante.ComentarioResolucion = command.ComentarioResolucion;
+
+                         if (command.ComentarioResolucion.Length!=0)
+                         {
+                            Donante.EstadoDonante = 5;
+                         }
                     }
                     else
                     {

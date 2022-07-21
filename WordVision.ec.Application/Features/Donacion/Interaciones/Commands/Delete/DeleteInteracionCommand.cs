@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Donacion;
-using WordVision.ec.Application.Interfaces.Repositories.Identity;
+using WordVision.ec.Application.Interfaces.Repositories.Registro;
 
 namespace WordVision.ec.Application.Features.Donacion.Interaciones.Commands.Delete
 {
