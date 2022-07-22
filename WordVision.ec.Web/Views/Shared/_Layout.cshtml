@@ -69,6 +69,21 @@
 
      <script>
     $(document).ready(function () {
+         tippy('[data-tippy-content]');
+
+        $('.text-uppercase').focusout(function () {
+            $(this).val($(this).val().toUpperCase());
+        });
+
+        $(".form-control-number").on("keyup", function () {
+            let valid = /^\d{0,4}(\.\d{0,2})?$/.test(this.value),
+                val = this.value;
+
+            if (!valid) {
+                this.value = val.substring(0, val.length - 1);
+            }
+        });
+
         if ("@TempData["MensajeError"]" !== "")
             Swal.fire("¡Error!", "@TempData["MensajeError"]", "error");
     });

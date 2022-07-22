@@ -52,6 +52,14 @@
     {
       "library": "moment.js@2.29.4",
       "destination": "wwwroot/lib/moment.js/"
+    },
+    {
+      "library": "tippy.js@6.3.7",
+      "destination": "wwwroot/lib/tippy.js/"
+    },
+    {
+      "library": "popper.js@2.11.5",
+      "destination": "wwwroot/lib/popper.js/"
     }
   ]
 }

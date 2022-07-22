@@ -44,6 +44,7 @@
     @await Component.InvokeAsync("Notyf")
      <script>
     $(document).ready(function () {
+          tippy('[data-tippy-content]');
         if ("@TempData["MensajeError"]" !== "")
             Swal.fire("¡Error!", "@TempData["MensajeError"]", "error");
     });

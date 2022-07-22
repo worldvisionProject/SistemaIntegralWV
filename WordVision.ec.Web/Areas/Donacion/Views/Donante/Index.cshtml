@@ -125,8 +125,6 @@
 
     </div>*@
 
-
-    
 <table id="donanteTable" class="table table-striped " width="100%" cellspacing="0">
             <thead>
                 <tr>
@@ -140,9 +138,7 @@
                     <th data-priority="1">Ciudad</th>
                     <th data-priority="1">Cantidad</th>
                 
-                     <th data-priority="2" class="interaccion-th">Fidelización </th>
-                    @* <th data-priority="2" class="cobranza-th">Cobranzas </th>
-                     <th data-priority="2" class="cobranza-th">Courier </th>*@
+                    
                      <th data-priority="2" class="acciones-th">Acciones</th>
                 </tr>
             </thead>
@@ -227,29 +223,31 @@
                 { width: '20%', filter: 'input', type: 'string', data: 'campana' },
                 { width: '20%', filter: 'input', type: 'string', data: 'donante' },
                 { width: '16%', filter: 'input', type: 'string', data: 'cedula' },
-                { width: '10%', filter: 'input', type: 'string', data: 'estado' },
+                { width: '16%', filter: 'input', type: 'string', data: 'estado' },
                 { width: '16%', filter: 'input', type: 'string', data: 'ciudad' },
                 { width: '10%', filter: 'input', type: 'num', data: 'cantidad'  },
                
+                
                 {
-                    width: '4%', filter: 'none', type: 'none', data: null, orderable: false,
+                    width: '2%', filter: 'none', type: 'none', data: null, orderable: false,
                     render: function (data, type, row) {
-                  
-                            return "<a class='btn btn-success btn-sm-td pt-0 pb-0 w-100' href='#' onclick='fidelizar(" + JSON.stringify(row) + ")'><span><i class='fa fa-handshake-o'></i></span></a>";
-                     
-                    }
-                },
-                {
-                    width: '4%', filter: 'none', type: 'none', data: null, orderable: false,
-                    render: function (data, type, row) {
-                  
-                            return "<a class='btn btn-success btn-sm-td pt-0 pb-0 w-100' href='#' onclick='editar(" + JSON.stringify(row) + ")'><span><i class='fas fa-edit'></i></span></a>";
-                            
+                        var cuerpo = `<div class="btn-group " role="group" aria-label="Acciones">`;
+                        cuerpo += "<a class='btn btn-danger  btn-xp btnFideliza' href='#' onclick='fidelizar(" + JSON.stringify(row) + ")'><span><i class='fa fa-handshake-o'></i></span></a>";
+                            cuerpo += "&nbsp;&nbsp;<a class='btn btn-success  btn-xp btnEditar' href='#' onclick='editar(" + JSON.stringify(row) + ")'><span><i class='fas fa-edit'></i></span></a>";
+                        
+                          cuerpo += `</div>`;  
+                            return cuerpo;
                     }
                 }
 
                 
             ],
+            drawCallback: function () {
+                tippy(".btnFideliza", { content: "Validación de Datos" });
+                tippy(".btnEditar", { content: "Editar" });
+                tippy(".btnEliminar", { content: "Eliminar" });
+                //$('input[data-toggle=toggle]').bootstrapToggle();
+            },
             initComplete: function () {
                 reHandle();
             },
