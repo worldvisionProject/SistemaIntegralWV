@@ -177,6 +177,9 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
 
         public SelectList EstadoCourierList { get; set; }
 
+        public int TipoPantalla { get; set; }
+
+
         //public SelectList QuincenaList { get; set; }
     }
 
@@ -199,6 +202,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public int Estado { get; set; }
         public int Ciudad { get; set; }
          public string NombreDonante { get; set; }
+        public int TipoPantalla { get; set; }
     }
 
 

@@ -28,7 +28,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
     public class DonanteController : BaseController<DonanteController>
     {
         // ejecuta una accion
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int tipoPantalla=0)
         {
             var entidadViewModel = new DonanteViewModel();
             var responseCola = await _mediator.Send(new GetColaboradorByIdQuery() { Id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
@@ -53,14 +53,17 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
             catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 26, Ninguno = true });
             var campana = new SelectList(catalogo.Data, "Secuencia", "Nombre");
             entidadViewModel.CampanaList = campana;
+            entidadViewModel.TipoPantalla = tipoPantalla;
 
             return View(entidadViewModel);// dirije a la carpeta Views
         }
 
         public async Task<IActionResult> LoadAll([FromBody]  DonanteFiltroViewModel filtro)
         {
-            
-            var response = await _mediator.Send(new GetAllDonantesQuery() { EstadoDonante = filtro.Estado , Categoria = filtro.Categoria, Campana = filtro.Campana , Ciudad = filtro.Ciudad, Identificacion = filtro.Identificacion , NombresDonante=filtro.NombreDonante} );
+            if (filtro == null)
+                return Json(new { data = new List<DonanteResponseViewModel>() });
+
+            var response = await _mediator.Send(new GetAllDonantesQuery() { EstadoDonante = filtro.Estado , Categoria = filtro.Categoria, Campana = filtro.Campana , Ciudad = filtro.Ciudad, Identificacion = filtro.Identificacion , NombresDonante=filtro.NombreDonante, TipoPantalla=filtro.TipoPantalla} );
             if (response.Succeeded)
             {
                 //DonanteViewModelView entidad = new DonanteViewModelView();
@@ -194,7 +197,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
         
 
 
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0,int tipoPantalla=0)
         {
             try
             {
@@ -269,6 +272,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     entidadViewModel.PeriodoDonacionList = periodoDonacion;
                     entidadViewModel.MotivosBajaList = motivobaja;
                     entidadViewModel.EstadoCourierList = estadocourier;
+                    entidadViewModel.TipoPantalla = tipoPantalla;
 
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
@@ -308,6 +312,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         entidadViewModel.PeriodoDonacionList = periodoDonacion;
                         entidadViewModel.MotivosBajaList = motivobaja;
                         entidadViewModel.EstadoCourierList = estadocourier;
+                        entidadViewModel.TipoPantalla = tipoPantalla;
                         //entidadViewModel.QuincenaList = quincena;
 
                         return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });

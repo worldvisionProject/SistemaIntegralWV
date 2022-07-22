@@ -157,7 +157,8 @@
 
 </div>
    
-
+ </div>
+</div>
 @section Scripts
     {
     <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
@@ -221,7 +222,8 @@
                     }
                     filtros.ciudad = parseInt(datos);
 
-                   
+                   filtros.tipoPantalla =@Model.TipoPantalla;
+
                     return JSON.stringify(filtros);
                 }
             },
@@ -277,12 +279,12 @@
 
       function editar(fila) {
 
-          jQueryModalGet('/Donacion/Donante/OnGetCreateOrEdit?id='+fila.id+'&vienede=2','Donante');
+          jQueryModalGet('/Donacion/Donante/OnGetCreateOrEdit?id='+fila.id+'&vienede=2&tipoPantalla='+@Model.TipoPantalla,'Donante');
           //jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante='+fila.id'&vienede=1','Donante')
        }
         function fidelizar(fila) {
 
-          jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante='+fila.id,'Interación de Validación de Datos');
+          jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante='+fila.id+'&tipoPantalla='+@Model.TipoPantalla,@Model.TipoPantalla==1?'Interación de Validación de Datos':'Interación de Kit de Entrega');
        }
 
        function buscarDonante() {
