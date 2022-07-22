@@ -84,26 +84,30 @@
          <div class="col-12">
                 <div class="form-group row">
 
-              
                     <div class="col-md-3">
+                    <label class="col-md-12 col-form-label texto-pregunta">Donante</label>
+                   <input type="text" id="Nombres"  maxlength=15 name="Nombres"  class="form-control form-control-sm "/>
+                </div>
+              
+                    <div class="col-md-2">
                            <label class="col-md-12 col-form-label texto-pregunta" >Region</label>
                       @Html.DropDownListFor(x => x.Region, (IEnumerable<SelectListItem>)Model.RegionList, new { @class = "form-control  form-control-sm ",required = "required" })
                       <span asp-validation-for="Region" class="text-danger"></span>
                   </div>
-                   <div class="col-md-3">
+                   <div class="col-md-2">
                            <label class="col-md-12 col-form-label texto-pregunta" >Provincia</label>
                        <select id="Provincia" name="Provincia" style="width:5%" data-width="500px" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.ProvinciaList)" data-live-search="true">
                      </select>
                      
                   </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                            <label class="col-md-12 col-form-label texto-pregunta" >Ciudad</label>
                        <select id="Ciudad" name="Ciudad" style="width:5%" data-width="500px" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.CiudadList)" data-live-search="true">
                      </select>
                       
                   </div>
-                   <div class="col-md-3" style="padding:25px 10px 30px 55px">
+                   <div class="col-md-2" style="padding:25px 10px 30px 55px">
                     <a class="btn btn-sm btn-labeled btn-success" href="#" onclick="buscarDonante()">
                         <span class="btn-label pr-1">
                             <i class="fa fa-search"></i>
@@ -191,11 +195,17 @@
                     }
                     filtros.campana = parseInt(datos);
 
-                    datos = 0;
+                    datos = "";
                     if ($("#identificacion").val() != "") {
                         datos = $("#identificacion").val();
                     }
-                    filtros.cedula = datos;
+                    filtros.identificacion = datos;
+
+                    datos = "" ;
+                    if ($("#Nombres").val() != "") {
+                        datos = $("#Nombres").val();
+                    }
+                    filtros.nombreDonante = datos;
 
                     datos = 0;
                     if ($("#estadoDonante").val() != "") {
@@ -272,7 +282,7 @@
        }
         function fidelizar(fila) {
 
-          jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante='+fila.id,'Fidelización - Actualizar Información');
+          jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante='+fila.id,'Interación de Validación de Datos');
        }
 
        function buscarDonante() {

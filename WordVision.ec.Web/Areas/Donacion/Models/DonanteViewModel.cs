@@ -198,7 +198,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public string Identificacion { get; set; }
         public int Estado { get; set; }
         public int Ciudad { get; set; }
-        
+         public string NombreDonante { get; set; }
     }
 
 

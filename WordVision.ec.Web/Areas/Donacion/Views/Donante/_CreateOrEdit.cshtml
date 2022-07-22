@@ -607,7 +607,7 @@
 
         </div>
     </div>
-    @if (@Model.Vienede == 0)
+@*    @if (@Model.Vienede == 0) SOLICIDATDO POR ALEXANDRA VASQUEZ QUE SE QUITE ESTE FLUJO : 22/07/2022 
     {
         if (@Model.EstadoDonante == 3)
         {
@@ -642,7 +642,7 @@
             }
 
         }
-    }
+    }*@
        
     <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
@@ -1226,6 +1226,13 @@
             return false;
 
         }
+        if (estado == 3) {
+            if (estado == 3) {
+                Swal.fire("¡Advertencia!", "No Puede Volver a poner estado Ingresado", "warning");
+                $("#EstadoDonante").val(-1);
+            }
+        }
+
 
     });
     // FIN DE ESTADO

@@ -52,10 +52,11 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
             return await _repository.Entities.Where(x => x.Id == idDonante).FirstOrDefaultAsync();
         }
 
-        public async Task<List<DonanteResponse>> GetListAsync(int estadoDonante , int categoria , int campana, int ciudad,string identificacion )
+        public async Task<List<DonanteResponse>> GetListAsync(int estadoDonante , int categoria , int campana, int ciudad,string identificacion, string nombresdonante )
         {
+           
             // return await _repository.Entities.ToListAsync();
-            var resultado1 = _repository.Entities.Where(x =>(x.EstadoDonante == estadoDonante || estadoDonante == 0) && x.Categoria == categoria && ( x.Campana == campana || campana == 0) && (x.Ciudad == ciudad  || ciudad == 0) && (x.RUC == identificacion || identificacion == null))
+            var resultado1 = _repository.Entities.Where(x =>(x.EstadoDonante == estadoDonante || estadoDonante == 0) && x.Categoria == categoria && ( x.Campana == campana || campana == 0) && (x.Ciudad == ciudad  || ciudad == 0) && (x.RUC == identificacion || identificacion == "") && ((x.Apellido1 +" " +x.Apellido2).Contains(nombresdonante) || nombresdonante == ""))
                                       .Select(a => new DonanteResponse
                                       {
                                           Id = a.Id,
@@ -65,7 +66,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
                                           Estado = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 27 && c.Secuencia == a.EstadoDonante.ToString()).FirstOrDefault().Nombre,
                                           Ciudad = _repositoryCiudad.Entities.Where(c => c.Codigo == a.Ciudad.ToString()).FirstOrDefault().Nombre,
                                           Cantidad = a.Cantidad,
-                                         
+                                          
                                       }
                                       ).ToListAsync();
 
@@ -128,6 +129,15 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
             return await resultado1;
         }
 
-       
+    
+        public async Task UpdateAsyncXEstado(int idDonante, int estadoDonante)
+        {
+            Donante entidad = await _repository.Entities.Where(x => x.Id == idDonante).FirstOrDefaultAsync();
+            if (entidad == null) return;
+
+            entidad.EstadoDonante=estadoDonante;
+           
+            await _repository.UpdateAsync(entidad);
+        }
     }
 }

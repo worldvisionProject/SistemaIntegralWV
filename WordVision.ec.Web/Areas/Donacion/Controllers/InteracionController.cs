@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Donacion.Donantes.Commands.Update;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Commands.Create;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Commands.Update;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAll;
@@ -92,6 +93,11 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         if (result.Succeeded)
                         {
                             id = result.Data;
+                            if (entidad.Gestion == 4)
+                            {
+                               await _mediator.Send(new UpdateDonanteXEstadoCommand() { Id = entidad.IdDonante, EstadoDonante = 5 });
+                             
+                            }
                             _notify.Success($"Interacción Creada.");
 
                         }

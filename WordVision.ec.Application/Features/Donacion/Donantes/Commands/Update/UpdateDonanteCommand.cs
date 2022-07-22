@@ -161,10 +161,7 @@ namespace WordVision.ec.Application.Features.Donacion.Donantes.Commands.Update
                         Donante.CalificacionDonante = command.CalificacionDonante;
                         Donante.ComentarioResolucion = command.ComentarioResolucion;
 
-                         if (command.ComentarioResolucion.Length!=0)
-                         {
-                            Donante.EstadoDonante = 5;
-                         }
+                       
                     }
                     else
                     {
