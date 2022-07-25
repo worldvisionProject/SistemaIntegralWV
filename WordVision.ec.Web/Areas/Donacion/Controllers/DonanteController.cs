@@ -28,7 +28,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
     public class DonanteController : BaseController<DonanteController>
     {
         // ejecuta una accion
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int tipoPantalla=0)
         {
             var entidadViewModel = new DonanteViewModel();
             var responseCola = await _mediator.Send(new GetColaboradorByIdQuery() { Id = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value) });
@@ -53,14 +53,17 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
             catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 26, Ninguno = true });
             var campana = new SelectList(catalogo.Data, "Secuencia", "Nombre");
             entidadViewModel.CampanaList = campana;
+            entidadViewModel.TipoPantalla = tipoPantalla;
 
             return View(entidadViewModel);// dirije a la carpeta Views
         }
 
         public async Task<IActionResult> LoadAll([FromBody]  DonanteFiltroViewModel filtro)
         {
-            
-            var response = await _mediator.Send(new GetAllDonantesQuery() { EstadoDonante = filtro.Estado , Categoria = filtro.Categoria, Campana = filtro.Campana , Ciudad = filtro.Ciudad, Identificacion = filtro.Identificacion} );
+            if (filtro == null)
+                return Json(new { data = new List<DonanteResponseViewModel>() });
+
+            var response = await _mediator.Send(new GetAllDonantesQuery() { EstadoDonante = filtro.Estado , Categoria = filtro.Categoria, Campana = filtro.Campana , Ciudad = filtro.Ciudad, Identificacion = filtro.Identificacion , NombresDonante=filtro.NombreDonante, TipoPantalla=filtro.TipoPantalla} );
             if (response.Succeeded)
             {
                 //DonanteViewModelView entidad = new DonanteViewModelView();
@@ -194,7 +197,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
         
 
 
-        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int id = 0,int tipoPantalla=0)
         {
             try
             {
@@ -269,6 +272,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     entidadViewModel.PeriodoDonacionList = periodoDonacion;
                     entidadViewModel.MotivosBajaList = motivobaja;
                     entidadViewModel.EstadoCourierList = estadocourier;
+                    entidadViewModel.TipoPantalla = tipoPantalla;
 
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
@@ -308,6 +312,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         entidadViewModel.PeriodoDonacionList = periodoDonacion;
                         entidadViewModel.MotivosBajaList = motivobaja;
                         entidadViewModel.EstadoCourierList = estadocourier;
+                        entidadViewModel.TipoPantalla = tipoPantalla;
                         //entidadViewModel.QuincenaList = quincena;
 
                         return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
@@ -369,13 +374,13 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         var updateEntidadCommand = _mapper.Map<UpdateDonanteCommand>(entidad);
                         var result = await _mediator.Send(updateEntidadCommand);
                         if (result.Succeeded) _notify.Information($"Donante con ID {result.Data} Actualizado.");
-                        if (entidad.ComentarioActualizacion  != null && entidad.ComentarioResolucion != null)
-                        {
-                            if (entidad.ComentarioActualizacion != null && entidad.ComentarioResolucion == null)
-                                await EnviarMail(result.Data, 2);
-                            else if (entidad.ComentarioResolucion.Length != 0)
-                                await EnviarMail(result.Data, 3);
-                        }
+                        //if (entidad.ComentarioActualizacion  != null && entidad.ComentarioResolucion != null)
+                        //{
+                        //    if (entidad.ComentarioActualizacion != null && entidad.ComentarioResolucion == null)
+                                await EnviarMail(result.Data,3);
+                        //    else if (entidad.ComentarioResolucion.Length != 0)
+                        //        await EnviarMail(result.Data, 3);
+                        //}
                            
                     }
                     if (vienede == 0 )
@@ -479,6 +484,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
             string celular = "";
             string responsable = "";
             string emailResponsable = "";
+            int canal = 0; 
+            
 
             try
             {
@@ -496,6 +503,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     comentario = response.Data.ComentarioActualizacion;
                     comentarioResponsable = response.Data.ComentarioResolucion;
                     responsable = response.Data.CreatedBy;
+                    canal = response.Data.Canal;
                 }
 
                 var responseC = await _mediator.Send(new GetColaboradorByUserNameQuery() { UserName = responsable });
@@ -512,8 +520,28 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
 
                     case 1:
                         plantilla = "Donantes\\Nuevo.html";
-                        asunto = "Ingreso de nuevo donante: " + primerNombre + " " + primerApellido;
-                        email = _configuration["DestinoDonante"];
+                       // asunto = "Ingreso de nuevo donante: " + primerNombre + " " + primerApellido;
+                        switch (canal)
+                        {
+                            case 1:
+                                canal = 1;
+                                asunto = "Ingreso de nuevo donante: " + primerNombre + " " + primerApellido + " Canal: Digital-Inbound ";
+                                email = _configuration["CanalDigitalInbound"];
+                                break;
+
+                            case 2:
+                                canal = 2;
+                                asunto = "Ingreso de nuevo donante: " + primerNombre + " " + primerApellido + " Canal: Face to Face " ;
+                                email = _configuration["CanalFacetoFace"];
+                                break;
+
+                            case 3:
+                                canal = 3;
+                                asunto = "Ingreso de nuevo donante: " + primerNombre + " " + primerApellido + " Canal: Telemarketing-Outbound";
+                                email = _configuration["CanalTelemarketingOutbound"];
+                                break;
+                        }
+                        
                         break;
                     case 2:
                         plantilla = "Donantes\\Devolucion.html";
@@ -523,8 +551,29 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     case 3:
                         plantilla = "Donantes\\Realizacion.html";
                         asunto = "Actualización de Información del Donante con Identificación :" + identificacion;
+
+                        switch (canal)
+                        {
+                            case 1:
+                                canal = 1;
+                                asunto = "Actualización de Información del Donante con Identificación :" + identificacion + " Canal: Digital-Inbound ";
+                                email = _configuration["CanalDigitalInbound"];
+                                break;
+
+                            case 2:
+                                canal = 2;
+                                asunto = "Ingreso de nuevo donante: " + primerNombre + " " + primerApellido + "Canal: Face to Face ";
+                                email = _configuration["CanalFacetoFace"];
+                                break;
+
+                            case 3:
+                                canal = 3;
+                                asunto = "Ingreso de nuevo donante: " + primerNombre + " " + primerApellido + "Canal: Telemarketing-Outbound";
+                                email = _configuration["CanalTelemarketingOutbound"];
+                                break;
+                        }
                         //asunto = "Confirmación de cambios realizados " + primerNombre + " " + primerApellido;
-                        email = _configuration["DestinoDonante"];
+                     
                         comentario = comentarioResponsable;
                         break;
 

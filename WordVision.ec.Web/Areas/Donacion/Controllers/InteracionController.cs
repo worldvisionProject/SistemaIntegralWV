@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using WordVision.ec.Application.Features.Donacion.Donantes.Commands.Update;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Commands.Create;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Commands.Update;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAll;
@@ -23,19 +24,19 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
     [Authorize]//Sirve para dar permiso cuando esta logeado
     public class InteracionController : BaseController<InteracionController>
     {
-        public async Task<JsonResult> OnGetCreateOrEdit(int idDonante, int vienede = 0)
+        public async Task<JsonResult> OnGetCreateOrEdit(int idDonante, int tipoPantalla = 0)
         {
 
             try
             {
                 int numCatalogo = 67;
-                if (vienede == 1)
-                {
-                    numCatalogo = 69;
-                }
-                if (vienede == 3)
+                if (tipoPantalla == 2)
                 {
                     numCatalogo = 70;
+                }
+                if (tipoPantalla == 3)
+                {
+                    numCatalogo = 69;
                 }
 
                 var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = numCatalogo, Ninguno = true });
@@ -49,7 +50,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     entidadViewModel.tipoList = tipointeracion;
 
 
-                    var viewModel = await _mediator.Send(new GetAllInteracionesXDonanteQuery() { idDonante = idDonante , tipo = vienede });
+                    var viewModel = await _mediator.Send(new GetAllInteracionesXDonanteQuery() { idDonante = idDonante , tipo = tipoPantalla });
                     if (viewModel.Succeeded)
                     {
 
@@ -57,7 +58,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     }
 
                     entidadViewModel.IdDonante = idDonante;
-                    entidadViewModel.vieneDe = vienede;
+                    entidadViewModel.TipoPantalla = tipoPantalla;
 
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
 
@@ -92,6 +93,11 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         if (result.Succeeded)
                         {
                             id = result.Data;
+                            if (entidad.Gestion == 4)
+                            {
+                               await _mediator.Send(new UpdateDonanteXEstadoCommand() { Id = entidad.IdDonante, EstadoDonante = 5 });
+                             
+                            }
                             _notify.Success($"Interacción Creada.");
 
                         }

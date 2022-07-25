@@ -303,6 +303,11 @@
                     <input type="text" asp-for="Formulario" name="Formulario" class="form-control" />
                     <span asp-validation-for="Formulario" class="text-danger"></span>
                 </div>
+                <div class="col-md-3">
+                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="CalificacionDonante"></label>
+                        @Html.DropDownListFor(x => x.CalificacionDonante, (IEnumerable<SelectListItem>)Model.CalificacionDonanteList, new { @class = "form-control" })
+                        <span asp-validation-for="CalificacionDonante" class="text-danger"></span>
+                    </div>
                 @if (@Model.Vienede == 4)
                 {
                     <div class="col-md-2">
@@ -341,10 +346,11 @@
             </div>
          </div>
     </div>
-
+   
     <div class="row">
         <div class="col-md-10">
             <div class="form-group row">
+              
                 <div class="col-md-6">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="FormaPago"></label>
 
@@ -352,7 +358,7 @@
 
                     <span asp-validation-for="FormaPago" class="text-danger"></span>
                 </div>
-
+                
                 @*<div class="col-md-4">
                 <label class="col-md-12 col-form-label texto-pregunta" asp-for="EvidenciaConversion"></label>
                 <div class="custom-file form-image">
@@ -404,9 +410,9 @@
                     </div>
 
                 </div>
-
+                
             </div>
-
+            
         </div>
     </div>
     @*inicio boton pagos*@
@@ -607,7 +613,7 @@
 
         </div>
     </div>
-    @if (@Model.Vienede == 0)
+@*    @if (@Model.Vienede == 0) SOLICIDATDO POR ALEXANDRA VASQUEZ QUE SE QUITE ESTE FLUJO : 22/07/2022 
     {
         if (@Model.EstadoDonante == 3)
         {
@@ -642,29 +648,36 @@
             }
 
         }
-    }
-       
+    }*@
+      
     <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Donante.Create)).Result.Succeeded)
+        @if(Model.TipoPantalla == 2)
         {
-            <input type="hidden" value="false" name="band" id="band" />
-            <button type="submit" class="btn btn-info" style="background-color:blue !important">Guardar</button>
+            <input type="hidden" value="true" name="band" id="band" />
         }
         else
         {
-            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Donante.Edit)).Result.Succeeded)
+            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Donante.Create)).Result.Succeeded)
             {
-                <button type="submit" id="btnGuardar" class="btn btn-info">Guardar</button>
-                <input asp-for="EsAdmin" type="hidden" name="EsAdmin" value=1 class="form-control" />
+                <input type="hidden" value="false" name="band" id="band" />
+                <button type="submit" class="btn btn-info" style="background-color:blue !important">Guardar</button>
             }
-            <input type="hidden" value="true" name="band" id="band" />
+            else
+            {
+                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Donante.Edit)).Result.Succeeded)
+                {
+                    <button type="submit" id="btnGuardar" class="btn btn-info">Guardar</button>
+                    <input asp-for="EsAdmin" type="hidden" name="EsAdmin" value=1 class="form-control" />
+                }
+                <input type="hidden" value="true" name="band" id="band" />
+            }
         }
+        
         <button type="submit" id="btnCancelar" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
     </div>
-
+     
 </form>
-
 
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
@@ -1226,6 +1239,13 @@
             return false;
 
         }
+        if (estado == 3) {
+            if (estado == 3) {
+                Swal.fire("¡Advertencia!", "No Puede Volver a poner estado Ingresado", "warning");
+                $("#EstadoDonante").val(-1);
+            }
+        }
+
 
     });
     // FIN DE ESTADO

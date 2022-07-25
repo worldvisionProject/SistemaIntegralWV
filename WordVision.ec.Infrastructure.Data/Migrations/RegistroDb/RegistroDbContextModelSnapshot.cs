@@ -184,11 +184,17 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("EstadoCourier")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("EstadoDonante")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("EvidenciaConversion")
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<DateTime?>("FechaBaja")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("FechaCaducidad")
                         .HasColumnType("datetime2");
@@ -233,6 +239,9 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
 
                     b.Property<DateTime?>("MesInicialDebito")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("MotivosBaja")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre1")
                         .HasColumnType("nvarchar(max)");
@@ -933,6 +942,77 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                         .HasColumnType("nvarchar(max)");
 
                     b.ToTable("EReporteConsolidado", t => t.ExcludeFromMigrations());
+                });
+
+            modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EReporteDAP", b =>
+                {
+                    b.Property<decimal?>("rpt_Apoyo")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("rpt_Canton")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("rpt_Competencia")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("rpt_Compromiso")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("rpt_Empoderamiento")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("rpt_Identidad")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("rpt_IndicadorCodigo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rpt_IndicadorNombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rpt_IndicadorTipo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("rpt_Limite")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("rpt_LogFrame")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rpt_Objetivo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rpt_Programa")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rpt_Provincia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rpt_Proyecto")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("rpt_Region")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("rpt_UsoConstructivo")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("rpt_Valores")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("rpt_denominador")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("rpt_numerador")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("rpt_porcentaje")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("rpt_resultado")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.ToTable("EReporteDAP", t => t.ExcludeFromMigrations());
                 });
 
             modelBuilder.Entity("WordVision.ec.Domain.Entities.Encuesta.EReporteTabulado", b =>
