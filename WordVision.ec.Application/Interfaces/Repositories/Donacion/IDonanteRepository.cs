@@ -11,7 +11,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Donacion
     public interface IDonanteRepository
     {
         IQueryable<Donante> donantes { get; }
-        Task<List<DonanteResponse>> GetListAsync(int estadoDonante, int categoria);
+        Task<List<DonanteResponse>> GetListAsync(int estadoDonante, int categoria, int campana , int ciudad , string identificacion, string nombresdonante, int tipoPantalla);
 
         Task<int> InsertAsync(Donante donante);
 
@@ -19,9 +19,9 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Donacion
         Task DeleteAsync(Donante donante);
         Task<Donante> GetDonantesAsync(int idDonante);
         Task<Donante> GetByIdAsync(int idDonante);
+        Task UpdateAsyncXEstado(int idDonante, int estadoDonante);
 
-        
-            
+
         Task<List<ReporteDonantesResponse>> GetReporteDonantesAsync(DateTime fechaDesde, DateTime fechaHasta, int tipoDonante, int formaPago, int estadoDonante);
     }
 }

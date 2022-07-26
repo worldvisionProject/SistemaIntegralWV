@@ -6,11 +6,40 @@
 
 <form id="create-form" method="post" asp-controller="Interacion" asp-action="OnPostCreateOrEdit" onsubmit="return jQueryModalPost(this);" asp-route-id="@Model.Id"  enctype="multipart/form-data">
    
-    <input asp-for="Tipo" hidden="text" name="Tipo" value="@Model.vieneDe" />
-    <input asp-for="IdDonante" hidden="text" name="IdDonante"  />
+    <input asp-for="Tipo" type="hidden" name="Tipo" value="@Model.TipoPantalla" />
+    <input asp-for="IdDonante" type="hidden" name="IdDonante"  />
     <dic class="row">
+         <div class="col-md-12">
+             <div class="form-group row">
+                @* @if (Model.TipoPantalla == 2)
+             {
+             <div class="col-md-2">
+                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="NumeroGuia"></label>
+
+                        <input type="text" asp-for="NumeroGuia" name="NumeroGuia" class="form-control" />
+                        <span asp-validation-for="NumeroGuia" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaEntrega"></label>
+
+                        <input type="text" asp-for="FechaEntrega" name="FechaEntrega" class="datepicker5 form-control" />
+                        <span asp-validation-for="FechaEntrega" class="text-danger" readonly></span>
+                    </div>
+
+                      <div class="col-md-3">
+                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="EstadoCourier"></label>
+                            @Html.DropDownListFor(x => x.EstadoCourier, (IEnumerable<SelectListItem>)Model.EstadoCourierList, new { @class = "form-control" })
+                            <span asp-validation-for="EstadoCourier" class="text-danger"></span>
+                        </div>
+                }*@
+             </div>
+         </div>
         <div class="col-md-12">
+            
+         
             <div class="form-group row">
+
                 <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Gestion"></label>
                     @Html.DropDownListFor(x => x.Gestion, (IEnumerable<SelectListItem>)Model.interacionesList, new { @class = "form-control",required = "required" })
@@ -124,5 +153,20 @@
 
 
     });
+
+
+
+    $(".datepicker5").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            autoclose: true,
+            todayBtn: true,
+            firstDay: 1,
+            minDate: new Date(2005, 0, 1),
+            yearRange: '2005:' + String((new Date()).getFullYear() + 1),
+            format: "dd-mm-yyyy",
+            startDate: new Date()
+
+        });
 </script>
 

@@ -535,10 +535,22 @@
 
                          <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a is-active-route asp-area="Donacion" asp-controller="Donante" asp-action="Index" class="nav-link">
+                                <a is-active-route asp-area="Donacion" asp-controller="Donante" asp-action="Index" asp-route-tipoPantalla="1"  class="nav-link">
                                     <i class="nav-icon fas fa-th"></i>
                                     <p>
                                         @localizer["Lista de Donantes"]
+                                        @*<span class="right badge badge-danger">@localizer["New"]</span>*@
+                                    </p>
+                                </a>
+                            </li>
+
+                        </ul>
+                            <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Donacion" asp-controller="Donante" asp-action="Index"  asp-route-tipoPantalla="2" class="nav-link">
+                                    <i class="nav-icon fas fa-th"></i>
+                                    <p>
+                                        @localizer["Kit de Bienvenida"]
                                         @*<span class="right badge badge-danger">@localizer["New"]</span>*@
                                     </p>
                                 </a>

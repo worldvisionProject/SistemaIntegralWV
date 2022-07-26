@@ -54,8 +54,60 @@
                     </select>
                 </div>
 
+                <div class="col-md-3">
+                    <label class="col-md-12 col-form-label texto-pregunta">Campaña</label>
+                    <select id="campana" name="campana" data-width="600px" style="color:#999 !important" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.CampanaList)" data-live-search="true">
+                    </select>
+                </div>
 
-                <div class="col-md-4" style="padding:25px 10px 30px 55px">
+                <div class="col-md-3">
+                    <label class="col-md-12 col-form-label texto-pregunta">Identificación</label>
+                   <input type="text" id="identificacion"  maxlength=15 name="identificacion"  class="form-control form-control-sm "/>
+                </div>
+
+               @* <div class="col-md-3">
+                    <label class="col-md-12 col-form-label texto-pregunta">Ciudad</label>
+                    <select id="ciudad" name="ciudad" data-width="600px" style="color:#999 !important" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.CiudadList)" data-live-search="true">
+                    </select>
+                </div>
+                *@
+                @*<div class="col-md-2">
+                            <label class="col-md-12 col-form-label texto-pregunta">Donantes en Mora</label>
+                            <input asp-for="DonantesMora" type="checkbox" name="DonantesMora" />
+                            <span asp-validation-for="DonantesMora" class="text-danger"></span>
+
+                </div>*@
+               
+            </div>
+        </div>
+
+         <div class="col-12">
+                <div class="form-group row">
+
+                    <div class="col-md-3">
+                    <label class="col-md-12 col-form-label texto-pregunta">Donante</label>
+                   <input type="text" id="Nombres"  maxlength=15 name="Nombres"  class="form-control form-control-sm "/>
+                </div>
+              
+                    <div class="col-md-2">
+                           <label class="col-md-12 col-form-label texto-pregunta" >Region</label>
+                      @Html.DropDownListFor(x => x.Region, (IEnumerable<SelectListItem>)Model.RegionList, new { @class = "form-control  form-control-sm ",required = "required" })
+                      <span asp-validation-for="Region" class="text-danger"></span>
+                  </div>
+                   <div class="col-md-2">
+                           <label class="col-md-12 col-form-label texto-pregunta" >Provincia</label>
+                       <select id="Provincia" name="Provincia" style="width:5%" data-width="500px" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.ProvinciaList)" data-live-search="true">
+                     </select>
+                     
+                  </div>
+
+                    <div class="col-md-2">
+                           <label class="col-md-12 col-form-label texto-pregunta" >Ciudad</label>
+                       <select id="Ciudad" name="Ciudad" style="width:5%" data-width="500px" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.CiudadList)" data-live-search="true">
+                     </select>
+                      
+                  </div>
+                   <div class="col-md-2" style="padding:25px 10px 30px 55px">
                     <a class="btn btn-sm btn-labeled btn-success" href="#" onclick="buscarDonante()">
                         <span class="btn-label pr-1">
                             <i class="fa fa-search"></i>
@@ -63,10 +115,8 @@
                         Buscar Datos
                     </a>
                 </div>
-            </div>
-        </div>
-        <div id="viewAll" class="card-body table-responsive">
-        </div>
+      @*  <div id="viewAll" class="card-body table-responsive">
+        </div>*@
     </div>
  
 
@@ -79,42 +129,282 @@
 
     </div>*@
 
+<table id="donanteTable" class="table table-striped " width="100%" cellspacing="0">
+            <thead>
+                <tr>
+
+
+                    <th data-priority="1">Campaña</th>
+                    <th data-priority="1">Donante</th>
+                    
+                    <th data-priority="1">Cédula</th>
+                    <th data-priority="1">Estado Donante</th>
+                    <th data-priority="1">Ciudad</th>
+                    <th data-priority="1">Cantidad</th>
+                
+                    
+                     <th data-priority="2" class="acciones-th">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+        
+            </tbody>
+             <tfoot>
+             </tfoot>
+        </table>
+
+
+
 </div>
    
-
+ </div>
+</div>
 @section Scripts
     {
+    <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/lib/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js"></script>
+    <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
     <script src="~/js/site.js"></script>
     <script>
+        
+   let tableMain = null;
+        let config = {
+            id: "donanteTable",
+            dateFormat: '{dd}/{MM}/{yyyy}',
+            language: { url: dataTableLangPath},
+            ajax: {
+                url: "@Url.Action("LoadAll", "Donante")",
+                method: 'POST',
+                dataType: "json",
+                contentType: "application/json",
+                dataSrc: function (e) {
+                    
+                    return e.data;
+                },
+                data: function(d) {
+                    var filtros = new Object();
+
+                    var datos = 0;
+                    if ($("#categoria").val() != "") {
+                        datos = $("#categoria").val();
+                    }
+                    filtros.categoria = parseInt(datos);
+
+                    datos = 0;
+                    if ($("#campana").val() != "") {
+                        datos = $("#campana").val();
+                    }
+                    filtros.campana = parseInt(datos);
+
+                    datos = "";
+                    if ($("#identificacion").val() != "") {
+                        datos = $("#identificacion").val();
+                    }
+                    filtros.identificacion = datos;
+
+                    datos = "" ;
+                    if ($("#Nombres").val() != "") {
+                        datos = $("#Nombres").val();
+                    }
+                    filtros.nombreDonante = datos;
+
+                    datos = 0;
+                    if ($("#estadoDonante").val() != "") {
+                        datos = $("#estadoDonante").val();
+                    }
+                    filtros.estado = parseInt(datos);
+
+                    datos = 0;
+                   
+                     var ciudad = parseInt($("#Ciudad").val());
+                    if (!isNaN(ciudad) && ciudad != 0) {
+                         datos = $("#Ciudad").val();
+                    }
+                    filtros.ciudad = parseInt(datos);
+
+                   filtros.tipoPantalla =@Model.TipoPantalla;
+
+                    return JSON.stringify(filtros);
+                }
+            },
+            dom: "tipr",
+            buttons: [
+                { extend: "excel", exportOptions: { columns: ':not(.no-export)' } }
+            ],
+            columns: [
+                { width: '20%', filter: 'input', type: 'string', data: 'campana' },
+                { width: '20%', filter: 'input', type: 'string', data: 'donante' },
+                { width: '16%', filter: 'input', type: 'string', data: 'cedula' },
+                { width: '16%', filter: 'input', type: 'string', data: 'estado' },
+                { width: '16%', filter: 'input', type: 'string', data: 'ciudad' },
+                { width: '10%', filter: 'input', type: 'num', data: 'cantidad'  },
+               
+                
+                {
+                    width: '2%', filter: 'none', type: 'none', data: null, orderable: false,
+                    render: function (data, type, row) {
+                        var cuerpo = `<div class="btn-group " role="group" aria-label="Acciones">`;
+                        cuerpo += "<a class='btn btn-danger  btn-xp btnFideliza' href='#' onclick='fidelizar(" + JSON.stringify(row) + ")'><span><i class='fa fa-handshake-o'></i></span></a>";
+                            cuerpo += "&nbsp;&nbsp;<a class='btn btn-success  btn-xp btnEditar' href='#' onclick='editar(" + JSON.stringify(row) + ")'><span><i class='fas fa-edit'></i></span></a>";
+                        
+                          cuerpo += `</div>`;  
+                            return cuerpo;
+                    }
+                }
+
+                
+            ],
+            drawCallback: function () {
+                tippy(".btnFideliza", { content: "Validación de Datos" });
+                tippy(".btnEditar", { content: "Editar" });
+                tippy(".btnEliminar", { content: "Eliminar" });
+                //$('input[data-toggle=toggle]').bootstrapToggle();
+            },
+            initComplete: function () {
+                reHandle();
+            },
+            order: []
+        };
+
+        function reHandle() {
+            fillSelectFilter(config, tableMain)
+            finishLoading();
+        }
+
+
+    $(document).ready(function () {
+         tableMain = LoadTableWithAjax(config);
+     
+      });
+
+      function editar(fila) {
+
+          jQueryModalGet('/Donacion/Donante/OnGetCreateOrEdit?id='+fila.id+'&vienede=2&tipoPantalla='+@Model.TipoPantalla,'Donante');
+          //jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante='+fila.id'&vienede=1','Donante')
+       }
+        function fidelizar(fila) {
+
+          jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante='+fila.id+'&tipoPantalla='+@Model.TipoPantalla,@Model.TipoPantalla==1?'Interación de Validación de Datos':'Interación de Kit de Entrega');
+       }
+
+       function buscarDonante() {
+        
+            var categoria = parseInt($("#categoria").val());
+            //var tipoDonante = parseInt($("#selectTipoDonante").val());
+            //var estadoDonante = parseInt($("#estadoDonante").val());
+           
+            if (isNaN(categoria) || categoria==0){
+                Swal.fire("¡Advertencia!", "Es obligatorio seleccionar la Categoría", "warning");
+                return false;
+            }
+
+            //   if (isNaN(estadoDonante) ){
+            //    Swal.fire("¡Advertencia!", "Es obligatorio seleccionar la Estado", "warning");
+            //    return false;
+            //}
+
+            startLoading();
+          
+            tableMain.ajax.reload(reHandle, true);
+        }
+
+
+
         function limpiarFormulario() {
             document.getElementById("create-form").reset();
         }
+         $("#Region").change(function() {
 
-        function buscarDonante() {
-            startLoading();
+        $.get("/Maestro/Pais/GetProvincia", { idRegion: $("#Region").val() }, function(data) {
+            // VACIAMOS EL DropDownList
+            $("#Provincia").empty();
+
+            // $("#descCompetencia").val(data[0].nombreCompetencia);
+            // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+            $("#Provincia").append("<option value>Seleccione</option>")
+            // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+            $.each(data, function(index, row) {
+                $("#Provincia").append("<option value='" + row.id + "'>" + row.nombre + "</option>")
+            });
+        });
+    });
+
+    $("#Provincia").change(function() {
+
+        $.get("/Maestro/Pais/GetCiudad", { idProvincia: $("#Provincia").val() }, function(data) {
+            // VACIAMOS EL DropDownList
+            $("#Ciudad").empty();
+
+            // $("#descCompetencia").val(data[0].nombreCompetencia);
+            // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+            $("#Ciudad").append("<option value>Seleccione</option>")
+            // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+            $.each(data, function(index, row) {
+                $("#Ciudad").append("<option value='" + row.id + "'>" + row.nombre + "</option>")
+            });
+        });
+    });
+
+    $("#Ciudad").change(function() {
+        $.get("/Maestro/Pais/GetCiudad", { idProvincia: $("#Provincia option:selected").val() }, function(data) {
+
+            $("#CodigoArea").empty();
+
+            $.each(data, function(index, row) {
+                $("#CodigoArea").val(row.codigoArea);
+            });
+        });
+
+
+
+    });
+     
+    //FIN DIVISION POLITICAS
+    $('#identificacion').on('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+
+    });
+
+       $("#identificacion").change(function() {
+
+        var valor = $("#identificacion").val();
+
+        if (valor.length < 10) {
+            $("#identificacion").focus();
+            Swal.fire("¡Advertencia!", "Ingrese un número de Identificación valido", "warning");
+             $("#identificacion").val("");
+
+            return false;
+
+        }
+
+
+    });
+        //function buscarDonante() {
+        //    startLoading();
 
         
-                var estado = $("#estadoDonante").val();
+        //        var estado = $("#estadoDonante").val();
 
-                var categoria = $("#categoria").val();
+        //        var categoria = $("#categoria").val();
 
-                $('#viewAll').load('/Donacion/Donante/LoadAll?estadoDonante=' + estado + '&categoria=' + categoria);
-                finishLoading();
+        //        $('#viewAll').load('/Donacion/Donante/LoadAll?estadoDonante=' + estado + '&categoria=' + categoria);
+        //        finishLoading();
             
-        }
+        //}
 
-        $(document).ready(function() {
-            //   loadData();
-        });
-        function loadData() {
+        //$(document).ready(function() {
+        //    //   loadData();
+        //});
+        //function loadData() {
 
-            var estado = $("#EstadoDonante").val();
-            var categoria = $("#Categoria").val();
+        //    var estado = $("#EstadoDonante").val();
+        //    var categoria = $("#Categoria").val();
 
 
-            $('#viewAll').load('/Donacion/Donante/LoadAll?estadoDonante=' + estado + '&categoria=' + categoria);
+        //    $('#viewAll').load('/Donacion/Donante/LoadAll?estadoDonante=' + estado + '&categoria=' + categoria);
 
-        }
+        //}
 
 
     </script>
