@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
 using WordVision.ec.Application.Interfaces.Repositories.Donacion;
 
 namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAll
@@ -15,6 +16,8 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAl
     {
         public int idDonante { set; get; }
         public int tipo { set; get; }
+
+      //public int estadoCourier { set; get; }
         public GetAllInteracionesXDonanteQuery()
         {
         }
@@ -34,7 +37,7 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAl
 
             public async Task<Result<List<GetAllInteracionesResponse>>> Handle(GetAllInteracionesXDonanteQuery request, CancellationToken cancellationToken)
             {
-                var interacionList = await _interacion.GetInteracionXDonanteAsync( request.idDonante , request.tipo);
+                var interacionList = await _interacion.GetInteracionXDonanteAsync( request.idDonante , request.tipo );  //,request.estadoCourier
                 var mappedInteracion = _mapper.Map<List<GetAllInteracionesResponse>>(interacionList);
 
                 return Result<List<GetAllInteracionesResponse>>.Success(mappedInteracion);

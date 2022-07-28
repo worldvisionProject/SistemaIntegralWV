@@ -6,15 +6,21 @@ using System.Threading.Tasks;
 
 namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAll
 {
-    public  class GetAllInteracionesResponse
+    public class GetAllInteracionesResponse
     {
-        public int Gestion { get; set; }
+        public string Gestion { get; set; }
 
-        public int Tipo { get; set; }
+        public string Tipo { get; set; }
 
         public string Observacion { get; set; }
 
         public int IdDonante { get; set; }
+
+        public string EstadoKitCourier { get; set; }
+
+        public DateTime? FechaEntregaKit { get; set; }
+
+        public string NumeroGuiaKit { get; set; }
 
         public string CreatedBy { get; set; }
         public DateTime CreatedOn { get; set; }

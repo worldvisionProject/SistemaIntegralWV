@@ -18,7 +18,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Mappings
             CreateMap<UpdateInteracionCommand, InteracionViewModel>().ReverseMap();
             CreateMap<GetInteracionesByIdResponse, InteracionViewModel>().ReverseMap();
             CreateMap<Interacion, InteracionViewModel>().ReverseMap();
-           
+
             CreateMap<GetAllInteracionesResponse, InteracionListaViewModel>().ReverseMap();
         }
 

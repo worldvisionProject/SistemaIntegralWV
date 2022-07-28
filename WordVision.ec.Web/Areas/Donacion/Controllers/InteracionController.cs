@@ -24,13 +24,13 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
     [Authorize]//Sirve para dar permiso cuando esta logeado
     public class InteracionController : BaseController<InteracionController>
     {
-        public async Task<JsonResult> OnGetCreateOrEdit(int idDonante, int tipoPantalla = 0)
-        {
+        public async Task<JsonResult> OnGetCreateOrEdit(int idDonante, int tipoPantalla = 0 )                      
+       {
 
             try
             {
-                int numCatalogo = 67;
-                if (tipoPantalla == 2)
+                int numCatalogo = 67; 
+                if (tipoPantalla == 2) 
                 {
                     numCatalogo = 70;
                 }
@@ -45,12 +45,16 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 68, Ninguno = true });
                     var tipointeracion = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
-                    var entidadViewModel = new InteracionViewModel();
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 72, Ninguno = true });
+                var estadokitcourier = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+
+                var entidadViewModel = new InteracionViewModel();
                     entidadViewModel.interacionesList = interacion;
                     entidadViewModel.tipoList = tipointeracion;
+                entidadViewModel.EstadoCourierList = estadokitcourier;
 
 
-                    var viewModel = await _mediator.Send(new GetAllInteracionesXDonanteQuery() { idDonante = idDonante , tipo = tipoPantalla });
+                var viewModel = await _mediator.Send(new GetAllInteracionesXDonanteQuery() { idDonante = idDonante , tipo = tipoPantalla});// estadoCourier = estadoKitCourier
                     if (viewModel.Succeeded)
                     {
 
@@ -59,8 +63,9 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
 
                     entidadViewModel.IdDonante = idDonante;
                     entidadViewModel.TipoPantalla = tipoPantalla;
+                   //ntidadViewModel.EstadoKitCourier = estadoKitCourier;
 
-                    return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
 
 
                

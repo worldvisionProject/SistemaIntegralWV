@@ -11,28 +11,29 @@
     <dic class="row">
          <div class="col-md-12">
              <div class="form-group row">
-                @* @if (Model.TipoPantalla == 2)
+            @if (Model.TipoPantalla == 2)
              {
-             <div class="col-md-2">
-                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="NumeroGuia"></label>
+             <div class="col-md-4">
+              
+                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="NumeroGuiaKit"></label>
 
-                        <input type="text" asp-for="NumeroGuia" name="NumeroGuia" class="form-control" />
-                        <span asp-validation-for="NumeroGuia" class="text-danger"></span>
+                        <input type="text" asp-for="NumeroGuiaKit" name="NumeroGuia" class="form-control" required />
+                        <span asp-validation-for="NumeroGuiaKit" class="text-danger"></span>
                     </div>
 
-                    <div class="col-md-2">
-                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaEntrega"></label>
+                    <div class="col-md-4">
+                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaEntregaKit"></label>
 
-                        <input type="text" asp-for="FechaEntrega" name="FechaEntrega" class="datepicker5 form-control" />
-                        <span asp-validation-for="FechaEntrega" class="text-danger" readonly></span>
+                        <input type="text" asp-for="FechaEntregaKit" name="FechaEntrega" class="datepicker5 form-control" required />
+                        <span asp-validation-for="FechaEntregaKit" class="text-danger" readonly></span>
                     </div>
 
-                      <div class="col-md-3">
-                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="EstadoCourier"></label>
-                            @Html.DropDownListFor(x => x.EstadoCourier, (IEnumerable<SelectListItem>)Model.EstadoCourierList, new { @class = "form-control" })
-                            <span asp-validation-for="EstadoCourier" class="text-danger"></span>
+                      <div class="col-md-4">
+                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="EstadoKitCourier"></label>
+                            @Html.DropDownListFor(x => x.EstadoKitCourier, (IEnumerable<SelectListItem>)Model.EstadoCourierList, new { @class = "form-control" ,required = "required"})
+                            <span asp-validation-for="EstadoKitCourier" class="text-danger"></span>
                         </div>
-                }*@
+                }
              </div>
          </div>
         <div class="col-md-12">
@@ -80,24 +81,34 @@
 
 <hr />
 
-<table id="interaccionesTable" class="table table-striped " width="100%" cellspacing="0">
+<table id="interaccionesTable" class="table table-striped " asp-route-id="@Model.Id"  width="100%" cellspacing="0">
+
+    <input asp-for="Tipo" type="hidden" name="Tipo" value="@Model.TipoPantalla" />
+    <input asp-for="IdDonante" type="hidden" name="IdDonante"  />
+
+    
     <thead>
         <tr>
 
-
             <th data-priority="1">Gestion</th>
+            @if (Model.TipoPantalla == 2)
+        {
+            <th data-priority="1">Numero de Guía</th>
+            <th data-priority="1">Fecha de Entrega</th>
+            <th data-priority="1">Estado Courier</th>
+        }
             <th data-priority="1">Observaciones</th>
             <th data-priority="1">Usuario que Creo</th>
             <th data-priority="1">Fecha que Creo</th>
+         @if (Model.TipoPantalla != 2)
+        {
             <th data-priority="1">Usuario que Modifico</th>
             <th data-priority="1">Fecha que Modifico</th>
 
-
-
+        }
         </tr>
     </thead>
-    <tbody>
-
+     <tbody>
         @foreach (var d in Model.ListaInteracciones)
         {
             <tr>
@@ -106,7 +117,19 @@
                     @Model.interacionesList.Where(x => x.Value == @d.Gestion.ToString()).FirstOrDefault().Text
 
                 </td>
+               @if (Model.TipoPantalla == 2)
+            {
                 <td>
+                    @d.NumeroGuiaKit
+                </td>
+                <td>
+                    @d.FechaEntregaKit
+                </td>
+                <td>
+                    @d.EstadoKitCourier
+                </td>
+            }
+            <td>
                     @d.Observacion
                 </td>
 
@@ -117,13 +140,15 @@
                     @d.CreatedOn
 
                 </td>
+            @if (Model.TipoPantalla != 2)
+            {
                 <td>
                     @d.LastModifiedBy
                 </td>
                 <td>
                     @d.LastModifiedOn
                 </td>
-
+            }
 
             </tr>
         }

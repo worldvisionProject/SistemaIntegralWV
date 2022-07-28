@@ -21,6 +21,12 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Commands.Crea
 
         public string Observacion { get; set; }
 
+        public int EstadoKitCourier { get; set; }
+
+        public DateTime? FechaEntregaKit { get; set; }
+
+        public string NumeroGuiaKit { get; set; }
+
         public int IdDonante { get; set; }
     }
 
