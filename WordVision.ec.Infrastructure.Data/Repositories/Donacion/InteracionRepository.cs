@@ -18,36 +18,54 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
         private readonly RegistroDbContext _db;
         private readonly IRepositoryAsync<Interacion> _repository;
         private readonly IRepositoryAsync<DetalleCatalogo> _repositoryDetalle;
+        private readonly IRepositoryAsync<Debito> _repositoryDebito;
 
 
-        public InteracionRepository(RegistroDbContext db, IRepositoryAsync<Interacion> repository, IRepositoryAsync<DetalleCatalogo> repositoryDetalle)
+        public InteracionRepository(RegistroDbContext db, IRepositoryAsync<Interacion> repository, IRepositoryAsync<DetalleCatalogo> repositoryDetalle, IRepositoryAsync<Debito> repositoryDebito)
         {
             _repository = repository;
             _db = db;
             _repositoryDetalle = repositoryDetalle;
+            _repositoryDebito = repositoryDebito;
         }
 
         public IQueryable<Interacion> interaciones => _repository.Entities;
 
-        public async Task<List<GetAllInteracionesResponse>> GetInteracionXDonanteAsync(int idDonante, int tipo, int estadoCourier) 
+        public Task<List<GetAllInteracionesResponse>> GetDebitoXDonante(int idDonante)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<GetAllInteracionesResponse>> GetInteracionXDonanteAsync(int idDonante, int tipo)// , int estadoCourier
         {
 
-            
-            var resultado1 = _repository.Entities.Where(x => x.IdDonante == idDonante && x.Tipo == tipo && (x.EstadoKitCourier == estadoCourier|| estadoCourier== 0))
-                                        .Select(a => new GetAllInteracionesResponse
-                                        {
-                                            IdDonante = a.Id,
-                                            Gestion = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 70 && c.Secuencia == a.Gestion.ToString()).FirstOrDefault().Nombre,
-                                            Tipo = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 68 && c.Secuencia == a.Tipo.ToString()).FirstOrDefault().Nombre,
-                                            Observacion = a.Observacion,
-                                            EstadoKitCourier = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 72 && c.Secuencia == a.EstadoKitCourier.ToString()).FirstOrDefault().Nombre,
-                                            FechaEntregaKit = a.FechaEntregaKit,
-                                            NumeroGuiaKit = a.NumeroGuiaKit,
 
-                                        }
-                                        ).ToListAsync();
+            var resultado1 = _repository.Entities.Where(x => x.IdDonante == idDonante && x.Tipo == tipo) // && (x.EstadoKitCourier == estadoCourier|| estadoCourier== 0)
+                              .Select(a => new GetAllInteracionesResponse
+                              {
+                                  IdDonante = a.Id,
+                                  DescGestion = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 70 && c.Secuencia == a.Gestion.ToString()).FirstOrDefault().Nombre,
+                                  DescTipo = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 68 && c.Secuencia == a.Tipo.ToString()).FirstOrDefault().Nombre,
+                                  Observacion = a.Observacion,
+                                  DescEstadoKitCourier = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 72 && c.Secuencia == a.EstadoKitCourier.ToString()).FirstOrDefault().Nombre,
+                                  FechaEntregaKit = a.FechaEntregaKit,
+                                  NumeroGuiaKit = a.NumeroGuiaKit,
+                                  Gestion = a.Gestion,
+                                  Tipo = a.Tipo,
+                                  EstadoKitCourier = a.EstadoKitCourier,
+                                  CreatedBy = a.CreatedBy,
+                                  CreatedOn = a.CreatedOn,
+
+                              }
+                              ).ToListAsync();
             return await resultado1;
+
+
+
+
         }
+
+
 
 
         //public async Task<List<Interacion>> GetInteracionXDonanteAsync(int idDonante, int tipo)

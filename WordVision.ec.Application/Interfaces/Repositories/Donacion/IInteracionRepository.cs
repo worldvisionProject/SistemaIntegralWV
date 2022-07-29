@@ -14,8 +14,10 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Donacion
         IQueryable<Interacion> interaciones { get; }
 
         Task<int> InsertAsync(Interacion interacion);
+         
+        Task<List<GetAllInteracionesResponse>> GetInteracionXDonanteAsync(int idDonante, int tipo  );  //, int estadoCourier
+        Task<List<GetAllInteracionesResponse>> GetDebitoXDonante(int idDonante );
 
-        Task<List<GetAllInteracionesResponse>> GetInteracionXDonanteAsync(int idDonante, int tipo);  //, int estadoCourier
 
         //Task<List<Interacion>> GetInteracionXDonanteAsync(int idDonante, int tipo);
 

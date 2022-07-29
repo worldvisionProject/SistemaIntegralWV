@@ -118,7 +118,31 @@
       @*  <div id="viewAll" class="card-body table-responsive">
         </div>*@
     </div>
- 
+    </div>
+     <div class="col-12">
+                <div class="form-group row">
+                @if (Model.TipoPantalla == 2 )
+                {
+               
+                     <div class="col-md-2">
+                            <label class="col-md-12 col-form-label texto-pregunta">Quitar Validaciones</label>
+                            <input asp-for=Validacion  type="checkbox" name="Validacion" />
+                            <span asp-validation-for="Validacion" class="text-danger"></span>
+
+                </div>
+
+                }
+                 @if (Model.TipoPantalla == 3 )
+                {
+                <div class="col-md-2">
+                    <label class="col-md-12 col-form-label texto-pregunta">Cuotas sin Pagar</label>
+                   <input type="text" id="Cuotadebe"  maxlength=2 name="Cuotadebe"  class="form-control form-control-sm "/>
+                </div>
+                }
+     </div>
+        </div>
+            
+   
 
     @* <div class="col-sm-12 header-button">
 
@@ -222,6 +246,17 @@
                     }
                     filtros.ciudad = parseInt(datos);
 
+
+                    datos = 0;
+                   
+                     var cuotadebe = parseInt($("#Cuotadebe").val());
+                    if (!isNaN(cuotadebe) && cuotadebe != "") {
+                         datos = $("#Cuotadebe").val();
+                    }
+                   filtros.cuotadebe = datos;
+                    
+
+                    filtros.validacion = $('input[name=Validacion]:checked').val();
                    filtros.tipoPantalla =@Model.TipoPantalla;
 
                     return JSON.stringify(filtros);
@@ -284,7 +319,7 @@
        }
         function fidelizar(fila) {
 
-          jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante='+fila.id+'&tipoPantalla='+@Model.TipoPantalla,@Model.TipoPantalla==1?'Interación de Validación de Datos':'Interación de Kit de Entrega');
+          jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?idDonante='+fila.id+'&tipoPantalla='+@Model.TipoPantalla,@Model.TipoPantalla==1?'Interación de Validación de Datos':@Model.TipoPantalla==2?'Interación de Kit de Entrega' : 'Fidelización Cobranza');
        }
 
        function buscarDonante() {
@@ -292,11 +327,14 @@
             var categoria = parseInt($("#categoria").val());
             //var tipoDonante = parseInt($("#selectTipoDonante").val());
             //var estadoDonante = parseInt($("#estadoDonante").val());
-           
+           if (@Model.TipoPantalla == 1) { 
             if (isNaN(categoria) || categoria==0){
                 Swal.fire("¡Advertencia!", "Es obligatorio seleccionar la Categoría", "warning");
                 return false;
             }
+
+           }
+            
 
             //   if (isNaN(estadoDonante) ){
             //    Swal.fire("¡Advertencia!", "Es obligatorio seleccionar la Estado", "warning");
@@ -378,6 +416,12 @@
 
         }
 
+
+    });
+
+    
+    $('#Cuotadebe').on('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
 
     });
         //function buscarDonante() {

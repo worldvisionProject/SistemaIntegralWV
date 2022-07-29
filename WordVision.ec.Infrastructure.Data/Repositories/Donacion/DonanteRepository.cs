@@ -54,12 +54,12 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
             return await _repository.Entities.Where(x => x.Id == idDonante).FirstOrDefaultAsync();
         }
 
-        public async Task<List<DonanteResponse>> GetListAsync(int estadoDonante , int categoria , int campana, int ciudad,string identificacion, string nombresdonante , int tipoPantalla )
+        public async Task<List<DonanteResponse>> GetListAsync(int estadoDonante , int categoria , int campana, int ciudad,string identificacion, string nombresdonante , int tipoPantalla, bool validacion, int cuotaDebe )
         {
             switch (tipoPantalla)
             {
                 case 1:
-                    var resultado1 = _repository.Entities.Where(x => (x.EstadoDonante == estadoDonante || estadoDonante == 0) && x.Categoria == categoria && (x.Campana == campana || campana == 0) && (x.Ciudad == ciudad || ciudad == 0) && (x.RUC == identificacion || identificacion == "") && ((x.Apellido1 + " " + x.Apellido2).Contains(nombresdonante) || nombresdonante == ""))
+                    var resultado1 = _repository.Entities.Where(x => (x.EstadoDonante == estadoDonante || estadoDonante == 0) && x.Categoria == categoria && (x.Campana == campana || campana == 0) && (x.Ciudad == ciudad || ciudad == 0) && (x.RUC == identificacion || identificacion == "") && ((x.Apellido1 + " " + x.Apellido2).Contains(nombresdonante) || nombresdonante == "") )
                                         .Select(a => new DonanteResponse
                                         {
                                             Id = a.Id,
@@ -75,11 +75,56 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
                     return await resultado1;
                     break;
                 case 2:
-                    decimal valorDebito =Convert.ToDecimal(_repositoryDetalle.Entities.Where(c => c.IdCatalogo == 73 && c.Secuencia == "1").FirstOrDefault().Nombre);
+                    if (validacion == false)
+                    {
+                        decimal valorDebito = Convert.ToDecimal(_repositoryDetalle.Entities.Where(c => c.IdCatalogo == 73 && c.Secuencia == "1").FirstOrDefault().Nombre);
+
+                        var resultado2 = _repository.Entities.Where(x => x.Categoria == 1 && x.FrecuenciaDonacion == 1 && (x.Campana == campana || campana == 0) && (x.Ciudad == ciudad || ciudad == 0) && (x.RUC == identificacion || identificacion == "") && ((x.Apellido1 + " " + x.Apellido2).Contains(nombresdonante) || nombresdonante == "") && (x.EstadoDonante == 1)
+                             && (_repositoryDebito.Entities.Where(d => d.IdDonante == x.Id).Count() == 1)
+                             && x.Cantidad >= valorDebito)
+                                                       .Select(a => new DonanteResponse
+                                                       {
+                                                           Id = a.Id,
+                                                           Campana = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 26 && c.Secuencia == a.Campana.ToString()).FirstOrDefault().Nombre,
+                                                           Donante = a.Apellido1 + " " + a.Apellido2 + " " + a.Nombre1 + " " + a.Nombre2,
+                                                           Cedula = a.RUC,
+                                                           Estado = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 27 && c.Secuencia == a.EstadoDonante.ToString()).FirstOrDefault().Nombre,
+                                                           Ciudad = _repositoryCiudad.Entities.Where(c => c.Codigo == a.Ciudad.ToString()).FirstOrDefault().Nombre,
+                                                           Cantidad = a.Cantidad,
+
+                                                       }
+                                                       ).ToListAsync();
+                        return await resultado2;
+
+                    }
+                    else
+                    {
+
+                        resultado1 = _repository.Entities.Where(x => (x.EstadoDonante == estadoDonante || estadoDonante == 0) && x.Categoria == categoria && (x.Campana == campana || campana == 0) && (x.Ciudad == ciudad || ciudad == 0) && (x.RUC == identificacion || identificacion == "") && ((x.Apellido1 + " " + x.Apellido2).Contains(nombresdonante) || nombresdonante == ""))
+                                       .Select(a => new DonanteResponse
+                                       {
+                                           Id = a.Id,
+                                           Campana = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 26 && c.Secuencia == a.Campana.ToString()).FirstOrDefault().Nombre,
+                                           Donante = a.Apellido1 + " " + a.Apellido2 + " " + a.Nombre1 + " " + a.Nombre2,
+                                           Cedula = a.RUC,
+                                           Estado = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 27 && c.Secuencia == a.EstadoDonante.ToString()).FirstOrDefault().Nombre,
+                                           Ciudad = _repositoryCiudad.Entities.Where(c => c.Codigo == a.Ciudad.ToString()).FirstOrDefault().Nombre,
+                                           Cantidad = a.Cantidad,
+
+                                       }
+                                       ).ToListAsync();
+                        return await resultado1;
+
+                    }
+                   
                     
-                    var resultado2 = _repository.Entities.Where(x =>x.Categoria == 1 && x.FrecuenciaDonacion== 1 && (x.Campana == campana || campana == 0) && (x.Ciudad == ciudad || ciudad == 0) && (x.RUC == identificacion || identificacion == "") && ((x.Apellido1 + " " + x.Apellido2).Contains(nombresdonante) || nombresdonante == "") && (x.EstadoDonante == 1)
-                         && (_repositoryDebito.Entities.Where(d => d.IdDonante == x.Id).Count() == 1) 
-                         && x.Cantidad >= valorDebito)
+                    break;
+
+                case 3:
+                    
+                    var resultado3 = _repository.Entities.Where(x => x.Categoria == 1  && (x.Campana == campana || campana == 0) && (x.Ciudad == ciudad || ciudad == 0) && (x.RUC == identificacion || identificacion == "") && ((x.Apellido1 + " " + x.Apellido2).Contains(nombresdonante) || nombresdonante == "") && (x.EstadoDonante == 1)
+                         && (_repositoryDebito.Entities.Where(d => d.CodigoRespuesta != "PROCESO OK" && d.IdDonante == x.Id).Count() == cuotaDebe))
+                         
                                                    .Select(a => new DonanteResponse
                                                    {
                                                        Id = a.Id,
@@ -92,7 +137,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
 
                                                    }
                                                    ).ToListAsync();
-                    return await resultado2;
+                    return await resultado3;
                     break;
             }
 

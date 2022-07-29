@@ -13,18 +13,18 @@
              <div class="form-group row">
             @if (Model.TipoPantalla == 2)
              {
-             <div class="col-md-4">
+                    <div class="col-md-4">
               
                         <label class="col-md-12 col-form-label texto-pregunta" asp-for="NumeroGuiaKit"></label>
 
-                        <input type="text" asp-for="NumeroGuiaKit" name="NumeroGuia" class="form-control" required />
+                        <input type="text" asp-for="NumeroGuiaKit" name="NumeroGuiaKit" class="form-control" required />
                         <span asp-validation-for="NumeroGuiaKit" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-4">
                         <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaEntregaKit"></label>
 
-                        <input type="text" asp-for="FechaEntregaKit" name="FechaEntrega" class="datepicker5 form-control" required />
+                        <input type="text" asp-for="FechaEntregaKit" name="FechaEntregaKit" class="datepicker5 form-control" required />
                         <span asp-validation-for="FechaEntregaKit" class="text-danger" readonly></span>
                     </div>
 
@@ -32,7 +32,7 @@
                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="EstadoKitCourier"></label>
                             @Html.DropDownListFor(x => x.EstadoKitCourier, (IEnumerable<SelectListItem>)Model.EstadoCourierList, new { @class = "form-control" ,required = "required"})
                             <span asp-validation-for="EstadoKitCourier" class="text-danger"></span>
-                        </div>
+                      </div>
                 }
              </div>
          </div>
@@ -56,12 +56,51 @@
 
             </div>
             <div class="form-group row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Observacion"></label>
                     <textarea asp-for="Observacion" type="text" name="Observacion" class="form-control" rows="3" required></textarea>
                     <span asp-validation-for="Observacion" class="text-danger"></span>
                 </div>
             </div>
+            
+@if(Model.TipoPantalla == 3)
+{
+ <table align="right" id="CondonadosTable"  class="table table-striped " asp-route-id="@Model.Id"  width="100%" cellspacing="0">
+     <input asp-for="Tipo" type="hidden" name="Tipo" value="@Model.TipoPantalla" />
+    <input asp-for="IdDonante" type="hidden" name="IdDonante"  />
+     <thead>
+        <tr>
+            <th data-priority="1">Año</th>
+            <th data-priority="1">Mes</th>
+            <th data-priority="1">Cantidad</th>
+            <th data-priority="1">Respuesta Banco</th>    
+        </tr>
+    </thead>
+     <tbody>
+        @foreach (var d in Model.ListaInteracciones)
+        {
+            <tr>
+
+                <td>
+                    @Model.Anio
+
+                </td>
+          
+                <td>
+                    @d.Mes
+                </td>
+                <td>
+                    @d.Cantidad
+                </td>
+                <td>
+                    @d.RespuestaBanco
+                </td>                    
+            </tr>
+        }
+
+    </tbody>
+</table>   
+}
         </div>
     </dic>
     <br />
@@ -80,6 +119,7 @@
 <br />
 
 <hr />
+
 
 <table id="interaccionesTable" class="table table-striped " asp-route-id="@Model.Id"  width="100%" cellspacing="0">
 
@@ -126,7 +166,7 @@
                     @d.FechaEntregaKit
                 </td>
                 <td>
-                    @d.EstadoKitCourier
+                    @d.DescEstadoKitCourier
                 </td>
             }
             <td>

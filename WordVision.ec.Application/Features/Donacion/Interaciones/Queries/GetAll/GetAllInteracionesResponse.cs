@@ -8,15 +8,21 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAl
 {
     public class GetAllInteracionesResponse
     {
-        public string Gestion { get; set; }
+        public int Gestion { get; set; }
 
-        public string Tipo { get; set; }
+        public string DescGestion { get; set; }
+
+        public int Tipo { get; set; }
+
+
+        public string DescTipo { get; set; }
 
         public string Observacion { get; set; }
 
         public int IdDonante { get; set; }
 
-        public string EstadoKitCourier { get; set; }
+        public int EstadoKitCourier { get; set; }
+        public string DescEstadoKitCourier { get; set; }
 
         public DateTime? FechaEntregaKit { get; set; }
 
@@ -26,5 +32,13 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAl
         public DateTime CreatedOn { get; set; }
         public string LastModifiedBy { get; set; }
         public DateTime? LastModifiedOn { get; set; }
+
+
+        public int Anio { get; set; }
+        public int Mes { get; set; }
+
+        public decimal Cantidad { get; set; }
+
+        public string RespuestaBanco { get; set; }
     }
 }

@@ -8,9 +8,9 @@ namespace WordVision.ec.Application.DTOs.Donantes
 {
     public class InteracionResponse
     {
-        public int Gestion { get; set; }
+        public string Gestion { get; set; }
 
-        public int Tipo { get; set; }
+        public string Tipo { get; set; }
 
         public string Observacion { get; set; }
 

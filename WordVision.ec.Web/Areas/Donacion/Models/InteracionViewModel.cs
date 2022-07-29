@@ -34,6 +34,12 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
 
         [Display(Name = "Número de Guía")]
         public string NumeroGuiaKit { get; set; }
+        public int Anio { get; set; }
+        public int Mes { get; set; }
+
+        public decimal Cantidad { get; set; }
+
+        public string RespuestaBanco { get; set; }
 
         public SelectList EstadoCourierList { get; set; }
         public List<InteracionListaViewModel> ListaInteracciones { get; set; }
@@ -46,14 +52,18 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
 
         public int Gestion { get; set; }
 
+        public string DescGestion { get; set; }
         public int Tipo { get; set; }
 
+        public string DescTipo { get; set; }
 
         public string Observacion { get; set; }
+
         public DateTime? FechaEntregaKit { get; set; }
 
 
         public int EstadoKitCourier { get; set; }
+        public string DescEstadoKitCourier { get; set; }
 
         public string NumeroGuiaKit { get; set; }
 
@@ -61,6 +71,13 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public DateTime CreatedOn { get; set; }
         public string LastModifiedBy { get; set; }
         public DateTime? LastModifiedOn { get; set; }
+
+        public int Anio { get; set; }
+        public int Mes { get; set; }
+
+        public decimal Cantidad { get; set;}
+
+        public string RespuestaBanco { get; set; }
     }
 
 }
