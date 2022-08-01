@@ -34,11 +34,6 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAl
         public DateTime? LastModifiedOn { get; set; }
 
 
-        public int Anio { get; set; }
-        public int Mes { get; set; }
-
-        public decimal Cantidad { get; set; }
-
-        public string RespuestaBanco { get; set; }
+       
     }
 }

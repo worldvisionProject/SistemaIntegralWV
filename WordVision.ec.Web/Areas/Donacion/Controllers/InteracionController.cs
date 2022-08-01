@@ -13,6 +13,7 @@ using WordVision.ec.Application.Features.Donacion.Interaciones.Commands.Create;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Commands.Update;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAll;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAllCached;
+using WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetById;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Donacion.Models;
@@ -55,11 +56,24 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
 
 
                 var viewModel = await _mediator.Send(new GetAllInteracionesXDonanteQuery() { idDonante = idDonante , tipo = tipoPantalla});// estadoCourier = estadoKitCourier
-                    if (viewModel.Succeeded)
+                    
+                if (viewModel.Succeeded)
+                    {
+                        entidadViewModel.ListaInteracciones = _mapper.Map<List<InteracionListaViewModel>>(viewModel.Data);//para hacer lista y poder visualizar
+
+
+                    var viewModelDebitos = await _mediator.Send(new GetDebitosXDonanteQuery() { idDonante = idDonante });
+                    if (viewModelDebitos.Succeeded)
                     {
 
-                        entidadViewModel.ListaInteracciones = _mapper.Map<List<InteracionListaViewModel>>(viewModel.Data);//para hacer lista y poder visualizar
+                        entidadViewModel.ListaDebitos = _mapper.Map<List<ListaDebitoInteracionResponseViewModel>>(viewModelDebitos.Data);//para hacer lista y poder visualizar
                     }
+
+
+
+
+                }
+              
 
                     entidadViewModel.IdDonante = idDonante;
                     entidadViewModel.TipoPantalla = tipoPantalla;
@@ -81,6 +95,13 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
             return null;
 
         }
+
+
+
+       
+
+
+
         [HttpPost]
         public async Task<IActionResult> OnPostCreateOrEdit(int? id, InteracionViewModel entidad)
         {

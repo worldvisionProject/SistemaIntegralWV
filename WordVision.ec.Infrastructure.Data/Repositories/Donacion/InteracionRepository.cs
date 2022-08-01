@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WordVision.ec.Application.DTOs.Debitos;
+using WordVision.ec.Application.DTOs.Donantes;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAll;
 using WordVision.ec.Application.Interfaces.Repositories.Donacion;
 using WordVision.ec.Application.Interfaces.Repositories.Registro;
@@ -31,16 +33,27 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
 
         public IQueryable<Interacion> interaciones => _repository.Entities;
 
-        public Task<List<GetAllInteracionesResponse>> GetDebitoXDonante(int idDonante)
+        public async Task<List<DebitosInteracionResponse>> GetDebitoXDonanteAsync(int idDonante)
         {
-            throw new NotImplementedException();
+            var resultado1 = _repositoryDebito.Entities.Where(x => x.IdDonante == idDonante && x.CodigoRespuesta != "PROCESO OK")
+                         .Select(a => new DebitosInteracionResponse
+                         {
+                             Anio = a.Anio,
+                             Mes = a.Mes,
+                             Cantidad = a.Valor,
+                             RespuestaBanco = a.CodigoRespuesta,
+                         }
+                         ).ToListAsync();
+
+            return await resultado1;
+
         }
 
-        public async Task<List<GetAllInteracionesResponse>> GetInteracionXDonanteAsync(int idDonante, int tipo)// , int estadoCourier
+        public async Task<List<GetAllInteracionesResponse>> GetInteracionXDonanteAsync(int idDonante, int tipo)
         {
 
 
-            var resultado1 = _repository.Entities.Where(x => x.IdDonante == idDonante && x.Tipo == tipo) // && (x.EstadoKitCourier == estadoCourier|| estadoCourier== 0)
+            var resultado1 = _repository.Entities.Where(x => x.IdDonante == idDonante && x.Tipo == tipo) 
                               .Select(a => new GetAllInteracionesResponse
                               {
                                   IdDonante = a.Id,

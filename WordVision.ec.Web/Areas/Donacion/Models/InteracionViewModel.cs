@@ -42,7 +42,24 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public string RespuestaBanco { get; set; }
 
         public SelectList EstadoCourierList { get; set; }
+
+        public bool Cobrar { get; set; }
         public List<InteracionListaViewModel> ListaInteracciones { get; set; }
+
+        public List<ListaDebitoInteracionResponseViewModel> ListaDebitos { get; set; }
+
+
+    }
+
+
+    public class ListaDebitoInteracionResponseViewModel
+    {
+        public int Anio { get; set; }
+        public int Mes { get; set; }
+
+        public decimal? Cantidad { get; set; }
+
+        public string RespuestaBanco { get; set; }
     }
 
     public class InteracionListaViewModel
@@ -79,6 +96,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
 
         public string RespuestaBanco { get; set; }
     }
+
+
 
 }
 

@@ -17,7 +17,7 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAl
         public int idDonante { set; get; }
         public int tipo { set; get; }
 
-      public int tipoPantalla { set; get; }
+        public int tipoPantalla { set; get; }
         public int Anio { get; set; }
         public int Mes { get; set; }
 
